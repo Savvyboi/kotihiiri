@@ -1,0 +1,94 @@
+"""Loading of config/*.yaml."""
+
+from __future__ import annotations
+
+from dataclasses import dataclass, field
+from pathlib import Path
+from typing import Any
+
+import yaml
+
+ROOT = Path(__file__).resolve().parent.parent
+CONFIG_DIR = ROOT / "config"
+DATA_DIR = ROOT / "data"
+CACHE_DIR = ROOT / ".cache" / "raw"
+
+
+class ConfigError(RuntimeError):
+    pass
+
+
+@dataclass(frozen=True)
+class CityConfig:
+    id: str
+    name_fi: str
+    enabled: bool
+    adapter: str
+    base_urls: list[str]
+    name_sv: str | None = None
+    reason: str | None = None
+    extra: dict[str, Any] = field(default_factory=dict)
+
+
+@dataclass(frozen=True)
+class ProjectConfig:
+    site_name: str
+    site_domain: str | None
+    contact_email: str | None
+    user_agent_template: str
+    since: str
+    features: dict[str, bool]
+
+    @property
+    def user_agent(self) -> str:
+        """The crawler User-Agent. Raises if the placeholders are unset (§2.1 rule 3)."""
+        if not self.site_domain or not self.contact_email:
+            raise ConfigError("config/project.yaml: set site_domain and contact_email before crawling")
+        return self.user_agent_template.format(site_domain=self.site_domain, contact_email=self.contact_email)
+
+
+def _load(name: str, config_dir: Path = CONFIG_DIR) -> dict[str, Any]:
+    with (config_dir / name).open(encoding="utf-8") as f:
+        return yaml.safe_load(f) or {}
+
+
+def load_project(config_dir: Path = CONFIG_DIR) -> ProjectConfig:
+    raw = _load("project.yaml", config_dir)
+    return ProjectConfig(
+        site_name=raw.get("site_name", ""),
+        site_domain=raw.get("site_domain"),
+        contact_email=raw.get("contact_email"),
+        user_agent_template=raw["user_agent_template"],
+        since=str(raw.get("since", "2025-01-01")),
+        features=dict(raw.get("features") or {}),
+    )
+
+
+_KNOWN = {"name_fi", "name_sv", "enabled", "adapter", "base_urls", "reason"}
+
+
+def load_cities(config_dir: Path = CONFIG_DIR) -> dict[str, CityConfig]:
+    raw = _load("cities.yaml", config_dir)["cities"]
+    return {
+        cid: CityConfig(
+            id=cid,
+            name_fi=c["name_fi"],
+            name_sv=c.get("name_sv"),
+            enabled=bool(c["enabled"]),
+            adapter=c["adapter"],
+            base_urls=list(c.get("base_urls") or []),
+            reason=c.get("reason"),
+            extra={k: v for k, v in c.items() if k not in _KNOWN},
+        )
+        for cid, c in raw.items()
+    }
+
+
+def require_enabled(city: str, config_dir: Path = CONFIG_DIR) -> CityConfig:
+    cities = load_cities(config_dir)
+    if city not in cities:
+        raise ConfigError(f"unknown city {city!r}")
+    cfg = cities[city]
+    if not cfg.enabled:
+        raise ConfigError(f"{city} is disabled ({cfg.reason}); see config/cities.yaml")
+    return cfg

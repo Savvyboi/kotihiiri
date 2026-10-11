@@ -1,0 +1,26 @@
+/* City themes (drafts, see src/lib/themes.ts). Each city sets primary, its text colour,
+   accent and a tint used for hero and card backgrounds. Contrast of --c-on-primary on
+   --c-primary is ≥ 4.5:1 for every city. */
+:root {
+  --c-primary: #2b2d42;      /* Kotihiiri: mouse-grey ink */
+  --c-on-primary: #ffffff;
+  --c-accent: #ef8354;
+  --c-tint: #f1efe9;
+  --c-link: #2b2d42;
+}
+[data-city="helsinki"] { --c-primary: #0000bf; --c-on-primary: #fff; --c-accent: #ffc61e; --c-tint: #e8edff; --c-link: #0000bf; }
+[data-city="espoo"]    { --c-primary: #00664a; --c-on-primary: #fff; --c-accent: #f2a900; --c-tint: #e6f3ec; --c-link: #00664a; }
+[data-city="tampere"]  { --c-primary: #8c2318; --c-on-primary: #fff; --c-accent: #2a4d7a; --c-tint: #f8ebe6; --c-link: #8c2318; }
+[data-city="vantaa"]   { --c-primary: #006b7a; --c-on-primary: #fff; --c-accent: #f0634a; --c-tint: #e3f2f3; --c-link: #006070; }
+[data-city="oulu"]     { --c-primary: #1b2a41; --c-on-primary: #fff; --c-accent: #46c2a0; --c-tint: #e8edf3; --c-link: #1b2a41; }
+[data-city="turku"]    { --c-primary: #9e1b32; --c-on-primary: #fff; --c-accent: #d4a62a; --c-tint: #f8e9ea; --c-link: #9e1b32; }
+
+@media (prefers-color-scheme: dark) {
+  :root { --c-tint: #24262f; --c-link: #c9cbe0; }
+  [data-city="helsinki"] { --c-tint: #10183a; --c-link: #9fb0ff; }
+  [data-city="espoo"]    { --c-tint: #0f2a21; --c-link: #7fd1b0; }
+  [data-city="tampere"]  { --c-tint: #2e1714; --c-link: #f0a493; }
+  [data-city="vantaa"]   { --c-tint: #0f2a2e; --c-link: #7fd3dd; }
+  [data-city="oulu"]     { --c-tint: #141d2b; --c-link: #9fd9c8; }
+  [data-city="turku"]    { --c-tint: #2e1218; --c-link: #f3a0ae; }
+}

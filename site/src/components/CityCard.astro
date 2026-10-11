@@ -1,0 +1,21 @@
+---
+import { t, localePath, formatNumber } from '../i18n';
+import { cityStats, type City } from '../lib/data';
+import { THEMES } from '../lib/themes';
+import Motif from './Motif.astro';
+interface Props { city: City }
+const { city } = Astro.props;
+const s = cityStats(city.id);
+---
+<article class:list={['card', 'linked', 'city-card', { off: !city.enabled }]} data-city={city.id}>
+  <div class="band">
+    <h3><a class="stretch" href={localePath(`/${city.id}/`)} style="color:inherit;text-decoration:none">{city.name_fi}</a></h3>
+    <Motif city={city.id} />
+  </div>
+  <div class="body">
+    <p class="small muted" style="margin:0 0 .4rem">{THEMES[city.id]?.motto}</p>
+    {city.enabled
+      ? <p class="small" style="margin:0"><span class="badge on">{t('city.enabled')}</span> {formatNumber(s.meetings)} {t('city.stats.meetings')} · {formatNumber(s.votes)} {t('city.stats.votes')}</p>
+      : <p class="small" style="margin:0"><span class="badge">{t('city.disabled')}</span></p>}
+  </div>
+</article>

@@ -1,0 +1,30 @@
+---
+import fs from 'node:fs';
+import YAML from 'yaml';
+import Base from '../layouts/Base.astro';
+import { t } from '../i18n';
+import { cities } from '../lib/data';
+import { THEMES } from '../lib/themes';
+const project = YAML.parse(fs.readFileSync(new URL('../../../config/project.yaml', import.meta.url), 'utf8'));
+const contact: string | null = project.contact_email;
+---
+<Base title={t('about.title')}>
+  <section class="hero"><div class="wrap"><h1>{t('about.title')}</h1><p class="lead">{t('about.lead')}</p></div></section>
+  <div class="wrap" style="max-width:52rem">
+    <h2>{t('about.methodTitle')}</h2>
+    <p>{t('about.method')}</p>
+    <p>{t('about.inspiration')}</p>
+    <h2>{t('about.sourcesTitle')}</h2>
+    <ul>
+      {cities().map((c) => (
+        <li data-city={c.id}><b>{c.name_fi}</b>: <a href={c.base_urls[0]} rel="external noopener">{c.source_name}</a>
+          {!c.enabled && <> <span class="badge">{t('city.disabled')}</span></>}
+          <br /><span class="small muted">{THEMES[c.id]?.inspiration}</span></li>
+      ))}
+    </ul>
+    <h2>{t('about.privacyTitle')}</h2>
+    <p>{t('about.privacy')}</p>
+    <h2>{t('about.takedownTitle')}</h2>
+    <p>{t('about.takedown')} {contact ? <a href={`mailto:${contact}`}>{contact}</a> : <span class="muted">({t('about.contactUnset')})</span>}</p>
+  </div>
+</Base>

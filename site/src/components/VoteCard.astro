@@ -1,0 +1,16 @@
+---
+// Compact vote summary used on home and city pages, in the spirit of mijnkamer.be's vote cards.
+import { t, localePath, formatDate } from '../i18n';
+import { bodyName, itemUrl, voteOutcome, type VoteRow } from '../lib/data';
+import VoteBar from './VoteBar.astro';
+interface Props { row: VoteRow; showCity?: string }
+const { row, showCity } = Astro.props;
+const outcome = voteOutcome(row.vote);
+const label = outcome === 'jaa' ? row.vote.jaa_label : outcome === 'ei' ? row.vote.ei_label : '';
+---
+<article class="card linked" data-city={showCity}>
+  <p class="small muted">{showCity && <>{showCity.charAt(0).toUpperCase() + showCity.slice(1)} · </>}{bodyName(row.meeting.body_id)} · {formatDate(row.meeting.date)}</p>
+  <h3><a class="stretch" href={localePath(itemUrl(row.item))}>{row.item.title}</a></h3>
+  <VoteBar counts={row.vote.counts} legend={false} />
+  <p class="small">{t('vote.summary', row.vote.counts)}{label && <> · <b>{t('vote.result')}:</b> {label}</>}</p>
+</article>

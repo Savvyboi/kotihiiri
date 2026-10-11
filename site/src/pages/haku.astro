@@ -1,0 +1,22 @@
+---
+import Base from '../layouts/Base.astro';
+import { t, localePath } from '../i18n';
+const bundle = localePath('/pagefind/');
+---
+<Base title={t('search.title')}>
+  <section class="hero"><div class="wrap"><h1>{t('search.title')}</h1><p class="lead">{t('search.lead')}</p></div></section>
+  <div class="wrap" style="margin-top:1.5rem">
+    <link href={`${bundle}pagefind-ui.css`} rel="stylesheet" />
+    <div id="search"></div>
+    <noscript><p class="empty">{t('search.noscript')}</p></noscript>
+    <script is:inline type="module" define:vars={{ bundle }}>
+      try {
+        await import(`${bundle}pagefind-ui.js`);
+        new window.PagefindUI({ element: '#search', showSubResults: true, bundlePath: bundle,
+          translations: { placeholder: 'Hae päätöksistä', zero_results: 'Ei tuloksia haulle [SEARCH_TERM]' } });
+      } catch (e) {
+        document.getElementById('search').textContent = 'Hakuhakemistoa ei ole vielä rakennettu.';
+      }
+    </script>
+  </div>
+</Base>

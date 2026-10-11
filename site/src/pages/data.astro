@@ -1,0 +1,11 @@
+---
+import Base from '../layouts/Base.astro';
+import { t } from '../i18n';
+---
+<Base title={t('data.title')}>
+  <section class="hero"><div class="wrap"><h1>{t('data.title')}</h1><p class="lead">{t('data.lead')}</p></div></section>
+  <div class="wrap" style="margin-top:1.5rem">
+    <p>{t('data.coming')}</p>
+    <p>{t('data.licence')}</p>
+  </div>
+</Base>

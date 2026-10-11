@@ -1,0 +1,43 @@
+{
+  "items": [
+    {
+      "attachments": [],
+      "content_sha256": "1c185e99f00f8395712848378c5a3c789a4666ce1336b0d59af3a108fdcd7102",
+      "disqualified": [],
+      "id": "espoo/valtuusto/2026-10-19/1",
+      "meeting_id": "espoo/valtuusto/2026-10-19",
+      "motions": [],
+      "ordinal": 1,
+      "preparers": [],
+      "presenter": "Kaupunginjohtaja (esimerkki)",
+      "sections": [
+        {
+          "text": "Kaupunginhallitus esittää talousarvion hyväksymistä. (Esimerkkiteksti.)",
+          "type": "proposal"
+        },
+        {
+          "text": "Esimerkkiteksti.",
+          "type": "background"
+        }
+      ],
+      "source_ids": {},
+      "source_url": "https://example.org/esimerkki",
+      "statements": [],
+      "status": "active",
+      "title": "Talousarvio vuodelle 2027 ja taloussuunnitelma",
+      "votes": []
+    }
+  ],
+  "meeting": {
+    "attendance": [],
+    "body_id": "espoo/valtuusto",
+    "date": "2026-10-19",
+    "id": "espoo/valtuusto/2026-10-19",
+    "items": [
+      "espoo/valtuusto/2026-10-19/1"
+    ],
+    "source_ids": {},
+    "source_url": "https://example.org/esimerkki",
+    "stage": "agenda"
+  }
+}

@@ -1,0 +1,10 @@
+---
+import { t } from '../i18n';
+interface Props { href: string; system?: string; updated?: string }
+const { href, system, updated } = Astro.props;
+---
+<p class="small muted">
+  <a href={href} rel="external noopener">{t('source.link')}</a>
+  {system && <> · {t('source.system', { system })}</>}
+  {updated && <> · {updated}</>}
+</p>

@@ -1,0 +1,5 @@
+# Applied at export/build time (PLAN.md §2.2 rule 8).
+# items: item ids to remove entirely, e.g. "helsinki/kaupunginvaltuusto/2025-03-12/4"
+# strings: literal strings to replace with "[poistettu]" everywhere they occur
+items: []
+strings: []

@@ -1,0 +1,66 @@
+# One entry per city. Order is the display order on the site (by population).
+# Oulu and Turku stay disabled until a human flips `enabled` and links the
+# city's written permission in `permission_url` (PLAN.md §2.1 rule 2, M9).
+cities:
+  helsinki:
+    name_fi: Helsinki
+    name_sv: Helsingfors
+    enabled: true
+    adapter: helsinki
+    base_urls:
+      - https://paatokset.hel.fi
+    source_name: Helsingin kaupungin päätökset (paatokset.hel.fi)
+    video_url: https://www.helsinkikanava.fi
+  espoo:
+    name_fi: Espoo
+    name_sv: Esbo
+    enabled: true
+    adapter: dynasty
+    base_urls:
+      - https://espoo.oncloudos.com
+    source_name: Espoon kaupungin päätöksenteko (Dynasty)
+    video_url: https://www.youtube.com/@EspooFi
+  tampere:
+    name_fi: Tampere
+    name_sv: Tammerfors
+    enabled: true
+    adapter: casem
+    base_urls:
+      - https://tampere.cloudnc.fi
+    source_name: Tampereen kaupungin päätöksenteko (CloudNC)
+    video_url: https://www.tampere.fi/tampere-kanava
+  vantaa:
+    name_fi: Vantaa
+    name_sv: Vanda
+    enabled: true
+    adapter: tweb
+    base_urls:
+      - https://paatokset.vantaa.fi
+    council_body_id: "55038"
+    source_name: Vantaan kaupungin päätökset (Tweb)
+    video_url: https://www.vantaa.fi/live
+  oulu:
+    name_fi: Oulu
+    name_sv: Uleåborg
+    enabled: false
+    reason: robots_disallow_pending_permission
+    permission_url: null
+    adapter: tweb
+    base_urls:
+      - https://asiakirjat.ouka.fi
+      - https://paatokset.ouka.fi
+    council_body_id: "695"
+    source_name: Oulun kaupungin asiakirjat (Tweb)
+    video_url: https://www.ouka.fi/live
+  turku:
+    name_fi: Turku
+    name_sv: Åbo
+    enabled: false
+    reason: robots_disallow_pending_permission
+    permission_url: null
+    adapter: turku
+    base_urls:
+      - https://paatokset.turku.fi
+      - https://ah.turku.fi
+    source_name: Turun kaupungin päätökset
+    video_url: https://www.kepit.tv

@@ -1,0 +1,7 @@
+---
+import { THEMES } from '../lib/themes';
+interface Props { city: string; class?: string }
+const { city, class: cls } = Astro.props;
+const motif = THEMES[city]?.motif ?? '';
+---
+<svg class={cls} viewBox="0 0 120 60" aria-hidden="true" focusable="false" set:html={motif} />
