@@ -199,6 +199,7 @@ class VoteEvent(_Model):
     source: VoteSource
     source_url: str
     needs_review: bool = False
+    review_reason: str | None = None
 
 
 class Attachment(_Model):
@@ -274,6 +275,7 @@ class MeetingRef(_Model):
     stage: Stage
     source_url: str
     source_ids: dict[str, str] = Field(default_factory=dict)
+    same_day_index: int = 1  # 2, 3 … when the body met more than once that day (§5.1)
 
 
 class ItemRef(_Model):
@@ -281,3 +283,6 @@ class ItemRef(_Model):
     ordinal: int
     source_url: str
     source_ids: dict[str, str] = Field(default_factory=dict)
+    stage: Stage = Stage.minutes
+    title: str | None = None  # as printed on the meeting's agenda
+    pykala: int | None = None

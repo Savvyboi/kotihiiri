@@ -39,7 +39,7 @@ def _texts(mf: MeetingFile):
             yield item.id, item.decision_summary
 
 
-def validate_meeting_file(path: Path, report: Report) -> None:
+def validate_meeting_file(path: Path, report: Report, has_attendance: bool = True) -> None:
     try:
         mf = MeetingFile.model_validate(jsonio.read(path))
     except (ValidationError, ValueError) as exc:
@@ -47,7 +47,7 @@ def validate_meeting_file(path: Path, report: Report) -> None:
         return
     if not mf.meeting.source_url:
         report.errors.append(f"{mf.meeting.id}: meeting without source_url")
-    if mf.meeting.stage == "minutes" and not mf.meeting.attendance:
+    if mf.meeting.stage == "minutes" and not mf.meeting.attendance and has_attendance:
         report.warnings.append(f"{mf.meeting.id}: minutes without attendance")
     for item in mf.items:
         if not item.source_url:
@@ -62,16 +62,28 @@ def validate_meeting_file(path: Path, report: Report) -> None:
                 and not v.needs_review
             ):
                 report.warnings.append(f"{item.id} vote {v.ordinal}: ballots ≠ counts, needs_review not set")
+            if v.needs_review and not v.review_reason:
+                report.warnings.append(f"{item.id} vote {v.ordinal}: needs_review without a reason")
     for item_id, text in _texts(mf):
         if contains_pii(text):
             report.errors.append(f"{item_id}: e-mail or phone number in stored text")
 
 
+def _has_attendance(city: str) -> bool:
+    """Whether the city's adapter publishes attendance at all (Helsinki's pages do not)."""
+    from .adapters import ADAPTERS
+    from .config import load_cities
+
+    cfg = load_cities().get(city)
+    return getattr(ADAPTERS.get(cfg.adapter) if cfg else None, "has_attendance", True)
+
+
 def validate_city(city: str, data_dir: Path = DATA_DIR) -> Report:
     report = Report(city)
+    has_attendance = _has_attendance(city)
     for path in sorted((data_dir / city / "meetings").glob("*/*.json")):
         report.files += 1
-        validate_meeting_file(path, report)
+        validate_meeting_file(path, report, has_attendance)
     for path in sorted((data_dir / city / "speeches").glob("*.json")):
         report.files += 1
         try:
