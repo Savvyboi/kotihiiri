@@ -1,3 +1,79 @@
-# Filled by `kunta discover --city helsinki`. Set `included: true|false` on a body to
-# override the default exclude rules (kunta/bodies.py). Manual flags survive re-discovery.
-bodies: {}
+# Written by `kunta discover` / `kunta crawl`. Add `included: true|false` to a body to override the
+# default exclude rules (kunta/bodies.py); manual keys survive re-discovery. `excluded_by_rule`
+# is informational.
+bodies:
+  kasvatus-ja-koulutuslautakunnan-ruotsinkielinen-jaosto:
+    kind: section
+    name_fi: Kasvatus- ja koulutuslautakunnan ruotsinkielinen jaosto
+  kasvatus-ja-koulutuslautakunnan-suomenkielinen-jaosto:
+    kind: section
+    name_fi: Kasvatus- ja koulutuslautakunnan suomenkielinen jaosto
+  kasvatus-ja-koulutuslautakunta:
+    kind: committee
+    name_fi: Kasvatus- ja koulutuslautakunta
+  kaupunginhallituksen-elinkeinojaosto:
+    kind: section
+    name_fi: Kaupunginhallituksen elinkeinojaosto
+  kaupunginhallituksen-konsernijaosto:
+    kind: section
+    name_fi: Kaupunginhallituksen konsernijaosto
+  kaupunginhallitus:
+    kind: board
+    name_fi: Kaupunginhallitus
+  kaupunginvaltuusto:
+    kind: council
+    name_fi: Kaupunginvaltuusto
+  kaupunkiymparistolautakunnan-rakennusten-ja-yleisten-alueiden-jaosto:
+    kind: section
+    name_fi: Kaupunkiympäristölautakunnan rakennusten ja yleisten alueiden jaosto
+  kaupunkiymparistolautakunnan-ymparisto-ja-lupajaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Kaupunkiympäristölautakunnan ympäristö- ja lupajaosto
+  kaupunkiymparistolautakunta:
+    kind: committee
+    name_fi: Kaupunkiympäristölautakunta
+  keskusvaalilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Keskusvaalilautakunta
+  kulttuuri-ja-vapaa-aikalautakunnan-kulttuuri-ja-kirjastojaosto:
+    kind: section
+    name_fi: Kulttuuri- ja vapaa-aikalautakunnan kulttuuri- ja kirjastojaosto
+  kulttuuri-ja-vapaa-aikalautakunnan-liikuntajaosto:
+    kind: section
+    name_fi: Kulttuuri- ja vapaa-aikalautakunnan liikuntajaosto
+  kulttuuri-ja-vapaa-aikalautakunnan-nuorisojaosto:
+    kind: section
+    name_fi: Kulttuuri- ja vapaa-aikalautakunnan nuorisojaosto
+  kulttuuri-ja-vapaa-aikalautakunta:
+    kind: committee
+    name_fi: Kulttuuri- ja vapaa-aikalautakunta
+  liikenneliikelaitoksen-johtokunta:
+    kind: enterprise_board
+    name_fi: Liikenneliikelaitoksen johtokunta
+  palvelukeskusliikelaitoksen-johtokunta:
+    kind: enterprise_board
+    name_fi: Palvelukeskusliikelaitoksen johtokunta
+  rakentamispalveluliikelaitoksen-johtokunta:
+    kind: enterprise_board
+    name_fi: Rakentamispalveluliikelaitoksen johtokunta
+  sosiaali-terveys-ja-pelastuslautakunnan-pelastusjaosto:
+    kind: section
+    name_fi: Sosiaali-, terveys- ja pelastuslautakunnan pelastusjaosto
+  sosiaali-terveys-ja-pelastuslautakunnan-yksiloasioiden-jaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Sosiaali-, terveys- ja pelastuslautakunnan yksilöasioiden jaosto
+  sosiaali-terveys-ja-pelastuslautakunta:
+    kind: committee
+    name_fi: Sosiaali-, terveys- ja pelastuslautakunta
+  taloushallintopalveluliikelaitoksen-johtokunta:
+    kind: enterprise_board
+    name_fi: Taloushallintopalveluliikelaitoksen johtokunta
+  tarkastuslautakunta:
+    kind: committee
+    name_fi: Tarkastuslautakunta
+  tyollisyyspalveluliikelaitoksen-johtokunta:
+    kind: enterprise_board
+    name_fi: Työllisyyspalveluliikelaitoksen johtokunta
