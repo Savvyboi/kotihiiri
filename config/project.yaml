@@ -1,8 +1,8 @@
 # Site-wide settings. The crawler refuses to run until site_domain and
 # contact_email are set (PLAN.md §2.1 rule 3, §17).
 site_name: Kotihiiri
-site_domain: null        # e.g. kotihiiri.fi — used in the User-Agent and /tietoa link
-contact_email: null      # a monitored address cities can use to contact us
+site_domain: savvyboi.github.io/kotihiiri   # GitHub Pages; used in the User-Agent and /tietoa link
+contact_email: saivanidis.savvas@gmail.com   # where cities can reach us about the crawler
 user_agent_template: "KuntaDataBot/0.1 (+https://{site_domain}/tietoa; {contact_email})"
 data_licence: CC-BY-4.0
 since: "2025-01-01"

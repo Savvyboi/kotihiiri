@@ -568,7 +568,7 @@ Fill in "Result" as you resolve each one.
 
 | Topic | Default |
 |---|---|
-| Site name, domain, contact e-mail for User-Agent | **must be set** in `config/project.yaml` before the first live crawl |
+| Site name, domain, contact e-mail for User-Agent | Set 2026-10-11 by Savvas: Kotihiiri, `savvyboi.github.io/kotihiiri`, project contact e-mail in `config/project.yaml` |
 | Licence for our normalized data | CC BY 4.0, attributing the cities as source |
 | Body exclude list (§1) | as written |
 | Per-person speech collections | off (`SPEECHES_BY_PERSON=false`) pending legal check |
