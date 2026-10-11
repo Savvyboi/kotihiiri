@@ -155,7 +155,7 @@ Astro site `site/`  reads data/ at build  →  static HTML + Pagefind index  →
 ### 3.2 Stack (pin these; don't swap without a reason written in this file)
 - Python 3.12, `httpx` (sync is fine), `selectolax` (fast HTML) with `beautifulsoup4+lxml` fallback, `pdfplumber`, `pydantic>=2`, `rapidfuzz`, `typer`, `pyyaml`, `orjson`, `pyarrow`, `pytest`, `ruff`.
 - Site: Astro (static output), Pagefind for search, Observable Plot for charts. No client-side analytics, no cookies.
-- Node 20 LTS for the site build.
+- Node 22 LTS for the site build. *(Changed from Node 20 on 2026-10-11: Node 20 reached end of life in April 2026. Astro pinned to 5.18.x.)*
 
 ---
 
@@ -227,10 +227,12 @@ class Adapter(Protocol):
 
     def discover_bodies(self) -> list[Body]: ...
     def list_meetings(self, body: Body, since: date, until: date | None) -> list[MeetingRef]: ...
-    def fetch_meeting(self, ref: MeetingRef) -> Meeting: ...          # incl. item refs, attendance, stage
-    def fetch_item(self, ref: ItemRef) -> AgendaItem: ...             # full text, sections, motions, votes (inline)
-    def fetch_votes(self, item: AgendaItem) -> list[VoteEvent]: ...   # extra fetches (e.g. vote PDFs); may return []
-    def fetch_speeches(self, meeting: Meeting) -> list[Speech]: ...   # may return []
+    def fetch_meeting(self, ref: MeetingRef) -> Meeting: ...  # incl. item refs, attendance, stage
+    def fetch_item(self, ref: ItemRef) -> AgendaItem: ...  # full text, sections, motions, votes (inline)
+    def fetch_votes(
+        self, item: AgendaItem
+    ) -> list[VoteEvent]: ...  # extra fetches (e.g. vote PDFs); may return []
+    def fetch_speeches(self, meeting: Meeting) -> list[Speech]: ...  # may return []
 ```
 
 Rules:
@@ -552,6 +554,12 @@ Fill in "Result" as you resolve each one.
 | S7 | Exact council term start dates per city (assumed 2025-06-01) | §5.2 Term | |
 | S8 | Election results download path (Ministry of Justice / StatFin) | §8 | |
 | S9 | www.turku.fi robots allows initiative pages | §7.6 | |
+
+---
+
+### Build log
+
+- 2026-10-11 — M0 skeleton landed together with a basic site (ahead of M7): city/body/meeting/item routes, `/haku/` (Pagefind), `/data/`, `/tietoa/`, six city themes, Finnish i18n dictionary with room for sv/en. Person, group and case routes wait for M5/M7. A fictional dataset in `site/demo-data/` drives preview builds and CI. Adapters are stubs that raise until their milestone.
 
 ---
 

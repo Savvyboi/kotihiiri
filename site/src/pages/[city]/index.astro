@@ -1,0 +1,76 @@
+---
+import Base from '../../layouts/Base.astro';
+import Motif from '../../components/Motif.astro';
+import VoteCard from '../../components/VoteCard.astro';
+import { t, localePath, formatDate, formatNumber } from '../../i18n';
+import { cities, bodies, meetingFiles, recentVotes, cityStats, bodyName, meetingUrl, bodySlug, type City } from '../../lib/data';
+import { THEMES } from '../../lib/themes';
+
+export function getStaticPaths() {
+  return cities().map((city) => ({ params: { city: city.id }, props: { city } }));
+}
+interface Props { city: City }
+const { city } = Astro.props;
+const s = cityStats(city.id);
+const kinds = ['council', 'board', 'section', 'committee', 'enterprise_board'];
+const sortedBodies = [...bodies(city.id)].sort((a, b) =>
+  kinds.indexOf(a.kind) - kinds.indexOf(b.kind) || a.name_fi.localeCompare(b.name_fi, 'fi'));
+const recent = meetingFiles(city.id).slice(0, 10);
+const votes = recentVotes(city.id, 6);
+---
+<Base title={city.name_fi} city={city.id} description={`${city.name_fi}: ${t('site.tagline')}`}>
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow">{THEMES[city.id]?.motto}</p>
+      <h1>{city.name_fi}</h1>
+      {city.enabled ? (
+        <ul class="stats">
+          <li><b>{formatNumber(s.meetings)}</b>{t('city.stats.meetings')}</li>
+          <li><b>{formatNumber(s.items)}</b>{t('city.stats.items')}</li>
+          <li><b>{formatNumber(s.votes)}</b>{t('city.stats.votes')}</li>
+          <li><b>{formatNumber(s.bodies)}</b>{t('city.stats.bodies')}</li>
+        </ul>
+      ) : <p class="lead"><span class="badge">{t('city.disabled')}</span> {t('city.disabledLong')}</p>}
+      <Motif city={city.id} class="motif" />
+    </div>
+  </section>
+  <div class="wrap">
+    {city.enabled && s.meetings === 0 && <p class="empty" style="margin-top:2rem">{t('city.empty')}</p>}
+
+    {votes.length > 0 && (
+      <section>
+        <h2>{t('city.recentVotes')}</h2>
+        <div class="grid">{votes.map((row) => <VoteCard row={row} />)}</div>
+      </section>
+    )}
+
+    <div class="two-col">
+      <section>
+        {recent.length > 0 && <>
+          <h2>{t('city.recentMeetings')}</h2>
+          <ul class="list">
+            {recent.map(({ meeting, items }) => (
+              <li><span class="date">{formatDate(meeting.date)}</span>
+                <span><a href={localePath(meetingUrl(meeting))}>{bodyName(meeting.body_id)}</a>
+                <span class="badge">{t(`meeting.stage.${meeting.stage}`)}</span><br />
+                <span class="small muted">{items.length} {t('city.stats.items')}</span></span></li>
+            ))}
+          </ul>
+        </>}
+      </section>
+      <aside>
+        {sortedBodies.length > 0 && <>
+          <h2>{t('city.bodies')}</h2>
+          <ul class="list">
+            {sortedBodies.map((b) => (
+              <li><a href={localePath(`/${city.id}/${bodySlug(b.id)}/`)}>{b.name_fi}</a></li>
+            ))}
+          </ul>
+        </>}
+        <h2>{t('city.source')}</h2>
+        <p><a href={city.base_urls[0]} rel="external noopener">{city.source_name ?? city.base_urls[0]}</a></p>
+        {city.video_url && <p><a href={city.video_url} rel="external noopener">{t('city.video')}</a></p>}
+      </aside>
+    </div>
+  </div>
+</Base>

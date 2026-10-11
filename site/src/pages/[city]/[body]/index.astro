@@ -1,0 +1,46 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Breadcrumb from '../../../components/Breadcrumb.astro';
+import { t, localePath, formatDate } from '../../../i18n';
+import { cities, bodies, meetingFiles, meetingUrl, bodySlug, type Body, type City } from '../../../lib/data';
+
+export function getStaticPaths() {
+  return cities().flatMap((city) => bodies(city.id).map((body) => ({
+    params: { city: city.id, body: bodySlug(body.id) }, props: { city, body },
+  })));
+}
+interface Props { city: City; body: Body }
+const { city, body } = Astro.props;
+const files = meetingFiles(city.id).filter((f) => f.meeting.body_id === body.id);
+const byYear = new Map<string, typeof files>();
+for (const f of files) {
+  const y = f.meeting.date.slice(0, 4);
+  byYear.set(y, [...(byYear.get(y) ?? []), f]);
+}
+---
+<Base title={`${body.name_fi} · ${city.name_fi}`} city={city.id}>
+  <section class="hero">
+    <div class="wrap">
+      <Breadcrumb items={[{ label: city.name_fi, href: `/${city.id}/` }, { label: body.name_fi }]} />
+      <p class="eyebrow">{t(`body.kind.${body.kind}`)}</p>
+      <h1>{body.name_fi}</h1>
+    </div>
+  </section>
+  <div class="wrap">
+    <h2>{t('body.meetingsByYear')}</h2>
+    {files.length === 0 && <p class="empty">{t('body.noMeetings')}</p>}
+    {[...byYear.entries()].map(([year, list]) => (
+      <section>
+        <h3 style="margin-top:1.4rem">{year}</h3>
+        <ul class="list">
+          {list.map(({ meeting, items }) => (
+            <li><span class="date">{formatDate(meeting.date)}</span>
+              <span><a href={localePath(meetingUrl(meeting))}>{t('meeting.title', { date: formatDate(meeting.date) })}</a>
+              {' '}<span class="badge">{t(`meeting.stage.${meeting.stage}`)}</span>
+              <span class="small muted"> · {items.length} {t('city.stats.items')}</span></span></li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </div>
+</Base>

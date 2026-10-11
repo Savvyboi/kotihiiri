@@ -1,0 +1,17 @@
+---
+import { t } from '../i18n';
+import type { Choice } from '../lib/data';
+interface Props { counts: Record<Choice, number>; legend?: boolean }
+const { counts, legend = true } = Astro.props;
+const order: Choice[] = ['jaa', 'ei', 'tyhja', 'poissa'];
+const total = order.reduce((n, c) => n + (counts[c] ?? 0), 0) || 1;
+const summary = t('vote.summary', counts);
+---
+<div class="vote-bar" role="img" aria-label={summary}>
+  {order.map((c) => counts[c] ? <span class={c} style={`width:${(counts[c] / total) * 100}%`} /> : null)}
+</div>
+{legend && (
+  <ul class="vote-legend">
+    {order.map((c) => <li><i style={`background:var(--c-${c})`} />{t(`vote.${c}`)} <b>{counts[c] ?? 0}</b></li>)}
+  </ul>
+)}

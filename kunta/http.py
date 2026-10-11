@@ -1,0 +1,258 @@
+"""Polite HTTP client: robots.txt, per-host rate limit, retries, conditional GET, raw cache.
+
+Adapters never talk to the network directly; they go through `PoliteClient`
+(PLAN.md §2.1, §6). Rules enforced here:
+
+- robots.txt is fetched once per host per run and checked for every URL with our
+  User-Agent. Disallowed URLs are never fetched and are logged as `skipped_robots`.
+- At most 1 request/second per host, one in-flight request per host.
+- 429/5xx → exponential backoff honouring Retry-After, give up after 4 attempts.
+- ETag / Last-Modified are remembered and sent back as conditional headers.
+- Raw bodies go to `.cache/raw/` (git-ignored), never to data/.
+"""
+
+from __future__ import annotations
+
+import email.utils
+import hashlib
+import logging
+import threading
+import time
+import urllib.robotparser
+from collections.abc import Callable
+from dataclasses import dataclass, field
+from pathlib import Path
+from urllib.parse import urlsplit
+
+import httpx
+
+from . import jsonio
+
+log = logging.getLogger(__name__)
+
+MAX_ATTEMPTS = 4
+MIN_INTERVAL_S = 1.0
+RETRY_STATUSES = {429, 500, 502, 503, 504}
+
+
+class RobotsDisallowed(Exception):
+    """Raised when robots.txt forbids a URL. The URL was not fetched."""
+
+
+class FetchFailed(Exception):
+    pass
+
+
+@dataclass
+class Response:
+    url: str
+    status: int
+    content: bytes
+    headers: dict[str, str]
+    from_cache: bool = False
+
+    @property
+    def content_type(self) -> str:
+        return self.headers.get("content-type", "")
+
+    @property
+    def text(self) -> str:
+        """Decode using the response charset; never assume (Espoo mixes encodings)."""
+        ct = self.content_type.lower()
+        charset = None
+        if "charset=" in ct:
+            charset = ct.split("charset=", 1)[1].split(";")[0].strip().strip('"')
+        try:
+            return self.content.decode(charset or "utf-8")
+        except (LookupError, UnicodeDecodeError):
+            return self.content.decode("iso-8859-1")
+
+
+@dataclass
+class Stats:
+    requests: int = 0
+    not_modified: int = 0
+    skipped_robots: list[str] = field(default_factory=list)
+    failures: list[dict[str, str]] = field(default_factory=list)
+
+
+class RateLimiter:
+    """Minimum interval between requests to the same host, one request at a time per host."""
+
+    def __init__(
+        self,
+        interval_s: float = MIN_INTERVAL_S,
+        clock: Callable[[], float] = time.monotonic,
+        sleep: Callable[[float], None] = time.sleep,
+    ) -> None:
+        self.interval_s = interval_s
+        self._clock = clock
+        self._sleep = sleep
+        self._last: dict[str, float] = {}
+        self._locks: dict[str, threading.Lock] = {}
+        self._guard = threading.Lock()
+
+    def lock(self, host: str) -> threading.Lock:
+        with self._guard:
+            return self._locks.setdefault(host, threading.Lock())
+
+    def wait(self, host: str) -> None:
+        last = self._last.get(host)
+        if last is not None:
+            remaining = self.interval_s - (self._clock() - last)
+            if remaining > 0:
+                self._sleep(remaining)
+        self._last[host] = self._clock()
+
+
+class PoliteClient:
+    def __init__(
+        self,
+        user_agent: str,
+        *,
+        cache_dir: Path | None = None,
+        validators_path: Path | None = None,
+        transport: httpx.BaseTransport | None = None,
+        rate_limiter: RateLimiter | None = None,
+        sleep: Callable[[float], None] = time.sleep,
+        allowed_hosts: set[str] | None = None,
+    ) -> None:
+        if not user_agent:
+            raise ValueError("user_agent is required")
+        self.user_agent = user_agent
+        self.cache_dir = cache_dir
+        self.validators_path = validators_path
+        self.allowed_hosts = allowed_hosts
+        self.rate = rate_limiter or RateLimiter(sleep=sleep)
+        self._sleep = sleep
+        self._client = httpx.Client(
+            headers={"User-Agent": user_agent},
+            transport=transport,
+            follow_redirects=True,
+            timeout=httpx.Timeout(30.0),
+        )
+        self._robots: dict[str, urllib.robotparser.RobotFileParser] = {}
+        self.validators: dict[str, dict[str, str]] = {}
+        if validators_path and validators_path.exists():
+            self.validators = jsonio.read(validators_path)
+        self.stats = Stats()
+
+    # -- robots ---------------------------------------------------------------
+
+    def _robots_for(self, scheme: str, host: str) -> urllib.robotparser.RobotFileParser:
+        if host not in self._robots:
+            rp = urllib.robotparser.RobotFileParser()
+            robots_url = f"{scheme}://{host}/robots.txt"
+            try:
+                with self.rate.lock(host):
+                    self.rate.wait(host)
+                    resp = self._client.get(robots_url)
+                self.stats.requests += 1
+                if resp.status_code in (401, 403):
+                    rp.disallow_all = True
+                elif resp.status_code >= 400:
+                    rp.allow_all = True  # no robots.txt → everything allowed
+                else:
+                    rp.parse(resp.text.splitlines())
+            except httpx.HTTPError as exc:
+                # Unreachable robots.txt: be conservative and fetch nothing from this host.
+                log.warning("robots.txt unreachable for %s: %s", host, exc)
+                rp.disallow_all = True
+            self._robots[host] = rp
+        return self._robots[host]
+
+    def allowed(self, url: str) -> bool:
+        parts = urlsplit(url)
+        return self._robots_for(parts.scheme, parts.netloc).can_fetch(self.user_agent, url)
+
+    # -- fetching -------------------------------------------------------------
+
+    def _cache_path(self, url: str) -> Path | None:
+        if not self.cache_dir:
+            return None
+        digest = hashlib.sha256(url.encode()).hexdigest()
+        return self.cache_dir / urlsplit(url).netloc / digest[:2] / digest
+
+    def get(self, url: str) -> Response:
+        parts = urlsplit(url)
+        host = parts.netloc
+        if self.allowed_hosts is not None and host not in self.allowed_hosts:
+            raise FetchFailed(f"host {host} is not configured for this run")
+        if not self.allowed(url):
+            log.info("skipped_robots %s", url)
+            self.stats.skipped_robots.append(url)
+            raise RobotsDisallowed(url)
+
+        headers: dict[str, str] = {}
+        cache_path = self._cache_path(url)
+        known = self.validators.get(url, {})
+        if cache_path and cache_path.exists():
+            if etag := known.get("etag"):
+                headers["If-None-Match"] = etag
+            if last_mod := known.get("last_modified"):
+                headers["If-Modified-Since"] = last_mod
+
+        last_error = ""
+        for attempt in range(1, MAX_ATTEMPTS + 1):
+            with self.rate.lock(host):
+                self.rate.wait(host)
+                try:
+                    resp = self._client.get(url, headers=headers)
+                except httpx.HTTPError as exc:
+                    resp = None
+                    last_error = f"{type(exc).__name__}: {exc}"
+            self.stats.requests += 1
+
+            if resp is not None and resp.status_code == 304 and cache_path:
+                self.stats.not_modified += 1
+                return Response(
+                    url, 200, cache_path.read_bytes(), dict(known.get("headers", {})), from_cache=True
+                )
+            if resp is not None and resp.status_code not in RETRY_STATUSES:
+                return self._finish(url, resp, cache_path)
+
+            if resp is not None:
+                last_error = f"HTTP {resp.status_code}"
+            if attempt < MAX_ATTEMPTS:
+                self._sleep(self._backoff(attempt, resp))
+
+        self.stats.failures.append({"url": url, "error": last_error})
+        raise FetchFailed(f"{url}: {last_error} after {MAX_ATTEMPTS} attempts")
+
+    @staticmethod
+    def _backoff(attempt: int, resp: httpx.Response | None) -> float:
+        if resp is not None and (ra := resp.headers.get("retry-after")):
+            if ra.strip().isdigit():
+                return float(ra)
+            when = email.utils.parsedate_to_datetime(ra)
+            if when is not None:
+                return max(0.0, when.timestamp() - time.time())
+        return float(2**attempt)
+
+    def _finish(self, url: str, resp: httpx.Response, cache_path: Path | None) -> Response:
+        hdrs = {k.lower(): v for k, v in resp.headers.items()}
+        keep = {k: hdrs[k] for k in ("content-type",) if k in hdrs}
+        if resp.status_code == 200 and cache_path:
+            cache_path.parent.mkdir(parents=True, exist_ok=True)
+            cache_path.write_bytes(resp.content)
+            entry: dict = {"headers": keep}
+            if "etag" in hdrs:
+                entry["etag"] = hdrs["etag"]
+            if "last-modified" in hdrs:
+                entry["last_modified"] = hdrs["last-modified"]
+            self.validators[url] = entry
+        return Response(url, resp.status_code, resp.content, hdrs)
+
+    def save_validators(self) -> None:
+        if self.validators_path:
+            jsonio.write(self.validators_path, self.validators)
+
+    def close(self) -> None:
+        self._client.close()
+
+    def __enter__(self) -> PoliteClient:
+        return self
+
+    def __exit__(self, *exc: object) -> None:
+        self.save_validators()
+        self.close()

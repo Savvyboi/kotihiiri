@@ -1,0 +1,20 @@
+{
+  "name": "kotihiiri-site",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build && pagefind --site dist",
+    "build:demo": "KUNTA_DATA_DIR=demo-data astro build && pagefind --site dist",
+    "preview": "astro preview",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "astro": "5.18.2",
+    "yaml": "2.8.1"
+  },
+  "devDependencies": {
+    "pagefind": "1.5.2"
+  }
+}

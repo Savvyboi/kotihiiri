@@ -1,0 +1,13 @@
+---
+import { t, localePath } from '../i18n';
+interface Props { items: { label: string; href?: string }[] }
+const { items } = Astro.props;
+---
+<nav class="breadcrumb" aria-label={t('nav.breadcrumb')}>
+  <ol>
+    <li><a href={localePath('/')}>{t('nav.home')}</a></li>
+    {items.map((c, i) => (
+      <li>{c.href && i < items.length - 1 ? <a href={localePath(c.href)}>{c.label}</a> : <span aria-current="page">{c.label}</span>}</li>
+    ))}
+  </ol>
+</nav>

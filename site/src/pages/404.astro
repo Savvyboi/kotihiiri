@@ -1,0 +1,8 @@
+---
+import Base from '../layouts/Base.astro';
+import { localePath } from '../i18n';
+---
+<Base title="Sivua ei löytynyt">
+  <section class="hero"><div class="wrap"><h1>Sivua ei löytynyt</h1>
+  <p class="lead">Sivu on ehkä poistettu tai osoite on väärä. <a href={localePath('/')}>Palaa etusivulle</a>.</p></div></section>
+</Base>

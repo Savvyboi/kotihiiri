@@ -1,0 +1,64 @@
+---
+import Base from '../layouts/Base.astro';
+import CityCard from '../components/CityCard.astro';
+import VoteCard from '../components/VoteCard.astro';
+import { t, localePath, formatDate } from '../i18n';
+import { cities, meetingFiles, recentVotes, bodyName, meetingUrl, itemUrl, decisionText } from '../lib/data';
+
+const enabled = cities().filter((c) => c.enabled);
+const votes = enabled.flatMap((c) => recentVotes(c.id, 3).map((row) => ({ row, city: c.id })))
+  .sort((a, b) => b.row.meeting.date.localeCompare(a.row.meeting.date)).slice(0, 6);
+const decisions = enabled.flatMap((c) => meetingFiles(c.id)
+  .filter((f) => f.meeting.stage !== 'agenda')
+  .flatMap((f) => f.items.filter((i) => decisionText(i)).map((i) => ({ item: i, meeting: f.meeting, city: c }))))
+  .sort((a, b) => b.meeting.date.localeCompare(a.meeting.date)).slice(0, 8);
+const today = new Date().toISOString().slice(0, 10);
+const upcoming = enabled.flatMap((c) => meetingFiles(c.id).filter((f) => f.meeting.stage === 'agenda' && f.meeting.date >= today)
+  .map((f) => ({ meeting: f.meeting, city: c }))).sort((a, b) => a.meeting.date.localeCompare(b.meeting.date)).slice(0, 6);
+---
+<Base>
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow">{t('site.name')}</p>
+      <h1>{t('home.title')}</h1>
+      <p class="lead">{t('home.lead')}</p>
+    </div>
+  </section>
+  <div class="wrap">
+    <h2>{t('home.cities')}</h2>
+    <div class="grid">{cities().map((c) => <CityCard city={c} />)}</div>
+
+    <h2>{t('home.latestVotes')}</h2>
+    {votes.length
+      ? <div class="grid">{votes.map(({ row, city }) => <VoteCard row={row} showCity={city} />)}</div>
+      : <p class="empty">{t('city.empty')}</p>}
+
+    <div class="two-col">
+      <section>
+        <h2>{t('home.latest')}</h2>
+        {decisions.length ? (
+          <ul class="list">
+            {decisions.map(({ item, meeting, city }) => (
+              <li><span class="date">{formatDate(meeting.date)}</span>
+                <span><a href={localePath(itemUrl(item))}>{item.title}</a><br />
+                <span class="small muted">{city.name_fi} · {bodyName(meeting.body_id)}</span></span></li>
+            ))}
+          </ul>
+        ) : <p class="empty">{t('city.empty')}</p>}
+      </section>
+      <aside>
+        <h2>{t('home.upcoming')}</h2>
+        {upcoming.length ? (
+          <ul class="list">
+            {upcoming.map(({ meeting, city }) => (
+              <li><span class="date">{formatDate(meeting.date)}</span>
+                <a href={localePath(meetingUrl(meeting))}>{city.name_fi}: {bodyName(meeting.body_id)}</a></li>
+            ))}
+          </ul>
+        ) : <p class="muted">{t('common.none')}</p>}
+        <h2>{t('home.howTitle')}</h2>
+        <p>{t('home.how')}</p>
+      </aside>
+    </div>
+  </div>
+</Base>

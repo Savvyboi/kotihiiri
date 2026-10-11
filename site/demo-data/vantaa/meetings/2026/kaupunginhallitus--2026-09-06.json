@@ -1,0 +1,49 @@
+{
+  "items": [
+    {
+      "attachments": [],
+      "content_sha256": "c72041b6434a22a98269272f1126babf8de03df14e5b9b1dfd030ba24f80f1f3",
+      "decision_summary": "Kaupunginhallitus antoi lausunnon.",
+      "disqualified": [],
+      "id": "vantaa/kaupunginhallitus/2026-09-06/1",
+      "meeting_id": "vantaa/kaupunginhallitus/2026-09-06",
+      "motions": [],
+      "ordinal": 1,
+      "preparers": [],
+      "presenter": "Kaupunginjohtaja (esimerkki)",
+      "pykala": 500,
+      "sections": [
+        {
+          "text": "Kaupunginhallitus antoi lausunnon.",
+          "type": "decision"
+        },
+        {
+          "text": "Esimerkkiteksti.",
+          "type": "proposal"
+        },
+        {
+          "text": "Esimerkkiteksti.",
+          "type": "background"
+        }
+      ],
+      "source_ids": {},
+      "source_url": "https://example.org/esimerkki",
+      "statements": [],
+      "status": "active",
+      "title": "Lausunto maakuntakaavaluonnoksesta",
+      "votes": []
+    }
+  ],
+  "meeting": {
+    "attendance": [],
+    "body_id": "vantaa/kaupunginhallitus",
+    "date": "2026-09-06",
+    "id": "vantaa/kaupunginhallitus/2026-09-06",
+    "items": [
+      "vantaa/kaupunginhallitus/2026-09-06/1"
+    ],
+    "source_ids": {},
+    "source_url": "https://example.org/esimerkki",
+    "stage": "minutes"
+  }
+}
