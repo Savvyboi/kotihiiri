@@ -17,6 +17,12 @@ def test_strip_pii():
     assert contains_pii(s)
 
 
+def test_case_codes_are_not_phone_numbers():
+    for code in ("työavain KASKO-01-1029-25", "sotepe-02-207-25", "HEL 2026-008342 T 08 00 02"):
+        assert not contains_pii(code), code
+    assert contains_pii("puh. 09 310 12345")
+
+
 def test_classify_heading():
     assert classify_heading("Päätösehdotus") == SectionType.proposal
     assert classify_heading("Päätös") == SectionType.decision

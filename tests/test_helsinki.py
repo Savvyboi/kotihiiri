@@ -180,3 +180,38 @@ def test_golden_vote_item(request):
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_bytes(data)
     assert path.read_bytes() == data
+
+
+def parsed(name: str, stage=Stage.minutes):
+    ref = ItemRef(meeting_id="helsinki/x/2025-01-14", ordinal=4, source_url="https://paatokset.hel.fi/fi/asia/y",
+                  stage=stage)  # fmt: skip
+    return build_item(ref, hp.parse_item(fixture(name)))
+
+
+def test_forwarded_matter_esitys_is_the_decision():
+    item = parsed("item-forwarded.html")
+    assert [s.type for s in item.sections] == ["decision", "deliberation", "proposal", "background"]
+    assert item.sections[0].text == "Kaupunkiympäristölautakunta päätti panna asian pöydälle."
+    assert "40 % on luontoalueita" in item.sections[3].text
+    assert "KASKO-01-1029-25" in item.sections[3].text  # a case code, not a phone number
+    assert item.presenter == "Ville Lehmuskoski, Kaupunkiympäristön toimialajohtaja"
+    every = " ".join(s.text for s in item.sections) + (item.presenter or "")
+    assert "Etu Suku" not in every and not contains_pii(every)
+    assert len(item.attachments) == 1
+
+
+def test_swedish_section_headings():
+    item = parsed("item-swedish.html")
+    assert [s.type for s in item.sections] == ["decision", "proposal", "background"]
+    assert item.presenter == "Niclas Grönholm, Direktör för den svenska servicehelheten"
+    assert not any("missnöjd" in s.text for s in item.sections)
+
+
+def test_page_with_content_is_not_transient_despite_hidden_error_markup():
+    site = FakeHelsinki()
+    site.overrides["/fi/asia/x"] = "item-forwarded.html"
+    adapter = HelsinkiAdapter(client(site))
+    ref = ItemRef(
+        meeting_id="helsinki/x/2025-01-14", ordinal=4, source_url="https://paatokset.hel.fi/fi/asia/x"
+    )
+    assert adapter.fetch_item(ref).sections[0].type == "decision"

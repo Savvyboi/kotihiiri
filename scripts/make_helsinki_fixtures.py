@@ -340,8 +340,11 @@ def item_roll_call(error: bool = False) -> str:
         else """<div class="section"><h3>Päätös</h3>
 <p>Kaupunginvaltuusto totesi kokouksen kuntalaissa ja hallintosäännössä edellytetyssä järjestyksessä koolle kutsutuksi ja päätösvaltaiseksi.</p>
 <h4>Nimenhuuto ja estyneet</h4>
-<p>Aino Esimerkki, tilalle Eero Mallinen</p><p>Helmi Testaaja, tilalle Lauri Näyte</p></div>"""  # noqa: E501
+<p>Aino Esimerkki, tilalle Eero Mallinen</p><p>Helmi Testaaja, tilalle Lauri Näyte</p></div>
+<div class="section"><h3>Päätösehdotus</h3><p>Kaupunginvaltuusto merkitsee tiedoksi ilmoitetut esteet ja toteaa kokouksen lailliseksi ja päätösvaltaiseksi.</p></div>
+<div class="section"><h3>Muutoksenhaku</h3><h4>MUUTOKSENHAKUKIELTO</h4><p>Tähän päätökseen ei saa hakea muutosta. Kuntalaki 136 §.</p></div>"""  # noqa: E501
     )
+    # A failed load renders the error notice and none of the decision's sections.
     main = f"""
 <h1>Nimenhuuto, laillisuus ja päätösvaltaisuus</h1>
 <div class="case-meta"><span>Hallintoasiat</span></div>
@@ -351,13 +354,56 @@ def item_roll_call(error: bool = False) -> str:
 <h2>Nimenhuuto, laillisuus ja päätösvaltaisuus</h2>
 <div class="decision-meta"><p>1. / 249 §</p><p>Kaupunginvaltuusto</p></div>
 {decision}
-<div class="section"><h3>Päätösehdotus</h3><p>Kaupunginvaltuusto merkitsee tiedoksi ilmoitetut esteet ja toteaa kokouksen lailliseksi ja päätösvaltaiseksi.</p></div>
-<div class="section"><h3>Muutoksenhaku</h3><h4>MUUTOKSENHAKUKIELTO</h4><p>Tähän päätökseen ei saa hakea muutosta. Kuntalaki 136 §.</p></div>
 </article>
 <h2>Sanat tai yhteystieto hukassa?</h2>
 <p><a href="https://ahjojulkaisu.hel.fi/968644D4-3321-CA71-A311-A0A3A5900000.pdf">Lataa tulostusversio (pdf)</a></p>
 """  # noqa: E501
     return page("Nimenhuuto", main)
+
+
+def item_forwarded() -> str:
+    """A committee forwarding a matter: the decision is headed "Esitys", the proposal
+    "Esitysehdotus"; presenter and contacts use "Nimi …" headings with "Titteli …" lines."""
+    main = """
+<h1>Luonnonsuojelualueohjelma 2025-2040, kaupunkiympäristön toimiala</h1>
+<div class="case-meta"><span>Diaarinumero</span> <span>HEL 2024-011399</span> <span>Ympäristöasia</span>
+<span>Seuraava käsittely</span><p>Virhe päätöstä ladattaessa</p></div>
+<article class="decision">
+<h2>Kaupunkiympäristölautakunnan esitys kaupunginhallitukselle luonnonsuojelualueohjelman hyväksymisestä</h2>
+<div class="decision-meta"><p>4. / 4 §</p><p>Lautakunnat ja johtokunnat</p><p>Päättäjä: Kaupunkiympäristölautakunta</p></div>
+<h3>Esitys</h3><p>Kaupunkiympäristölautakunta päätti panna asian pöydälle.</p>
+<h3>Käsittely</h3><p>Asian aikana kuultavina olivat tiimipäällikkö ja yleiskaavasuunnittelija.</p>
+<h3>Esitysehdotus</h3><p>Kaupunkiympäristölautakunta esittää kaupunginhallitukselle ohjelman hyväksymistä.</p>
+<h3>Esittelijän perustelut</h3>
+<h3>Taustaa</h3><p>Helsingin maapinta-alasta noin 40 % on luontoalueita. Työavain KASKO-01-1029-25.</p>
+<h4>Tavoitteet</h4><p>Ohjelman tavoitteena on nostaa suojelualueiden osuutta.</p>
+<h3>Muutoksenhaku</h3><p>Päätös tullut nähtäväksi 20.01.2025</p><h4>MUUTOKSENHAKUKIELTO</h4><p>Tähän päätökseen ei saa hakea muutosta.</p>
+<h3>Esittelijä</h3><h4>Nimi Ville Lehmuskoski</h4><p>Titteli Kaupunkiympäristön toimialajohtaja</p>
+<h3>Lisätietojen antajat</h3><h4>Nimi Etu Suku</h4><p>Titteli Ympäristösuunnittelija Puhelinnumero 09 310 12345 Sähköposti etu.suku@hel.fi</p>
+</article>
+<h3>Liitteet (pdf)</h3><ul><li><a href="https://ahjojulkaisu.hel.fi/0000AAAA-0000-0000-0000-000000000001.pdf">1. Luonnonsuojelualueohjelma 2025-2040, raportti</a></li></ul>
+<h2>Sanat tai yhteystieto hukassa?</h2><p>Päätöksenteon sanakirja selventää termejä.</p>
+"""
+    return page("Luonnonsuojelualueohjelma", main)
+
+
+def item_swedish() -> str:
+    """The Swedish-language sections publish their decisions in Swedish."""
+    main = """
+<h1>Val av medlem i direktionen för Nordsjö lågstadieskola</h1>
+<article class="decision">
+<h2>Val av medlem i direktionen för Nordsjö lågstadieskola</h2>
+<div class="decision-meta"><p>4. / 4 §</p></div>
+<h3>Beslut</h3><p>Svenska sektionen beslutade bevilja befrielse enligt anhållan och utse en ny medlem.</p>
+<h3>Beslutsförslag</h3><p>Beslutet stämmer överens med förslaget.</p>
+<h3>Föredragandens motiveringar</h3><p>Medlemmen har anhållit om befrielse från uppdraget.</p>
+<h3>Muutoksenhaku</h3><h4>Anvisningar om hur man begär omprövning</h4><p>Den som är missnöjd med beslutet kan framställa en begäran.</p>
+<h3>Esittelijä</h3><h4>Nimi Niclas Grönholm</h4><p>Titteli Direktör för den svenska servicehelheten</p>
+<h3>Lisätietojen antaja</h3><h4>Nimi Heidi Exempel</h4><p>Titteli Rektor Puhelinnumero 09 310 71728 Sähköposti heidi.exempel@hel.fi</p>
+</article>
+<h2>Sanat tai yhteystieto hukassa?</h2>
+"""
+    return page("Val av medlem", main)
 
 
 def write(name: str, text: str) -> None:
@@ -403,6 +449,8 @@ def main() -> None:
     write("item-hel-2026-008342.html", item_with_vote())
     write("item-roll-call.html", item_roll_call())
     write("item-load-error.html", item_roll_call(error=True))
+    write("item-forwarded.html", item_forwarded())
+    write("item-swedish.html", item_swedish())
 
 
 if __name__ == "__main__":

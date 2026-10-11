@@ -49,7 +49,8 @@ def classify_heading(heading: str) -> SectionType | None:
 _EMAIL = re.compile(r"[\w.+-]+@[\w-]+(?:\.[\w-]+)+")
 _PHONE = re.compile(
     r"""
-    (?:\+358|\b0)            # international prefix or trunk 0
+    (?<![\w-])              # not inside a code like KASKO-01-1029-25
+    (?:\+358|0)              # international prefix or trunk 0
     [\s-]?\(?\d{1,3}\)?      # area / operator code
     (?:[\s-]?\d){5,9}        # subscriber number with optional separators
     \b

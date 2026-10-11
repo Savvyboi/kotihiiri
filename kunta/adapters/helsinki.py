@@ -151,7 +151,9 @@ class HelsinkiAdapter:
     def fetch_item(self, ref: ItemRef) -> AgendaItem:
         html = self._get(ref.source_url)
         page = hp.parse_item(html)
-        if ref.stage == Stage.minutes and not page.has_decision() and page.load_error:
+        # The error placeholder is always in the markup (hidden); it only means a failed load when
+        # nothing of the decision rendered.
+        if ref.stage == Stage.minutes and not page.sections and page.load_error:
             raise TransientItemError(ref.source_url)
         return build_item(ref, page)
 
