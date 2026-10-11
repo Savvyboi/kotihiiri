@@ -13,7 +13,8 @@ councils (kaupunginvaltuusto), boards and committees.
 |---|---|
 | M0 Skeleton: package, polite HTTP client, models, IDs, deterministic JSON, CI | done |
 | Basic site: Astro, city themes, Finnish i18n, city/body/meeting/item pages, search | done (ahead of M7) |
-| M1 Helsinki adapter … M8 operations | not started |
+| M1 Helsinki adapter, weekly crawl | built against fixtures; first live crawl runs from `weekly.yml` after merge |
+| M2 Espoo … M8 operations | not started |
 
 Oulu and Turku are disabled in `config/cities.yaml` until the cities give written permission.
 

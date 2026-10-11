@@ -1,11 +1,12 @@
-# Deploys the site built from committed data/. M1 adds weekly.yml, which crawls, commits
-# data/ and then runs the same build + deploy tail.
+# Deploys the site built from committed data/. weekly.yml calls this after it commits new data
+# (pushes made with GITHUB_TOKEN do not trigger other workflows).
 name: pages
 
 on:
   push:
     branches: [main]
   workflow_dispatch:
+  workflow_call:
 
 permissions:
   contents: read
@@ -21,6 +22,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }} # when called from weekly.yml: the branch head with the new data commit
       - uses: actions/configure-pages@v5
         id: pages
       - uses: actions/setup-node@v4

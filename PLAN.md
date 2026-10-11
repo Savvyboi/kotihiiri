@@ -254,7 +254,7 @@ Rules:
 - `https://paatokset.hel.fi/fi/paattajat/kaupunginhallituksen-elinkeinojaosto`
 - every link on `https://paatokset.hel.fi/fi/paattajat/lautakunnat-ja-johtokunnat` (committees, sections, enterprise boards; slugs like `kaupunkiymparistolautakunta`, `kasvatus-ja-koulutuslautakunta`, `sosiaali-terveys-ja-pelastuslautakunta`, `kulttuuri-ja-vapaa-aikalautakunta`, `tarkastuslautakunta`, …). The exclude rules in §1 drop `…yksiloasioiden-jaosto`, `…ymparisto-ja-lupajaosto` and `keskusvaalilautakunta`.
 
-**Meetings.** `https://paatokset.hel.fi/fi/paattajat/{slug}/asiakirjat` lists documents. **UNVERIFIED:** pagination / year filter on this listing — spike it. Meeting page: `/fi/paattajat/{slug}/asiakirjat/{meeting_code}` (example `02900202614` = council 14/2026; treat the code as opaque). The meeting page shows type ("Esityslista" / "Pöytäkirja"), time, place, item list, minutes print PDF (`ahjojulkaisu.hel.fi/{GUID}.pdf`) and, for the council, the transcript PDF link.
+**Meetings.** `https://paatokset.hel.fi/fi/paattajat/{slug}/asiakirjat` lists documents, newest first, 25 per page, paginated with `?page=N` (0-based); see S1. Meeting page: `/fi/paattajat/{slug}/asiakirjat/{meeting_code}` (example `02900202614` = council 14/2026; treat the code as opaque). The meeting page shows type ("Esityslista" / "Pöytäkirja"), time, place, item list, minutes print PDF (`ahjojulkaisu.hel.fi/{GUID}.pdf`) and, for the council, the transcript PDF link.
 
 **Items.** Each agenda row links to `/fi/asia/{case-slug}?paatos={decision-guid}` (e.g. `hel-2026-008342`). Row text is `"{ordinal}. / {pykala} § {title}"`. The item page contains, in order: title, case number ("HEL 2026-008342"), the decision for this meeting (Päätös), Käsittely (motions + votes), a structured vote-results section, Päätösehdotus, Esittelijän perustelut, Päätöshistoria (other bodies, with their own Käsittely and votes), Muutoksenhaku (drop), presenter/contact (drop contact), print PDF and attachment PDFs.
 - Occasionally the page renders an error placeholder for the decision ("Virhe päätöstä ladattaessa") — treat as transient, retry once later in the run, then record `needs_refetch`.
@@ -545,12 +545,12 @@ Fill in "Result" as you resolve each one.
 
 | # | Question | Where | Result |
 |---|---|---|---|
-| S1 | Helsinki `/asiakirjat` pagination / year filter | §7.1 | |
+| S1 | Helsinki `/asiakirjat` pagination / year filter | §7.1 | 2026-10-11: `?page=N` (0-based), 25 rows per page, newest first; each row is a link `Esityslista N - YYYY` / `Pöytäkirja N - YYYY` to `/asiakirjat/{code}` (agenda rows carry `#paatostiedote`) plus a `Päätöksentekopäivä: d.m.yyyy` line. A year filter exists but its parameter was not visible; not needed — the adapter pages until it passes `since`. Note the listing label can lag the meeting page (council 14/2026 listed as Esityslista while its page was already Pöytäkirja), so stage comes from the meeting page's h1. |
 | S2 | Tampere vote format (inline vs attachment) | §7.3 | |
 | S3 | Vantaa vote format | §7.4 | |
 | S4 | Vantaa transcript index page | §7.4 | |
 | S5 | Council member pages with party: Espoo, Tampere | §8 | |
-| S6 | Does Helsinki's päätöstiedote stage carry votes? (if yes, votes can appear a week earlier) | §7.1 | |
+| S6 | Does Helsinki's päätöstiedote stage carry votes? (if yes, votes can appear a week earlier) | §7.1 | 2026-10-11, council 15/2026: no. Entries read "Ehdotuksen mukaan." plus elected names; no counts or ballots. Meetings with a filled päätöstiedote are stored as `stage = decisions`, without votes. |
 | S7 | Exact council term start dates per city (assumed 2025-06-01) | §5.2 Term | |
 | S8 | Election results download path (Ministry of Justice / StatFin) | §8 | |
 | S9 | www.turku.fi robots allows initiative pages | §7.6 | |
@@ -559,6 +559,7 @@ Fill in "Result" as you resolve each one.
 
 ### Build log
 
+- 2026-10-11 — M1 Helsinki adapter (draft): body discovery from the committees page and menu, paginated meeting listing, meeting and item pages, HTML vote parser (text blocks paired with the Äänestystulokset tables by order, confirmed by counts; `needs_review` carries a `review_reason`), motions, history sections, crawl loop with a rolling refetch window, transient-error retry, `needs_refetch` state, tombstones after two 404s, layout-change alarm, `weekly.yml` for Helsinki. `kunta/robots.py` replaces `urllib.robotparser`, which ignores the `*` wildcards in paatokset.hel.fi's robots.txt. Parsers key on visible text and URL shapes, not CSS classes. The build environment could not reach paatokset.hel.fi, so `tests/fixtures/helsinki/` are reconstructed from the inspected structure (fictional names, real counts) and must be swapped for recorded pages after the first live run. Meeting pages carry no participant list, so Helsinki attendance waits for M5 (`has_attendance = False`). Size measurement (§13) waits for the first live crawl.
 - 2026-10-11 — M0 skeleton landed together with a basic site (ahead of M7): city/body/meeting/item routes, `/haku/` (Pagefind), `/data/`, `/tietoa/`, six city themes, Finnish i18n dictionary with room for sv/en. Person, group and case routes wait for M5/M7. A fictional dataset in `site/demo-data/` drives preview builds and CI. Adapters are stubs that raise until their milestone.
 
 ---
@@ -567,7 +568,7 @@ Fill in "Result" as you resolve each one.
 
 | Topic | Default |
 |---|---|
-| Site name, domain, contact e-mail for User-Agent | **must be set** in `config/project.yaml` before the first live crawl |
+| Site name, domain, contact e-mail for User-Agent | Set 2026-10-11 by Savvas: Kotihiiri, `savvyboi.github.io/kotihiiri`, project contact e-mail in `config/project.yaml` |
 | Licence for our normalized data | CC BY 4.0, attributing the cities as source |
 | Body exclude list (§1) | as written |
 | Per-person speech collections | off (`SPEECHES_BY_PERSON=false`) pending legal check |

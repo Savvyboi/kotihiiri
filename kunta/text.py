@@ -26,6 +26,7 @@ _HEADINGS: list[tuple[str, SectionType | None]] = [
     ("valitusosoitus", None),
     ("oikaisuvaatimusohje", None),
     ("lisätiedot", None),
+    ("lisätietojen antaja", None),
     ("lisätietoja antaa", None),
     ("yhteystiedot", None),
 ]
@@ -65,7 +66,7 @@ def strip_pii(text: str) -> str:
     text = _PHONE_LABEL.sub("", text)
     text = _PHONE.sub(_REDACTED, text)
     # "[poistettu], [poistettu]" → one marker
-    text = re.sub(r"(\[poistettu\][\s,;/]*){2,}", _REDACTED + " ", text)
+    text = re.sub(r"(\[poistettu\][ \t,;/]*){2,}", _REDACTED + " ", text)
     return text
 
 

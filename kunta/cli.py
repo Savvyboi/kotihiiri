@@ -25,7 +25,8 @@ def _client(city: str):
     return PoliteClient(
         project.user_agent,
         cache_dir=CACHE_DIR,
-        validators_path=DATA_DIR / "state" / f"{city}.validators.json",
+        # ETags only help together with the cached bodies, so they live next to them, not in data/.
+        validators_path=CACHE_DIR.parent / "validators" / f"{city}.json",
         allowed_hosts=hosts,
     )
 
@@ -46,12 +47,16 @@ def main(verbose: bool = typer.Option(False, "--verbose", "-v")) -> None:
 def discover(city: str = typer.Option(..., "--city")) -> None:
     """Update config/bodies/CITY.yaml with discovered bodies (keeps manual flags)."""
     from .adapters import adapter_for
+    from .crawl import write_bodies
 
     try:
         with _client(city) as client:
-            adapter_for(city, client).discover_bodies()
+            bodies = adapter_for(city, client).discover_bodies()
     except (ConfigError, NotImplementedError) as exc:
         _fail(str(exc))
+    write_bodies(city, bodies)
+    included = sum(b.included for b in bodies)
+    typer.echo(f"{city}: {len(bodies)} bodies discovered, {included} included")
 
 
 @app.command()
@@ -62,16 +67,40 @@ def crawl(
     until: str | None = typer.Option(None, "--until"),
     window_weeks: int | None = typer.Option(None, "--window-weeks"),
     revalidate: bool = typer.Option(False, "--revalidate"),
+    max_minutes: float | None = typer.Option(
+        None, "--max-minutes", help="stop cleanly after this long so the workflow can still commit"
+    ),
 ) -> None:
     """Crawl meetings and items for one enabled city."""
     from .adapters import adapter_for
+    from .crawl import crawl as run_crawl
 
     try:
         with _client(city) as client:
-            adapter = adapter_for(city, client)
-            adapter.discover_bodies()
+            report = run_crawl(
+                adapter_for(city, client),
+                city,
+                since=dt.date.fromisoformat(since),
+                until=dt.date.fromisoformat(until) if until else None,
+                body_filter=body,
+                window_weeks=window_weeks,
+                revalidate=revalidate,
+                max_seconds=max_minutes * 60 if max_minutes else None,
+            )
+            http = client.stats
     except (ConfigError, NotImplementedError) as exc:
         _fail(str(exc))
+    typer.echo(report.summary())
+    typer.echo(
+        f"http: requests={http.requests} not_modified={http.not_modified} "
+        f"skipped_robots={len(http.skipped_robots)} failures={len(http.failures)}"
+    )
+    for url in report.needs_refetch:
+        typer.echo(f"  needs_refetch: {url}")
+    if report.alarms:
+        for a in report.alarms:
+            typer.secho(f"  LAYOUT ALARM: {a}", fg=typer.colors.RED, err=True)
+        raise typer.Exit(2)
 
 
 @app.command()
@@ -115,18 +144,22 @@ def stats() -> None:
     """Counts per city/body."""
     for cid, cfg in load_cities().items():
         meetings: Counter[str] = Counter()
-        items = votes = review = 0
+        items = votes = review = minutes_items = with_decision = 0
         for path in (DATA_DIR / cid / "meetings").glob("*/*.json"):
             mf = jsonio.read(path)
             meetings[mf["meeting"]["body_id"]] += 1
             items += len(mf["items"])
             for it in mf["items"]:
+                if mf["meeting"]["stage"] == "minutes" and it.get("status") != "tombstone":
+                    minutes_items += 1
+                    with_decision += any(s["type"] == "decision" for s in it.get("sections", []))
                 votes += len(it.get("votes", []))
                 review += sum(1 for v in it.get("votes", []) if v.get("needs_review"))
         state = "enabled" if cfg.enabled else f"disabled ({cfg.reason})"
         typer.echo(
             f"{cid}: {state} bodies={len(meetings)} meetings={sum(meetings.values())} "
             f"items={items} votes={votes} needs_review={review}"
+            + (f" decision_coverage={with_decision / minutes_items:.1%}" if minutes_items else "")
         )
 
 

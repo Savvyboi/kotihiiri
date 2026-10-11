@@ -18,7 +18,6 @@ import hashlib
 import logging
 import threading
 import time
-import urllib.robotparser
 from collections.abc import Callable
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -27,6 +26,7 @@ from urllib.parse import urlsplit
 import httpx
 
 from . import jsonio
+from .robots import RobotsRules
 
 log = logging.getLogger(__name__)
 
@@ -41,6 +41,10 @@ class RobotsDisallowed(Exception):
 
 class FetchFailed(Exception):
     pass
+
+
+class NotFound(FetchFailed):
+    """404 or 410: the source removed the document."""
 
 
 @dataclass
@@ -131,7 +135,7 @@ class PoliteClient:
             follow_redirects=True,
             timeout=httpx.Timeout(30.0),
         )
-        self._robots: dict[str, urllib.robotparser.RobotFileParser] = {}
+        self._robots: dict[str, RobotsRules] = {}
         self.validators: dict[str, dict[str, str]] = {}
         if validators_path and validators_path.exists():
             self.validators = jsonio.read(validators_path)
@@ -139,9 +143,9 @@ class PoliteClient:
 
     # -- robots ---------------------------------------------------------------
 
-    def _robots_for(self, scheme: str, host: str) -> urllib.robotparser.RobotFileParser:
+    def _robots_for(self, scheme: str, host: str) -> RobotsRules:
         if host not in self._robots:
-            rp = urllib.robotparser.RobotFileParser()
+            rp = RobotsRules()
             robots_url = f"{scheme}://{host}/robots.txt"
             try:
                 with self.rate.lock(host):
@@ -153,7 +157,7 @@ class PoliteClient:
                 elif resp.status_code >= 400:
                     rp.allow_all = True  # no robots.txt → everything allowed
                 else:
-                    rp.parse(resp.text.splitlines())
+                    rp = RobotsRules(resp.text)
             except httpx.HTTPError as exc:
                 # Unreachable robots.txt: be conservative and fetch nothing from this host.
                 log.warning("robots.txt unreachable for %s: %s", host, exc)
