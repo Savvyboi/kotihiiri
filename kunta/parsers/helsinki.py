@@ -29,28 +29,32 @@ HISTORY_HEAD = re.compile(r"^.+\s\d{1,2}\.\d{1,2}\.\d{4}\s*§\s*\d+")
 LOAD_ERROR = ("Virhe päätöstä ladattaessa", "Something went wrong loading decision")
 
 # Headings that open a top-level part of an item page.
-KNOWN_SECTIONS = {
-    "päätös",
-    "käsittely",
-    "äänestystulokset",
-    "päätösehdotus",
-    "esitys",
-    "esittelijän perustelut",
-    "perustelut",
-    "päätöshistoria",
-    "muutoksenhaku",
-    "esittelijä",
-    "lisätietojen antaja",
-    "lisätiedot",
-    "liitteet",
-    "liitteet (pdf)",
-    "oheismateriaali",
-    "pöytäkirjalausuma",
-    "pöytäkirjalausumat",
-    "eriävä mielipide",
-    "eriävät mielipiteet",
-    "tiedoksi",
-}
+# Headings that open a top-level part of an item page, Finnish and Swedish (the Swedish-language
+# sections publish in Swedish). When a body forwards a matter, its decision is headed "Esitys" (to
+# another body) or "Lausunto" (a statement), with "Esitysehdotus" / "Lausuntoehdotus" as the proposal.
+D, P, DL, BG = SectionType.decision, SectionType.proposal, SectionType.deliberation, SectionType.background
+SECTION_HEADINGS: dict[str, SectionType | str | None] = {
+    "päätös": D, "esitys": D, "lausunto": D,
+    "beslut": D, "framställning": D, "utlåtande": D,
+    "päätösehdotus": P, "esitysehdotus": P, "lausuntoehdotus": P,
+    "beslutsförslag": P, "förslag till framställning": P, "förslag till utlåtande": P, "utlåtandeförslag": P,
+    "käsittely": DL, "behandling": DL,
+    "esittelijän perustelut": BG, "perustelut": BG, "föredragandens motiveringar": BG, "motiveringar": BG,
+    "pöytäkirjalausuma": SectionType.statement, "pöytäkirjalausumat": SectionType.statement,
+    "protokollsanteckning": SectionType.statement, "protokollsanteckningar": SectionType.statement,
+    "eriävä mielipide": SectionType.dissent, "eriävät mielipiteet": SectionType.dissent,
+    "avvikande åsikt": SectionType.dissent,
+    "tiedoksi": SectionType.other, "för kännedom": SectionType.other,
+    "päätöshistoria": "history", "beslutshistorik": "history",
+    "äänestystulokset": "votes", "omröstningsresultat": "votes",
+    "esittelijä": "presenter", "föredragande": "presenter",
+    "liitteet": "attachments", "liitteet (pdf)": "attachments", "bilagor": "attachments",
+    "oheismateriaali": "attachments_supp", "bakgrundsmaterial": "attachments_supp",
+    "muutoksenhaku": None, "ändringssökande": None,
+    "lisätietojen antaja": None, "lisätietojen antajat": None, "lisätiedot": None,
+    "tilläggsuppgifter": None, "ytterligare upplysningar": None,
+}  # fmt: skip
+HISTORY_END = {"muutoksenhaku", "ändringssökande"}
 PAGE_CHROME = {"sanat tai yhteystieto hukassa?", "jaa", "helsingin kaupunki", "ota yhteyttä"}
 NOISE_LINES = re.compile(
     r"^(Sulje alue:?.*|Avaa kaikki|Katso äänestystulos taulukkona|Asialla on uudempia käsittelyjä.*|"
@@ -290,7 +294,9 @@ def parse_item(html: str) -> ItemPage:
                 close_history()
                 hist_heading, hist_skip = text, False
                 continue
-            if b.is_heading and (low == "muutoksenhaku" or low in PAGE_CHROME or low.startswith("liitteet")):
+            if b.is_heading and (
+                low in HISTORY_END or low in PAGE_CHROME or SECTION_HEADINGS.get(low, "") == "attachments"
+            ):
                 close_history()
                 mode = None
             elif b.is_heading:
@@ -309,20 +315,17 @@ def parse_item(html: str) -> ItemPage:
             close_section()
             mode = "chrome"
             continue
-        if b.is_heading and low in KNOWN_SECTIONS:
+        if b.is_heading and low in SECTION_HEADINGS:
             close_section()
             heading = text
-            if low == "päätöshistoria":
+            role = SECTION_HEADINGS[low]
+            if role == "history":
                 mode, hist_heading, hist_lines = "history", None, []
-            elif low == "äänestystulokset":
-                mode = "votes"
-            elif low == "esittelijä":
-                mode = "presenter"
-            elif low.startswith("liitteet") or low == "oheismateriaali":
-                mode = "attachments_supp" if low == "oheismateriaali" else "attachments"
-            else:
-                kind = classify_heading(text)
+            elif role is None or isinstance(role, SectionType):
+                kind = role
                 mode = "section" if kind is not None else "drop"
+            else:
+                mode = role  # votes, presenter, attachments, attachments_supp
             continue
 
         if mode == "section":
@@ -334,7 +337,7 @@ def parse_item(html: str) -> ItemPage:
                     page.deliberation_lines.append(text)
         elif mode == "votes":
             page.vote_blocks.append(b)
-        elif mode == "presenter" and b.kind == "text":
+        elif mode == "presenter" and b.kind != "table":
             presenter_lines.append(text)
         elif mode in ("attachments", "attachments_supp"):
             for link in b.links:
@@ -353,14 +356,22 @@ def parse_item(html: str) -> ItemPage:
         close_history()
     page.sections.extend(history)
 
-    presenter = [p for p in presenter_lines if p.lower() not in ("titteli",)]
-    if presenter:
-        page.presenter = strip_pii(
-            ", ".join(reversed(presenter)) if len(presenter) == 2 else ", ".join(presenter)
-        )
+    page.presenter = _presenter(presenter_lines)
     seen: set[str] = set()
     page.attachments = [a for a in page.attachments if not (a.url in seen or seen.add(a.url))]
     return page
+
+
+def _presenter(lines: list[str]) -> str | None:
+    """ "Nimi X" + "Titteli Y" → "X, Y"; older pages print the title line first, then the name."""
+    name = next((ln[5:].strip() for ln in lines if ln.startswith("Nimi ")), None)
+    title = next((ln[8:].strip() for ln in lines if ln.startswith("Titteli ")), None)
+    if name:
+        return strip_pii(", ".join(p for p in (name, title) if p))
+    rest = [ln for ln in lines if ln.lower() not in ("titteli", "nimi")]
+    if not rest:
+        return None
+    return strip_pii(", ".join(reversed(rest)) if len(rest) == 2 else ", ".join(rest))
 
 
 def links_with(html: str, needle: str) -> list[Link]:

@@ -81,8 +81,10 @@ jobs:
           kunta crawl "${args[@]}"
           echo "code=$?" >> "$GITHUB_OUTPUT"
       - run: kunta validate --city ${{ matrix.city }}
+      # Only data that validated and raised no layout alarm reaches the commit job (§10: a failing
+      # city is left out; the others still commit).
       - uses: actions/upload-artifact@v4
-        if: always()
+        if: success() && steps.crawl.outputs.code == '0'
         with:
           name: data-${{ matrix.city }}
           path: |
