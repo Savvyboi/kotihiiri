@@ -80,7 +80,7 @@ whose Commons licence is public domain or CC0.
 | Tampere | brick red `#8c2318`, navy | Tammerkoski |
 | Vantaa | river teal `#006b7a`, coral | St Lawrence's Church |
 | Oulu | tar navy `#1b2a41`, aurora green | Market square |
-| Turku | crimson `#9e1b32`, gold | Turku Cathedral |
+| Turku | crimson `#9e1b32`, gold | Aura river, Martinsilta and the Cathedral |
 
 ### Votes, members and parties
 
