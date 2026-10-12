@@ -11,7 +11,7 @@ from ..ids import item_id, meeting_id
 from ..models import AgendaItem, Body, CityId, ItemRef, Meeting, MeetingRef, Speech, Stage, VoteEvent
 from ..parsers import helsinki as hp
 from ..parsers import votes_helsinki as votes
-from ..text import content_sha256, strip_pii
+from ..text import content_sha256, is_confidential, strip_pii
 from .base import TransientItemError
 
 log = logging.getLogger(__name__)
@@ -152,8 +152,9 @@ class HelsinkiAdapter:
         html = self._get(ref.source_url)
         page = hp.parse_item(html)
         # The error placeholder is always in the markup (hidden); it only means a failed load when
-        # nothing of the decision rendered.
-        if ref.stage == Stage.minutes and not page.sections and page.load_error:
+        # nothing of the decision rendered. Confidential items never render anything.
+        confidential = is_confidential(ref.title) or is_confidential(page.title)
+        if ref.stage == Stage.minutes and not page.sections and page.load_error and not confidential:
             raise TransientItemError(ref.source_url)
         return build_item(ref, page)
 

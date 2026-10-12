@@ -73,3 +73,12 @@ def test_pdf_helpers():
     assert (
         join_lines(["kaupun-", "ginvaltuusto", "Uusi-", "Kaupunki"]) == "kaupunginvaltuusto\nUusi-\nKaupunki"
     )
+
+
+def test_is_confidential():
+    from kunta.text import is_confidential
+
+    assert is_confidential("Salassa pidettävä (JulkL (621/1999) 24.1 § 25 k)")
+    assert is_confidential("Sekretessbelagd (OffL 24.1 § 25 p)")
+    assert not is_confidential("Salassa pidettävien tietojen käsittely, ohje")
+    assert not is_confidential(None)

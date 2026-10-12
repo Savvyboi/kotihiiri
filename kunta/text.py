@@ -97,3 +97,12 @@ def content_sha256(*parts: str) -> str:
         h.update(nfc(p).encode())
         h.update(b"\x00")
     return h.hexdigest()
+
+
+_CONFIDENTIAL = re.compile(r"^\s*(?:salassa pidettävä|sekretessbelagd)\b", re.IGNORECASE)
+
+
+def is_confidential(title: str | None) -> bool:
+    """Items withheld under the Publicity Act are listed with this as their title and never get a
+    public decision text, so an empty page is the final state, not a failed load."""
+    return bool(title and _CONFIDENTIAL.match(title))

@@ -215,3 +215,16 @@ def test_page_with_content_is_not_transient_despite_hidden_error_markup():
         meeting_id="helsinki/x/2025-01-14", ordinal=4, source_url="https://paatokset.hel.fi/fi/asia/x"
     )
     assert adapter.fetch_item(ref).sections[0].type == "decision"
+
+
+def test_confidential_item_is_final_not_transient():
+    site = FakeHelsinki()
+    site.overrides["/fi/asia/x"] = "item-load-error.html"
+    adapter = HelsinkiAdapter(client(site))
+    ref = ItemRef(
+        meeting_id="helsinki/x/2025-01-14",
+        ordinal=24,
+        title="Salassa pidettävä (JulkL (621/1999) 24.1 § 25 k)",
+        source_url="https://paatokset.hel.fi/fi/asia/x",
+    )
+    assert adapter.fetch_item(ref).sections == []
