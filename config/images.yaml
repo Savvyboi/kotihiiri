@@ -1,0 +1,61 @@
+# City coats of arms (vaakuna) and hero photos, fetched from Wikimedia Commons by
+# scripts/fetch_city_images.py (run by .github/workflows/city-images.yml). The script writes
+# site/public/images/cities/ and site/src/data/city-images.json with each file's source,
+# author and licence. Never hand-edit those outputs; change this file and let the workflow run.
+#
+# arms:  taken from the city's Wikidata item (P94 "coat of arms image"), so it is the file
+#        Wikipedia uses for the official arms. Pin a different Commons file with `arms_file`.
+# photo: `photo_file` pins a Commons file. Without a pin the script searches `photo_queries`
+#        in order and takes the first landscape photo, at least 1920 px wide, whose licence is
+#        in `licences.photo`, skipping anything listed in `photo_exclude`.
+
+licences:
+  # Commons "License" codes. Finnish municipal arms are tagged PD on Commons (Copyright Act 9 §).
+  arms: [pd, cc0]
+  # Savvas asked for public-domain theme photos (2026-10-12): no CC BY / BY-SA here.
+  photo: [pd, cc0]
+
+cities:
+  helsinki:
+    fiwiki: Helsinki
+    photo_file: null
+    photo_queries:
+      - 'incategory:"Quality images of Helsinki"'
+      - 'Helsinki skyline'
+      - 'Helsinki'
+    photo_exclude: []
+  espoo:
+    fiwiki: Espoo
+    photo_file: null
+    photo_queries:
+      - 'incategory:"Quality images of Espoo"'
+      - 'Espoo'
+    photo_exclude: []
+  tampere:
+    fiwiki: Tampere
+    photo_file: null
+    photo_queries:
+      - 'incategory:"Quality images of Tampere"'
+      - 'Tampere'
+    photo_exclude: []
+  vantaa:
+    fiwiki: Vantaa
+    photo_file: null
+    photo_queries:
+      - 'incategory:"Quality images of Vantaa"'
+      - 'Vantaa'
+    photo_exclude: []
+  oulu:
+    fiwiki: Oulu
+    photo_file: null
+    photo_queries:
+      - 'incategory:"Quality images of Oulu"'
+      - 'Oulu'
+    photo_exclude: []
+  turku:
+    fiwiki: Turku
+    photo_file: null
+    photo_queries:
+      - 'incategory:"Quality images of Turku"'
+      - 'Turku'
+    photo_exclude: []

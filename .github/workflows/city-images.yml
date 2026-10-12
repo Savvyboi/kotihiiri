@@ -1,0 +1,41 @@
+# Fetches city coats of arms and public-domain hero photos from Wikimedia Commons
+# (scripts/fetch_city_images.py) and commits them to the branch that changed config/images.yaml.
+name: city-images
+
+on:
+  push:
+    branches-ignore: [main]
+    paths:
+      - config/images.yaml
+      - scripts/fetch_city_images.py
+  workflow_dispatch:
+    inputs:
+      cities:
+        description: "Space-separated city ids (empty = all)"
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  group: city-images-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -q "httpx>=0.28,<0.29" pyyaml pillow
+      - run: python scripts/fetch_city_images.py ${{ inputs.cities }}
+      - name: Commit images
+        run: |
+          git add site/public/images/cities site/src/data/city-images.json
+          if git diff --cached --quiet; then echo "No changes."; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "images: fetch city arms and photos from Wikimedia Commons"
+          git push
