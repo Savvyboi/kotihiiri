@@ -10,6 +10,7 @@ import typer
 
 from . import jsonio
 from .config import CACHE_DIR, DATA_DIR, ConfigError, load_cities, load_project, require_enabled
+from .text import is_confidential
 from .validate import validate_city
 
 app = typer.Typer(no_args_is_help=True, help="Finnish city decisions scraper. See PLAN.md.")
@@ -150,7 +151,11 @@ def stats() -> None:
             meetings[mf["meeting"]["body_id"]] += 1
             items += len(mf["items"])
             for it in mf["items"]:
-                if mf["meeting"]["stage"] == "minutes" and it.get("status") != "tombstone":
+                if (
+                    mf["meeting"]["stage"] == "minutes"
+                    and it.get("status") != "tombstone"
+                    and not is_confidential(it["title"])  # no public decision exists
+                ):
                     minutes_items += 1
                     with_decision += any(s["type"] == "decision" for s in it.get("sections", []))
                 votes += len(it.get("votes", []))
