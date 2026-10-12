@@ -1,0 +1,50 @@
+---
+import fs from 'node:fs';
+import YAML from 'yaml';
+import Base from '../../layouts/Base.astro';
+import { localeParams, useI18n, type Locale } from '../../i18n';
+import { cities, cityName } from '../../lib/data';
+import { cityImages, type ImageCredit } from '../../lib/images';
+
+export function getStaticPaths() {
+  return localeParams().map(({ lang, locale }) => ({ params: { lang }, props: { locale } }));
+}
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const { t } = useI18n(locale);
+const project = YAML.parse(fs.readFileSync(new URL('../../../../config/project.yaml', import.meta.url), 'utf8'));
+const contact: string | null = project.contact_email;
+const credited = cities().map((c) => ({ c, img: cityImages(c.id) })).filter(({ img }) => img.arms || img.photo);
+const credit = (x: ImageCredit) => [x.author, x.licence_name].filter(Boolean).join(', ');
+---
+<Base title={t('about.title')} locale={locale}>
+  <section class="hero"><div class="wrap"><h1>{t('about.title')}</h1><p class="lead">{t('about.lead')}</p></div></section>
+  <div class="wrap" style="max-width:52rem">
+    <h2>{t('about.methodTitle')}</h2>
+    <p>{t('about.method')}</p>
+    <p>{t('about.inspiration')}</p>
+    <h2>{t('about.sourcesTitle')}</h2>
+    <ul>
+      {cities().map((c) => (
+        <li data-city={c.id}><b>{cityName(c, locale)}</b>: <a href={c.base_urls[0]} rel="external noopener">{c.source_name}</a>
+          {!c.enabled && <> <span class="badge">{t('city.disabled')}</span></>}</li>
+      ))}
+    </ul>
+    <h2>{t('about.privacyTitle')}</h2>
+    <p>{t('about.privacy')}</p>
+    <h2>{t('about.takedownTitle')}</h2>
+    <p>{t('about.takedown')} {contact ? <a href={`mailto:${contact}`}>{contact}</a> : <span class="muted">({t('about.contactUnset')})</span>}</p>
+    {credited.length > 0 && <>
+      <h2>{t('about.imagesTitle')}</h2>
+      <p>{t('about.images')}</p>
+      <ul class="small">
+        {credited.map(({ c, img }) => (
+          <li><b>{cityName(c, locale)}</b>
+            {img.arms && <> · {t('about.imageArms')}: <a href={img.arms.page_url} rel="external noopener">{img.arms.title.replace(/^File:/, '')}</a> ({credit(img.arms)})</>}
+            {img.photo && <> · {t('about.imagePhoto')}: <a href={img.photo.page_url} rel="external noopener">{img.photo.title.replace(/^File:/, '')}</a> ({credit(img.photo)})</>}
+          </li>
+        ))}
+      </ul>
+    </>}
+  </div>
+</Base>

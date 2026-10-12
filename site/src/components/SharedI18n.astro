@@ -1,0 +1,11 @@
+---
+// Client-side interface translation for pages that exist only at their Finnish path
+// (item pages, see sharedPath in src/i18n). With ?lang=sv or ?lang=en it loads that dictionary,
+// swaps every [data-t] text and [data-i18n-aria] label, and keeps links in the same language.
+// Without JavaScript the page stays in Finnish and fully usable. The code is in
+// public/shared-i18n.js so the browser caches it instead of every item page carrying it.
+import { assetPath, localePath } from '../i18n';
+const dictBase = assetPath('/i18n/');
+const base = localePath('/');
+---
+<script is:inline defer src={assetPath('/shared-i18n.js')} data-dict={dictBase} data-base={base}></script>

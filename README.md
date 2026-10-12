@@ -56,25 +56,40 @@ Regenerate the demo data with `python scripts/make_demo_data.py`.
 
 ### Languages
 
-UI strings live in `site/src/i18n/fi.ts`. To add Swedish or English, copy it to `sv.ts`/`en.ts`
-(the `Dict` type forces the same keys), register it in `site/src/i18n/index.ts` and add the
-locale to `site/src/i18n/locales.js`. Finnish stays at the root; other locales get `/sv/`, `/en/`.
+The interface is in Finnish (site root), Swedish (`/sv/`) and English (`/en/`); city documents are
+shown as the city publishes them. UI strings live in `site/src/i18n/{fi,sv,en}.ts` (the `Dict` type
+forces the same keys). Pages live under `site/src/pages/[...lang]/` and are built once per locale,
+except item pages: there are thousands of them, so they are built once at the Finnish path and
+translated client-side when opened with `?lang=sv` or `?lang=en` (`SharedI18n.astro`). Without
+JavaScript they stay in Finnish.
 
 ### City themes
 
 Each city page sets `data-city` on `<html>`; colours are CSS custom properties in
-`site/src/styles/themes.css`, and each city's motif and motto are in `site/src/lib/themes.ts`.
+`site/src/styles/themes.css`. Coats of arms and hero photos come from Wikimedia Commons:
+`config/images.yaml` names them, `.github/workflows/city-images.yml` runs
+`scripts/fetch_city_images.py` on the branch that changes the config and commits the files to
+`site/public/images/cities/` with source, author and licence in `site/src/data/city-images.json`
+(also listed on `/tietoa/`). Arms come from each city's Wikidata item; photos are pinned files
+whose Commons licence is public domain or CC0.
 
-| City | Palette | Drawn from |
+| City | Palette | Photo |
 |---|---|---|
-| Helsinki | blue `#0000bf`, gold | the sea and the crown on the city arms |
-| Espoo | forest green `#00664a`, amber | Nuuksio forests |
-| Tampere | brick red `#8c2318`, navy | red-brick mills and Tammerkoski |
-| Vantaa | river teal `#006b7a`, coral | Vantaanjoki and the airport |
-| Oulu | tar navy `#1b2a41`, aurora green | tar trade and northern lights |
-| Turku | crimson `#9e1b32`, gold | the city arms and the cathedral |
+| Helsinki | blue `#0000bf`, gold | Helsinki Cathedral |
+| Espoo | forest green `#00664a`, amber | Dipoli, Otaniemi |
+| Tampere | brick red `#8c2318`, navy | Tammerkoski |
+| Vantaa | river teal `#006b7a`, coral | St Lawrence's Church |
+| Oulu | tar navy `#1b2a41`, aurora green | Market square |
+| Turku | crimson `#9e1b32`, gold | Aura river, Martinsilta and the Cathedral |
 
-These are drafts; check them against each city's official brand guidelines before launch.
+### Votes, members and parties
+
+`/{city}/aanestykset/` shows every vote as a card (one page per year, filterable by body and
+result). Body pages list who sits on the body and the party presence. Until the roster scraper
+lands (PLAN.md §8, M5) both are derived from vote records in `site/src/lib/people.ts`: council
+seats per group come from the latest council vote, and the members are the people who took part in
+the most votes of the current term; other bodies list everyone seen in their votes, with the
+council group where the person is a councillor.
 
 ## Deployment
 

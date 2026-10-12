@@ -1,0 +1,82 @@
+---
+// All votes of one city and year as cards, with body and outcome filters (progressive:
+// without JavaScript every card is shown).
+import Base from '../layouts/Base.astro';
+import CityHero from './CityHero.astro';
+import CityTabs from './CityTabs.astro';
+import Breadcrumb from './Breadcrumb.astro';
+import VoteCard from './VoteCard.astro';
+import { useI18n, type Locale } from '../i18n';
+import { allVotes, voteYears, bodyName, bodySlug, cityName, voteOutcome, type City } from '../lib/data';
+interface Props { city: City; year: string; locale: Locale }
+const { city, year, locale } = Astro.props;
+const { t, path, num } = useI18n(locale);
+const years = voteYears(city.id);
+const rows = allVotes(city.id).filter((r) => r.meeting.date.startsWith(year));
+const bodyCounts = new Map<string, number>();
+for (const r of rows) bodyCounts.set(r.meeting.body_id, (bodyCounts.get(r.meeting.body_id) ?? 0) + 1);
+const bodyOptions = [...bodyCounts].sort((a, b) => b[1] - a[1]);
+const outcomes = ['jaa', 'ei', 'tie'].filter((o) => rows.some((r) => voteOutcome(r.vote) === o));
+const name = cityName(city, locale);
+const shownTemplate = t('votes.shown', { n: '{n}' });
+---
+<Base title={`${t('votes.title')} ${year} · ${name}`} city={city.id} locale={locale}>
+  <CityHero city={city} locale={locale}>
+    <Breadcrumb slot="crumbs" locale={locale} items={[{ label: name, href: `/${city.id}/` }, { label: t('votes.title') }]} />
+    <p class="lead">{t('votes.lead')}</p>
+  </CityHero>
+  <div class="wrap">
+    <CityTabs city={city} locale={locale} current="votes" />
+    {years.length === 0 ? <p class="empty" style="margin-top:2rem">{t('votes.none')}</p> : <>
+      <nav class="year-tabs" aria-label={t('votes.year')}>
+        <ul>{years.map((y, i) => (
+          <li><a href={path(i === 0 ? `/${city.id}/aanestykset/` : `/${city.id}/aanestykset/${y}/`)} aria-current={y === year ? 'page' : undefined}>{y}</a></li>
+        ))}</ul>
+      </nav>
+      <form class="vote-filters" aria-label={t('votes.filters')} hidden data-filters>
+        <label>{t('votes.body')}
+          <select name="body">
+            <option value="">{t('votes.all')}</option>
+            {bodyOptions.map(([id, n]) => <option value={bodySlug(id)}>{bodyName(id)} ({n})</option>)}
+          </select>
+        </label>
+        <label>{t('votes.outcome')}
+          <select name="outcome">
+            <option value="">{t('votes.all')}</option>
+            {outcomes.map((o) => <option value={o}>{t(`vote.won.${o}` as 'vote.won.jaa')}</option>)}
+          </select>
+        </label>
+        <p class="small muted" aria-live="polite" data-count>{t('votes.shown', { n: num(rows.length) })}</p>
+      </form>
+      <div class="grid vote-grid" data-cards>{rows.map((row) => <VoteCard row={row} locale={locale} />)}</div>
+      <p class="empty" hidden data-nomatch>{t('votes.noMatch')}</p>
+    </>}
+  </div>
+  <script is:inline define:vars={{ shownTemplate }}>
+    (() => {
+      const form = document.querySelector('[data-filters]');
+      if (!form) return;
+      form.hidden = false;
+      const cards = [...document.querySelectorAll('[data-cards] > .vote-card')];
+      const params = new URLSearchParams(location.search);
+      for (const name of ['body', 'outcome']) if (params.get(name)) form.elements[name].value = params.get(name);
+      const apply = () => {
+        const body = form.elements.body.value, outcome = form.elements.outcome.value;
+        let n = 0;
+        for (const c of cards) {
+          const show = (!body || c.dataset.body === body) && (!outcome || c.dataset.outcome === outcome);
+          c.hidden = !show; n += show;
+        }
+        form.querySelector('[data-count]').textContent = shownTemplate.replace('{n}', n);
+        document.querySelector('[data-nomatch]').hidden = n > 0;
+        const q = new URLSearchParams(location.search);
+        for (const name of ['body', 'outcome']) form.elements[name].value ? q.set(name, form.elements[name].value) : q.delete(name);
+        history.replaceState(null, '', q.size ? `?${q}` : location.pathname);
+        for (const a of document.querySelectorAll('.year-tabs a')) a.search = q.size ? `?${q}` : '';
+      };
+      form.addEventListener('change', apply);
+      form.addEventListener('submit', (e) => e.preventDefault());
+      apply();
+    })();
+  </script>
+</Base>

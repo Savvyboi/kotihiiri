@@ -1,0 +1,18 @@
+---
+import Base from '../../layouts/Base.astro';
+import { localeParams, useI18n, type Locale } from '../../i18n';
+
+export function getStaticPaths() {
+  return localeParams().map(({ lang, locale }) => ({ params: { lang }, props: { locale } }));
+}
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const { t } = useI18n(locale);
+---
+<Base title={t('data.title')} locale={locale}>
+  <section class="hero"><div class="wrap"><h1>{t('data.title')}</h1><p class="lead">{t('data.lead')}</p></div></section>
+  <div class="wrap" style="margin-top:1.5rem">
+    <p>{t('data.coming')}</p>
+    <p>{t('data.licence')}</p>
+  </div>
+</Base>

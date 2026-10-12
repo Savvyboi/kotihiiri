@@ -1,0 +1,94 @@
+---
+import Base from '../../../layouts/Base.astro';
+import CityHero from '../../../components/CityHero.astro';
+import CityTabs from '../../../components/CityTabs.astro';
+import VoteCard from '../../../components/VoteCard.astro';
+import Hemicycle from '../../../components/Hemicycle.astro';
+import PartyLegend from '../../../components/PartyLegend.astro';
+import { localized, useI18n } from '../../../i18n';
+import { cities, bodies, meetingFiles, recentVotes, cityStats, bodyName, meetingUrl, bodySlug, cityName, type City } from '../../../lib/data';
+import { councilRoster } from '../../../lib/people';
+
+export function getStaticPaths() {
+  return localized(cities().map((city) => ({ params: { city: city.id }, props: { city } })));
+}
+interface Props { city: City; locale: import('../../../i18n').Locale }
+const { city, locale } = Astro.props;
+const { t, path, date, num } = useI18n(locale);
+const s = cityStats(city.id);
+const kinds = ['council', 'board', 'section', 'committee', 'enterprise_board'];
+const sortedBodies = [...bodies(city.id)].sort((a, b) =>
+  kinds.indexOf(a.kind) - kinds.indexOf(b.kind) || a.name_fi.localeCompare(b.name_fi, 'fi'));
+const recent = meetingFiles(city.id).slice(0, 10);
+const votes = recentVotes(city.id, 6);
+const roster = councilRoster(city.id);
+const name = cityName(city, locale);
+---
+<Base title={name} city={city.id} description={`${name}: ${t('site.tagline')}`} locale={locale}>
+  <CityHero city={city} locale={locale}>
+    {city.enabled ? (
+      <ul class="stats">
+        <li><b>{num(s.meetings)}</b>{t('city.stats.meetings')}</li>
+        <li><b>{num(s.items)}</b>{t('city.stats.items')}</li>
+        <li><b>{num(s.votes)}</b>{t('city.stats.votes')}</li>
+        <li><b>{num(s.bodies)}</b>{t('city.stats.bodies')}</li>
+      </ul>
+    ) : <p class="lead"><span class="badge">{t('city.disabled')}</span> {t('city.disabledLong')}</p>}
+  </CityHero>
+  <div class="wrap">
+    <CityTabs city={city} locale={locale} current="overview" />
+    {city.enabled && s.meetings === 0 && <p class="empty" style="margin-top:2rem">{t('city.empty')}</p>}
+
+    {votes.length > 0 && (
+      <section>
+        <div class="section-head">
+          <h2>{t('city.recentVotes')}</h2>
+          <a href={path(`/${city.id}/aanestykset/`)}>{t('city.allVotes')} ({num(s.votes)}) →</a>
+        </div>
+        <div class="grid vote-grid">{votes.map((row) => <VoteCard row={row} locale={locale} />)}</div>
+      </section>
+    )}
+
+    {roster && (
+      <section class="card party-card">
+        <div>
+          <h2 style="margin-top:0">{t('parties.title')}: {bodyName(roster.bodyId)}</h2>
+          <p class="small muted">{t('parties.councilLead', { date: date(roster.date), n: roster.total })}</p>
+          <PartyLegend seats={roster.seats} locale={locale} unit="parties.seats" />
+          <p class="small"><a href={path(`/${city.id}/${bodySlug(roster.bodyId)}/`)}>{t('members.title')} →</a></p>
+        </div>
+        <Hemicycle seats={roster.seats} locale={locale} />
+      </section>
+    )}
+
+    <div class="two-col">
+      <section>
+        {recent.length > 0 && <>
+          <h2>{t('city.recentMeetings')}</h2>
+          <ul class="list">
+            {recent.map(({ meeting, items }) => (
+              <li><span class="date">{date(meeting.date)}</span>
+                <span><a href={path(meetingUrl(meeting))}>{bodyName(meeting.body_id)}</a>
+                <span class="badge">{t(`meeting.stage.${meeting.stage}`)}</span><br />
+                <span class="small muted">{items.length} {t('city.stats.items')}</span></span></li>
+            ))}
+          </ul>
+        </>}
+      </section>
+      <aside>
+        {sortedBodies.length > 0 && <>
+          <h2>{t('city.bodies')}</h2>
+          <ul class="list">
+            {sortedBodies.map((b) => (
+              <li><a href={path(`/${city.id}/${bodySlug(b.id)}/`)}>{b.name_fi}</a></li>
+            ))}
+          </ul>
+        </>}
+        <h2>{t('city.source')}</h2>
+        <p><a href={city.base_urls[0]} rel="external noopener">{city.source_name ?? city.base_urls[0]}</a></p>
+        {city.video_url && <p><a href={city.video_url} rel="external noopener">{t('city.video')}</a></p>}
+        {locale !== 'fi' && <p class="small muted">{t('lang.docsNote')}</p>}
+      </aside>
+    </div>
+  </div>
+</Base>

@@ -1,36 +1,39 @@
 ---
-import Base from '../../../../layouts/Base.astro';
-import Breadcrumb from '../../../../components/Breadcrumb.astro';
-import SourceLink from '../../../../components/SourceLink.astro';
-import { t, localePath, formatDate } from '../../../../i18n';
-import { cities, meetingFiles, bodyName, bodySlug, meetingSegment, itemUrl, type City, type MeetingFile } from '../../../../lib/data';
+import Base from '../../../../../layouts/Base.astro';
+import Breadcrumb from '../../../../../components/Breadcrumb.astro';
+import SourceLink from '../../../../../components/SourceLink.astro';
+import { localized, useI18n, type Locale } from '../../../../../i18n';
+import { cities, meetingFiles, bodyName, bodySlug, meetingSegment, itemUrl, cityName, type City, type MeetingFile } from '../../../../../lib/data';
+import { displayName } from '../../../../../lib/people';
 
 export function getStaticPaths() {
-  return cities().flatMap((city) => meetingFiles(city.id).map((file) => ({
+  return localized(cities().flatMap((city) => meetingFiles(city.id).map((file) => ({
     params: { city: city.id, body: bodySlug(file.meeting.body_id), meeting: meetingSegment(file.meeting.id) },
     props: { city, file },
-  })));
+  }))));
 }
-interface Props { city: City; file: MeetingFile }
-const { city, file } = Astro.props;
+interface Props { city: City; file: MeetingFile; locale: Locale }
+const { city, file, locale } = Astro.props;
+const { t, shared, date: fmt } = useI18n(locale);
 const { meeting, items } = file;
 const body = bodyName(meeting.body_id);
-const date = formatDate(meeting.date);
+const date = fmt(meeting.date);
 const present = meeting.attendance.filter((a) => a.present);
 const absent = meeting.attendance.filter((a) => !a.present);
+const name = cityName(city, locale);
 ---
-<Base title={`${body} ${date} · ${city.name_fi}`} city={city.id}>
+<Base title={`${body} ${date} · ${name}`} city={city.id} locale={locale}>
   <section class="hero">
     <div class="wrap">
-      <Breadcrumb items={[
-        { label: city.name_fi, href: `/${city.id}/` },
+      <Breadcrumb locale={locale} items={[
+        { label: name, href: `/${city.id}/` },
         { label: body, href: `/${city.id}/${bodySlug(meeting.body_id)}/` },
         { label: date },
       ]} />
       <p class="eyebrow">{body}</p>
       <h1>{t('meeting.title', { date })}</h1>
       <ul class="meta">
-        <li><span class="badge">{t(`meeting.stage.${meeting.stage}`)}</span></li>
+        <li><span class="badge">{t(`meeting.stage.${meeting.stage}` as 'meeting.stage.agenda')}</span></li>
         {meeting.start_time && <li>{t('meeting.time')}: {meeting.start_time}{meeting.end_time && `–${meeting.end_time}`}</li>}
         {meeting.location && <li>{t('meeting.place')}: {meeting.location}</li>}
       </ul>
@@ -40,10 +43,11 @@ const absent = meeting.attendance.filter((a) => !a.present);
     <section>
       {meeting.stage === 'agenda' && <p class="empty" style="margin-top:1.5rem">{t('meeting.agendaNotice')}</p>}
       <h2>{t('meeting.items')}</h2>
+      {locale !== 'fi' && <p class="small muted">{t('lang.docsNote')}</p>}
       <ul class="list">
         {items.map((item) => (
           <li><span class="pykala">{item.pykala ? `${item.pykala} §` : `${item.ordinal}.`}</span>
-            <span><a href={localePath(itemUrl(item))}>{item.title}</a>
+            <span><a href={shared(itemUrl(item))} data-shared>{item.title}</a>
             {item.votes.length > 0 && <span class="small muted"> · {item.votes.length} {t('city.stats.votes')}</span>}</span></li>
         ))}
       </ul>
@@ -55,13 +59,13 @@ const absent = meeting.attendance.filter((a) => !a.present);
       {meeting.stage === 'minutes' && meeting.attendance.length > 0 && <>
         <h2>{t('meeting.attendance')}</h2>
         <details open><summary>{t('meeting.present')} ({present.length})</summary>
-          <ul class="small" style="padding-left:1.1rem">{present.map((a) => <li>{a.person_ref.raw} <span class="muted">{a.role_text}</span>{a.note && <span class="muted"> · {a.note}</span>}</li>)}</ul>
+          <ul class="small" style="padding-left:1.1rem">{present.map((a) => <li>{displayName(a.person_ref.raw)} <span class="muted">{a.role_text}</span>{a.note && <span class="muted"> · {a.note}</span>}</li>)}</ul>
         </details>
         {absent.length > 0 && <details><summary>{t('meeting.absent')} ({absent.length})</summary>
-          <ul class="small" style="padding-left:1.1rem">{absent.map((a) => <li>{a.person_ref.raw} <span class="muted">{a.role_text}</span></li>)}</ul>
+          <ul class="small" style="padding-left:1.1rem">{absent.map((a) => <li>{displayName(a.person_ref.raw)} <span class="muted">{a.role_text}</span></li>)}</ul>
         </details>}
       </>}
-      <SourceLink href={meeting.source_url} system={city.source_name} />
+      <SourceLink href={meeting.source_url} system={city.source_name} locale={locale} />
     </aside>
   </div>
 </Base>

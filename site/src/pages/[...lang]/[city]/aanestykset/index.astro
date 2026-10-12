@@ -1,0 +1,13 @@
+---
+import VotesPage from '../../../../components/VotesPage.astro';
+import { localized, type Locale } from '../../../../i18n';
+import { cities, voteYears, type City } from '../../../../lib/data';
+
+export function getStaticPaths() {
+  return localized(cities().map((city) => ({ params: { city: city.id }, props: { city } })));
+}
+interface Props { city: City; locale: Locale }
+const { city, locale } = Astro.props;
+const year = voteYears(city.id)[0] ?? '';
+---
+<VotesPage city={city} year={year} locale={locale} />

@@ -1,8 +1,10 @@
 ---
 import Base from '../layouts/Base.astro';
-import { localePath } from '../i18n';
+import { t, localePath } from '../i18n';
 ---
-<Base title="Sivua ei löytynyt">
-  <section class="hero"><div class="wrap"><h1>Sivua ei löytynyt</h1>
-  <p class="lead">Sivu on ehkä poistettu tai osoite on väärä. <a href={localePath('/')}>Palaa etusivulle</a>.</p></div></section>
+<Base title={t('notFound.title')} locale="fi">
+  <section class="hero"><div class="wrap"><h1>{t('notFound.title')}</h1>
+  <p class="lead">{t('notFound.lead')} <a href={localePath('/')}>{t('notFound.home')}</a>.</p>
+  <p class="lead" lang="sv">{t('notFound.title', {}, 'sv')}. <a href={localePath('/', 'sv')}>{t('notFound.home', {}, 'sv')}</a>.</p>
+  <p class="lead" lang="en">{t('notFound.title', {}, 'en')}. <a href={localePath('/', 'en')}>{t('notFound.home', {}, 'en')}</a>.</p></div></section>
 </Base>

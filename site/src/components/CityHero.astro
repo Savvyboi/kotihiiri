@@ -1,0 +1,30 @@
+---
+// City page header: the city's public-domain photo behind its name and coat of arms.
+import { t, assetPath, type Locale } from '../i18n';
+import { cityName, type City } from '../lib/data';
+import { cityImages, shortAuthor } from '../lib/images';
+interface Props { city: City; locale: Locale }
+const { city, locale } = Astro.props;
+const img = cityImages(city.id);
+const photo = img.photo;
+const name = cityName(city, locale);
+---
+<section class:list={['hero', 'city-hero', { 'has-photo': photo }]}>
+  {photo && (
+    <img class="hero-photo" alt="" decoding="async" fetchpriority="high"
+      src={assetPath(`/images/cities/${photo.files[0]}`)}
+      srcset={`${assetPath(`/images/cities/${photo.files[1]}`)} 960w, ${assetPath(`/images/cities/${photo.files[0]}`)} 1920w`}
+      sizes="100vw" />
+  )}
+  <div class="wrap">
+    <slot name="crumbs" />
+    <div class="city-title">
+      {img.arms && <img class="arms" src={assetPath(`/images/cities/${img.arms.files[0]}`)} alt={t('city.arms', { city: name }, locale)} width="72" height="84" />}
+      <h1>{name}</h1>
+    </div>
+    <slot />
+    {photo && (
+      <p class="photo-credit"><a href={photo.page_url} rel="external noopener">{t('city.photoCredit', { author: shortAuthor(photo), licence: photo.licence_name }, locale)}</a></p>
+    )}
+  </div>
+</section>

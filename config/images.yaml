@@ -1,0 +1,71 @@
+# City coats of arms (vaakuna) and hero photos, fetched from Wikimedia Commons by
+# scripts/fetch_city_images.py (run by .github/workflows/city-images.yml). The script writes
+# site/public/images/cities/ and site/src/data/city-images.json with each file's source,
+# author and licence. Never hand-edit those outputs; change this file and let the workflow run.
+#
+# arms:  taken from the city's Wikidata item (P94 "coat of arms image"), so it is the file
+#        Wikipedia uses for the official arms. Pin a different Commons file with `arms_file`.
+# review: true makes the workflow skip that city and upload a contact sheet of nine candidates
+#        (artifact "review") instead, to choose a `photo_file` from.
+# photo: `photo_file` pins a Commons file. Without a pin the script searches `photo_queries`
+#        in order and takes the first landscape photo, at least 1920 px wide, whose licence is
+#        in `licences.photo`, skipping anything listed in `photo_exclude`.
+
+licences:
+  # Commons "License" codes. The arms of Finnish municipalities are tagged public domain on Commons.
+  arms: [pd, cc0]
+  # Savvas asked for public-domain theme photos (2026-10-12): no CC BY / BY-SA here.
+  photo: [pd, cc0]
+
+cities:
+  helsinki:
+    fiwiki: Helsinki
+    photo_file: Helsinki Cathedral September 2014.JPG
+    photo_queries:
+      - 'Helsinki Cathedral'
+      - 'Senate Square Helsinki'
+      - 'Helsinki skyline'
+      - 'Helsinki'
+    photo_exclude: []
+  espoo:
+    fiwiki: Espoo
+    photo_file: Dipoli September 2025.jpg
+    photo_queries:
+      - 'Tapiola Espoo'
+      - 'Espoo Cathedral'
+      - 'Nuuksio'
+      - 'Otaniemi'
+      - 'Espoo'
+    photo_exclude: []
+  tampere:
+    fiwiki: Tampere
+    photo_file: FI Tampere - Tammerkoski before dawn.jpg
+    photo_queries:
+      - 'Tammerkoski'
+      - 'Tampere Cathedral'
+      - 'Näsinneula'
+      - 'Tampere'
+    photo_exclude: []
+  vantaa:
+    fiwiki: Vantaa
+    photo_file: Vantaa St Lawrence church 2024.jpg
+    photo_queries:
+      - 'Vantaa'
+    photo_exclude: []
+  oulu:
+    fiwiki: Oulu
+    photo_file: Oulu Market Square 20200409.jpg
+    photo_queries:
+      - 'Oulu market square'
+      - 'Oulu Cathedral'
+      - 'Oulu'
+    photo_exclude: []
+  turku:
+    fiwiki: Turku
+    photo_file: Martinsilta in November sunshine.jpg
+    photo_queries:
+      - 'Turku Cathedral'
+      - 'Turku Castle'
+      - 'Aura river Turku'
+      - 'Turku'
+    photo_exclude: []

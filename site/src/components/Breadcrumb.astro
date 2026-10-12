@@ -1,13 +1,14 @@
 ---
-import { t, localePath } from '../i18n';
-interface Props { items: { label: string; href?: string }[] }
-const { items } = Astro.props;
+import { localePath, t, type Locale } from '../i18n';
+import T from './T.astro';
+interface Props { items: { label: string; href?: string }[]; locale: Locale }
+const { items, locale } = Astro.props;
 ---
-<nav class="breadcrumb" aria-label={t('nav.breadcrumb')}>
+<nav class="breadcrumb" aria-label={t('nav.breadcrumb', {}, locale)} data-i18n-aria="nav.breadcrumb">
   <ol>
-    <li><a href={localePath('/')}>{t('nav.home')}</a></li>
+    <li><a href={localePath('/', locale)}><T k="nav.home" locale={locale} /></a></li>
     {items.map((c, i) => (
-      <li>{c.href && i < items.length - 1 ? <a href={localePath(c.href)}>{c.label}</a> : <span aria-current="page">{c.label}</span>}</li>
+      <li>{c.href && i < items.length - 1 ? <a href={localePath(c.href, locale)}>{c.label}</a> : <span aria-current="page">{c.label}</span>}</li>
     ))}
   </ol>
 </nav>
