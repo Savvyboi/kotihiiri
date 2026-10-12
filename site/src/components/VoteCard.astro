@@ -1,16 +1,48 @@
 ---
-// Compact vote summary used on home and city pages, in the spirit of mijnkamer.be's vote cards.
-import { t, localePath, formatDate } from '../i18n';
-import { bodyName, itemUrl, voteOutcome, type VoteRow } from '../lib/data';
+// One vote as a card: what was voted on, which side won and by how much, and how each
+// council group voted. Links to the item page, which lists every member's vote.
+import { t, useI18n, type Locale } from '../i18n';
+import { bodyName, bodySlug, city as cityRec, cityName, itemUrl, voteOutcome, type VoteRow } from '../lib/data';
+import { groupMajorities } from '../lib/people';
+import { PARTY_ABBR, PARTY_COLOURS, partyKey } from '../lib/parties';
 import VoteBar from './VoteBar.astro';
-interface Props { row: VoteRow; showCity?: string }
-const { row, showCity } = Astro.props;
+interface Props { row: VoteRow; showCity?: string; locale: Locale }
+const { row, showCity, locale } = Astro.props;
+const { t: tr, date, shared } = useI18n(locale);
 const outcome = voteOutcome(row.vote);
-const label = outcome === 'jaa' ? row.vote.jaa_label : outcome === 'ei' ? row.vote.ei_label : '';
+const winner = outcome === 'jaa' ? row.vote.jaa_label : outcome === 'ei' ? row.vote.ei_label : '';
+const clip = (s: string, n = 110) => (s.length > n ? `${s.slice(0, n - 1).trimEnd()}…` : s);
+const groups = groupMajorities(row);
+const c = showCity ? cityRec(showCity) : undefined;
+const choiceLabel = (ch: string) => (ch === 'split' ? tr('vote.split') : t(`vote.${ch}` as never, {}, locale));
 ---
-<article class="card linked" data-city={showCity}>
-  <p class="small muted">{showCity && <>{showCity.charAt(0).toUpperCase() + showCity.slice(1)} · </>}{bodyName(row.meeting.body_id)} · {formatDate(row.meeting.date)}</p>
-  <h3><a class="stretch" href={localePath(itemUrl(row.item))}>{row.item.title}</a></h3>
-  <VoteBar counts={row.vote.counts} legend={false} />
-  <p class="small">{t('vote.summary', row.vote.counts)}{label && <> · <b>{t('vote.result')}:</b> {label}</>}</p>
+<article class="card linked vote-card" data-body={bodySlug(row.meeting.body_id)} data-outcome={outcome} data-city={showCity}>
+  <p class="vc-meta small">
+    <span>{c && <>{cityName(c, locale)} · </>}{bodyName(row.meeting.body_id)}</span>
+    <time datetime={row.meeting.date}>{date(row.meeting.date)}</time>
+  </p>
+  <h3><a class="stretch" href={shared(itemUrl(row.item))} data-shared>{row.item.title}</a></h3>
+  <div class="vc-result">
+    <span class:list={['vc-won', outcome]}>{tr(`vote.won.${outcome}`)}</span>
+    <span class="vc-score" aria-label={tr('vote.summary', row.vote.counts)}>
+      <b class="jaa">{row.vote.counts.jaa}</b>–<b class="ei">{row.vote.counts.ei}</b>
+      {row.vote.counts.tyhja > 0 && <span class="muted"> · {row.vote.counts.tyhja} {tr('vote.tyhja').toLowerCase()}</span>}
+    </span>
+  </div>
+  {winner && <p class="vc-winner small">{clip(winner)}</p>}
+  <VoteBar counts={row.vote.counts} legend={false} locale={locale} />
+  <dl class="vc-labels small">
+    <div><dt>{tr('vote.jaa')}</dt><dd>{clip(row.vote.jaa_label, 70)}</dd></div>
+    <div><dt>{tr('vote.ei')}</dt><dd>{clip(row.vote.ei_label, 70)}</dd></div>
+  </dl>
+  {groups.length > 0 && (
+    <ul class="vc-groups" aria-label={tr('vote.groups')}>
+      {groups.map((g) => (
+        <li class={`ch-${g.choice}`} title={`${g.group}: ${choiceLabel(g.choice)}`}>
+          <i style={`background:${PARTY_COLOURS[g.party]}`} />{g.party === 'other' ? g.group.split(/\s/)[0].slice(0, 8) : PARTY_ABBR[g.party]}
+          <span class="visually-hidden"> ({tr(partyKey(g.party))}): {choiceLabel(g.choice)}</span>
+        </li>
+      ))}
+    </ul>
+  )}
 </article>

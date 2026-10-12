@@ -1,0 +1,12 @@
+---
+// A translatable UI string. Renders the text for `locale` and tags it with its key, so the
+// shared item pages (built once, in Finnish) can switch it client-side (SharedI18n.astro).
+// A var written as "@some.key" is itself a key and is translated too.
+import { t, type Key, type Locale } from '../i18n';
+interface Props { k: Key; vars?: Record<string, string | number>; locale: Locale }
+const { k, vars = {}, locale } = Astro.props;
+const resolved = Object.fromEntries(Object.entries(vars).map(([n, v]) =>
+  [n, typeof v === 'string' && v.startsWith('@') ? t(v.slice(1) as Key, {}, locale) : v]));
+const json = Object.keys(vars).length ? JSON.stringify(vars) : undefined;
+---
+<span data-t={k} data-tv={json}>{t(k, resolved, locale)}</span>

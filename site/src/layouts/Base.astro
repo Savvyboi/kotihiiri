@@ -1,63 +1,81 @@
 ---
 import '../styles/global.css';
 import '../styles/themes.css';
-import { t, localePath, DEFAULT_LOCALE } from '../i18n';
-import { cities, IS_DEMO } from '../lib/data';
+import { t, localePath, assetPath, splitLocale, LOCALES, type Locale } from '../i18n';
+import { cities, cityName, IS_DEMO } from '../lib/data';
 import Logo from '../components/Logo.astro';
+import T from '../components/T.astro';
+import SharedI18n from '../components/SharedI18n.astro';
 
-interface Props { title?: string; description?: string; city?: string }
-const { title, description = t('site.tagline'), city } = Astro.props;
-const cityName = city ? cities().find((c) => c.id === city)?.name_fi : undefined;
-const fullTitle = title ? `${title} · ${t('site.name')}` : `${t('site.name')} · ${t('home.title')}`;
-const path = Astro.url.pathname;
+interface Props {
+  title?: string; description?: string; city?: string; locale: Locale;
+  /** Built once at its Finnish path and translated client-side (item pages). */
+  shared?: boolean;
+}
+const { title, city, locale, shared = false } = Astro.props;
+const description = Astro.props.description ?? t('site.tagline', {}, locale);
+const cityRec = city ? cities().find((c) => c.id === city) : undefined;
+const fullTitle = title ? `${title} · ${t('site.name', {}, locale)}` : `${t('site.name', {}, locale)} · ${t('home.title', {}, locale)}`;
+const { rest } = splitLocale(Astro.url.pathname);
 const nav = [
   { href: '/haku/', key: 'nav.search' },
   { href: '/data/', key: 'nav.data' },
   { href: '/tietoa/', key: 'nav.about' },
 ] as const;
+const langHref = (l: Locale) => shared ? localePath(rest) + (l === 'fi' ? '' : `?lang=${l}`) : localePath(rest, l);
+const site = Astro.site ? new URL(import.meta.env.BASE_URL, Astro.site).origin : '';
 ---
 <!doctype html>
-<html lang={DEFAULT_LOCALE} data-city={city}>
+<html lang={locale} data-city={city}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
-    <link rel="icon" type="image/svg+xml" href={localePath('/favicon.svg')} />
+    <link rel="icon" type="image/svg+xml" href={assetPath('/favicon.svg')} />
+    {!shared && (LOCALES as Locale[]).map((l) => <link rel="alternate" hreflang={l} href={`${site}${localePath(rest, l)}`} />)}
     <slot name="head" />
   </head>
   <body>
-    <a class="skip" href="#main">{t('site.skip')}</a>
+    <a class="skip" href="#main"><T k="site.skip" locale={locale} /></a>
     <header class="site-header">
       <div class="wrap">
-        <a class="brand" href={localePath('/')}>
-          <Logo />{t('site.name')}{cityName && <span class="city">/ {cityName}</span>}
+        <a class="brand" href={localePath('/', locale)}>
+          <Logo />{t('site.name', {}, locale)}{cityRec && <span class="city">/ {cityName(cityRec, locale)}</span>}
         </a>
-        <nav class="site-nav" aria-label={t('nav.main')}>
+        <nav class="site-nav" aria-label={t('nav.main', {}, locale)} data-i18n-aria="nav.main">
           <ul>
             {nav.map((n) => (
-              <li><a href={localePath(n.href)} aria-current={path.endsWith(n.href) ? 'page' : undefined}>{t(n.key)}</a></li>
+              <li><a href={localePath(n.href, locale)} aria-current={rest === n.href ? 'page' : undefined}><T k={n.key} locale={locale} /></a></li>
+            ))}
+          </ul>
+        </nav>
+        <nav class="lang-switch" aria-label={t('nav.language', {}, locale)} data-i18n-aria="nav.language" data-lang-switch>
+          <ul>
+            {(LOCALES as Locale[]).map((l) => (
+              <li><a href={langHref(l)} hreflang={l} lang={l} aria-current={l === locale ? 'true' : undefined}>{l.toUpperCase()}<span class="visually-hidden"> {t(`lang.${l}`, {}, l)}</span></a></li>
             ))}
           </ul>
         </nav>
       </div>
-      <nav class="city-switch" aria-label={t('nav.cities')}>
+      <nav class="city-switch" aria-label={t('nav.cities', {}, locale)} data-i18n-aria="nav.cities">
         <div class="wrap"><ul>
           {cities().map((c) => (
-            <li><a class:list={{ off: !c.enabled }} href={localePath(`/${c.id}/`)} aria-current={c.id === city ? 'page' : undefined}>{c.name_fi}</a></li>
+            <li><a class:list={{ off: !c.enabled }} href={localePath(`/${c.id}/`, locale)} aria-current={c.id === city ? 'page' : undefined}>{cityName(c, locale)}</a></li>
           ))}
         </ul></div>
       </nav>
     </header>
-    {IS_DEMO && <div class="demo-banner" role="note"><div class="wrap">{t('site.demo')}</div></div>}
+    {IS_DEMO && <div class="demo-banner" role="note"><div class="wrap"><T k="site.demo" locale={locale} /></div></div>}
     <main id="main">
       <slot />
     </main>
     <footer class="site-footer">
       <div class="wrap">
-        <span>{t('footer.licence')}</span>
-        <span>{t('footer.noCookies')} <a href={localePath('/tietoa/')}>{t('nav.about')}</a></span>
+        <span><T k="footer.licence" locale={locale} /></span>
+        <span><T k="footer.noCookies" locale={locale} /> <a href={localePath('/tietoa/', locale)}><T k="nav.about" locale={locale} /></a></span>
       </div>
     </footer>
+    {shared && <SharedI18n />}
   </body>
 </html>

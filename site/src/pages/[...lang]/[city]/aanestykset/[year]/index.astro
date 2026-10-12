@@ -1,0 +1,14 @@
+---
+// Older years; the latest year is the votes index page itself.
+import VotesPage from '../../../../../components/VotesPage.astro';
+import { localized, type Locale } from '../../../../../i18n';
+import { cities, voteYears, type City } from '../../../../../lib/data';
+
+export function getStaticPaths() {
+  return localized(cities().flatMap((city) => voteYears(city.id).slice(1)
+    .map((year) => ({ params: { city: city.id, year }, props: { city, year } }))));
+}
+interface Props { city: City; year: string; locale: Locale }
+const { city, year, locale } = Astro.props;
+---
+<VotesPage city={city} year={year} locale={locale} />

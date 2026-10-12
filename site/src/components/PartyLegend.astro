@@ -1,0 +1,21 @@
+---
+// Groups with their seat or head counts, as a legend and a proportional bar.
+import { t, type Locale } from '../i18n';
+import { PARTY_COLOURS, partyKey } from '../lib/parties';
+import type { Seats } from '../lib/people';
+interface Props { seats: Seats[]; locale: Locale; unit: 'parties.seats' | 'parties.people'; bar?: boolean }
+const { seats, locale, unit, bar = false } = Astro.props;
+const total = seats.reduce((n, s) => n + s.n, 0) || 1;
+const name = (s: Seats) => (s.party === 'other' ? s.group : t(partyKey(s.party), {}, locale));
+---
+{bar && (
+  <div class="party-bar" aria-hidden="true">
+    {seats.map((s) => <span style={`width:${((s.n / total) * 100).toFixed(2)}%;background:${PARTY_COLOURS[s.party]}`} title={`${name(s)} ${s.n}`} />)}
+  </div>
+)}
+<ul class="party-legend">
+  {seats.map((s) => (
+    <li title={s.group}><i style={`background:${PARTY_COLOURS[s.party]}`} />{name(s)} <b>{s.n}</b>
+      <span class="visually-hidden">{t(unit, { n: s.n }, locale)}</span></li>
+  ))}
+</ul>

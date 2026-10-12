@@ -1,9 +1,16 @@
 ---
-import Base from '../layouts/Base.astro';
-import CityCard from '../components/CityCard.astro';
-import VoteCard from '../components/VoteCard.astro';
-import { t, localePath, formatDate } from '../i18n';
-import { cities, meetingFiles, recentVotes, bodyName, meetingUrl, itemUrl, decisionText } from '../lib/data';
+import Base from '../../layouts/Base.astro';
+import CityCard from '../../components/CityCard.astro';
+import VoteCard from '../../components/VoteCard.astro';
+import { localeParams, useI18n, type Locale } from '../../i18n';
+import { cities, cityName, meetingFiles, recentVotes, bodyName, meetingUrl, itemUrl, decisionText } from '../../lib/data';
+
+export function getStaticPaths() {
+  return localeParams().map(({ lang, locale }) => ({ params: { lang }, props: { locale } }));
+}
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const { t, path, shared, date } = useI18n(locale);
 
 const enabled = cities().filter((c) => c.enabled);
 const votes = enabled.flatMap((c) => recentVotes(c.id, 3).map((row) => ({ row, city: c.id })))
@@ -16,7 +23,7 @@ const today = new Date().toISOString().slice(0, 10);
 const upcoming = enabled.flatMap((c) => meetingFiles(c.id).filter((f) => f.meeting.stage === 'agenda' && f.meeting.date >= today)
   .map((f) => ({ meeting: f.meeting, city: c }))).sort((a, b) => a.meeting.date.localeCompare(b.meeting.date)).slice(0, 6);
 ---
-<Base>
+<Base locale={locale}>
   <section class="hero">
     <div class="wrap">
       <p class="eyebrow">{t('site.name')}</p>
@@ -26,11 +33,11 @@ const upcoming = enabled.flatMap((c) => meetingFiles(c.id).filter((f) => f.meeti
   </section>
   <div class="wrap">
     <h2>{t('home.cities')}</h2>
-    <div class="grid">{cities().map((c) => <CityCard city={c} />)}</div>
+    <div class="grid">{cities().map((c) => <CityCard city={c} locale={locale} />)}</div>
 
     <h2>{t('home.latestVotes')}</h2>
     {votes.length
-      ? <div class="grid">{votes.map(({ row, city }) => <VoteCard row={row} showCity={city} />)}</div>
+      ? <div class="grid vote-grid">{votes.map(({ row, city }) => <VoteCard row={row} showCity={city} locale={locale} />)}</div>
       : <p class="empty">{t('city.empty')}</p>}
 
     <div class="two-col">
@@ -39,9 +46,9 @@ const upcoming = enabled.flatMap((c) => meetingFiles(c.id).filter((f) => f.meeti
         {decisions.length ? (
           <ul class="list">
             {decisions.map(({ item, meeting, city }) => (
-              <li><span class="date">{formatDate(meeting.date)}</span>
-                <span><a href={localePath(itemUrl(item))}>{item.title}</a><br />
-                <span class="small muted">{city.name_fi} · {bodyName(meeting.body_id)}</span></span></li>
+              <li><span class="date">{date(meeting.date)}</span>
+                <span><a href={shared(itemUrl(item))} data-shared>{item.title}</a><br />
+                <span class="small muted">{cityName(city, locale)} · {bodyName(meeting.body_id)}</span></span></li>
             ))}
           </ul>
         ) : <p class="empty">{t('city.empty')}</p>}
@@ -51,13 +58,14 @@ const upcoming = enabled.flatMap((c) => meetingFiles(c.id).filter((f) => f.meeti
         {upcoming.length ? (
           <ul class="list">
             {upcoming.map(({ meeting, city }) => (
-              <li><span class="date">{formatDate(meeting.date)}</span>
-                <a href={localePath(meetingUrl(meeting))}>{city.name_fi}: {bodyName(meeting.body_id)}</a></li>
+              <li><span class="date">{date(meeting.date)}</span>
+                <a href={path(meetingUrl(meeting))}>{cityName(city, locale)}: {bodyName(meeting.body_id)}</a></li>
             ))}
           </ul>
         ) : <p class="muted">{t('common.none')}</p>}
         <h2>{t('home.howTitle')}</h2>
         <p>{t('home.how')}</p>
+        {locale !== 'fi' && <p class="small muted">{t('lang.docsNote')}</p>}
       </aside>
     </div>
   </div>

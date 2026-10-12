@@ -1,0 +1,30 @@
+---
+// Council seats as a half circle of dots, groups left to right in PARTY_ORDER.
+import { t, type Locale } from '../i18n';
+import { PARTY_COLOURS, partyKey } from '../lib/parties';
+import type { Seats } from '../lib/people';
+interface Props { seats: Seats[]; locale: Locale }
+const { seats, locale } = Astro.props;
+const total = seats.reduce((n, s) => n + s.n, 0);
+const rows = Math.max(3, Math.round(Math.sqrt(total / 3.2)));
+const radii = Array.from({ length: rows }, (_, i) => 0.42 + (0.58 * i) / Math.max(1, rows - 1));
+const sumR = radii.reduce((a, b) => a + b, 0);
+const perRow = radii.map((r) => Math.round((total * r) / sumR));
+perRow[rows - 1] += total - perRow.reduce((a, b) => a + b, 0);
+const spots: { x: number; y: number; a: number }[] = [];
+radii.forEach((r, i) => {
+  const k = perRow[i];
+  for (let j = 0; j < k; j++) {
+    const a = k === 1 ? Math.PI / 2 : Math.PI - (Math.PI * j) / (k - 1);
+    spots.push({ x: r * Math.cos(a), y: -r * Math.sin(a), a });
+  }
+});
+spots.sort((p, q) => q.a - p.a || Math.hypot(p.x, p.y) - Math.hypot(q.x, q.y));
+const colours = seats.flatMap((s) => Array.from({ length: s.n }, () => PARTY_COLOURS[s.party]));
+const dot = (0.5 / rows) * 0.42;
+const label = seats.map((s) => `${t(partyKey(s.party), {}, locale)} ${s.n}`).join(', ');
+---
+<svg class="hemicycle" viewBox="-1.05 -1.05 2.1 1.1" role="img" aria-label={label}>
+  {spots.map((p, i) => <circle cx={p.x.toFixed(3)} cy={p.y.toFixed(3)} r={dot.toFixed(3)} fill={colours[i]} />)}
+  <text x="0" y="-0.06" text-anchor="middle" font-size="0.26" font-weight="750" fill="currentColor">{total}</text>
+</svg>

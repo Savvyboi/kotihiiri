@@ -1,21 +1,39 @@
 ---
-import Base from '../layouts/Base.astro';
-import { t, localePath } from '../i18n';
-const bundle = localePath('/pagefind/');
+import Base from '../../layouts/Base.astro';
+import { assetPath, localeParams, useI18n, type Locale } from '../../i18n';
+
+export function getStaticPaths() {
+  return localeParams().map(({ lang, locale }) => ({ params: { lang }, props: { locale } }));
+}
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const { t } = useI18n(locale);
+const bundle = assetPath('/pagefind/');
+const strings = { placeholder: t('search.placeholder'), zero_results: t('search.zero'), missing: t('search.missing') };
+const lang = locale;
 ---
-<Base title={t('search.title')}>
+<Base title={t('search.title')} locale={locale}>
   <section class="hero"><div class="wrap"><h1>{t('search.title')}</h1><p class="lead">{t('search.lead')}</p></div></section>
   <div class="wrap" style="margin-top:1.5rem">
     <link href={`${bundle}pagefind-ui.css`} rel="stylesheet" />
     <div id="search"></div>
     <noscript><p class="empty">{t('search.noscript')}</p></noscript>
-    <script is:inline type="module" define:vars={{ bundle }}>
+    <script is:inline type="module" define:vars={{ bundle, strings, lang }}>
       try {
         await import(`${bundle}pagefind-ui.js`);
-        new window.PagefindUI({ element: '#search', showSubResults: true, bundlePath: bundle,
-          translations: { placeholder: 'Hae päätöksistä', zero_results: 'Ei tuloksia haulle [SEARCH_TERM]' } });
+        // Only Finnish pages are indexed (documents are Finnish), so search that index in every locale.
+        const ui = new window.PagefindUI({ element: '#search', showSubResults: true, bundlePath: bundle,
+          translations: { placeholder: strings.placeholder, zero_results: strings.zero_results },
+          processResult: (r) => {
+            if (lang === 'fi') return r;
+            const withLang = (u) => u.replace(/^([^?#]*)(\?[^#]*)?/, (_, p, q) => `${p}${q ? `${q}&` : '?'}lang=${lang}`);
+            r.url = withLang(r.url);
+            for (const s of r.sub_results ?? []) s.url = withLang(s.url);
+            return r;
+          } });
+        void ui;
       } catch (e) {
-        document.getElementById('search').textContent = 'Hakuhakemistoa ei ole vielä rakennettu.';
+        document.getElementById('search').textContent = strings.missing;
       }
     </script>
   </div>

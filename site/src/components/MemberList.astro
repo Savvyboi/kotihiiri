@@ -1,0 +1,17 @@
+---
+import { t, type Locale } from '../i18n';
+import { PARTY_COLOURS, partyKey } from '../lib/parties';
+import type { PersonRow } from '../lib/people';
+interface Props { people: PersonRow[]; total: number; locale: Locale; showSeen?: boolean }
+const { people, total, locale, showSeen = true } = Astro.props;
+---
+<ul class="members">
+  {people.map((p) => (
+    <li>
+      <span class="m-dot" style={`background:${p.party ? PARTY_COLOURS[p.party] : 'var(--c-border)'}`} aria-hidden="true" />
+      <span class="m-name">{p.name}</span>
+      <span class="m-group small muted">{p.party ? (p.party === 'other' ? p.group : t(partyKey(p.party), {}, locale)) : t('party.unknown', {}, locale)}</span>
+      {showSeen && <span class="m-seen small muted">{t('members.seen', { n: p.seen, total }, locale)}</span>}
+    </li>
+  ))}
+</ul>

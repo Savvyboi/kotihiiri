@@ -1,32 +1,100 @@
 ---
-import Base from '../../../layouts/Base.astro';
-import Breadcrumb from '../../../components/Breadcrumb.astro';
-import { t, localePath, formatDate } from '../../../i18n';
-import { cities, bodies, meetingFiles, meetingUrl, bodySlug, type Body, type City } from '../../../lib/data';
+import Base from '../../../../layouts/Base.astro';
+import Breadcrumb from '../../../../components/Breadcrumb.astro';
+import VoteCard from '../../../../components/VoteCard.astro';
+import Hemicycle from '../../../../components/Hemicycle.astro';
+import PartyLegend from '../../../../components/PartyLegend.astro';
+import MemberList from '../../../../components/MemberList.astro';
+import CityTabs from '../../../../components/CityTabs.astro';
+import { localized, useI18n, type Locale } from '../../../../i18n';
+import { cities, bodies, meetingFiles, meetingUrl, bodySlug, cityName, allVotes, councilBody, voteYears, type Body, type City } from '../../../../lib/data';
+import { councilRoster, bodyRoster, TERM_START } from '../../../../lib/people';
 
 export function getStaticPaths() {
-  return cities().flatMap((city) => bodies(city.id).map((body) => ({
+  return localized(cities().flatMap((city) => bodies(city.id).map((body) => ({
     params: { city: city.id, body: bodySlug(body.id) }, props: { city, body },
-  })));
+  }))));
 }
-interface Props { city: City; body: Body }
-const { city, body } = Astro.props;
+interface Props { city: City; body: Body; locale: Locale }
+const { city, body, locale } = Astro.props;
+const { t, path, date } = useI18n(locale);
 const files = meetingFiles(city.id).filter((f) => f.meeting.body_id === body.id);
 const byYear = new Map<string, typeof files>();
 for (const f of files) {
   const y = f.meeting.date.slice(0, 4);
   byYear.set(y, [...(byYear.get(y) ?? []), f]);
 }
+const isCouncil = councilBody(city.id)?.id === body.id;
+const council = isCouncil ? councilRoster(city.id) : undefined;
+const roster = isCouncil ? undefined : bodyRoster(city.id, body.id);
+const votes = allVotes(city.id).filter((r) => r.meeting.body_id === body.id);
+const latestYear = voteYears(city.id)[0];
+const votesHref = path(`/${city.id}/aanestykset/`) + `?body=${bodySlug(body.id)}`;
+const name = cityName(city, locale);
+const since = date(TERM_START);
 ---
-<Base title={`${body.name_fi} · ${city.name_fi}`} city={city.id}>
+<Base title={`${body.name_fi} · ${name}`} city={city.id} locale={locale}>
   <section class="hero">
     <div class="wrap">
-      <Breadcrumb items={[{ label: city.name_fi, href: `/${city.id}/` }, { label: body.name_fi }]} />
-      <p class="eyebrow">{t(`body.kind.${body.kind}`)}</p>
+      <Breadcrumb locale={locale} items={[{ label: name, href: `/${city.id}/` }, { label: body.name_fi }]} />
+      <p class="eyebrow">{t(`body.kind.${body.kind}` as 'body.kind.council')}</p>
       <h1>{body.name_fi}</h1>
     </div>
   </section>
   <div class="wrap">
+    {isCouncil && <CityTabs city={city} locale={locale} current="council" />}
+
+    {council && (
+      <section>
+        <h2>{t('members.title')}</h2>
+        <div class="card party-card">
+          <div>
+            <h3>{t('parties.title')}</h3>
+            <p class="small muted">{t('parties.councilLead', { date: date(council.date), n: council.total })}</p>
+            <PartyLegend seats={council.seats} locale={locale} unit="parties.seats" />
+          </div>
+          <Hemicycle seats={council.seats} locale={locale} />
+        </div>
+        <h3 style="margin-top:1.4rem">{t('members.council')} ({council.members.length})</h3>
+        <MemberList people={council.members} total={council.votes} locale={locale} />
+        {council.deputies.length > 0 && (
+          <details>
+            <summary>{t('members.deputies')} ({council.deputies.length})</summary>
+            <MemberList people={council.deputies} total={council.votes} locale={locale} />
+          </details>
+        )}
+        <p class="small muted">{t('members.councilNote', { since })}</p>
+      </section>
+    )}
+
+    {!isCouncil && (
+      <section>
+        <h2>{t('members.title')}</h2>
+        {roster ? <>
+          {roster.groups.length > 0 && (
+            <div class="card" style="margin-bottom:1rem">
+              <h3>{t('parties.title')}</h3>
+              <p class="small muted">{t('parties.bodyLead', { known: roster.known, total: roster.people.length })}</p>
+              <PartyLegend seats={roster.groups} locale={locale} unit="parties.people" bar />
+            </div>
+          )}
+          <h3>{t('members.voters')} ({roster.people.length})</h3>
+          <MemberList people={roster.people} total={roster.votes} locale={locale} />
+          <p class="small muted">{t('members.bodyNote', { since })}</p>
+        </> : <p class="empty">{t('members.none')}</p>}
+      </section>
+    )}
+
+    {votes.length > 0 && (
+      <section>
+        <div class="section-head">
+          <h2>{t('body.votes')}</h2>
+          {votes.length > 6 && latestYear && <a href={votesHref}>{t('body.votesLink', { n: votes.length })} →</a>}
+        </div>
+        <div class="grid vote-grid">{votes.slice(0, 6).map((row) => <VoteCard row={row} locale={locale} />)}</div>
+      </section>
+    )}
+
     <h2>{t('body.meetingsByYear')}</h2>
     {files.length === 0 && <p class="empty">{t('body.noMeetings')}</p>}
     {[...byYear.entries()].map(([year, list]) => (
@@ -34,9 +102,9 @@ for (const f of files) {
         <h3 style="margin-top:1.4rem">{year}</h3>
         <ul class="list">
           {list.map(({ meeting, items }) => (
-            <li><span class="date">{formatDate(meeting.date)}</span>
-              <span><a href={localePath(meetingUrl(meeting))}>{t('meeting.title', { date: formatDate(meeting.date) })}</a>
-              {' '}<span class="badge">{t(`meeting.stage.${meeting.stage}`)}</span>
+            <li><span class="date">{date(meeting.date)}</span>
+              <span><a href={path(meetingUrl(meeting))}>{t('meeting.title', { date: date(meeting.date) })}</a>
+              {' '}<span class="badge">{t(`meeting.stage.${meeting.stage}` as 'meeting.stage.agenda')}</span>
               <span class="small muted"> · {items.length} {t('city.stats.items')}</span></span></li>
           ))}
         </ul>

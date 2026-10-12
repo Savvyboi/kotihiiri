@@ -59,6 +59,11 @@ export function cities(): City[] {
   });
 }
 
+/** City name in the UI language: Swedish names where they exist, Finnish otherwise. */
+export function cityName(c: City, locale: string): string {
+  return locale === 'sv' && c.name_sv ? c.name_sv : c.name_fi;
+}
+
 export function city(id: string): City | undefined {
   return cities().find((c) => c.id === id);
 }
@@ -113,14 +118,32 @@ export function bodyName(bodyId: string): string {
 
 export interface VoteRow { item: AgendaItem; meeting: Meeting; vote: VoteEvent }
 
+/** Every vote of a city's minutes-stage meetings, newest meeting first, agenda order within one. */
+export function allVotes(cityId: string): VoteRow[] {
+  return memo(`votes:${cityId}`, () => {
+    const rows: VoteRow[] = [];
+    for (const mf of meetingFiles(cityId)) {
+      if (mf.meeting.stage !== 'minutes') continue;
+      for (const item of [...mf.items].sort((a, b) => a.ordinal - b.ordinal)) {
+        for (const vote of [...item.votes].sort((a, b) => a.ordinal - b.ordinal)) rows.push({ item, meeting: mf.meeting, vote });
+      }
+    }
+    return rows;
+  });
+}
+
 export function recentVotes(cityId: string, limit = 6): VoteRow[] {
-  const rows: VoteRow[] = [];
-  for (const mf of meetingFiles(cityId)) {
-    if (mf.meeting.stage !== 'minutes') continue;
-    for (const item of mf.items) for (const vote of item.votes) rows.push({ item, meeting: mf.meeting, vote });
-    if (rows.length >= limit) break;
-  }
-  return rows.slice(0, limit);
+  return allVotes(cityId).slice(0, limit);
+}
+
+export function voteYears(cityId: string): string[] {
+  return [...new Set(allVotes(cityId).map((r) => r.meeting.date.slice(0, 4)))].sort().reverse();
+}
+
+/** The city council (valtuusto), not its question-hour body. */
+export function councilBody(cityId: string): Body | undefined {
+  const councils = bodies(cityId).filter((b) => b.kind === 'council');
+  return councils.find((b) => !/kysely/i.test(b.id)) ?? councils[0];
 }
 
 export function cityStats(cityId: string) {
@@ -136,6 +159,10 @@ export function decisionText(item: AgendaItem): string | undefined {
 }
 
 export function voteOutcome(v: VoteEvent): 'jaa' | 'ei' | 'tie' {
-  if (v.counts.jaa === v.counts.ei) return 'tie';
+  if (v.counts.jaa === v.counts.ei) {
+    // A tie is settled by the chair's vote: "puheenjohtajan Jaa-ääni ratkaisi"
+    const casting = v.result_text?.match(/puheenjohtajan (jaa|ei)-ääni ratkaisi/i);
+    return casting ? (casting[1].toLowerCase() as 'jaa' | 'ei') : 'tie';
+  }
   return v.counts.jaa > v.counts.ei ? 'jaa' : 'ei';
 }

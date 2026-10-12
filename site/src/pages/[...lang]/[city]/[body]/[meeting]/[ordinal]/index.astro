@@ -1,86 +1,92 @@
 ---
-import Base from '../../../../../layouts/Base.astro';
-import Breadcrumb from '../../../../../components/Breadcrumb.astro';
-import SourceLink from '../../../../../components/SourceLink.astro';
-import VoteDetail from '../../../../../components/VoteDetail.astro';
-import { t, formatDate } from '../../../../../i18n';
-import { cities, meetingFiles, bodyName, bodySlug, meetingSegment, decisionText, type AgendaItem, type City, type Meeting } from '../../../../../lib/data';
+// Item pages are built once, at the Finnish path, and translated client-side for ?lang=sv|en
+// (see sharedPath in src/i18n): three copies of every item would break the size budget (PLAN.md §13).
+import Base from '../../../../../../layouts/Base.astro';
+import Breadcrumb from '../../../../../../components/Breadcrumb.astro';
+import SourceLink from '../../../../../../components/SourceLink.astro';
+import VoteDetail from '../../../../../../components/VoteDetail.astro';
+import T from '../../../../../../components/T.astro';
+import { formatDate, type Locale } from '../../../../../../i18n';
+import { cities, meetingFiles, bodyName, bodySlug, meetingSegment, decisionText, type AgendaItem, type City, type Meeting } from '../../../../../../lib/data';
+import { displayName } from '../../../../../../lib/people';
 
 export function getStaticPaths() {
   return cities().flatMap((city) => meetingFiles(city.id).flatMap(({ meeting, items }) => items.map((item) => ({
-    params: { city: city.id, body: bodySlug(meeting.body_id), meeting: meetingSegment(meeting.id), ordinal: String(item.ordinal) },
+    params: { lang: undefined, city: city.id, body: bodySlug(meeting.body_id), meeting: meetingSegment(meeting.id), ordinal: String(item.ordinal) },
     props: { city, meeting, item },
   }))));
 }
 interface Props { city: City; meeting: Meeting; item: AgendaItem }
 const { city, meeting, item } = Astro.props;
+const locale: Locale = 'fi';
 const body = bodyName(meeting.body_id);
 const date = formatDate(meeting.date);
 const decision = decisionText(item);
 const main = item.sections.filter((s) => s.type !== 'history' && s.type !== 'decision');
 const history = item.sections.filter((s) => s.type === 'history');
 ---
-<Base title={item.title} city={city.id} description={decision?.slice(0, 160)}>
+<Base title={item.title} city={city.id} description={decision?.slice(0, 160)} locale={locale} shared>
   <section class="hero">
     <div class="wrap">
-      <Breadcrumb items={[
+      <Breadcrumb locale={locale} items={[
         { label: city.name_fi, href: `/${city.id}/` },
         { label: body, href: `/${city.id}/${bodySlug(meeting.body_id)}/` },
         { label: date, href: `/${city.id}/${bodySlug(meeting.body_id)}/${meetingSegment(meeting.id)}/` },
         { label: item.pykala ? `${item.pykala} §` : `${item.ordinal}.` },
       ]} />
       <p class="eyebrow">{body} · {date}</p>
-      <h1 data-pagefind-meta="title">{item.title}</h1>
+      <h1 data-pagefind-meta="title" lang="fi">{item.title}</h1>
       <ul class="meta">
-        {item.case_number && <li>{t('item.caseNumber')}: {item.case_number}</li>}
-        {item.presenter && <li>{t('item.presenter')}: {item.presenter}</li>}
+        {item.case_number && <li><T k="item.caseNumber" locale={locale} />: {item.case_number}</li>}
+        {item.presenter && <li><T k="item.presenter" locale={locale} />: {item.presenter}</li>}
       </ul>
+      <p class="small muted" hidden data-locale-only><T k="lang.docsNote" locale={locale} /></p>
     </div>
   </section>
   <div class="wrap" data-pagefind-body>
     <span hidden data-pagefind-filter="city">{city.name_fi}</span>
     <span hidden data-pagefind-filter="body">{body}</span>
     <span hidden data-pagefind-filter="year">{meeting.date.slice(0, 4)}</span>
-    {decision && <div class="decision"><h2 style="margin-top:0">{t('item.decision')}</h2><p class="prose">{decision}</p></div>}
+    {decision && <div class="decision"><h2 style="margin-top:0"><T k="item.decision" locale={locale} /></h2><p class="prose" lang="fi">{decision}</p></div>}
 
     {item.motions.length > 0 && <>
-      <h2>{t('item.motions')}</h2>
+      <h2><T k="item.motions" locale={locale} /></h2>
       {item.motions.map((m) => (
         <div class="card" style="margin-bottom:.8rem">
-          <p class="small" style="margin:0 0 .3rem"><b>{t(`motion.${m.kind}`)}</b>
-            {m.outcome && <> <span class:list={['badge', m.outcome]}>{t(`outcome.${m.outcome}`)}</span></>}</p>
-          <p class="prose" style="margin:0 0 .3rem">{m.text}</p>
-          <p class="small muted" style="margin:0">{t('item.proposer')}: {m.proposer_ref.raw}
-            {m.seconder_refs?.length ? <> · {t('item.seconders')}: {m.seconder_refs.map((s) => s.raw).join(', ')}</> : null}</p>
+          <p class="small" style="margin:0 0 .3rem"><b><T k={`motion.${m.kind}` as 'motion.other'} locale={locale} /></b>
+            {m.outcome && <> <span class:list={['badge', m.outcome]}><T k={`outcome.${m.outcome}` as 'outcome.unknown'} locale={locale} /></span></>}</p>
+          <p class="prose" style="margin:0 0 .3rem" lang="fi">{m.text}</p>
+          <p class="small muted" style="margin:0"><T k="item.proposer" locale={locale} />: {displayName(m.proposer_ref.raw)}
+            {m.seconder_refs?.length ? <> · <T k="item.seconders" locale={locale} />: {m.seconder_refs.map((s) => displayName(s.raw)).join(', ')}</> : null}</p>
         </div>
       ))}
     </>}
 
     {item.votes.length > 0 && <>
-      <h2>{t('item.votes')}</h2>
-      {item.votes.map((v) => <VoteDetail vote={v} />)}
+      <h2><T k="item.votes" locale={locale} /></h2>
+      {item.votes.map((v) => <VoteDetail vote={v} locale={locale} />)}
     </>}
 
-    {main.length > 0 && <h2>{t('item.sections')}</h2>}
+    {main.length > 0 && <h2><T k="item.sections" locale={locale} /></h2>}
     {main.map((s) => (
-      <section>
-        <h3 style="margin-top:1.2rem">{s.heading ?? t(`section.${s.type}`)}</h3>
+      <section lang="fi">
+        <h3 style="margin-top:1.2rem">{s.heading ?? <T k={`section.${s.type}` as 'section.other'} locale={locale} />}</h3>
         <p class="prose">{s.text}</p>
       </section>
     ))}
 
     {history.length > 0 && (
       <details data-pagefind-ignore>
-        <summary>{t('item.history')}</summary>
-        {history.map((s) => <><h3 style="margin-top:1rem">{s.heading}</h3><p class="prose">{s.text}</p></>)}
+        <summary><T k="item.history" locale={locale} /></summary>
+        <div lang="fi">{history.map((s) => <><h3 style="margin-top:1rem">{s.heading}</h3><p class="prose">{s.text}</p></>)}</div>
       </details>
     )}
 
     {item.attachments.length > 0 && <>
-      <h2>{t('item.attachments')}</h2>
-      <ul>{item.attachments.map((a) => <li><a href={a.url} rel="external noopener">{a.title}</a></li>)}</ul>
+      <h2><T k="item.attachments" locale={locale} /></h2>
+      <ul lang="fi">{item.attachments.map((a) => <li><a href={a.url} rel="external noopener">{a.title}</a></li>)}</ul>
     </>}
 
-    <SourceLink href={item.source_url} system={city.source_name} />
+    <SourceLink href={item.source_url} system={city.source_name} locale={locale} />
   </div>
 </Base>
