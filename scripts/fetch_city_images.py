@@ -28,7 +28,7 @@ CREDITS = ROOT / "site" / "src" / "data" / "city-images.json"
 COMMONS = "https://commons.wikimedia.org/w/api.php"
 WIKIDATA = "https://www.wikidata.org/w/api.php"
 # Structured-data filter: licence CC0 or copyright status public domain.
-FREE_FILTER = "haswbstatement:P275=Q6938433|P6216=Q19652"
+FREE_FILTER = "haswbstatement:P275=Q6938433|P6216=Q19652 -map -kartta -karta"
 PHOTO_WIDTHS = (1920, 960)
 MIN_WIDTH = 1920
 
@@ -133,18 +133,48 @@ def pick_photo(api: Api, city: str, cfg: dict, allowed: list[str]) -> dict:
         print(f"  {city}: {len(titles)} candidates for {query!r}")
         for title in titles:
             info = file_info(api, title, PHOTO_WIDTHS[0])
-            ok = (
-                info["mime"] == "image/jpeg"
-                and info["width"] >= MIN_WIDTH
-                and info["width"] >= 1.3 * info["height"]
-                and licence_ok(info, allowed)
-            )
+            ok = is_candidate(info, allowed)
             print(
                 f"    {'PICK' if ok else 'skip'} {title} {info['width']}x{info['height']} {info['licence']}"
             )
             if ok:
                 return info
     raise SystemExit(f"{city}: no photo with an allowed licence found; pin one with photo_file")
+
+
+def is_candidate(info: dict, allowed: list[str]) -> bool:
+    return (
+        info["mime"] == "image/jpeg"
+        and info["width"] >= MIN_WIDTH
+        and info["width"] >= 1.3 * info["height"]
+        and licence_ok(info, allowed)
+    )
+
+
+def review_sheet(api: Api, city: str, cfg: dict, allowed: list[str]) -> None:
+    """Contact sheet of up to nine candidates in review/{city}.jpg (uploaded as a CI artifact)."""
+    from PIL import ImageDraw
+
+    exclude = {t if t.startswith("File:") else f"File:{t}" for t in cfg.get("photo_exclude") or []}
+    picks: list[dict] = []
+    for query in cfg.get("photo_queries") or []:
+        for title in search_photos(api, query):
+            if len(picks) >= 9 or title in exclude or any(p["title"] == title for p in picks):
+                continue
+            info = file_info(api, title, 500)
+            if is_candidate(info, allowed):
+                picks.append(info)
+    sheet = Image.new("RGB", (3 * 500, 3 * 360), "white")
+    draw = ImageDraw.Draw(sheet)
+    for i, info in enumerate(picks):
+        img = Image.open(io.BytesIO(api.get(info["thumb_url"]).content)).convert("RGB")
+        img.thumbnail((496, 330))
+        x, y = (i % 3) * 500, (i // 3) * 360
+        sheet.paste(img, (x, y))
+        draw.text((x + 4, y + 334), f"{i + 1}. {info['title'][5:60]}", fill="black")
+        print(f"  review {i + 1}: {info['title']} | {info['licence']} | {info['description']}")
+    (ROOT / "review").mkdir(exist_ok=True)
+    sheet.save(ROOT / "review" / f"{city}.jpg", "JPEG", quality=80)
 
 
 def save_photo(api: Api, city: str, info: dict) -> None:
@@ -196,6 +226,9 @@ def main() -> None:
         if only and city not in only:
             continue
         print(f"{city}:")
+        if c.get("review"):
+            review_sheet(api, city, c, cfg["licences"]["photo"])
+            continue
         arms_title = c.get("arms_file") or wikidata_arms(api, c["fiwiki"])
         arms = file_info(api, arms_title)
         if not licence_ok(arms, cfg["licences"]["arms"]):
