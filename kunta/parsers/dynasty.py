@@ -279,14 +279,50 @@ def _attachment_title(text: str) -> str:
     return re.sub(r"^(Liite\s+\d+)(?=\S)", r"\1 ", text).strip()  # "Liite 1Äänestyslistat" → "Liite 1 Ä…"
 
 
+HEADING_WORDS = (
+    "Päätösehdotus", "Käsittely", "Päätös", "Selostus", "Perustelut", "Päätöshistoria", "Liitteet",
+    "Oheismateriaali", "Tiedoksi", "Pöytäkirjamerkintä", "Eriävä mielipide",
+)  # fmt: skip
+# The item text comes from a word processor: a heading and its first paragraph can share one <p>,
+# "<span>Päätös</span><span>&#xa0;</span><span>Puheenjohtaja totesi …</span>". Break after the heading,
+# except in the two-word heading "Päätösehdotus Esittelijä".
+INLINE_HEADING = re.compile(
+    r"(<span[^>]*>\s*(?:" + "|".join(HEADING_WORDS) + r")\s*</span>)"
+    r"(\s*<span[^>]*>(?:\s|&#xa0;|&nbsp;|\xa0)*</span>)(?=\s*<span)(?!\s*<span[^>]*>\s*Esittelijä)",
+    re.IGNORECASE,
+)
+
+
+def _parts(html: str) -> tuple[str, list[tuple[str, list[Link]]]]:
+    """The item text (`div.data-part.meetingitem`) and the link lists of the other data parts
+    (attachments, supplementary material) with their caption. Pages without these parts are parsed
+    whole."""
+    tree = HTMLParser(html)
+    text = tree.css_first("div.data-part.meetingitem")
+    others: list[tuple[str, list[Link]]] = []
+    for part in tree.css("div.data-part"):
+        classes = part.attributes.get("class") or ""
+        if "meetingitem" in classes or "page-navigation" in classes:
+            continue
+        cap = part.css_first("caption") or part.css_first(".data-part-caption")
+        caption = clean(cap.text(deep=True, separator=" ")) if cap else ""
+        links = [
+            Link(clean(a.text(deep=True, separator=" ")), urljoin(CGI, a.attributes.get("href") or ""))
+            for a in part.css("a[href]")
+        ]
+        others.append((f"{classes} {caption}".lower(), links))
+    return (text.html if text is not None else html) or html, others
+
+
 def parse_item(html: str) -> ItemPage:
-    bl = blocks(html, CGI)
     page = ItemPage()
-    links = all_links(html, CGI)
-    for link in links:
+    for link in all_links(html, CGI):
         m = PDF_HREF.search(link.href)
         if m and m.group(2) and not m.group(3):
             page.item_pdf = page.item_pdf or link.href
+    text_html, parts = _parts(html)
+    links = all_links(text_html, CGI)
+    bl = blocks(INLINE_HEADING.sub(r"\1<br>", text_html), CGI)
 
     # Start after the "Kokousasian teksti" heading when there is one (the site chrome is above it).
     start = next((i + 1 for i, b in enumerate(bl) if b.text.lower() == "kokousasian teksti"), 0)
@@ -404,8 +440,26 @@ def parse_item(html: str) -> ItemPage:
     if mode == "history":
         close_history()
     page.sections.extend(history)
-    page.attachments = _attachments(attachment_rows, links)
+    page.attachments = _part_attachments(parts) or _attachments(attachment_rows, links)
     return page
+
+
+def _part_attachments(parts: list[tuple[str, list[Link]]]) -> list[Attachment]:
+    out: list[Attachment] = []
+    seen: set[str] = set()
+    for label, links in parts:
+        if "attachment" in label or "liitteet" in label:
+            kind = AttachmentKind.attachment
+        elif "suplement" in label or "supplement" in label or "oheismateriaali" in label:
+            kind = AttachmentKind.supplementary
+        else:
+            continue
+        for lk in links:
+            m = PDF_HREF.search(lk.href)
+            if m and m.group(3) and m.group(3) != "0" and lk.text and lk.href not in seen:
+                seen.add(lk.href)
+                out.append(Attachment(title=_attachment_title(lk.text), url=lk.href, kind=kind))
+    return out
 
 
 def _attachments(rows: list[tuple[str, str]], links: list[Link]) -> list[Attachment]:

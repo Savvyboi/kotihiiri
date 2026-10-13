@@ -220,6 +220,80 @@ def test_golden_vote_item(request):
     assert path.read_bytes() == data
 
 
+# -- recorded pages -------------------------------------------------------------------------
+# tests/fixtures/espoo/real: pages fetched from espoo.oncloudos.com on 2026-10-13, markup compacted.
+
+REAL = FIXTURES / "real"
+
+
+def real_item(name: str) -> dp.ItemPage:
+    return dp.parse_item((REAL / f"item-{name}.html").read_text(encoding="utf-8"))
+
+
+def test_real_meeting_page():
+    page = dp.parse_meeting((REAL / "meeting-20251336.html").read_text(encoding="utf-8"), "20251336")
+    assert (page.date, page.stage) == (dt.date(2025, 1, 20), "minutes")
+    assert (page.start_time, page.end_time, page.location) == (
+        "17:30",
+        "19:16",
+        "Valtuustotalo, Espoonkatu 5",
+    )
+    assert len(page.participants) == 83 and page.participants[0].role == "puheenjohtaja"
+    assert page.minutes_pdf == "https://espoo.oncloudos.com/kokous/20251336.PDF"
+    assert (page.rows[6].ordinal, page.rows[6].pykala) == (7, 7)
+
+
+def test_real_item_inline_headings():
+    # "Päätös" and its first sentence share one paragraph.
+    page = real_item("20251336-1")
+    assert [(s.type, s.heading) for s in page.sections] == [
+        ("decision", "Päätös"),
+        ("background", "Selostus"),
+    ]
+    assert page.sections[0].text.startswith("Puheenjohtaja totesi kokouksen laillisesti")
+    assert not any("©" in s.text for s in page.sections)
+
+
+def test_real_item_presenter_history_and_attachment_parts():
+    page = real_item("20261715-13")
+    assert (page.pykala, page.case_number, page.presenter) == (132, "1312/10.03.02/2025", "Kaupunginhallitus")
+    assert page.preparers == ["Lehtinen Maija"]
+    history = [s for s in page.sections if s.type == "history"]
+    assert len(history) == 4 and history[0].text.startswith("Päätösehdotus Esittelijä")
+    assert [(a.title, a.kind, a.url.rsplit("/", 1)[1]) for a in page.attachments] == [
+        ("Liite 1 Olarin uimahallin valokuvakooste 8.6.2026", "attachment", "20261715-13-357076.PDF"),
+        ("Liite 2 Äänestyslista § 132", "attachment", "20261715-13-375914.PDF"),
+        ("Oheismateriaali 1 Valtuustoaloite kaupunki ryhtyisi toimiin Olarin uimahallin avaamiseksi "
+         "uudelleen, Risto Nevanlinna+ 25 kvalt", "supplementary", "20261715-13-352661.PDF"),
+    ]  # fmt: skip
+
+
+def test_real_item_votes_with_the_vote_pdf():
+    site = FakeEspoo()
+    site.overrides["/cgi/DREQUEST.PHP?page=meetingitem&id=20261715-13"] = (
+        "text/html; charset=UTF-8",
+        (REAL / "item-20261715-13.html").read_bytes(),
+    )
+    item = olari(site)
+    (v,) = item.votes
+    assert v.counts.model_dump() == {"jaa": 30, "ei": 41, "tyhja": 4, "poissa": 0}
+    assert len(v.ballots) == 75 and not v.needs_review, v.review_reason
+    (motion,) = item.motions
+    assert (motion.proposer_ref.raw, [s.raw for s in motion.seconder_refs]) == ("Nevanlinna", ["Aaltosen"])
+
+
+def test_real_item_three_votes_in_prose():
+    page = real_item("20251336-7")
+    assert vc.mentions_vote_list(page.deliberation_lines)
+    assert [(p.a, p.b, p.tyhja) for p in vc.parse_prose(page.deliberation_lines)] == [
+        (49, 13, 13), (9, 65, 1), (32, 22, 21)]  # fmt: skip
+    assert len(vc.parse_motions(page.deliberation_lines)) == 5
+    assert [a.title for a in page.attachments] == [
+        "Liite 1 Äänestyslista § 7",
+        "Oheismateriaali 1 Valtuustokysymys Kotoutumisen edistäminen Espoossa",
+    ]
+
+
 # -- PDF and prose units --------------------------------------------------------------------
 
 

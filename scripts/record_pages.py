@@ -26,7 +26,8 @@ def compact(html: str) -> str:
         names = re.findall(r"\s(href|class|id)=(?:\"[^\"]*\"|'[^']*')", m.group(2))
         return f"<{m.group(1)}" + "".join(f" {n}={v}" for n, v in zip(names, kept, strict=False)) + ">"
 
-    html = re.sub(r"<([a-zA-Z][a-zA-Z0-9]*)(\s[^<>]*)?>", lambda m: attrs(m) if m.group(2) else m.group(0), html)
+    tag = re.compile(r"<([a-zA-Z][a-zA-Z0-9]*)(\s[^<>]*)?>")
+    html = tag.sub(lambda m: attrs(m) if m.group(2) else m.group(0), html)
     return re.sub(r"\s+", " ", html).replace("> <", "><")
 
 
