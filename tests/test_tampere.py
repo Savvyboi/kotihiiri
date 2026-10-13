@@ -220,6 +220,44 @@ def test_vote_counts_differing_from_the_text_need_review():
     assert first.review_reason == "jaa: 61 names for 60 votes; minutes text says 61–5, the vote list 60–5"
 
 
+def _block(header: str, rows: list[tuple[str, int, list[str]]]) -> str:
+    lis = "".join(
+        f'<li><span class="strong">{label} {n} kpl</span><p>{", ".join(names)}</p></li>'
+        for label, n, names in rows
+    )
+    return (
+        f'<div class="votingResults-header"><a>{header}</a></div><div class="collapse"><ul>{lis}</ul></div>'
+    )
+
+
+def test_board_vote_headed_by_its_two_sides():
+    # Boards head a vote with both sides and state the result about the presenter's proposal.
+    html = _block(
+        "Esittelijän päätösehdotus JAA, Olga Haapa-ahon muutosehdotus EI.",
+        [("Kyllä", 7, [f"Jäsen {i}" for i in range(7)]), ("Ei", 2, ["Haapa-aho Olga", "Toinen Jäsen"])],
+    )
+    lines = [
+        "Olga Haapa-aho oli tehnyt seuraavan muutosehdotuksen:",
+        "Lisätään päätökseen selvitys vaihtoehdoista.",
+        "Puheenjohtajan äänestysesitys: esittelijän päätösehdotus JAA, Olga Haapa-ahon muutosehdotus EI.",
+        "Äänestysesitys hyväksyttiin.",
+        "Äänestyksen tulos: esittelijän päätösehdotus hyväksyttiin äänin 7–2, tyhjä 0.",
+    ]
+    motions, drafts = vc.parse_motions(lines)
+    (vote,) = vc.build_votes(html, drafts, "u", vc.parse_results(lines))
+    assert not vote.needs_review, vote.review_reason
+    assert vote.result_text.endswith("hyväksyttiin äänin 7–2, tyhjä 0.")
+    assert motions[0].outcome == "rejected"
+
+
+def test_result_sentence_variants():
+    lines = [
+        "Äänestyksen tulos: Jussilan muutosehdotus voitti äänin 59-8.",
+        "Äänestysesityksen tulos: kaupunginhallituksen ehdotus hyväksyttiin äänin 46-19, tyhjää 2.",
+    ]
+    assert [(r.pair, r.tyhja) for r in vc.parse_results(lines)] == [((8, 59), 0), ((19, 46), 2)]
+
+
 def test_genitive_matching():
     assert vc.is_genitive_of("Juho Hirvelän", "Juho Hirvelä")
     assert vc.is_genitive_of("Sirpa Pursiainen-Hautalan", "Sirpa Pursiainen-Hautala")

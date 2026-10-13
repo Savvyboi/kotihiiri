@@ -161,7 +161,7 @@ class DynastyAdapter:
 
     def _votes(self, ref: ItemRef, page: dp.ItemPage, item: AgendaItem) -> list[VoteEvent]:
         prose = votes.parse_prose(page.deliberation_lines)
-        lists = [a for a in item.attachments if "äänestyslist" in a.title.lower()]
+        lists = [a for a in item.attachments if votes.VOTE_LIST_TITLE.search(a.title)]
         pykala = item.pykala
         pdf_votes: list[votes.PdfVote] = []
         problem = None if lists else "no vote list attached; counts from the minutes text"

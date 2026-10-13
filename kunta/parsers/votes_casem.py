@@ -59,8 +59,9 @@ STOP = re.compile(
     r"^(Puheenjohtajan äänestysesitys|Äänestyksen tulos|Asian käsittelyn kuluessa|Keskustelun kuluessa)"
 )
 RESULT = re.compile(
-    r"Äänestyksen tulos:\s*(?P<what>[\w-]+)\s+(?P<verb>hyväksyttiin|hylättiin)\s+äänin\s+"
-    r"(?P<a>\d+)\s*[-–]\s*(?P<b>\d+)(?:,\s*tyhjiä\s+(?P<t>\d+))?(?:,\s*poissa\s+(?P<p>\d+))?",
+    r"(?:Äänestyksen|Äänestysesityksen) tulos:\s*(?P<what>[\w-]+(?:\s+[\w-]+){0,3}?)\s+"
+    r"(?P<verb>hyväksyttiin|hylättiin|voitti)\s+äänin\s+(?P<a>\d+)\s*[-–]\s*(?P<b>\d+)(?:,\s*tyhj(?:ä|iä|ää)\s+(?P<t>\d+))?"
+    r"(?:,\s*poissa\s+(?P<p>\d+))?",
     re.IGNORECASE,
 )
 UNANIMOUS = re.compile(
@@ -177,14 +178,12 @@ def parse_motions(lines: list[str]) -> tuple[list[Motion], list[_Draft]]:
             continue
         if r := RESULT.search(line):
             if current is not None:
-                current.result = ProseResult(
-                    line[r.start() :].strip(),
-                    tuple(sorted((int(r.group("a")), int(r.group("b"))))),
-                    int(r.group("t") or 0),
-                    int(r.group("p") or 0),
-                )
-                what = r.group("what").lower()
-                if what.startswith(("muutos", "vasta", "hylkäys", "palautus", "pöydällepano", "pon")):
+                current.result = _result(line, r)
+                what = r.group("what").split()[-1].lower()
+                # "voitti" settles a preliminary vote between two motions, not the motion's fate.
+                if r.group("verb") != "voitti" and what.startswith(
+                    ("muutos", "vasta", "hylkäys", "palautus", "pöydällepano", "pon")
+                ):
                     current.motion.outcome = (
                         Outcome.adopted if r.group("verb") == "hyväksyttiin" else Outcome.rejected
                     )
@@ -283,33 +282,84 @@ def parse_vote_blocks(html: str) -> list[VoteBlock]:
     return out
 
 
+def _result(line: str, r: re.Match) -> ProseResult:
+    return ProseResult(
+        line[r.start() :].strip(),
+        tuple(sorted((int(r.group("a")), int(r.group("b"))))),
+        int(r.group("t") or 0),
+        int(r.group("p") or 0),
+    )
+
+
+def parse_results(lines: list[str]) -> list[ProseResult]:
+    """Every "Äänestyksen tulos: … äänin a-b" sentence, in text order."""
+    found = []
+    for raw in lines:
+        line = re.sub(r"\s+", " ", raw).strip()
+        found.extend(_result(line, r) for r in RESULT.finditer(line))
+    return found
+
+
+LABEL_MOTION = re.compile(rf"(?P<gen>{NAME})\s+(?P<what>{_KIND_WORD})", re.IGNORECASE)
+
+
 def _match(block: VoteBlock, drafts: list[_Draft]) -> _Draft | None:
-    """The motion a vote block decided: same proposer, kind and number."""
-    if block.gen is None or block.what is None:
-        return None
-    kind = _kind(block.what)
-    cands = [
-        d
-        for d in drafts
-        if is_genitive_of(block.gen, d.motion.proposer_ref.raw)
-        and d.motion.kind == kind
-        and d.number == block.number
-    ]
-    return cands[0] if len(cands) == 1 else None
+    """The motion a vote block decided: same proposer, kind and number. Board votes are headed by
+    the two sides instead ("Esittelijän päätösehdotus JAA, Olga Haapa-ahon muutosehdotus EI"),
+    so failing that, the one motion named in a side label, matched on the surname."""
+    if block.gen is not None and block.what is not None:
+        kind = _kind(block.what)
+        cands = [
+            d
+            for d in drafts
+            if is_genitive_of(block.gen, d.motion.proposer_ref.raw)
+            and d.motion.kind == kind
+            and d.number == block.number
+        ]
+        if len(cands) == 1:
+            return cands[0]
+    for label in (block.ei_label, block.jaa_label, block.header):
+        for m in LABEL_MOTION.finditer(label or ""):
+            kind, surname = _kind(m.group("what")), m.group("gen").split()[-1]
+            cands = [
+                d
+                for d in drafts
+                if d.motion.kind == kind
+                and d.motion.proposer_ref.raw
+                and is_genitive_of(surname, d.motion.proposer_ref.raw.split()[-1])
+            ]
+            if len(cands) == 1:
+                return cands[0]
+    return None
 
 
-def build_votes(html: str, drafts: list[_Draft], item_url: str) -> list[VoteEvent]:
+def build_votes(
+    html: str, drafts: list[_Draft], item_url: str, results: list[ProseResult] | None = None
+) -> list[VoteEvent]:
+    """Vote events from the item page's blocks. Each block takes the prose result of the motion it
+    decided; a block whose motion has none takes the first unused result sentence with the same
+    pair of counts (`results`, from `parse_results`)."""
+    blocks = parse_vote_blocks(html)
+    matched = [_match(b, drafts) for b in blocks]
+    spare = list(results or [])
+    for d in matched:
+        if d is not None and d.result in spare:
+            spare.remove(d.result)
     events: list[VoteEvent] = []
-    for i, block in enumerate(parse_vote_blocks(html), start=1):
+    for i, (block, draft) in enumerate(zip(blocks, matched, strict=True), start=1):
         problems: list[str] = []
         per_choice = Counter(c for _, c in block.ballots)
         for choice, n in sorted(block.counts.items()):
             if per_choice.get(choice, 0) != n:
                 problems.append(f"{choice.value}: {per_choice.get(choice, 0)} names for {n} votes")
-        draft = _match(block, drafts)
-        result = draft.result if draft is not None else None
         jaa, ei = block.counts.get(Choice.jaa, 0), block.counts.get(Choice.ei, 0)
         tyhja, poissa = block.counts.get(Choice.tyhja, 0), block.counts.get(Choice.poissa, 0)
+        result = draft.result if draft is not None else None
+        if result is None:
+            same = [r for r in spare if r.pair == tuple(sorted((jaa, ei)))]
+            if same:
+                result = same[0]
+                spare.remove(result)
         if result is None:
             problems.append("no matching result sentence in the minutes text")
         else:

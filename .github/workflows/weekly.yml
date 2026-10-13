@@ -1,4 +1,4 @@
-# Weekly crawl (PLAN.md §12). Helsinki (M1) and Espoo (M2). Crawls, validates, commits data/, then deploys
+# Weekly crawl (PLAN.md §12). Helsinki (M1), Espoo (M2) and Tampere (M3). Crawls, validates, commits data/, then deploys
 # the site through pages.yml. Does nothing until site_domain and contact_email are set in
 # config/project.yaml, because both go into the crawler's User-Agent (§2.1 rule 3).
 name: weekly
@@ -16,7 +16,7 @@ on:
         default: "10"
       cities:
         description: "Cities to crawl, comma-separated"
-        default: "helsinki,espoo"
+        default: "helsinki,espoo,tampere"
       body:
         description: "Only this body slug (e.g. kaupunginvaltuusto); empty = all bodies"
         default: ""
@@ -52,7 +52,7 @@ jobs:
           PY
       - id: cities
         env:
-          CITIES: ${{ inputs.cities || 'helsinki,espoo' }}
+          CITIES: ${{ inputs.cities || 'helsinki,espoo,tampere' }}
         run: echo "json=$(python -c 'import json,os; print(json.dumps([c.strip() for c in os.environ["CITIES"].split(",") if c.strip()]))')" >> "$GITHUB_OUTPUT"
       - if: steps.check.outputs.ready != 'true'
         run: echo "::warning::config/project.yaml has no site_domain/contact_email yet; skipping the crawl."

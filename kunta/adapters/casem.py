@@ -156,7 +156,11 @@ def build_item(ref: ItemRef, page: cp.ItemPage) -> AgendaItem:
     final = ref.stage == Stage.minutes  # motions and votes only count once minutes are out (§6)
     motions, drafts = votes.parse_motions(page.deliberation_lines) if final else ([], [])
     item_votes = (
-        votes.build_votes(page.votes_html, drafts, ref.source_url) if final and page.votes_html else []
+        votes.build_votes(
+            page.votes_html, drafts, ref.source_url, votes.parse_results(page.deliberation_lines)
+        )
+        if final and page.votes_html
+        else []
     )
     for m in motions:
         m.text = strip_pii(m.text)
