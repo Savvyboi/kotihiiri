@@ -16,7 +16,8 @@ councils (kaupunginvaltuusto), boards and committees.
 | M1 Helsinki adapter, weekly crawl | done; live since 2026-10-12 |
 | Swedish and English UI, vote cards, members, city arms and photos | done |
 | M2 Espoo adapter (Dynasty pages, Cloudmeeting vote PDFs) | built against fixtures; first live crawl runs from `weekly.yml` after merge |
-| M3 Tampere … M8 operations | not started |
+| M3 Tampere adapter (CaseM pages, inline votes) | built against recorded pages; live crawl after merge |
+| M4 Vantaa … M8 operations | not started |
 
 Oulu and Turku are disabled in `config/cities.yaml` until the cities give written permission.
 
