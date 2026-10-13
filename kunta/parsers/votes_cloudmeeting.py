@@ -59,11 +59,28 @@ _WORDS = [
 ]
 NUMBER_WORDS = {w: n for n, forms in enumerate(_WORDS, start=1) for w in forms} | {"nolla": 0}
 _NUM = r"(\d+|" + "|".join(sorted(NUMBER_WORDS, key=len, reverse=True)) + ")"
+_PAREN_NUM = r"(?:\s*\(\d+\))?"  # "seitsemällä (7) äänellä"
 PROSE = re.compile(
-    _NUM + r"\s+äänellä\s+" + _NUM + r"\s+ääntä\s+vastaan"
-    r"(?:\s*,?\s*(?:ja\s+)?" + _NUM + r"\s+(?:jäsenen\s+|valtuutetun\s+)?äänestäessä\s+tyhjää)?",
+    r"(?P<a>"
+    + _NUM
+    + r")"
+    + _PAREN_NUM
+    + r"\s+äänellä\s+(?P<b>"
+    + _NUM
+    + r")"
+    + _PAREN_NUM
+    + r"\s+(?:ääntä\s+)?(?:"
+    + _NUM
+    + r"\s+ollessa\s+poissa\s+)?vastaan"  # "2 ääntä 1 ollessa poissa vastaan"
+    r"(?:\s*,?\s*(?:ja\s+)?(?P<t>" + _NUM + r")\s+(?:jäsenen\s+|valtuutetun\s+)?äänestäessä\s+tyhjää)?"
+    # "Äänestyksessä JAA ääniä tuli 6 ja EI ääniä 7"
+    r"|JAA[ -]ääniä\s+(?:tuli\s+)?(?P<ja>\d+)\s*(?:kpl\s*)?,?\s*(?:ja\s+)?"
+    r"EI[ -]ääniä\s+(?:tuli\s+)?(?P<ei>\d+)",
     re.IGNORECASE,
 )
+# Attachment titles of the vote lists: "Äänestyslista(t) § n", "Äänestystiedot …",
+# "Äänestystulosraportti §53_2026", "Äänestysraportti § n".
+VOTE_LIST_TITLE = re.compile(r"äänestys(?:lista|tiedot|tulosraportti|raportti)", re.IGNORECASE)
 VOTE_LIST_MENTION = re.compile(r"äänestyslista", re.IGNORECASE)
 
 
@@ -88,15 +105,27 @@ def _sentence_at(text: str, start: int, end: int) -> str:
 
 def parse_prose(lines: list[str]) -> list[ProseVote]:
     text = re.sub(r"[ \t]+", " ", "\n".join(lines))
-    return [
-        ProseVote(
-            _n(m.group(1)),
-            _n(m.group(2)),
-            _n(m.group(3)) if m.group(3) else 0,
-            _sentence_at(text, m.start(), m.end()),
-        )  # fmt: skip
-        for m in PROSE.finditer(text)
-    ]
+    found = []
+    for m in PROSE.finditer(text):
+        if m.group("ja") is not None:
+            a, b, t = int(m.group("ja")), int(m.group("ei")), 0
+        else:
+            a, b, t = _n(m.group("a")), _n(m.group("b")), _n(m.group("t")) if m.group("t") else 0
+        found.append(ProseVote(a, b, t, _sentence_at(text, m.start(), m.end())))
+    # The same result is often restated right after ("… totesi … 7 äänellä 6 vastaan …").
+    return [p for i, p in enumerate(found) if not (i and _restates(found[i - 1], p))]
+
+
+def _restates(prev: ProseVote, cur: ProseVote) -> bool:
+    return (
+        sorted((prev.a, prev.b)) == sorted((cur.a, cur.b))
+        and prev.tyhja == cur.tyhja
+        and (
+            prev.sentence == cur.sentence
+            or cur.sentence.startswith("Äänestyksen jälkeen")
+            or prev.sentence.startswith("Äänestyksessä JAA")
+        )
+    )
 
 
 def mentions_vote_list(lines: list[str]) -> bool:
@@ -250,6 +279,27 @@ def _counts(d: dict[Choice, int]) -> Counts:
     return Counts(**{c.value: d.get(c, 0) for c in Choice})
 
 
+def _pair(prose: list[ProseVote], pdf_votes: list[PdfVote]) -> list[tuple[ProseVote | None, PdfVote | None]]:
+    """Pair each PDF vote with the prose sentence stating its counts. The PDF can list the votes
+    in another order than the text (council 8.6.2026 § 7), so pair by counts first, then the rest
+    in order."""
+    key = lambda a, b, t: (min(a, b), max(a, b), t)  # noqa: E731
+    left = list(prose)
+    pairs: list[tuple[ProseVote | None, PdfVote | None]] = []
+    for dv in pdf_votes:
+        k = key(dv.counts.get(Choice.jaa, 0), dv.counts.get(Choice.ei, 0), dv.counts.get(Choice.tyhja, 0))
+        same = [p for p in left if key(p.a, p.b, p.tyhja) == k]
+        pv = same[0] if same else None
+        if pv is not None:
+            left.remove(pv)
+        pairs.append((pv, dv))
+    for i, (pv, dv) in enumerate(pairs):
+        if pv is None and left:
+            pairs[i] = (left.pop(0), dv)
+    pairs.extend((pv, None) for pv in left)
+    return pairs
+
+
 def build_votes(
     prose: list[ProseVote],
     pdf_votes: list[PdfVote],
@@ -259,9 +309,7 @@ def build_votes(
     pdf_problem: str | None = None,
 ) -> list[VoteEvent]:
     events: list[VoteEvent] = []
-    for i in range(max(len(prose), len(pdf_votes))):
-        pv = prose[i] if i < len(prose) else None
-        dv = pdf_votes[i] if i < len(pdf_votes) else None
+    for i, (pv, dv) in enumerate(_pair(prose, pdf_votes)):
         reasons: list[str] = []
         if dv is None:
             assert pv is not None

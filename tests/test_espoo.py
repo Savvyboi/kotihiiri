@@ -402,3 +402,38 @@ def test_second_run_produces_no_diff(tmp_path):
     report, _ = run(tmp_path)
     assert report.files_changed == 0
     assert snapshot(tmp_path) == before
+
+
+def test_prose_variants_from_the_live_crawl():
+    lines = [
+        "Äänestyksessä JAA ääniä tuli 6 ja EI ääniä 7. Äänestyksen jälkeen puheenjohtaja totesi "
+        "kaupunkisuunnittelulautakunnan seitsemällä (7) äänellä kuutta (6) vastaan päättäneen hyväksyä muutosehdotuksen.",
+        "Puheenjohtaja totesi Aaltosen ehdotuksen voittaneen seitsemällä äänellä kahta vastaan.",
+        "Puheenjohtaja totesi kaupunginhallituksen 12 äänellä 2 ääntä 1 ollessa poissa vastaan hylänneen "
+        "Kajavan muutosehdotuksen.",
+    ]
+    assert [(p.a, p.b, p.tyhja) for p in vc.parse_prose(lines)] == [(6, 7, 0), (7, 2, 0), (12, 2, 0)]
+
+
+def test_vote_list_titles():
+    for title in ("Äänestyslistat § 167", "Liite 3 Äänestystiedot Lahnuksen koulun korjausselvitys",
+                  "Liite 3 Äänestystulosraportti §53_2026", "Liite 1 Äänestysraportti § 12"):  # fmt: skip
+        assert vc.VOTE_LIST_TITLE.search(title), title
+    assert not vc.VOTE_LIST_TITLE.search("Liite 1 Henttaanmylly asemakaava")
+
+
+def test_pdf_votes_pair_with_prose_by_counts():
+    # council 8.6.2026 § 7: the PDF lists the final vote first, the text the send-back vote first
+    prose = vc.parse_prose([
+        "Äänestyksessä valtuusto 4 äänellä 70 ääntä vastaan ja 1 ollessa poissa hylkäsi palautusehdotuksen.",
+        "Äänestyksessä valtuusto 72 äänellä 3 ääntä vastaan hyväksyi kaupunginhallituksen ehdotuksen.",
+    ])  # fmt: skip
+    J, E = vc.Choice.jaa, vc.Choice.ei
+    pdf = [vc.PdfVote(jaa_label="a", ei_label="b", counts={J: 72, E: 3}),
+           vc.PdfVote(jaa_label="a", ei_label="b", counts={J: 4, E: 70})]  # fmt: skip
+    events = vc.build_votes(prose, pdf, item_url="u", pdf_url=None)
+    assert [e.result_text.split(" hy")[0] for e in events] == [
+        "Äänestyksessä valtuusto 72 äänellä 3 ääntä vastaan",
+        "Äänestyksessä valtuusto 4 äänellä 70 ääntä vastaan ja 1 ollessa poissa",
+    ]
+    assert not any("minutes text says" in (e.review_reason or "") for e in events)
