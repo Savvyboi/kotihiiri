@@ -12,7 +12,7 @@ on:
         description: "Earliest meeting date"
         default: "2025-01-01"
       window_weeks:
-        description: "Refetch meetings this many weeks back (empty = everything since `since`)"
+        description: "Refetch meetings this many weeks back, or `all` for everything since `since` (re-parses stored items)"
         default: "10"
       cities:
         description: "Cities to crawl, comma-separated"
@@ -89,7 +89,7 @@ jobs:
         run: |
           set +e
           args=(--city "${{ matrix.city }}" --since "$SINCE" --max-minutes 300)
-          if [ -n "$WINDOW" ]; then args+=(--window-weeks "$WINDOW"); fi
+          if [ -n "$WINDOW" ] && [ "$WINDOW" != "all" ]; then args+=(--window-weeks "$WINDOW"); fi
           if [ -n "$BODY" ]; then args+=(--body "$BODY"); fi
           kunta crawl "${args[@]}"
           echo "code=$?" >> "$GITHUB_OUTPUT"
