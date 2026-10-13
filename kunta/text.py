@@ -99,10 +99,13 @@ def content_sha256(*parts: str) -> str:
     return h.hexdigest()
 
 
-_CONFIDENTIAL = re.compile(r"^\s*(?:salassa pidettävä|sekretessbelagd)\b", re.IGNORECASE)
+# "Salassa pidettävä" as the title (Helsinki) or "{title} (Salassa pidettävä)" (Tampere).
+_CONFIDENTIAL = re.compile(
+    r"^\s*(?:salassa pidettävä|sekretessbelagd)\b|\(salassa pidettävä\)\s*$", re.IGNORECASE
+)
 
 
 def is_confidential(title: str | None) -> bool:
     """Items withheld under the Publicity Act are listed with this as their title and never get a
     public decision text, so an empty page is the final state, not a failed load."""
-    return bool(title and _CONFIDENTIAL.match(title))
+    return bool(title and _CONFIDENTIAL.search(title))

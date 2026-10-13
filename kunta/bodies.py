@@ -14,6 +14,10 @@ from .models import BodyKind
 EXCLUDE_PATTERNS = [
     # advisory / influence bodies
     r"nuorisoneuvosto",
+    r"nuorisovaltuusto",
+    r"maahanmuuttajaneuvosto",
+    r"eläkeläisvaltuusto",
+    r"päihdeneuvosto",
     r"nuorten vaikuttajaryhmä",
     r"vanhusneuvosto",
     r"vammaisneuvosto",
