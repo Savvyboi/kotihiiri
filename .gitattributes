@@ -1,0 +1,2 @@
+# Goldens and data are compared byte for byte; keep LF on Windows checkouts too.
+*.json text eol=lf

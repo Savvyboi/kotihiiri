@@ -7,7 +7,7 @@ from kunta import jsonio
 from kunta.adapters.base import TransientItemError
 from kunta.adapters.dynasty import DynastyAdapter
 from kunta.crawl import crawl
-from kunta.models import Body, ItemRef, MeetingRef, Stage
+from kunta.models import Body, Counts, ItemRef, MeetingRef, Stage, VoteEvent
 from kunta.parsers import dynasty as dp
 from kunta.parsers import votes_cloudmeeting as vc
 from kunta.text import contains_pii
@@ -220,6 +220,83 @@ def test_golden_vote_item(request):
     assert path.read_bytes() == data
 
 
+# -- recorded pages -------------------------------------------------------------------------
+# tests/fixtures/espoo/real: pages fetched from espoo.oncloudos.com on 2026-10-13, markup compacted.
+
+REAL = FIXTURES / "real"
+
+
+def real_item(name: str) -> dp.ItemPage:
+    return dp.parse_item((REAL / f"item-{name}.html").read_text(encoding="utf-8"))
+
+
+def test_real_meeting_page():
+    page = dp.parse_meeting((REAL / "meeting-20251336.html").read_text(encoding="utf-8"), "20251336")
+    assert (page.date, page.stage) == (dt.date(2025, 1, 20), "minutes")
+    assert (page.start_time, page.end_time, page.location) == (
+        "17:30",
+        "19:16",
+        "Valtuustotalo, Espoonkatu 5",
+    )
+    assert len(page.participants) == 83 and page.participants[0].role == "puheenjohtaja"
+    assert page.minutes_pdf == "https://espoo.oncloudos.com/kokous/20251336.PDF"
+    assert (page.rows[6].ordinal, page.rows[6].pykala) == (7, 7)
+
+
+def test_real_item_inline_headings():
+    # "Päätös" and its first sentence share one paragraph.
+    page = real_item("20251336-1")
+    assert [(s.type, s.heading) for s in page.sections] == [
+        ("decision", "Päätös"),
+        ("background", "Selostus"),
+    ]
+    assert page.sections[0].text.startswith("Puheenjohtaja totesi kokouksen laillisesti")
+    assert not any("©" in s.text for s in page.sections)
+
+
+def test_real_item_presenter_history_and_attachment_parts():
+    page = real_item("20261715-13")
+    assert (page.pykala, page.case_number, page.presenter) == (132, "1312/10.03.02/2025", "Kaupunginhallitus")
+    assert page.preparers == ["Lehtinen Maija"]
+    history = [s for s in page.sections if s.type == "history"]
+    assert len(history) == 4 and history[0].text.startswith("Päätösehdotus Esittelijä")
+    assert [(a.title, a.kind, a.url.rsplit("/", 1)[1]) for a in page.attachments] == [
+        ("Liite 1 Olarin uimahallin valokuvakooste 8.6.2026", "attachment", "20261715-13-357076.PDF"),
+        ("Liite 2 Äänestyslista § 132", "attachment", "20261715-13-375914.PDF"),
+        ("Oheismateriaali 1 Valtuustoaloite kaupunki ryhtyisi toimiin Olarin uimahallin avaamiseksi "
+         "uudelleen, Risto Nevanlinna+ 25 kvalt", "supplementary", "20261715-13-352661.PDF"),
+    ]  # fmt: skip
+
+
+def test_real_item_votes_with_the_vote_pdf():
+    site = FakeEspoo()
+    site.overrides["/cgi/DREQUEST.PHP?page=meetingitem&id=20261715-13"] = (
+        "text/html; charset=UTF-8",
+        (REAL / "item-20261715-13.html").read_bytes(),
+    )
+    item = olari(site)
+    (v,) = item.votes
+    assert v.counts.model_dump() == {"jaa": 30, "ei": 41, "tyhja": 4, "poissa": 0}
+    assert len(v.ballots) == 75 and not v.needs_review, v.review_reason
+    (motion,) = item.motions
+    assert (motion.proposer_ref.raw, [s.raw for s in motion.seconder_refs]) == ("Nevanlinna", ["Aaltosen"])
+
+
+def test_real_item_three_votes_in_prose():
+    page = real_item("20251336-7")
+    assert vc.mentions_vote_list(page.deliberation_lines)
+    assert [(p.a, p.b, p.tyhja) for p in vc.parse_prose(page.deliberation_lines)] == [
+        (49, 13, 13), (9, 65, 1), (32, 22, 21)]  # fmt: skip
+    motions = vc.parse_motions(page.deliberation_lines)
+    assert [(m.text[:5], m.proposer_ref.raw, m.outcome) for m in motions] == [
+        ("7.2. ", "Halkosaari", "adopted"), ("7.3. ", "Halkosaari", "adopted"), ("7.1. ", "Hopsu", "adopted"),
+        ("7.4. ", "Keronen", "rejected"), ("7.5. ", "Järvinen", "adopted")]  # fmt: skip
+    assert [a.title for a in page.attachments] == [
+        "Liite 1 Äänestyslista § 7",
+        "Oheismateriaali 1 Valtuustokysymys Kotoutumisen edistäminen Espoossa",
+    ]
+
+
 # -- PDF and prose units --------------------------------------------------------------------
 
 
@@ -250,6 +327,43 @@ def test_pdf_lines_ei_aanestanyt_is_poissa():
     assert v.ballots[-1] == ("Luonnos Liisa", "poissa") and v.leftover == []
     (ev,) = vc.build_votes([], [v], item_url="u", pdf_url="p")
     assert ev.counts.poissa == 1 and ev.needs_review and "no matching vote sentence" in ev.review_reason
+
+
+def test_motion_title_before_seconder_and_numbered_on_one_line():
+    lines = [
+        "Hopsu puheenjohtaja Limnellin kannattamana ehdotti, että asia jätetään pöydälle.",
+        "Hopsu Kausteen ym. kannattamana teki seuraavan toivomuksen: 9.1.",
+        "Valtuusto toivoo A.",
+        "Hopsu Kausteen ym. kannattamana teki seuraavan toivomuksen: 9.2.",
+        "Valtuusto toivoo B.",
+    ]
+    table, first, second = vc.parse_motions(lines)
+    assert (table.kind, [s.raw for s in table.seconder_refs], table.text) == (
+        "table", ["Limnellin"], "että asia jätetään pöydälle.")  # fmt: skip
+    assert (first.text, second.text) == ("9.1. Valtuusto toivoo A.", "9.2. Valtuusto toivoo B.")
+
+
+def _vote(jaa_label, ei_label, jaa, ei):
+    return VoteEvent(ordinal=1, jaa_label=jaa_label, ei_label=ei_label, counts=Counts(jaa=jaa, ei=ei),
+                     source="pdf", source_url="u")  # fmt: skip
+
+
+def test_outcomes_for_one_proposers_two_motions_and_a_send_back():
+    lines = [
+        "Hopsu Kausteen ym. kannattamana teki seuraavan toivomuksen: 9.1.", "Valtuusto toivoo A.",
+        "Hopsu Kausteen ym. kannattamana teki seuraavan toivomuksen: 9.2.", "Valtuusto toivoo B.",
+        "Puheenjohtaja tiedusteli, voidaanko Hopsun toivomusehdotus 9.1. hyväksyä yksimielisesti. Koska "
+        "ehdotusta ei vastustettu, puheenjohtaja totesi valtuuston hyväksyneen sen yksimielisesti.",
+        "Partanen Hagerlundin kannattamana ehdotti, että asia palautetaan uudelleen valmisteltavaksi.",
+    ]  # fmt: skip
+    first, second, back = vc.parse_motions(lines)
+    assert (first.outcome, second.outcome, back.outcome) == ("adopted", None, None)
+    # a label without a number cannot tell 9.1 from 9.2
+    vc.resolve_outcomes([first, second, back], [_vote("Hopsu", "vastaan", 30, 41)])
+    assert second.outcome is None
+    vc.resolve_outcomes([first, second, back], [_vote("Palautus", "käsittely jatkuu", 6, 67),
+                                                _vote("Hopsu 9.2", "vastaan", 30, 41)])  # fmt: skip
+    assert (first.outcome, second.outcome, back.outcome) == ("adopted", "rejected", "rejected")
 
 
 # -- crawl ----------------------------------------------------------------------------------
