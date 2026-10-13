@@ -46,3 +46,5 @@ addopts = "-q"
 # One-off fixture generator; terse by design.
 "scripts/make_demo_data.py" = ["E402", "E501", "E701", "E702", "F403", "F405"]
 "scripts/make_helsinki_fixtures.py" = ["E501", "E741"]
+"scripts/make_espoo_fixtures.py" = ["E501"]
+"tests/test_espoo.py" = ["E501"]
