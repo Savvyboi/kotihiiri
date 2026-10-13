@@ -1,3 +1,123 @@
-# Filled by `kunta discover --city tampere`. Set `included: true|false` on a body to
-# override the default exclude rules (kunta/bodies.py). Manual flags survive re-discovery.
-bodies: {}
+# Written by `kunta discover` / `kunta crawl`. Add `included: true|false` to a body to override the
+# default exclude rules (kunta/bodies.py); manual keys survive re-discovery. `excluded_by_rule`
+# is informational.
+bodies:
+  alueellinen-jatehuoltolautakunta:
+    kind: committee
+    name_fi: Alueellinen jätehuoltolautakunta
+  asunto-ja-kiinteistolautakunta:
+    kind: committee
+    name_fi: Asunto- ja kiinteistölautakunta
+  elakelaisvaltuusto:
+    excluded_by_rule: true
+    kind: council
+    name_fi: Eläkeläisvaltuusto
+  elinvoima-ja-osaamislautakunnan-tyollisyysjaosto:
+    kind: section
+    name_fi: Elinvoima- ja osaamislautakunnan työllisyysjaosto
+  elinvoima-ja-osaamislautakunta:
+    kind: committee
+    name_fi: Elinvoima- ja osaamislautakunta
+  kasvatus-ja-opetuslautakunta:
+    kind: committee
+    name_fi: Kasvatus- ja opetuslautakunta
+  kaupunginhallituksen-konsernijaosto:
+    kind: section
+    name_fi: Kaupunginhallituksen konsernijaosto
+  kaupunginhallitus:
+    kind: board
+    name_fi: Kaupunginhallitus
+  kaupunginvaltuusto:
+    kind: council
+    name_fi: Kaupunginvaltuusto
+  kaupunginvaltuuston-kyselytunti:
+    kind: council
+    name_fi: Kaupunginvaltuuston kyselytunti
+  keskusvaalilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Keskusvaalilautakunta
+  kulttuuri-ja-vapaa-aikalautakunta:
+    kind: committee
+    name_fi: Kulttuuri- ja vapaa-aikalautakunta
+  lahjoitus-ja-tukirahaston-toimikunta:
+    kind: committee
+    name_fi: Lahjoitus- ja tukirahaston toimikunta
+  maahanmuuttajaneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Maahanmuuttajaneuvosto
+  mielenterveys-ja-paihdeneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Mielenterveys- ja päihdeneuvosto
+  pirkanmaan-pelastustoimen-neuvottelukunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Pirkanmaan pelastustoimen neuvottelukunta
+  sara-hildenin-taidemuseon-johtokunta:
+    kind: enterprise_board
+    name_fi: Sara Hildenin taidemuseon johtokunta
+  sivistys-ja-kulttuurilautakunta:
+    kind: committee
+    name_fi: Sivistys- ja kulttuurilautakunta
+  sosiaali-ja-terveyslautakunnan-yksiloasioiden-jaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Sosiaali- ja terveyslautakunnan yksilöasioiden jaosto
+  sosiaali-ja-terveyslautakunta:
+    kind: committee
+    name_fi: Sosiaali- ja terveyslautakunta
+  tampereen-infra-liikelaitoksen-johtokunta:
+    kind: enterprise_board
+    name_fi: Tampereen Infra Liikelaitoksen johtokunta
+  tampereen-kaupunkiliikenne-liikelaitoksen-johtokunta:
+    kind: enterprise_board
+    name_fi: Tampereen Kaupunkiliikenne Liikelaitoksen johtokunta
+  tampereen-kaupunkiseudun-joukkoliikennelautakunta:
+    kind: committee
+    name_fi: Tampereen kaupunkiseudun joukkoliikennelautakunta
+  tampereen-nuorisovaltuusto:
+    excluded_by_rule: true
+    kind: council
+    name_fi: Tampereen nuorisovaltuusto
+  tampereen-vesi-liikelaitoksen-johtokunta:
+    kind: enterprise_board
+    name_fi: Tampereen Vesi Liikelaitoksen johtokunta
+  tampereen-voimia-liikelaitoksen-johtokunta:
+    kind: enterprise_board
+    name_fi: Tampereen Voimia liikelaitoksen johtokunta
+  tarkastuslautakunta:
+    kind: committee
+    name_fi: Tarkastuslautakunta
+  testitoimielin:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Testitoimielin
+  tiedeapurahatoimikunta:
+    kind: committee
+    name_fi: Tiedeapurahatoimikunta
+  tilapainen-valiokunta:
+    kind: committee
+    name_fi: Tilapäinen valiokunta
+  vammaisneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vammaisneuvosto
+  vanhusneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vanhusneuvosto
+  versiopaivitystoimielin:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Versiopäivitystoimielin
+  yhdyskuntalautakunnan-alueellisen-ymparistoterveydenhuollon-jaosto:
+    kind: section
+    name_fi: Yhdyskuntalautakunnan alueellisen ympäristöterveydenhuollon jaosto
+  yhdyskuntalautakunnan-ymparisto-ja-rakennusjaosto:
+    kind: section
+    name_fi: Yhdyskuntalautakunnan ympäristö- ja rakennusjaosto
+  yhdyskuntalautakunta:
+    kind: committee
+    name_fi: Yhdyskuntalautakunta

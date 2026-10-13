@@ -1,3 +1,65 @@
-# Filled by `kunta discover --city espoo`. Set `included: true|false` on a body to
-# override the default exclude rules (kunta/bodies.py). Manual flags survive re-discovery.
-bodies: {}
+# Written by `kunta discover` / `kunta crawl`. Add `included: true|false` to a body to override the
+# default exclude rules (kunta/bodies.py); manual keys survive re-discovery. `excluded_by_rule`
+# is informational.
+bodies:
+  kasvun-ja-oppimisen-lautakunnan-nuorisoasiainjaosto:
+    kind: section
+    name_fi: Kasvun ja oppimisen lautakunnan nuorisoasiainjaosto
+  kasvun-ja-oppimisen-lautakunta:
+    kind: committee
+    name_fi: Kasvun ja oppimisen lautakunta
+  kaupunginhallituksen-elinkeino-ja-kilpailukykyjaosto:
+    kind: section
+    name_fi: Kaupunginhallituksen elinkeino- ja kilpailukykyjaosto
+  kaupunginhallituksen-konserni-ja-tilajaosto:
+    kind: section
+    name_fi: Kaupunginhallituksen konserni- ja tilajaosto
+  kaupunginhallituksen-konsernijaosto:
+    kind: section
+    name_fi: Kaupunginhallituksen konsernijaosto
+  kaupunginhallituksen-tila-ja-asuntojaosto:
+    kind: section
+    name_fi: Kaupunginhallituksen tila- ja asuntojaosto
+  kaupunginhallituksen-tyollisyys-ja-kotoutumisjaosto:
+    kind: section
+    name_fi: Kaupunginhallituksen työllisyys- ja kotoutumisjaosto
+  kaupunginhallituksen-tyollisyysjaosto:
+    kind: section
+    name_fi: Kaupunginhallituksen työllisyysjaosto
+  kaupunginhallitus:
+    kind: board
+    name_fi: Kaupunginhallitus
+  kaupunkisuunnittelulautakunta:
+    kind: committee
+    name_fi: Kaupunkisuunnittelulautakunta
+  keskusvaalilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Keskusvaalilautakunta
+  kulttuuri-ja-nuorisolautakunta:
+    kind: committee
+    name_fi: Kulttuuri- ja nuorisolautakunta
+  kulttuurilautakunta:
+    kind: committee
+    name_fi: Kulttuurilautakunta
+  liikunta-ja-hyvinvointilautakunta:
+    kind: committee
+    name_fi: Liikunta- ja hyvinvointilautakunta
+  liikuntalautakunta:
+    kind: committee
+    name_fi: Liikuntalautakunta
+  namnden-svenska-rum:
+    kind: committee
+    name_fi: Nämnden Svenska rum
+  tarkastuslautakunta:
+    kind: committee
+    name_fi: Tarkastuslautakunta
+  tekninen-lautakunta:
+    kind: committee
+    name_fi: Tekninen lautakunta
+  valtuusto:
+    kind: council
+    name_fi: Valtuusto
+  ymparisto-ja-rakennuslautakunta:
+    kind: committee
+    name_fi: Ympäristö- ja rakennuslautakunta
