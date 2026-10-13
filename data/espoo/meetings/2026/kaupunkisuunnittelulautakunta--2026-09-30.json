@@ -127,6 +127,7 @@
         },
         {
           "kind": "send_back",
+          "outcome": "rejected",
           "proposer_ref": {
             "raw": "Aarnio"
           },
@@ -187,7 +188,198 @@
       "statements": [],
       "status": "active",
       "title": "Kiltaveljenmäki, asemakaavaehdotuksen ja asemakaavan muutosehdotuksen hyväksyminen nähtäville (MRA 27 §), alue 610600, 40. kaupunginosa Espoon keskus",
-      "votes": []
+      "votes": [
+        {
+          "ballots": [
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Laakso Mikko"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Juuti Sini"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Vuornos Henrik"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Havu Isto"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Puntila Päivi"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Lindholm Julia"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Laakso Ville"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Aarnio Antti"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Karimäki Johanna"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Ali Habiba"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Särkiö Ilkka"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Sorri Mikael"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Kerola Hannele"
+              }
+            }
+          ],
+          "counts": {
+            "ei": 7,
+            "jaa": 6,
+            "poissa": 0,
+            "tyhja": 0
+          },
+          "ei_label": "Asian käsittelyn jatkaminen",
+          "jaa_label": "Aarnion palautusehdotus",
+          "needs_review": false,
+          "ordinal": 1,
+          "result_text": "Äänestyksessä JAA ääniä tuli 6 ja EI ääniä 7.",
+          "source": "pdf",
+          "source_url": "https://espoo.oncloudos.com/kokous/20261729-3-377924.PDF"
+        },
+        {
+          "ballots": [
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Kerola Hannele"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Laakso Ville"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Havu Isto"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Puntila Päivi"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Vuornos Henrik"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Lindholm Julia"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Laakso Mikko"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Juuti Sini"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Särkiö Ilkka"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Sorri Mikael"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Karimäki Johanna"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Aarnio Antti"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Ali Habiba"
+              }
+            }
+          ],
+          "counts": {
+            "ei": 8,
+            "jaa": 5,
+            "poissa": 0,
+            "tyhja": 0
+          },
+          "ei_label": "Puheenjohtajan muutosehdotus",
+          "jaa_label": "Pohjaehdotus",
+          "needs_review": false,
+          "ordinal": 2,
+          "result_text": "Äänestyksessä JAA ääniä tuli 5 ja EI ääniä 8.",
+          "source": "pdf",
+          "source_url": "https://espoo.oncloudos.com/kokous/20261729-3-377924.PDF"
+        }
+      ]
     },
     {
       "attachments": [
