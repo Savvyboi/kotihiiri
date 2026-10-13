@@ -173,6 +173,36 @@ def _ballot_mismatch(counts: Counts, ballots: list[Ballot]) -> list[str]:
     ]
 
 
+def _key(name: str) -> str:
+    return " ".join(sorted(re.findall(r"[\w-]+", name.lower())))
+
+
+def _table_disagreement(ballots: list[Ballot], table: TableVote) -> str:
+    """The city's own vote table and minutes text can disagree (seen on three council votes in
+    2025–2026, each one member recorded with a different choice). The text is the minutes, so its
+    ballots stand; the table still gives each member's group. The reason names who differs."""
+    in_table = {_key(name): (c, name, group) for c in Choice for name, group in table.rows.get(c, [])}
+    differs: list[str] = []
+    for i, b in enumerate(ballots):
+        hit = in_table.get(_key(b.person_ref.raw))
+        if hit is None:
+            continue
+        choice, _, group = hit
+        if group:
+            ballots[i] = b.model_copy(update={"group_text": group})
+        if choice != b.choice:
+            differs.append(
+                f"{b.person_ref.raw} ({b.choice.title()} in the text, {choice.value.title()} in the table)"
+            )
+    if differs:
+        return (
+            "the city's vote table and minutes text disagree: "
+            + ", ".join(differs).replace("Tyhja", "Tyhjä")
+            + "; counts and ballots follow the minutes text"
+        )
+    return "vote table counts differ from text counts; ballots taken from text"
+
+
 def build_votes(text_votes: list[TextVote], table_votes: list[TableVote], source_url: str) -> list[VoteEvent]:
     events: list[VoteEvent] = []
     for i, tv in enumerate(text_votes, start=1):
@@ -189,13 +219,13 @@ def build_votes(text_votes: list[TextVote], table_votes: list[TableVote], source
                 for name, group in table.rows.get(c, [])
             ]
         else:
-            if table is not None:
-                reasons.append("vote table counts differ from text counts; ballots taken from text")
             ballots = [
                 Ballot(person_ref=PersonRef(raw=strip_title(name)), choice=c)
                 for c in Choice
                 for name in tv.names.get(c, [])
             ]
+            if table is not None:
+                reasons.append(_table_disagreement(ballots, table))
         # Absent members are often only counted, not named; that alone is not a mismatch.
         mismatch = [
             m

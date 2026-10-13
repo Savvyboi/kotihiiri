@@ -6,8 +6,9 @@ import pytest
 from kunta import jsonio
 from kunta.adapters.base import TransientItemError
 from kunta.adapters.helsinki import HelsinkiAdapter, build_item
-from kunta.models import Body, ItemRef, MeetingRef, Stage
+from kunta.models import Body, Choice, ItemRef, MeetingRef, Stage
 from kunta.parsers import helsinki as hp
+from kunta.parsers import votes_helsinki as votes
 from kunta.text import contains_pii
 from tests.helsinki_site import FIXTURES, FakeHelsinki, client
 
@@ -228,3 +229,34 @@ def test_confidential_item_is_final_not_transient():
         source_url="https://paatokset.hel.fi/fi/asia/x",
     )
     assert adapter.fetch_item(ref).sections == []
+
+
+def test_table_and_text_disagreeing_names_the_member_and_keeps_groups():
+    # council 9.9.2026: the minutes text lists one member under Jaa whom the table lists under Ei
+    tv = votes.TextVote(
+        jaa_label="Asian käsittelyä jatketaan",
+        ei_label="Palautusehdotus",
+        counts={Choice.jaa: 2, Choice.ei: 1},
+        names={Choice.jaa: ["Aino Esimerkki", "Ville Malli"], Choice.ei: ["Eero Näyte"]},
+    )
+    table = votes.TableVote(
+        counts={Choice.jaa: 1, Choice.ei: 2},
+        rows={
+            Choice.jaa: [("Esimerkki, Aino", "Vihreä valtuustoryhmä")],
+            Choice.ei: [
+                ("Malli, Ville", "Kokoomuksen valtuustoryhmä"),
+                ("Näyte, Eero", "Keskustan valtuustoryhmä"),
+            ],
+        },
+    )
+    (v,) = votes.build_votes([tv], [table], "u")
+    assert v.counts.jaa == 2 and v.needs_review
+    assert v.review_reason == (
+        "the city's vote table and minutes text disagree: Ville Malli (Jaa in the text, Ei in the table); "
+        "counts and ballots follow the minutes text"
+    )
+    assert [(b.person_ref.raw, b.choice, b.group_text) for b in v.ballots] == [
+        ("Aino Esimerkki", "jaa", "Vihreä valtuustoryhmä"),
+        ("Ville Malli", "jaa", "Kokoomuksen valtuustoryhmä"),
+        ("Eero Näyte", "ei", "Keskustan valtuustoryhmä"),
+    ]

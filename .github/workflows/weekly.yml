@@ -1,4 +1,4 @@
-# Weekly crawl (PLAN.md §12). M1: Helsinki only. Crawls, validates, commits data/, then deploys
+# Weekly crawl (PLAN.md §12). Helsinki (M1) and Espoo (M2). Crawls, validates, commits data/, then deploys
 # the site through pages.yml. Does nothing until site_domain and contact_email are set in
 # config/project.yaml, because both go into the crawler's User-Agent (§2.1 rule 3).
 name: weekly
@@ -14,6 +14,12 @@ on:
       window_weeks:
         description: "Refetch meetings this many weeks back (empty = everything since `since`)"
         default: "10"
+      cities:
+        description: "Cities to crawl, comma-separated"
+        default: "helsinki,espoo"
+      body:
+        description: "Only this body slug (e.g. kaupunginvaltuusto); empty = all bodies"
+        default: ""
 
 permissions:
   contents: write
@@ -30,6 +36,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       ready: ${{ steps.check.outputs.ready }}
+      cities: ${{ steps.cities.outputs.json }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -43,6 +50,10 @@ jobs:
           p = yaml.safe_load(open("config/project.yaml"))
           print("ready=" + ("true" if p.get("site_domain") and p.get("contact_email") else "false"))
           PY
+      - id: cities
+        env:
+          CITIES: ${{ inputs.cities || 'helsinki,espoo' }}
+        run: echo "json=$(python -c 'import json,os; print(json.dumps([c.strip() for c in os.environ["CITIES"].split(",") if c.strip()]))')" >> "$GITHUB_OUTPUT"
       - if: steps.check.outputs.ready != 'true'
         run: echo "::warning::config/project.yaml has no site_domain/contact_email yet; skipping the crawl."
 
@@ -54,7 +65,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        city: [helsinki]
+        city: ${{ fromJSON(needs.preflight.outputs.cities) }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -74,10 +85,12 @@ jobs:
         env:
           SINCE: ${{ inputs.since || '2025-01-01' }}
           WINDOW: ${{ github.event_name == 'schedule' && '10' || inputs.window_weeks }}
+          BODY: ${{ inputs.body || '' }}
         run: |
           set +e
           args=(--city "${{ matrix.city }}" --since "$SINCE" --max-minutes 300)
           if [ -n "$WINDOW" ]; then args+=(--window-weeks "$WINDOW"); fi
+          if [ -n "$BODY" ]; then args+=(--body "$BODY"); fi
           kunta crawl "${args[@]}"
           echo "code=$?" >> "$GITHUB_OUTPUT"
       - run: kunta validate --city ${{ matrix.city }}
@@ -121,7 +134,8 @@ jobs:
           git diff --cached --quiet || git commit -m "data: weekly crawl $(date -u +%F)"
           git push
 
+  # A run dispatched on a PR branch (to try an adapter live) commits to that branch but never deploys.
   deploy:
     needs: commit
-    if: ${{ !cancelled() && needs.commit.result == 'success' }}
+    if: ${{ !cancelled() && needs.commit.result == 'success' && github.ref == 'refs/heads/main' }}
     uses: ./.github/workflows/pages.yml
