@@ -1,0 +1,43 @@
+# Records a few public source pages as a workflow artifact for fixture work (PLAN.md §14). The
+# pages are never committed (§2.2 rule 6); the artifact expires after 7 days.
+name: record-pages
+
+on:
+  # A push to a working branch that changes the URL list records those pages; workflow_dispatch
+  # does the same from the Actions tab once this file is on main.
+  push:
+    branches: ["claude/**"]
+    paths: [scripts/record_pages.urls]
+  workflow_dispatch:
+    inputs:
+      city:
+        description: "Enabled city whose hosts may be fetched"
+        default: "espoo"
+      urls:
+        description: "Space-separated URLs"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  record:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -e .
+      - env:
+          CITY: ${{ inputs.city || 'espoo' }}
+          URLS: ${{ inputs.urls }}
+        run: |
+          if [ -z "$URLS" ]; then URLS=$(grep -v '^#' scripts/record_pages.urls | xargs); fi
+          python scripts/record_pages.py "$CITY" pages $URLS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pages
+          path: pages/
+          retention-days: 7
