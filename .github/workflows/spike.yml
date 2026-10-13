@@ -1,0 +1,18 @@
+# Temporary spike workflow (removed before merge).
+name: spike
+on:
+  push:
+    branches: ["claude/councillors-**"]
+    paths: [scripts/spike_people.py, scripts/spike.urls, .github/workflows/spike.yml]
+permissions:
+  contents: read
+jobs:
+  spike:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e .
+      - run: python scripts/spike_people.py $(grep -v '^#' scripts/spike.urls | xargs)
