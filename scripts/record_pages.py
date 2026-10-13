@@ -12,6 +12,7 @@ from pathlib import Path
 
 from kunta.config import load_project, require_enabled
 from kunta.http import PoliteClient
+from kunta.pdf import pdf_pages
 
 
 def main(city: str, out: str, urls: list[str]) -> None:
@@ -26,6 +27,15 @@ def main(city: str, out: str, urls: list[str]) -> None:
             name = name[:80] or hashlib.sha256(url.encode()).hexdigest()[:12]
             (out_dir / name).write_bytes(resp.content)
             print(f"{resp.status} {resp.content_type} {len(resp.content)} {url} -> {name}")
+            # Also into the log, which is readable where artifact storage is not.
+            print(f"=====BEGIN {name}")
+            if resp.content.startswith(b"%PDF"):
+                for i, page in enumerate(pdf_pages(resp.content), start=1):
+                    print(f"--- page {i}")
+                    print("\n".join(page))
+            else:
+                print(resp.text)
+            print(f"=====END {name}")
 
 
 if __name__ == "__main__":
