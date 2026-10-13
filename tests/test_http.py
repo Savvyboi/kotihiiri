@@ -180,3 +180,19 @@ def test_charset_decoding():
 
     r = Response("u", 200, "Päätös".encode("iso-8859-1"), {"content-type": "text/html; charset=ISO-8859-1"})
     assert r.text == "Päätös"
+
+
+def test_post_json_obeys_robots_and_sends_body():
+    seen = []
+
+    def handler(req):
+        if req.url.path == "/robots.txt":
+            return httpx.Response(200, text=ROBOTS)
+        seen.append((req.method, req.url.path, req.content))
+        return httpx.Response(200, text="a,b")
+
+    client, _ = make_client(handler)
+    with pytest.raises(RobotsDisallowed):
+        client.post_json("https://stats.example/private/t.px", {"q": 1})
+    assert client.post_json("https://stats.example/api/t.px", {"q": 1}).text == "a,b"
+    assert seen == [("POST", "/api/t.px", b'{"q":1}')]

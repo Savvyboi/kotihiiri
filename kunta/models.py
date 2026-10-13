@@ -129,6 +129,16 @@ class Term(_Model):
     end: dt.date
 
 
+class Election(_Model):
+    """A person's candidacy in a municipal election (PLAN.md §8 source 4)."""
+
+    year: int
+    party: str
+    result: str  # elected | deputy | not_elected
+    votes: int | None = None
+    source: str
+
+
 class Person(_Model):
     id: str
     city: CityId
@@ -136,6 +146,8 @@ class Person(_Model):
     sort_name: str
     aliases: list[str] = Field(default_factory=list)
     wikidata: str | None = None
+    party: str | None = None
+    election: Election | None = None
 
 
 class Membership(_Model):
@@ -147,6 +159,13 @@ class Membership(_Model):
     start: dt.date | None = None
     end: dt.date | None = None
     source: str
+
+
+class PeopleFile(_Model):
+    """data/{city}/people.json"""
+
+    persons: list[Person]
+    memberships: list[Membership]
 
 
 class PersonRef(_Model):

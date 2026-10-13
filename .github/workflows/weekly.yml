@@ -93,6 +93,8 @@ jobs:
           if [ -n "$BODY" ]; then args+=(--body "$BODY"); fi
           kunta crawl "${args[@]}"
           echo "code=$?" >> "$GITHUB_OUTPUT"
+      # Roster from the attendance lists just crawled, with party from the 2025 election (§8).
+      - run: kunta people --city ${{ matrix.city }}
       - run: kunta validate --city ${{ matrix.city }}
       # Only data that validated and raised no layout alarm reaches the commit job (§10: a failing
       # city is left out; the others still commit).

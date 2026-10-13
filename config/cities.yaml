@@ -10,6 +10,7 @@ cities:
     base_urls:
       - https://paatokset.hel.fi
     source_name: Helsingin kaupungin päätökset (paatokset.hel.fi)
+    statfin_candidates_table: "14uk"  # 2025 candidates with party (PLAN.md §8)
     video_url: https://www.helsinkikanava.fi
   espoo:
     name_fi: Espoo
@@ -19,6 +20,7 @@ cities:
     base_urls:
       - https://espoo.oncloudos.com
     source_name: Espoon kaupungin päätöksenteko (Dynasty)
+    statfin_candidates_table: "14ux"  # 2025 candidates with party (PLAN.md §8)
     video_url: https://www.youtube.com/@EspooFi
   tampere:
     name_fi: Tampere
@@ -28,6 +30,7 @@ cities:
     base_urls:
       - https://tampere.cloudnc.fi
     source_name: Tampereen kaupungin päätöksenteko (CloudNC)
+    statfin_candidates_table: "14v2"  # 2025 candidates with party (PLAN.md §8)
     video_url: https://www.tampere.fi/tampere-kanava
   vantaa:
     name_fi: Vantaa
@@ -38,6 +41,7 @@ cities:
       - https://paatokset.vantaa.fi
     council_body_id: "55038"
     source_name: Vantaan kaupungin päätökset (Tweb)
+    statfin_candidates_table: "14ux"  # 2025 candidates with party (PLAN.md §8)
     video_url: https://www.vantaa.fi/live
   oulu:
     name_fi: Oulu

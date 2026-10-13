@@ -10,7 +10,7 @@ from pydantic import ValidationError
 
 from . import jsonio
 from .config import DATA_DIR
-from .models import MeetingFile, Speech
+from .models import MeetingFile, PeopleFile, Speech
 from .text import contains_pii
 
 PARSE_ERROR_ALARM_RATIO = 0.05
@@ -93,6 +93,22 @@ def validate_city(city: str, data_dir: Path = DATA_DIR) -> Report:
                     report.errors.append(f"{sp.id}: e-mail or phone number in speech")
         except (ValidationError, ValueError) as exc:
             report.errors.append(f"{path}: schema: {exc}".splitlines()[0])
+    people = data_dir / city / "people.json"
+    if people.exists():
+        report.files += 1
+        try:
+            pf = PeopleFile.model_validate(jsonio.read(people))
+            ids = [p.id for p in pf.persons]
+            if len(ids) != len(set(ids)):
+                report.errors.append(f"{people}: duplicate person ids")
+            known = set(ids)
+            report.errors += [
+                f"{people}: membership of unknown person {m.person_id}"
+                for m in pf.memberships
+                if m.person_id not in known
+            ][:5]
+        except (ValidationError, ValueError) as exc:
+            report.errors.append(f"{people}: schema: {exc}".splitlines()[0])
     return report
 
 
