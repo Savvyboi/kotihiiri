@@ -7,12 +7,27 @@ git (PLAN.md §2.2 rule 6). Used to replace reconstructed fixtures with recorded
 from __future__ import annotations
 
 import hashlib
+import re
 import sys
 from pathlib import Path
 
 from kunta.config import load_project, require_enabled
 from kunta.http import PoliteClient
 from kunta.pdf import pdf_pages
+
+
+def compact(html: str) -> str:
+    """Body markup without scripts, styles, form widgets or attributes other than href/class/id."""
+    html = re.sub(r"(?is)<(script|style|head|select|svg)\b.*?</\1>", "", html)
+    html = re.sub(r"(?is)<!--.*?-->", "", html)
+
+    def attrs(m: re.Match) -> str:
+        kept = re.findall(r'\s(?:href|class|id)=("[^"]*"|\'[^\']*\')', m.group(2))
+        names = re.findall(r"\s(href|class|id)=(?:\"[^\"]*\"|'[^']*')", m.group(2))
+        return f"<{m.group(1)}" + "".join(f" {n}={v}" for n, v in zip(names, kept, strict=False)) + ">"
+
+    html = re.sub(r"<([a-zA-Z][a-zA-Z0-9]*)(\s[^<>]*)?>", lambda m: attrs(m) if m.group(2) else m.group(0), html)
+    return re.sub(r"\s+", " ", html).replace("> <", "><")
 
 
 def main(city: str, out: str, urls: list[str]) -> None:
@@ -32,9 +47,9 @@ def main(city: str, out: str, urls: list[str]) -> None:
             if resp.content.startswith(b"%PDF"):
                 for i, page in enumerate(pdf_pages(resp.content), start=1):
                     print(f"--- page {i}")
-                    print("\n".join(page))
+                    print("\n".join(page[:30]))
             else:
-                print(resp.text)
+                print(compact(resp.text))
             print(f"=====END {name}")
 
 
