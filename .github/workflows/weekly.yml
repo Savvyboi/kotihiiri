@@ -134,7 +134,8 @@ jobs:
           git diff --cached --quiet || git commit -m "data: weekly crawl $(date -u +%F)"
           git push
 
+  # A run dispatched on a PR branch (to try an adapter live) commits to that branch but never deploys.
   deploy:
     needs: commit
-    if: ${{ !cancelled() && needs.commit.result == 'success' }}
+    if: ${{ !cancelled() && needs.commit.result == 'success' && github.ref == 'refs/heads/main' }}
     uses: ./.github/workflows/pages.yml
