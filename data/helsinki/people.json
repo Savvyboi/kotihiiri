@@ -263,27 +263,18 @@
     },
     {
       "body_id": "helsinki/kaupunginvaltuusto",
-      "end": "2026-09-23",
-      "group": "Kokoomuksen valtuustoryhmä",
-      "person_id": "helsinki/castren-maaret",
-      "role": "member",
-      "source": "vote_table",
-      "start": "2025-06-02"
-    },
-    {
-      "body_id": "helsinki/kaupunginvaltuusto",
       "end": "2025-05-21",
       "group": "Ei valtuustoryhmää",
-      "person_id": "helsinki/castren-maaret-2",
+      "person_id": "helsinki/castren-maaret",
       "role": "member",
       "source": "vote_table",
       "start": "2025-02-26"
     },
     {
       "body_id": "helsinki/kaupunginvaltuusto",
-      "end": "2025-05-07",
+      "end": "2026-09-23",
       "group": "Kokoomuksen valtuustoryhmä",
-      "person_id": "helsinki/castren-maaret-2",
+      "person_id": "helsinki/castren-maaret",
       "role": "member",
       "source": "vote_table",
       "start": "2025-02-26"
@@ -1703,27 +1694,18 @@
     },
     {
       "body_id": "helsinki/kaupunginvaltuusto",
-      "end": "2026-08-26",
-      "group": "Perussuomalaisten valtuustoryhmä",
-      "person_id": "helsinki/packalen-tom",
-      "role": "member",
-      "source": "vote_table",
-      "start": "2026-01-21"
-    },
-    {
-      "body_id": "helsinki/kaupunginvaltuusto",
       "end": "2025-05-21",
       "group": "Ei valtuustoryhmää",
-      "person_id": "helsinki/packalen-tom-2",
+      "person_id": "helsinki/packalen-tom",
       "role": "member",
       "source": "vote_table",
       "start": "2025-02-26"
     },
     {
       "body_id": "helsinki/kaupunginvaltuusto",
-      "end": "2025-05-07",
+      "end": "2026-08-26",
       "group": "Perussuomalaisten valtuustoryhmä",
-      "person_id": "helsinki/packalen-tom-2",
+      "person_id": "helsinki/packalen-tom",
       "role": "member",
       "source": "vote_table",
       "start": "2025-01-22"
@@ -2936,21 +2918,21 @@
         "Borgarsdottir Sandelin Silja"
       ],
       "city": "helsinki",
+      "election": {
+        "party": "RKP",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 1695,
+        "year": 2025
+      },
       "id": "helsinki/borgarsdottir-sandelin-silja",
       "name": "Sandelin Silja Borgarsdottir",
+      "party": "RKP",
       "sort_name": "Borgarsdottir Sandelin Silja"
     },
     {
       "aliases": [
-        "Castren Maaret"
-      ],
-      "city": "helsinki",
-      "id": "helsinki/castren-maaret",
-      "name": "Maaret Castren",
-      "sort_name": "Castren Maaret"
-    },
-    {
-      "aliases": [
+        "Castren Maaret",
         "Castrén Maaret"
       ],
       "city": "helsinki",
@@ -2961,10 +2943,10 @@
         "votes": 2239,
         "year": 2025
       },
-      "id": "helsinki/castren-maaret-2",
-      "name": "Maaret Castrén",
+      "id": "helsinki/castren-maaret",
+      "name": "Maaret Castren",
       "party": "KOK",
-      "sort_name": "Castrén Maaret"
+      "sort_name": "Castren Maaret"
     },
     {
       "aliases": [
@@ -3252,9 +3234,9 @@
         "year": 2025
       },
       "id": "helsinki/halla-aho-jussi",
-      "name": "Jussi Halla-aho",
+      "name": "Jussi Halla-Aho",
       "party": "PS",
-      "sort_name": "Halla-aho Jussi"
+      "sort_name": "Halla-Aho Jussi"
     },
     {
       "aliases": [
@@ -4522,15 +4504,7 @@
     },
     {
       "aliases": [
-        "Packalen Tom"
-      ],
-      "city": "helsinki",
-      "id": "helsinki/packalen-tom",
-      "name": "Tom Packalen",
-      "sort_name": "Packalen Tom"
-    },
-    {
-      "aliases": [
+        "Packalen Tom",
         "Packalén Tom"
       ],
       "city": "helsinki",
@@ -4541,7 +4515,7 @@
         "votes": 330,
         "year": 2025
       },
-      "id": "helsinki/packalen-tom-2",
+      "id": "helsinki/packalen-tom",
       "name": "Tom Packalén",
       "party": "PS",
       "sort_name": "Packalén Tom"

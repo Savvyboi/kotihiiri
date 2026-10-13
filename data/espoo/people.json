@@ -2254,7 +2254,7 @@
       "person_id": "espoo/limnell-jarno",
       "role": "vice_chair",
       "source": "attendance",
-      "start": "2025-12-01"
+      "start": "2025-01-13"
     },
     {
       "body_id": "espoo/valtuusto",
@@ -2268,22 +2268,6 @@
       "body_id": "espoo/valtuusto",
       "end": "2026-06-08",
       "person_id": "espoo/limnell-jarno",
-      "role": "member",
-      "source": "attendance",
-      "start": "2025-11-17"
-    },
-    {
-      "body_id": "espoo/kaupunginhallitus",
-      "end": "2025-11-24",
-      "person_id": "espoo/limnell-jarno-2",
-      "role": "vice_chair",
-      "source": "attendance",
-      "start": "2025-01-13"
-    },
-    {
-      "body_id": "espoo/valtuusto",
-      "end": "2025-10-20",
-      "person_id": "espoo/limnell-jarno-2",
       "role": "member",
       "source": "attendance",
       "start": "2025-01-20"
@@ -5358,8 +5342,16 @@
         "Helen Raimo"
       ],
       "city": "espoo",
+      "election": {
+        "party": "SDP",
+        "result": "not_elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 63,
+        "year": 2025
+      },
       "id": "espoo/helen-raimo",
       "name": "Raimo Helen",
+      "party": "SDP",
       "sort_name": "Helen Raimo"
     },
     {
@@ -6806,7 +6798,8 @@
     },
     {
       "aliases": [
-        "Limnell Jarno"
+        "Limnell Jarno",
+        "Limnéll Jarno"
       ],
       "city": "espoo",
       "election": {
@@ -6820,15 +6813,6 @@
       "name": "Jarno Limnell",
       "party": "KOK",
       "sort_name": "Limnell Jarno"
-    },
-    {
-      "aliases": [
-        "Limnéll Jarno"
-      ],
-      "city": "espoo",
-      "id": "espoo/limnell-jarno-2",
-      "name": "Jarno Limnéll",
-      "sort_name": "Limnéll Jarno"
     },
     {
       "aliases": [
