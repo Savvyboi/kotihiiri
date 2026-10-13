@@ -7,7 +7,7 @@ from kunta import jsonio
 from kunta.adapters.base import TransientItemError
 from kunta.adapters.dynasty import DynastyAdapter
 from kunta.crawl import crawl
-from kunta.models import Body, ItemRef, MeetingRef, Stage
+from kunta.models import Body, Counts, ItemRef, MeetingRef, Stage, VoteEvent
 from kunta.parsers import dynasty as dp
 from kunta.parsers import votes_cloudmeeting as vc
 from kunta.text import contains_pii
@@ -287,7 +287,10 @@ def test_real_item_three_votes_in_prose():
     assert vc.mentions_vote_list(page.deliberation_lines)
     assert [(p.a, p.b, p.tyhja) for p in vc.parse_prose(page.deliberation_lines)] == [
         (49, 13, 13), (9, 65, 1), (32, 22, 21)]  # fmt: skip
-    assert len(vc.parse_motions(page.deliberation_lines)) == 5
+    motions = vc.parse_motions(page.deliberation_lines)
+    assert [(m.text[:5], m.proposer_ref.raw, m.outcome) for m in motions] == [
+        ("7.2. ", "Halkosaari", "adopted"), ("7.3. ", "Halkosaari", "adopted"), ("7.1. ", "Hopsu", "adopted"),
+        ("7.4. ", "Keronen", "rejected"), ("7.5. ", "Järvinen", "adopted")]  # fmt: skip
     assert [a.title for a in page.attachments] == [
         "Liite 1 Äänestyslista § 7",
         "Oheismateriaali 1 Valtuustokysymys Kotoutumisen edistäminen Espoossa",
@@ -324,6 +327,43 @@ def test_pdf_lines_ei_aanestanyt_is_poissa():
     assert v.ballots[-1] == ("Luonnos Liisa", "poissa") and v.leftover == []
     (ev,) = vc.build_votes([], [v], item_url="u", pdf_url="p")
     assert ev.counts.poissa == 1 and ev.needs_review and "no matching vote sentence" in ev.review_reason
+
+
+def test_motion_title_before_seconder_and_numbered_on_one_line():
+    lines = [
+        "Hopsu puheenjohtaja Limnellin kannattamana ehdotti, että asia jätetään pöydälle.",
+        "Hopsu Kausteen ym. kannattamana teki seuraavan toivomuksen: 9.1.",
+        "Valtuusto toivoo A.",
+        "Hopsu Kausteen ym. kannattamana teki seuraavan toivomuksen: 9.2.",
+        "Valtuusto toivoo B.",
+    ]
+    table, first, second = vc.parse_motions(lines)
+    assert (table.kind, [s.raw for s in table.seconder_refs], table.text) == (
+        "table", ["Limnellin"], "että asia jätetään pöydälle.")  # fmt: skip
+    assert (first.text, second.text) == ("9.1. Valtuusto toivoo A.", "9.2. Valtuusto toivoo B.")
+
+
+def _vote(jaa_label, ei_label, jaa, ei):
+    return VoteEvent(ordinal=1, jaa_label=jaa_label, ei_label=ei_label, counts=Counts(jaa=jaa, ei=ei),
+                     source="pdf", source_url="u")  # fmt: skip
+
+
+def test_outcomes_for_one_proposers_two_motions_and_a_send_back():
+    lines = [
+        "Hopsu Kausteen ym. kannattamana teki seuraavan toivomuksen: 9.1.", "Valtuusto toivoo A.",
+        "Hopsu Kausteen ym. kannattamana teki seuraavan toivomuksen: 9.2.", "Valtuusto toivoo B.",
+        "Puheenjohtaja tiedusteli, voidaanko Hopsun toivomusehdotus 9.1. hyväksyä yksimielisesti. Koska "
+        "ehdotusta ei vastustettu, puheenjohtaja totesi valtuuston hyväksyneen sen yksimielisesti.",
+        "Partanen Hagerlundin kannattamana ehdotti, että asia palautetaan uudelleen valmisteltavaksi.",
+    ]  # fmt: skip
+    first, second, back = vc.parse_motions(lines)
+    assert (first.outcome, second.outcome, back.outcome) == ("adopted", None, None)
+    # a label without a number cannot tell 9.1 from 9.2
+    vc.resolve_outcomes([first, second, back], [_vote("Hopsu", "vastaan", 30, 41)])
+    assert second.outcome is None
+    vc.resolve_outcomes([first, second, back], [_vote("Palautus", "käsittely jatkuu", 6, 67),
+                                                _vote("Hopsu 9.2", "vastaan", 30, 41)])  # fmt: skip
+    assert (first.outcome, second.outcome, back.outcome) == ("adopted", "rejected", "rejected")
 
 
 # -- crawl ----------------------------------------------------------------------------------

@@ -326,21 +326,83 @@ MOTION = re.compile(
     r"^(?P<prop>(?:af\s+|von\s+)?[A-ZÅÄÖ][\w'’-]+)\s+(?P<sec>.+?)\s+kannattamana\s+"
     r"(?P<verb>teki|ehdotti|esitti)\b\s*(?P<rest>.*)$"
 )
+# Motion numbers as the minutes print them: "7.2." or "9.1".
+NUM = r"\d+(?:\.\d+)+\.?"
+NUMBER_ONLY = re.compile(rf"^(?P<num>{NUM})$")
+TRAILING_NUMBER = re.compile(rf"\s+(?P<num>{NUM})$")
+NAME = r"(?:af\s+|von\s+)?[A-ZÅÄÖ][\w'’-]+"
+# "Äänestyksessä … hyväksyi Halkosaaren 7.2. ehdotuksen", "… hylkäsi Kerosen ehdotuksen 7.4.",
+# "… hylkäsi Hopsun palautusehdotuksen".
+VOTED = re.compile(
+    rf"\b(?P<verb>hyväksyi|hylkäsi)\s+(?P<gen>{NAME})\s+(?:(?P<n1>{NUM})\s+)?"
+    rf"(?P<what>\w*ehdotuksen)(?:\s+(?P<n2>{NUM}))?"
+)
+# "Puheenjohtaja tiedusteli, voidaanko Hopsun toivomusehdotus (7.3.) hyväksyä yksimielisesti. Koska
+# ehdotusta ei vastustettu, puheenjohtaja totesi valtuuston hyväksyneen sen yksimielisesti."
+ASKED = re.compile(rf"\bvoidaanko\s+(?P<gen>{NAME})\s+(?P<what>\w*ehdotus)(?:\s+(?P<n1>{NUM}))?")
+
+
+def _num(text: str | None) -> str | None:
+    return text.rstrip(".") if text else None
+
+
+def _motion_num(mo: Motion) -> str | None:
+    m = re.match(rf"^({NUM})\s", mo.text)
+    return _num(m.group(1)) if m else None
+
+
+def _is_genitive(gen: str, surname: str) -> bool:
+    """Whether "Halkosaaren", "Kerosen", "Limnellin" is the genitive of the printed surname."""
+    g, s = gen.lower(), surname.lower()
+    if g in (s + "n", s + "in", s + "en") or (s.endswith("nen") and g == s[:-3] + "sen"):
+        return True
+    return len(s) >= 4 and g.startswith(s[:-1]) and len(g) <= len(s) + 2  # Aalto → Aallon is missed
+
+
+def _kind_of(what: str) -> MotionKind | None:
+    w = what.lower()
+    if "palautus" in w:
+        return MotionKind.send_back
+    if "pöydälle" in w:
+        return MotionKind.table
+    return None
+
+
+def _assign(motions: list[Motion], gen: str, what: str, num: str | None, outcome: Outcome) -> None:
+    cands = [mo for mo in motions if _is_genitive(gen, mo.proposer_ref.raw.split()[-1])]
+    if (kind := _kind_of(what)) is not None:
+        cands = [mo for mo in cands if mo.kind == kind]
+    if num is not None:
+        cands = [mo for mo in cands if _motion_num(mo) == num]
+    if len(cands) == 1:
+        cands[0].outcome = outcome
 
 
 def parse_motions(lines: list[str]) -> list[Motion]:
     """ "Nevanlinna Aaltosen ym. kannattamana teki seuraavan toivomuksen:" + the next line, or
     "Partanen Hagerlundin kannattamana ehdotti, että asia palautetaan …". The proposer is printed by
-    surname, seconders in the genitive as printed; resolving them is M5's job."""
+    surname, seconders in the genitive as printed; resolving them is M5's job. A numbered motion
+    ("… toivomuksen: 7.2." or a "7.2." line) keeps its number at the start of the text. Outcomes
+    come from the minutes' own sentences where they say which motion was approved or rejected."""
     motions: list[Motion] = []
-    for i, raw in enumerate(lines):
-        line = re.sub(r"\s+", " ", raw).strip()
+    clean = [re.sub(r"\s+", " ", raw).strip() for raw in lines]
+    for i, line in enumerate(clean):
         m = MOTION.match(line)
         if not m:
             continue
-        rest = m.group("rest").strip()
-        # "teki seuraavan toivomuksen:" introduces the motion text on the next line
-        text = lines[i + 1].strip() if rest.endswith(":") and i + 1 < len(lines) else rest
+        rest = m.group("rest").strip().lstrip(",").strip()
+        num = None
+        if t := TRAILING_NUMBER.search(rest):
+            num, rest = t.group("num"), rest[: t.start()].strip()
+        if rest.endswith(":"):  # "teki seuraavan toivomuksen:" introduces the text on the next lines
+            j = i + 1
+            if j < len(clean) and (n := NUMBER_ONLY.match(clean[j])):
+                num, j = n.group("num"), j + 1
+            text = clean[j] if j < len(clean) else rest
+        else:
+            text = rest
+        if num:
+            text = f"{num} {text}"
         low = line.lower()
         if "toivomu" in low or "ponsi" in low:
             kind = MotionKind.resolution
@@ -350,11 +412,14 @@ def parse_motions(lines: list[str]) -> list[Motion]:
             kind = MotionKind.table
         else:
             kind = MotionKind.counter_proposal
-        seconders = [
-            s.strip()
-            for s in re.split(r",|\s+ja\s+", re.sub(r"\bym\.?", "", m.group("sec")))
-            if s.strip() and s.strip()[0].isupper()
-        ]
+        seconders = []
+        for part in re.split(r",|\s+ja\s+", re.sub(r"\bym\.?", "", m.group("sec"))):
+            # "puheenjohtaja Limnellin": a title can precede the name
+            words = part.split()
+            while words and not words[0][0].isupper():
+                words.pop(0)
+            if words:
+                seconders.append(" ".join(words))
         motions.append(
             Motion(
                 kind=kind,
@@ -363,14 +428,41 @@ def parse_motions(lines: list[str]) -> list[Motion]:
                 text=text,
             )
         )
+    for line in clean:
+        for v in VOTED.finditer(line):
+            outcome = Outcome.adopted if v.group("verb") == "hyväksyi" else Outcome.rejected
+            _assign(motions, v.group("gen"), v.group("what"), _num(v.group("n1") or v.group("n2")), outcome)
+        a = ASKED.search(line)
+        if a and "ei vastustettu" in line and "hyväksyneen" in line:
+            _assign(motions, a.group("gen"), a.group("what"), _num(a.group("n1")), Outcome.adopted)
     return motions
 
 
 def resolve_outcomes(motions: list[Motion], votes: list[VoteEvent]) -> None:
-    """A vote whose Jaa label starts with the proposer's surname decides the motion."""
+    """For motions the minutes text left open: a vote whose Jaa label starts with the proposer's
+    surname (and carries the motion's number, if both have one) decides it; a send-back or tabling
+    vote ("Palautus / käsittely jatkuu") decides the motion of that kind."""
     for mo in motions:
+        if mo.outcome is not None:
+            continue
         surname = mo.proposer_ref.raw.split()[0] if mo.proposer_ref.raw else ""
+        same = [o for o in motions if o.proposer_ref.raw.split()[:1] == [surname]]
+        num = _motion_num(mo)
         for v in votes:
-            if surname and v.jaa_label.split(" ")[0] == surname and v.counts.jaa != v.counts.ei:
-                mo.outcome = Outcome.adopted if v.counts.jaa > v.counts.ei else Outcome.rejected
-                break
+            if v.counts.jaa == v.counts.ei:
+                continue
+            jaa_side = None
+            label = v.jaa_label.split()
+            if surname and label and label[0] == surname:
+                label_num = _num(label[1]) if len(label) > 1 and re.fullmatch(NUM, label[1]) else None
+                if (label_num and num and label_num != num) or (not label_num and len(same) > 1):
+                    continue
+                jaa_side = True
+            else:
+                kind = _kind_of(v.jaa_label + "ehdotus") or _kind_of(v.ei_label + "ehdotus")
+                if mo.kind not in (MotionKind.send_back, MotionKind.table) or kind != mo.kind:
+                    continue
+                jaa_side = _kind_of(v.jaa_label + "ehdotus") == mo.kind
+            won = v.counts.jaa > v.counts.ei
+            mo.outcome = Outcome.adopted if won == jaa_side else Outcome.rejected
+            break
