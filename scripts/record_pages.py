@@ -50,7 +50,7 @@ def main(city: str, out: str, urls: list[str]) -> None:
             if resp.content.startswith(b"%PDF"):
                 for i, page in enumerate(pdf_pages(resp.content), start=1):
                     print(f"--- page {i}")
-                    print("\n".join(page[:30]))
+                    print("\n".join(page))
             else:
                 print(compact(resp.text))
             print(f"=====END {name}")
