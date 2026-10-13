@@ -11,8 +11,8 @@ on:
   workflow_dispatch:
     inputs:
       city:
-        description: "Enabled city whose hosts may be fetched"
-        default: "espoo"
+        description: "Enabled city whose hosts may be fetched, or 'enabled' for all enabled cities"
+        default: "enabled"
       urls:
         description: "Space-separated URLs"
         required: false
@@ -31,7 +31,7 @@ jobs:
           cache: pip
       - run: pip install -e .
       - env:
-          CITY: ${{ inputs.city || 'espoo' }}
+          CITY: ${{ inputs.city || 'enabled' }}
           URLS: ${{ inputs.urls }}
         run: |
           if [ -z "$URLS" ]; then URLS=$(grep -v '^#' scripts/record_pages.urls | xargs); fi

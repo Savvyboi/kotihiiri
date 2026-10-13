@@ -11,7 +11,7 @@ import re
 import sys
 from pathlib import Path
 
-from kunta.config import load_project, require_enabled
+from kunta.config import load_cities, load_project, require_enabled
 from kunta.http import PoliteClient
 from kunta.pdf import pdf_pages
 
@@ -32,14 +32,16 @@ def compact(html: str) -> str:
 
 
 def main(city: str, out: str, urls: list[str]) -> None:
-    cfg = require_enabled(city)
-    hosts = {u.split("://", 1)[1].split("/", 1)[0] for u in cfg.base_urls}
+    # "enabled" allows the hosts of every enabled city; Oulu and Turku stay out either way.
+    cfgs = [c for c in load_cities().values() if c.enabled] if city == "enabled" else [require_enabled(city)]
+    hosts = {u.split("://", 1)[1].split("/", 1)[0] for c in cfgs for u in c.base_urls}
     out_dir = Path(out)
     out_dir.mkdir(parents=True, exist_ok=True)
     with PoliteClient(load_project().user_agent, allowed_hosts=hosts) as client:
         for url in urls:
             resp = client.get(url)
-            name = url.rsplit("/", 1)[-1].replace("DREQUEST.PHP?", "").replace("&", "_").replace("=", "-")
+            path = url.split("://", 1)[1].split("/", 1)[-1].replace("cgi/DREQUEST.PHP?", "")
+            name = re.sub(r"[^\w.-]+", "_", path).strip("_")
             name = name[:80] or hashlib.sha256(url.encode()).hexdigest()[:12]
             (out_dir / name).write_bytes(resp.content)
             print(f"{resp.status} {resp.content_type} {len(resp.content)} {url} -> {name}")
