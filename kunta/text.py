@@ -50,6 +50,7 @@ _EMAIL = re.compile(r"[\w.+-]+@[\w-]+(?:\.[\w-]+)+")
 _PHONE = re.compile(
     r"""
     (?<![\w-])              # not inside a code like KASKO-01-1029-25
+    (?!0\d\d-(?:19|20)\d\d-\d)  # nor a permit number like 049-2019-881 (municipality-year-n)
     (?:\+358|0)              # international prefix or trunk 0
     [\s-]?\(?\d{1,3}\)?      # area / operator code
     (?:[\s-]?\d){5,9}        # subscriber number with optional separators

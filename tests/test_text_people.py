@@ -18,9 +18,15 @@ def test_strip_pii():
 
 
 def test_case_codes_are_not_phone_numbers():
-    for code in ("työavain KASKO-01-1029-25", "sotepe-02-207-25", "HEL 2026-008342 T 08 00 02"):
+    for code in (
+        "työavain KASKO-01-1029-25",
+        "sotepe-02-207-25",
+        "HEL 2026-008342 T 08 00 02",
+        "päätöksestä, 049-2019-881, Koronakatu 1",
+    ):
         assert not contains_pii(code), code
     assert contains_pii("puh. 09 310 12345")
+    assert contains_pii("040-123 4567") and contains_pii("049-201 9881")
 
 
 def test_classify_heading():
