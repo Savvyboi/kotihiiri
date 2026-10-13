@@ -1,45 +1,34 @@
-"""Temporary spike (removed before merge): where can council rosters with party come from?"""
+"""Temporary spike (removed before merge): StatFin candidate tables."""
 import json
-import re
-import sys
-
-import httpx
 
 from kunta.config import load_project
 from kunta.http import PoliteClient
 
 UA = load_project().user_agent
-hosts = {"pxdata.stat.fi", "www.espoo.fi", "www.tampere.fi"}
-raw = httpx.Client(headers={"User-Agent": UA}, follow_redirects=True, timeout=30)
-for h in sorted(hosts):
-    r = raw.get(f"https://{h}/robots.txt")
-    lines = [ln for ln in r.text.splitlines() if ln.strip() and not ln.startswith("#")]
-    print(f"=== robots {h} {r.status_code}: " + " | ".join(lines[:60]))
-
-
-def text(html: str) -> str:
-    html = re.sub(r"(?is)<(script|style|head|svg|nav|header|footer)\b.*?</\1>", " ", html)
-    return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", html))
-
-
-with PoliteClient(UA, allowed_hosts=hosts) as c:
-    for url in sys.argv[1:]:
-        try:
-            r = c.get(url)
-        except Exception as e:  # noqa: BLE001
-            print(f"=== {url} ERROR {type(e).__name__} {e}")
-            continue
-        print(f"=== {url} {r.status} {r.content_type} {len(r.content)}")
-        if "json" in r.content_type:
-            data = json.loads(r.text)
-            if isinstance(data, list):
-                for row in data:
-                    print(" ", json.dumps(row, ensure_ascii=False)[:300])
-            else:
-                print(json.dumps(data, ensure_ascii=False)[:6000])
-        else:
-            t = text(r.text)
-            print(t[:6000])
-            for kw in ("valtuute", "Kok", "SDP", "Vihr", "jäsenet"):
-                for m in list(re.finditer(kw, t))[:3]:
-                    print(f"  [{kw}] …{t[max(0, m.start()-200):m.start()+300]}…")
+BASE = "https://pxdata.stat.fi/PxWeb/api/v1/fi/StatFin/kvaa/"
+with PoliteClient(UA, allowed_hosts={"pxdata.stat.fi"}) as c:
+    for table, town in (("statfin_kvaa_pxt_14ux.px", "Espoo"), ("statfin_kvaa_pxt_14v2.px", "Tampere"),
+                        ("statfin_kvaa_pxt_14uk.px", "Helsinki")):
+        r = c.get(BASE + table)
+        print(f"=== {table} {r.status} {len(r.content)}")
+        if r.status != 200:
+            r = c.get(BASE + table.replace("statfin_kvaa_pxt_", ""))
+            print(f"=== retry short id {r.status} {len(r.content)} {r.text[:300]}")
+            if r.status != 200:
+                continue
+        meta = json.loads(r.text)
+        print("title:", meta.get("title"))
+        query = []
+        for v in meta["variables"]:
+            vals = list(zip(v["values"], v["valueTexts"]))
+            print(f"  var {v['code']!r} {v['text']!r} n={len(vals)} first={vals[:6]}")
+            hits = [x for x in vals if town in x[1]]
+            if hits and len(vals) < 2000:
+                print(f"    {town} values: {hits[:10]}")
+                query.append({"code": v["code"], "selection": {"filter": "item", "values": [hits[0][0]]}})
+        r = c.post_json(r.url, {"query": query, "response": {"format": "csv"}})
+        print(f"=== data {r.status} {len(r.content)}")
+        lines = r.text.splitlines()
+        print(f"  lines={len(lines)}")
+        for ln in lines[:40]:
+            print("  ", ln)

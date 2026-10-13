@@ -178,6 +178,13 @@ class PoliteClient:
         return self.cache_dir / urlsplit(url).netloc / digest[:2] / digest
 
     def get(self, url: str) -> Response:
+        return self._request("GET", url)
+
+    def post_json(self, url: str, body: object) -> Response:
+        """POST a JSON query (PxWeb APIs). Same robots, rate and retry rules as `get`; never cached."""
+        return self._request("POST", url, body)
+
+    def _request(self, method: str, url: str, body: object = None) -> Response:
         parts = urlsplit(url)
         host = parts.netloc
         if self.allowed_hosts is not None and host not in self.allowed_hosts:
@@ -188,7 +195,7 @@ class PoliteClient:
             raise RobotsDisallowed(url)
 
         headers: dict[str, str] = {}
-        cache_path = self._cache_path(url)
+        cache_path = self._cache_path(url) if method == "GET" else None
         known = self.validators.get(url, {})
         if cache_path and cache_path.exists():
             if etag := known.get("etag"):
@@ -201,7 +208,7 @@ class PoliteClient:
             with self.rate.lock(host):
                 self.rate.wait(host)
                 try:
-                    resp = self._client.get(url, headers=headers)
+                    resp = self._client.request(method, url, headers=headers, json=body)
                 except httpx.HTTPError as exc:
                     resp = None
                     last_error = f"{type(exc).__name__}: {exc}"
