@@ -56,6 +56,8 @@ def test_roster_from_attendance_and_parties():
                 ("Mäkinen Juha J.", "valtuutettu", True),
                 ("Korhonen Anna", "valtuutettu", True),
                 ("Lahti Pekka", "kaupunginjohtaja", True),
+                ("Limnéll Jarno", "valtuutettu", True),
+                ("Makinen Ville", "valtuutettu", True),
             ],
         )
     )
@@ -71,14 +73,22 @@ def test_roster_from_attendance_and_parties():
             PartyRow("Korhonen Anna", "VIHR", "elected", "t", 50),
             PartyRow("Korhonen Anna", "PS", "not_elected", "t", 3),  # a shared name is never guessed
             PartyRow("Uusi Henkilö", "KESK", "elected", "t", 10),  # never creates a person
+            PartyRow("Limnell Jarno", "KOK", "elected", "t", 5000),  # é and e are one letter
+            PartyRow("Mäkinen Ville", "PS", "elected", "t", 5),  # a and ä are not
         ]
     )
-    assert matched == 2
-    assert missing == ["Korhonen Anna"]
+    assert matched == 3
+    assert missing == ["Korhonen Anna", "Makinen Ville"]
     out = r.to_json()
     PeopleFile.model_validate(out)
     by_id = {p["id"]: p for p in out["persons"]}
-    assert set(by_id) == {"espoo/virtanen-matti", "espoo/makinen-juha-j", "espoo/korhonen-anna"}
+    assert set(by_id) == {
+        "espoo/virtanen-matti",
+        "espoo/makinen-juha-j",
+        "espoo/korhonen-anna",
+        "espoo/limnell-jarno",
+        "espoo/makinen-ville",
+    }
     assert by_id["espoo/virtanen-matti"]["party"] == "KOK"
     assert by_id["espoo/virtanen-matti"]["name"] == "Matti Virtanen"
     assert by_id["espoo/makinen-juha-j"]["election"] == {
@@ -178,3 +188,19 @@ def test_statfin_parsing():
         ]
     }
     assert statfin.rows_from_people(json.loads(json.dumps(people)))[0].party == "KOK"
+
+
+def test_accent_variants_are_one_person():
+    r = Roster("espoo", "espoo/valtuusto")
+    for date, name in (
+        ("2025-06-16", "Limnéll Jarno"),
+        ("2025-08-25", "Limnell Jarno"),
+        ("2025-09-22", "Limnell Jarno"),
+    ):
+        r.add_meeting(_meeting("espoo/valtuusto", date, [(name, "puheenjohtaja", True)]))
+    (p,) = r.to_json()["persons"]
+    assert (p["id"], p["name"], p["aliases"]) == (
+        "espoo/limnell-jarno",
+        "Jarno Limnell",
+        ["Limnell Jarno", "Limnéll Jarno"],
+    )

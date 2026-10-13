@@ -9,6 +9,8 @@ from __future__ import annotations
 
 import datetime as dt
 import re
+import unicodedata
+from collections import Counter
 from collections.abc import Iterable
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -29,6 +31,18 @@ _ROLES: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"^(?:jäsen|valtuutettu|medlem|ledamot)", re.I), "member"),
 ]
 _PARTICLES = {"af", "von", "de", "van", "der", "la", "di"}
+
+
+def _fold(key: str) -> str:
+    """Drop accents other than å, ä and ö, which are letters of their own in Finnish and Swedish:
+    "limnéll" and "limnell" are one name, "makinen" and "mäkinen" are not."""
+    out = []
+    for ch in key:
+        if ch in "åäö":
+            out.append(ch)
+        else:
+            out.append(unicodedata.normalize("NFKD", ch).encode("ascii", "ignore").decode() or ch)
+    return "".join(out)
 
 
 def role_of(role_text: str) -> str | None:
@@ -74,7 +88,7 @@ class PartyRow:
 class _Person:
     surname: str
     first: str
-    names: set[str] = field(default_factory=set)
+    names: Counter[str] = field(default_factory=Counter)
     seen: dict[tuple[str, str, str | None], _Seen] = field(default_factory=dict)
     election: PartyRow | None = None
 
@@ -94,12 +108,17 @@ class Roster:
         self.people: dict[str, _Person] = {}
 
     def _get(self, printed: str) -> _Person:
-        """The person printed as "Sukunimi Etunimi", created on first sight."""
-        key = name_key(printed)
+        """The person printed as "Sukunimi Etunimi", created on first sight. Forms that differ only
+        in accents ("Limnéll", "Limnell") are one person; the name is the form printed most often."""
+        key = _fold(name_key(printed))
         p = self.people.get(key)
         if p is None:
             p = self.people[key] = _Person(*split_name(printed))
-        p.names.add(normalize_name(printed))
+        form = normalize_name(printed)
+        p.names[form] += 1
+        best = max(p.names, key=lambda n: (p.names[n], n))
+        if best == form:
+            p.surname, p.first = split_name(form)
         return p
 
     def add_meeting(self, mf: dict) -> None:
@@ -140,10 +159,13 @@ class Roster:
         by_key: dict[str, list[PartyRow]] = {}
         for r in rows:
             by_key.setdefault(name_key(r.name), []).append(r)
+        by_fold: dict[str, list[PartyRow]] = {}
+        for k, rs in by_key.items():
+            by_fold.setdefault(_fold(k), []).extend(rs)
         tokens = {k: set(k.split()) for k in by_key}
         matched = 0
         for key, p in self.people.items():
-            rs = by_key.get(key)
+            rs = by_key.get(key) or by_fold.get(_fold(key))
             if rs is None:
                 mine = set(key.split())
                 near = [
