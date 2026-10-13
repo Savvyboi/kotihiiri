@@ -17,13 +17,14 @@ from kunta.pdf import pdf_pages
 
 
 def compact(html: str) -> str:
-    """Body markup without scripts, styles, form widgets or attributes other than href/class/id."""
-    html = re.sub(r"(?is)<(script|style|head|select|svg)\b.*?</\1>", "", html)
+    """Body markup without scripts, styles or attributes other than href/class/id/value (option values
+    carry Tweb body ids)."""
+    html = re.sub(r"(?is)<(script|style|head|svg)\b.*?</\1>", "", html)
     html = re.sub(r"(?is)<!--.*?-->", "", html)
 
     def attrs(m: re.Match) -> str:
-        kept = re.findall(r'\s(?:href|class|id)=("[^"]*"|\'[^\']*\')', m.group(2))
-        names = re.findall(r"\s(href|class|id)=(?:\"[^\"]*\"|'[^']*')", m.group(2))
+        kept = re.findall(r'\s(?:href|class|id|value)=("[^"]*"|\'[^\']*\')', m.group(2))
+        names = re.findall(r"\s(href|class|id|value)=(?:\"[^\"]*\"|'[^']*')", m.group(2))
         return f"<{m.group(1)}" + "".join(f" {n}={v}" for n, v in zip(names, kept, strict=False)) + ">"
 
     tag = re.compile(r"<([a-zA-Z][a-zA-Z0-9]*)(\s[^<>]*)?>")
