@@ -105,6 +105,7 @@
       "motions": [
         {
           "kind": "send_back",
+          "outcome": "adopted",
           "proposer_ref": {
             "raw": "Keskustelun"
           },
@@ -153,7 +154,103 @@
       "statements": [],
       "status": "active",
       "title": "Louhentori, asemakaavan muutosehdotuksen hyväksyminen nähtäville (MRA 27 §), alue 212903, 16. kaupunginosa Pohjois-Tapiola",
-      "votes": []
+      "votes": [
+        {
+          "ballots": [
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Juuti Sini"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Aarnio Antti"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Lindholm Julia"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Puntila Päivi"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Laakso Ville"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Tiitinen Helena"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Särkiö Ilkka"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Karimäki Johanna"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Laakso Mikko"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Vuornos Henrik"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Kerola Hannele"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Havu Isto"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Jenytin Cosmo"
+              }
+            }
+          ],
+          "counts": {
+            "ei": 1,
+            "jaa": 12,
+            "poissa": 0,
+            "tyhja": 0
+          },
+          "ei_label": "Käsittelyn jatkaminen",
+          "jaa_label": "Palautusehdotus",
+          "needs_review": false,
+          "ordinal": 1,
+          "result_text": "Äänestyksessä JAA ääniä tuli 12 ja EI ääniä 1.",
+          "source": "pdf",
+          "source_url": "https://espoo.oncloudos.com/kokous/20251476-3-311550.PDF"
+        }
+      ]
     },
     {
       "attachments": [

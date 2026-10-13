@@ -251,6 +251,102 @@
       "title": "Henttaanmylly, ehdotus kaupunginhallitukselle asemakaavaksi ja asemakaavan muutokseksi, alue 331600, 21. kaupunginosa Henttaa (Kh-Kv-asia)",
       "votes": [
         {
+          "ballots": [
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Kerola Hannele"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Särkiö Ilkka"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Puntila Päivi"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Sandholm Ann-Mari"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Jenytin Cosmo"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Aarnio Antti"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Karimäki Johanna"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Vuornos Henrik"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Lindholm Julia"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Nurmi Olli"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Laakso Mikko"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Havu Isto"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Laakso Ville"
+              }
+            }
+          ],
+          "counts": {
+            "ei": 7,
+            "jaa": 6,
+            "poissa": 0,
+            "tyhja": 0
+          },
+          "ei_label": "Jenytin",
+          "jaa_label": "",
+          "needs_review": true,
+          "ordinal": 1,
+          "result_text": "Äänestyksessä JAA ääniä tuli 6 ja EI ääniä 7.",
+          "review_reason": "missing Jaa/Ei proposal label",
+          "source": "pdf",
+          "source_url": "https://espoo.oncloudos.com/kokous/20261657-3-353025.PDF"
+        },
+        {
           "ballots": [],
           "counts": {
             "ei": 5,
@@ -261,9 +357,9 @@
           "ei_label": "",
           "jaa_label": "",
           "needs_review": true,
-          "ordinal": 1,
+          "ordinal": 2,
           "result_text": "Puheenjohtaja totesi kaupunginhallituksen 9 äänellä 5 ääntä vastaan 1 ollessa poissa hylänneen Heleniuksen muutosehdotuksen.",
-          "review_reason": "no vote list attached; counts from the minutes text",
+          "review_reason": "no vote list in the PDF for this vote; counts from the minutes text",
           "source": "html",
           "source_url": "https://espoo.oncloudos.com/cgi/DREQUEST.PHP?page=meetingitem&id=20261657-3"
         }

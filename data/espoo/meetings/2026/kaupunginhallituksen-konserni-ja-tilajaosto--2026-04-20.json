@@ -372,6 +372,7 @@
       "motions": [
         {
           "kind": "table",
+          "outcome": "rejected",
           "proposer_ref": {
             "raw": "Partanen"
           },
@@ -422,21 +423,69 @@
       "title": "Sosiaali- ja terveystoiminnoissa käytettävien rakennusten yhtiöittäminen perustettaviin keskinäisiin kiinteistöosakeyhtiöihin ja osakkeiden merkitseminen (osittain Kh-asia)",
       "votes": [
         {
-          "ballots": [],
+          "ballots": [
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Hagerlund Tony"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Partanen Henna"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Fagerström Noora"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Schauman Ari"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Kilpijoki Kerttu-Liisa"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "af Hällström Nina"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Marttila Helena"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Sammallahti Tere"
+              }
+            }
+          ],
           "counts": {
             "ei": 2,
             "jaa": 6,
             "poissa": 0,
             "tyhja": 0
           },
-          "ei_label": "",
-          "jaa_label": "",
-          "needs_review": true,
+          "ei_label": "osittainen pöydälle pano",
+          "jaa_label": "pohja",
+          "needs_review": false,
           "ordinal": 1,
           "result_text": "Puheenjohtaja totesi kaupunginhallituksen konserni- ja tilajaoston 6 äänellä 2 ääntä vastaan hylänneen Partasen ehdotuksen.",
-          "review_reason": "no vote list attached; counts from the minutes text",
-          "source": "html",
-          "source_url": "https://espoo.oncloudos.com/cgi/DREQUEST.PHP?page=meetingitem&id=20261644-6"
+          "source": "pdf",
+          "source_url": "https://espoo.oncloudos.com/kokous/20261644-6-349770.PDF"
         }
       ]
     },

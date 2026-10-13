@@ -388,38 +388,148 @@
       "title": "Lahnuksen koulun korjausselvitys",
       "votes": [
         {
-          "ballots": [],
+          "ballots": [
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Schauman Ari"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Partanen Henna"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Hagerlund Tony"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Holma Jussi"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Marttila Helena"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Fagerström Noora"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Laakso Mikko (Sammallahti"
+              }
+            },
+            {
+              "choice": "tyhja",
+              "person_ref": {
+                "raw": "Tere) af Hällström Nina"
+              }
+            },
+            {
+              "choice": "tyhja",
+              "person_ref": {
+                "raw": "Kilpijoki Kerttu-Liisa"
+              }
+            }
+          ],
           "counts": {
-            "ei": 2,
-            "jaa": 5,
+            "ei": 5,
+            "jaa": 2,
             "poissa": 0,
             "tyhja": 2
           },
           "ei_label": "",
-          "jaa_label": "",
+          "jaa_label": "13.1",
           "needs_review": true,
           "ordinal": 1,
           "result_text": "Puheenjohtaja totesi kaupunginhallituksen konserni- ja tilajaoston 5 äänellä 2 ääntä vastaan 2 äänestäessä tyhjää hyväksyneen Partasen ehdotuksen.",
-          "review_reason": "no vote list attached; counts from the minutes text",
-          "source": "html",
-          "source_url": "https://espoo.oncloudos.com/cgi/DREQUEST.PHP?page=meetingitem&id=20261602-7"
+          "review_reason": "missing Jaa/Ei proposal label",
+          "source": "pdf",
+          "source_url": "https://espoo.oncloudos.com/kokous/20261602-7-337082.PDF"
         },
         {
-          "ballots": [],
+          "ballots": [
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Marttila Helena"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Hagerlund Tony"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Schauman Ari"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Holma Jussi"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Partanen Henna"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Laakso Mikko (Sammallahti"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Tere) Kilpijoki Kerttu-Liisa"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Fagerström Noora"
+              }
+            },
+            {
+              "choice": "tyhja",
+              "person_ref": {
+                "raw": "af Hällström Nina"
+              }
+            }
+          ],
           "counts": {
-            "ei": 3,
-            "jaa": 5,
+            "ei": 5,
+            "jaa": 3,
             "poissa": 0,
             "tyhja": 1
           },
           "ei_label": "",
-          "jaa_label": "",
+          "jaa_label": "13.2",
           "needs_review": true,
           "ordinal": 2,
           "result_text": "Puheenjohtaja totesi kaupunginhallituksen konserni- ja tilajaoston 5 äänellä 3 ääntä vastaan 1 äänestäessä tyhjää hyväksyneen Holman ehdotuksen.",
-          "review_reason": "no vote list attached; counts from the minutes text",
-          "source": "html",
-          "source_url": "https://espoo.oncloudos.com/cgi/DREQUEST.PHP?page=meetingitem&id=20261602-7"
+          "review_reason": "missing Jaa/Ei proposal label",
+          "source": "pdf",
+          "source_url": "https://espoo.oncloudos.com/kokous/20261602-7-337082.PDF"
         }
       ]
     },

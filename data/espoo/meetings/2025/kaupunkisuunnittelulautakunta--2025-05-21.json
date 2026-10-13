@@ -110,6 +110,7 @@
       "motions": [
         {
           "kind": "table",
+          "outcome": "adopted",
           "proposer_ref": {
             "raw": "Keskustelun"
           },
@@ -163,7 +164,97 @@
       "statements": [],
       "status": "active",
       "title": "Luutnantinkuja, ehdotus kaupunginhallitukselle asemakaavan muutokseksi, alue 114003, 51. kaupunginosa Leppävaara (Kh-Kv-asia)",
-      "votes": []
+      "votes": [
+        {
+          "ballots": [
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Aarnio Antti"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Berglund Anne-Maj"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Finström Verna"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Ülle Auli"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Havu Isto"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Särkijärvi Jouni J."
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Portin Anders"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Kemppi-Virtanen Pirjo"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Nevanlinna Risto"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Järvinen Hannu"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Vehmanen Emma-Stina"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Lindholm Julia"
+              }
+            }
+          ],
+          "counts": {
+            "ei": 9,
+            "jaa": 3,
+            "poissa": 0,
+            "tyhja": 0
+          },
+          "ei_label": "Pöydällepano",
+          "jaa_label": "käsittelyn jatko",
+          "needs_review": false,
+          "ordinal": 1,
+          "result_text": "Äänestyksessä JAA ääniä tuli 3 ja EI ääniä 9.",
+          "source": "pdf",
+          "source_url": "https://espoo.oncloudos.com/kokous/20251429-3-300088.PDF"
+        }
+      ]
     },
     {
       "attachments": [

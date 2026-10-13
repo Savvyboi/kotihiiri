@@ -385,6 +385,7 @@
         },
         {
           "kind": "counter_proposal",
+          "outcome": "rejected",
           "proposer_ref": {
             "raw": ""
           },
@@ -827,10 +828,9 @@
           },
           "ei_label": "Asian käsittelyn jatkaminen",
           "jaa_label": "Palautusehdotuksen hyväksyminen",
-          "needs_review": true,
+          "needs_review": false,
           "ordinal": 1,
-          "result_text": "Juho Hirvelän palautusehdotus § 174",
-          "review_reason": "no matching result sentence in the minutes text",
+          "result_text": "Juho Hirvelän palautusehdotus § 174: Äänestyksen tulos: Hirvelän palautusehdotus hylättiin äänin 4-61, tyhjä 1.",
           "source": "html",
           "source_url": "https://tampere.cloudnc.fi/fi-FI/content/476103/35325"
         },
@@ -1241,10 +1241,9 @@
           },
           "ei_label": "Asian käsittelyn jatkaminen",
           "jaa_label": "Palautusehdotuksen hyväksyminen",
-          "needs_review": true,
+          "needs_review": false,
           "ordinal": 2,
-          "result_text": "Juho Hirvelä palautusehdotus § 176",
-          "review_reason": "no matching result sentence in the minutes text",
+          "result_text": "Juho Hirvelä palautusehdotus § 176: Äänestyksen tulos: Hirvelän palautusehdotus hylättiin äänin 4-61, tyhjä 1.",
           "source": "html",
           "source_url": "https://tampere.cloudnc.fi/fi-FI/content/476103/35325"
         }

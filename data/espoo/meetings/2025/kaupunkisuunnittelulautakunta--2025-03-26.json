@@ -257,7 +257,42 @@
       "statements": [],
       "status": "active",
       "title": "Mattliden, ehdotus kaupunginhallitukselle asemakaavaksi ja asemakaavan muutokseksi, alue 311900, 21. kaupunginosa Olari ja 22. kaupunginosa Matinkylä, (Kh-Kv-asia)",
-      "votes": []
+      "votes": [
+        {
+          "ballots": [],
+          "counts": {
+            "ei": 0,
+            "jaa": 0,
+            "poissa": 0,
+            "tyhja": 0
+          },
+          "ei_label": "",
+          "jaa_label": "4.1",
+          "needs_review": true,
+          "ordinal": 1,
+          "result_text": "Äänestyksessä JAA ääniä tuli 8 ja EI ääniä 5.",
+          "review_reason": "PDF total 13 differs from the sum of its options; unparsed voter lines: Järvinen Hannu Ei Palautus, Finström Verna Ei Palautus, Nevanlinna Risto Ei Palautus, Tommola Helena Ei Palautus, Ülle Auli Ei Palautus, Portin Anders Jaa Asian jatkaminen, Särkijärvi Jouni J. Jaa Asi; minutes text says 8–5, 0 blank; the PDF says 0 Jaa, 0 Ei, 0 Tyhjä; missing Jaa/Ei proposal label",
+          "source": "pdf",
+          "source_url": "https://espoo.oncloudos.com/kokous/20251389-4-289839.PDF"
+        },
+        {
+          "ballots": [],
+          "counts": {
+            "ei": 0,
+            "jaa": 0,
+            "poissa": 0,
+            "tyhja": 0
+          },
+          "ei_label": "",
+          "jaa_label": "4.4.",
+          "needs_review": true,
+          "ordinal": 2,
+          "result_text": "Äänestyksen jälkeen puheenjohtaja totesi kaupunkisuunnittelulautakunnan seitsemällä (7) äänellä kuutta (6) vastaan päättäneen hylätä toivomusehdotuksen.\nÄänestyslista on pöytäkirjan liitteenä.",
+          "review_reason": "PDF total 13 differs from the sum of its options; unparsed voter lines: Kemppi-Virtanen Pirjo Ei Vastaan, Tommola Helena Ei Vastaan, Sammallahti Tere Ei Vastaan, Särkijärvi Jouni J. Ei Vastaan, Portin Anders Ei Vastaan, Hyrynkangas Janne Ei Vastaan, Havu Isto Ei Vastaan, ; minutes text says 7–6, 0 blank; the PDF says 0 Jaa, 0 Ei, 0 Tyhjä; missing Jaa/Ei proposal label",
+          "source": "pdf",
+          "source_url": "https://espoo.oncloudos.com/kokous/20251389-4-289839.PDF"
+        }
+      ]
     },
     {
       "attachments": [],

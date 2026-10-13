@@ -169,7 +169,104 @@
       "statements": [],
       "status": "active",
       "title": "Kutoja, asemakaavan muutos, kaavan lähtökohdat ja tavoitteet, alue 130142, 54. kaupunginosa Kilo, pöydälle 12.11.2025",
-      "votes": []
+      "votes": [
+        {
+          "ballots": [
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Aarnio Antti"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Waysi Haedeh"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Särkiö Ilkka"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Jenytin Cosmo"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Puntila Päivi"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Karimäki Johanna"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Tiitinen Helena"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Laakso Ville"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Vuornos Henrik"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Lindholm Julia"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Laakso Mikko"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Havu Isto"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Juuti Sini"
+              }
+            }
+          ],
+          "counts": {
+            "ei": 10,
+            "jaa": 3,
+            "poissa": 0,
+            "tyhja": 0
+          },
+          "ei_label": "Jenytin",
+          "jaa_label": "Pohja",
+          "needs_review": true,
+          "ordinal": 1,
+          "result_text": "Äänestyksessä JAA ääniä tuli 4 ja EI ääniä 9.",
+          "review_reason": "minutes text says 4–9, 0 blank; the PDF says 3 Jaa, 10 Ei, 0 Tyhjä",
+          "source": "pdf",
+          "source_url": "https://espoo.oncloudos.com/kokous/20251557-3-328361.PDF"
+        }
+      ]
     },
     {
       "attachments": [
@@ -421,6 +518,23 @@
         {
           "ballots": [],
           "counts": {
+            "ei": 4,
+            "jaa": 7,
+            "poissa": 0,
+            "tyhja": 0
+          },
+          "ei_label": "",
+          "jaa_label": "",
+          "needs_review": true,
+          "ordinal": 1,
+          "result_text": "Äänestyksessä JAA ääniä tuli 7, EI ääniä 4 ja tyhjiä ääniä 2.",
+          "review_reason": "no vote list attached; counts from the minutes text",
+          "source": "html",
+          "source_url": "https://espoo.oncloudos.com/cgi/DREQUEST.PHP?page=meetingitem&id=20251557-5"
+        },
+        {
+          "ballots": [],
+          "counts": {
             "ei": 5,
             "jaa": 9,
             "poissa": 0,
@@ -429,7 +543,7 @@
           "ei_label": "",
           "jaa_label": "",
           "needs_review": true,
-          "ordinal": 1,
+          "ordinal": 2,
           "result_text": "Puheenjohtaja totesi kaupunginhallituksen 9 äänellä 5 ääntä vastaan 1 ollessa poissa hylänneen Heleniuksen muutosehdotuksen.",
           "review_reason": "no vote list attached; counts from the minutes text",
           "source": "html",

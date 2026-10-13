@@ -330,72 +330,289 @@
       "title": "Lausunnon antaminen Helsingin seudun liikenne -kuntayhtymän (HSL) alustavasta toiminta- ja taloussuunnitelmasta vuosille 2026-2028",
       "votes": [
         {
-          "ballots": [],
+          "ballots": [
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Marttila Helena"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Hagerlund Tony"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "af Hällström Nina"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Schauman Ari"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Partanen Henna"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Laakso Mikko (Sammallahti"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Tere) Holma Jussi"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Stenholm Elena"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Kilpijoki Kerttu-Liisa"
+              }
+            }
+          ],
           "counts": {
-            "ei": 4,
-            "jaa": 5,
+            "ei": 5,
+            "jaa": 4,
             "poissa": 0,
             "tyhja": 0
           },
-          "ei_label": "",
+          "ei_label": "muutos",
           "jaa_label": "",
           "needs_review": true,
           "ordinal": 1,
           "result_text": "Puheenjohtaja totesi kaupunginhallituksen konserni- ja tilajaoston 5 äänellä 4 ääntä vastaan hyväksyneen Partasen ehdotuksen.",
-          "review_reason": "no vote list attached; counts from the minutes text",
-          "source": "html",
-          "source_url": "https://espoo.oncloudos.com/cgi/DREQUEST.PHP?page=meetingitem&id=20251484-6"
+          "review_reason": "missing Jaa/Ei proposal label",
+          "source": "pdf",
+          "source_url": "https://espoo.oncloudos.com/kokous/20251484-6-313576.PDF"
         },
         {
-          "ballots": [],
+          "ballots": [
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Hagerlund Tony"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Partanen Henna"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "af Hällström Nina"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Schauman Ari"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Marttila Helena"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Kilpijoki Kerttu-Liisa"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Holma Jussi"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Stenholm Elena"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Laakso Mikko (Sammallahti"
+              }
+            }
+          ],
           "counts": {
-            "ei": 4,
-            "jaa": 5,
+            "ei": 5,
+            "jaa": 4,
             "poissa": 0,
             "tyhja": 0
           },
-          "ei_label": "",
+          "ei_label": "muutos",
           "jaa_label": "",
           "needs_review": true,
           "ordinal": 2,
-          "result_text": "Puheenjohtaja totesi kaupunginhallituksen konserni- ja tilajaoston 5 äänellä 4 ääntä vastaan hyväksyneen Partasen ehdotuksen.",
-          "review_reason": "no vote list attached; counts from the minutes text",
-          "source": "html",
-          "source_url": "https://espoo.oncloudos.com/cgi/DREQUEST.PHP?page=meetingitem&id=20251484-6"
+          "review_reason": "unparsed voter lines: Tere); no matching vote sentence in the minutes text; missing Jaa/Ei proposal label",
+          "source": "pdf",
+          "source_url": "https://espoo.oncloudos.com/kokous/20251484-6-313576.PDF"
         },
         {
-          "ballots": [],
+          "ballots": [
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "af Hällström Nina"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Marttila Helena"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Partanen Henna"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Hagerlund Tony"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Schauman Ari"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Holma Jussi"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Stenholm Elena"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Kilpijoki Kerttu-Liisa"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Laakso Mikko (Sammallahti"
+              }
+            }
+          ],
           "counts": {
-            "ei": 4,
-            "jaa": 5,
+            "ei": 5,
+            "jaa": 4,
             "poissa": 0,
             "tyhja": 0
           },
-          "ei_label": "",
+          "ei_label": "muutos",
           "jaa_label": "",
           "needs_review": true,
           "ordinal": 3,
-          "result_text": "Puheenjohtaja totesi kaupunginhallituksen konserni- ja tilajaoston 5 äänellä 4 ääntä vastaan hyväksyneen Partasen ehdotuksen.",
-          "review_reason": "no vote list attached; counts from the minutes text",
-          "source": "html",
-          "source_url": "https://espoo.oncloudos.com/cgi/DREQUEST.PHP?page=meetingitem&id=20251484-6"
+          "review_reason": "unparsed voter lines: Tere); no matching vote sentence in the minutes text; missing Jaa/Ei proposal label",
+          "source": "pdf",
+          "source_url": "https://espoo.oncloudos.com/kokous/20251484-6-313576.PDF"
         },
         {
-          "ballots": [],
+          "ballots": [
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Schauman Ari"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Partanen Henna"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "af Hällström Nina"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Hagerlund Tony"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Marttila Helena"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Laakso Mikko (Sammallahti"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Tere) Kilpijoki Kerttu-Liisa"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Holma Jussi"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Stenholm Elena"
+              }
+            }
+          ],
           "counts": {
-            "ei": 4,
-            "jaa": 5,
+            "ei": 5,
+            "jaa": 4,
             "poissa": 0,
             "tyhja": 0
           },
-          "ei_label": "",
+          "ei_label": "muutos",
           "jaa_label": "",
           "needs_review": true,
           "ordinal": 4,
-          "result_text": "Puheenjohtaja totesi kaupunginhallituksen konserni- ja tilajaoston 5 äänellä 4 ääntä vastaan hyväksyneen Partasen ehdotuksen.",
-          "review_reason": "no vote list attached; counts from the minutes text",
-          "source": "html",
-          "source_url": "https://espoo.oncloudos.com/cgi/DREQUEST.PHP?page=meetingitem&id=20251484-6"
+          "review_reason": "unparsed voter lines: (Fagerström Noora); no matching vote sentence in the minutes text; missing Jaa/Ei proposal label",
+          "source": "pdf",
+          "source_url": "https://espoo.oncloudos.com/kokous/20251484-6-313576.PDF"
         }
       ]
     },

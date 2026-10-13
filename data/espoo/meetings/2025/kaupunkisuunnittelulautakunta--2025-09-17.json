@@ -105,6 +105,7 @@
       "motions": [
         {
           "kind": "send_back",
+          "outcome": "rejected",
           "proposer_ref": {
             "raw": "Keskustelun"
           },
@@ -163,7 +164,103 @@
       "statements": [],
       "status": "active",
       "title": "Komeetanristi, ehdotus kaupunginhallitukselle asemakaavan muutokseksi, alue 322026, 22. kaupunginosa Olari (Kh-asia)",
-      "votes": []
+      "votes": [
+        {
+          "ballots": [
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Karimäki Johanna"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Särkiö Ilkka"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Aarnio Antti"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Jenytin Cosmo"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Molander Pontus"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Kerola Hannele"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Vuornos Henrik"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Tiitinen Helena"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Havu Isto"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Laakso Ville"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Lindholm Julia"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Juuti Sini"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Laakso Mikko"
+              }
+            }
+          ],
+          "counts": {
+            "ei": 5,
+            "jaa": 8,
+            "poissa": 0,
+            "tyhja": 0
+          },
+          "ei_label": "Palautusehdotus",
+          "jaa_label": "Asian käsittelyn jatkaminen",
+          "needs_review": false,
+          "ordinal": 1,
+          "result_text": "Äänestyksessä JAA ääniä tuli 8 ja EI ääniä 5.",
+          "source": "pdf",
+          "source_url": "https://espoo.oncloudos.com/kokous/20251496-3-315961.PDF"
+        }
+      ]
     },
     {
       "attachments": [

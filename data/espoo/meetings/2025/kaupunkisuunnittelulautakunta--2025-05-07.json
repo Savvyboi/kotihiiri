@@ -127,6 +127,7 @@
         },
         {
           "kind": "send_back",
+          "outcome": "adopted",
           "proposer_ref": {
             "raw": "Nevanlinna"
           },
@@ -192,7 +193,294 @@
       "statements": [],
       "status": "active",
       "title": "Tiistinlaakso, asemakaavan muutosehdotuksen hyväksyminen nähtäville (MRA 27 §), alue 311802, 23. kaupunginosa Matinkylä, pöydälle 23.4.2025",
-      "votes": []
+      "votes": [
+        {
+          "ballots": [
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Nevanlinna Risto"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Järvinen Hannu"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Portin Anders"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Kemppi-Virtanen Pirjo"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Finström Verna"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Ülle Auli"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Aarnio Antti"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Tommola Helena"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Särkijärvi Jouni J."
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Vehmanen Emma-Stina"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Sammallahti Tere"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Havu Isto"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Lindholm Julia"
+              }
+            }
+          ],
+          "counts": {
+            "ei": 8,
+            "jaa": 5,
+            "poissa": 0,
+            "tyhja": 0
+          },
+          "ei_label": "palautusehdotus 3.5, 1)",
+          "jaa_label": "Esittelijän pohjaehdotus",
+          "needs_review": false,
+          "ordinal": 1,
+          "result_text": "JAA ääniä tuli 5 ja EI ääniä 8.",
+          "source": "pdf",
+          "source_url": "https://espoo.oncloudos.com/kokous/20251428-3-296772.PDF"
+        },
+        {
+          "ballots": [
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Lindholm Julia"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Särkijärvi Jouni J."
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Havu Isto"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Järvinen Hannu"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Tommola Helena"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Kemppi-Virtanen Pirjo"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Vehmanen Emma-Stina"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Ülle Auli"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Aarnio Antti"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Sammallahti Tere"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Nevanlinna Risto"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Finström Verna"
+              }
+            },
+            {
+              "choice": "tyhja",
+              "person_ref": {
+                "raw": "Portin Anders"
+              }
+            }
+          ],
+          "counts": {
+            "ei": 7,
+            "jaa": 5,
+            "poissa": 0,
+            "tyhja": 1
+          },
+          "ei_label": "palautusehdotus 3.1, 3)",
+          "jaa_label": "Esittelijän pohjaehdotus",
+          "needs_review": true,
+          "ordinal": 2,
+          "result_text": "JAA ääniä tuli 5, EI ääniä 7 ja 1 tyhjä ääni.",
+          "review_reason": "minutes text says 5–7, 0 blank; the PDF says 5 Jaa, 7 Ei, 1 Tyhjä",
+          "source": "pdf",
+          "source_url": "https://espoo.oncloudos.com/kokous/20251428-3-296772.PDF"
+        },
+        {
+          "ballots": [
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Portin Anders"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Kemppi-Virtanen Pirjo"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Lindholm Julia"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Järvinen Hannu"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Havu Isto"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Vehmanen Emma-Stina"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Sammallahti Tere"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Särkijärvi Jouni J."
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Aarnio Antti"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Nevanlinna Risto"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Tommola Helena"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Finström Verna"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Ülle Auli"
+              }
+            }
+          ],
+          "counts": {
+            "ei": 9,
+            "jaa": 4,
+            "poissa": 0,
+            "tyhja": 0
+          },
+          "ei_label": "palautusehdotus 3.4, 1)",
+          "jaa_label": "Esittelijän pohjaehdotus",
+          "needs_review": false,
+          "ordinal": 3,
+          "result_text": "JAA ääniä tuli 4 ja EI ääniä 9.",
+          "source": "pdf",
+          "source_url": "https://espoo.oncloudos.com/kokous/20251428-3-296772.PDF"
+        }
+      ]
     },
     {
       "attachments": [
@@ -279,7 +567,198 @@
       "statements": [],
       "status": "active",
       "title": "Rakennuskiellon ja toimenpiderajoituksen asettaminen yleiskaavan valmistelun ajaksi (Hista, Myntinmäki-Forsbacka, Tollinmäki)",
-      "votes": []
+      "votes": [
+        {
+          "ballots": [
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Vehmanen Emma-Stina"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Särkijärvi Jouni J."
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Järvinen Hannu"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Portin Anders"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Tommola Helena"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Kemppi-Virtanen Pirjo"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Havu Isto"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Lindholm Julia"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Sammallahti Tere"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Finström Verna"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Ülle Auli"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Nevanlinna Risto"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Aarnio Antti"
+              }
+            }
+          ],
+          "counts": {
+            "ei": 9,
+            "jaa": 4,
+            "poissa": 0,
+            "tyhja": 0
+          },
+          "ei_label": "Puheenjohtajan muutosehdotus",
+          "jaa_label": "Esittelijän pohjaehdotus",
+          "needs_review": false,
+          "ordinal": 1,
+          "result_text": "JAA ääniä tuli 4 ja EI ääniä 9.",
+          "source": "pdf",
+          "source_url": "https://espoo.oncloudos.com/kokous/20251428-4-296775.PDF"
+        },
+        {
+          "ballots": [
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Sammallahti Tere"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Lindholm Julia"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Särkijärvi Jouni J."
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Kemppi-Virtanen Pirjo"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Vehmanen Emma-Stina"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Portin Anders"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Järvinen Hannu"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Havu Isto"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Tommola Helena"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Finström Verna"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Aarnio Antti"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Ülle Auli"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Nevanlinna Risto"
+              }
+            }
+          ],
+          "counts": {
+            "ei": 8,
+            "jaa": 5,
+            "poissa": 0,
+            "tyhja": 0
+          },
+          "ei_label": "Portinin muutosehdotus",
+          "jaa_label": "Esittelijän pohjaehdotus",
+          "needs_review": false,
+          "ordinal": 2,
+          "result_text": "JAA ääniä tuli 5 ja EI ääniä 8.",
+          "source": "pdf",
+          "source_url": "https://espoo.oncloudos.com/kokous/20251428-4-296775.PDF"
+        }
+      ]
     },
     {
       "attachments": [
@@ -370,7 +849,103 @@
       "statements": [],
       "status": "active",
       "title": "Oikaisuvaatimuksen käsittely koskien kaupunkisuunnittelujohtajan maisematyölupapäätöstä 4.3.2025 § 6⁄2025, lupatunnus 2025-3",
-      "votes": []
+      "votes": [
+        {
+          "ballots": [
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Finström Verna"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Nevanlinna Risto"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Tommola Helena"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Ülle Auli"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Vehmanen Emma-Stina"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Lindholm Julia"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Portin Anders"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Sammallahti Tere"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Havu Isto"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Aarnio Antti"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Särkijärvi Jouni J."
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Järvinen Hannu"
+              }
+            },
+            {
+              "choice": "poissa",
+              "person_ref": {
+                "raw": "Kemppi-Virtanen Pirjo"
+              }
+            }
+          ],
+          "counts": {
+            "ei": 4,
+            "jaa": 8,
+            "poissa": 1,
+            "tyhja": 0
+          },
+          "ei_label": "Nevanlinnan muutosehdotus",
+          "jaa_label": "Esittelijän pohjaehdotus",
+          "needs_review": false,
+          "ordinal": 1,
+          "result_text": "Äänestyksessä JAA ääniä tuli 8 ja EI ääniä 4.",
+          "source": "pdf",
+          "source_url": "https://espoo.oncloudos.com/kokous/20251428-5-296774.PDF"
+        }
+      ]
     },
     {
       "attachments": [],

@@ -314,10 +314,9 @@
           },
           "ei_label": "Ei",
           "jaa_label": "Jaa",
-          "needs_review": true,
+          "needs_review": false,
           "ordinal": 1,
-          "result_text": "Asian käsittelyn jatkaminen = JAA, Asian palauttaminen uudelleen valmisteltavaksi = EI",
-          "review_reason": "no matching result sentence in the minutes text",
+          "result_text": "Asian käsittelyn jatkaminen = JAA, Asian palauttaminen uudelleen valmisteltavaksi = EI: Äänestyksen tulos: Asian käsittelyn jatkaminen hyväksyttiin äänin 9-2, 1 tyhjä, 1 poissa.",
           "source": "html",
           "source_url": "https://tampere.cloudnc.fi/fi-FI/content/442432/33846"
         }
@@ -617,10 +616,9 @@
           },
           "ei_label": "Ei",
           "jaa_label": "Jaa",
-          "needs_review": true,
+          "needs_review": false,
           "ordinal": 1,
-          "result_text": "Asian käsittelyn jatkaminen = JAA, Asian jättäminen pöydälle = EI",
-          "review_reason": "no matching result sentence in the minutes text",
+          "result_text": "Asian käsittelyn jatkaminen = JAA, Asian jättäminen pöydälle = EI: Äänestyksen tulos: Asian käsittelyn jatkaminen hyväksyttiin äänin 7-5, 1 poissa.",
           "source": "html",
           "source_url": "https://tampere.cloudnc.fi/fi-FI/content/442431/33846"
         }

@@ -110,6 +110,7 @@
       "motions": [
         {
           "kind": "send_back",
+          "outcome": "rejected",
           "proposer_ref": {
             "raw": "Keskustelun"
           },
@@ -173,7 +174,103 @@
       "statements": [],
       "status": "active",
       "title": "Espoontori, ehdotus kaupunginhallitukselle asemakaavan muutokseksi, alue 613802, 40. kaupunginosa Espoon keskus (Kh-Kv-asia), pöydälle 12.2.2025",
-      "votes": []
+      "votes": [
+        {
+          "ballots": [
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Tommola Helena"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Nevanlinna Risto"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Järvinen Hannu"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Ülle Auli"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Finström Verna"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Kemppi-Virtanen Pirjo"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Vehmanen Emma-Stina"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Sammallahti Tere"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Lindholm Julia"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Aarnio Antti"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Donner Robert"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Havu Isto"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Särkijärvi Jouni J."
+              }
+            }
+          ],
+          "counts": {
+            "ei": 5,
+            "jaa": 8,
+            "poissa": 0,
+            "tyhja": 0
+          },
+          "ei_label": "Palautus",
+          "jaa_label": "Käsittelyn jatkaminen",
+          "needs_review": false,
+          "ordinal": 1,
+          "result_text": "Äänestyksessä JAA ääniä tuli 8 ja EI ääniä 5.",
+          "source": "pdf",
+          "source_url": "https://espoo.oncloudos.com/kokous/20251365-3-285389.PDF"
+        }
+      ]
     },
     {
       "attachments": [],
@@ -550,6 +647,7 @@
       "motions": [
         {
           "kind": "table",
+          "outcome": "adopted",
           "proposer_ref": {
             "raw": "Nevanlinna"
           },
@@ -598,7 +696,103 @@
       "statements": [],
       "status": "active",
       "title": "Kaitaan metrokeskus, asemakaavan muutos, asemakaavan lähtökohdat ja tavoitteet, alue 441418, 44. kaupunginosa Kaitaa",
-      "votes": []
+      "votes": [
+        {
+          "ballots": [
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Rehnfors Ari"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Tommola Helena"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Aarnio Antti"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Vehmanen Emma-Stina"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Särkijärvi Jouni J."
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Donner Robert"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Finström Verna"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Nevanlinna Risto"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Havu Isto"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Järvinen Hannu"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Ülle Auli"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Sammallahti Tere"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Lindholm Julia"
+              }
+            }
+          ],
+          "counts": {
+            "ei": 11,
+            "jaa": 2,
+            "poissa": 0,
+            "tyhja": 0
+          },
+          "ei_label": "Pöydälle",
+          "jaa_label": "Asian käsittelyn jatkaminen",
+          "needs_review": false,
+          "ordinal": 1,
+          "result_text": "Äänestyksessä JAA ääniä tuli 2 ja EI ääniä 11.",
+          "source": "pdf",
+          "source_url": "https://espoo.oncloudos.com/kokous/20251365-9-285397.PDF"
+        }
+      ]
     },
     {
       "attachments": [

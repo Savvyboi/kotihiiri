@@ -147,6 +147,7 @@
       "motions": [
         {
           "kind": "send_back",
+          "outcome": "adopted",
           "proposer_ref": {
             "raw": "Keskustelun"
           },
@@ -210,7 +211,103 @@
       "statements": [],
       "status": "active",
       "title": "Tiilismäenrinne, ehdotus kaupunginhallitukselle asemakaavan muutokseksi, alue 420122, 42. kaupunginosa Saunalahti (Kh-Kv-asia)",
-      "votes": []
+      "votes": [
+        {
+          "ballots": [
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Aarnio Antti"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Tiitinen Helena"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Thure-Toivanen Tiina"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Puntila Päivi"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Kerola Hannele"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Karimäki Johanna"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Särkiö Ilkka"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Laakso Mikko"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Juuti Sini"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Laakso Ville"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Vuornos Henrik"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Jenytin Cosmo"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Havu Isto"
+              }
+            }
+          ],
+          "counts": {
+            "ei": 1,
+            "jaa": 12,
+            "poissa": 0,
+            "tyhja": 0
+          },
+          "ei_label": "Asian käsittelyn jatko",
+          "jaa_label": "Palautusehdotus",
+          "needs_review": false,
+          "ordinal": 1,
+          "result_text": "Äänestyksessä JAA ääniä tuli 12 ja EI ääniä 1.",
+          "source": "pdf",
+          "source_url": "https://espoo.oncloudos.com/kokous/20261619-4-343749.PDF"
+        }
+      ]
     },
     {
       "attachments": [
