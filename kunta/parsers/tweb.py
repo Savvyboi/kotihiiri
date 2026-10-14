@@ -150,7 +150,7 @@ def parse_meeting(html: str, base: str = BASE) -> MeetingPage:
         url = urljoin(base + "/ktwebscr/", doc_href) if doc_href else None
         if not re.fullmatch(r"\d+", first):
             # Rows without § are the cover page and the appeal instructions; not items (§7.4).
-            if url and re.search(r"kansilehti", title, re.IGNORECASE):
+            if url and re.search(r"kansilehti|försättsblad", title, re.IGNORECASE):
                 page.cover_pdf = url
             continue
         ordinal += 1
@@ -191,27 +191,44 @@ def html_lines(html: str) -> list[str]:
 
 # -- cover page ---------------------------------------------------------------------------
 
-# "Aika 21.9.2026 klo 18.05–23.18", "Aika 17.11.2025 klo 13.00- 18.11.2025 klo 0.22"
+# "Aika 21.9.2026 klo 18.05–23.18", "Aika 8.6.2026, klo 13.05–17.26", "Aika 17.11.2025 klo 13.00-
+# 18.11.2025 klo 0.22", Swedish bodies "Tid Tisdag 09.06.2026, kl. 17.05-19.33"
+_KLO = r",?\s+(?:klo|kl\.)\s+"
 SESSION = re.compile(
-    r"^Aika\s+(\d{1,2}\.\d{1,2}\.\d{4})\s+klo\s+(\d{1,2})[.:](\d{2})"
-    r"(?:\s*[–-]\s*(?:\d{1,2}\.\d{1,2}\.\d{4}\s+klo\s+)?(\d{1,2})[.:](\d{2}))?"
+    rf"^(?:Aika|Tid)\s+(?:[A-Za-zåäö]+\s+)?(\d{{1,2}}\.\d{{1,2}}\.\d{{4}}){_KLO}(\d{{1,2}})[.:](\d{{2}})"
+    rf"(?:\s*[–-]\s*(?:\d{{1,2}}\.\d{{1,2}}\.\d{{4}}{_KLO})?(\d{{1,2}})[.:](\d{{2}}))?"
 )
-PLACE = re.compile(r"^Paikka\s+(.+)$")
-_NAME = r"(?:(?:el|af|von|de|van)\s+)?[A-ZÅÄÖ][^,()]*?"
+PLACE = re.compile(r"^(?:Paikka|Plats)\s+(.+)$")
+_PARTICLE = r"(?:(?:el|af|von|de|van)\s+)"
+_WORD = rf"{_PARTICLE}?[A-ZÅÄÖ][\wÅÄÖåäö'’-]*"
+_NAME = rf"{_WORD}(?:\s+{_WORD})*"
+_MARK = r"(?P<mark>[xX]|-)(?=[\s)]|$)"
 # A note in brackets after the mark: "(klo 18.05-21.03 § 1-8)", or cut by the line end or the
 # next column's entry: "(pj § 1-6, 13.00- Lahti Timo x" (the rest of the note is on the next line).
-NOTE = rf"\([^()]*?(?:\)|(?=\s{_NAME}\s(?:x|-)(?:\s|$))|$)"
+NOTE = rf"\([^()]*?(?:\)|(?=\s{_NAME}\s(?:[xX]|-)(?:\s|$))|$)"
+# "Kaukola Ulla, puheenjohtaja X", "Kasonen Mika, I varapuheenjohtaja X", "Pietelin Anna, x"; the
+# role is lower case, so an unmarked name before the entry does not read as one.
 ENTRY = re.compile(
-    rf"(?P<name>{_NAME})(?:,\s*(?P<role>[^()]*?))?\s+(?P<mark>x|-)(?=\s|$)(?:\s*(?P<note>{NOTE}))?"
+    rf"(?P<name>{_NAME})(?:[,.]\s*(?P<role>(?:[IV]+\s+)?[a-zåäö][^()A-ZÅÄÖ]*?)?)?\s+{_MARK}"
+    rf"(?:\s*(?P<note>{NOTE}))?"
 )
+# "Muut osallistujat" is one column, so its roles may name an organisation: "Niemistö Jussi,
+# tutkimusjohtaja, CBRE Commercial Real X"
+ONE_COLUMN = re.compile(rf"^(?P<name>{_NAME})(?:[,.]\s*(?P<role>[^()]*?))?\s+{_MARK}(?:\s*(?P<note>{NOTE}))?")
 GROUPS = [
-    (re.compile(r"^Jäsenet\s+Läsnä"), "jäsen"),
+    (re.compile(r"^(?:Jäsenet\s+(?:Läsnä|Varajäsenet)|Medlemmar\s+Närvarande)"), "jäsen"),
     (re.compile(r"^Varajäsenet\s+Läsnä"), "varajäsen"),
-    (re.compile(r"^Kaupunginhallituksen jäsenet\b"), "kaupunginhallituksen jäsen"),
-    (re.compile(r"^Nuorisovaltuuston\b"), "nuorisovaltuuston edustaja"),
-    (re.compile(r"^Muut osallistujat\b"), "muu osallistuja"),
+    (
+        re.compile(r"^Kaupunginhallituksen (?:jäsenet|edustaja)\b|^Stadsstyrelsens\b"),
+        "kaupunginhallituksen jäsen",
+    ),
+    (re.compile(r"^Nuorisovaltuuston\b|^Ungdomsfullmäktiges\b"), "nuorisovaltuuston edustaja"),
+    (re.compile(r"^(?:Muut osallistujat|Övriga deltagare)\b"), "muu osallistuja"),
 ]
-COVER_END = re.compile(r"^(Kokouksen laillisuus|Allekirjoitukset|Pöytäkirjan tarkastus|Käsitellyt asiat)")
+COVER_END = re.compile(
+    r"^(Kokouksen laillisuus|Allekirjoitukset|Pöytäkirjan tarkastus|Käsitellyt asiat|Sammanträdets laglighet"
+    r"|Underskrifter)"
+)
 
 
 @dataclass
@@ -264,8 +281,11 @@ def parse_cover(lines: list[str]) -> Cover:
             continue
         if group is None or re.match(r"^[\d§]", line):  # "22.10 § 1-9)": the rest of a note
             continue
-        for m in ENTRY.finditer(line):
+        found = ONE_COLUMN.match(line) if group == "muu osallistuja" else None
+        for m in [found] if found else ENTRY.finditer(line):
             name = m.group("name").strip()
+            if len(name.split()) > 3:  # an unmarked name from the first column ran into this one
+                name = " ".join(name.split()[-2:])
             if not re.match(r"^[A-ZÅÄÖa-zåäö]", name) or name.lower() in ("läsnä", "jäsenet"):
                 continue
             role = (m.group("role") or "").strip(" ,") or group
@@ -274,7 +294,7 @@ def parse_cover(lines: list[str]) -> Cover:
                 Participant(
                     name=name,
                     role=role,
-                    present=m.group("mark") == "x",
+                    present=m.group("mark") in "xX",
                     note=_note(note),
                 )
             )

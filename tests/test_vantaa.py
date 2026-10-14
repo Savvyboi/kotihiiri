@@ -5,7 +5,7 @@ from kunta import jsonio
 from kunta.adapters import NotEnabled, adapter_for
 from kunta.adapters.tweb import TwebAdapter
 from kunta.crawl import crawl
-from kunta.models import ItemRef, Stage
+from kunta.models import Choice, ItemRef, Stage
 from kunta.parsers import tweb as tp
 from kunta.pdf import pdf_pages
 from kunta.text import contains_pii
@@ -267,6 +267,41 @@ def test_items_without_vote_report_keep_prose_counts_and_board_names():
     assert (v.jaa_label, v.ei_label) == ("kaupunginjohtajan esitys", "Kasosen muutosesitys")
     assert [b.person_ref.raw for b in v.ballots if b.choice == "ei"][:2] == ["Hakala", "Kasonen"]
     assert [m.outcome for m in item.motions] == ["rejected", "rejected", "rejected"]
+
+
+def test_vote_sentence_variants():
+    prop = ("he jotka kannattavat esittelijän esitystä äänestävät jaa, ja he, jotka kannattavat "
+            "Virtasen ehdotusta, äänestävät ei. ")  # fmt: skip
+    cases = {
+        prop + "Äänestyksessä annettiin 55 jaa ääntä ja 12 ei-ääntä. Puheenjohtaja totesi.": (55, 12, 0),
+        "Äänestyksessä annettiin 45 jaaääntä, 21 ei-ääntä ja 1 tyhjää, joten": (45, 21, 1),
+        # the ei count first, with the voters' names
+        "Äänestyksessä annettiin 4 ei-ääntä (Karinen, Niikko, Tuomainen ja Rämö), ja 2 jaa-ääntä "
+        "(Abdi ja Hakala), joten": (2, 4, 0),
+        # a total first, then "Jaa-ääniä N (…) ja ei-ääniä N"
+        "Äänestyksessä annettiin yhteensä 5 ääntä. Jaa-ääniä 2 (Abdi ja Hakala) ja ei-ääniä 3 "
+        "(Karinen, Niikko ja Rämö). Kaupunginhallitus hyväksyi.": (2, 3, 0),
+    }
+    for sentence, counts in cases.items():
+        [p] = tp.parse_prose([sentence])
+        assert (p.a, p.b, p.tyhja) == counts, sentence
+    [p] = tp.parse_prose([next(iter(cases))])
+    assert (p.jaa_label, p.ei_label) == ("esittelijän esitys", "Virtasen ehdotus")
+    [p] = tp.parse_prose([list(cases)[2]])
+    assert p.names[Choice.ei] == ["Karinen", "Niikko", "Tuomainen", "Rämö"]
+
+
+def test_kasittely_spans_a_changed_proposal_but_not_a_missed_earlier_handling():
+    vote = "Äänestyksessä annettiin 3 jaa-ääntä ja 2 ei-ääntä."
+    block = tp.Block(body="Kaupunginhallitus", date=dt.date(2025, 11, 10), pykala=3, lines=[
+        "Kaupunginjohtajan esitys:", "Hyväksytään.", "Käsittely:", "Kaupunginjohtaja muutti esitystään.",
+        "Kaupunginjohtajan muutettu esitys:", "Hyväksytään muutettuna.", vote, "Päätös:", "Hyväksyttiin.",
+    ])  # fmt: skip
+    assert vote in tp.item_sections(tp.ItemDoc(blocks=[block]))[2]
+    # an earlier body's handling whose header line was missed: its vote is not this meeting's
+    block.lines += ["Kaupunkisuunnittelujohtajan vs. esitys:", "Hyväksytään.", "Käsittely:", "Keskustelu.",
+                    "Päätös:", "Hyväksyttiin."]  # fmt: skip
+    assert tp.item_sections(tp.ItemDoc(blocks=[block]))[2] == ["Keskustelu."]
 
 
 def test_agenda_stage_items_have_no_votes_or_pykala():
