@@ -200,7 +200,7 @@ SESSION = re.compile(
 )
 PLACE = re.compile(r"^(?:Paikka|Plats)\s+(.+)$")
 _PARTICLE = r"(?:(?:el|af|von|de|van)\s+)"
-_WORD = rf"{_PARTICLE}?(?!X(?:[\s)]|$))[A-ZÅÄÖ][\wÅÄÖåäö'’-]*"
+_WORD = rf"{_PARTICLE}?(?!(?:X|[IV]+)(?:[\s)]|$))[A-ZÅÄÖ][\wÅÄÖåäö'’-]*"
 _NAME = rf"{_WORD}(?:\s+{_WORD})*"
 _MARK = r"(?P<mark>[xX]|-)(?=[\s)]|$)"
 # A note in brackets after the mark: "(klo 18.05-21.03 § 1-8)", or cut by the line end or the
@@ -625,7 +625,7 @@ class TwebProse(ProseVote):
 def _names(text: str | None) -> list[str]:
     if not text:
         return []
-    return [n.strip() for n in re.split(r",|\s+ja\s+", text) if n.strip()]
+    return [n.strip() for n in re.split(r",|\.\s+|\s+ja\s+", text) if n.strip()]
 
 
 def _short_label(text: str) -> str:
@@ -640,12 +640,21 @@ def _short_label(text: str) -> str:
     return t
 
 
+def _result_end(text: str, start: int) -> re.Match | None:
+    """The first RESULT_END outside the voters' brackets ("Kivimäki, Nummela. Rämö" is a typo)."""
+    for e in RESULT_END.finditer(text, start):
+        seg = text[start : e.start()]
+        if seg.count("(") <= seg.count(")"):
+            return e
+    return None
+
+
 def parse_prose(lines: list[str]) -> list[TwebProse]:
     text = _flat(lines)
     out = []
     props = list(PROPOSITION.finditer(text))
     for m in RESULT.finditer(text):
-        end = RESULT_END.search(text, m.end())
+        end = _result_end(text, m.end())
         window = text[m.end() : end.start() if end else len(text)]
         counts: dict[Choice, int] = {}
         names: dict[Choice, list[str]] = {}

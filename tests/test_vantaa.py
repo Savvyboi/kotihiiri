@@ -329,6 +329,9 @@ def test_vote_sentence_variants():
         # a total first, then "Jaa-ääniä N (…) ja ei-ääniä N"
         "Äänestyksessä annettiin yhteensä 5 ääntä. Jaa-ääniä 2 (Abdi ja Hakala) ja ei-ääniä 3 "
         "(Karinen, Niikko ja Rämö). Kaupunginhallitus hyväksyi.": (2, 3, 0),
+        # a full stop typed for a comma inside the voters' brackets does not end the result
+        "Äänestyksessä annettiin yhteensä 5 ääntä. 3 jaa-ääntä (Abdi, Nummela. Rämö) ja 2 ei-ääntä "
+        "(Demiri, Niikko)": (3, 2, 0),
     }
     for sentence, counts in cases.items():
         [p] = tp.parse_prose([sentence])
@@ -337,6 +340,8 @@ def test_vote_sentence_variants():
     assert (p.jaa_label, p.ei_label) == ("esittelijän esitys", "Virtasen ehdotus")
     [p] = tp.parse_prose([list(cases)[2]])
     assert p.names[Choice.ei] == ["Karinen", "Niikko", "Tuomainen", "Rämö"]
+    [p] = tp.parse_prose([list(cases)[4]])
+    assert p.names[Choice.jaa] == ["Abdi", "Nummela", "Rämö"]
 
 
 def test_kasittely_spans_a_changed_proposal_but_not_a_missed_earlier_handling():
