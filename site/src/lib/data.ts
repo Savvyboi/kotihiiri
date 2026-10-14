@@ -137,6 +137,14 @@ export function speechesByItem(cityId: string): Map<string, Speech[]> {
   });
 }
 
+/** The opening of a speech, past the greeting ("Kiitos, puheenjohtaja."), cut at a word. */
+export function speechExcerpt(text: string, max = 180): string {
+  const flat = text.replace(/\s+/g, ' ').trim();
+  const body = flat.replace(/^((arvo(isa|kas)|hyvä|kiitos|ärade|bästa|tack)[^.!?]{0,60}[.!?]\s*){1,3}/i, '');
+  const t = body.length >= 40 ? body : flat;
+  return t.length > max ? `${t.slice(0, max).replace(/\s+\S*$/, '')}…` : t;
+}
+
 /** config/project.yaml `features` (PLAN.md §2.2 rule 9 for SPEECHES_BY_PERSON). */
 export function feature(name: string): boolean {
   return memo(`feature:${name}`, () => {

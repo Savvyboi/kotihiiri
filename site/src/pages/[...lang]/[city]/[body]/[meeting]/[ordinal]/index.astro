@@ -7,7 +7,7 @@ import SourceLink from '../../../../../../components/SourceLink.astro';
 import VoteDetail from '../../../../../../components/VoteDetail.astro';
 import T from '../../../../../../components/T.astro';
 import { formatDate, sharedPath, type Locale } from '../../../../../../i18n';
-import { cities, meetingFiles, bodyName, bodySlug, meetingSegment, decisionText, speechesByItem, type AgendaItem, type City, type Meeting } from '../../../../../../lib/data';
+import { cities, meetingFiles, bodyName, bodySlug, meetingSegment, decisionText, speechExcerpt, speechesByItem, type AgendaItem, type City, type Meeting } from '../../../../../../lib/data';
 import { displayName, findPerson, personUrl, speaker } from '../../../../../../lib/people';
 
 export function getStaticPaths() {
@@ -83,12 +83,21 @@ const talk = (speechesByItem(city.id).get(item.id) ?? []).map((s) => {
           <details id={`puhe-${s.ordinal}`} class="speech">
             <summary><span lang={s.lang}>{s.speaker_title}</span> {href ? <a href={href} data-shared>{name}</a> : name}
               {s.kind === 'reply' && <span class="small muted"> · <T k="speech.reply" locale={locale} /></span>}
-              <span class="excerpt small muted" lang={s.lang}>{paras[0].slice(0, 140)}{paras[0].length > 140 || paras.length > 1 ? '…' : ''}</span></summary>
+              <span class="excerpt small muted" lang={s.lang}>{speechExcerpt(s.text, 140)}</span></summary>
             <div class="prose" lang={s.lang}>{paras.map((t) => <p>{t}</p>)}</div>
           </details>
         ))}
       </div>
-      <script is:inline>{`(function(){var o=function(){var e=location.hash&&document.getElementById(location.hash.slice(1));if(e&&e.tagName==='DETAILS'){e.open=true;e.scrollIntoView();}};o();addEventListener('hashchange',o);})();`}</script>
+      <script is:inline>
+        (function () {
+          var open = function () {
+            var e = location.hash && document.getElementById(location.hash.slice(1));
+            if (e && e.tagName === 'DETAILS') { e.open = true; e.scrollIntoView(); }
+          };
+          open();
+          addEventListener('hashchange', open);
+        })();
+      </script>
     </>}
 
     {main.length > 0 && <h2><T k="item.sections" locale={locale} /></h2>}

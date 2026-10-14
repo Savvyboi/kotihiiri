@@ -240,3 +240,4 @@ h1 .pchip { font-size: .45em; vertical-align: .35em; }
 .speeches details.speech { margin: .4rem 0; }
 .speech summary .excerpt { display: block; font-weight: 400; margin-top: .2rem; }
 .speech .prose p { margin: 0 0 .7rem; }
+.speech[open] summary .excerpt { display: none; }
