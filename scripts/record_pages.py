@@ -40,6 +40,9 @@ def main(city: str, out: str, urls: list[str]) -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
     with PoliteClient(load_project().user_agent, allowed_hosts=hosts) as client:
         for url in urls:
+            # "…#pages=3" prints only the first pages of a long PDF (compiled minutes run to hundreds).
+            url, _, frag = url.partition("#")
+            max_pages = int(frag.removeprefix("pages=")) if frag.startswith("pages=") else None
             resp = client.get(url)
             path = url.split("://", 1)[1].split("/", 1)[-1].replace("cgi/DREQUEST.PHP?", "")
             name = re.sub(r"[^\w.-]+", "_", path).strip("_")
@@ -49,7 +52,7 @@ def main(city: str, out: str, urls: list[str]) -> None:
             # Also into the log, which is readable where artifact storage is not.
             print(f"=====BEGIN {name}")
             if resp.content.startswith(b"%PDF"):
-                for i, page in enumerate(pdf_pages(resp.content), start=1):
+                for i, page in enumerate(pdf_pages(resp.content, max_pages), start=1):
                     print(f"--- page {i}")
                     print("\n".join(page))
             else:
