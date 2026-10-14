@@ -49,3 +49,4 @@ addopts = "-q"
 "scripts/make_espoo_fixtures.py" = ["E501"]
 "tests/test_espoo.py" = ["E501"]
 "tests/test_tampere.py" = ["E501"]
+"tests/test_vantaa.py" = ["E501"]
