@@ -328,6 +328,7 @@
       "motions": [
         {
           "kind": "counter_proposal",
+          "outcome": "adopted",
           "proposer_ref": {
             "raw": "Mika Kasonen"
           },
@@ -385,7 +386,115 @@
       ],
       "status": "active",
       "title": "Vantaan kaupunkistrategia vuosille 2026–2029",
-      "votes": []
+      "votes": [
+        {
+          "ballots": [
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Abdi"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Demiri"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Kaukola"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Räsänen"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Strohm"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Tammi"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Aura"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Hakala"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Kasonen"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Kivimäki"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Niikko"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Nummela"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Roininen"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Rämö"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Tuomainen"
+              }
+            }
+          ],
+          "counts": {
+            "ei": 9,
+            "jaa": 6,
+            "poissa": 0,
+            "tyhja": 0
+          },
+          "ei_label": "Kasosen muutosesitys",
+          "jaa_label": "pohja esitys",
+          "needs_review": false,
+          "ordinal": 1,
+          "result_text": "Äänestyksessä annettiin yhteensä 15 ääntä. Jaa-ääniä 6 (Abdi, Demiri, Kaukola, Räsänen, Strohm, Tammi) ja ei-ääniä 9 (Aura, Hakala, Kasonen, Kivimäki, Niikko, Nummela, Roininen, Rämö, Tuomainen). Puheenjohtaja totesi muutosesityksen tulleen hyväksytyksi.",
+          "source": "html",
+          "source_url": "https://paatokset.vantaa.fi/ktwebscr/fileshow?doctype=3&docid=3281342"
+        }
+      ]
     },
     {
       "attachments": [],

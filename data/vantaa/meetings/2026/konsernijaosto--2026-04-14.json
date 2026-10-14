@@ -2,7 +2,7 @@
   "items": [
     {
       "attachments": [],
-      "content_sha256": "e1671dc3d9e535683275ba7bc08c2d1d38ecbb1eedd1de5a8da4d1111cb2be42",
+      "content_sha256": "7eecd6d8d4e5597078d6c51ab0b4e16d25da1347c871bc84a73468c188b934d5",
       "disqualified": [],
       "id": "vantaa/konsernijaosto/2026-04-14/1",
       "meeting_id": "vantaa/konsernijaosto/2026-04-14",
@@ -12,8 +12,9 @@
       "pykala": 1,
       "sections": [
         {
-          "text": "Vs. kaupunginjohtajan esitys:\nTodetaan kokous lailliseksi ja päätösvaltaiseksi.",
-          "type": "other"
+          "heading": "Vs. kaupunginjohtajan esitys",
+          "text": "Todetaan kokous lailliseksi ja päätösvaltaiseksi.",
+          "type": "proposal"
         },
         {
           "heading": "Päätös",
@@ -32,7 +33,7 @@
     },
     {
       "attachments": [],
-      "content_sha256": "b37afec8bd454c3152a1b368d5e681a0c43461fde6aa87cd99a1fa03abea461a",
+      "content_sha256": "2fc42a042babf10904089668dccb4a6ca626b237798cac41566fc9a119f6ad9d",
       "disqualified": [],
       "id": "vantaa/konsernijaosto/2026-04-14/2",
       "meeting_id": "vantaa/konsernijaosto/2026-04-14",
@@ -46,8 +47,9 @@
           "type": "background"
         },
         {
-          "text": "Vs. kaupunginjohtajan esitys:\nPäätetään nimetä kaksi pöytäkirjantarkastajaa tarkastamaan nyt pidettävän kokouksen pöytäkirja\nsähköisesti maanantaina 20.4.2026.",
-          "type": "other"
+          "heading": "Vs. kaupunginjohtajan esitys",
+          "text": "Päätetään nimetä kaksi pöytäkirjantarkastajaa tarkastamaan nyt pidettävän kokouksen pöytäkirja\nsähköisesti maanantaina 20.4.2026.",
+          "type": "proposal"
         },
         {
           "heading": "Päätös",
@@ -779,6 +781,139 @@
   ],
   "meeting": {
     "attendance": [
+      {
+        "person_ref": {
+          "raw": "Kasonen Mika"
+        },
+        "present": true,
+        "role_text": "puheenjohtaja"
+      },
+      {
+        "note": "§ 1–3; 5–21,",
+        "person_ref": {
+          "raw": "Aidanjuuri Tanja"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "note": "§ 1–3, klo",
+        "person_ref": {
+          "raw": "Aura Anssi"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Karinen Ville"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Kiiski Henri"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Laakso Päivi"
+        },
+        "present": false,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Tammi Visa"
+        },
+        "present": true,
+        "role_text": "varajäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Strohm Emily"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "note": "§ 1–3; 16–21,",
+        "person_ref": {
+          "raw": "Vacker Marjo"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Jääskeläinen Jouko"
+        },
+        "present": false,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Haukka Tomi"
+        },
+        "present": false,
+        "role_text": "varajäsen"
+      },
+      {
+        "note": "§ 1–3; 5–21,",
+        "person_ref": {
+          "raw": "Vanhanen Tuomas"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "note": "§ 4, klo",
+        "person_ref": {
+          "raw": "Jääskeläinen Pietari"
+        },
+        "present": true,
+        "role_text": "varajäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Rokkanen Sakari"
+        },
+        "present": true,
+        "role_text": "puheenjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Tamminen Ida"
+        },
+        "present": true,
+        "role_text": "I varapuheenjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Kaimio Tuire"
+        },
+        "present": false,
+        "role_text": "II varapuheenjohtaja"
+      },
+      {
+        "note": "§ 1–3, klo",
+        "person_ref": {
+          "raw": "Kaukola Ulla"
+        },
+        "present": true,
+        "role_text": "puheenjohtaja"
+      },
+      {
+        "note": "§ 3–21, klo",
+        "person_ref": {
+          "raw": "Rämö Eve"
+        },
+        "present": true,
+        "role_text": "II varapuheenjohtaja"
+      },
       {
         "note": "§ 3–21, klo",
         "person_ref": {

@@ -2,7 +2,7 @@
   "items": [
     {
       "attachments": [],
-      "content_sha256": "6870022073085040e87e9e3857eeee4fc02eb72dc924b559b41106c081472801",
+      "content_sha256": "15f8ec5974e97c92120c2586662be2c2176db7da48967c5870c394a6fa8adf5b",
       "disqualified": [],
       "id": "vantaa/kaupunkiymparistolautakunta/2026-10-06/1",
       "meeting_id": "vantaa/kaupunkiymparistolautakunta/2026-10-06",
@@ -12,8 +12,9 @@
       "pykala": 1,
       "sections": [
         {
-          "text": "Vs. apulaiskaupunginjohtajan esitys:\nTodetaan kokous lailliseksi ja päätösvaltaiseksi.",
-          "type": "other"
+          "heading": "Vs. apulaiskaupunginjohtajan esitys",
+          "text": "Todetaan kokous lailliseksi ja päätösvaltaiseksi.",
+          "type": "proposal"
         },
         {
           "heading": "Päätös",
@@ -32,7 +33,7 @@
     },
     {
       "attachments": [],
-      "content_sha256": "8bae392b8969e1cb309cf3209e9be7a18de8f6b7ffd7c9031a81b71e8053e07f",
+      "content_sha256": "53f015ad8bc2dab4e655a7881cd4468ec6f636f59f98c2863bc8fcf9a30e1a0a",
       "disqualified": [],
       "id": "vantaa/kaupunkiymparistolautakunta/2026-10-06/2",
       "meeting_id": "vantaa/kaupunkiymparistolautakunta/2026-10-06",
@@ -46,8 +47,9 @@
           "type": "background"
         },
         {
-          "text": "Vs. apulaiskaupunginjohtajan esitys:\nPäätetään\na) valita pöytäkirjan tarkastajat, ja\nb) että pöytäkirja tarkastetaan perjantaihin 9.10.2026 klo 12.00 mennessä.",
-          "type": "other"
+          "heading": "Vs. apulaiskaupunginjohtajan esitys",
+          "text": "Päätetään\na) valita pöytäkirjan tarkastajat, ja\nb) että pöytäkirja tarkastetaan perjantaihin 9.10.2026 klo 12.00 mennessä.",
+          "type": "proposal"
         },
         {
           "heading": "Päätös",
@@ -872,7 +874,7 @@
           "jaa_label": "kaupunkisuunnittelujohtajan pohjaesitys",
           "needs_review": false,
           "ordinal": 1,
-          "result_text": "Äänestyksessä annettiin 1 jaa-ääni (Suursalmi-Seppälä) ja 14 ei-ääntä (Ahava, Eklund, Godlewski, Hartikainen, Hristov, Joki, Kotiranta, Kähärä, Lahti, Lundström, Luukkonen, Norrena, Rahkala, Uskali).",
+          "result_text": "Äänestyksessä annettiin 1 jaa-ääni (Suursalmi-Seppälä) ja 14 ei-ääntä (Ahava, Eklund, Godlewski, Hartikainen, Hristov, Joki, Kotiranta, Kähärä, Lahti, Lundström, Luukkonen, Norrena, Rahkala, Uskali). Puheenjohtaja totesi muutosesityksen tulleen hyväksytyksi.",
           "source": "html",
           "source_url": "https://paatokset.vantaa.fi/ktwebscr/fileshow?doctype=3&docid=3473334"
         }
@@ -1026,6 +1028,143 @@
     "attendance": [
       {
         "person_ref": {
+          "raw": "Kähärä Sirkka-Liisa"
+        },
+        "present": true,
+        "role_text": "puheenjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Lahti Timo"
+        },
+        "present": true,
+        "role_text": "varapuheenjohtaja"
+      },
+      {
+        "note": "klo 16.40–",
+        "person_ref": {
+          "raw": "Ahava Marja"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "note": "etäyhteys, klo",
+        "person_ref": {
+          "raw": "Ahokas Siri"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "note": "klo 18.26–",
+        "person_ref": {
+          "raw": "Lundström Kenneth"
+        },
+        "present": true,
+        "role_text": "varajäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Eklund Tarja"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Godlewski Filip"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Hartikainen Janne"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Hristov Johanna"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Joki Vincent"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Jääskeläinen Jari"
+        },
+        "present": false,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Suursalmi-Seppälä Riikka"
+        },
+        "present": true,
+        "role_text": "varajäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Kotiranta Matti"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Luukkonen Hanna"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Norrena Vaula"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Rahkala Ville"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "note": "klo 16.38–",
+        "person_ref": {
+          "raw": "Uskali Niina"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Kivimäki Otso"
+        },
+        "present": true,
+        "role_text": "kaupunginhallituksen jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Kaukola Ulla"
+        },
+        "present": true,
+        "role_text": "kaupunginhallituksen jäsen"
+      },
+      {
+        "person_ref": {
           "raw": "Pyrrö Annika"
         },
         "present": false,
@@ -1036,7 +1175,7 @@
           "raw": "Lehtovirta Elmeri"
         },
         "present": true,
-        "role_text": "nuorisovaltuuston edustaja"
+        "role_text": "varajäsen"
       },
       {
         "note": "klo 16.51–20.19, §:t 3–17",

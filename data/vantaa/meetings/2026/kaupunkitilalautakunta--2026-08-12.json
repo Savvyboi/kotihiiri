@@ -407,7 +407,7 @@
           "jaa_label": "apulaiskaupunginjohtajan pohjaesitys",
           "needs_review": false,
           "ordinal": 1,
-          "result_text": "Äänestyksessä annettiin 6 jaa-ääntä (Haapalainen, Karhu, Puikkonen, Uistola, Vasarainen, Vähäkangas) ja 8 ei-ääntä (Helvola, Ingervo, Liutu, Luukkanen, Nieminen, Pajunen, Piitulainen, Toivonen).",
+          "result_text": "Äänestyksessä annettiin 6 jaa-ääntä (Haapalainen, Karhu, Puikkonen, Uistola, Vasarainen, Vähäkangas) ja 8 ei-ääntä (Helvola, Ingervo, Liutu, Luukkanen, Nieminen, Pajunen, Piitulainen, Toivonen). Puheenjohtaja totesi muutosesityksen tulleen hyväksytyksi.",
           "source": "html",
           "source_url": "https://paatokset.vantaa.fi/ktwebscr/fileshow?doctype=3&docid=3433676"
         },
@@ -508,7 +508,7 @@
           "jaa_label": "apulaiskaupunginjohtajan pohjaesitys",
           "needs_review": false,
           "ordinal": 2,
-          "result_text": "Äänestyksessä annettiin 9 jaa-ääntä (Haapalainen, Helvola, Karhu, Liutu, Pajunen, Puikkonen, Uistola, Vasarainen, Vähäkangas) ja 5 ei-ääntä (Ingervo, Luukkanen, Nieminen, Piitulainen, Toivonen).",
+          "result_text": "Äänestyksessä annettiin 9 jaa-ääntä (Haapalainen, Helvola, Karhu, Liutu, Pajunen, Puikkonen, Uistola, Vasarainen, Vähäkangas) ja 5 ei-ääntä (Ingervo, Luukkanen, Nieminen, Piitulainen, Toivonen). Puheenjohtaja totesi muutosesityksen tulleen hylätyksi.",
           "source": "html",
           "source_url": "https://paatokset.vantaa.fi/ktwebscr/fileshow?doctype=3&docid=3433676"
         }
@@ -1032,7 +1032,7 @@
           "jaa_label": "kaupungininsinöörin pohjaesitys",
           "needs_review": false,
           "ordinal": 1,
-          "result_text": "Äänestyksessä annettiin 7 jaa-ääntä (Helvola, Ingervo, Luukkanen, Nieminen, Pajunen, Piitulainen, Toivonen) ja 7 ei-ääntä (Haapalainen, Karhu, Liutu, Puikkonen, Uistola, Vasarainen, Vähäkangas).",
+          "result_text": "Äänestyksessä annettiin 7 jaa-ääntä (Helvola, Ingervo, Luukkanen, Nieminen, Pajunen, Piitulainen, Toivonen) ja 7 ei-ääntä (Haapalainen, Karhu, Liutu, Puikkonen, Uistola, Vasarainen, Vähäkangas). Puheenjohtaja totesi, että äänten mennessä tasan puheenjohtajan ääni ratkaisee.",
           "source": "html",
           "source_url": "https://paatokset.vantaa.fi/ktwebscr/fileshow?doctype=3&docid=3433692"
         }
@@ -1528,6 +1528,13 @@
   ],
   "meeting": {
     "attendance": [
+      {
+        "person_ref": {
+          "raw": "Hakala Heli"
+        },
+        "present": true,
+        "role_text": "kaupunginhallituksen jäsen"
+      },
       {
         "person_ref": {
           "raw": "Saini Tanvir"

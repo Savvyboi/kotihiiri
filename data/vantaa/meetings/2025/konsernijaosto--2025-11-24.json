@@ -503,6 +503,135 @@
   "meeting": {
     "attendance": [
       {
+        "person_ref": {
+          "raw": "Kasonen Mika"
+        },
+        "present": true,
+        "role_text": "puheenjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Aidanjuuri Tanja"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Aura Anssi"
+        },
+        "present": false,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Hakala Heli"
+        },
+        "present": true,
+        "role_text": "varajäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Karinen Ville"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Kiiski Henri"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Laakso Päivi"
+        },
+        "present": false,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Tammi Visa"
+        },
+        "present": true,
+        "role_text": "varajäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Strohm Emily"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Vacker Marjo"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Jääskeläinen Jouko"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "note": "§ 1-3;",
+        "person_ref": {
+          "raw": "Vanhanen Tuomas"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "note": "§ 4-5;",
+        "person_ref": {
+          "raw": "Jääskeläinen Pietari"
+        },
+        "present": true,
+        "role_text": "varajäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Rokkanen Sakari"
+        },
+        "present": false,
+        "role_text": "puheenjohtaja"
+      },
+      {
+        "note": "§ 1-",
+        "person_ref": {
+          "raw": "Tamminen Ida"
+        },
+        "present": true,
+        "role_text": "I varapuheenjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Kaimio Tuire"
+        },
+        "present": true,
+        "role_text": "II varapuheenjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Kaukola Ulla"
+        },
+        "present": true,
+        "role_text": "puheenjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Rämö Eve"
+        },
+        "present": true,
+        "role_text": "II varapuheenjohtaja"
+      },
+      {
         "note": "§ 2-13",
         "person_ref": {
           "raw": "Timonen Pekka"
@@ -603,6 +732,7 @@
     ],
     "body_id": "vantaa/konsernijaosto",
     "date": "2025-11-24",
+    "end_time": "15:05",
     "id": "vantaa/konsernijaosto/2025-11-24",
     "items": [
       "vantaa/konsernijaosto/2025-11-24/1",
@@ -628,6 +758,6 @@
     },
     "source_url": "https://paatokset.vantaa.fi/ktwebscr/pk_asil_tweb.htm?bid=160693",
     "stage": "minutes",
-    "start_time": "13:00"
+    "start_time": "13:07"
   }
 }

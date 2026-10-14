@@ -874,7 +874,115 @@
       "statements": [],
       "status": "active",
       "title": "Hulevesitaksan hyväksyminen",
-      "votes": []
+      "votes": [
+        {
+          "ballots": [
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Hirvonen"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Pajunen"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Toivonen"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Nieminen"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Hynninen"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Haapalainen R."
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Helvola"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Hakala"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Virkamäki"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Liutu"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Luukkanen"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Piitulainen"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Puikkonen"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Uistola"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Vähäkangas"
+              }
+            }
+          ],
+          "counts": {
+            "ei": 10,
+            "jaa": 5,
+            "poissa": 0,
+            "tyhja": 0
+          },
+          "ei_label": "kaupunkitilalautakunnan jäsen Marja Uistolan palautusesitys",
+          "jaa_label": "kaupungininsinöörin pohjaesitys",
+          "needs_review": false,
+          "ordinal": 1,
+          "result_text": "Äänestyksessä annettiin 5 jaa ääntä (Hirvonen, Pajunen, Toivonen, Nieminen, Hynninen), kymmenen ei ääntä (Haapalainen R., Helvola, Hakala, Virkamäki, Liutu, Luukkanen, Piitulainen, Puikkonen, Uistola, Vähäkangas), joten puheenjohtaja totesi palautusesityksen tulleen hyväksytyksi.",
+          "source": "html",
+          "source_url": "https://paatokset.vantaa.fi/ktwebscr/fileshow?doctype=3&docid=3337148"
+        }
+      ]
     },
     {
       "attachments": [
@@ -1196,6 +1304,13 @@
   ],
   "meeting": {
     "attendance": [
+      {
+        "person_ref": {
+          "raw": "Hakala Heli"
+        },
+        "present": false,
+        "role_text": "kaupunginhallituksen jäsen"
+      },
       {
         "person_ref": {
           "raw": "Saini Tanvir"

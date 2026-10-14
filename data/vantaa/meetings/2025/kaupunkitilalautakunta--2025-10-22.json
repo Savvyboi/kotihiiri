@@ -2,7 +2,7 @@
   "items": [
     {
       "attachments": [],
-      "content_sha256": "9b16b0587aaeb1ac25021e47039fb23779c5ba06599a075f825d8b7de6b6413c",
+      "content_sha256": "15f8ec5974e97c92120c2586662be2c2176db7da48967c5870c394a6fa8adf5b",
       "disqualified": [],
       "id": "vantaa/kaupunkitilalautakunta/2025-10-22/1",
       "meeting_id": "vantaa/kaupunkitilalautakunta/2025-10-22",
@@ -12,8 +12,9 @@
       "pykala": 1,
       "sections": [
         {
-          "text": "Apulaiskaupunginjohtajan vs. esitys:\nTodetaan kokous lailliseksi ja päätösvaltaiseksi.",
-          "type": "other"
+          "heading": "Apulaiskaupunginjohtajan vs. esitys",
+          "text": "Todetaan kokous lailliseksi ja päätösvaltaiseksi.",
+          "type": "proposal"
         },
         {
           "heading": "Päätös",
@@ -32,7 +33,7 @@
     },
     {
       "attachments": [],
-      "content_sha256": "781abfe3eeb50d02f771ff2dbf075dfdf178756c382568f1811bdf768d91bc92",
+      "content_sha256": "21b1d044b151af683039c9885edd595ce2340dd3e7be866ced84b2c4639764fe",
       "disqualified": [],
       "id": "vantaa/kaupunkitilalautakunta/2025-10-22/2",
       "meeting_id": "vantaa/kaupunkitilalautakunta/2025-10-22",
@@ -42,8 +43,9 @@
       "pykala": 2,
       "sections": [
         {
-          "text": "Apulaiskaupunginjohtajan vs. esitys:\nPäätetään\na) valita pöytäkirjan tarkastajiksi Uistola Marja ja Viilo Mikko (varalla Vähäkangas Jussi ja Liutu Topi), ja\nb) tarkastaa pöytäkirja viimeistään perjantaihin 24.10.2025 klo 12.00 mennessä.",
-          "type": "other"
+          "heading": "Apulaiskaupunginjohtajan vs. esitys",
+          "text": "Päätetään\na) valita pöytäkirjan tarkastajiksi Uistola Marja ja Viilo Mikko (varalla Vähäkangas Jussi ja Liutu Topi), ja\nb) tarkastaa pöytäkirja viimeistään perjantaihin 24.10.2025 klo 12.00 mennessä.",
+          "type": "proposal"
         },
         {
           "heading": "Päätös",
@@ -62,7 +64,7 @@
     },
     {
       "attachments": [],
-      "content_sha256": "572667563993679a0ea290460b8c9e66a464b25571361539da9f711e87204f5d",
+      "content_sha256": "09e9128bc72b0cfa4726bd1c94a69811eea5c81a607baf420806a25929e958ac",
       "disqualified": [],
       "id": "vantaa/kaupunkitilalautakunta/2025-10-22/3",
       "meeting_id": "vantaa/kaupunkitilalautakunta/2025-10-22",
@@ -72,8 +74,9 @@
       "pykala": 3,
       "sections": [
         {
-          "text": "Apulaiskaupunginjohtajan vs. esitys:\nMerkitään tiedoksi asiantuntijoiden / esittelijöiden selostukset sekä tiedotusasiat.",
-          "type": "other"
+          "heading": "Apulaiskaupunginjohtajan vs. esitys",
+          "text": "Merkitään tiedoksi asiantuntijoiden / esittelijöiden selostukset sekä tiedotusasiat.",
+          "type": "proposal"
         },
         {
           "heading": "Käsittely",
@@ -97,7 +100,7 @@
     },
     {
       "attachments": [],
-      "content_sha256": "b0cb09f0994d5fd34e55f0926bc77e18d1df226e2e1557bc0c04461bf51a96fa",
+      "content_sha256": "53b58f70dfbcc59c3c6aa83c381a75980ada358e7db35a6bd5dc91c044591992",
       "disqualified": [],
       "id": "vantaa/kaupunkitilalautakunta/2025-10-22/4",
       "meeting_id": "vantaa/kaupunkitilalautakunta/2025-10-22",
@@ -111,8 +114,9 @@
           "type": "background"
         },
         {
-          "text": "Apulaiskaupunginjohtajan vs. esitys:\nPäätetään\na) olla ottamatta käsittelyyn kaupunkitilalautakunnalle toimitettuja ottamiskelpoisia päätöksiä, ja\nb) merkitä tiedoksi ottoon toimitetut päätökset, joita ei ole otettu lautakunnan käsiteltäväksi\noikaisuvaatimusaikana.",
-          "type": "other"
+          "heading": "Apulaiskaupunginjohtajan vs. esitys",
+          "text": "Päätetään\na) olla ottamatta käsittelyyn kaupunkitilalautakunnalle toimitettuja ottamiskelpoisia päätöksiä, ja\nb) merkitä tiedoksi ottoon toimitetut päätökset, joita ei ole otettu lautakunnan käsiteltäväksi\noikaisuvaatimusaikana.",
+          "type": "proposal"
         },
         {
           "heading": "Käsittely",
@@ -1013,6 +1017,21 @@
   ],
   "meeting": {
     "attendance": [
+      {
+        "person_ref": {
+          "raw": "Hakala Heli"
+        },
+        "present": false,
+        "role_text": "kaupunginhallituksen jäsen"
+      },
+      {
+        "note": "§:t 1-21, klo 17.00-",
+        "person_ref": {
+          "raw": "Lahti Timo"
+        },
+        "present": true,
+        "role_text": "varajäsen"
+      },
       {
         "note": "§:t 1-6, klo 17.00-18.31",
         "person_ref": {

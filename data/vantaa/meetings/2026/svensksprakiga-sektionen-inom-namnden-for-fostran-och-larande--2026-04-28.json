@@ -164,9 +164,116 @@
     }
   ],
   "meeting": {
-    "attendance": [],
+    "attendance": [
+      {
+        "person_ref": {
+          "raw": "Holmberg Hanna"
+        },
+        "present": true,
+        "role_text": "ordförande"
+      },
+      {
+        "person_ref": {
+          "raw": "Viksten Tony"
+        },
+        "present": true,
+        "role_text": "vice ordförande"
+      },
+      {
+        "person_ref": {
+          "raw": "Kokko Tessa"
+        },
+        "present": false,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Markelin Hans"
+        },
+        "present": true,
+        "role_text": "varajäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Sandström Sakarias"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Forsbäck Andreas"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Eklöf Jan-Erik"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Westman Barbara"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Garchi Camilla"
+        },
+        "present": false,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Panula Tuula"
+        },
+        "present": true,
+        "role_text": "kaupunginhallituksen jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Rasku Joel"
+        },
+        "present": false,
+        "role_text": "nuorisovaltuuston edustaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Vikström Anders"
+        },
+        "present": true,
+        "role_text": "direktör för"
+      },
+      {
+        "person_ref": {
+          "raw": "Ahlskog Mia"
+        },
+        "present": true,
+        "role_text": "utvecklingschef"
+      },
+      {
+        "person_ref": {
+          "raw": "Pietelin Anna"
+        },
+        "present": true,
+        "role_text": "muu osallistuja"
+      },
+      {
+        "person_ref": {
+          "raw": "Lindfors-Lietzén Benita"
+        },
+        "present": true,
+        "role_text": "muu osallistuja"
+      }
+    ],
     "body_id": "vantaa/svensksprakiga-sektionen-inom-namnden-for-fostran-och-larande",
     "date": "2026-04-28",
+    "end_time": "18:12",
     "id": "vantaa/svensksprakiga-sektionen-inom-namnden-for-fostran-och-larande/2026-04-28",
     "items": [
       "vantaa/svensksprakiga-sektionen-inom-namnden-for-fostran-och-larande/2026-04-28/1",
@@ -176,6 +283,7 @@
       "vantaa/svensksprakiga-sektionen-inom-namnden-for-fostran-och-larande/2026-04-28/5",
       "vantaa/svensksprakiga-sektionen-inom-namnden-for-fostran-och-larande/2026-04-28/6"
     ],
+    "location": "Stadshuset, stadsstyrelsens rum, Stationsvägen 7, 01300 Vanda",
     "minutes_pdf_url": "https://paatokset.vantaa.fi/ktwebscr/fileshow?doctype=3&docid=3373152",
     "source_ids": {
       "bid": "161519",

@@ -669,6 +669,139 @@
   "meeting": {
     "attendance": [
       {
+        "person_ref": {
+          "raw": "Abdi Faysal"
+        },
+        "present": true,
+        "role_text": "puheenjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Kaiju Susanna"
+        },
+        "present": true,
+        "role_text": "varajäsen"
+      },
+      {
+        "note": "§ 1-7;",
+        "person_ref": {
+          "raw": "Kaukola Ulla"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Kasonen Mika"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Räsänen Minna"
+        },
+        "present": false,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Hilden Joni"
+        },
+        "present": true,
+        "role_text": "varajäsen"
+      },
+      {
+        "note": "§1-6;",
+        "person_ref": {
+          "raw": "Kuusela Minna"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "note": "§ 1-3;",
+        "person_ref": {
+          "raw": "Orpana Anitta"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Rehnström Kristian"
+        },
+        "present": false,
+        "role_text": "jäsen"
+      },
+      {
+        "note": "§ 1-3,",
+        "person_ref": {
+          "raw": "Hakala Heli"
+        },
+        "present": true,
+        "role_text": "varajäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Hartikainen Janne"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "note": "§ 1-3;",
+        "person_ref": {
+          "raw": "Vacker Marjo"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Nguyen Chau"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "note": "§ 1-3;",
+        "person_ref": {
+          "raw": "Tahvanainen Säde"
+        },
+        "present": true,
+        "role_text": "puheenjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Kaira Lauri"
+        },
+        "present": false,
+        "role_text": "I varapuheenjohtaja"
+      },
+      {
+        "note": "§ 3 ,5-",
+        "person_ref": {
+          "raw": "Aidanjuuri Tanja"
+        },
+        "present": true,
+        "role_text": "II varapuheenjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Rokkanen Sakari"
+        },
+        "present": true,
+        "role_text": "puheenjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Niikko Mika"
+        },
+        "present": true,
+        "role_text": "II varapuheenjohtaja"
+      },
+      {
         "note": "§ 3-16,",
         "person_ref": {
           "raw": "Timonen Pekka"
@@ -754,6 +887,7 @@
     ],
     "body_id": "vantaa/konsernijaosto",
     "date": "2025-06-09",
+    "end_time": "15:25",
     "id": "vantaa/konsernijaosto/2025-06-09",
     "items": [
       "vantaa/konsernijaosto/2025-06-09/1",
@@ -782,6 +916,6 @@
     },
     "source_url": "https://paatokset.vantaa.fi/ktwebscr/pk_asil_tweb.htm?bid=159859",
     "stage": "minutes",
-    "start_time": "13:00"
+    "start_time": "13:08"
   }
 }

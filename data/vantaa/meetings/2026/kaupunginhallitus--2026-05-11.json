@@ -507,7 +507,7 @@
           "jaa_label": "asian käsittelyn jatkamista",
           "needs_review": false,
           "ordinal": 1,
-          "result_text": "Äänestyksessä annettiin 12 jaa-ääntä (Kaukola, Kasonen, Rämö, Abdi, Aura, Demiri, Hakala, Kivimäki, Räsänen, Strohm, Tammi ja Valtanen) ja 2 ei-ääntä (Roininen ja Niikko) yhden hallituksen jäsenen (Nummela) ollessa pois.",
+          "result_text": "Äänestyksessä annettiin 12 jaa-ääntä (Kaukola, Kasonen, Rämö, Abdi, Aura, Demiri, Hakala, Kivimäki, Räsänen, Strohm, Tammi ja Valtanen) ja 2 ei-ääntä (Roininen ja Niikko) yhden hallituksen jäsenen (Nummela) ollessa pois. Puheenjohtaja totesi palautusesityksen tulleen hylätyksi ja asian käsittelyn jatkuvan.",
           "source": "html",
           "source_url": "https://paatokset.vantaa.fi/ktwebscr/fileshow?doctype=3&docid=3382510"
         }
@@ -1047,6 +1047,82 @@
   "meeting": {
     "attendance": [
       {
+        "note": "klo 17.05–18.51, §",
+        "person_ref": {
+          "raw": "Kaukola Ulla"
+        },
+        "present": true,
+        "role_text": "puheenjohtaja"
+      },
+      {
+        "note": "klo 17.05–17.22, §",
+        "person_ref": {
+          "raw": "Kasonen Mika"
+        },
+        "present": true,
+        "role_text": "I varapuheenjohtaja"
+      },
+      {
+        "note": "klo 17.05–17.22, §",
+        "person_ref": {
+          "raw": "Rämö Eve"
+        },
+        "present": true,
+        "role_text": "II varapuheenjohtaja"
+      },
+      {
+        "note": "klo 17.22–17.52, § 3 &",
+        "person_ref": {
+          "raw": "Savuoja Tuure"
+        },
+        "present": true,
+        "role_text": "varajäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Abdi Faysal"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "note": "17.05–18.21, § 1–3",
+        "person_ref": {
+          "raw": "Aura Anssi"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Demiri Funda"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Hakala Heli"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Kivimäki Otso"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "note": "klo 17.05–17.22, §",
+        "person_ref": {
+          "raw": "Niikko Mika"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
         "person_ref": {
           "raw": "Nummela Nina"
         },
@@ -1058,6 +1134,35 @@
           "raw": "Snellman Victor"
         },
         "present": false,
+        "role_text": "varajäsen"
+      },
+      {
+        "note": "klo 17.05–18.22, §",
+        "person_ref": {
+          "raw": "Roininen Petri"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Räsänen Minna"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Strohm Emily"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Tammi Visa"
+        },
+        "present": true,
         "role_text": "jäsen"
       },
       {
@@ -1066,10 +1171,149 @@
         },
         "present": false,
         "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Valtanen Hanna"
+        },
+        "present": true,
+        "role_text": "varajäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Pannu Pravjot"
+        },
+        "present": true,
+        "role_text": "nuorisovaltuuston edustaja"
+      },
+      {
+        "note": "klo 17.05–18.51, § 1–15",
+        "person_ref": {
+          "raw": "Rokkanen Sakari"
+        },
+        "present": true,
+        "role_text": "valtuuston puheenjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Tamminen Ida"
+        },
+        "present": true,
+        "role_text": "valtuuston I varapuheenjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Kaimio Tuire"
+        },
+        "present": true,
+        "role_text": "valtuuston II varapuheenjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Timonen Pekka"
+        },
+        "present": true,
+        "role_text": "kaupunginjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Kalske Katri"
+        },
+        "present": true,
+        "role_text": "apulaiskaupunginjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Åstrand Riikka"
+        },
+        "present": true,
+        "role_text": "apulaiskaupunginjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Anttila Tero"
+        },
+        "present": true,
+        "role_text": "apulaiskaupunginjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Kalmari Mari"
+        },
+        "present": true,
+        "role_text": "viestintäjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Van Nues Pirjo"
+        },
+        "present": true,
+        "role_text": "vs. talous- ja strategiajohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Pennanen Sari-Anna"
+        },
+        "present": true,
+        "role_text": "lakiasiainjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Eerola Santeri"
+        },
+        "present": true,
+        "role_text": "pöytäkirjanpitäjä"
+      },
+      {
+        "person_ref": {
+          "raw": "Lentämäki Tiina"
+        },
+        "present": true,
+        "role_text": "hallintosihteeri"
+      },
+      {
+        "note": "klo 17.22–18.20, § 3",
+        "person_ref": {
+          "raw": "Kiljander-Kiiskinen Riikka"
+        },
+        "present": true,
+        "role_text": "konsernipalvelujohtaja"
+      },
+      {
+        "note": "klo 17.22–18.20, § 3",
+        "person_ref": {
+          "raw": "Saarholma Mirka"
+        },
+        "present": true,
+        "role_text": "VAV-konsernin toimitusjohtaja"
+      },
+      {
+        "note": "klo 17.22–17.52, § 3",
+        "person_ref": {
+          "raw": "Vartiainen Samuli"
+        },
+        "present": true,
+        "role_text": "konsernilakimies"
+      },
+      {
+        "note": "klo 17.22–17.52, § 3",
+        "person_ref": {
+          "raw": "Nyman Heini"
+        },
+        "present": true,
+        "role_text": "kiinteistötalousasiantuntija"
+      },
+      {
+        "person_ref": {
+          "raw": "Immonen Minja"
+        },
+        "present": true,
+        "role_text": "harjoittelija"
       }
     ],
     "body_id": "vantaa/kaupunginhallitus",
     "date": "2026-05-11",
+    "end_time": "19:16",
     "id": "vantaa/kaupunginhallitus/2026-05-11",
     "items": [
       "vantaa/kaupunginhallitus/2026-05-11/1",
@@ -1103,6 +1347,6 @@
     },
     "source_url": "https://paatokset.vantaa.fi/ktwebscr/pk_asil_tweb.htm?bid=161565",
     "stage": "minutes",
-    "start_time": "17:00"
+    "start_time": "17:05"
   }
 }

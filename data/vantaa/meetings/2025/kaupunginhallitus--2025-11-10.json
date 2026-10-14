@@ -81,11 +81,24 @@
         }
       ],
       "case_number": "VD/8690/08.00.00.03/2018",
-      "content_sha256": "5e764e1d44e3281ebae2230ea366e24bec881dde011cdcc0da47a88306892a41",
+      "content_sha256": "429b4e3c3c4176eab5b62ee7c397d1eab5dd043424a6a58eefa6aaf3763d7d70",
       "disqualified": [],
       "id": "vantaa/kaupunginhallitus/2025-11-10/3",
       "meeting_id": "vantaa/kaupunginhallitus/2025-11-10",
-      "motions": [],
+      "motions": [
+        {
+          "kind": "counter_proposal",
+          "proposer_ref": {
+            "raw": "Mika Niikko"
+          },
+          "seconder_refs": [
+            {
+              "raw": "Petri Roininen"
+            }
+          ],
+          "text": "asian hylkäämistä."
+        }
+      ],
       "ordinal": 3,
       "preparers": [],
       "pykala": 3,
@@ -148,7 +161,130 @@
       ],
       "status": "active",
       "title": "Vantaan ratikan hankesuunnitelman tarkistus",
-      "votes": []
+      "votes": [
+        {
+          "ballots": [
+            {
+              "choice": "jaa",
+              "group_text": "sdp",
+              "person_ref": {
+                "raw": "Faysal Abdi"
+              }
+            },
+            {
+              "choice": "jaa",
+              "group_text": "kok",
+              "person_ref": {
+                "raw": "Anssi Aura"
+              }
+            },
+            {
+              "choice": "jaa",
+              "group_text": "vas",
+              "person_ref": {
+                "raw": "Funda Demiri"
+              }
+            },
+            {
+              "choice": "jaa",
+              "group_text": "kok",
+              "person_ref": {
+                "raw": "Heli Hakala"
+              }
+            },
+            {
+              "choice": "jaa",
+              "group_text": "sdp",
+              "person_ref": {
+                "raw": "Ulla Kaukola"
+              }
+            },
+            {
+              "choice": "jaa",
+              "group_text": "kok",
+              "person_ref": {
+                "raw": "Otso Kivimäki"
+              }
+            },
+            {
+              "choice": "jaa",
+              "group_text": "vihr",
+              "person_ref": {
+                "raw": "Eve Rämö"
+              }
+            },
+            {
+              "choice": "jaa",
+              "group_text": "sdp",
+              "person_ref": {
+                "raw": "Minna Räsänen"
+              }
+            },
+            {
+              "choice": "jaa",
+              "group_text": "sdp",
+              "person_ref": {
+                "raw": "Emily Strohm"
+              }
+            },
+            {
+              "choice": "jaa",
+              "group_text": "sdp",
+              "person_ref": {
+                "raw": "Visa Tammi"
+              }
+            },
+            {
+              "choice": "jaa",
+              "group_text": "vihr",
+              "person_ref": {
+                "raw": "Anni Juulia Tuomainen"
+              }
+            },
+            {
+              "choice": "ei",
+              "group_text": "kok",
+              "person_ref": {
+                "raw": "Mika Kasonen"
+              }
+            },
+            {
+              "choice": "ei",
+              "group_text": "ps",
+              "person_ref": {
+                "raw": "Mika Niikko"
+              }
+            },
+            {
+              "choice": "ei",
+              "group_text": "kok",
+              "person_ref": {
+                "raw": "Nina Nummela"
+              }
+            },
+            {
+              "choice": "ei",
+              "group_text": "kesk",
+              "person_ref": {
+                "raw": "Petri Roininen"
+              }
+            }
+          ],
+          "counts": {
+            "ei": 4,
+            "jaa": 11,
+            "poissa": 0,
+            "tyhja": 0
+          },
+          "ei_label": "HYLKÄYS",
+          "jaa_label": "POHJA,",
+          "needs_review": false,
+          "ordinal": 1,
+          "result_text": "Äänestyksessä annettiin 11 jaa-ääntä (Demiri, Tammi, Faysal, Strohm, Räsä nen, Kaukola, Hakala, Aura, Kivimäki, Rämö, Tuomainen) ja 4 ei-ääntä (Roininen, Niikko, Nummela, Kaso -nen). Puheenjohtaja totesi asian käsittelyn jatkuvan.",
+          "source": "pdf",
+          "source_url": "https://paatokset.vantaa.fi/ktwebscr/fileshow?doctype=3&docid=3259829&version=1"
+        }
+      ]
     }
   ],
   "meeting": {
@@ -273,7 +409,7 @@
           "raw": "Laaksonen Eetu"
         },
         "present": true,
-        "role_text": "nuorisovaltuuston edustaja"
+        "role_text": "varajäsen"
       },
       {
         "person_ref": {
@@ -351,13 +487,6 @@
         },
         "present": true,
         "role_text": "hallintosihteeri"
-      },
-      {
-        "person_ref": {
-          "raw": "Kauppinen Elina /hallintoasiantuntija"
-        },
-        "present": true,
-        "role_text": "muu osallistuja"
       },
       {
         "person_ref": {

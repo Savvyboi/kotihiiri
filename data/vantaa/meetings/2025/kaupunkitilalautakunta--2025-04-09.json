@@ -2,7 +2,7 @@
   "items": [
     {
       "attachments": [],
-      "content_sha256": "9b16b0587aaeb1ac25021e47039fb23779c5ba06599a075f825d8b7de6b6413c",
+      "content_sha256": "15f8ec5974e97c92120c2586662be2c2176db7da48967c5870c394a6fa8adf5b",
       "disqualified": [],
       "id": "vantaa/kaupunkitilalautakunta/2025-04-09/1",
       "meeting_id": "vantaa/kaupunkitilalautakunta/2025-04-09",
@@ -12,8 +12,9 @@
       "pykala": 1,
       "sections": [
         {
-          "text": "Apulaiskaupunginjohtajan vs. esitys:\nTodetaan kokous lailliseksi ja päätösvaltaiseksi.",
-          "type": "other"
+          "heading": "Apulaiskaupunginjohtajan vs. esitys",
+          "text": "Todetaan kokous lailliseksi ja päätösvaltaiseksi.",
+          "type": "proposal"
         },
         {
           "heading": "Päätös",
@@ -32,7 +33,7 @@
     },
     {
       "attachments": [],
-      "content_sha256": "2ca328d3d0e653ac53968906e66d3467a77e9a8bc6c64b3448f37f168bc84c84",
+      "content_sha256": "e36604d436c51dfc505a681ce29921492830833c33fe7acacb08bbbf99e2682f",
       "disqualified": [],
       "id": "vantaa/kaupunkitilalautakunta/2025-04-09/2",
       "meeting_id": "vantaa/kaupunkitilalautakunta/2025-04-09",
@@ -42,8 +43,9 @@
       "pykala": 2,
       "sections": [
         {
-          "text": "Apulaiskaupunginjohtajan vs. esitys:\nPäätetään\na) valita pöytäkirjan tarkastajiksi Siniketo-Pietilä Katja ja Toivonen Teija (varalla Vanhanen Tuomas ja\nViilo Mikko), ja\nb) tarkastaa pöytäkirja viimeistään perjantaihin 11.4.2025 klo 12.00 mennessä.",
-          "type": "other"
+          "heading": "Apulaiskaupunginjohtajan vs. esitys",
+          "text": "Päätetään\na) valita pöytäkirjan tarkastajiksi Siniketo-Pietilä Katja ja Toivonen Teija (varalla Vanhanen Tuomas ja\nViilo Mikko), ja\nb) tarkastaa pöytäkirja viimeistään perjantaihin 11.4.2025 klo 12.00 mennessä.",
+          "type": "proposal"
         },
         {
           "heading": "Päätös",
@@ -62,7 +64,7 @@
     },
     {
       "attachments": [],
-      "content_sha256": "7e873e66264f9cd8bca5307b65633a231c37e0c3f7d2840417a02fb5f6529011",
+      "content_sha256": "f98671c7f3df6df583f9d99fdf91e2f50fb3e52f674f5b5267b4c8ff0cfb581f",
       "disqualified": [],
       "id": "vantaa/kaupunkitilalautakunta/2025-04-09/3",
       "meeting_id": "vantaa/kaupunkitilalautakunta/2025-04-09",
@@ -72,8 +74,9 @@
       "pykala": 3,
       "sections": [
         {
-          "text": "Apulaiskaupunginjohtajan vs. esitys:\nMerkitään tiedoksi asiantuntijoiden/esittelijöiden selostukset sekä tiedotusasiat.",
-          "type": "other"
+          "heading": "Apulaiskaupunginjohtajan vs. esitys",
+          "text": "Merkitään tiedoksi asiantuntijoiden/esittelijöiden selostukset sekä tiedotusasiat.",
+          "type": "proposal"
         },
         {
           "heading": "Käsittely",
@@ -97,7 +100,7 @@
     },
     {
       "attachments": [],
-      "content_sha256": "94e42dff0f4b798b72c1716c11efb26c170ede054568cbe53e5c09c80027b81e",
+      "content_sha256": "ea6c4b0e2ba079e36ced9b23234df2db96c0b58360a630a47528750d5ddb648a",
       "disqualified": [],
       "id": "vantaa/kaupunkitilalautakunta/2025-04-09/4",
       "meeting_id": "vantaa/kaupunkitilalautakunta/2025-04-09",
@@ -111,8 +114,9 @@
           "type": "background"
         },
         {
-          "text": "Apulaiskaupunginjohtajan vs. esitys:\nPäätetään\na) olla ottamatta käsittelyyn kaupunkitilalautakunnalle toimitettuja ottamiskelpoisia päätöksiä, ja\nb) merkitä tiedoksi ottoon toimitetut päätökset, joita ei ole otettu lautakunnan käsiteltäväksi\noikaisuvaatimusaikana.",
-          "type": "other"
+          "heading": "Apulaiskaupunginjohtajan vs. esitys",
+          "text": "Päätetään\na) olla ottamatta käsittelyyn kaupunkitilalautakunnalle toimitettuja ottamiskelpoisia päätöksiä, ja\nb) merkitä tiedoksi ottoon toimitetut päätökset, joita ei ole otettu lautakunnan käsiteltäväksi\noikaisuvaatimusaikana.",
+          "type": "proposal"
         },
         {
           "heading": "Käsittely",
@@ -968,7 +972,7 @@
           "raw": "Mattila Kari"
         },
         "present": true,
-        "role_text": "jäsen"
+        "role_text": "varajäsen"
       },
       {
         "person_ref": {
@@ -989,7 +993,7 @@
           "raw": "Kähärä Kaarlo"
         },
         "present": false,
-        "role_text": "jäsen"
+        "role_text": "varajäsen"
       },
       {
         "person_ref": {
@@ -1039,7 +1043,7 @@
           "raw": "Lundell Kai-Ari"
         },
         "present": true,
-        "role_text": "jäsen"
+        "role_text": "kaupunginhallituksen jäsen"
       },
       {
         "person_ref": {

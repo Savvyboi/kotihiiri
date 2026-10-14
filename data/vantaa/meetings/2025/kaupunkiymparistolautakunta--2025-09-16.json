@@ -358,7 +358,7 @@
           "jaa_label": "apulaiskaupunginjohtajan pohjaesityksen hyväksymistä",
           "needs_review": false,
           "ordinal": 1,
-          "result_text": "Äänestyksessä annettiin 8 jaa-ääntä (Eklund, Godlewski, Hristov, Suursalmi- Seppälä, Kotiranta, Norrena, Rahkala, Kähärä) ja 7 ei-ääntä (Ahava, Ahokas, Hartikainen, Joki, Lahti, Luukkonen, Uskali).",
+          "result_text": "Äänestyksessä annettiin 8 jaa-ääntä (Eklund, Godlewski, Hristov, Suursalmi- Seppälä, Kotiranta, Norrena, Rahkala, Kähärä) ja 7 ei-ääntä (Ahava, Ahokas, Hartikainen, Joki, Lahti, Luukkonen, Uskali). Puheenjohtaja totesi varapuheenjohtaja Timo Lahden esityksen tulleen hylätyksi.",
           "source": "html",
           "source_url": "https://paatokset.vantaa.fi/ktwebscr/fileshow?doctype=3&docid=3227825"
         },
@@ -446,12 +446,6 @@
               "choice": "ei",
               "person_ref": {
                 "raw": "Kähärä"
-              }
-            },
-            {
-              "choice": "tyhja",
-              "person_ref": {
-                "raw": "Luukkonen"
               }
             }
           ],
@@ -459,13 +453,13 @@
             "ei": 9,
             "jaa": 5,
             "poissa": 0,
-            "tyhja": 1
+            "tyhja": 0
           },
           "ei_label": "jäsen Vaula Norrenan esitystä tekstilisäyksestä",
           "jaa_label": "apulaiskaupunginjohtajan pohjaesitys",
           "needs_review": false,
           "ordinal": 2,
-          "result_text": "Äänestyksessä annettiin 5 jaa-ääntä (Ahava, Ahokas, Joki, Lahti, Uskali) 9 ei-ääntä (Eklund, Godlewski, Hartikainen, Hristov, Suursalmi-Seppälä, Kotiranta, Norrena, Rahkala, Kähärä) ja yksi tyhjä (Luukkonen).",
+          "result_text": "Äänestyksessä annettiin 5 jaa-ääntä (Ahava, Ahokas, Joki, Lahti, Uskali) 9 ei-ääntä (Eklund, Godlewski, Hartikainen, Hristov, Suursalmi-Seppälä, Kotiranta, Norrena, Rahkala, Kähärä) ja yksi tyhjä (Luukkonen). Puheenjohtaja totesi jäsen Vaula Norrenan esityksen tulleen hyväksytyksi.",
           "source": "html",
           "source_url": "https://paatokset.vantaa.fi/ktwebscr/fileshow?doctype=3&docid=3227825"
         },
@@ -554,25 +548,19 @@
               "person_ref": {
                 "raw": "Norrena"
               }
-            },
-            {
-              "choice": "tyhja",
-              "person_ref": {
-                "raw": "Luukkonen"
-              }
             }
           ],
           "counts": {
             "ei": 3,
             "jaa": 11,
             "poissa": 0,
-            "tyhja": 1
+            "tyhja": 0
           },
           "ei_label": "jäsen Vaula Norrenan esitystä uudesta tavoitteesta",
           "jaa_label": "apulaiskaupunginjohtajan pohjaesitys",
           "needs_review": false,
           "ordinal": 3,
-          "result_text": "Äänestyksessä annettiin 11 jaa-ääntä (Ahava, Ahokas, Eklund, Hartikainen, Hristov, Joki, Kotiranta, Lahti, Rahkala, Uskali, Kähärä), 3 ei-ääntä (Godlewski, Suursalmi-Seppälä, Norrena) ja yksi tyhjä (Luukkonen).",
+          "result_text": "Äänestyksessä annettiin 11 jaa-ääntä (Ahava, Ahokas, Eklund, Hartikainen, Hristov, Joki, Kotiranta, Lahti, Rahkala, Uskali, Kähärä), 3 ei-ääntä (Godlewski, Suursalmi-Seppälä, Norrena) ja yksi tyhjä (Luukkonen). Puheenjohtaja totesi jäsen Vaula Norrenan esityksen tulleen hylätyksi.",
           "source": "html",
           "source_url": "https://paatokset.vantaa.fi/ktwebscr/fileshow?doctype=3&docid=3227825"
         },
@@ -675,11 +663,11 @@
             "poissa": 0,
             "tyhja": 0
           },
-          "ei_label": "",
-          "jaa_label": "",
+          "ei_label": "jäsen Vaula Norrenan esitystä uudesta tavoitteesta ja mittarista",
+          "jaa_label": "apulaiskaupunginjohtajan pohjaesitys",
           "needs_review": false,
           "ordinal": 4,
-          "result_text": "Äänestyksessä annettiin 12 jaa-ääntä (Ahava, Ahokas, Eklund, Hartikainen, Hristov, Joki, Kotiranta, Lahti, Luukkonen, Rahkala, Uskali, Kähärä) ja 3 ei-ääntä (Godlewski, Suursalmi- Seppälä, Norrena).",
+          "result_text": "Äänestyksessä annettiin 12 jaa-ääntä (Ahava, Ahokas, Eklund, Hartikainen, Hristov, Joki, Kotiranta, Lahti, Luukkonen, Rahkala, Uskali, Kähärä) ja 3 ei-ääntä (Godlewski, Suursalmi- Seppälä, Norrena). Puheenjohtaja totesi jäsen Vaula Norrenan esityksen tulleen hylätyksi.",
           "source": "html",
           "source_url": "https://paatokset.vantaa.fi/ktwebscr/fileshow?doctype=3&docid=3227825"
         }
@@ -1067,6 +1055,128 @@
   "meeting": {
     "attendance": [
       {
+        "person_ref": {
+          "raw": "Kähärä Sirkka-Liisa"
+        },
+        "present": true,
+        "role_text": "puheenjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Lahti Timo"
+        },
+        "present": true,
+        "role_text": "varapuheenjohtaja"
+      },
+      {
+        "note": "klo 17.03–",
+        "person_ref": {
+          "raw": "Ahava Marja"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "note": "etäyhteys",
+        "person_ref": {
+          "raw": "Ahokas Siri"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Eklund Tarja"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Godlewski Filip"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Hartikainen Janne"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Hristov Johanna"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Joki Vincent"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Jääskeläinen Jari"
+        },
+        "present": false,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Suursalmi-Seppälä Riikka"
+        },
+        "present": true,
+        "role_text": "varajäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Kotiranta Matti"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Luukkonen Hanna"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Norrena Vaula"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Rahkala Ville"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Uskali Niina"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "note": "klo 17.13-",
+        "person_ref": {
+          "raw": "Otso Kivimäki"
+        },
+        "present": true,
+        "role_text": "kaupunginhallituksen jäsen"
+      },
+      {
         "note": "klo 17.00-",
         "person_ref": {
           "raw": "Immonen Minja"
@@ -1121,6 +1231,7 @@
     ],
     "body_id": "vantaa/kaupunkiymparistolautakunta",
     "date": "2025-09-16",
+    "end_time": "21:11",
     "id": "vantaa/kaupunkiymparistolautakunta/2025-09-16",
     "items": [
       "vantaa/kaupunkiymparistolautakunta/2025-09-16/1",

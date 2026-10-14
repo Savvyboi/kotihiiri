@@ -2,7 +2,7 @@
   "items": [
     {
       "attachments": [],
-      "content_sha256": "e1671dc3d9e535683275ba7bc08c2d1d38ecbb1eedd1de5a8da4d1111cb2be42",
+      "content_sha256": "7eecd6d8d4e5597078d6c51ab0b4e16d25da1347c871bc84a73468c188b934d5",
       "disqualified": [],
       "id": "vantaa/konsernijaosto/2026-06-25/1",
       "meeting_id": "vantaa/konsernijaosto/2026-06-25",
@@ -12,8 +12,9 @@
       "pykala": 1,
       "sections": [
         {
-          "text": "Vs. kaupunginjohtajan esitys:\nTodetaan kokous lailliseksi ja päätösvaltaiseksi.",
-          "type": "other"
+          "heading": "Vs. kaupunginjohtajan esitys",
+          "text": "Todetaan kokous lailliseksi ja päätösvaltaiseksi.",
+          "type": "proposal"
         },
         {
           "heading": "Päätös",
@@ -32,7 +33,7 @@
     },
     {
       "attachments": [],
-      "content_sha256": "b3f5a0fda13d6bba41484db398b6c96d62573dedf74d0e1043fa9cba6a964e6d",
+      "content_sha256": "f8621ede7bee4aa38a251b8b20a1b52b2a1c923a8f5a9d1da07ac1a1469d3658",
       "disqualified": [],
       "id": "vantaa/konsernijaosto/2026-06-25/2",
       "meeting_id": "vantaa/konsernijaosto/2026-06-25",
@@ -46,8 +47,9 @@
           "type": "background"
         },
         {
-          "text": "Vs. kaupunginjohtajan esitys:\nPäätetään nimetä kaksi pöytäkirjantarkastajaa tarkastamaan nyt pidettävän kokouksen pöytäkirja\nsähköisesti maanantaina 29.6.2026.",
-          "type": "other"
+          "heading": "Vs. kaupunginjohtajan esitys",
+          "text": "Päätetään nimetä kaksi pöytäkirjantarkastajaa tarkastamaan nyt pidettävän kokouksen pöytäkirja\nsähköisesti maanantaina 29.6.2026.",
+          "type": "proposal"
         },
         {
           "heading": "Päätös",
@@ -67,7 +69,7 @@
     {
       "attachments": [],
       "case_number": "VD/7445/02.08.00.00/2024",
-      "content_sha256": "70bf2d0531a8fe8f85e3794ef4f07bc2aa270aece07fa3df7a99b57e8562d66f",
+      "content_sha256": "40847927120b14feec6c85de6e1bd9a53296e8f7db1b05da61f465362a084fec",
       "disqualified": [],
       "id": "vantaa/konsernijaosto/2026-06-25/3",
       "meeting_id": "vantaa/konsernijaosto/2026-06-25",
@@ -81,8 +83,9 @@
           "type": "background"
         },
         {
-          "text": "Vs. kaupunginjohtajan esitys:\nPäätetään\na) oikaista Konsernijaoston päätöstä 18.5.2026 § 32 osa-alueen 6 Myyrmäen suuralue osalta ja hylätä Pikkune Oy,\nb) valita osa-alueelle 6 Myyrmäen suuralue etusijajärjestyksessä 1. toimittajaksi Studio Saraste Oy,\nc) valtuuttaa hankintajohtaja päättämään hankintasopimusten optioiden käyttöönotosta.\nMuilta osin Konsernijaoston päätös 18.5.2026 § 32 jää voimaan.\nTarkastetaan ja hyväksytään pöytäkirja tämän pykälän osalta heti kokouksessa.",
-          "type": "other"
+          "heading": "Vs. kaupunginjohtajan esitys",
+          "text": "Päätetään\na) oikaista Konsernijaoston päätöstä 18.5.2026 § 32 osa-alueen 6 Myyrmäen suuralue osalta ja hylätä Pikkune Oy,\nb) valita osa-alueelle 6 Myyrmäen suuralue etusijajärjestyksessä 1. toimittajaksi Studio Saraste Oy,\nc) valtuuttaa hankintajohtaja päättämään hankintasopimusten optioiden käyttöönotosta.\nMuilta osin Konsernijaoston päätös 18.5.2026 § 32 jää voimaan.\nTarkastetaan ja hyväksytään pöytäkirja tämän pykälän osalta heti kokouksessa.",
+          "type": "proposal"
         },
         {
           "heading": "Päätös",
@@ -104,6 +107,139 @@
     "attendance": [
       {
         "person_ref": {
+          "raw": "Kasonen Mika"
+        },
+        "present": true,
+        "role_text": "puheenjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Aidanjuuri Tanja"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Aura Anssi"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Karinen Ville"
+        },
+        "present": false,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Demiri Funda"
+        },
+        "present": false,
+        "role_text": "varajäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Kiiski Henri"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Laakso Päivi"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Strohm Emily"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Vacker Marjo"
+        },
+        "present": false,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Kivimäki Otso"
+        },
+        "present": false,
+        "role_text": "varajäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Jääskeläinen Jouko"
+        },
+        "present": false,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Haukka Tomi"
+        },
+        "present": false,
+        "role_text": "varajäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Vanhanen Tuomas"
+        },
+        "present": false,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Jääskeläinen Pietari"
+        },
+        "present": false,
+        "role_text": "varajäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Rokkanen Sakari"
+        },
+        "present": true,
+        "role_text": "puheenjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Tamminen Ida"
+        },
+        "present": true,
+        "role_text": "I varapuheenjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Kaimio Tuire"
+        },
+        "present": true,
+        "role_text": "II varapuheenjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Kaukola Ulla"
+        },
+        "present": false,
+        "role_text": "puheenjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Rämö Eve"
+        },
+        "present": true,
+        "role_text": "II varapuheenjohtaja"
+      },
+      {
+        "person_ref": {
           "raw": "Timonen Pekka"
         },
         "present": false,
@@ -111,10 +247,45 @@
       },
       {
         "person_ref": {
+          "raw": "Kalske Katri"
+        },
+        "present": true,
+        "role_text": "vs. kaupunginjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Anttila Tero"
+        },
+        "present": true,
+        "role_text": "apulaiskaupunginjohtaja"
+      },
+      {
+        "person_ref": {
           "raw": "Åstrand Riikka"
         },
         "present": false,
         "role_text": "apulaiskaupunginjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Kiljander-Kiiskinen Riikka"
+        },
+        "present": true,
+        "role_text": "muu osallistuja"
+      },
+      {
+        "person_ref": {
+          "raw": "Vartiainen Samuli"
+        },
+        "present": true,
+        "role_text": "konsernilakimies"
+      },
+      {
+        "person_ref": {
+          "raw": "Eerola Santeri"
+        },
+        "present": true,
+        "role_text": "hallintoasiantuntija"
       }
     ],
     "body_id": "vantaa/konsernijaosto",

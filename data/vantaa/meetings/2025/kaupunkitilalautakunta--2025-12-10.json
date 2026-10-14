@@ -694,7 +694,103 @@
       "statements": [],
       "status": "active",
       "title": "Puhtaiden ylijäämämaiden vastaanottomaksun perimättä jättäminen Vantaan ratikka-alliansseilta",
-      "votes": []
+      "votes": [
+        {
+          "ballots": [
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Haapalainen R."
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Helvola"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Hakala"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Ingervo"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Liutu"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Luukkanen"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Pajunen"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Piitulainen"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Toivonen"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Viilo"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Hynninen"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Virkamäki"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Vähäkangas"
+              }
+            }
+          ],
+          "counts": {
+            "ei": 2,
+            "jaa": 11,
+            "poissa": 0,
+            "tyhja": 0
+          },
+          "ei_label": "kaupunkitilalautakunnan varajäsen Virkamäen hylkäysesitys",
+          "jaa_label": "kaupungininsinöörin pohjaesitys",
+          "needs_review": false,
+          "ordinal": 1,
+          "result_text": "Äänestyksessä annettiin 11 jaa ääntä (Haapalainen R., Helvola, Hakala, Ingervo, Liutu, Luukkanen, Pajunen, Piitulainen, Toivonen, Viilo, Hynninen), kaksi ei ääntä (Virkamäki, Vähäkangas) kahden kaupunkitilalautakunnan jäsenen äänestäessä tyhjää (Puikkonen, Uistola), joten puheenjohtaja totesi hylkäysesityksen tulleen hylätyksi.",
+          "source": "html",
+          "source_url": "https://paatokset.vantaa.fi/ktwebscr/fileshow?doctype=3&docid=3278956"
+        }
+      ]
     },
     {
       "attachments": [
@@ -928,6 +1024,14 @@
   ],
   "meeting": {
     "attendance": [
+      {
+        "note": "klo 17.00-20.55 ja",
+        "person_ref": {
+          "raw": "Hakala Heli"
+        },
+        "present": true,
+        "role_text": "kaupunginhallituksen jäsen"
+      },
       {
         "person_ref": {
           "raw": "Pannu Pravjot"

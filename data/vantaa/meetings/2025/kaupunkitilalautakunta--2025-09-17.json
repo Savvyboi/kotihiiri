@@ -302,7 +302,7 @@
           "jaa_label": "asian käsittelyn jatkamista",
           "needs_review": false,
           "ordinal": 1,
-          "result_text": "Äänestyksessä annettiin 6 jaa-ääntä (Haapalainen T, Hynninen, Ingervo, Luukkanen, Piitulainen, Toivonen) ja 9 ei-ääntä (Haapalainen R, Hakala, Karhu, Liutu, Pajunen, Puikkonen, Uistola, Viilo, Vähäkangas).",
+          "result_text": "Äänestyksessä annettiin 6 jaa-ääntä (Haapalainen T, Hynninen, Ingervo, Luukkanen, Piitulainen, Toivonen) ja 9 ei-ääntä (Haapalainen R, Hakala, Karhu, Liutu, Pajunen, Puikkonen, Uistola, Viilo, Vähäkangas). Puheenjohtaja totesi palautusesityksen tulleen hyväksytyksi.",
           "source": "html",
           "source_url": "https://paatokset.vantaa.fi/ktwebscr/fileshow?doctype=3&docid=3229441"
         }
@@ -684,7 +684,7 @@
           "jaa_label": "kiinteistöjohtajan pohjaesitys",
           "needs_review": false,
           "ordinal": 1,
-          "result_text": "Äänestyksessä annettiin 10 jaa-ääntä (Haapalainen R, Haapalainen T, Hakala, Hynninen, Liutu, Luukkanen, Piitulainen, Uistola, Viilo, Vähäkangas) ja 5 ei-ääntä (Ingervo, Karhu, Pajunen, Puikkonen, Toivonen).",
+          "result_text": "Äänestyksessä annettiin 10 jaa-ääntä (Haapalainen R, Haapalainen T, Hakala, Hynninen, Liutu, Luukkanen, Piitulainen, Uistola, Viilo, Vähäkangas) ja 5 ei-ääntä (Ingervo, Karhu, Pajunen, Puikkonen, Toivonen). Puheenjohtaja totesi hylkäysesityksen tulleen hylätyksi.",
           "source": "html",
           "source_url": "https://paatokset.vantaa.fi/ktwebscr/fileshow?doctype=3&docid=3229451"
         }
@@ -1124,6 +1124,20 @@
   ],
   "meeting": {
     "attendance": [
+      {
+        "person_ref": {
+          "raw": "Hakala Heli"
+        },
+        "present": true,
+        "role_text": "kaupunginhallituksen jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Kaukola Ulla"
+        },
+        "present": true,
+        "role_text": "kaupunginhallituksen jäsen"
+      },
       {
         "person_ref": {
           "raw": "Pannu Pravjot"

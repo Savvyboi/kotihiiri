@@ -242,9 +242,165 @@
     }
   ],
   "meeting": {
-    "attendance": [],
+    "attendance": [
+      {
+        "person_ref": {
+          "raw": "Karlsson Patrik"
+        },
+        "present": true,
+        "role_text": "ordförande"
+      },
+      {
+        "person_ref": {
+          "raw": "Sieviläinen Marianne"
+        },
+        "present": false,
+        "role_text": "varajäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Westman Barbara"
+        },
+        "present": true,
+        "role_text": "vice ordförande"
+      },
+      {
+        "person_ref": {
+          "raw": "Nylund Sven-Erik"
+        },
+        "present": false,
+        "role_text": "varajäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Forsberg Magnus"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Kahila Minna"
+        },
+        "present": false,
+        "role_text": "varajäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Bäckström Carola"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Pennala Kristian"
+        },
+        "present": false,
+        "role_text": "varajäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Björklöf Christer"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Anttila Heidi"
+        },
+        "present": false,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Mannola Max"
+        },
+        "present": false,
+        "role_text": "varajäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Kinos Tuula"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Andersson Kaj"
+        },
+        "present": false,
+        "role_text": "varajäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Pyhältö Risto"
+        },
+        "present": false,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Garchi Camilla"
+        },
+        "present": true,
+        "role_text": "varajäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Rasku Joel"
+        },
+        "present": true,
+        "role_text": "nuorisovaltuuston edustaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Pyrrö Annika"
+        },
+        "present": false,
+        "role_text": "varajäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Panula Tuula"
+        },
+        "present": true,
+        "role_text": "kaupunginhallituksen jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Roininen Petri"
+        },
+        "present": false,
+        "role_text": "varajäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Majström Nicole"
+        },
+        "present": true,
+        "role_text": "koordinator för den"
+      },
+      {
+        "person_ref": {
+          "raw": "Nalin Kira"
+        },
+        "present": true,
+        "role_text": "specialbibliotekarie, Vanda"
+      },
+      {
+        "person_ref": {
+          "raw": "Pettersson Christoffer"
+        },
+        "present": true,
+        "role_text": "Vanda stads"
+      }
+    ],
     "body_id": "vantaa/svenska-kommitten",
     "date": "2026-06-10",
+    "end_time": "18:38",
     "id": "vantaa/svenska-kommitten/2026-06-10",
     "items": [
       "vantaa/svenska-kommitten/2026-06-10/1",
@@ -257,6 +413,7 @@
       "vantaa/svenska-kommitten/2026-06-10/8",
       "vantaa/svenska-kommitten/2026-06-10/9"
     ],
+    "location": "Mötesrum Martinlaakso, Vanda stadshus, Stationsvägen 7, 01300 Vanda.",
     "source_ids": {
       "bid": "161813",
       "time": "17:00"
