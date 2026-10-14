@@ -364,13 +364,13 @@
             {
               "choice": "jaa",
               "person_ref": {
-                "raw": "Laakso Mikko (Sammallahti"
+                "raw": "Laakso Mikko"
               }
             },
             {
               "choice": "jaa",
               "person_ref": {
-                "raw": "Tere) Holma Jussi"
+                "raw": "Holma Jussi"
               }
             },
             {
@@ -393,11 +393,10 @@
             "tyhja": 0
           },
           "ei_label": "muutos",
-          "jaa_label": "",
-          "needs_review": true,
+          "jaa_label": "pohja",
+          "needs_review": false,
           "ordinal": 1,
           "result_text": "Puheenjohtaja totesi kaupunginhallituksen konserni- ja tilajaoston 5 äänellä 4 ääntä vastaan hyväksyneen Partasen ehdotuksen.",
-          "review_reason": "missing Jaa/Ei proposal label",
           "source": "pdf",
           "source_url": "https://espoo.oncloudos.com/kokous/20251484-6-313576.PDF"
         },
@@ -454,7 +453,7 @@
             {
               "choice": "jaa",
               "person_ref": {
-                "raw": "Laakso Mikko (Sammallahti"
+                "raw": "Laakso Mikko"
               }
             }
           ],
@@ -465,10 +464,10 @@
             "tyhja": 0
           },
           "ei_label": "muutos",
-          "jaa_label": "",
+          "jaa_label": "pohja",
           "needs_review": true,
           "ordinal": 2,
-          "review_reason": "unparsed voter lines: Tere); no matching vote sentence in the minutes text; missing Jaa/Ei proposal label",
+          "review_reason": "no matching vote sentence in the minutes text",
           "source": "pdf",
           "source_url": "https://espoo.oncloudos.com/kokous/20251484-6-313576.PDF"
         },
@@ -525,7 +524,7 @@
             {
               "choice": "jaa",
               "person_ref": {
-                "raw": "Laakso Mikko (Sammallahti"
+                "raw": "Laakso Mikko"
               }
             }
           ],
@@ -536,10 +535,10 @@
             "tyhja": 0
           },
           "ei_label": "muutos",
-          "jaa_label": "",
+          "jaa_label": "pohja",
           "needs_review": true,
           "ordinal": 3,
-          "review_reason": "unparsed voter lines: Tere); no matching vote sentence in the minutes text; missing Jaa/Ei proposal label",
+          "review_reason": "no matching vote sentence in the minutes text",
           "source": "pdf",
           "source_url": "https://espoo.oncloudos.com/kokous/20251484-6-313576.PDF"
         },
@@ -578,13 +577,13 @@
             {
               "choice": "jaa",
               "person_ref": {
-                "raw": "Laakso Mikko (Sammallahti"
+                "raw": "Laakso Mikko"
               }
             },
             {
               "choice": "jaa",
               "person_ref": {
-                "raw": "Tere) Kilpijoki Kerttu-Liisa"
+                "raw": "Kilpijoki Kerttu-Liisa"
               }
             },
             {
@@ -607,10 +606,10 @@
             "tyhja": 0
           },
           "ei_label": "muutos",
-          "jaa_label": "",
+          "jaa_label": "pohja",
           "needs_review": true,
           "ordinal": 4,
-          "review_reason": "unparsed voter lines: (Fagerström Noora); no matching vote sentence in the minutes text; missing Jaa/Ei proposal label",
+          "review_reason": "no matching vote sentence in the minutes text",
           "source": "pdf",
           "source_url": "https://espoo.oncloudos.com/kokous/20251484-6-313576.PDF"
         }

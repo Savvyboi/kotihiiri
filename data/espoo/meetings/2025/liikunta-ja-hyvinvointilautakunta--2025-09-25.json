@@ -544,7 +544,13 @@
             {
               "choice": "jaa",
               "person_ref": {
-                "raw": "Kyrölä Kimmo J aa Manneh Petra"
+                "raw": "Kyrölä Kimmo"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Manneh Petra"
               }
             },
             {
@@ -562,10 +568,9 @@
           },
           "ei_label": "Vastaan",
           "jaa_label": "Palautus",
-          "needs_review": true,
+          "needs_review": false,
           "ordinal": 1,
           "result_text": "Puheenjohtaja totesi liikunta- ja hyvinvointilautakunnan päättäneen palauttaa asian kuudella äänellä kuutta vastaan yhden äänestäessä tyhjää puheenjohtajan äänen ratkaistessa tuloksen.\nÄänestyslista on pöytäkirjan liitteenä.",
-          "review_reason": "jaa: 5 names vs 6 in the PDF totals",
           "source": "pdf",
           "source_url": "https://espoo.oncloudos.com/kokous/20251469-9-317518.PDF"
         }

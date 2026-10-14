@@ -400,19 +400,73 @@
       "title": "Lausunto Uudenmaan liiton talousarviosta ja -suunnitelmasta vuodelle 2027",
       "votes": [
         {
-          "ballots": [],
+          "ballots": [
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Marttila Helena"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Hagerlund Tony"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Partanen Henna"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Schauman Ari"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Sammallahti Tere"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "af Hällström Nina"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Holma Jussi"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Kilpijoki Kerttu-Liisa"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Stenholm Elena"
+              }
+            }
+          ],
           "counts": {
-            "ei": 0,
-            "jaa": 0,
+            "ei": 4,
+            "jaa": 5,
             "poissa": 0,
             "tyhja": 0
           },
-          "ei_label": "",
-          "jaa_label": "",
-          "needs_review": true,
+          "ei_label": "muutosesitys",
+          "jaa_label": "pohjaesitys",
+          "needs_review": false,
           "ordinal": 1,
           "result_text": "Puheenjohtaja totesi kaupunginhallituksen konserni- ja tilajaoston 5 äänellä 4 ääntä vastaan hylänneen Partasen muutosehdotuksen.",
-          "review_reason": "PDF total 9 differs from the sum of its options; unparsed voter lines: Marttila Helena Ei muutosesitys, Hagerlund Tony Ei muutosesitys, Partanen Henna Ei muutosesitys, Schauman Ari Ei muutosesitys, Sammallahti Tere Jaa pohjaesitys, af Hällström Nina Jaa pohjaesitys, Holm; minutes text says 5–4, 0 blank; the PDF says 0 Jaa, 0 Ei, 0 Tyhjä; missing Jaa/Ei proposal label",
           "source": "pdf",
           "source_url": "https://espoo.oncloudos.com/kokous/20261722-8-376965.PDF"
         }

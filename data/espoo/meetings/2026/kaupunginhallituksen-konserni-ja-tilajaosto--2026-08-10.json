@@ -310,10 +310,9 @@
           },
           "ei_label": "",
           "jaa_label": "",
-          "needs_review": true,
+          "needs_review": false,
           "ordinal": 1,
           "result_text": "Puheenjohtaja totesi kaupunginhallituksen konserni- ja tilajaoston 7 äänellä 2 ääntä vastaan hylänneen Partasen muutosehdotuksen 97.1.",
-          "review_reason": "missing Jaa/Ei proposal label",
           "source": "pdf",
           "source_url": "https://espoo.oncloudos.com/kokous/20261693-5-368035.PDF"
         },
@@ -375,17 +374,16 @@
             }
           ],
           "counts": {
-            "ei": 0,
-            "jaa": 0,
+            "ei": 3,
+            "jaa": 6,
             "poissa": 0,
             "tyhja": 0
           },
-          "ei_label": "",
-          "jaa_label": "",
-          "needs_review": true,
+          "ei_label": "muutos",
+          "jaa_label": "pohja",
+          "needs_review": false,
           "ordinal": 2,
           "result_text": "Puheenjohtaja totesi kaupunginhallituksen konserni- ja tilajaoston 6 äänellä 3 ääntä vastaan hylänneen Partasen muutosehdotuksen 97.3.",
-          "review_reason": "jaa: 6 names vs 0 in the PDF totals; ei: 3 names vs 0 in the PDF totals; PDF total 9 differs from the sum of its options; minutes text says 6–3, 0 blank; the PDF says 0 Jaa, 0 Ei, 0 Tyhjä; missing Jaa/Ei proposal label",
           "source": "pdf",
           "source_url": "https://espoo.oncloudos.com/kokous/20261693-5-368035.PDF"
         },
@@ -454,10 +452,9 @@
           },
           "ei_label": "",
           "jaa_label": "",
-          "needs_review": true,
+          "needs_review": false,
           "ordinal": 3,
           "result_text": "Puheenjohtaja totesi kaupunginhallituksen konserni- ja tilajaoston 5 äänellä 4 ääntä vastaan hylänneen Partasen muutosehdotuksen 97.4.",
-          "review_reason": "missing Jaa/Ei proposal label",
           "source": "pdf",
           "source_url": "https://espoo.oncloudos.com/kokous/20261693-5-368035.PDF"
         }

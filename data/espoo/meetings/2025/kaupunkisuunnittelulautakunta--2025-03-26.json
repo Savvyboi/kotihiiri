@@ -182,6 +182,7 @@
       "motions": [
         {
           "kind": "send_back",
+          "outcome": "rejected",
           "proposer_ref": {
             "raw": "Keskustelun"
           },
@@ -259,36 +260,192 @@
       "title": "Mattliden, ehdotus kaupunginhallitukselle asemakaavaksi ja asemakaavan muutokseksi, alue 311900, 21. kaupunginosa Olari ja 22. kaupunginosa Matinkylä, (Kh-Kv-asia)",
       "votes": [
         {
-          "ballots": [],
+          "ballots": [
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Järvinen Hannu"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Finström Verna"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Nevanlinna Risto"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Tommola Helena"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Ülle Auli"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Portin Anders"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Särkijärvi Jouni J."
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Kemppi-Virtanen Pirjo"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Havu Isto"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Lindholm Julia"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Aarnio Antti"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Sammallahti Tere"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Hyrynkangas Janne"
+              }
+            }
+          ],
           "counts": {
-            "ei": 0,
-            "jaa": 0,
+            "ei": 5,
+            "jaa": 8,
             "poissa": 0,
             "tyhja": 0
           },
-          "ei_label": "",
+          "ei_label": "Palautus",
           "jaa_label": "4.1",
-          "needs_review": true,
+          "needs_review": false,
           "ordinal": 1,
           "result_text": "Äänestyksessä JAA ääniä tuli 8 ja EI ääniä 5.",
-          "review_reason": "PDF total 13 differs from the sum of its options; unparsed voter lines: Järvinen Hannu Ei Palautus, Finström Verna Ei Palautus, Nevanlinna Risto Ei Palautus, Tommola Helena Ei Palautus, Ülle Auli Ei Palautus, Portin Anders Jaa Asian jatkaminen, Särkijärvi Jouni J. Jaa Asi; minutes text says 8–5, 0 blank; the PDF says 0 Jaa, 0 Ei, 0 Tyhjä; missing Jaa/Ei proposal label",
           "source": "pdf",
           "source_url": "https://espoo.oncloudos.com/kokous/20251389-4-289839.PDF"
         },
         {
-          "ballots": [],
+          "ballots": [
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Kemppi-Virtanen Pirjo"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Tommola Helena"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Sammallahti Tere"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Särkijärvi Jouni J."
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Portin Anders"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Hyrynkangas Janne"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Havu Isto"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Finström Verna"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Lindholm Julia"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Nevanlinna Risto"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Järvinen Hannu"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Aarnio Antti"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Ülle Auli"
+              }
+            }
+          ],
           "counts": {
-            "ei": 0,
-            "jaa": 0,
+            "ei": 7,
+            "jaa": 6,
             "poissa": 0,
             "tyhja": 0
           },
-          "ei_label": "",
+          "ei_label": "Vastaan",
           "jaa_label": "4.4.",
-          "needs_review": true,
+          "needs_review": false,
           "ordinal": 2,
           "result_text": "Äänestyksen jälkeen puheenjohtaja totesi kaupunkisuunnittelulautakunnan seitsemällä (7) äänellä kuutta (6) vastaan päättäneen hylätä toivomusehdotuksen.\nÄänestyslista on pöytäkirjan liitteenä.",
-          "review_reason": "PDF total 13 differs from the sum of its options; unparsed voter lines: Kemppi-Virtanen Pirjo Ei Vastaan, Tommola Helena Ei Vastaan, Sammallahti Tere Ei Vastaan, Särkijärvi Jouni J. Ei Vastaan, Portin Anders Ei Vastaan, Hyrynkangas Janne Ei Vastaan, Havu Isto Ei Vastaan, ; minutes text says 7–6, 0 blank; the PDF says 0 Jaa, 0 Ei, 0 Tyhjä; missing Jaa/Ei proposal label",
           "source": "pdf",
           "source_url": "https://espoo.oncloudos.com/kokous/20251389-4-289839.PDF"
         }

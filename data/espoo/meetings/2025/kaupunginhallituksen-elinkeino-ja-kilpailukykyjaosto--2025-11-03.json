@@ -723,12 +723,6 @@
               "person_ref": {
                 "raw": "Markkula Markku"
               }
-            },
-            {
-              "choice": "tyhja",
-              "person_ref": {
-                "raw": "Esittelijä Jaa / Aaltonen Ei /"
-              }
             }
           ],
           "counts": {
@@ -739,10 +733,9 @@
           },
           "ei_label": "Aaltonen",
           "jaa_label": "Esittelijä",
-          "needs_review": true,
+          "needs_review": false,
           "ordinal": 3,
           "result_text": "Puheenjohtaja totesi kaupunginhallituksen elinkeino- ja kilpailukykyjaoston 4 äänellä 5 ääntä vastaan hyväksyneen Aaltosen toisen ehdotuksen.",
-          "review_reason": "tyhja: 1 names vs 0 in the PDF totals",
           "source": "pdf",
           "source_url": "https://espoo.oncloudos.com/kokous/20251513-10-324014.PDF"
         },
@@ -809,12 +802,11 @@
             "poissa": 0,
             "tyhja": 0
           },
-          "ei_label": "",
-          "jaa_label": "",
-          "needs_review": true,
+          "ei_label": "Aaltonen",
+          "jaa_label": "Esittelijä",
+          "needs_review": false,
           "ordinal": 4,
           "result_text": "Puheenjohtaja totesi kaupunginhallituksen elinkeino- ja kilpailukykyjaoston 4 äänellä 5 ääntä vastaan hyväksyneen Aaltosen kolmannen ehdotuksen.",
-          "review_reason": "missing Jaa/Ei proposal label",
           "source": "pdf",
           "source_url": "https://espoo.oncloudos.com/kokous/20251513-10-324014.PDF"
         },

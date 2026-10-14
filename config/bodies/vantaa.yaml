@@ -1,3 +1,188 @@
-# Filled by `kunta discover --city vantaa`. Set `included: true|false` on a body to
-# override the default exclude rules (kunta/bodies.py). Manual flags survive re-discovery.
-bodies: {}
+# Written by `kunta discover` / `kunta crawl`. Add `included: true|false` to a body to override the
+# default exclude rules (kunta/bodies.py); manual keys survive re-discovery. `excluded_by_rule`
+# is informational.
+bodies:
+  aluevaalilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Aluevaalilautakunta
+  ammattiosaamisen-nayttojen-toimielin:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Ammattiosaamisen näyttöjen toimielin
+  astan-testitoimielin:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: ASTAn testitoimielin
+  aviapoliksen-aluetoimikunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Aviapoliksen aluetoimikunta
+  aviapolis-tikkurila-hakunila-kehittamistoimikunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Aviapolis-Tikkurila-Hakunila kehittämistoimikunta
+  elinvoima-ja-tyollisyysjaosto:
+    kind: section
+    name_fi: Elinvoima- ja työllisyysjaosto
+  hakunila-lansimaen-kaupunkikeskusten-seurantaryhma:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Hakunila-Länsimäen kaupunkikeskusten seurantaryhmä
+  hakunilan-aluetoimikunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Hakunilan aluetoimikunta
+  kasvatuksen-ja-oppimisen-lautakunta:
+    kind: committee
+    name_fi: Kasvatuksen ja oppimisen lautakunta
+  kaupunginhallitus:
+    kind: board
+    name_fi: Kaupunginhallitus
+  kaupunginvaltuusto:
+    kind: council
+    name_fi: Kaupunginvaltuusto
+  kaupunkikulttuurilautakunta:
+    kind: committee
+    name_fi: Kaupunkikulttuurilautakunta
+  kaupunkikulttuurin-ja-hyvinvoinnin-lautakunta:
+    kind: committee
+    name_fi: Kaupunkikulttuurin ja hyvinvoinnin lautakunta
+  kaupunkikuvaneuvottelukunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kaupunkikuvaneuvottelukunta
+  kaupunkisuunnittelulautakunta:
+    kind: committee
+    name_fi: Kaupunkisuunnittelulautakunta
+  kaupunkitilalautakunta:
+    kind: committee
+    name_fi: Kaupunkitilalautakunta
+  kaupunkiymparistolautakunnan-lupajaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Kaupunkiympäristölautakunnan lupajaosto
+  kaupunkiymparistolautakunta:
+    kind: committee
+    name_fi: Kaupunkiympäristölautakunta
+  keski-uudenmaan-pelastustoimen-liikelaitoksen-johtokunta:
+    kind: enterprise_board
+    name_fi: Keski-Uudenmaan pelastustoimen liikelaitoksen johtokunta
+  keskusvaalilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Keskusvaalilautakunta
+  kivisto-aviapoliksen-kaupunkikeskusten-seurantaryhma:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kivistö-Aviapoliksen kaupunkikeskusten seurantaryhmä
+  kiviston-aluetoimikunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kivistön aluetoimikunta
+  koivukyla-korso-kehittamistoimikunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Koivukylä-Korso kehittämistoimikunta
+  koivukylan-aluetoimikunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Koivukylän aluetoimikunta
+  konsernijaosto:
+    kind: section
+    name_fi: Konsernijaosto
+  korso-koivukylan-kaupunkikeskusten-seurantaryhma:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Korso-Koivukylän kaupunkikeskusten seurantaryhmä
+  korson-aluetoimikunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Korson aluetoimikunta
+  monikulttuurisuusasiain-neuvottelukunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Monikulttuurisuusasiain neuvottelukunta
+  myyrmaen-aluetoimikunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Myyrmäen aluetoimikunta
+  myyrmaki-kivisto-kehittamistoimikunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Myyrmäki-Kivistö kehittämistoimikunta
+  myyrmaki-martinlaakson-kaupunkikeskusten-seurantaryhma:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Myyrmäki-Martinlaakson kaupunkikeskusten seurantaryhmä
+  nuorisovaltuusto:
+    excluded_by_rule: true
+    kind: council
+    name_fi: Nuorisovaltuusto
+  opetuslautakunta:
+    kind: committee
+    name_fi: Opetuslautakunta
+  opiskelijan-oikeusturvatoimielin:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Opiskelijan oikeusturvatoimielin
+  rakennuslupajaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Rakennuslupajaosto
+  sosiaali-ja-terveyslautakunta:
+    kind: committee
+    name_fi: Sosiaali- ja terveyslautakunta
+  stadsfullmaktige:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Stadsfullmäktige
+  svenska-kommitten:
+    kind: committee
+    name_fi: Svenska kommittén
+  svensksprakiga-sektionen-inom-namnden-for-fostran-och-larande:
+    kind: committee
+    name_fi: Svenskspråkiga sektionen inom nämnden för fostran och lärande
+  tarkastuslautakunta:
+    kind: committee
+    name_fi: Tarkastuslautakunta
+  tekninen-lautakunta:
+    kind: committee
+    name_fi: Tekninen lautakunta
+  tikkurilan-aluetoimikunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tikkurilan aluetoimikunta
+  tikkurilan-kaupunkikeskuksen-seurantaryhma:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tikkurilan kaupunkikeskuksen seurantaryhmä
+  undervisningsnamndens-svensksprakiga-sektion:
+    kind: committee
+    name_fi: Undervisningsnämndens svenskspråkiga sektion
+  vammaisneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vammaisneuvosto
+  vanhusneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vanhusneuvosto
+  vantaan-ja-keravan-hyvinvointialueen-valiaikainen-valmistelutoimielin-vate:
+    kind: committee
+    name_fi: Vantaan ja Keravan hyvinvointialueen väliaikainen valmistelutoimielin VATE
+  vantaan-suun-terveydenhuollon-liikelaitoksen-johtokunta:
+    kind: enterprise_board
+    name_fi: Vantaan Suun terveydenhuollon liikelaitoksen johtokunta
+  vantaan-tyoterveys-liikelaitoksen-johtokunta:
+    kind: enterprise_board
+    name_fi: Vantaan Työterveys liikelaitoksen johtokunta
+  vapaa-ajan-lautakunta:
+    kind: committee
+    name_fi: Vapaa-ajan lautakunta
+  yleisjaosto:
+    kind: section
+    name_fi: Yleisjaosto
+  ymparistolautakunta:
+    kind: committee
+    name_fi: Ympäristölautakunta
