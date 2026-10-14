@@ -4,6 +4,8 @@
 
 Last research pass: 2026-10-11. URLs and page structures below were checked by hand on that date.
 
+**Scope change 2026-10-13:** the site grows from the six largest cities to **96 municipalities** (those six plus ranks 7–96). The registry, hosting move and new milestones are in §18; §1, §2.3, §3 and §15 point there. Until M11 lands, everything below describes the running six-city system.
+
 ---
 
 ## 0. Glossary (Finnish → meaning in this codebase)
@@ -60,6 +62,8 @@ A static website on GitHub Pages showing what city councils and committees in Fi
 - **Time window:** meetings dated **2025-01-01 or later**. Note: 2025 spans two council terms — the old term ended 31 May 2025 and the new 2025–2029 term began 1 June 2025, and several cities renamed or merged committees at the switch. Bodies that existed only in Jan–May 2025 are in scope.
 - **Content:** full item text (all substantive sections), votes with per-member ballots, attendance, motions, speeches where a transcript exists, links to video.
 
+**Expansion (decided 2026-10-13, details §18):** the 90 next-largest municipalities, ranks 7–96 by Statistics Finland's preliminary population of 31 Mar 2025 (Jyväskylä #7 … Sotkamo #96), listed in `config/registry/municipalities_rank7-96.csv`. Same content and body rules as above, with two differences: a municipality is enabled only after its hosts pass the robots audit (§18.2), and new municipalities start with council and municipal board only, adding committees once hosting is on Cloudflare (§17). "City" in field names and URLs keeps meaning *municipality* (kunta); about a third of the 96 are not cities.
+
 **Out of scope for v1:** speech-to-text of videos, officeholder decisions, mirroring attachments, Swedish-language duplicate documents (Espoo `espoo-sv.oncloudos.com`, Vantaa "Stadsfullmäktige"). *(Swedish and English UI were added on 2026-10-12 at Savvas's request; documents stay untranslated.)*
 
 ---
@@ -85,6 +89,7 @@ A static website on GitHub Pages showing what city councils and committees in Fi
 10. Deterministic output: same input → byte-identical JSON (sorted keys, stable list order, no "fetched_at" inside content files; volatile metadata goes to `data/state/`). A no-change run must produce an empty git diff (except the heartbeat file).
 
 ### 2.3 Hosting limits (GitHub Pages)
+*These hold until M11 moves the site to Cloudflare (§18.4). 96 municipalities do not fit them: the projected site is several GB and the canonical JSON alone passes the 1 GB repo guideline.*
 - Published site ≤ 1 GB, repo recommended ≤ 1 GB, deploy must finish in 10 minutes, soft bandwidth 100 GB/month, non-commercial use only.
 - Scheduled workflows in public repos are disabled after 60 days with no repo activity — the councils' summer recess is about that long. Every scheduled run commits `data/state/heartbeat.json`.
 - The repo must be public (GitHub Free) unless the org has a paid plan.
@@ -104,6 +109,8 @@ Python package `kunta/` (scraper, CLI)  →  data/*.json (canonical, committed)
                                          →  build/exports/*.parquet,csv (not committed)
 Astro site `site/`  reads data/ at build  →  static HTML + Pagefind index  →  GitHub Pages
 ```
+
+From M11 the site and canonical data move to Cloudflare R2 and the crawl stays on GitHub Actions; target architecture in §18.4.
 
 ### 3.1 Repository layout
 
@@ -172,7 +179,7 @@ Astro site `site/`  reads data/ at build  →  static HTML + Pagefind index  →
 
 Video (link only, v1): Helsinki-kanava (meeting pages embed an `events.icareus.com` player with an `eventId`), Espoo YouTube channel, Vantaa `vantaa.fi/live`, Tampere-kanava, Oulu `ouka.fi/live`, Turku `kepit.tv`.
 
-Per-adapter details are in §7.
+Per-adapter details are in §7. Ranks 7–96 are in `config/registry/municipalities_rank7-96.csv` and summarized in §18.1.
 
 ---
 
@@ -539,6 +546,37 @@ Each milestone: open a PR, include `kunta stats` output in the description.
 ### M9 — Oulu and Turku (blocked)
 - Starts only after a human sets `enabled: true` with a link to the written permission in `config/cities.yaml`.
 
+### M10 — Registry and robots audit (96 municipalities)
+- `config/municipalities.yaml` generated from the registry CSV plus the six cities (§18.1): slug, names (fi/sv), population, platform, adapter, base URLs, council organ id, councillor source, `enabled`, `reason`.
+- `robots-audit.yml` (workflow_dispatch, runs on Actions because the build environment can't reach most hosts): fetch robots.txt for every host in the registry, test the paths each adapter needs, write `robots_status` + date per host to `data/state/robots.json`. Hosts that disallow get `enabled: false, reason: robots_disallow_pending_permission`, same as Oulu.
+- Count meetings per council and board since 2025-01-01 from listing pages only (no item fetches) to replace the §18.3 estimate.
+- **Accept:** every registry row has an adapter or `adapter: none` with a reason; every host has a robots result; §18.3 numbers replaced with counts.
+
+### M11 — Move hosting to Cloudflare
+- §18.4: canonical JSON and state in a private R2 bucket, built site in a public R2 bucket behind Savvas's domain, crawl and build on Actions, `rclone sync --checksum` uploads only changed files. GitHub Pages stays live until the Cloudflare site matches it page for page.
+- Site build must be byte-stable (no build time in pages, only data dates) so unchanged pages are not re-uploaded.
+- Needs Savvas's steps in §18.6 first.
+- **Accept:** the six-city site served from Cloudflare with identical page count; a no-change weekly run writes zero objects to R2; `data/` removed from git with a final snapshot kept as a Release asset.
+
+### M12 — Dynasty rollout (47 municipalities)
+- Generalize `dynasty.py` from Espoo: base URL and council organ id from the registry, self-hosted `…/cgi/DREQUEST.PHP` hosts, lenient RSS parsing for incremental discovery. Bring municipalities in in batches of about ten, smallest-risk first (live-verified `oncloudos.com` rows).
+- **Accept per batch:** as M2 on council and board; `needs_review` share of votes ≤ 25 % with every flag carrying a reason.
+
+### M13 — CloudNC rollout (10)
+- `casem.py` with per-municipality base URL; organ slugs from links only (§7.3).
+- **Accept:** as M3 per municipality.
+
+### M14 — Tweb rollout (robots-permitting)
+- Needs M4 (Vantaa) first. Only hosts the M10 audit allowed; self-hosted paths under `/ktwebbin/dbisa.dll/` and non-standard ports (Jakobstad `:8443`). Swedish-language minutes for Raseborg, Jakobstad, Pedersöre and Mariehamn (§18.5).
+- **Accept:** as M4 per municipality.
+
+### M15 — Councillors for all municipalities
+- Seed council rosters with party for every municipality from Statistics Finland's 2025 municipal-election data (PxWeb API, S8), then attendance lists and Tweb `lumu_organ.htm` registries (§8 sources 2–3) for replacements and committees. Mariehamn needs a separate source (Åland elections).
+- **Accept:** every enabled municipality's council page lists its councillors with party; §8 resolution thresholds met per municipality.
+
+### M16 — Long tail
+- Spike each: M-Files Kokoukset (Imatra, Lappeenranta), Korsholm (own WordPress site, FI/SV), Kotka (new system since 3.11.2025), Hyvinkää, Kurikka, Alavus (system not identified). Write an adapter only where two or more municipalities share it or the source is structured; otherwise keep `enabled: false, reason: no_adapter`.
+
 ---
 
 ## 16. Unverified assumptions and spike log
@@ -557,6 +595,11 @@ Fill in "Result" as you resolve each one.
 | S8 | Election results download path (Ministry of Justice / StatFin) | §8 | |
 | S9 | www.turku.fi robots allows initiative pages | §7.6 | |
 | S10 | Espoo page and vote-PDF structure | §7.2 | 2026-10-13, by hand: the §7.2 tables and link shapes hold. `meeting_frames` lists bodies without meetings ("Testitoimielin") as plain text. The meeting page's h1 carries body, stage, date, `klo 17.30 - 19.53` (dot or colon), "⁄ Tarkastettu" and the place; the participants table (Osallistuja / Tehtävä) is present at agenda stage too, so attendance is kept only at minutes stage. Item text opens with `Asianumero …`, `{Body} dd.mm.yyyy § n`, `§ n`, the title and a "Valmistelijat / lisätiedot" table; "Päätösehdotus Esittelijä" is followed by the presenter on its own line, and Päätöshistoria blocks are headed `{Body} dd.mm.yyyy § n` with plain "Käsittely"/"Päätös" lines inside. Votes: Käsittely says "Äänestyksessä valtuusto 30 äänellä 41 ääntä vastaan, 4 äänestäessä tyhjää hylkäsi … Äänestyslista on pöytäkirjan liitteenä."; the first number is the Jaa side. Smaller bodies write numbers as words ("yhden äänestäessä tyhjää"). One vote → attachment "Äänestyslista § n" (layout 1, legend `{Proposer} Jaa / vastaan Ei / Tyhjä`); several → one "Äänestyslistat § n" PDF with `N. Äänestys: Jaa: {label} / Ei: vastaan / Tyhjä` blocks (layout 2; council 8.12.2025 § 167 has six). A deputy can be printed over three lines (`Name`, `(Member replaced)`, `Ei`). Option totals are not in a fixed order. No page headers or footers in the vote PDFs. The build environment could not reach the host, so fixtures are reconstructed (`scripts/make_espoo_fixtures.py`). Recorded pages (2026-10-13, `tests/fixtures/espoo/real/`) add: the item text sits in `div.data-part.meetingitem` under "Kokousasian teksti"; attachments and supplementary material are separate `div.data-part` blocks (the "Liitteet" list inside the text has no links); paragraphs are Word-style `<p><span>` runs, so a heading can share a paragraph with its first sentence ("Päätös Puheenjohtaja totesi …"); item pages are UTF-8, listing and meeting pages ISO-8859-1. |
+| S11 | robots.txt of every registry host, especially whether `*.tweb.fi` really disallows (registry README says so; not checked from here) | §18.2 | |
+| S12 | Is `*.oncloudos.com` one shared backend? (decides the provider-wide rate cap) | §18.2 | |
+| S13 | Real item counts per municipality since 2025-01-01 (replaces the §18.3 estimate) | §18.3 | |
+| S14 | Pagefind index size and query latency at ~200k items; fall back to D1 FTS5 if it doesn't hold | §18.4 | |
+| S15 | Do municipal hosts block GitHub Actions (Azure) IP ranges? Hyvinkää, Kurikka and Alavus refused automated fetches during research | §18.2 | |
 
 ---
 
@@ -582,3 +625,89 @@ Fill in "Result" as you resolve each one.
 | Body exclude list (§1) | as written |
 | Per-person speech collections | off (`SPEECHES_BY_PERSON=false`) pending legal check |
 | Oulu / Turku | disabled pending written permission |
+| Bodies for municipalities 7–96 | council and municipal board first; committees switched on per municipality after M11, once storage is off GitHub |
+| Hosts that disallow robots (likely the 13 on `*.tweb.fi`) | disabled pending written permission, as Oulu; Savvas or the team asks Triplan or the municipality |
+| Domain for the Cloudflare site | none yet; a domain is needed to serve R2 without the Worker request cap (§18.4) |
+| Paid fallback | Workers Paid ($5/month) only if D1 or Worker limits bite; nothing in §18 needs it at launch |
+
+---
+
+## 18. Expansion to 96 municipalities (added 2026-10-13)
+
+### 18.1 Registry
+
+`config/registry/municipalities_rank7-96.csv` (90 rows, collected 2026-10-12, column notes and per-platform URL patterns in `config/registry/README.md`). Together with the six cities it covers roughly 85 % of Finland's population. The cut-off around ranks 93–97 is within ~200 people, so re-rank on newer population figures only if the exact set matters.
+
+| Platform | Municipalities | Hosting | Adapter |
+|---|---|---|---|
+| Dynasty 10 | 47 | 32 on `*.oncloudos.com`, 3 on a regional host (`dynastyjulkaisu.pohjoiskarjala.net`), 2 on `dynasty.voiceintuitive.com`, 10 self-hosted | `dynasty` (Espoo's) |
+| Tweb / KTweb | 26 | 13 on `*.tweb.fi`, 4 on `*.triplancloud.fi`, 9 self-hosted | `tweb` (Vantaa's, M4) |
+| CloudNC (CaseM) | 10 | all on `*.cloudnc.fi` | `casem` (Tampere's) |
+| M-Files Kokoukset | 2 (Imatra, Lappeenranta) | self-hosted | new, M16 |
+| Own website or not identified | 5 (Kotka, Korsholm, Hyvinkää, Kurikka, Alavus) | — | spike, M16 |
+
+Verification in the registry: 52 rows live-verified (a council meeting seen), 31 taken from the municipality's own site without fetching, 2 from search results, 5 partial. Only 36 rows have a councillor list URL; M15 fills the rest from election data.
+
+So three adapters we already have (or plan, for Tweb) cover 83 of the 90. The work is generalizing them (base URL, organ ids, host variants) and running them politely at scale, not writing new parsers.
+
+### 18.2 Scraping at 96 municipalities
+
+**Where it runs: GitHub Actions, as now.** Standard runners are free for public repositories, a job may run 6 hours, 20 jobs run at once on GitHub Free and a matrix may hold 256 jobs. The Espoo milestone showed that municipal hosts this build environment can't reach are reachable from Actions.
+
+**Why not Cloudflare for scraping.** Checked 2026-10-13 against Cloudflare's docs: Workers Free gives 10 ms CPU per request, 50 subrequests per invocation and 5 cron triggers per account, and cannot run our Python stack (pdfplumber, selectolax). Containers, which could, need Workers Paid ($5/month, 375 vCPU-minutes included). The crawl is limited by politeness delays, not compute, so moving it gains nothing. One optional later use: a Worker cron that polls Dynasty/Tweb RSS feeds and fires `workflow_dispatch` when something changes, so small municipalities aren't fetched on weeks with no meetings.
+
+**Politeness at scale (adds to §2.1, does not relax it):**
+- Rule 4 stays per host. In addition, hosts that share one provider (`*.oncloudos.com`, `*.cloudnc.fi`, `*.tweb.fi`, `*.triplancloud.fi`) get a **provider-wide cap of 2 requests/second** until S12 shows they are separate backends. Thirty-odd subdomains at 1 req/s each would otherwise hit one vendor at 30 req/s.
+- The weekly matrix is keyed by **provider group**, not by municipality: one job per shared provider (municipalities inside it run sequentially or interleaved under the cap), plus one job per batch of self-hosted municipalities. That keeps the job count under 20 and lets each job enforce its own cap.
+- robots.txt is checked per host on every run as now; the M10 audit only decides the starting `enabled` flag. The registry README says `*.tweb.fi` hosts disallow crawlers; if S11 confirms it, 13 municipalities (Hämeenlinna, Rauma, Kerava, Nokia, Kangasala, Pirkkala, Valkeakoski, Varkaus, Akaa, Janakkala, Kuusamo, Ilmajoki, Muurame) ship disabled like Oulu. No workarounds.
+- Statistics Finland's PxWeb API is for the councillor seed (M15). The Ministry of Justice results service disallows crawlers and is not used.
+
+**Sizing (estimate, replaced by S13):** a municipality of 10–50k people holds roughly 60–100 meetings a year across council, board and a handful of committees, ~700–1,500 items. Across the 90 that is ~80–110k items a year, so ~150–200k items since 2025-01-01 by the end of 2026, plus ~25k for the six cities. Backfill of one provider group at 2 req/s: `*.oncloudos.com` (~33 municipalities × ~3k requests) ≈ 14 hours, split over three nights by `backfill.yml`. The weekly run with the 10-week refetch window is ~200 requests per small municipality, about an hour for the largest group.
+
+**Raw cache.** `.cache/raw` can't stay in `actions/cache` (10 GB per repo). Conditional GETs only need the validators, which live in state; a 304 means the stored JSON is still right. The raw cache becomes optional and per-run.
+
+### 18.3 Why GitHub Pages and git storage stop working
+
+Measured on the six-city build (build log 2026-10-12/13): ~26 KB of built site per item and 5–10 KB of canonical JSON per item. At ~200k items:
+- built site ≈ 5 GB against Pages' 1 GB limit;
+- canonical JSON ≈ 1–2 GB, growing ~0.7 GB a year, against the 1 GB repo guideline, and every weekly change adds history;
+- file count far over 20,000, so Cloudflare Pages Free and Workers Static Assets Free (both capped at 20,000 files per deployment) can't host it as static files either.
+
+### 18.4 Target hosting: Cloudflare Free, R2-first
+
+Limits checked 2026-10-13: R2 Free has 10 GB-month storage, 1M Class A (writes) and 10M Class B (reads) operations a month, and free egress, with no file-count limit. D1 Free: 500 MB per database, 10 databases, 5 GB total, 5M rows read and 100k rows written a day. Workers Free: 100k requests a day, 10 ms CPU.
+
+```
+GitHub Actions (public repo, free runners)
+ ├─ weekly / monthly / backfill   crawl per provider group → parse → validate
+ │                                  → canonical JSON + state  →  R2 bucket kotihiiri-data (private)
+ ├─ build                          Astro static build from R2 data → Pagefind
+ │                                  → rclone sync --checksum      →  R2 bucket kotihiiri-site (public)
+ └─ exports                        parquet/csv/zip                 →  kotihiiri-site/data/ + monthly GitHub Release
+
+Cloudflare (free zone on Savvas's domain)
+ R2 custom domain on kotihiiri-site → CDN cache → visitors
+ Transform rule: path ending in "/" → append "index.html"
+```
+
+- **Pages stay static.** The build still renders every page ahead of time, so nothing runs per request: no Worker CPU limit, no daily request cap, and the CDN caches pages so most views cost no R2 reads. Uploads are only the files whose checksum changed, which keeps weekly Class A operations in the low thousands; the first full upload (~250k files) fits inside one month's 1M.
+- **Storage.** ~5 GB built site + ~1.5 GB JSON fits the 10 GB free tier into 2027; beyond it R2 costs $0.015/GB-month, a few cents.
+- **Search.** Pagefind's chunked index is static files and works from R2; S14 checks size and speed at full scale. Fallback: a Worker over D1 FTS5 split per region (500 MB per database), which uses the Worker request cap only for searches.
+- **Why a domain.** R2 serves public buckets at production quality only through a custom domain on a Cloudflare zone (the `r2.dev` URL is rate-limited and meant for testing). Without a domain the fallback is a Worker on `workers.dev` that streams pages from R2; that works on the free plan but every page view then counts against the 100k-requests-a-day cap.
+- **Determinism (§2.2 rule 10) carries over:** a no-change run must write zero objects to R2. The repository keeps code, config and a small weekly change manifest (`data/state/changes/{iso-week}.jsonl`: ids and content hashes), so git still shows what changed without holding the data.
+- **Transition.** Six-city data stays in git and Pages keeps serving until M11 accepts; M12+ municipalities only ever land in R2.
+
+### 18.5 Site and data-model changes
+
+- Home page: 96 municipalities don't fit as cards. Search-as-you-type list plus a region filter (maakunta); the six city themes stay, the rest share one neutral theme with their coat of arms from Wikimedia Commons (`config/images.yaml`).
+- Glossary (§0) additions: kunnanvaltuusto / kunnanhallitus (municipal council / board, `council` / `board`), and Swedish forms for Swedish-majority municipalities (Raseborg, Jakobstad, Pedersöre, Korsholm, Mariehamn): fullmäktige, stads-/kommunstyrelse, nämnd, föredragningslista, protokoll, omröstning, Ja / Nej / Blankt / Frånvarande. The §1 exclusion of Swedish *duplicates* stays; where Swedish is the only or primary language of the minutes, those are the documents, stored with `lang = sv`.
+- Mariehamn sits under Åland's own municipal law and elections; its council roster comes from the town's own pages, not StatFin.
+- §13 size budget (700 MB) applies only while on Pages.
+
+### 18.6 Steps only Savvas can do
+
+1. Create a Cloudflare account (free plan) and enable R2. R2 asks for a payment method even on the free tier; nothing is charged inside the free allowances.
+2. Create two R2 buckets: `kotihiiri-data` (private) and `kotihiiri-site`.
+3. Register a domain (e.g. a `.fi`) at any registrar and add it to Cloudflare as a free zone, then connect it to `kotihiiri-site` as the bucket's custom domain. Update `site_domain` in `config/project.yaml`, which also changes the crawler's User-Agent.
+4. Create an R2 API token (Object Read & Write, both buckets) and add GitHub repository secrets `CLOUDFLARE_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`.
+5. Decide whether to ask Triplan (or the 13 municipalities) for crawl permission if S11 confirms the `*.tweb.fi` disallow.
