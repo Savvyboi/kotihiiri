@@ -36,11 +36,11 @@ def join_lines(lines: list[str]) -> str:
     return "\n".join(out)
 
 
-def pdf_pages(data: bytes) -> list[list[str]]:
+def pdf_pages(data: bytes, max_pages: int | None = None) -> list[list[str]]:
     import pdfplumber
 
     with pdfplumber.open(io.BytesIO(data)) as pdf:
-        return [(page.extract_text() or "").splitlines() for page in pdf.pages]
+        return [(page.extract_text() or "").splitlines() for page in pdf.pages[:max_pages]]
 
 
 def pdf_text(data: bytes) -> str:
