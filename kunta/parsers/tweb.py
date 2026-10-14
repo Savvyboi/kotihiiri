@@ -291,7 +291,7 @@ BLOCK = re.compile(
     r"\s+(?P<date>\d{1,2}\.\d{1,2}\.\d{4})\s+§\s*(?P<n>\d+)$",
     re.IGNORECASE,
 )
-PROPOSAL = re.compile(r"^(?:[\wÅÄÖåäö-]+\s+){0,5}esitys\s*:$|^Esitys\s*:$", re.IGNORECASE)
+PROPOSAL = re.compile(r"^(?:[\wÅÄÖåäö.-]+\s+){0,5}esitys\s*:$|^Esitys\s*:$", re.IGNORECASE)
 HEADINGS = {
     "käsittely": SectionType.deliberation,
     "päätös": SectionType.decision,
@@ -463,9 +463,19 @@ def item_sections(doc: ItemDoc) -> tuple[list[Section], list[Section], list[str]
             if text := _text(block.lines):
                 sections.append(Section(type=SectionType.history, heading=block.header, text=text))
             continue
+        in_case = decided = False
         for kind, heading, lines in block_parts(block):
+            # The Käsittely runs to the decision; a changed proposal inside it ("Kaupunginjohtajan
+            # muutettu esitys:") is part of it. A proposal after a decision means an earlier
+            # body's handling whose header line was missed: only what follows is this meeting's.
+            if kind == SectionType.proposal and decided:
+                deliberation, decided = [], False
             if kind == SectionType.deliberation:
-                deliberation = list(lines)
+                in_case = True
+            elif kind == SectionType.decision:
+                in_case, decided = False, True
+            if in_case:
+                deliberation += lines
             if kind == SectionType.decision:
                 lines, stmts = _split_statements(lines)
                 for skind, slines in stmts:
@@ -495,17 +505,23 @@ INTRO = re.compile(
 )
 UNSECONDED = re.compile(r"raukesi\s+kannattamattomana", re.IGNORECASE)
 PROPOSITION = re.compile(
-    r"he,\s+jotka\s+kannattavat\s+(?P<jaa>.+?),\s+äänestävät\s+jaa,?\s+ja\s+he,\s+(?:jotka|ketkä)\s+"
-    r"kannattavat\s+(?P<ei>.+?),\s+äänestävät\s+ei",
+    r"he,?\s+jotka\s+kannattavat\s+(?P<jaa>.+?),?\s+äänestävät\s+jaa,?\s+ja\s+he,?\s+(?:jotka|ketkä)\s+"
+    r"kannattavat\s+(?P<ei>.+?),?\s+äänestävät\s+ei",
     re.IGNORECASE | re.DOTALL,
 )
-_PAREN = r"(?:\s*\((?P<{0}>[^)]*)\))?"
-RESULT = re.compile(
-    rf"Äänestyksessä\s+annettiin\s+(?P<j>{_NUM})\s+jaa-ään\w*{_PAREN.format('jn')}"
-    rf"\s*(?:,|ja)?\s*(?P<e>{_NUM})\s+ei-ään\w*{_PAREN.format('en')}"
-    rf"(?:\s*(?:,|ja)\s*(?P<t>{_NUM})\s+tyhj\w*(?:-ään\w*)?{_PAREN.format('tn')})?",
+RESULT = re.compile(r"Äänestyksessä\s+annettiin\b", re.IGNORECASE)
+# One side of the result, either order: "61 jaa-ääntä", "55 jaa ääntä", "45 jaaääntä",
+# "yksi tyhjä-ääni", "Jaa-ääniä 6", each with the voters' surnames in brackets on boards.
+_SIDE = r"(?P<w>jaa|ei|tyhjä)[- ]?ään\w*|tyhjää"
+COUNT = re.compile(
+    rf"(?:(?P<n1>{_NUM})\s+(?:{_SIDE.replace('?P<w>', '?P<w1>')})"
+    rf"|(?:{_SIDE.replace('?P<w>', '?P<w2>')})\s+(?P<n2>{_NUM}))"
+    r"(?:\s*\((?P<names>[^)]*)\))?",
     re.IGNORECASE,
 )
+# The result runs to the chair's conclusion or the next sentence that is not a count.
+RESULT_END = re.compile(r"\bjoten\b|Puheenjohtaja\s+totesi|\.\s+(?!Jaa|Ei|Tyhj)[A-ZÅÄÖ]")
+CHOICE_OF = {"jaa": Choice.jaa, "ei": Choice.ei, "tyhjä": Choice.tyhja}
 
 
 def _n(word: str) -> int:
@@ -604,28 +620,39 @@ def parse_prose(lines: list[str]) -> list[TwebProse]:
     out = []
     props = list(PROPOSITION.finditer(text))
     for m in RESULT.finditer(text):
+        end = RESULT_END.search(text, m.end())
+        window = text[m.end() : end.start() if end else len(text)]
+        counts: dict[Choice, int] = {}
+        names: dict[Choice, list[str]] = {}
+        for c in COUNT.finditer(window):
+            word = (c.group("w1") or c.group("w2") or "tyhjä").lower()
+            choice = CHOICE_OF[word]
+            if choice in counts:
+                continue
+            counts[choice] = _n(c.group("n1") or c.group("n2"))
+            if c.group("names"):
+                names[choice] = _names(c.group("names"))
+        if Choice.jaa not in counts or Choice.ei not in counts:
+            continue
         prop = next((p for p in reversed(props) if p.end() <= m.start()), None)
         # a proposition belongs to the first result after it
         if prop is not None and any(o.prop_end == prop.end() for o in out):
             prop = None
-        e = text.find(". ", m.end())
+        e = text.find(". ", (end.end() if end else m.end()))
         sentence = text[m.start() : len(text) if e < 0 else e + 1].strip()
-        pv = TwebProse(
-            a=_n(m.group("j")),
-            b=_n(m.group("e")),
-            tyhja=_n(m.group("t")) if m.group("t") else 0,
-            sentence=sentence,
-            jaa_label=_short_label(prop.group("jaa")) if prop else "",
-            ei_label=_short_label(prop.group("ei")) if prop else "",
-            names={
-                c: _names(m.group(k))
-                for c, k in ((Choice.jaa, "jn"), (Choice.ei, "en"), (Choice.tyhja, "tn"))
-                if m.group(k)
-            },
-            prop_end=prop.end() if prop else -1,
-            start=m.start(),
+        out.append(
+            TwebProse(
+                a=counts[Choice.jaa],
+                b=counts[Choice.ei],
+                tyhja=counts.get(Choice.tyhja, 0),
+                sentence=sentence,
+                jaa_label=_short_label(prop.group("jaa")) if prop else "",
+                ei_label=_short_label(prop.group("ei")) if prop else "",
+                names=names,
+                prop_end=prop.end() if prop else -1,
+                start=m.start(),
+            )
         )
-        out.append(pv)
     return out
 
 
