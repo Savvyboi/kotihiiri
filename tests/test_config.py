@@ -31,7 +31,8 @@ def test_user_agent_requires_domain_and_email():
     assert p2.user_agent == "KuntaDataBot/0.1 (+https://kotihiiri.fi/tietoa; a@b.fi)"
 
 
-def test_speeches_by_person_off():
+def test_speeches_by_person_flag():
     from kunta.config import load_project
 
-    assert load_project().features["SPEECHES_BY_PERSON"] is False
+    # On since the legal check in PLAN.md §2.2 rule 9 (2026-10-14); the site reads the same flag.
+    assert load_project().features["SPEECHES_BY_PERSON"] is True
