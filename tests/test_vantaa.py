@@ -5,7 +5,7 @@ from kunta import jsonio
 from kunta.adapters import NotEnabled, adapter_for
 from kunta.adapters.tweb import TwebAdapter
 from kunta.crawl import crawl
-from kunta.models import ItemRef, Stage
+from kunta.models import Choice, ItemRef, Stage
 from kunta.parsers import tweb as tp
 from kunta.pdf import pdf_pages
 from kunta.text import contains_pii
@@ -130,6 +130,54 @@ def test_board_cover_page_ignores_the_unmarked_deputy_column():
     assert next(p for p in cover.participants if p.name == "Aura Anssi").note == "klo 14.09–"
     assert sum(p.role in ("jäsen", "puheenjohtaja", "I varapuheenjohtaja", "II varapuheenjohtaja")
                for p in cover.participants) == 15  # fmt: skip
+
+
+def test_committee_cover_without_the_present_column_header():
+    # "Jäsenet Varajäsenet" and an unmarked member before a present deputy on the same line
+    cover = tp.parse_cover(doc("3266674"))
+    assert (cover.date, cover.start_time, cover.end_time) == (dt.date(2025, 11, 18), "17:00", "19:13")
+    people = {p.name: p for p in cover.participants}
+    assert "Kähärä Sirkka-Liisa" not in people and people["Laaksonen Saija"].role == "varajäsen"
+    assert "Ahava Marja Lepistö Matti" not in people and people["Lepistö Matti"].role == "varajäsen"
+    assert people["Eklund Tarja"].role == "jäsen"
+    assert people["Ahokas Siri"].note == "teams"
+    assert people["Otso Kivimäki"].role == "kaupunginhallituksen jäsen"
+    assert people["Tammilehto Noora"].role == "hallintoasiantuntija, pöytäkirjanpitäjä"
+
+
+def test_board_cover_with_capital_marks_and_organisations_in_roles():
+    cover = tp.parse_cover(doc("3410604"))
+    assert (cover.date, cover.start_time, cover.end_time) == (dt.date(2026, 6, 8), "13:05", "17:26")
+    people = {p.name: p for p in cover.participants}
+    assert people["Kaukola Ulla"].role == "puheenjohtaja" and "Laakso Päivi" not in people
+    assert people["Vacker Marjo"].role == "elinvoima- ja työllisyysjaoston jäsen"
+    assert people["Niemistö Jussi"].role == "tutkimusjohtaja, CBRE Commercial Real"
+    assert people["Serlenius Ulla"].role == "johtaja (kaupallinen ja kiinteistökehitys)"
+    assert people["Perttula Sampo"].note == "klo 16.00–17.26, § 3–21"
+    assert not any(n.startswith(("CBRE", "Vantaan", "Finavia")) for n in people)
+
+
+def test_swedish_cover_page():
+    cover = tp.parse_cover(doc("3409777"))
+    assert (cover.date, cover.start_time, cover.end_time) == (dt.date(2026, 6, 9), "17:05", "19:33")
+    assert cover.location.startswith("Stadshuset")
+    people = {p.name: p for p in cover.participants}
+    assert people["Holmberg Hanna"].role == "ordförande"
+    assert people["Hilpinen Sanni"].role == "varajäsen"
+    assert not people["Sandström Sakarias"].present and people["Hilpinen Sanni"].present
+    assert people["Panula Tuula"].role == "kaupunginhallituksen jäsen"
+    assert people["Rasku Joel"].role == "nuorisovaltuuston edustaja"
+    assert people["Lindfors-Lietzén Benita"].present
+
+
+def test_swedish_committee_cover_with_capital_marks_in_both_columns():
+    cover = tp.parse_cover(doc("3406948"))
+    assert (cover.date, cover.start_time, cover.end_time) == (dt.date(2026, 6, 10), "17:00", "18:38")
+    people = {p.name: p for p in cover.participants}
+    # "Forsberg Magnus X Kahila Minna -": the X is a mark, not part of a name
+    assert people["Forsberg Magnus"].present and people["Forsberg Magnus"].role == "jäsen"
+    assert not people["Kahila Minna"].present and people["Kahila Minna"].role == "varajäsen"
+    assert people["Garchi Camilla"].present and not people["Pyhältö Risto"].present
 
 
 # -- items ----------------------------------------------------------------------------------
@@ -267,6 +315,41 @@ def test_items_without_vote_report_keep_prose_counts_and_board_names():
     assert (v.jaa_label, v.ei_label) == ("kaupunginjohtajan esitys", "Kasosen muutosesitys")
     assert [b.person_ref.raw for b in v.ballots if b.choice == "ei"][:2] == ["Hakala", "Kasonen"]
     assert [m.outcome for m in item.motions] == ["rejected", "rejected", "rejected"]
+
+
+def test_vote_sentence_variants():
+    prop = ("he jotka kannattavat esittelijän esitystä äänestävät jaa, ja he, jotka kannattavat "
+            "Virtasen ehdotusta, äänestävät ei. ")  # fmt: skip
+    cases = {
+        prop + "Äänestyksessä annettiin 55 jaa ääntä ja 12 ei-ääntä. Puheenjohtaja totesi.": (55, 12, 0),
+        "Äänestyksessä annettiin 45 jaaääntä, 21 ei-ääntä ja 1 tyhjää, joten": (45, 21, 1),
+        # the ei count first, with the voters' names
+        "Äänestyksessä annettiin 4 ei-ääntä (Karinen, Niikko, Tuomainen ja Rämö), ja 2 jaa-ääntä "
+        "(Abdi ja Hakala), joten": (2, 4, 0),
+        # a total first, then "Jaa-ääniä N (…) ja ei-ääniä N"
+        "Äänestyksessä annettiin yhteensä 5 ääntä. Jaa-ääniä 2 (Abdi ja Hakala) ja ei-ääniä 3 "
+        "(Karinen, Niikko ja Rämö). Kaupunginhallitus hyväksyi.": (2, 3, 0),
+    }
+    for sentence, counts in cases.items():
+        [p] = tp.parse_prose([sentence])
+        assert (p.a, p.b, p.tyhja) == counts, sentence
+    [p] = tp.parse_prose([next(iter(cases))])
+    assert (p.jaa_label, p.ei_label) == ("esittelijän esitys", "Virtasen ehdotus")
+    [p] = tp.parse_prose([list(cases)[2]])
+    assert p.names[Choice.ei] == ["Karinen", "Niikko", "Tuomainen", "Rämö"]
+
+
+def test_kasittely_spans_a_changed_proposal_but_not_a_missed_earlier_handling():
+    vote = "Äänestyksessä annettiin 3 jaa-ääntä ja 2 ei-ääntä."
+    block = tp.Block(body="Kaupunginhallitus", date=dt.date(2025, 11, 10), pykala=3, lines=[
+        "Kaupunginjohtajan esitys:", "Hyväksytään.", "Käsittely:", "Kaupunginjohtaja muutti esitystään.",
+        "Kaupunginjohtajan muutettu esitys:", "Hyväksytään muutettuna.", vote, "Päätös:", "Hyväksyttiin.",
+    ])  # fmt: skip
+    assert vote in tp.item_sections(tp.ItemDoc(blocks=[block]))[2]
+    # an earlier body's handling whose header line was missed: its vote is not this meeting's
+    block.lines += ["Kaupunkisuunnittelujohtajan vs. esitys:", "Hyväksytään.", "Käsittely:", "Keskustelu.",
+                    "Päätös:", "Hyväksyttiin."]  # fmt: skip
+    assert tp.item_sections(tp.ItemDoc(blocks=[block]))[2] == ["Keskustelu."]
 
 
 def test_agenda_stage_items_have_no_votes_or_pykala():

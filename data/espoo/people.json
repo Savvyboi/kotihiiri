@@ -849,14 +849,6 @@
       "start": "2025-01-23"
     },
     {
-      "body_id": "espoo/kasvun-ja-oppimisen-lautakunnan-nuorisoasiainjaosto",
-      "end": "2025-02-27",
-      "person_id": "espoo/helen-raimo",
-      "role": "member",
-      "source": "attendance",
-      "start": "2025-02-27"
-    },
-    {
       "body_id": "espoo/ymparisto-ja-rakennuslautakunta",
       "end": "2026-06-25",
       "person_id": "espoo/helle-anu",
@@ -895,6 +887,14 @@
       "role": "member",
       "source": "attendance",
       "start": "2025-01-23"
+    },
+    {
+      "body_id": "espoo/kasvun-ja-oppimisen-lautakunnan-nuorisoasiainjaosto",
+      "end": "2025-02-27",
+      "person_id": "espoo/helen-raimo",
+      "role": "member",
+      "source": "attendance",
+      "start": "2025-02-27"
     },
     {
       "body_id": "espoo/tekninen-lautakunta",
@@ -5339,23 +5339,6 @@
     },
     {
       "aliases": [
-        "Helen Raimo"
-      ],
-      "city": "espoo",
-      "election": {
-        "party": "SDP",
-        "result": "not_elected",
-        "source": "statfin-kvaa-2025",
-        "votes": 63,
-        "year": 2025
-      },
-      "id": "espoo/helen-raimo",
-      "name": "Raimo Helen",
-      "party": "SDP",
-      "sort_name": "Helen Raimo"
-    },
-    {
-      "aliases": [
         "Helle Anu"
       ],
       "city": "espoo",
@@ -5413,6 +5396,23 @@
       "name": "Marianne Helmes",
       "party": "KD",
       "sort_name": "Helmes Marianne"
+    },
+    {
+      "aliases": [
+        "Helen Raimo"
+      ],
+      "city": "espoo",
+      "election": {
+        "party": "SDP",
+        "result": "not_elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 63,
+        "year": 2025
+      },
+      "id": "espoo/helen-raimo",
+      "name": "Raimo Helén",
+      "party": "SDP",
+      "sort_name": "Helén Raimo"
     },
     {
       "aliases": [

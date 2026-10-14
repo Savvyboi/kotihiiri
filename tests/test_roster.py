@@ -105,6 +105,17 @@ def test_roster_from_attendance_and_parties():
     assert ("espoo/korhonen-anna", "espoo/kaupunginhallitus", "member", "2025-09-08", "2025-09-08") in ms
 
 
+def test_name_order_from_the_candidate_list():
+    r = Roster("vantaa", "vantaa/kaupunginvaltuusto")
+    # Vantaa council covers list deputies first-name first
+    r.add_meeting(_meeting("vantaa/kaupunginvaltuusto", "2025-09-15", [("Jari Sainio", "varajäsen", True)]))
+    r.add_meeting(_meeting("vantaa/kaupunginvaltuusto", "2025-09-16", [("Mikko Outo", "varajäsen", True)]))
+    r.add_parties([PartyRow("Sainio Jari", "SDP", "deputy", "t", 300)])
+    names = {p["id"]: p["name"] for p in r.to_json()["persons"]}
+    assert names["vantaa/sainio-jari"] == "Jari Sainio"
+    assert "vantaa/mikko-outo" in names  # without a candidate row the printed order stays
+
+
 def test_helsinki_vote_tables_give_groups(tmp_path):
     mf = {
         "meeting": {

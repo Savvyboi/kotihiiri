@@ -5,11 +5,12 @@ from __future__ import annotations
 import datetime as dt
 import logging
 from collections import Counter
+from pathlib import Path
 
 import typer
 
 from . import jsonio
-from .config import CACHE_DIR, DATA_DIR, ConfigError, load_cities, load_project, require_enabled
+from .config import CACHE_DIR, DATA_DIR, ROOT, ConfigError, load_cities, load_project, require_enabled
 from .text import is_confidential
 from .validate import validate_city
 
@@ -178,9 +179,17 @@ def validate(city: str | None = typer.Option(None, "--city")) -> None:
 
 
 @app.command()
-def export() -> None:
-    """Write build/exports/*.parquet, *.csv, all.zip (M7)."""
-    _fail("exports land in M7 (PLAN.md §15)")
+def export(out: str | None = typer.Option(None, "--out", help="default build/exports")) -> None:
+    """Write one CSV and one Parquet file per table plus all.zip and manifest.json (PLAN.md §13
+    /data/), from the committed data of the enabled cities, with takedowns applied."""
+    from .export import collect, write
+
+    cities = [c for c, cfg in load_cities().items() if cfg.enabled and (DATA_DIR / c).exists()]
+    out_dir = Path(out) if out else ROOT / "build" / "exports"
+    manifest = write(collect(cities), out_dir)
+    for table, t in manifest["tables"].items():
+        typer.echo(f"{table}: rows={t['rows']} csv={t['csv_bytes']} parquet={t['parquet_bytes']}")
+    typer.echo(f"all.zip: {manifest['zip_bytes']} bytes in {out_dir}")
 
 
 @app.command()

@@ -26,6 +26,18 @@ jobs:
           ref: ${{ github.ref }} # when called from weekly.yml: the branch head with the new data commit
       - uses: actions/configure-pages@v5
         id: pages
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -e .
+      # Downloads for /data/ (PLAN.md §13): Parquet per table, every CSV in all.zip. The per-table
+      # CSVs stay out of the site; the sections table alone is over 100 MB as CSV.
+      - name: Exports
+        run: |
+          kunta export --out build/exports
+          mkdir -p site/public/data/files
+          cp build/exports/*.parquet build/exports/all.zip build/exports/manifest.json site/public/data/files/
       - uses: actions/setup-node@v4
         with:
           node-version: "22"

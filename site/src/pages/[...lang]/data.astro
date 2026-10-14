@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { localeParams, useI18n, type Locale } from '../../i18n';
+import { assetPath, localeParams, useI18n, type Key, type Locale } from '../../i18n';
+import { exportManifest, fileSize } from '../../lib/exports';
 
 export function getStaticPaths() {
   return localeParams().map(({ lang, locale }) => ({ params: { lang }, props: { locale } }));
@@ -8,11 +9,45 @@ export function getStaticPaths() {
 interface Props { locale: Locale }
 const { locale } = Astro.props;
 const { t } = useI18n(locale);
+
+const manifest = exportManifest();
+const tableKey = (name: string) => `data.t.${name}` as Key;
+const tables = manifest ? Object.entries(manifest.tables) : [];
+const nf = new Intl.NumberFormat(locale === 'en' ? 'en-GB' : `${locale}-FI`);
+const size = (bytes: number) => fileSize(bytes, nf);
 ---
 <Base title={t('data.title')} locale={locale}>
   <section class="hero"><div class="wrap"><h1>{t('data.title')}</h1><p class="lead">{t('data.lead')}</p></div></section>
   <div class="wrap" style="margin-top:1.5rem">
-    <p>{t('data.coming')}</p>
+    {manifest ? (
+      <>
+        <p>
+          <strong><a href={assetPath('/data/files/all.zip')} download>{t('data.zip')}</a></strong>
+          <span class="muted"> {size(manifest.zip_bytes)}</span>
+        </p>
+        <p>{t('data.formats')}</p>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr><th>{t('data.table')}</th><th>{t('data.description')}</th><th class="num">{t('data.rows')}</th><th>Parquet</th></tr>
+            </thead>
+            <tbody>
+              {tables.map(([name, info]) => (
+                <tr>
+                  <td><code>{name}</code></td>
+                  <td>{t(tableKey(name))}<br /><span class="muted small">{info.columns.join(', ')}</span></td>
+                  <td class="num">{nf.format(info.rows)}</td>
+                  <td><a href={assetPath(`/data/files/${name}.parquet`)} download>{size(info.parquet_bytes)}</a></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p>{t('data.joins')}</p>
+      </>
+    ) : (
+      <p>{t('data.coming')}</p>
+    )}
     <p>{t('data.licence')}</p>
   </div>
 </Base>
