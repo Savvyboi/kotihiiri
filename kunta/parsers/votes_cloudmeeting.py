@@ -138,7 +138,8 @@ CHOICE_WORD = {"jaa": Choice.jaa, "ei": Choice.ei, "tyhjä": Choice.tyhja, "tyhj
 TOTAL = re.compile(r"^Annettuja ääniä yhteensä\s+(\d+)$", re.IGNORECASE)
 BY_OPTION = re.compile(r"^Äänet vaihtoehdoittain$", re.IGNORECASE)
 BY_VOTER = re.compile(r"^Äänet äänestäjittäin$", re.IGNORECASE)
-OPTION_LINE = re.compile(r"^(Jaa|Ei|Tyhjä|Ei äänestänyt|Poissa)\s+(\d+)$", re.IGNORECASE)
+# "Jaa 6", or with the option's label: "Jaa Asian jatkaminen 8", "Ei Palautus 5".
+OPTION_LINE = re.compile(r"^(Ei äänestänyt|Jaa|Ei|Tyhjä|Poissa)(?:\s+(.*?))?\s+(\d+)$", re.IGNORECASE)
 VOTE_START = re.compile(r"^(\d+)\.?\s*Äänestys\b\s*:?\s*(.*)$", re.IGNORECASE)
 PYKALA = re.compile(r"^§\s*(\d+)\b")
 HEADER = re.compile(
@@ -148,6 +149,10 @@ HEADER = re.compile(
 )
 VOTER = re.compile(r"^(.*?)\s*\(?\b(Jaa|Ei|Tyhjä|Ei äänestänyt|Poissa)\)?$")
 PAREN = re.compile(r"\s*\([^)]*\)")
+OPEN_PAREN = re.compile(r"\s*\([^)]*$")  # "Laakso Mikko (Sammallahti" with "Tere)" on the next line
+# The rest of a replaced member's name ("Tere)") or a "(Fagerström Noora)" line after the deputy's
+# ballot: neither is a voter.
+ANNOTATION = re.compile(r"^(?:\([^()]*\)|[^()]*\))$")
 
 
 @dataclass
@@ -159,21 +164,23 @@ class PdfVote:
     counts: dict[Choice, int] = field(default_factory=dict)
     ballots: list[tuple[str, Choice]] = field(default_factory=list)
     leftover: list[str] = field(default_factory=list)  # name fragments without a choice
+    option_labels: dict[Choice, str] = field(default_factory=dict)
 
 
 def parse_legend(line: str) -> tuple[str, str]:
     """ "Nevanlinna Jaa / vastaan Ei / Tyhjä", "Jaa: Immonen / Ei: vastaan / Tyhjä",
-    "Jaa Hopsu 3.3. / Ei: vastaan / Tyhjä", "Jaa / pohjaehdotus / Ei / 6.2" → (jaa, ei) labels."""
+    "Jaa Hopsu 3.3. / Ei: vastaan / Tyhjä", "Jaa / pohjaehdotus / Ei / 6.2",
+    "Lisäysehdotus 1 Jaa Lisäys/ Ei Pohja / Tyhjä" → (jaa, ei) labels."""
     parts = [p.strip() for p in line.split("/")]
     labels: dict[Choice, str] = {}
     pending: Choice | None = None
     for p in parts:
-        m = re.match(r"^(Jaa|Ei|Tyhjä)\b\s*:?\s*(.*)$", p, re.IGNORECASE) or None
-        tail = re.match(r"^(.*?)\s*\b(Jaa|Ei|Tyhjä)$", p, re.IGNORECASE)
+        # "Jaa: Immonen", "Nevanlinna Jaa", "Lisäysehdotus 1 Jaa Lisäys", "Äänestys: Jaa esittelijä":
+        # the words after the choice name the side, else the words before it.
+        m = re.match(r"^(.*?)\s*\b(Jaa|Ei|Tyhjä)\b\s*:?\s*(.*)$", p, re.IGNORECASE)
         if m:
-            choice, label = CHOICE_WORD[m.group(1).lower()], m.group(2).strip()
-        elif tail:
-            choice, label = CHOICE_WORD[tail.group(2).lower()], tail.group(1).strip()
+            before = re.sub(r"^\d*\.?\s*Äänestys\s*:?\s*", "", m.group(1).strip(), flags=re.IGNORECASE)
+            choice, label = CHOICE_WORD[m.group(2).lower()], m.group(3).strip() or before
         elif pending is not None:
             labels.setdefault(pending, p)
             pending = None
@@ -189,7 +196,7 @@ def parse_legend(line: str) -> tuple[str, str]:
 
 
 def _voter_name(fragments: list[str]) -> str:
-    return re.sub(r"\s+", " ", PAREN.sub("", " ".join(fragments))).strip()
+    return re.sub(r"\s+", " ", OPEN_PAREN.sub("", PAREN.sub("", " ".join(fragments)))).strip()
 
 
 def parse_vote_pdf_lines(lines: list[str]) -> list[PdfVote]:
@@ -219,7 +226,8 @@ def parse_vote_pdf_lines(lines: list[str]) -> list[PdfVote]:
             state = "voters"
             continue
         if m := VOTE_START.match(line):
-            legend, state = m.group(2), "header"
+            # The legend can be printed just above a bare "4. Äänestys:" line.
+            legend, state = m.group(2) or (legend if state == "header" else ""), "header"
             if cur is not None and buf:
                 cur.leftover.extend(buf)
             buf = []
@@ -245,9 +253,25 @@ def parse_vote_pdf_lines(lines: list[str]) -> list[PdfVote]:
             if m := OPTION_LINE.match(line):
                 word = m.group(1).lower()
                 choice = Choice.poissa if word in ("ei äänestänyt", "poissa") else CHOICE_WORD[word]
-                cur.counts[choice] = cur.counts.get(choice, 0) + int(m.group(2))
+                cur.counts[choice] = cur.counts.get(choice, 0) + int(m.group(3))
+                if label := (m.group(2) or "").strip():
+                    cur.option_labels[choice] = label
+                    if choice == Choice.jaa and not cur.jaa_label:
+                        cur.jaa_label = label
+                    if choice == Choice.ei and not cur.ei_label:
+                        cur.ei_label = label
+            continue
+        if state == "voters" and "/" in line and re.search(r"\b(Jaa|Ei)\b", line):
+            legend, state = line, "header"  # the next vote's legend, printed above its number
             continue
         if state == "voters" and cur is not None:
+            line = re.sub(r"\bJ aa$", "Jaa", line)  # "Kyrölä Kimmo (Laine Anna) J aa"
+            for label in cur.option_labels.values():  # "Järvinen Hannu Ei Palautus"
+                if line.endswith(" " + label):
+                    line = line[: -len(label) - 1]
+                    break
+            if not buf and ANNOTATION.match(line):
+                continue
             m = VOTER.match(line)
             if m is None:
                 buf.append(line)
@@ -335,7 +359,8 @@ def build_votes(
         got = Counter(c for _, c in dv.ballots)
         for c in Choice:
             printed = getattr(counts, c.value)
-            if got.get(c, 0) != printed and (printed or c != Choice.poissa or got.get(c, 0)):
+            # Absentees are listed by name but not always counted ("Guzenina Maria Poissa").
+            if got.get(c, 0) != printed and (printed or c != Choice.poissa):
                 reasons.append(f"{c.value}: {got.get(c, 0)} names vs {printed} in the PDF totals")
         cast = sum(dv.counts.get(c, 0) for c in Choice if c != Choice.poissa)
         if dv.total is not None and dv.total not in (cast, cast + dv.counts.get(Choice.poissa, 0)):
@@ -349,7 +374,9 @@ def build_votes(
                 f"minutes text says {pv.a}–{pv.b}, {pv.tyhja} blank; the PDF says "
                 f"{counts.jaa} Jaa, {counts.ei} Ei, {counts.tyhja} Tyhjä"
             )
-        if not dv.jaa_label or not dv.ei_label:
+        # Some PDFs name the sides only by number ("13.1 Jaa / Ei / Tyhjä"); the minutes sentence
+        # then says what was voted on.
+        if (not dv.jaa_label or not dv.ei_label) and pv is None:
             reasons.append("missing Jaa/Ei proposal label")
         events.append(
             VoteEvent(

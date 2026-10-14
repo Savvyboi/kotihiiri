@@ -437,3 +437,60 @@ def test_pdf_votes_pair_with_prose_by_counts():
         "Äänestyksessä valtuusto 4 äänellä 70 ääntä vastaan ja 1 ollessa poissa",
     ]
     assert not any("minutes text says" in (e.review_reason or "") for e in events)
+
+
+def test_legend_variants_from_the_live_crawl():
+    assert vc.parse_legend("Lisäsysehdotus 1 Jaa Lisäys/ Ei Pohja / Tyhjä") == ("Lisäys", "Pohja")
+    assert vc.parse_legend("Äänestys: Jaa esittelijä / Ei Partanen/ Tyhjä") == ("esittelijä", "Partanen")
+    assert vc.parse_legend("esittelijä Jaa / Nevanlinna Ei / Tyhjä") == ("esittelijä", "Nevanlinna")
+    assert vc.parse_legend("13.1 Jaa / Ei / Tyhjä") == ("13.1", "")
+
+
+# Shapes from recorded vote PDFs (konserni- ja tilajaosto 1.9.2025 § 20, kaupunkisuunnittelulautakunta
+# 26.3.2025 § 49, elinkeinojaosto 3.11.2025 § 104, kaupunginhallitus 31.3.2025 § 91).
+HEAD = ["Cloudmeeting Äänestystulosraportti", "Toimielin Jaosto", "Kokous Jaosto 01.09.2025", "§ 20 Lausunto"]
+
+
+def test_pdf_deputy_wrapped_over_two_lines_and_annotation_lines():
+    (v,) = vc.parse_vote_pdf_lines([
+        *HEAD, "1. Äänestys: Muutosesitys 1 Jaa pohja / Ei muutos / Tyhjä", "Annettuja ääniä yhteensä 3",
+        "Ei äänestänyt 0", "Äänet vaihtoehdoittain", "Ei 1", "Jaa 2", "Äänet äänestäjittäin",
+        "Marttila Helena Ei", "Laakso Mikko (Sammallahti Jaa", "Tere)", "Stenholm Elena Jaa",
+        "(Fagerström Noora)",
+    ])  # fmt: skip
+    assert v.ballots == [("Marttila Helena", vc.Choice.ei), ("Laakso Mikko", vc.Choice.jaa),
+                         ("Stenholm Elena", vc.Choice.jaa)]  # fmt: skip
+    assert (v.jaa_label, v.ei_label, v.leftover) == ("pohja", "muutos", [])
+
+
+def test_pdf_option_labels_follow_the_choice():
+    (v,) = vc.parse_vote_pdf_lines([
+        *HEAD, "1. Äänestys: 4.1 Jaa / Ei / Tyhjä", "Annettuja ääniä yhteensä 3", "Äänet vaihtoehdoittain",
+        "Jaa Asian jatkaminen 2", "Ei Palautus 1", "Tyhjä 0", "Äänet äänestäjittäin",
+        "Järvinen Hannu Ei Palautus", "Särkijärvi Jouni J. Jaa Asian jatkaminen", "Kyrölä Kimmo (Laine Anna) J aa",
+    ])  # fmt: skip
+    assert v.counts == {vc.Choice.jaa: 2, vc.Choice.ei: 1, vc.Choice.tyhja: 0}
+    assert v.ballots == [("Järvinen Hannu", vc.Choice.ei), ("Särkijärvi Jouni J.", vc.Choice.jaa),
+                         ("Kyrölä Kimmo", vc.Choice.jaa)]  # fmt: skip
+    assert v.jaa_label == "4.1" and v.ei_label == "Palautus"
+
+
+def test_pdf_legend_printed_above_a_bare_vote_number():
+    votes = vc.parse_vote_pdf_lines([
+        *HEAD, "1. Äänestys: esittelijä Jaa / Nevanlinna Ei / Tyhjä", "Annettuja ääniä yhteensä 1",
+        "Äänet vaihtoehdoittain", "Jaa 1", "Äänet äänestäjittäin", "Elo Simon Jaa",
+        "Esittelijä Jaa / Aaltonen Ei / Tyhjä", "4. Äänestys:", "Annettuja ääniä yhteensä 1",
+        "Äänet vaihtoehdoittain", "Ei 1", "Äänet äänestäjittäin", "Aaltonen Juri Ei",
+    ])  # fmt: skip
+    assert [(v.jaa_label, v.ei_label, len(v.ballots)) for v in votes] == [
+        ("esittelijä", "Nevanlinna", 1), ("Esittelijä", "Aaltonen", 1)]  # fmt: skip
+
+
+def test_absentee_listed_but_not_counted_and_unlabelled_sides_with_prose():
+    (v,) = vc.parse_vote_pdf_lines([
+        *HEAD, "1. Äänestys: 13.1 Jaa / Ei / Tyhjä", "Annettuja ääniä yhteensä 2", "Äänet vaihtoehdoittain",
+        "Ei 1", "Jaa 1", "Äänet äänestäjittäin", "Elo Tiina Ei", "Kajava Henna Jaa", "Guzenina Maria Poissa",
+    ])  # fmt: skip
+    prose = vc.parse_prose(["Äänestyksessä jaosto yhdellä äänellä yhtä ääntä vastaan hyväksyi ehdotuksen."])
+    (event,) = vc.build_votes(prose, [v], item_url="u", pdf_url="p")
+    assert not event.needs_review, event.review_reason
