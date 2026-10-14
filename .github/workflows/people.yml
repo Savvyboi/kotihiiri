@@ -12,7 +12,7 @@ on:
     inputs:
       cities:
         description: "Cities, comma-separated"
-        default: "helsinki,espoo,tampere"
+        default: "helsinki,espoo,tampere,vantaa"
 
 permissions:
   contents: write
@@ -32,7 +32,7 @@ jobs:
           cache: pip
       - run: pip install -e .
       - env:
-          CITIES: ${{ inputs.cities || 'helsinki,espoo,tampere' }}
+          CITIES: ${{ inputs.cities || 'helsinki,espoo,tampere,vantaa' }}
         run: |
           for c in ${CITIES//,/ }; do
             kunta people --city "$c"

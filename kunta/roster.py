@@ -177,6 +177,10 @@ class Roster:
             if rs and len(rs) == 1:
                 p.election = rs[0]
                 matched += 1
+                # The candidate list prints "Sukunimi Etunimi"; Vantaa's council covers print some
+                # names first-name first, so take the order from the list when the names agree.
+                if _fold(name_key(rs[0].name)) == _fold(key):
+                    p.surname, p.first = split_name(rs[0].name)
         missing = sorted(
             f"{p.surname} {p.first}"
             for p in self.people.values()
