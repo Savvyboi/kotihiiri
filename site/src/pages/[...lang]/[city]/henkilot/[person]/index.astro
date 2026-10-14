@@ -1,14 +1,14 @@
 ---
 // A person's page (PLAN.md §13 /{city}/henkilot/{person}/): party, 2025 election, bodies with
-// attendance, every vote they cast and the motions they made. Speeches are not collected per
-// person until the legal check in §2.2 rule 9 is done (SPEECHES_BY_PERSON=false). Like item
+// attendance, every vote they cast, the motions they made and their speeches in the council's
+// debate transcripts (SPEECHES_BY_PERSON, on since the legal check in §2.2 rule 9). Like item
 // pages, person pages are built once, at the Finnish path, and translated client-side.
 import Base from '../../../../../layouts/Base.astro';
 import Breadcrumb from '../../../../../components/Breadcrumb.astro';
 import PartyChip from '../../../../../components/PartyChip.astro';
 import T from '../../../../../components/T.astro';
 import { formatDate, localePath, sharedPath, type Locale } from '../../../../../i18n';
-import { bodyName, bodySlug, cities, councilBody, itemUrl, peopleFile, type City, type Person } from '../../../../../lib/data';
+import { bodyName, bodySlug, cities, councilBody, feature, itemUrl, speechExcerpt, meetingUrl, peopleFile, type City, type Person } from '../../../../../lib/data';
 import { councilRoster, personGroup, personRecords, personSlug, personUrl } from '../../../../../lib/people';
 import { partyKey, partyOf } from '../../../../../lib/parties';
 
@@ -20,7 +20,7 @@ export function getStaticPaths() {
 interface Props { city: City; person: Person }
 const { city, person } = Astro.props;
 const locale: Locale = 'fi';
-const rec = personRecords(city.id).get(person.id) ?? { votes: [], motions: [], attendance: new Map() };
+const rec = personRecords(city.id).get(person.id) ?? { votes: [], motions: [], speeches: [], attendance: new Map() };
 const group = personGroup(person);
 const party = partyOf(group);
 const council = councilRoster(city.id);
@@ -35,6 +35,8 @@ const totals = { jaa: 0, ei: 0, tyhja: 0, poissa: 0 };
 for (const v of votes) totals[v.choice] += 1;
 const against = votes.filter((v) => v.against).length;
 const motions = [...rec.motions].sort((a, b) => b.meeting.date.localeCompare(a.meeting.date));
+const showSpeeches = feature('SPEECHES_BY_PERSON');
+const talk = [...rec.speeches].sort((a, b) => b.speech.meeting_id.localeCompare(a.speech.meeting_id) || a.speech.ordinal - b.speech.ordinal);
 const d = (iso?: string) => (iso ? formatDate(iso) : '');
 const bodyPath = (id: string) => localePath(`/${city.id}/${bodySlug(id)}/`);
 const itemHref = (i: Parameters<typeof itemUrl>[0]) => sharedPath(itemUrl(i));
@@ -97,8 +99,22 @@ const itemHref = (i: Parameters<typeof itemUrl>[0]) => sharedPath(itemUrl(i));
           </ul>
         </>}
 
-        <h2><T k="person.speeches" locale={locale} /></h2>
-        <p class="small muted"><T k="person.speechesNote" locale={locale} /></p>
+        {showSpeeches && <>
+          <h2><T k="person.speeches" locale={locale} />{talk.length > 0 && ` (${talk.length})`}</h2>
+          {talk.length === 0 ? <p class="empty"><T k="person.noSpeeches" locale={locale} /></p> : <>
+            <p><T k="person.speechesLead" vars={{ n: talk.length }} locale={locale} /></p>
+            <ul class="list speech-list">
+              {talk.map(({ speech, meeting, item }) => (
+                <li><span class="date">{d(meeting?.date)}</span>
+                  <span>{item ? <a href={`${itemHref(item)}#puhe-${speech.ordinal}`} data-shared lang="fi">{item.title}</a>
+                      : meeting ? <a href={localePath(meetingUrl(meeting))}>{bodyName(meeting.body_id)}</a> : null}
+                    {speech.kind === 'reply' && <span class="small muted"> · <T k="speech.reply" locale={locale} /></span>}
+                    <br /><span class="small muted" lang={speech.lang}>{speechExcerpt(speech.text)}</span></span></li>
+              ))}
+            </ul>
+          </>}
+          <p class="small muted"><T k="person.speechesNote" locale={locale} /></p>
+        </>}
       </section>
 
       <aside>

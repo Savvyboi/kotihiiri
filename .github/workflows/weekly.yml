@@ -95,6 +95,9 @@ jobs:
           echo "code=$?" >> "$GITHUB_OUTPUT"
       # Roster from the attendance lists just crawled, with party from the 2025 election (§8).
       - run: kunta people --city ${{ matrix.city }}
+      # Speech transcripts of new council meetings (M6; only Helsinki publishes them as text).
+      - if: matrix.city == 'helsinki'
+        run: kunta speeches --city helsinki
       - run: kunta validate --city ${{ matrix.city }}
       # Only data that validated and raised no layout alarm reaches the commit job (§10: a failing
       # city is left out; the others still commit).

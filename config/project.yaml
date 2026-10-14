@@ -7,4 +7,4 @@ user_agent_template: "KuntaDataBot/0.1 (+https://{site_domain}/tietoa; {contact_
 data_licence: CC-BY-4.0
 since: "2025-01-01"
 features:
-  SPEECHES_BY_PERSON: false   # off until the legal check in PLAN.md §2.2 rule 9 is done
+  SPEECHES_BY_PERSON: true   # legal check in PLAN.md §2.2 rule 9 confirmed by Savvas on 2026-10-14

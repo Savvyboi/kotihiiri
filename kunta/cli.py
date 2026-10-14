@@ -105,9 +105,24 @@ def crawl(
 
 
 @app.command()
-def speeches(city: str = typer.Option(..., "--city"), since: str = typer.Option("2025-01-01")) -> None:
-    """Fetch and parse speech transcripts (M6)."""
-    _fail("speeches land in M6 (PLAN.md §15)")
+def speeches(
+    city: str = typer.Option(..., "--city"),
+    since: str = typer.Option("2025-01-01", "--since"),
+    refresh: bool = typer.Option(False, "--refresh", help="re-parse transcripts already stored"),
+) -> None:
+    """Write data/{city}/speeches/ from the council's speech transcripts (M6; Helsinki only)."""
+    from .speeches import run
+
+    try:
+        with _client(city) as client:
+            report = run(city, client, since=since, refresh=refresh)
+    except (ConfigError, NotImplementedError) as exc:
+        _fail(str(exc))
+    typer.echo(report.summary())
+    for name, n in sorted(report.unresolved.items(), key=lambda kv: (-kv[1], kv[0])):
+        typer.echo(f"  unresolved speaker: {name} ({n})")
+    for f in report.failures:
+        typer.echo(f"  failed: {f}")
 
 
 @app.command()
