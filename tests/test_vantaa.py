@@ -157,6 +157,27 @@ def test_board_cover_with_capital_marks_and_organisations_in_roles():
     assert not any(n.startswith(("CBRE", "Vantaan", "Finavia")) for n in people)
 
 
+def test_board_cover_role_wrapped_after_the_roman_numeral():
+    # minutes of 5.10.2026: the role column breaks "I varapuheenjohtaja" after the "I"
+    cover = tp.parse_cover([
+        "Jäsenet Läsnä Varajäsenet Läsnä",
+        "Kaukola Ulla, puheenjohtaja x Laakso Päivi",
+        "Kasonen Mika, I x Forsblom-Prittinen Frida",
+        "varapuheenjohtaja",
+        "Rämö Eve, II varapuheenjohtaja x Laalo Kari",
+        "klo 17.00-17.21, § 1-9;",
+        "Muut osallistujat Läsnä",
+        "Kalske Jaakko, vastaava hallintoasiantuntija, x",
+        "pöytäkirjanpitäjä",
+    ])  # fmt: skip
+    assert [(p.name, p.role) for p in cover.participants] == [
+        ("Kaukola Ulla", "puheenjohtaja"),
+        ("Kasonen Mika", "I varapuheenjohtaja"),
+        ("Rämö Eve", "II varapuheenjohtaja"),
+        ("Kalske Jaakko", "vastaava hallintoasiantuntija, pöytäkirjanpitäjä"),
+    ]
+
+
 def test_swedish_cover_page():
     cover = tp.parse_cover(doc("3409777"))
     assert (cover.date, cover.start_time, cover.end_time) == (dt.date(2026, 6, 9), "17:05", "19:33")
