@@ -22,6 +22,16 @@ export interface VoteEvent {
 }
 export interface Section { type: string; heading?: string; text: string }
 export interface Motion { kind: string; proposer_ref: PersonRef; seconder_refs?: PersonRef[]; text: string; outcome?: string }
+export interface Election { year: number; party: string; result: 'elected' | 'deputy' | 'not_elected'; votes?: number; source: string }
+export interface Person {
+  id: string; city: string; name: string; sort_name: string; aliases: string[];
+  party?: string; election?: Election;
+}
+export interface Membership {
+  person_id: string; body_id: string; role: 'member' | 'deputy' | 'chair' | 'vice_chair' | 'youth_rep' | 'official';
+  group?: string; start?: string; end?: string; source: string;
+}
+export interface PeopleFile { persons: Person[]; memberships: Membership[] }
 export interface Attachment { title: string; url: string; kind?: string }
 export interface AgendaItem {
   id: string; meeting_id: string; ordinal: number; pykala?: number; title: string;
@@ -93,6 +103,14 @@ export function meetingFiles(cityId: string): MeetingFile[] {
     }
     for (const mf of files) mf.items = mf.items.filter((i) => i.status !== 'tombstone');
     return files.sort((a, b) => b.meeting.date.localeCompare(a.meeting.date) || a.meeting.id.localeCompare(b.meeting.id));
+  });
+}
+
+/** data/{city}/people.json (PLAN.md §5.3), written by `kunta people`; empty until the first run. */
+export function peopleFile(cityId: string): PeopleFile {
+  return memo(`people:${cityId}`, () => {
+    const p = path.join(DATA_DIR, cityId, 'people.json');
+    return fs.existsSync(p) ? readJson<PeopleFile>(p) : { persons: [], memberships: [] };
   });
 }
 

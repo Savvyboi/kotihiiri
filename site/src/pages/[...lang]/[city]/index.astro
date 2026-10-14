@@ -53,8 +53,10 @@ const name = cityName(city, locale);
       <section class="card party-card">
         <div>
           <h2 style="margin-top:0">{t('parties.title')}: {bodyName(roster.bodyId)}</h2>
-          <p class="small muted">{t('parties.councilLead', { date: date(roster.date), n: roster.total })}</p>
-          <PartyLegend seats={roster.seats} locale={locale} unit="parties.seats" />
+          <p class="small muted">{roster.basis === 'attendance'
+            ? t('parties.attendanceLead', { date: date(roster.date), n: roster.total })
+            : t('parties.councilLead', { date: date(roster.date), n: roster.total })}</p>
+          <PartyLegend seats={roster.seats} locale={locale} unit={roster.basis === 'attendance' ? 'parties.people' : 'parties.seats'} />
           <p class="small"><a href={path(`/${city.id}/${bodySlug(roster.bodyId)}/`)}>{t('members.title')} →</a></p>
         </div>
         <Hemicycle seats={roster.seats} locale={locale} />

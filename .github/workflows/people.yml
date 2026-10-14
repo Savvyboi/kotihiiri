@@ -1,0 +1,52 @@
+# Rebuilds data/{city}/people.json without a crawl (PLAN.md §8): persons and memberships from the
+# committed attendance lists and vote tables, party and 2025 election result from Statistics
+# Finland. The weekly crawl runs the same step; this one is for roster changes between crawls,
+# and runs on a working branch when the roster code changes there.
+name: people
+
+on:
+  push:
+    branches: ["claude/**"]
+    paths: [kunta/roster.py, kunta/people_sources/**, .github/workflows/people.yml]
+  workflow_dispatch:
+    inputs:
+      cities:
+        description: "Cities, comma-separated"
+        default: "helsinki,espoo,tampere"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: data-writer
+  cancel-in-progress: false
+
+jobs:
+  people:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -e .
+      - env:
+          CITIES: ${{ inputs.cities || 'helsinki,espoo,tampere' }}
+        run: |
+          for c in ${CITIES//,/ }; do
+            kunta people --city "$c"
+            kunta validate --city "$c"
+          done
+      - name: Commit people.json
+        run: |
+          git config user.name "kotihiiri-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/*/people.json
+          git diff --cached --quiet && exit 0
+          git commit -m "data: people $(date -u +%F)"
+          for i in 1 2 3; do
+            git pull --rebase origin "$GITHUB_REF_NAME" && git push && exit 0
+            sleep $((i * 5))
+          done
+          exit 1

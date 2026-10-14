@@ -8,7 +8,7 @@ import MemberList from '../../../../components/MemberList.astro';
 import CityTabs from '../../../../components/CityTabs.astro';
 import { localized, useI18n, type Locale } from '../../../../i18n';
 import { cities, bodies, meetingFiles, meetingUrl, bodySlug, cityName, allVotes, councilBody, voteYears, type Body, type City } from '../../../../lib/data';
-import { councilRoster, bodyRoster, TERM_START } from '../../../../lib/people';
+import { councilRoster, bodyRoster, attendanceRoster, TERM_START } from '../../../../lib/people';
 
 export function getStaticPaths() {
   return localized(cities().flatMap((city) => bodies(city.id).map((body) => ({
@@ -25,8 +25,10 @@ for (const f of files) {
   byYear.set(y, [...(byYear.get(y) ?? []), f]);
 }
 const isCouncil = councilBody(city.id)?.id === body.id;
-const council = isCouncil ? councilRoster(city.id) : undefined;
-const roster = isCouncil ? undefined : bodyRoster(city.id, body.id);
+// Seats from vote tables or attendance lists; bodies without either fall back to who voted.
+const council = isCouncil ? councilRoster(city.id) : attendanceRoster(city.id, body.id);
+const roster = council ? undefined : bodyRoster(city.id, body.id);
+const byAttendance = council?.basis === 'attendance';
 const votes = allVotes(city.id).filter((r) => r.meeting.body_id === body.id);
 const latestYear = voteYears(city.id)[0];
 const votesHref = path(`/${city.id}/aanestykset/`) + `?body=${bodySlug(body.id)}`;
@@ -50,24 +52,26 @@ const since = date(TERM_START);
         <div class="card party-card">
           <div>
             <h3>{t('parties.title')}</h3>
-            <p class="small muted">{t('parties.councilLead', { date: date(council.date), n: council.total })}</p>
-            <PartyLegend seats={council.seats} locale={locale} unit="parties.seats" />
+            <p class="small muted">{byAttendance
+              ? t('parties.attendanceLead', { date: date(council.date), n: council.total })
+              : t('parties.councilLead', { date: date(council.date), n: council.total })}</p>
+            <PartyLegend seats={council.seats} locale={locale} unit={byAttendance ? 'parties.people' : 'parties.seats'} />
           </div>
           <Hemicycle seats={council.seats} locale={locale} />
         </div>
-        <h3 style="margin-top:1.4rem">{t('members.council')} ({council.members.length})</h3>
-        <MemberList people={council.members} total={council.votes} locale={locale} />
+        <h3 style="margin-top:1.4rem">{t(isCouncil ? 'members.council' : 'members.bodyMembers')} ({council.members.length})</h3>
+        <MemberList people={council.members} total={council.votes} locale={locale} unit={byAttendance ? 'members.attended' : 'members.seen'} />
         {council.deputies.length > 0 && (
           <details>
-            <summary>{t('members.deputies')} ({council.deputies.length})</summary>
-            <MemberList people={council.deputies} total={council.votes} locale={locale} />
+            <summary>{t(!byAttendance ? 'members.deputies' : isCouncil ? 'members.councilDeputiesAttended' : 'members.bodyDeputiesAttended')} ({council.deputies.length})</summary>
+            <MemberList people={council.deputies} total={council.votes} locale={locale} unit={byAttendance ? 'members.attended' : 'members.seen'} />
           </details>
         )}
-        <p class="small muted">{t('members.councilNote', { since })}</p>
+        <p class="small muted">{t(!byAttendance ? 'members.councilNote' : isCouncil ? 'members.councilAttendanceNote' : 'members.bodyAttendanceNote', { since })}</p>
       </section>
     )}
 
-    {!isCouncil && (
+    {!council && (
       <section>
         <h2>{t('members.title')}</h2>
         {roster ? <>

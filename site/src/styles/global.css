@@ -228,3 +228,12 @@ details summary { cursor: pointer; font-weight: 650; }
 .site-footer { border-top: 1px solid var(--c-border); padding: 1.6rem 0 2.4rem; font-size: .9rem; color: var(--c-muted); }
 .site-footer .wrap { display: flex; gap: 1rem 2rem; flex-wrap: wrap; justify-content: space-between; }
 @media (max-width: 640px) { .stats { gap: .5rem 1.1rem; font-size: .85rem; } .stats b { font-size: 1.35rem; } }
+
+/* Party chip next to a name: abbreviation on the party colour (vote lists, person pages). */
+.pchip { display: inline-block; margin-left: .45em; padding: 0 .4em; border-radius: .3em; font-size: .78em; font-weight: 700; letter-spacing: .02em; line-height: 1.5; vertical-align: .08em; color: #fff; background: var(--pc, var(--c-muted)); white-space: nowrap; }
+.pchip.light { color: #1d1d1f; }
+.facts { display: grid; grid-template-columns: max-content 1fr; gap: .35rem 1.2rem; margin: .4rem 0 1.4rem; }
+.facts dt { color: var(--c-muted); }
+.facts dd { margin: 0; }
+.nowrap { white-space: nowrap; }
+h1 .pchip { font-size: .45em; vertical-align: .35em; }

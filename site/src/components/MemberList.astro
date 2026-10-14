@@ -1,17 +1,19 @@
 ---
-import { t, type Locale } from '../i18n';
+import { t, sharedPath, type Locale } from '../i18n';
 import { PARTY_COLOURS, partyKey } from '../lib/parties';
 import type { PersonRow } from '../lib/people';
-interface Props { people: PersonRow[]; total: number; locale: Locale; showSeen?: boolean }
-const { people, total, locale, showSeen = true } = Astro.props;
+interface Props { people: PersonRow[]; total: number; locale: Locale; showSeen?: boolean; unit?: 'members.seen' | 'members.attended' }
+const { people, total, locale, showSeen = true, unit = 'members.seen' } = Astro.props;
+// Person pages are built once, at the Finnish path, like item pages (see sharedPath in src/i18n).
+const href = (p: PersonRow) => p.href && sharedPath(p.href, locale);
 ---
 <ul class="members">
   {people.map((p) => (
     <li>
       <span class="m-dot" style={`background:${p.party ? PARTY_COLOURS[p.party] : 'var(--c-border)'}`} aria-hidden="true" />
-      <span class="m-name">{p.name}</span>
+      <span class="m-name">{p.href ? <a href={href(p)} data-shared>{p.name}</a> : p.name}</span>
       <span class="m-group small muted">{p.party ? (p.party === 'other' ? p.group : t(partyKey(p.party), {}, locale)) : t('party.unknown', {}, locale)}</span>
-      {showSeen && <span class="m-seen small muted">{t('members.seen', { n: p.seen, total }, locale)}</span>}
+      {showSeen && <span class="m-seen small muted">{t(unit, { n: p.seen, total }, locale)}</span>}
     </li>
   ))}
 </ul>

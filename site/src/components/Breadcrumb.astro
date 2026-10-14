@@ -1,14 +1,17 @@
 ---
-import { localePath, t, type Locale } from '../i18n';
+import { localePath, t, type Key, type Locale } from '../i18n';
 import T from './T.astro';
-interface Props { items: { label: string; href?: string }[]; locale: Locale }
+// `key` marks a label that is a dictionary key, so shared pages can translate it client-side.
+interface Props { items: { label: string; href?: string; key?: boolean }[]; locale: Locale }
 const { items, locale } = Astro.props;
 ---
 <nav class="breadcrumb" aria-label={t('nav.breadcrumb', {}, locale)} data-i18n-aria="nav.breadcrumb">
   <ol>
     <li><a href={localePath('/', locale)}><T k="nav.home" locale={locale} /></a></li>
     {items.map((c, i) => (
-      <li>{c.href && i < items.length - 1 ? <a href={localePath(c.href, locale)}>{c.label}</a> : <span aria-current="page">{c.label}</span>}</li>
+      <li>{c.href && i < items.length - 1
+        ? <a href={localePath(c.href, locale)}>{c.key ? <T k={c.label as Key} locale={locale} /> : c.label}</a>
+        : <span aria-current="page">{c.key ? <T k={c.label as Key} locale={locale} /> : c.label}</span>}</li>
     ))}
   </ol>
 </nav>

@@ -112,8 +112,36 @@ def speeches(city: str = typer.Option(..., "--city"), since: str = typer.Option(
 
 @app.command()
 def people(city: str = typer.Option(..., "--city")) -> None:
-    """Refresh roster sources and resolve person refs (M5)."""
-    _fail("people resolution lands in M5 (PLAN.md §15)")
+    """Write data/{city}/people.json: persons and memberships from attendance lists and Helsinki's
+    vote tables, with party and result from the 2025 election (PLAN.md §8)."""
+    from .http import FetchFailed
+    from .people_sources import statfin
+    from .roster import PartyRow, build, council_body_id
+
+    try:
+        cfg = require_enabled(city)
+        ua = load_project().user_agent
+    except ConfigError as exc:
+        _fail(str(exc))
+    out = DATA_DIR / city / "people.json"
+    roster = build(city, council_body_id(city))
+    rows: list[PartyRow] = []
+    table = cfg.extra.get("statfin_candidates_table")
+    if table:
+        from .http import PoliteClient
+
+        try:
+            with PoliteClient(ua, allowed_hosts={statfin.HOST}) as client:
+                rows = statfin.fetch(client, str(table), cfg.name_fi)
+        except (FetchFailed, ValueError, KeyError) as exc:
+            # Keep last week's parties rather than dropping them when Statistics Finland is down.
+            log.warning("statfin unavailable (%s); reusing the parties in %s", exc, out)
+            rows = statfin.rows_from_people(jsonio.read(out)) if out.exists() else []
+    matched, missing = roster.add_parties(rows)
+    changed = jsonio.write(out, roster.to_json())
+    typer.echo(f"{city}: persons={len(roster.people)} with_party={matched} changed={changed}")
+    if missing:
+        typer.echo(f"  council members without a party ({len(missing)}): {', '.join(missing)}")
 
 
 @app.command()

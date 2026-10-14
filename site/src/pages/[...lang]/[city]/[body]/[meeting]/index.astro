@@ -4,7 +4,7 @@ import Breadcrumb from '../../../../../components/Breadcrumb.astro';
 import SourceLink from '../../../../../components/SourceLink.astro';
 import { localized, useI18n, type Locale } from '../../../../../i18n';
 import { cities, meetingFiles, bodyName, bodySlug, meetingSegment, itemUrl, cityName, type City, type MeetingFile } from '../../../../../lib/data';
-import { displayName } from '../../../../../lib/people';
+import { displayName, findPerson, personUrl } from '../../../../../lib/people';
 
 export function getStaticPaths() {
   return localized(cities().flatMap((city) => meetingFiles(city.id).map((file) => ({
@@ -19,6 +19,8 @@ const { meeting, items } = file;
 const body = bodyName(meeting.body_id);
 const date = fmt(meeting.date);
 const present = meeting.attendance.filter((a) => a.present);
+// printed name → link to the person's page, when the roster knows them
+const who = (raw: string) => { const p = findPerson(city.id, raw); return { name: p?.name ?? displayName(raw), href: p && shared(personUrl(p)) }; };
 const absent = meeting.attendance.filter((a) => !a.present);
 const name = cityName(city, locale);
 ---
@@ -59,10 +61,10 @@ const name = cityName(city, locale);
       {meeting.stage === 'minutes' && meeting.attendance.length > 0 && <>
         <h2>{t('meeting.attendance')}</h2>
         <details open><summary>{t('meeting.present')} ({present.length})</summary>
-          <ul class="small" style="padding-left:1.1rem">{present.map((a) => <li>{displayName(a.person_ref.raw)} <span class="muted">{a.role_text}</span>{a.note && <span class="muted"> · {a.note}</span>}</li>)}</ul>
+          <ul class="small" style="padding-left:1.1rem">{present.map((a) => <li>{(({ name, href }) => href ? <a href={href} data-shared>{name}</a> : name)(who(a.person_ref.raw))} <span class="muted">{a.role_text}</span>{a.note && <span class="muted"> · {a.note}</span>}</li>)}</ul>
         </details>
         {absent.length > 0 && <details><summary>{t('meeting.absent')} ({absent.length})</summary>
-          <ul class="small" style="padding-left:1.1rem">{absent.map((a) => <li>{displayName(a.person_ref.raw)} <span class="muted">{a.role_text}</span></li>)}</ul>
+          <ul class="small" style="padding-left:1.1rem">{absent.map((a) => <li>{(({ name, href }) => href ? <a href={href} data-shared>{name}</a> : name)(who(a.person_ref.raw))} <span class="muted">{a.role_text}</span></li>)}</ul>
         </details>}
       </>}
       <SourceLink href={meeting.source_url} system={city.source_name} locale={locale} />

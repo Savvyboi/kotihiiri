@@ -1,0 +1,51 @@
+---
+// Everyone on a city's roster (data/{city}/people.json), council first, each linking to their page.
+import Base from '../../../../layouts/Base.astro';
+import Breadcrumb from '../../../../components/Breadcrumb.astro';
+import CityTabs from '../../../../components/CityTabs.astro';
+import MemberList from '../../../../components/MemberList.astro';
+import { localized, useI18n, type Locale } from '../../../../i18n';
+import { cities, cityName, peopleFile, type City } from '../../../../lib/data';
+import { councilRoster, personGroup, personUrl, type PersonRow } from '../../../../lib/people';
+import { partyOf } from '../../../../lib/parties';
+
+export function getStaticPaths() {
+  return localized(cities().filter((c) => c.enabled && peopleFile(c.id).persons.length)
+    .map((city) => ({ params: { city: city.id }, props: { city } })));
+}
+interface Props { city: City; locale: Locale }
+const { city, locale } = Astro.props;
+const { t, date } = useI18n(locale);
+const name = cityName(city, locale);
+const council = councilRoster(city.id);
+const onCouncil = new Set([...(council?.members ?? []), ...(council?.deputies ?? [])].map((p) => p.href));
+const others: PersonRow[] = peopleFile(city.id).persons
+  .filter((p) => !onCouncil.has(personUrl(p)))
+  .sort((a, b) => a.sort_name.localeCompare(b.sort_name, 'fi'))
+  .map((p) => { const g = personGroup(p); return { key: p.id, name: p.name, group: g, party: partyOf(g), seen: 0, href: personUrl(p) }; });
+---
+<Base title={`${t('people.title')} · ${name}`} city={city.id} locale={locale}>
+  <section class="hero">
+    <div class="wrap">
+      <Breadcrumb locale={locale} items={[{ label: name, href: `/${city.id}/` }, { label: t('people.title') }]} />
+      <h1>{t('people.title')}</h1>
+      <p class="lead">{t('people.lead', { since: date('2025-01-01') })}</p>
+    </div>
+  </section>
+  <div class="wrap">
+    <CityTabs city={city} locale={locale} current="people" />
+    {council && <>
+      <h2>{t('people.council')}</h2>
+      <h3>{t('members.council')} ({council.members.length})</h3>
+      <MemberList people={council.members} total={council.votes} locale={locale} showSeen={false} />
+      {council.deputies.length > 0 && <>
+        <h3>{t(council.basis === 'attendance' ? 'members.councilDeputiesAttended' : 'members.deputies')} ({council.deputies.length})</h3>
+        <MemberList people={council.deputies} total={council.votes} locale={locale} showSeen={false} />
+      </>}
+    </>}
+    {others.length > 0 && <>
+      <h2>{t('people.others')} ({others.length})</h2>
+      <MemberList people={others} total={0} locale={locale} showSeen={false} />
+    </>}
+  </div>
+</Base>
