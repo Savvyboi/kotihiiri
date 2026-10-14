@@ -1,0 +1,19 @@
+# Temporary (M6 spike): prints transcript text layout to the job log. Removed with the parser.
+name: spike-speeches
+on:
+  push:
+    branches: ["claude/**"]
+    paths: [scripts/spike_speeches.py, .github/workflows/spike-speeches.yml]
+permissions:
+  contents: read
+jobs:
+  spike:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -e .
+      - run: python scripts/spike_speeches.py https://paatokset.hel.fi/sites/default/files/2026-10/14_kvsto_23092026.pdf https://paatokset.hel.fi/sites/default/files/2025-02/01_kvsto_15012025.pdf
