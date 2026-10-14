@@ -50,6 +50,9 @@ def test_parse_heading():
     assert (h.title, h.name) == ("Nuorisoneuvoston edustaja", "Rosa Esimerkki Saarinen")
     assert parse_heading("Ledamoten Carl Provsson (replik)").lang == "sv"
     assert parse_heading("Esityslistan asia nro 8") is None
+    assert parse_heading("Esityslistan asia nro") is None
+    h = parse_heading("Sinikka Esimerkki")  # printed without a title
+    assert (h.title, h.name) == ("", "Sinikka Esimerkki")
 
 
 def test_parse_transcript():
@@ -88,6 +91,7 @@ def test_resolver(tmp_path):
             person("Aino", "Esimerkki"),
             person("Aino", "Virtanen"),
             person("Pekka", "Virtanen"),
+            person("Silja", "Borgarsdóttir Sandelin"),
         ]
     }
     jsonio.write(tmp_path / "people.json", people)
@@ -95,5 +99,6 @@ def test_resolver(tmp_path):
     assert r.resolve("Bertta Testinen") == ("helsinki/testinen-bertta", 1.0)
     assert r.resolve("Testinen")[0] == "helsinki/testinen-bertta"  # surname alone, unique
     assert r.resolve("Virtanen") == (None, None)  # two Virtanens
+    assert r.resolve("Borgarsdóttir Sandelin")[0] == "helsinki/borgarsdóttir sandelin-silja"
     assert r.resolve("Aino Esimerkkki")[0] == "helsinki/esimerkki-aino"  # one doubled letter
     assert r.resolve("Matti Muukalainen") == (None, None)

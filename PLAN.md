@@ -85,7 +85,7 @@ A static website on GitHub Pages showing what city councils and committees in Fi
    - strip e-mail addresses and phone numbers from all stored text (regex pass; test it);
    - re-fetch recent items (§12) and fully revalidate monthly; if the source removed or changed text, our data changes too; if an item disappears (404/410 twice in a row), write a tombstone and remove it from the site;
    - `config/takedowns.yaml` lists item IDs or literal strings to redact; applied at export/build time.
-9. **Speeches by person:** do not build a page that collects all speeches of one person until a human confirms the legal check (Finnish Copyright Act has a specific rule on speeches in public bodies). Feature flag `SPEECHES_BY_PERSON=false`. Speeches are shown in their item/meeting context only.
+9. **Speeches by person:** a page that collects all speeches of one person needed a human to confirm the legal check first (Finnish Copyright Act has a specific rule on speeches in public bodies). Savvas confirmed the check on 2026-10-14, so `SPEECHES_BY_PERSON=true` in `config/project.yaml`; person pages list a person's speeches with a short excerpt and link to the full text on the item page. Setting the flag back to `false` removes the list again.
 10. Deterministic output: same input → byte-identical JSON (sorted keys, stable list order, no "fetched_at" inside content files; volatile metadata goes to `data/state/`). A no-change run must produce an empty git diff (except the heartbeat file).
 
 ### 2.3 Hosting limits (GitHub Pages)
@@ -470,7 +470,7 @@ Finnish UI at the root, Swedish under `/sv/`, English under `/en/` (since 2026-1
 /{city}/{body}/{date}/                     meeting: attendance, items, video link, source links
 /{city}/{body}/{date}/{ordinal}/           item: decision, full text sections (history collapsed), motions, votes, speeches, attachments, case timeline
 /{city}/asia/{case-number-slug}/           case timeline across bodies (items sharing case_number)
-/{city}/henkilot/{person}/                 memberships, attendance %, voting record, motions; speech COUNT only (§2.2 rule 9)
+/{city}/henkilot/{person}/                 memberships, attendance %, voting record, motions; speeches with excerpts (§2.2 rule 9)
 /{city}/ryhmat/{group}/                    group cohesion, splits
 /haku/                                     Pagefind search (filters: city, body, year, kind)
 /data/                                     downloads + schema docs + licence
@@ -629,7 +629,7 @@ Fill in "Result" as you resolve each one.
 | Site name, domain, contact e-mail for User-Agent | Set 2026-10-11 by Savvas: Kotihiiri, `savvyboi.github.io/kotihiiri`, project contact e-mail in `config/project.yaml` |
 | Licence for our normalized data | CC BY 4.0, attributing the cities as source |
 | Body exclude list (§1) | as written |
-| Per-person speech collections | off (`SPEECHES_BY_PERSON=false`) pending legal check |
+| Per-person speech collections | on since 2026-10-14: Savvas confirmed the legal check (§2.2 rule 9) |
 | Oulu / Turku | disabled pending written permission |
 | Bodies for municipalities 7–96 | council and municipal board first; committees switched on per municipality after M11, once storage is off GitHub |
 | Hosts that disallow robots (likely the 13 on `*.tweb.fi`) | disabled pending written permission, as Oulu; Savvas or the team asks Triplan or the municipality |

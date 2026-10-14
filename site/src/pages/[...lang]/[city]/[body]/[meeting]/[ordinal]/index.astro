@@ -7,8 +7,8 @@ import SourceLink from '../../../../../../components/SourceLink.astro';
 import VoteDetail from '../../../../../../components/VoteDetail.astro';
 import T from '../../../../../../components/T.astro';
 import { formatDate, sharedPath, type Locale } from '../../../../../../i18n';
-import { cities, meetingFiles, bodyName, bodySlug, meetingSegment, decisionText, type AgendaItem, type City, type Meeting } from '../../../../../../lib/data';
-import { displayName, findPerson, personUrl } from '../../../../../../lib/people';
+import { cities, meetingFiles, bodyName, bodySlug, meetingSegment, decisionText, speechesByItem, type AgendaItem, type City, type Meeting } from '../../../../../../lib/data';
+import { displayName, findPerson, personUrl, speaker } from '../../../../../../lib/people';
 
 export function getStaticPaths() {
   return cities().flatMap((city) => meetingFiles(city.id).flatMap(({ meeting, items }) => items.map((item) => ({
@@ -26,6 +26,11 @@ const main = item.sections.filter((s) => s.type !== 'history' && s.type !== 'dec
 const history = item.sections.filter((s) => s.type === 'history');
 // printed name → link to the person's page, when the roster knows them
 const who = (raw: string) => { const p = findPerson(city.id, raw); return { name: p?.name ?? displayName(raw), href: p && sharedPath(personUrl(p)) }; };
+// Speeches from the council's debate transcript (M6), each collapsed; #puhe-N opens one.
+const talk = (speechesByItem(city.id).get(item.id) ?? []).map((s) => {
+  const p = speaker(city.id, s.speaker_ref);
+  return { s, name: p?.name ?? s.speaker_ref.raw, href: p && sharedPath(personUrl(p)), paras: s.text.split(/\n{2,}/) };
+});
 ---
 <Base title={item.title} city={city.id} description={decision?.slice(0, 160)} locale={locale} shared>
   <section class="hero">
@@ -67,6 +72,23 @@ const who = (raw: string) => { const p = findPerson(city.id, raw); return { name
     {item.votes.length > 0 && <>
       <h2><T k="item.votes" locale={locale} /></h2>
       {item.votes.map((v) => <VoteDetail vote={v} city={city.id} locale={locale} />)}
+    </>}
+
+    {talk.length > 0 && <>
+      <h2 id="keskustelu"><T k="item.speeches" locale={locale} /></h2>
+      <p class="small muted"><T k="item.speechesLead" vars={{ n: talk.length }} locale={locale} />
+        {' '}<a href={talk[0].s.source_url} rel="external noopener"><T k="item.speechesSource" locale={locale} /></a></p>
+      <div class="speeches" data-pagefind-ignore>
+        {talk.map(({ s, name, href, paras }) => (
+          <details id={`puhe-${s.ordinal}`} class="speech">
+            <summary><span lang={s.lang}>{s.speaker_title}</span> {href ? <a href={href} data-shared>{name}</a> : name}
+              {s.kind === 'reply' && <span class="small muted"> · <T k="speech.reply" locale={locale} /></span>}
+              <span class="excerpt small muted" lang={s.lang}>{paras[0].slice(0, 140)}{paras[0].length > 140 || paras.length > 1 ? '…' : ''}</span></summary>
+            <div class="prose" lang={s.lang}>{paras.map((t) => <p>{t}</p>)}</div>
+          </details>
+        ))}
+      </div>
+      <script is:inline>{`(function(){var o=function(){var e=location.hash&&document.getElementById(location.hash.slice(1));if(e&&e.tagName==='DETAILS'){e.open=true;e.scrollIntoView();}};o();addEventListener('hashchange',o);})();`}</script>
     </>}
 
     {main.length > 0 && <h2><T k="item.sections" locale={locale} /></h2>}

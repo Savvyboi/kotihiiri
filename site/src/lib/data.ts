@@ -32,6 +32,11 @@ export interface Membership {
   group?: string; start?: string; end?: string; source: string;
 }
 export interface PeopleFile { persons: Person[]; memberships: Membership[] }
+export interface Speech {
+  id: string; meeting_id: string; item_id?: string; ordinal: number; speaker_ref: PersonRef;
+  speaker_title: string; kind: 'speech' | 'reply'; lang: 'fi' | 'sv' | 'mixed'; text: string;
+  video_offset_s?: number; source_url: string;
+}
 export interface Attachment { title: string; url: string; kind?: string }
 export interface AgendaItem {
   id: string; meeting_id: string; ordinal: number; pykala?: number; title: string;
@@ -111,6 +116,32 @@ export function peopleFile(cityId: string): PeopleFile {
   return memo(`people:${cityId}`, () => {
     const p = path.join(DATA_DIR, cityId, 'people.json');
     return fs.existsSync(p) ? readJson<PeopleFile>(p) : { persons: [], memberships: [] };
+  });
+}
+
+/** Speeches of every meeting in data/{city}/speeches/ (PLAN.md §5.3, M6), in meeting order. */
+export function speeches(cityId: string): Speech[] {
+  return memo(`speeches:${cityId}`, () => {
+    const dir = path.join(DATA_DIR, cityId, 'speeches');
+    if (!fs.existsSync(dir)) return [];
+    return fs.readdirSync(dir).filter((n) => n.endsWith('.json')).sort()
+      .flatMap((f) => readJson<Speech[]>(path.join(dir, f)));
+  });
+}
+
+export function speechesByItem(cityId: string): Map<string, Speech[]> {
+  return memo(`speechesByItem:${cityId}`, () => {
+    const out = new Map<string, Speech[]>();
+    for (const s of speeches(cityId)) if (s.item_id) out.set(s.item_id, [...(out.get(s.item_id) ?? []), s]);
+    return out;
+  });
+}
+
+/** config/project.yaml `features` (PLAN.md §2.2 rule 9 for SPEECHES_BY_PERSON). */
+export function feature(name: string): boolean {
+  return memo(`feature:${name}`, () => {
+    const raw = YAML.parse(fs.readFileSync(path.join(ROOT, 'config/project.yaml'), 'utf8'));
+    return raw?.features?.[name] === true;
   });
 }
 

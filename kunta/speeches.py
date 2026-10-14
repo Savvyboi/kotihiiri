@@ -58,7 +58,9 @@ class Resolver:
         for p in people.get("persons", []):
             for n in {p["name"], p["sort_name"], *p.get("aliases", [])}:
                 self._add(self.by_key, _fold(name_key(n)), p["id"])
-            self._add(self.by_surname, _fold(p["sort_name"].split(" ")[0].lower()), p["id"])
+            first = p["name"].split(" ")[0]
+            for surname in {p["name"][len(first) :].strip(), p["sort_name"].split(" ")[0]}:
+                self._add(self.by_surname, _fold(name_key(surname)), p["id"])
 
     @staticmethod
     def _add(index: dict[str, str | None], key: str, pid: str) -> None:
@@ -68,7 +70,7 @@ class Resolver:
         key = _fold(name_key(raw))
         if key in self.by_key:
             return self.by_key[key], 1.0 if self.by_key[key] else None
-        if " " not in key and self.by_surname.get(key):
+        if self.by_surname.get(key):
             return self.by_surname[key], 0.8
         # One doubled or dropped letter ("Laisaaari"): accept a single clear winner.
         scored = sorted(

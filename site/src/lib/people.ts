@@ -3,7 +3,7 @@
 // seats. Espoo and Tampere print names only, in votes and on attendance lists; there the roster
 // comes from the attendance lists and the party from the 2025 election, both in
 // data/{city}/people.json (`kunta people`). Names are joined on an order-insensitive key.
-import { allVotes, councilBody, meetingFiles, peopleFile, type AgendaItem, type Ballot, type Choice, type Meeting, type Motion, type Person, type VoteRow } from './data';
+import { allVotes, councilBody, feature, meetingFiles, peopleFile, speeches, type AgendaItem, type Ballot, type Choice, type Meeting, type Motion, type Person, type PersonRef, type Speech, type VoteRow } from './data';
 import { partyOf, PARTY_ORDER, type Party } from './parties';
 
 /** Start of the 2025–2029 council term (PLAN.md §5.2 Term; per-city check pending, S7). */
@@ -39,6 +39,15 @@ function personIndex(cityId: string): Map<string, Person | null> {
     indexes.set(cityId, idx);
   }
   return idx;
+}
+
+/** The speaker of a transcript speech: the person `kunta speeches` resolved, or a name match. */
+export function speaker(cityId: string, ref: PersonRef): Person | undefined {
+  if (ref.person_id) {
+    const p = peopleFile(cityId).persons.find((x) => x.id === ref.person_id);
+    if (p) return p;
+  }
+  return findPerson(cityId, ref.raw);
 }
 
 /** The person printed as `raw` ("Sukunimi, Etunimi", "Sukunimi Etunimi" or "Etunimi Sukunimi"). */
@@ -261,8 +270,9 @@ export function groupMajorities(row: VoteRow): { group: string; party: Party; n:
 
 export interface PersonVote { row: VoteRow; choice: Choice; group?: string; against: boolean }
 export interface PersonMotion { item: AgendaItem; meeting: Meeting; motion: Motion }
+export interface PersonSpeech { speech: Speech; meeting?: Meeting; item?: AgendaItem }
 export interface PersonRecord {
-  votes: PersonVote[]; motions: PersonMotion[];
+  votes: PersonVote[]; motions: PersonMotion[]; speeches: PersonSpeech[];
   /** per body id: meetings the minutes list the person at, and how many of those they attended */
   attendance: Map<string, { present: number; listed: number }>;
 }
@@ -275,7 +285,7 @@ export function personRecords(cityId: string): Map<string, PersonRecord> {
   out = new Map();
   const rec = (id: string) => {
     let r = out!.get(id);
-    if (!r) out!.set(id, r = { votes: [], motions: [], attendance: new Map() });
+    if (!r) out!.set(id, r = { votes: [], motions: [], speeches: [], attendance: new Map() });
     return r;
   };
   for (const row of allVotes(cityId)) {
@@ -305,6 +315,15 @@ export function personRecords(cityId: string): Map<string, PersonRecord> {
         const p = findPerson(cityId, motion.proposer_ref.raw);
         if (p) rec(p.id).motions.push({ item, meeting, motion });
       }
+    }
+  }
+  if (feature('SPEECHES_BY_PERSON')) {
+    const meetings = new Map(meetingFiles(cityId).map((mf) => [mf.meeting.id, mf]));
+    for (const speech of speeches(cityId)) {
+      const p = speaker(cityId, speech.speaker_ref);
+      if (!p) continue;
+      const mf = meetings.get(speech.meeting_id);
+      rec(p.id).speeches.push({ speech, meeting: mf?.meeting, item: mf?.items.find((i) => i.id === speech.item_id) });
     }
   }
   records.set(cityId, out);

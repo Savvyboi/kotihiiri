@@ -25,13 +25,14 @@ from ..text import collapse_ws, strip_pii
 
 _LEADER = re.compile(r"\s*\.{3,}\s*\d+\s*$")
 _PYKALA = re.compile(r"^(\d+)\s*§$")
-_ASIA = re.compile(r"^Esityslistan asia nro\s*(\d+)$", re.IGNORECASE)
+_ASIA = re.compile(r"^Esityslistan\s+asia\s+(?:nro|n:o)\.?\s*(\d+)$", re.IGNORECASE)
 _REPLY = re.compile(r"\s*\((vastauspuheenvuoro|replik)\)\s*$", re.IGNORECASE)
-# Titles printed before the speaker's name; anything else takes the first word as the title.
+# Titles printed before the speaker's name ("Valtutettu" is a typo seen in a 2025 transcript).
 _TITLES = re.compile(
-    r"^(Valtuutettu|Varavaltuutettu|Ledamoten|Ledamot|Ersättaren|Apulaispormestari|Biträdande borgmästaren"
-    r"|Pormestari|Borgmästaren|Puheenjohtaja|Ordföranden|Kaupunginjohtaja|Kansliapäällikkö"
-    r"|Nuorisoneuvoston edustaja|Ungdomsrådets representant)\s+(.+)$"
+    r"^(Valtuutettu|Valtutettu|Varavaltuutettu|Ledamoten|Ledamot|Ersättaren"
+    r"|Apulaispormestari|Biträdande borgmästaren|Pormestari|Borgmästaren"
+    r"|Puheenjohtaja|Ordföranden|Kaupunginjohtaja|Kansliapäällikkö"
+    r"|Nuorisoneuvoston edustaja|Nuorisovaltuuston edustaja|Ungdomsrådets representant)\s+(.+)$"
 )
 _SWEDISH = re.compile(r"^(Ledamot|Ersättaren|Biträdande|Borgmästaren|Ordföranden|Ungdomsrådets)")
 
@@ -69,8 +70,10 @@ def parse_heading(text: str) -> Heading | None:
     t = _TITLES.match(rest)
     if t:
         title, name = t.group(1), t.group(2).strip()
+    elif rest.lower().startswith("esityslistan"):
+        return None
     else:
-        title, _, name = rest.partition(" ")
+        title, name = "", rest  # a few headings print the name alone
     if not name or len(name) > 80 or any(ch.isdigit() for ch in name):
         return None
     lang = Lang.sv if _SWEDISH.match(title) or (m and m.group(1).lower() == "replik") else Lang.fi
