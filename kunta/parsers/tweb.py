@@ -192,15 +192,15 @@ def html_lines(html: str) -> list[str]:
 # -- cover page ---------------------------------------------------------------------------
 
 # "Aika 21.9.2026 klo 18.05–23.18", "Aika 8.6.2026, klo 13.05–17.26", "Aika 17.11.2025 klo 13.00-
-# 18.11.2025 klo 0.22", Swedish bodies "Tid Tisdag 09.06.2026, kl. 17.05-19.33"
-_KLO = r",?\s+(?:klo|kl\.)\s+"
+# 18.11.2025 klo 0.22", Swedish bodies "Tid Tisdag 09.06.2026, kl. 17.05-19.33", "Tid 10.06.2026 17:00-18:38"
+_KLO = r",?\s+(?:(?:klo|kl\.)\s+)?"
 SESSION = re.compile(
     rf"^(?:Aika|Tid)\s+(?:[A-Za-zåäö]+\s+)?(\d{{1,2}}\.\d{{1,2}}\.\d{{4}}){_KLO}(\d{{1,2}})[.:](\d{{2}})"
     rf"(?:\s*[–-]\s*(?:\d{{1,2}}\.\d{{1,2}}\.\d{{4}}{_KLO})?(\d{{1,2}})[.:](\d{{2}}))?"
 )
 PLACE = re.compile(r"^(?:Paikka|Plats)\s+(.+)$")
 _PARTICLE = r"(?:(?:el|af|von|de|van)\s+)"
-_WORD = rf"{_PARTICLE}?[A-ZÅÄÖ][\wÅÄÖåäö'’-]*"
+_WORD = rf"{_PARTICLE}?(?!X(?:[\s)]|$))[A-ZÅÄÖ][\wÅÄÖåäö'’-]*"
 _NAME = rf"{_WORD}(?:\s+{_WORD})*"
 _MARK = r"(?P<mark>[xX]|-)(?=[\s)]|$)"
 # A note in brackets after the mark: "(klo 18.05-21.03 § 1-8)", or cut by the line end or the
@@ -214,7 +214,7 @@ ENTRY = re.compile(
 )
 # "Muut osallistujat" is one column, so its roles may name an organisation: "Niemistö Jussi,
 # tutkimusjohtaja, CBRE Commercial Real X"
-ONE_COLUMN = re.compile(rf"^(?P<name>{_NAME})(?:[,.]\s*(?P<role>[^()]*?))?\s+{_MARK}(?:\s*(?P<note>{NOTE}))?")
+ONE_COLUMN = re.compile(rf"^(?P<name>{_NAME})(?:[,.]\s*(?P<role>.*?))?\s+{_MARK}(?:\s*(?P<note>{NOTE}))?")
 GROUPS = [
     (re.compile(r"^(?:Jäsenet\s+(?:Läsnä|Varajäsenet)|Medlemmar\s+Närvarande)"), "jäsen"),
     (re.compile(r"^Varajäsenet\s+Läsnä"), "varajäsen"),
@@ -225,6 +225,7 @@ GROUPS = [
     (re.compile(r"^Nuorisovaltuuston\b|^Ungdomsfullmäktiges\b"), "nuorisovaltuuston edustaja"),
     (re.compile(r"^(?:Muut osallistujat|Övriga deltagare)\b"), "muu osallistuja"),
 ]
+DEPUTY_COLUMN = re.compile(r"Varajäsenet|varaedustaja|[Ee]rsättare")
 COVER_END = re.compile(
     r"^(Kokouksen laillisuus|Allekirjoitukset|Pöytäkirjan tarkastus|Käsitellyt asiat|Sammanträdets laglighet"
     r"|Underskrifter)"
@@ -259,6 +260,7 @@ def _note(note: str | None) -> str | None:
 def parse_cover(lines: list[str]) -> Cover:
     cover = Cover()
     group: str | None = None
+    deputies = False
     for raw in lines:
         line = re.sub(r"\s+", " ", raw).strip()
         if not line or re.fullmatch(r"Nro \d+/\d{4}", line):
@@ -278,17 +280,20 @@ def parse_cover(lines: list[str]) -> Cover:
         hit = next((role for rx, role in GROUPS if rx.match(line)), None)
         if hit:
             group = hit
+            # "Jäsenet Läsnä Varajäsenet Läsnä": the second column holds the deputies
+            deputies = bool(DEPUTY_COLUMN.search(line[1:]))
             continue
         if group is None or re.match(r"^[\d§]", line):  # "22.10 § 1-9)": the rest of a note
             continue
         found = ONE_COLUMN.match(line) if group == "muu osallistuja" else None
         for m in [found] if found else ENTRY.finditer(line):
             name = m.group("name").strip()
+            second = m.start() > 0
             if len(name.split()) > 3:  # an unmarked name from the first column ran into this one
-                name = " ".join(name.split()[-2:])
+                name, second = " ".join(name.split()[-2:]), True
             if not re.match(r"^[A-ZÅÄÖa-zåäö]", name) or name.lower() in ("läsnä", "jäsenet"):
                 continue
-            role = (m.group("role") or "").strip(" ,") or group
+            role = (m.group("role") or "").strip(" ,") or ("varajäsen" if deputies and second else group)
             note = m.group("note")
             cover.participants.append(
                 Participant(

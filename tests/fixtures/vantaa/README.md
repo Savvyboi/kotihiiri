@@ -21,4 +21,7 @@ numbers replaced. `doc-3291113` is only the first four pages of the 17.11.2025 c
 | `doc-3256569` | the board's 4.11.2025 § 6 vote report (attached to the council item too) |
 | `meeting-161913`, `doc-3461024` | board 21.9.2026, cover page with an unmarked deputy column |
 | `agenda-161954`, `agenda-161917` | upcoming agendas |
+| `doc-3266674` | city environment committee 18.11.2025, cover page only: "Jäsenet Varajäsenet", unmarked absent members |
+| `doc-3410604` | board 8.6.2026, cover pages only: capital X marks, organisations in roles |
+| `doc-3409777`, `doc-3406948` | Swedish section 9.6.2026 and Svenska kommittén 10.6.2026 cover pages |
 | `doc-3460153` | § 1 procedural item, served for documents not recorded |

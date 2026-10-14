@@ -132,6 +132,54 @@ def test_board_cover_page_ignores_the_unmarked_deputy_column():
                for p in cover.participants) == 15  # fmt: skip
 
 
+def test_committee_cover_without_the_present_column_header():
+    # "Jäsenet Varajäsenet" and an unmarked member before a present deputy on the same line
+    cover = tp.parse_cover(doc("3266674"))
+    assert (cover.date, cover.start_time, cover.end_time) == (dt.date(2025, 11, 18), "17:00", "19:13")
+    people = {p.name: p for p in cover.participants}
+    assert "Kähärä Sirkka-Liisa" not in people and people["Laaksonen Saija"].role == "varajäsen"
+    assert "Ahava Marja Lepistö Matti" not in people and people["Lepistö Matti"].role == "varajäsen"
+    assert people["Eklund Tarja"].role == "jäsen"
+    assert people["Ahokas Siri"].note == "teams"
+    assert people["Otso Kivimäki"].role == "kaupunginhallituksen jäsen"
+    assert people["Tammilehto Noora"].role == "hallintoasiantuntija, pöytäkirjanpitäjä"
+
+
+def test_board_cover_with_capital_marks_and_organisations_in_roles():
+    cover = tp.parse_cover(doc("3410604"))
+    assert (cover.date, cover.start_time, cover.end_time) == (dt.date(2026, 6, 8), "13:05", "17:26")
+    people = {p.name: p for p in cover.participants}
+    assert people["Kaukola Ulla"].role == "puheenjohtaja" and "Laakso Päivi" not in people
+    assert people["Vacker Marjo"].role == "elinvoima- ja työllisyysjaoston jäsen"
+    assert people["Niemistö Jussi"].role == "tutkimusjohtaja, CBRE Commercial Real"
+    assert people["Serlenius Ulla"].role == "johtaja (kaupallinen ja kiinteistökehitys)"
+    assert people["Perttula Sampo"].note == "klo 16.00–17.26, § 3–21"
+    assert not any(n.startswith(("CBRE", "Vantaan", "Finavia")) for n in people)
+
+
+def test_swedish_cover_page():
+    cover = tp.parse_cover(doc("3409777"))
+    assert (cover.date, cover.start_time, cover.end_time) == (dt.date(2026, 6, 9), "17:05", "19:33")
+    assert cover.location.startswith("Stadshuset")
+    people = {p.name: p for p in cover.participants}
+    assert people["Holmberg Hanna"].role == "ordförande"
+    assert people["Hilpinen Sanni"].role == "varajäsen"
+    assert not people["Sandström Sakarias"].present and people["Hilpinen Sanni"].present
+    assert people["Panula Tuula"].role == "kaupunginhallituksen jäsen"
+    assert people["Rasku Joel"].role == "nuorisovaltuuston edustaja"
+    assert people["Lindfors-Lietzén Benita"].present
+
+
+def test_swedish_committee_cover_with_capital_marks_in_both_columns():
+    cover = tp.parse_cover(doc("3406948"))
+    assert (cover.date, cover.start_time, cover.end_time) == (dt.date(2026, 6, 10), "17:00", "18:38")
+    people = {p.name: p for p in cover.participants}
+    # "Forsberg Magnus X Kahila Minna -": the X is a mark, not part of a name
+    assert people["Forsberg Magnus"].present and people["Forsberg Magnus"].role == "jäsen"
+    assert not people["Kahila Minna"].present and people["Kahila Minna"].role == "varajäsen"
+    assert people["Garchi Camilla"].present and not people["Pyhältö Risto"].present
+
+
 # -- items ----------------------------------------------------------------------------------
 
 
