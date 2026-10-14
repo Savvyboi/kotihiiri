@@ -22,7 +22,7 @@ radii.forEach((r, i) => {
 spots.sort((p, q) => q.a - p.a || Math.hypot(p.x, p.y) - Math.hypot(q.x, q.y));
 const colours = seats.flatMap((s) => Array.from({ length: s.n }, () => PARTY_COLOURS[s.party]));
 const dot = (0.5 / rows) * 0.42;
-const label = seats.map((s) => `${t(partyKey(s.party), {}, locale)} ${s.n}`).join(', ');
+const label = seats.map((s) => `${!s.group ? t('party.unknown', {}, locale) : s.party === 'other' ? s.group : t(partyKey(s.party), {}, locale)} ${s.n}`).join(', ');
 ---
 <svg class="hemicycle" viewBox="-1.05 -1.05 2.1 1.1" role="img" aria-label={label}>
   {spots.map((p, i) => <circle cx={p.x.toFixed(3)} cy={p.y.toFixed(3)} r={dot.toFixed(3)} fill={colours[i]} />)}

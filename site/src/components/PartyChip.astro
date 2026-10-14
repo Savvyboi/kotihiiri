@@ -1,0 +1,12 @@
+---
+// A voter's or person's party as a short coloured chip; the full group or party name is in title.
+import { PARTY_ABBR, PARTY_COLOURS, lightColour, partyOf } from '../lib/parties';
+interface Props { group?: string }
+const { group } = Astro.props;
+const party = partyOf(group);
+const known = party && party !== 'other' && party !== 'none';
+const colour = party ? PARTY_COLOURS[party] : undefined;
+---
+{group && party !== 'none' && (
+  <span class:list={['pchip', { light: colour && lightColour(colour) }]} style={colour && `--pc:${colour}`} title={group}>{known ? PARTY_ABBR[party] : group}</span>
+)}

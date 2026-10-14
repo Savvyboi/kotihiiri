@@ -1,0 +1,129 @@
+---
+// A person's page (PLAN.md §13 /{city}/henkilot/{person}/): party, 2025 election, bodies with
+// attendance, every vote they cast and the motions they made. Speeches are not collected per
+// person until the legal check in §2.2 rule 9 is done (SPEECHES_BY_PERSON=false). Like item
+// pages, person pages are built once, at the Finnish path, and translated client-side.
+import Base from '../../../../../layouts/Base.astro';
+import Breadcrumb from '../../../../../components/Breadcrumb.astro';
+import PartyChip from '../../../../../components/PartyChip.astro';
+import T from '../../../../../components/T.astro';
+import { formatDate, localePath, sharedPath, type Locale } from '../../../../../i18n';
+import { bodyName, bodySlug, cities, councilBody, itemUrl, peopleFile, type City, type Person } from '../../../../../lib/data';
+import { councilRoster, personGroup, personRecords, personSlug, personUrl } from '../../../../../lib/people';
+import { partyKey, partyOf } from '../../../../../lib/parties';
+
+export function getStaticPaths() {
+  return cities().filter((c) => c.enabled).flatMap((city) => peopleFile(city.id).persons.map((person) => ({
+    params: { lang: undefined, city: city.id, person: personSlug(person) }, props: { city, person },
+  })));
+}
+interface Props { city: City; person: Person }
+const { city, person } = Astro.props;
+const locale: Locale = 'fi';
+const rec = personRecords(city.id).get(person.id) ?? { votes: [], motions: [], attendance: new Map() };
+const group = personGroup(person);
+const party = partyOf(group);
+const council = councilRoster(city.id);
+const self = personUrl(person);
+const status = council?.members.some((m) => m.href === self) ? 'person.councillor'
+  : council?.deputies.some((m) => m.href === self) ? 'person.deputyCouncillor' : 'person.trustee';
+const memberships = peopleFile(city.id).memberships.filter((m) => m.person_id === person.id && !m.group)
+  .sort((a, b) => (b.end ?? '').localeCompare(a.end ?? '') || a.body_id.localeCompare(b.body_id));
+const councilId = councilBody(city.id)?.id;
+const votes = [...rec.votes].sort((a, b) => b.row.meeting.date.localeCompare(a.row.meeting.date));
+const totals = { jaa: 0, ei: 0, tyhja: 0, poissa: 0 };
+for (const v of votes) totals[v.choice] += 1;
+const against = votes.filter((v) => v.against).length;
+const motions = [...rec.motions].sort((a, b) => b.meeting.date.localeCompare(a.meeting.date));
+const d = (iso?: string) => (iso ? formatDate(iso) : '');
+const bodyPath = (id: string) => localePath(`/${city.id}/${bodySlug(id)}/`);
+const itemHref = (i: Parameters<typeof itemUrl>[0]) => sharedPath(itemUrl(i));
+---
+<Base title={person.name} city={city.id} description={`${person.name} · ${city.name_fi}`} locale={locale} shared>
+  <section class="hero">
+    <div class="wrap">
+      <Breadcrumb locale={locale} items={[
+        { label: city.name_fi, href: `/${city.id}/` },
+        { label: 'people.title', href: `/${city.id}/henkilot/`, key: true },
+        { label: person.name },
+      ]} />
+      <p class="eyebrow"><T k={status} locale={locale} /> · {city.name_fi}</p>
+      <h1>{person.name}<PartyChip group={group} /></h1>
+    </div>
+  </section>
+  <div class="wrap">
+    <div class="two-col">
+      <section>
+        <h2><T k="person.info" locale={locale} /></h2>
+        <dl class="facts">
+          {group && <><dt><T k={partyOf(group) && person.party && group === person.party ? 'person.party' : 'person.group'} locale={locale} /></dt>
+            <dd>{party && party !== 'other' && party !== 'none' ? <T k={partyKey(party)} locale={locale} /> : group}</dd></>}
+          {person.election && <><dt><T k="person.election" locale={locale} /></dt>
+            <dd>{person.election.party} · <T k={`person.result.${person.election.result}`} vars={{ votes: person.election.votes ?? '–' }} locale={locale} /></dd></>}
+        </dl>
+
+        <h2><T k="person.votes" locale={locale} /></h2>
+        {votes.length === 0 ? <p class="empty"><T k="person.noVotes" locale={locale} /></p> : <>
+          <p><T k="person.votesLead" vars={{ n: votes.length }} locale={locale} />
+            {' '}<T k="vote.summary" vars={totals} locale={locale} />.
+            {against > 0 && <> <T k="person.against" vars={{ n: against }} locale={locale} /></>}</p>
+          <div class="table-scroll">
+            <table class="person-votes">
+              <thead><tr><th><T k="person.date" locale={locale} /></th><th><T k="person.item" locale={locale} /></th><th><T k="vote.choice" locale={locale} /></th></tr></thead>
+              <tbody>
+                {votes.map((v) => (
+                  <tr class:list={{ against: v.against }}>
+                    <td class="nowrap">{d(v.row.meeting.date)}</td>
+                    <td><a href={itemHref(v.row.item)} data-shared lang="fi">{v.row.item.title}</a>
+                      <span class="small muted"> · {bodyName(v.row.meeting.body_id)}{v.row.item.votes.length > 1 && <> · <T k="vote.title" vars={{ n: v.row.vote.ordinal }} locale={locale} /></>}</span>
+                      {v.against && <span class="visually-hidden"> (<T k="vote.againstGroup" locale={locale} />)</span>}</td>
+                    <td class="nowrap"><span class="dot" style={`background:var(--c-${v.choice})`} /><T k={`vote.${v.choice}`} locale={locale} /></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </>}
+
+        {motions.length > 0 && <>
+          <h2><T k="person.motions" locale={locale} /> ({motions.length})</h2>
+          <ul class="list">
+            {motions.map(({ item, meeting, motion }) => (
+              <li><span class="date">{d(meeting.date)}</span>
+                <span><a href={itemHref(item)} data-shared lang="fi">{item.title}</a>
+                  <span class="small muted"> · {bodyName(meeting.body_id)} · <T k={`motion.${motion.kind}` as 'motion.other'} locale={locale} />
+                  {motion.outcome && <> · <T k={`outcome.${motion.outcome}` as 'outcome.unknown'} locale={locale} /></>}</span></span></li>
+            ))}
+          </ul>
+        </>}
+
+        <h2><T k="person.speeches" locale={locale} /></h2>
+        <p class="small muted"><T k="person.speechesNote" locale={locale} /></p>
+      </section>
+
+      <aside>
+        <h2><T k="person.memberships" locale={locale} /></h2>
+        {memberships.length === 0 && councilId && rec.votes.some((v) => v.row.meeting.body_id === councilId) && (
+          <p><a href={bodyPath(councilId)}>{bodyName(councilId)}</a></p>
+        )}
+        <ul class="list">
+          {[...new Set(memberships.map((m) => m.body_id))].map((bodyId) => {
+            const ms = memberships.filter((m) => m.body_id === bodyId);
+            const att = rec.attendance.get(bodyId);
+            const start = ms.map((m) => m.start ?? '').sort()[0];
+            const end = ms.map((m) => m.end ?? '').sort().at(-1);
+            return (
+              <li><span>
+                <a href={bodyPath(bodyId)}>{bodyName(bodyId)}</a><br />
+                <span class="small muted">{[...new Set(ms.map((m) => m.role))].map((r, i) => <>{i > 0 && ', '}<T k={`person.role.${r}` as 'person.role.member'} locale={locale} /></>)}
+                  {' · '}<T k="person.seenRange" vars={{ from: d(start), to: d(end) }} locale={locale} />
+                  {att && <><br /><T k="person.attendance" vars={{ present: att.present, total: att.listed }} locale={locale} /></>}</span>
+              </span></li>
+            );
+          })}
+        </ul>
+        <p class="small muted"><T k="person.source" locale={locale} /></p>
+      </aside>
+    </div>
+  </div>
+</Base>

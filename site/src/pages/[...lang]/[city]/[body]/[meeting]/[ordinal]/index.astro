@@ -6,9 +6,9 @@ import Breadcrumb from '../../../../../../components/Breadcrumb.astro';
 import SourceLink from '../../../../../../components/SourceLink.astro';
 import VoteDetail from '../../../../../../components/VoteDetail.astro';
 import T from '../../../../../../components/T.astro';
-import { formatDate, type Locale } from '../../../../../../i18n';
+import { formatDate, sharedPath, type Locale } from '../../../../../../i18n';
 import { cities, meetingFiles, bodyName, bodySlug, meetingSegment, decisionText, type AgendaItem, type City, type Meeting } from '../../../../../../lib/data';
-import { displayName } from '../../../../../../lib/people';
+import { displayName, findPerson, personUrl } from '../../../../../../lib/people';
 
 export function getStaticPaths() {
   return cities().flatMap((city) => meetingFiles(city.id).flatMap(({ meeting, items }) => items.map((item) => ({
@@ -24,6 +24,8 @@ const date = formatDate(meeting.date);
 const decision = decisionText(item);
 const main = item.sections.filter((s) => s.type !== 'history' && s.type !== 'decision');
 const history = item.sections.filter((s) => s.type === 'history');
+// printed name → link to the person's page, when the roster knows them
+const who = (raw: string) => { const p = findPerson(city.id, raw); return { name: p?.name ?? displayName(raw), href: p && sharedPath(personUrl(p)) }; };
 ---
 <Base title={item.title} city={city.id} description={decision?.slice(0, 160)} locale={locale} shared>
   <section class="hero">
@@ -56,15 +58,15 @@ const history = item.sections.filter((s) => s.type === 'history');
           <p class="small" style="margin:0 0 .3rem"><b><T k={`motion.${m.kind}` as 'motion.other'} locale={locale} /></b>
             {m.outcome && <> <span class:list={['badge', m.outcome]}><T k={`outcome.${m.outcome}` as 'outcome.unknown'} locale={locale} /></span></>}</p>
           <p class="prose" style="margin:0 0 .3rem" lang="fi">{m.text}</p>
-          <p class="small muted" style="margin:0"><T k="item.proposer" locale={locale} />: {displayName(m.proposer_ref.raw)}
-            {m.seconder_refs?.length ? <> · <T k="item.seconders" locale={locale} />: {m.seconder_refs.map((s) => displayName(s.raw)).join(', ')}</> : null}</p>
+          <p class="small muted" style="margin:0"><T k="item.proposer" locale={locale} />: {(({ name, href }) => href ? <a href={href} data-shared>{name}</a> : name)(who(m.proposer_ref.raw))}
+            {m.seconder_refs?.length ? <> · <T k="item.seconders" locale={locale} />: {m.seconder_refs.map((s, i) => <>{i > 0 && ', '}{(({ name, href }) => href ? <a href={href} data-shared>{name}</a> : name)(who(s.raw))}</>)}</> : null}</p>
         </div>
       ))}
     </>}
 
     {item.votes.length > 0 && <>
       <h2><T k="item.votes" locale={locale} /></h2>
-      {item.votes.map((v) => <VoteDetail vote={v} locale={locale} />)}
+      {item.votes.map((v) => <VoteDetail vote={v} city={city.id} locale={locale} />)}
     </>}
 
     {main.length > 0 && <h2><T k="item.sections" locale={locale} /></h2>}

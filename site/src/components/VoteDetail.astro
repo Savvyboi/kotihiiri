@@ -1,20 +1,30 @@
 ---
 // Full vote on the item page: labels, totals, a dot per member coloured by group, the group
-// table and every member's vote. Item pages are shared across locales, so all interface text
-// goes through <T>.
-import type { Locale } from '../i18n';
+// table and every member's vote with their party. Groups are as printed where the source prints
+// them (Helsinki), else the voter's 2025 party from data/{city}/people.json. Item pages are shared
+// across locales, so all interface text goes through <T>.
+import { sharedPath, type Locale } from '../i18n';
 import type { VoteEvent, Choice } from '../lib/data';
 import { partyColour, partyOf, PARTY_ORDER } from '../lib/parties';
-import { displayName } from '../lib/people';
+import { ballotGroup, displayName, findPerson, personUrl } from '../lib/people';
 import VoteBar from './VoteBar.astro';
+import PartyChip from './PartyChip.astro';
 import T from './T.astro';
-interface Props { vote: VoteEvent; locale: Locale }
-const { vote, locale } = Astro.props;
+interface Props { vote: VoteEvent; city: string; locale: Locale }
+const { vote, city, locale } = Astro.props;
+
+type B = VoteEvent['ballots'][number];
+const resolved = new Map<B, { group?: string; name: string; href?: string }>();
+for (const b of vote.ballots) {
+  const p = findPerson(city, b.person_ref.raw);
+  resolved.set(b, { group: ballotGroup(city, b), name: p?.name ?? displayName(b.person_ref.raw), href: p && personUrl(p) });
+}
+const groupOf = (b: B) => resolved.get(b)!.group;
 
 // Per-group tallies and each group's majority choice among jaa/ei/tyhja.
 const groups = new Map<string, Record<Choice, number>>();
 for (const b of vote.ballots) {
-  const g = b.group_text ?? '';
+  const g = groupOf(b) ?? '';
   const row = groups.get(g) ?? { jaa: 0, ei: 0, tyhja: 0, poissa: 0 };
   row[b.choice] += 1;
   groups.set(g, row);
@@ -24,14 +34,15 @@ for (const [g, c] of groups) {
   const ranked = (['jaa', 'ei', 'tyhja'] as Choice[]).sort((a, b) => c[b] - c[a]);
   majority.set(g, c[ranked[0]] > c[ranked[1]] ? ranked[0] : undefined);
 }
-const hasGroups = vote.ballots.some((b) => b.group_text);
-const against = (b: VoteEvent['ballots'][number]) =>
-  hasGroups && b.choice !== 'poissa' && majority.get(b.group_text ?? '') && b.choice !== majority.get(b.group_text ?? '');
+const hasGroups = vote.ballots.some((b) => groupOf(b));
+const against = (b: B) =>
+  hasGroups && b.choice !== 'poissa' && groupOf(b) && majority.get(groupOf(b)!) && b.choice !== majority.get(groupOf(b)!);
+const rank = (g?: string) => PARTY_ORDER.indexOf(partyOf(g) ?? 'none');
 const ballots = [...vote.ballots].sort((a, b) =>
-  (a.group_text ?? '').localeCompare(b.group_text ?? '', 'fi') || a.person_ref.raw.localeCompare(b.person_ref.raw, 'fi'));
+  rank(groupOf(a)) - rank(groupOf(b)) || (groupOf(a) ?? '').localeCompare(groupOf(b) ?? '', 'fi')
+  || a.person_ref.raw.localeCompare(b.person_ref.raw, 'fi'));
 const choices: Choice[] = ['jaa', 'ei', 'tyhja', 'poissa'];
-const rank = (g?: string) => PARTY_ORDER.indexOf(partyOf(g) ?? 'other');
-const dotted = [...ballots].sort((a, b) => rank(a.group_text) - rank(b.group_text));
+const dotted = ballots;
 ---
 <section class="card vote">
   <h3><T k="vote.title" vars={{ n: vote.ordinal }} locale={locale} /></h3>
@@ -45,7 +56,7 @@ const dotted = [...ballots].sort((a, b) => rank(a.group_text) - rank(b.group_tex
       {choices.map((c) => dotted.some((b) => b.choice === c) && (
         <div class="vd-row"><span class="vd-label"><T k={`vote.${c}`} locale={locale} /></span>
           <span class="vd-dots">{dotted.filter((b) => b.choice === c).map((b) =>
-            <i style={`background:${partyColour(b.group_text)}`} />)}</span></div>
+            <i style={`background:${partyColour(groupOf(b))}`} />)}</span></div>
       ))}
     </div>
   )}
@@ -59,8 +70,8 @@ const dotted = [...ballots].sort((a, b) => rank(a.group_text) - rank(b.group_tex
         <table>
           <thead><tr><th><T k="vote.group" locale={locale} /></th><th class="num"><T k="vote.jaa" locale={locale} /></th><th class="num"><T k="vote.ei" locale={locale} /></th><th class="num"><T k="vote.tyhja" locale={locale} /></th><th class="num"><T k="vote.poissa" locale={locale} /></th></tr></thead>
           <tbody>
-            {[...groups.entries()].sort((a, b) => a[0].localeCompare(b[0], 'fi')).map(([g, c]) => (
-              <tr><td><span class="dot" style={`background:${partyColour(g)}`} />{g}</td>
+            {[...groups.entries()].sort((a, b) => rank(a[0]) - rank(b[0]) || a[0].localeCompare(b[0], 'fi')).map(([g, c]) => (
+              <tr><td><span class="dot" style={`background:${partyColour(g)}`} />{g || <T k="party.unknown" locale={locale} />}</td>
                 <td class="num">{c.jaa}</td><td class="num">{c.ei}</td><td class="num">{c.tyhja}</td><td class="num">{c.poissa}</td></tr>
             ))}
           </tbody>
@@ -73,15 +84,14 @@ const dotted = [...ballots].sort((a, b) => rank(a.group_text) - rank(b.group_tex
       <summary><T k="vote.members" locale={locale} /> ({ballots.length})</summary>
       <div class="table-scroll">
         <table>
-          <thead><tr><th><T k="vote.member" locale={locale} /></th>{hasGroups && <th><T k="vote.group" locale={locale} /></th>}<th><T k="vote.choice" locale={locale} /></th></tr></thead>
+          <thead><tr><th><T k="vote.member" locale={locale} /></th><th><T k="vote.choice" locale={locale} /></th></tr></thead>
           <tbody>
-            {ballots.map((b) => (
+            {ballots.map((b) => { const r = resolved.get(b)!; return (
               <tr class:list={{ against: against(b) }}>
-                <td>{displayName(b.person_ref.raw)}{against(b) && <span class="visually-hidden"> (<T k="vote.againstGroup" locale={locale} />)</span>}</td>
-                {hasGroups && <td>{b.group_text}</td>}
+                <td>{r.href ? <a href={sharedPath(r.href, locale)} data-shared>{r.name}</a> : r.name}<PartyChip group={r.group} />{against(b) && <span class="visually-hidden"> (<T k="vote.againstGroup" locale={locale} />)</span>}</td>
                 <td><span class="dot" style={`background:var(--c-${b.choice})`} /><T k={`vote.${b.choice}`} locale={locale} /></td>
               </tr>
-            ))}
+            ); })}
           </tbody>
         </table>
       </div>

@@ -6,7 +6,8 @@ import type { Seats } from '../lib/people';
 interface Props { seats: Seats[]; locale: Locale; unit: 'parties.seats' | 'parties.people'; bar?: boolean }
 const { seats, locale, unit, bar = false } = Astro.props;
 const total = seats.reduce((n, s) => n + s.n, 0) || 1;
-const name = (s: Seats) => (s.party === 'other' ? s.group : t(partyKey(s.party), {}, locale));
+const name = (s: Seats) => (!s.group ? t('party.unknown', {}, locale)
+  : s.party === 'other' ? s.group : t(partyKey(s.party), {}, locale));
 ---
 {bar && (
   <div class="party-bar" aria-hidden="true">
