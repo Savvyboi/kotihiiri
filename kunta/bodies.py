@@ -22,6 +22,8 @@ EXCLUDE_PATTERNS = [
     r"maahanmuuttajaneuvosto",
     r"eläkeläisvaltuusto",
     r"päihdeneuvosto",
+    r"lapsivaltuusto",
+    r"barnfullmäktige",
     r"nuorten vaikuttajaryhmä",
     r"vanhusneuvosto",
     r"vammaisneuvosto",
@@ -57,8 +59,11 @@ EXCLUDE_PATTERNS = [
     r"valbestyrelse",
 ]
 _EXCLUDE = re.compile("|".join(EXCLUDE_PATTERNS), re.IGNORECASE)
-# Swedish duplicates of Finnish documents (Vantaa's Stadsfullmäktige), only in Finnish municipalities.
-_SWEDISH_DUPLICATE = re.compile(r"^stadsfullmäktige$", re.IGNORECASE)
+# Swedish duplicates of Finnish documents (Vantaa's Stadsfullmäktige, Porvoo's Stadsstyrelsen), only in
+# Finnish-language municipalities.
+_SWEDISH_DUPLICATE = re.compile(r"^(stads|kommun)(fullmäktige|styrelsen?)$", re.IGNORECASE)
+# Bilingual names ("Kunnanhallitus - Kommunstyrelsen"): the kind comes from the first part.
+_BILINGUAL = re.compile(r"\s+[-–/]\s+")
 _BOARD = re.compile(r"^(kaupungin|kunnan)?hallitus$|^(stads|kommun)styrelse(n)?$", re.IGNORECASE)
 
 
@@ -83,14 +88,14 @@ def default_included(name_fi: str, city: str | None = None) -> bool:
 
 
 def guess_kind(name_fi: str) -> BodyKind:
-    n = name_fi.lower().strip()
+    n = _BILINGUAL.split(name_fi.lower().strip())[0]
     if "valtuusto" in n or "kyselytunti" in n or "fullmäktige" in n:
         return BodyKind.council
     if "jaosto" in n or "sektion" in n:
         return BodyKind.section
     if "johtokunta" in n or "direktion" in n:
         return BodyKind.enterprise_board
-    if "kaupunginhallitus" in n or _BOARD.match(n):
+    if _BOARD.match(n):  # exact: "Kaupunginhallitus, strategiset yhtiöt" is a section-like body
         return BodyKind.board
     return BodyKind.committee
 

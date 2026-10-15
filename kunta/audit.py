@@ -72,7 +72,8 @@ def _paths(cfg: CityConfig, base: str) -> list[str]:
     prefix = urlsplit(base).path.rstrip("/")
     paths = ADAPTER_PATHS.get(cfg.adapter, ["/"])
     if cfg.adapter == "tweb" and cfg.extra.get("tweb_dll_paths"):
-        paths = paths + [p.replace("/ktwebscr/", "/ktwebbin/dbisa.dll/ktwebscr/") for p in paths]
+        dll = "/ktwebbin/dbisa.dll"
+        paths = sorted({p if p.startswith(dll) else dll + p for p in paths})
     return [prefix + p for p in paths]
 
 
@@ -141,6 +142,8 @@ def count_listings(client: PoliteClient, slug: str, cfg: CityConfig, since: dt.d
     out["meetings"] = meetings
     if problems:
         out["problems"] = problems
+        # The names left out, to find a council or board the rules missed.
+        out["other_bodies"] = sorted(b.name_fi for b in bodies if b not in kept)
     return out
 
 

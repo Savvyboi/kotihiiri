@@ -1,2 +1,3 @@
 # Arguments for `kunta audit` when robots-audit.yml runs on a push to a working branch.
 # Empty = every municipality, robots.txt plus council/board listing counts.
+--only sipoo,pietarsaari,pieksamaki,pori,porvoo,kokkola,parainen
