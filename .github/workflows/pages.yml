@@ -94,6 +94,12 @@ jobs:
     concurrency:
       group: r2-site
       cancel-in-progress: false
+    env:
+      RCLONE_CONFIG_R2_TYPE: s3
+      RCLONE_CONFIG_R2_PROVIDER: Cloudflare
+      RCLONE_CONFIG_R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+      RCLONE_CONFIG_R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+      RCLONE_CONFIG_R2_ENDPOINT: https://${{ secrets.CLOUDFLARE_ACCOUNT_ID }}.r2.cloudflarestorage.com
     steps:
       - uses: actions/checkout@v4
         with:
@@ -134,18 +140,22 @@ jobs:
           n=$(find site/dist -type f | wc -l)
           echo "$n files"
           test "$n" -ge 1000
-      - run: sudo apt-get update -qq && sudo apt-get install -y rclone
+      # Ubuntu's rclone (1.60) got a 501 NotImplemented from R2 on every file of the first upload;
+      # use a current release instead.
+      - name: Install rclone
+        run: |
+          curl -fsSL -o rclone.deb https://downloads.rclone.org/v1.71.0/rclone-v1.71.0-linux-amd64.deb
+          sudo dpkg -i rclone.deb
+          rclone version
       - name: Upload to R2
-        env:
-          RCLONE_CONFIG_R2_TYPE: s3
-          RCLONE_CONFIG_R2_PROVIDER: Cloudflare
-          RCLONE_CONFIG_R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
-          RCLONE_CONFIG_R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
-          RCLONE_CONFIG_R2_ENDPOINT: https://${{ secrets.CLOUDFLARE_ACCOUNT_ID }}.r2.cloudflarestorage.com
         # --s3-no-check-bucket: the token has object rights only, not bucket rights.
         # --max-delete: a guard on top of the sanity check; raise it if a real cleanup needs more.
         run: |
           rclone sync site/dist r2:kotihiiri-site \
             --checksum --s3-no-check-bucket --fast-list \
             --transfers 32 --checkers 64 --max-delete 5000 \
-            --stats-one-line --stats 60s
+            --stats-one-line --stats 60s --stats-log-level NOTICE
+      # rclone retries a failed sync and can report success on a later attempt; check the bucket
+      # really holds every built file with the same MD5.
+      - name: Verify R2
+        run: rclone check site/dist r2:kotihiiri-site --one-way --checksum --s3-no-check-bucket --fast-list --checkers 64
