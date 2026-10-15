@@ -150,3 +150,4 @@ jobs:
     needs: commit
     if: ${{ !cancelled() && needs.commit.result == 'success' && github.ref == 'refs/heads/main' }}
     uses: ./.github/workflows/pages.yml
+    secrets: inherit # R2 credentials for the kotihiiri-site upload
