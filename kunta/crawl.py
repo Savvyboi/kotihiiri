@@ -85,7 +85,7 @@ def write_bodies(
         entry = dict(existing.get(slug) or {})
         entry["name_fi"] = b.name_fi
         entry["kind"] = str(b.kind)
-        if default_included(b.name_fi):
+        if default_included(b.name_fi, city):
             entry.pop("excluded_by_rule", None)
         else:
             entry["excluded_by_rule"] = True

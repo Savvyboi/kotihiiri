@@ -4,21 +4,18 @@ from __future__ import annotations
 
 import datetime as dt
 from enum import StrEnum
+from typing import Annotated
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, StringConstraints
 
 
 class _Model(BaseModel):
     model_config = ConfigDict(extra="forbid", use_enum_values=True)
 
 
-class CityId(StrEnum):
-    helsinki = "helsinki"
-    espoo = "espoo"
-    tampere = "tampere"
-    vantaa = "vantaa"
-    oulu = "oulu"
-    turku = "turku"
+# Municipality slug from config/municipalities.yaml (PLAN.md §5.1, §18.1): the six cities and
+# ranks 7–96. "City" in field names keeps meaning municipality (kunta).
+CityId = Annotated[str, StringConstraints(pattern=r"^[a-z0-9]+(-[a-z0-9]+)*$")]
 
 
 class BodyKind(StrEnum):

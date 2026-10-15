@@ -1,5 +1,7 @@
-# Weekly crawl (PLAN.md §12). Helsinki (M1), Espoo (M2) and Tampere (M3). Crawls, validates, commits data/, then deploys
-# the site through pages.yml. Does nothing until site_domain and contact_email are set in
+# Weekly crawl (PLAN.md §12, §18.2). One job per six-city municipality, whose data stays in git
+# until M11, and one job per shared provider or batch of self-hosted municipalities from the registry,
+# whose data lives only in the R2 bucket kotihiiri-data (§18.4). Crawls, validates, commits data/
+# (six cities) and config/bodies/, syncs registry data to R2, then deploys the site through pages.yml. Does nothing until site_domain and contact_email are set in
 # config/project.yaml, because both go into the crawler's User-Agent (§2.1 rule 3).
 name: weekly
 
@@ -15,8 +17,8 @@ on:
         description: "Refetch meetings this many weeks back, or `all` for everything since `since` (re-parses stored items)"
         default: "10"
       cities:
-        description: "Cities to crawl, comma-separated"
-        default: "helsinki,espoo,tampere,vantaa"
+        description: "Municipalities to crawl, comma-separated, or `all` for every enabled one"
+        default: "all"
       body:
         description: "Only this body slug (e.g. kaupunginvaltuusto); empty = all bodies"
         default: ""
@@ -36,7 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       ready: ${{ steps.check.outputs.ready }}
-      cities: ${{ steps.cities.outputs.json }}
+      groups: ${{ steps.groups.outputs.json }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -50,10 +52,12 @@ jobs:
           p = yaml.safe_load(open("config/project.yaml"))
           print("ready=" + ("true" if p.get("site_domain") and p.get("contact_email") else "false"))
           PY
-      - id: cities
+      - id: groups
         env:
-          CITIES: ${{ inputs.cities || 'helsinki,espoo,tampere,vantaa' }}
-        run: echo "json=$(python -c 'import json,os; print(json.dumps([c.strip() for c in os.environ["CITIES"].split(",") if c.strip()]))')" >> "$GITHUB_OUTPUT"
+          CITIES: ${{ inputs.cities || 'all' }}
+        run: |
+          pip install -q -e .
+          echo "json=$(kunta groups --cities "$CITIES")" >> "$GITHUB_OUTPUT"
       - if: steps.check.outputs.ready != 'true'
         run: echo "::warning::config/project.yaml has no site_domain/contact_email yet; skipping the crawl."
 
@@ -65,7 +69,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        city: ${{ fromJSON(needs.preflight.outputs.cities) }}
+        group: ${{ fromJSON(needs.preflight.outputs.groups) }}
+    env:
+      RCLONE_CONFIG_R2_TYPE: s3
+      RCLONE_CONFIG_R2_PROVIDER: Cloudflare
+      RCLONE_CONFIG_R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+      RCLONE_CONFIG_R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+      RCLONE_CONFIG_R2_ENDPOINT: https://${{ secrets.CLOUDFLARE_ACCOUNT_ID }}.r2.cloudflarestorage.com
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -78,41 +88,93 @@ jobs:
       - uses: actions/cache@v4
         with:
           path: .cache
-          key: raw-${{ matrix.city }}-${{ steps.week.outputs.iso }}
-          restore-keys: raw-${{ matrix.city }}-
+          key: raw-${{ matrix.group.name }}-${{ steps.week.outputs.iso }}
+          restore-keys: raw-${{ matrix.group.name }}-
+      - name: Install rclone
+        if: matrix.group.storage == 'r2'
+        run: |
+          curl -fsSL -o rclone.deb https://downloads.rclone.org/v1.71.0/rclone-v1.71.0-linux-amd64.deb
+          sudo dpkg -i rclone.deb
+      # Registry municipalities: last week's JSON and crawl state come from R2 (§18.4).
+      - name: Fetch stored data from R2
+        if: matrix.group.storage == 'r2'
+        env:
+          CITIES: ${{ matrix.group.cities }}
+        run: |
+          for c in ${CITIES//,/ }; do
+            rclone copy "r2:kotihiiri-data/data/$c" "data/$c" --checksum --s3-no-check-bucket --fast-list
+            rclone copy "r2:kotihiiri-data/data/state/$c.json" data/state/ --s3-no-check-bucket || true
+          done
+      # One municipality after another, sharing the job's time budget; one that fails validation or
+      # raises a layout alarm is left out of the upload, the others still go through (§10).
       - name: Crawl
         id: crawl
         env:
+          CITIES: ${{ matrix.group.cities }}
+          STORAGE: ${{ matrix.group.storage }}
           SINCE: ${{ inputs.since || '2025-01-01' }}
           WINDOW: ${{ github.event_name == 'schedule' && '10' || inputs.window_weeks }}
           BODY: ${{ inputs.body || '' }}
         run: |
           set +e
-          args=(--city "${{ matrix.city }}" --since "$SINCE" --max-minutes 300)
-          if [ -n "$WINDOW" ] && [ "$WINDOW" != "all" ]; then args+=(--window-weeks "$WINDOW"); fi
-          if [ -n "$BODY" ]; then args+=(--body "$BODY"); fi
-          kunta crawl "${args[@]}"
-          echo "code=$?" >> "$GITHUB_OUTPUT"
-      # Roster from the attendance lists just crawled, with party from the 2025 election (§8).
-      - run: kunta people --city ${{ matrix.city }}
-      # Speech transcripts of new council meetings (M6; only Helsinki publishes them as text).
-      - if: matrix.city == 'helsinki'
-        run: kunta speeches --city helsinki
-      - run: kunta validate --city ${{ matrix.city }}
-      # Only data that validated and raised no layout alarm reaches the commit job (§10: a failing
-      # city is left out; the others still commit).
-      - uses: actions/upload-artifact@v4
-        if: success() && steps.crawl.outputs.code == '0'
-        with:
-          name: data-${{ matrix.city }}
-          path: |
-            data/${{ matrix.city }}/
-            data/state/${{ matrix.city }}.json
-            config/bodies/${{ matrix.city }}.yaml
-          if-no-files-found: ignore
-      - if: steps.crawl.outputs.code != '0'
+          start=$(date +%s)
+          ok=""
+          failed=""
+          for c in ${CITIES//,/ }; do
+            left=$(( 300 - ( $(date +%s) - start ) / 60 ))
+            if [ "$left" -lt 10 ]; then echo "::warning::out of time before $c; it continues next run"; break; fi
+            args=(--city "$c" --since "$SINCE" --max-minutes "$left")
+            if [ -n "$WINDOW" ] && [ "$WINDOW" != "all" ]; then args+=(--window-weeks "$WINDOW"); fi
+            if [ -n "$BODY" ]; then args+=(--body "$BODY"); fi
+            kunta crawl "${args[@]}"
+            code=$?
+            # Roster from the attendance lists just crawled, with party from the 2025 election (§8).
+            [ "$code" = 0 ] && kunta people --city "$c"
+            # Speech transcripts of new council meetings (M6; only Helsinki publishes them as text).
+            [ "$code" = 0 ] && [ "$c" = helsinki ] && kunta speeches --city helsinki
+            if [ "$code" = 0 ] && kunta validate --city "$c"; then
+              ok="$ok $c"
+            else
+              echo "::error::$c: crawl exited with $code (2 = layout-change alarm) or validation failed"
+              failed="$failed $c"
+            fi
+          done
+          echo "ok=$ok" >> "$GITHUB_OUTPUT"
+          echo "failed=$failed" >> "$GITHUB_OUTPUT"
+      - name: Upload registry data to R2
+        if: matrix.group.storage == 'r2' && steps.crawl.outputs.ok != ''
+        env:
+          OK: ${{ steps.crawl.outputs.ok }}
         run: |
-          echo "::error::kunta crawl exited with ${{ steps.crawl.outputs.code }} (2 = layout-change alarm)"
+          for c in $OK; do
+            rclone sync "data/$c" "r2:kotihiiri-data/data/$c" --checksum --s3-no-check-bucket --fast-list --max-delete 500
+            rclone copy "data/state/$c.json" r2:kotihiiri-data/data/state/ --checksum --s3-no-check-bucket
+          done
+      # Only data that validated and raised no layout alarm reaches the commit job. Registry
+      # municipalities send only their body config; their data went to R2 above.
+      - name: Collect files for the commit job
+        if: steps.crawl.outputs.ok != ''
+        env:
+          OK: ${{ steps.crawl.outputs.ok }}
+          STORAGE: ${{ matrix.group.storage }}
+        run: |
+          mkdir -p out/config/bodies out/data/state
+          for c in $OK; do
+            [ -f "config/bodies/$c.yaml" ] && cp "config/bodies/$c.yaml" out/config/bodies/
+            if [ "$STORAGE" = git ]; then
+              cp -r "data/$c" out/data/
+              [ -f "data/state/$c.json" ] && cp "data/state/$c.json" out/data/state/
+            fi
+          done
+      - uses: actions/upload-artifact@v4
+        if: steps.crawl.outputs.ok != ''
+        with:
+          name: data-${{ matrix.group.name }}
+          path: out/
+          if-no-files-found: ignore
+      - if: steps.crawl.outputs.failed != ''
+        run: |
+          echo "::error::failed:${{ steps.crawl.outputs.failed }}"
           exit 1
 
   commit:

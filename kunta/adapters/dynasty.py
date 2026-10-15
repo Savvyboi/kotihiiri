@@ -12,7 +12,6 @@ from ..models import (
     AgendaItem,
     Attendance,
     Body,
-    CityId,
     ItemRef,
     Meeting,
     MeetingRef,
@@ -55,17 +54,22 @@ class DynastyAdapter:
         declared = ct.split("charset=", 1)[1].split(";")[0].strip(" \"'") if "charset=" in ct else None
         return dp.decode(resp.content, declared)
 
+    def _parse(self, fn, *args):
+        """Parse with relative links resolved against this municipality's host (§18.1)."""
+        with dp.base_url(self.base_url):
+            return fn(*args)
+
     # -- bodies -------------------------------------------------------------------------------
 
     def discover_bodies(self) -> list[Body]:
-        found = dp.parse_bodies(self._get(f"{PATH}?page=meeting_frames"))
+        found = self._parse(dp.parse_bodies, self._get(f"{PATH}?page=meeting_frames"))
         bodies = []
         for dyn_id, name in found.items():
             slug = slugify(name)
             bodies.append(
                 Body(
                     id=f"{self.city}/{slug}",
-                    city=CityId.espoo,
+                    city=self.city,
                     name_fi=name,
                     kind=guess_kind(name),
                     source_ids={"dynasty_id": dyn_id},
@@ -78,7 +82,7 @@ class DynastyAdapter:
 
     def list_meetings(self, body: Body, since: dt.date, until: dt.date | None) -> list[MeetingRef]:
         dyn_id = body.source_ids["dynasty_id"]
-        rows = dp.parse_meetings(self._get(f"{PATH}?page=meetings&id={dyn_id}"))
+        rows = self._parse(dp.parse_meetings, self._get(f"{PATH}?page=meetings&id={dyn_id}"))
         kept = sorted(
             (r for r in rows if r.date >= since and (until is None or r.date <= until)),
             key=lambda r: (r.date, len(r.meeting_id), r.meeting_id),
@@ -101,7 +105,7 @@ class DynastyAdapter:
 
     def fetch_meeting(self, ref: MeetingRef) -> Meeting:
         dyn_mid = ref.source_ids["meeting_id"]
-        page = dp.parse_meeting(self._get(ref.source_url), dyn_mid)
+        page = self._parse(dp.parse_meeting, self._get(ref.source_url), dyn_mid)
         mid = meeting_id(ref.body_id, ref.date, ref.same_day_index)
         if page.date and page.date != ref.date:
             log.warning("%s: page date %s differs from listing date", mid, page.date)
@@ -152,7 +156,7 @@ class DynastyAdapter:
     # -- items ----------------------------------------------------------------------------------
 
     def fetch_item(self, ref: ItemRef) -> AgendaItem:
-        page = dp.parse_item(self._get(ref.source_url))
+        page = self._parse(dp.parse_item, self._get(ref.source_url))
         item = build_item(ref, page)
         if ref.stage == Stage.minutes and votes.mentions_vote_list(page.deliberation_lines):
             item.votes = self._votes(ref, page, item)

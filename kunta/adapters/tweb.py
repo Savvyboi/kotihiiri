@@ -15,7 +15,6 @@ from ..models import (
     Ballot,
     Body,
     Choice,
-    CityId,
     ItemRef,
     Meeting,
     MeetingRef,
@@ -34,6 +33,8 @@ log = logging.getLogger(__name__)
 
 MINUTES_LIST = "/ktwebbin/dbisa.dll/ktwebscr/pk_kokl_tweb.htm?+kirjaamo={id}"
 AGENDA_LIST = "/ktwebscr/epj_kokl_tweb.htm?+kirjaamo={id}"
+BODY_LIST = "/ktwebscr/pk_tek_tweb.htm"
+DLL = "/ktwebbin/dbisa.dll"
 COVER_PAGES = 6  # of the compiled minutes: the table of contents, then the cover page
 
 
@@ -47,9 +48,22 @@ class TwebAdapter:
         self._item_refs: dict[str, list[ItemRef]] = {}
         self._dates: dict[str, dt.date] = {}
         self._att: dict[str, dict[int, str]] = {}  # meeting → ordinal → attachments page
+        self._dll_only = False
+
+    def configure(self, extra: dict) -> None:
+        # Some self-hosted installs serve every script under /ktwebbin/dbisa.dll/ (§18.1).
+        self._dll_only = bool(extra.get("tweb_dll_paths"))
+
+    @property
+    def _link_base(self) -> str:
+        """What relative links on this host's pages resolve against (+ "/ktwebscr/")."""
+        return self.base_url + DLL if self._dll_only else self.base_url
+
+    def _path(self, path: str) -> str:
+        return DLL + path if self._dll_only and not path.startswith(DLL) else path
 
     def _fetch(self, path_or_url: str):
-        url = path_or_url if path_or_url.startswith("http") else self.base_url + path_or_url
+        url = path_or_url if path_or_url.startswith("http") else self.base_url + self._path(path_or_url)
         resp = self.client.get(url)
         if resp.status in (404, 410):
             raise NotFound(url)
@@ -73,14 +87,14 @@ class TwebAdapter:
     # -- bodies -------------------------------------------------------------------------------
 
     def discover_bodies(self) -> list[Body]:
-        found = tp.parse_bodies(self._get("/ktwebscr/pk_tek_tweb.htm"))
+        found = tp.parse_bodies(self._get(BODY_LIST))
         bodies = []
         for kirjaamo, name in found.items():
             slug = slugify(name)
             bodies.append(
                 Body(
                     id=f"{self.city}/{slug}",
-                    city=CityId(self.city),
+                    city=self.city,
                     name_fi=name,
                     kind=guess_kind(name),
                     source_ids={"kirjaamo": kirjaamo},
@@ -93,8 +107,8 @@ class TwebAdapter:
 
     def list_meetings(self, body: Body, since: dt.date, until: dt.date | None) -> list[MeetingRef]:
         kirjaamo = body.source_ids["kirjaamo"]
-        minutes = tp.parse_meeting_list(self._get(MINUTES_LIST.format(id=kirjaamo)), self.base_url)
-        agendas = tp.parse_meeting_list(self._get(AGENDA_LIST.format(id=kirjaamo)), self.base_url)
+        minutes = tp.parse_meeting_list(self._get(MINUTES_LIST.format(id=kirjaamo)), self._link_base)
+        agendas = tp.parse_meeting_list(self._get(AGENDA_LIST.format(id=kirjaamo)), self._link_base)
         # A meeting moves from the agenda list to the minutes list once the minutes are out.
         published = {(r.date, r.start_time) for r in minutes}
         rows = minutes + [r for r in agendas if (r.date, r.start_time) not in published]
@@ -119,7 +133,7 @@ class TwebAdapter:
         return refs
 
     def fetch_meeting(self, ref: MeetingRef) -> Meeting:
-        page = tp.parse_meeting(self._get(ref.source_url), self.base_url)
+        page = tp.parse_meeting(self._get(ref.source_url), self._link_base)
         mid = meeting_id(ref.body_id, ref.date, ref.same_day_index)
         stage = Stage(ref.stage)
         self._dates[mid] = ref.date
@@ -182,7 +196,7 @@ class TwebAdapter:
         att_url = self._att.get(ref.meeting_id, {}).get(ref.ordinal)
         if att_url:
             try:
-                attachments = tp.parse_attachments(self._get(att_url), self.base_url)
+                attachments = tp.parse_attachments(self._get(att_url), self._link_base)
             except (NotFound, RobotsDisallowed) as exc:
                 log.warning("%s: attachments: %s", ref.source_url, exc)
             except FetchFailed as exc:

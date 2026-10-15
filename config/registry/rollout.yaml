@@ -1,0 +1,30 @@
+# Which municipalities from the registry are switched on (PLAN.md M12–M14). A municipality listed
+# here is enabled only if its adapter exists and every host passed the robots audit
+# (data/state/robots.json); `kunta registry` writes the result to config/municipalities.yaml.
+enabled:
+  # Batch 1 (2026-10-15): ten live-verified Dynasty municipalities on oncloudos.com (M12) and the
+  # ten CloudNC municipalities (M13).
+  - kuopio
+  - lahti
+  - salo
+  - kokkola
+  - nurmijarvi
+  - tuusula
+  - kirkkonummi
+  - ylojarvi
+  - savonlinna
+  - vihti
+  - jyvaskyla
+  - pori
+  - rovaniemi
+  - mikkeli
+  - jarvenpaa
+  - kajaani
+  - hollola
+  - kempele
+  - lapua
+  - hameenkyro
+
+# Per-municipality corrections found by the audit, merged over the registry row
+# (e.g. a council_source_id the registry lacked, or a moved base URL).
+overrides: {}

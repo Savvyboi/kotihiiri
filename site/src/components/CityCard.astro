@@ -1,6 +1,6 @@
 ---
 import { t, localePath, assetPath, formatNumber, type Locale } from '../i18n';
-import { cityStats, cityName, type City } from '../lib/data';
+import { cityStats, cityName, disabledKey, type City } from '../lib/data';
 import { cityImages } from '../lib/images';
 interface Props { city: City; locale: Locale }
 const { city, locale } = Astro.props;
@@ -17,6 +17,6 @@ const name = cityName(city, locale);
   <div class="body">
     {city.enabled
       ? <p class="small" style="margin:0"><span class="badge on">{t('city.enabled', {}, locale)}</span> {formatNumber(s.meetings, locale)} {t('city.stats.meetings', {}, locale)} · {formatNumber(s.votes, locale)} {t('city.stats.votes', {}, locale)}</p>
-      : <p class="small" style="margin:0"><span class="badge">{t('city.disabled', {}, locale)}</span></p>}
+      : <p class="small" style="margin:0"><span class="badge">{t(disabledKey(city), {}, locale)}</span></p>}
   </div>
 </article>

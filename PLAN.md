@@ -120,7 +120,9 @@ From M11 the site and canonical data move to Cloudflare R2 and the crawl stays o
 ├── AGENTS.md                   # short pointer: "read PLAN.md; constraints in §2"
 ├── config/
 │   ├── project.yaml            # site domain, contact email, user agent
-│   ├── cities.yaml             # enabled flag, adapter, base URLs, reasons
+│   ├── cities.yaml             # the six cities: enabled flag, adapter, base URLs, reasons
+│   ├── municipalities.yaml     # GENERATED (`kunta registry`): all 96, from cities.yaml + registry/ + robots audit
+│   ├── registry/               # ranks 7–96 CSV, rollout.yaml (which audited ones are on), audit-args
 │   ├── bodies/{city}.yaml      # discovered bodies + include/exclude overrides
 │   └── takedowns.yaml
 ├── kunta/                      # Python package
@@ -555,6 +557,7 @@ Each milestone: open a PR, include `kunta stats` output in the description.
 - `robots-audit.yml` (workflow_dispatch, runs on Actions because the build environment can't reach most hosts): fetch robots.txt for every host in the registry, test the paths each adapter needs, write `robots_status` + date per host to `data/state/robots.json`. Hosts that disallow get `enabled: false, reason: robots_disallow_pending_permission`, same as Oulu.
 - Count meetings per council and board since 2025-01-01 from listing pages only (no item fetches) to replace the §18.3 estimate.
 - **Accept:** every registry row has an adapter or `adapter: none` with a reason; every host has a robots result; §18.3 numbers replaced with counts.
+- Built 2026-10-15: `kunta registry` writes `config/municipalities.yaml` (all 96, rank order) from `cities.yaml`, the CSV, `data/state/robots.json` and `config/registry/rollout.yaml`; a registry municipality is `enabled` only with an adapter, every host `allowed`/`no_robots` in the audit, and its slug in the rollout, else `reason` is `no_adapter`, `robots_audit_pending`, `robots_disallow_pending_permission`, `host_unreachable` or `rollout_pending`. CI fails if the generated file is stale. `kunta audit` (run by `robots-audit.yml` on a push of `config/registry/audit-args` or by dispatch) checks each host's robots.txt against the adapter's paths and counts council and board meetings from listing pages; results in `data/state/robots.json` and `data/state/audit.json`. Slugs are the Finnish names (Raasepori, Mustasaari, Pietarsaari, Parainen, Maarianhamina), with `lang: sv` for the Swedish-language ones. Registry municipalities carry `bodies_scope: council_board`. Shared providers get the 2 req/s cap in `kunta/http.py` (one lock per provider).
 
 ### M11 — Move hosting to Cloudflare
 - §18.4: canonical JSON and state in a private R2 bucket, built site in a public R2 bucket behind Savvas's domain, crawl and build on Actions, `rclone sync --checksum` uploads only changed files. GitHub Pages stays live until the Cloudflare site matches it page for page.
@@ -709,7 +712,7 @@ Cloudflare (free zone on Savvas's domain)
 
 ### 18.5 Site and data-model changes
 
-- Home page: 96 municipalities don't fit as cards. Search-as-you-type list plus a region filter (maakunta); the six city themes stay, the rest share one neutral theme with their coat of arms from Wikimedia Commons (`config/images.yaml`).
+- Home page: 96 municipalities don't fit as cards. Search-as-you-type list plus a region filter (maakunta); the six city themes stay, the rest share one neutral theme. No images or coats of arms for the 90 for now (Savvas, 2026-10-15).
 - Glossary (§0) additions: kunnanvaltuusto / kunnanhallitus (municipal council / board, `council` / `board`), and Swedish forms for Swedish-majority municipalities (Raseborg, Jakobstad, Pedersöre, Korsholm, Mariehamn): fullmäktige, stads-/kommunstyrelse, nämnd, föredragningslista, protokoll, omröstning, Ja / Nej / Blankt / Frånvarande. The §1 exclusion of Swedish *duplicates* stays; where Swedish is the only or primary language of the minutes, those are the documents, stored with `lang = sv`.
 - Mariehamn sits under Åland's own municipal law and elections; its council roster comes from the town's own pages, not StatFin.
 - §13 size budget (700 MB) applies only while on Pages.
