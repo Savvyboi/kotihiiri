@@ -1,0 +1,1024 @@
+{
+  "hosts": {
+    "ah.turku.fi": {
+      "blocked": [
+        "/"
+      ],
+      "checked": "2026-10-15",
+      "municipalities": [
+        "turku"
+      ],
+      "robots": "unreachable",
+      "status": "unreachable"
+    },
+    "akaa.tweb.fi": {
+      "blocked": [
+        "/ktwebbin/dbisa.dll/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebbin/dbisa.dll/ktwebscr/pk_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_tek_tweb.htm",
+        "/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebscr/pk_asil_tweb.htm?+bid=1",
+        "/ktwebscr/pk_tek_tweb.htm"
+      ],
+      "checked": "2026-10-15",
+      "municipalities": [
+        "akaa"
+      ],
+      "robots": "ok",
+      "status": "disallowed"
+    },
+    "asiakirjat.ouka.fi": {
+      "blocked": [
+        "/ktwebbin/dbisa.dll/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebbin/dbisa.dll/ktwebscr/pk_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_tek_tweb.htm",
+        "/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebscr/pk_asil_tweb.htm?+bid=1",
+        "/ktwebscr/pk_tek_tweb.htm"
+      ],
+      "checked": "2026-10-15",
+      "municipalities": [
+        "oulu"
+      ],
+      "robots": "ok",
+      "status": "disallowed"
+    },
+    "djulkaisu.kankaanpaa.fi": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "kankaanpaa"
+      ],
+      "robots": "no_robots",
+      "status": "no_robots"
+    },
+    "dynasty.lohja.fi": {
+      "blocked": [
+        "/d10julkaisu/cgi/DREQUEST.PHP?page=meeting&id=20251",
+        "/d10julkaisu/cgi/DREQUEST.PHP?page=meeting_frames",
+        "/d10julkaisu/cgi/DREQUEST.PHP?page=meetingitem&id=20251-1",
+        "/d10julkaisu/cgi/DREQUEST.PHP?page=meetings&id=1",
+        "/d10julkaisu/kokous/20251-1-1.PDF",
+        "/d10julkaisu/kokous/20251.PDF"
+      ],
+      "checked": "2026-10-15",
+      "municipalities": [
+        "lohja"
+      ],
+      "robots": "ok",
+      "status": "disallowed"
+    },
+    "dynasty.voiceintuitive.com": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "sotkamo"
+      ],
+      "robots": "no_robots",
+      "status": "no_robots"
+    },
+    "dynastyjulkaisu.pohjoiskarjala.net": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "joensuu",
+        "kontiolahti",
+        "liperi"
+      ],
+      "robots": "no_robots",
+      "status": "no_robots"
+    },
+    "ep10.kouvola.fi": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "kouvola"
+      ],
+      "robots": "no_robots",
+      "status": "no_robots"
+    },
+    "espoo.oncloudos.com": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "espoo"
+      ],
+      "robots": "no_robots",
+      "status": "no_robots"
+    },
+    "eura10.oncloudos.com": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "eura"
+      ],
+      "robots": "no_robots",
+      "status": "no_robots"
+    },
+    "forssa.oncloudos.com": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "forssa"
+      ],
+      "robots": "no_robots",
+      "status": "no_robots"
+    },
+    "hameenkyro.cloudnc.fi": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "hameenkyro"
+      ],
+      "robots": "ok",
+      "status": "allowed"
+    },
+    "hameenlinna.tweb.fi": {
+      "blocked": [
+        "/ktwebbin/dbisa.dll/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebbin/dbisa.dll/ktwebscr/pk_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_tek_tweb.htm",
+        "/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebscr/pk_asil_tweb.htm?+bid=1",
+        "/ktwebscr/pk_tek_tweb.htm"
+      ],
+      "checked": "2026-10-15",
+      "municipalities": [
+        "hameenlinna"
+      ],
+      "robots": "ok",
+      "status": "disallowed"
+    },
+    "hamina-julkaisu.triplancloud.fi": {
+      "blocked": [
+        "/ktwebbin/dbisa.dll/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebbin/dbisa.dll/ktwebscr/pk_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_tek_tweb.htm",
+        "/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebscr/pk_asil_tweb.htm?+bid=1",
+        "/ktwebscr/pk_tek_tweb.htm"
+      ],
+      "checked": "2026-10-15",
+      "municipalities": [
+        "hamina"
+      ],
+      "robots": "ok",
+      "status": "disallowed"
+    },
+    "hollola.cloudnc.fi": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "hollola"
+      ],
+      "robots": "ok",
+      "status": "allowed"
+    },
+    "ilmajoki-julkaisu.tweb.fi": {
+      "blocked": [
+        "/ktwebbin/dbisa.dll/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebbin/dbisa.dll/ktwebscr/pk_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_tek_tweb.htm",
+        "/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebscr/pk_asil_tweb.htm?+bid=1",
+        "/ktwebscr/pk_tek_tweb.htm"
+      ],
+      "checked": "2026-10-15",
+      "municipalities": [
+        "ilmajoki"
+      ],
+      "robots": "ok",
+      "status": "disallowed"
+    },
+    "jamsa10.oncloudos.com": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "jamsa"
+      ],
+      "robots": "no_robots",
+      "status": "no_robots"
+    },
+    "janakkala.tweb.fi": {
+      "blocked": [
+        "/ktwebbin/dbisa.dll/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebbin/dbisa.dll/ktwebscr/pk_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_tek_tweb.htm",
+        "/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebscr/pk_asil_tweb.htm?+bid=1",
+        "/ktwebscr/pk_tek_tweb.htm"
+      ],
+      "checked": "2026-10-15",
+      "municipalities": [
+        "janakkala"
+      ],
+      "robots": "ok",
+      "status": "disallowed"
+    },
+    "jarvenpaa.cloudnc.fi": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "jarvenpaa"
+      ],
+      "robots": "ok",
+      "status": "allowed"
+    },
+    "julkaisu.iisalmi.fi": {
+      "blocked": [
+        "/ktwebbin/dbisa.dll/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebbin/dbisa.dll/ktwebscr/pk_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_tek_tweb.htm",
+        "/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebscr/pk_asil_tweb.htm?+bid=1",
+        "/ktwebscr/pk_tek_tweb.htm"
+      ],
+      "checked": "2026-10-15",
+      "municipalities": [
+        "iisalmi"
+      ],
+      "robots": "ok",
+      "status": "disallowed"
+    },
+    "julkaisu.paimio.fi": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "paimio"
+      ],
+      "robots": "no_robots",
+      "status": "no_robots"
+    },
+    "julkaisut.raisio.fi": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "raisio"
+      ],
+      "robots": "no_robots",
+      "status": "no_robots"
+    },
+    "jyvaskyla.cloudnc.fi": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "jyvaskyla"
+      ],
+      "robots": "ok",
+      "status": "allowed"
+    },
+    "kajaani.cloudnc.fi": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "kajaani"
+      ],
+      "robots": "ok",
+      "status": "allowed"
+    },
+    "kangasala.tweb.fi": {
+      "blocked": [
+        "/ktwebbin/dbisa.dll/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebbin/dbisa.dll/ktwebscr/pk_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_tek_tweb.htm",
+        "/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebscr/pk_asil_tweb.htm?+bid=1",
+        "/ktwebscr/pk_tek_tweb.htm"
+      ],
+      "checked": "2026-10-15",
+      "municipalities": [
+        "kangasala"
+      ],
+      "robots": "ok",
+      "status": "disallowed"
+    },
+    "kauhajoki-julkaisu.triplancloud.fi": {
+      "blocked": [
+        "/ktwebbin/dbisa.dll/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebbin/dbisa.dll/ktwebscr/pk_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_tek_tweb.htm",
+        "/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebscr/pk_asil_tweb.htm?+bid=1",
+        "/ktwebscr/pk_tek_tweb.htm"
+      ],
+      "checked": "2026-10-15",
+      "municipalities": [
+        "kauhajoki"
+      ],
+      "robots": "ok",
+      "status": "disallowed"
+    },
+    "kauhava-d10.oncloudos.com": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "kauhava"
+      ],
+      "robots": "ok",
+      "status": "allowed"
+    },
+    "kauniainen10fi.oncloudos.com": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "kauniainen"
+      ],
+      "robots": "no_robots",
+      "status": "no_robots"
+    },
+    "kemi.oncloudos.com": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "kemi"
+      ],
+      "robots": "no_robots",
+      "status": "no_robots"
+    },
+    "kempele.cloudnc.fi": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "kempele"
+      ],
+      "robots": "ok",
+      "status": "allowed"
+    },
+    "kerava-julkaisu.tweb.fi": {
+      "blocked": [
+        "/ktwebbin/dbisa.dll/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebbin/dbisa.dll/ktwebscr/pk_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_tek_tweb.htm",
+        "/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebscr/pk_asil_tweb.htm?+bid=1",
+        "/ktwebscr/pk_tek_tweb.htm"
+      ],
+      "checked": "2026-10-15",
+      "municipalities": [
+        "kerava"
+      ],
+      "robots": "ok",
+      "status": "disallowed"
+    },
+    "kirkkonummi.oncloudos.com": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "kirkkonummi"
+      ],
+      "robots": "no_robots",
+      "status": "no_robots"
+    },
+    "kokkola10.oncloudos.com": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "kokkola"
+      ],
+      "robots": "no_robots",
+      "status": "no_robots"
+    },
+    "kokoukset.heinola.fi": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "heinola"
+      ],
+      "robots": "no_robots",
+      "status": "no_robots"
+    },
+    "kunta2.riihimaki.fi": {
+      "blocked": [
+        "/ktwebbin/dbisa.dll/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebbin/dbisa.dll/ktwebscr/pk_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_tek_tweb.htm",
+        "/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebscr/pk_asil_tweb.htm?+bid=1",
+        "/ktwebscr/pk_tek_tweb.htm"
+      ],
+      "checked": "2026-10-15",
+      "municipalities": [
+        "riihimaki"
+      ],
+      "robots": "ok",
+      "status": "disallowed"
+    },
+    "kuopio.oncloudos.com": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "kuopio"
+      ],
+      "robots": "no_robots",
+      "status": "no_robots"
+    },
+    "kuusamo.tweb.fi": {
+      "blocked": [
+        "/ktwebbin/dbisa.dll/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebbin/dbisa.dll/ktwebscr/pk_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_tek_tweb.htm",
+        "/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebscr/pk_asil_tweb.htm?+bid=1",
+        "/ktwebscr/pk_tek_tweb.htm"
+      ],
+      "checked": "2026-10-15",
+      "municipalities": [
+        "kuusamo"
+      ],
+      "robots": "ok",
+      "status": "disallowed"
+    },
+    "lahti-prod.oncloudos.com": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "lahti"
+      ],
+      "robots": "no_robots",
+      "status": "no_robots"
+    },
+    "lapua.cloudnc.fi": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "lapua"
+      ],
+      "robots": "ok",
+      "status": "allowed"
+    },
+    "laukaa.oncloudos.com": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "laukaa"
+      ],
+      "robots": "no_robots",
+      "status": "no_robots"
+    },
+    "lempaala10.oncloudos.com": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "lempaala"
+      ],
+      "robots": "no_robots",
+      "status": "no_robots"
+    },
+    "lieto-julkaisu.triplancloud.fi": {
+      "blocked": [
+        "/ktwebbin/dbisa.dll/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebbin/dbisa.dll/ktwebscr/pk_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_tek_tweb.htm",
+        "/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebscr/pk_asil_tweb.htm?+bid=1",
+        "/ktwebscr/pk_tek_tweb.htm"
+      ],
+      "checked": "2026-10-15",
+      "municipalities": [
+        "lieto"
+      ],
+      "robots": "ok",
+      "status": "disallowed"
+    },
+    "liminka.oncloudos.com": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "liminka"
+      ],
+      "robots": "no_robots",
+      "status": "no_robots"
+    },
+    "listat.seinajoki.fi": {
+      "blocked": [
+        "/ktwebbin/dbisa.dll/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebbin/dbisa.dll/ktwebscr/pk_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_tek_tweb.htm",
+        "/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebscr/pk_asil_tweb.htm?+bid=1",
+        "/ktwebscr/pk_tek_tweb.htm"
+      ],
+      "checked": "2026-10-15",
+      "municipalities": [
+        "seinajoki"
+      ],
+      "robots": "ok",
+      "status": "disallowed"
+    },
+    "loimaad10.oncloudos.com": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "loimaa"
+      ],
+      "robots": "no_robots",
+      "status": "no_robots"
+    },
+    "loviisa.oncloudos.com": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "loviisa"
+      ],
+      "robots": "no_robots",
+      "status": "no_robots"
+    },
+    "mantsalad10.oncloudos.com": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "mantsala"
+      ],
+      "robots": "no_robots",
+      "status": "no_robots"
+    },
+    "mikkeli.cloudnc.fi": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "mikkeli"
+      ],
+      "robots": "ok",
+      "status": "allowed"
+    },
+    "mote.jakobstad.fi:8443": {
+      "blocked": [
+        "/ktwebbin/dbisa.dll/ktwebbin/dbisa.dll/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebbin/dbisa.dll/ktwebbin/dbisa.dll/ktwebscr/pk_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebbin/dbisa.dll/ktwebscr/epj_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebbin/dbisa.dll/ktwebscr/epj_tek_tweb.htm",
+        "/ktwebbin/dbisa.dll/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebbin/dbisa.dll/ktwebscr/pk_asil_tweb.htm?+bid=1",
+        "/ktwebbin/dbisa.dll/ktwebscr/pk_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebbin/dbisa.dll/ktwebscr/pk_tek_tweb.htm",
+        "/ktwebscr/epj_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_tek_tweb.htm",
+        "/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebscr/pk_asil_tweb.htm?+bid=1",
+        "/ktwebscr/pk_tek_tweb.htm"
+      ],
+      "checked": "2026-10-15",
+      "municipalities": [
+        "pietarsaari"
+      ],
+      "robots": "ok",
+      "status": "partial"
+    },
+    "muurame.tweb.fi": {
+      "blocked": [
+        "/ktwebbin/dbisa.dll/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebbin/dbisa.dll/ktwebscr/pk_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_tek_tweb.htm",
+        "/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebscr/pk_asil_tweb.htm?+bid=1",
+        "/ktwebscr/pk_tek_tweb.htm"
+      ],
+      "checked": "2026-10-15",
+      "municipalities": [
+        "muurame"
+      ],
+      "robots": "ok",
+      "status": "disallowed"
+    },
+    "naantali.oncloudos.com": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "naantali"
+      ],
+      "robots": "no_robots",
+      "status": "no_robots"
+    },
+    "nokia.tweb.fi": {
+      "blocked": [
+        "/ktwebbin/dbisa.dll/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebbin/dbisa.dll/ktwebscr/pk_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_tek_tweb.htm",
+        "/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebscr/pk_asil_tweb.htm?+bid=1",
+        "/ktwebscr/pk_tek_tweb.htm"
+      ],
+      "checked": "2026-10-15",
+      "municipalities": [
+        "nokia"
+      ],
+      "robots": "ok",
+      "status": "disallowed"
+    },
+    "nurmijarvi10.oncloudos.com": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "nurmijarvi"
+      ],
+      "robots": "no_robots",
+      "status": "no_robots"
+    },
+    "orimattilad10.oncloudos.com": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "orimattila"
+      ],
+      "robots": "no_robots",
+      "status": "no_robots"
+    },
+    "paatokset.hel.fi": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "helsinki"
+      ],
+      "robots": "ok",
+      "status": "allowed"
+    },
+    "paatokset.ouka.fi": {
+      "blocked": [
+        "/ktwebbin/dbisa.dll/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebbin/dbisa.dll/ktwebscr/pk_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_tek_tweb.htm",
+        "/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebscr/pk_asil_tweb.htm?+bid=1",
+        "/ktwebscr/pk_tek_tweb.htm"
+      ],
+      "checked": "2026-10-15",
+      "municipalities": [
+        "oulu"
+      ],
+      "robots": "unreachable",
+      "status": "unreachable"
+    },
+    "paatokset.turku.fi": {
+      "blocked": [
+        "/"
+      ],
+      "checked": "2026-10-15",
+      "municipalities": [
+        "turku"
+      ],
+      "robots": "unreachable",
+      "status": "unreachable"
+    },
+    "paatokset.vantaa.fi": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "vantaa"
+      ],
+      "robots": "no_robots",
+      "status": "no_robots"
+    },
+    "paatos.ulvila.fi": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "ulvila"
+      ],
+      "robots": "no_robots",
+      "status": "no_robots"
+    },
+    "paragraf.mariehamn.ax": {
+      "blocked": [
+        "/ktwebbin/dbisa.dll/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebbin/dbisa.dll/ktwebscr/pk_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_tek_tweb.htm",
+        "/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebscr/pk_asil_tweb.htm?+bid=1",
+        "/ktwebscr/pk_tek_tweb.htm"
+      ],
+      "checked": "2026-10-15",
+      "municipalities": [
+        "maarianhamina"
+      ],
+      "robots": "unreachable",
+      "status": "unreachable"
+    },
+    "parainen.oncloudos.com": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "parainen"
+      ],
+      "robots": "no_robots",
+      "status": "no_robots"
+    },
+    "pirkkala.tweb.fi": {
+      "blocked": [
+        "/ktwebbin/dbisa.dll/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebbin/dbisa.dll/ktwebscr/pk_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_tek_tweb.htm",
+        "/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebscr/pk_asil_tweb.htm?+bid=1",
+        "/ktwebscr/pk_tek_tweb.htm"
+      ],
+      "checked": "2026-10-15",
+      "municipalities": [
+        "pirkkala"
+      ],
+      "robots": "ok",
+      "status": "disallowed"
+    },
+    "pori.cloudnc.fi": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "pori"
+      ],
+      "robots": "ok",
+      "status": "allowed"
+    },
+    "porvoofi.oncloudos.com": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "porvoo"
+      ],
+      "robots": "no_robots",
+      "status": "no_robots"
+    },
+    "poytakirjat.nivala.fi": {
+      "blocked": [
+        "/cgi/DREQUEST.PHP?page=meeting&id=20251",
+        "/cgi/DREQUEST.PHP?page=meeting_frames",
+        "/cgi/DREQUEST.PHP?page=meetingitem&id=20251-1",
+        "/cgi/DREQUEST.PHP?page=meetings&id=1",
+        "/kokous/20251-1-1.PDF",
+        "/kokous/20251.PDF"
+      ],
+      "checked": "2026-10-15",
+      "municipalities": [
+        "nivala"
+      ],
+      "robots": "ok",
+      "status": "disallowed"
+    },
+    "poytakirjat.ylivieska.fi": {
+      "blocked": [
+        "/kokous/20251-1-1.PDF",
+        "/kokous/20251.PDF"
+      ],
+      "checked": "2026-10-15",
+      "municipalities": [
+        "ylivieska"
+      ],
+      "robots": "ok",
+      "status": "partial"
+    },
+    "publ.pedersore.fi": {
+      "blocked": [
+        "/ktwebbin/dbisa.dll/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebbin/dbisa.dll/ktwebscr/pk_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_tek_tweb.htm",
+        "/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebscr/pk_asil_tweb.htm?+bid=1",
+        "/ktwebscr/pk_tek_tweb.htm"
+      ],
+      "checked": "2026-10-15",
+      "municipalities": [
+        "pedersore"
+      ],
+      "robots": "unreachable",
+      "status": "unreachable"
+    },
+    "raahe10.oncloudos.com": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "raahe"
+      ],
+      "robots": "no_robots",
+      "status": "no_robots"
+    },
+    "raseborg-publicering.triplancloud.fi": {
+      "blocked": [
+        "/ktwebbin/dbisa.dll/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebbin/dbisa.dll/ktwebscr/pk_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_tek_tweb.htm",
+        "/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebscr/pk_asil_tweb.htm?+bid=1",
+        "/ktwebscr/pk_tek_tweb.htm"
+      ],
+      "checked": "2026-10-15",
+      "municipalities": [
+        "raasepori"
+      ],
+      "robots": "ok",
+      "status": "disallowed"
+    },
+    "rauma-julkaisu.tweb.fi": {
+      "blocked": [
+        "/ktwebbin/dbisa.dll/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebbin/dbisa.dll/ktwebscr/pk_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_tek_tweb.htm",
+        "/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebscr/pk_asil_tweb.htm?+bid=1",
+        "/ktwebscr/pk_tek_tweb.htm"
+      ],
+      "checked": "2026-10-15",
+      "municipalities": [
+        "rauma"
+      ],
+      "robots": "ok",
+      "status": "disallowed"
+    },
+    "rovaniemi.cloudnc.fi": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "rovaniemi"
+      ],
+      "robots": "ok",
+      "status": "allowed"
+    },
+    "salo10.oncloudos.com": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "salo"
+      ],
+      "robots": "no_robots",
+      "status": "no_robots"
+    },
+    "sastamalad10.oncloudos.com": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "sastamala"
+      ],
+      "robots": "no_robots",
+      "status": "no_robots"
+    },
+    "savonlinna.oncloudos.com": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "savonlinna"
+      ],
+      "robots": "no_robots",
+      "status": "no_robots"
+    },
+    "siilinjarvi10.oncloudos.com": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "siilinjarvi"
+      ],
+      "robots": "no_robots",
+      "status": "no_robots"
+    },
+    "sipoofi.oncloudos.com": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "sipoo"
+      ],
+      "robots": "no_robots",
+      "status": "no_robots"
+    },
+    "tampere.cloudnc.fi": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "tampere"
+      ],
+      "robots": "ok",
+      "status": "allowed"
+    },
+    "tornio.oncloudos.com": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "tornio"
+      ],
+      "robots": "no_robots",
+      "status": "no_robots"
+    },
+    "tuusula.oncloudos.com": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "tuusula"
+      ],
+      "robots": "no_robots",
+      "status": "no_robots"
+    },
+    "tweb.kaarina.fi": {
+      "blocked": [
+        "/ktwebbin/dbisa.dll/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebbin/dbisa.dll/ktwebscr/pk_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_tek_tweb.htm",
+        "/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebscr/pk_asil_tweb.htm?+bid=1",
+        "/ktwebscr/pk_tek_tweb.htm"
+      ],
+      "checked": "2026-10-15",
+      "municipalities": [
+        "kaarina"
+      ],
+      "robots": "ok",
+      "status": "disallowed"
+    },
+    "tweb.pieksamaki.fi": {
+      "blocked": [
+        "/ktwebbin/dbisa.dll/ktwebbin/dbisa.dll/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebbin/dbisa.dll/ktwebbin/dbisa.dll/ktwebscr/pk_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebbin/dbisa.dll/ktwebscr/epj_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebbin/dbisa.dll/ktwebscr/epj_tek_tweb.htm",
+        "/ktwebbin/dbisa.dll/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebbin/dbisa.dll/ktwebscr/pk_asil_tweb.htm?+bid=1",
+        "/ktwebbin/dbisa.dll/ktwebscr/pk_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebbin/dbisa.dll/ktwebscr/pk_tek_tweb.htm",
+        "/ktwebscr/epj_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_tek_tweb.htm",
+        "/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebscr/pk_asil_tweb.htm?+bid=1",
+        "/ktwebscr/pk_tek_tweb.htm"
+      ],
+      "checked": "2026-10-15",
+      "municipalities": [
+        "pieksamaki"
+      ],
+      "robots": "ok",
+      "status": "partial"
+    },
+    "tweb.vaasa.fi": {
+      "blocked": [
+        "/ktwebbin/dbisa.dll/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebbin/dbisa.dll/ktwebscr/pk_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_tek_tweb.htm",
+        "/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebscr/pk_asil_tweb.htm?+bid=1",
+        "/ktwebscr/pk_tek_tweb.htm"
+      ],
+      "checked": "2026-10-15",
+      "municipalities": [
+        "vaasa"
+      ],
+      "robots": "unreachable",
+      "status": "unreachable"
+    },
+    "uusikaupunki.oncloudos.com": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "uusikaupunki"
+      ],
+      "robots": "no_robots",
+      "status": "no_robots"
+    },
+    "valkeakoski.tweb.fi": {
+      "blocked": [
+        "/ktwebbin/dbisa.dll/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebbin/dbisa.dll/ktwebscr/pk_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_tek_tweb.htm",
+        "/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebscr/pk_asil_tweb.htm?+bid=1",
+        "/ktwebscr/pk_tek_tweb.htm"
+      ],
+      "checked": "2026-10-15",
+      "municipalities": [
+        "valkeakoski"
+      ],
+      "robots": "ok",
+      "status": "disallowed"
+    },
+    "varkaus.tweb.fi": {
+      "blocked": [
+        "/ktwebbin/dbisa.dll/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebbin/dbisa.dll/ktwebscr/pk_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_kokl_tweb.htm?+kirjaamo=1",
+        "/ktwebscr/epj_tek_tweb.htm",
+        "/ktwebscr/fileshow?doctype=3&docid=1",
+        "/ktwebscr/pk_asil_tweb.htm?+bid=1",
+        "/ktwebscr/pk_tek_tweb.htm"
+      ],
+      "checked": "2026-10-15",
+      "municipalities": [
+        "varkaus"
+      ],
+      "robots": "ok",
+      "status": "disallowed"
+    },
+    "vihti.oncloudos.com": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "vihti"
+      ],
+      "robots": "no_robots",
+      "status": "no_robots"
+    },
+    "web28.aanekoski.fi": {
+      "blocked": [
+        "/dynasty10/cgi/DREQUEST.PHP?page=meeting&id=20251",
+        "/dynasty10/cgi/DREQUEST.PHP?page=meeting_frames",
+        "/dynasty10/cgi/DREQUEST.PHP?page=meetingitem&id=20251-1",
+        "/dynasty10/cgi/DREQUEST.PHP?page=meetings&id=1",
+        "/dynasty10/kokous/20251-1-1.PDF",
+        "/dynasty10/kokous/20251.PDF"
+      ],
+      "checked": "2026-10-15",
+      "municipalities": [
+        "aanekoski"
+      ],
+      "robots": "unreachable",
+      "status": "unreachable"
+    },
+    "www4.kalajoki.fi": {
+      "blocked": [
+        "/djulkaisu/cgi/DREQUEST.PHP?page=meeting&id=20251",
+        "/djulkaisu/cgi/DREQUEST.PHP?page=meeting_frames",
+        "/djulkaisu/cgi/DREQUEST.PHP?page=meetingitem&id=20251-1",
+        "/djulkaisu/cgi/DREQUEST.PHP?page=meetings&id=1",
+        "/djulkaisu/kokous/20251-1-1.PDF",
+        "/djulkaisu/kokous/20251.PDF"
+      ],
+      "checked": "2026-10-15",
+      "municipalities": [
+        "kalajoki"
+      ],
+      "robots": "unreachable",
+      "status": "unreachable"
+    },
+    "ylojarvi10.oncloudos.com": {
+      "checked": "2026-10-15",
+      "municipalities": [
+        "ylojarvi"
+      ],
+      "robots": "no_robots",
+      "status": "no_robots"
+    }
+  }
+}

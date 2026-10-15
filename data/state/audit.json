@@ -1,0 +1,2171 @@
+{
+  "municipalities": {
+    "aanekoski": {
+      "adapter": "dynasty",
+      "hosts": {
+        "web28.aanekoski.fi": "unreachable"
+      }
+    },
+    "akaa": {
+      "adapter": "tweb",
+      "hosts": {
+        "akaa.tweb.fi": "disallowed"
+      }
+    },
+    "alavus": {
+      "adapter": "none",
+      "skipped": "no source system in the registry"
+    },
+    "espoo": {
+      "adapter": "dynasty",
+      "hosts": {
+        "espoo.oncloudos.com": "no_robots"
+      }
+    },
+    "eura": {
+      "adapter": "dynasty",
+      "bodies": {
+        "kunnanhallitus": {
+          "dynasty_id": "1",
+          "kind": "board",
+          "name": "Kunnanhallitus"
+        },
+        "valtuusto": {
+          "dynasty_id": "4",
+          "kind": "council",
+          "name": "Valtuusto"
+        }
+      },
+      "bodies_total": 6,
+      "hosts": {
+        "eura10.oncloudos.com": "no_robots"
+      },
+      "meetings": {
+        "kunnanhallitus": {
+          "latest": "2026-10-12",
+          "meetings": 40,
+          "stages": {
+            "minutes": 40
+          }
+        },
+        "valtuusto": {
+          "latest": "2026-09-07",
+          "meetings": 11,
+          "stages": {
+            "minutes": 11
+          }
+        }
+      }
+    },
+    "forssa": {
+      "adapter": "dynasty",
+      "bodies": {
+        "kaupunginhallitus": {
+          "dynasty_id": "6",
+          "kind": "board",
+          "name": "Kaupunginhallitus"
+        },
+        "kaupunginvaltuusto": {
+          "dynasty_id": "1",
+          "kind": "council",
+          "name": "Kaupunginvaltuusto"
+        }
+      },
+      "bodies_total": 13,
+      "hosts": {
+        "forssa.oncloudos.com": "no_robots"
+      },
+      "meetings": {
+        "kaupunginhallitus": {
+          "latest": "2026-10-19",
+          "meetings": 54,
+          "stages": {
+            "agenda": 2,
+            "minutes": 52
+          }
+        },
+        "kaupunginvaltuusto": {
+          "latest": "2026-08-24",
+          "meetings": 16,
+          "stages": {
+            "minutes": 16
+          }
+        }
+      }
+    },
+    "hameenkyro": {
+      "adapter": "casem",
+      "bodies": {
+        "kunnanhallitus": {
+          "kind": "board",
+          "name": "Kunnanhallitus",
+          "slug": "Kunnanhallitus"
+        },
+        "kunnanvaltuusto": {
+          "kind": "council",
+          "name": "Kunnanvaltuusto",
+          "slug": "Kunnanvaltuusto"
+        }
+      },
+      "bodies_total": 10,
+      "hosts": {
+        "hameenkyro.cloudnc.fi": "allowed"
+      },
+      "meetings": {
+        "kunnanhallitus": {
+          "latest": "2026-10-05",
+          "meetings": 35,
+          "stages": {
+            "minutes": 35
+          }
+        },
+        "kunnanvaltuusto": {
+          "latest": "2026-10-19",
+          "meetings": 11,
+          "stages": {
+            "agenda": 1,
+            "minutes": 10
+          }
+        }
+      }
+    },
+    "hameenlinna": {
+      "adapter": "tweb",
+      "hosts": {
+        "hameenlinna.tweb.fi": "disallowed"
+      }
+    },
+    "hamina": {
+      "adapter": "tweb",
+      "hosts": {
+        "hamina-julkaisu.triplancloud.fi": "disallowed"
+      }
+    },
+    "heinola": {
+      "adapter": "dynasty",
+      "bodies": {
+        "kaupunginhallitus": {
+          "dynasty_id": "50848",
+          "kind": "board",
+          "name": "kaupunginhallitus"
+        },
+        "valtuusto": {
+          "dynasty_id": "50853",
+          "kind": "council",
+          "name": "valtuusto"
+        }
+      },
+      "bodies_total": 10,
+      "hosts": {
+        "kokoukset.heinola.fi": "no_robots"
+      },
+      "meetings": {
+        "kaupunginhallitus": {
+          "latest": "2026-06-15",
+          "meetings": 31,
+          "stages": {
+            "minutes": 31
+          }
+        },
+        "valtuusto": {
+          "latest": "2026-06-08",
+          "meetings": 11,
+          "stages": {
+            "minutes": 11
+          }
+        }
+      }
+    },
+    "helsinki": {
+      "adapter": "helsinki",
+      "hosts": {
+        "paatokset.hel.fi": "allowed"
+      }
+    },
+    "hollola": {
+      "adapter": "casem",
+      "bodies": {
+        "kunnanhallitus": {
+          "kind": "board",
+          "name": "Kunnanhallitus",
+          "slug": "Kunnanhallitus"
+        },
+        "valtuusto": {
+          "kind": "council",
+          "name": "Valtuusto",
+          "slug": "Valtuusto"
+        }
+      },
+      "bodies_total": 13,
+      "hosts": {
+        "hollola.cloudnc.fi": "allowed"
+      },
+      "meetings": {
+        "kunnanhallitus": {
+          "latest": "2026-10-12",
+          "meetings": 36,
+          "stages": {
+            "minutes": 36
+          }
+        },
+        "valtuusto": {
+          "latest": "2026-09-21",
+          "meetings": 10,
+          "stages": {
+            "minutes": 10
+          }
+        }
+      }
+    },
+    "hyvinkaa": {
+      "adapter": "none",
+      "skipped": "no source system in the registry"
+    },
+    "iisalmi": {
+      "adapter": "tweb",
+      "hosts": {
+        "julkaisu.iisalmi.fi": "disallowed"
+      }
+    },
+    "ilmajoki": {
+      "adapter": "tweb",
+      "hosts": {
+        "ilmajoki-julkaisu.tweb.fi": "disallowed"
+      }
+    },
+    "imatra": {
+      "adapter": "none",
+      "skipped": "no source system in the registry"
+    },
+    "jamsa": {
+      "adapter": "dynasty",
+      "bodies": {
+        "kaupunginhallitus": {
+          "dynasty_id": "2",
+          "kind": "board",
+          "name": "Kaupunginhallitus"
+        },
+        "kaupunginvaltuusto": {
+          "dynasty_id": "1",
+          "kind": "council",
+          "name": "Kaupunginvaltuusto"
+        }
+      },
+      "bodies_total": 12,
+      "hosts": {
+        "jamsa10.oncloudos.com": "no_robots"
+      },
+      "meetings": {
+        "kaupunginhallitus": {
+          "latest": "2026-08-10",
+          "meetings": 32,
+          "stages": {
+            "minutes": 32
+          }
+        },
+        "kaupunginvaltuusto": {
+          "latest": "2026-08-17",
+          "meetings": 11,
+          "stages": {
+            "minutes": 11
+          }
+        }
+      }
+    },
+    "janakkala": {
+      "adapter": "tweb",
+      "hosts": {
+        "janakkala.tweb.fi": "disallowed"
+      }
+    },
+    "jarvenpaa": {
+      "adapter": "casem",
+      "bodies": {
+        "kaupunginhallitus": {
+          "kind": "board",
+          "name": "Kaupunginhallitus",
+          "slug": "Kaupunginhallitus"
+        },
+        "kaupunginvaltuusto": {
+          "kind": "council",
+          "name": "Kaupunginvaltuusto",
+          "slug": "Kaupunginvaltuusto"
+        }
+      },
+      "bodies_total": 19,
+      "hosts": {
+        "jarvenpaa.cloudnc.fi": "allowed"
+      },
+      "meetings": {
+        "kaupunginhallitus": {
+          "latest": "2026-10-05",
+          "meetings": 51,
+          "stages": {
+            "minutes": 51
+          }
+        },
+        "kaupunginvaltuusto": {
+          "latest": "2026-09-14",
+          "meetings": 12,
+          "stages": {
+            "minutes": 12
+          }
+        }
+      }
+    },
+    "joensuu": {
+      "adapter": "dynasty",
+      "bodies": {
+        "kaupunginhallitus": {
+          "dynasty_id": "2",
+          "kind": "board",
+          "name": "Kaupunginhallitus"
+        },
+        "kaupunginvaltuusto": {
+          "dynasty_id": "16",
+          "kind": "council",
+          "name": "Kaupunginvaltuusto"
+        }
+      },
+      "bodies_total": 22,
+      "hosts": {
+        "dynastyjulkaisu.pohjoiskarjala.net": "no_robots"
+      },
+      "meetings": {
+        "kaupunginhallitus": {
+          "latest": "2026-10-19",
+          "meetings": 70,
+          "stages": {
+            "agenda": 1,
+            "minutes": 69
+          }
+        },
+        "kaupunginvaltuusto": {
+          "latest": "2026-09-28",
+          "meetings": 17,
+          "stages": {
+            "minutes": 17
+          }
+        }
+      }
+    },
+    "jyvaskyla": {
+      "adapter": "casem",
+      "bodies": {
+        "kaupunginhallitus": {
+          "kind": "board",
+          "name": "Kaupunginhallitus",
+          "slug": "Kaupunginhallitus"
+        },
+        "kaupunginvaltuusto": {
+          "kind": "council",
+          "name": "Kaupunginvaltuusto",
+          "slug": "Kaupunginvaltuusto"
+        }
+      },
+      "bodies_total": 17,
+      "hosts": {
+        "jyvaskyla.cloudnc.fi": "allowed"
+      },
+      "meetings": {
+        "kaupunginhallitus": {
+          "latest": "2026-10-19",
+          "meetings": 68,
+          "stages": {
+            "agenda": 1,
+            "minutes": 67
+          }
+        },
+        "kaupunginvaltuusto": {
+          "latest": "2026-09-28",
+          "meetings": 20,
+          "stages": {
+            "minutes": 20
+          }
+        }
+      }
+    },
+    "kaarina": {
+      "adapter": "tweb",
+      "hosts": {
+        "tweb.kaarina.fi": "disallowed"
+      }
+    },
+    "kajaani": {
+      "adapter": "casem",
+      "bodies": {
+        "kaupunginhallitus": {
+          "kind": "board",
+          "name": "Kaupunginhallitus",
+          "slug": "Kaupunginhallitus"
+        },
+        "kaupunginvaltuusto": {
+          "kind": "council",
+          "name": "Kaupunginvaltuusto",
+          "slug": "Kaupunginvaltuusto"
+        }
+      },
+      "bodies_total": 19,
+      "hosts": {
+        "kajaani.cloudnc.fi": "allowed"
+      },
+      "meetings": {
+        "kaupunginhallitus": {
+          "latest": "2026-10-20",
+          "meetings": 45,
+          "stages": {
+            "agenda": 1,
+            "minutes": 44
+          }
+        },
+        "kaupunginvaltuusto": {
+          "latest": "2026-09-29",
+          "meetings": 13,
+          "stages": {
+            "minutes": 13
+          }
+        }
+      }
+    },
+    "kalajoki": {
+      "adapter": "dynasty",
+      "hosts": {
+        "www4.kalajoki.fi": "unreachable"
+      }
+    },
+    "kangasala": {
+      "adapter": "tweb",
+      "hosts": {
+        "kangasala.tweb.fi": "disallowed"
+      }
+    },
+    "kankaanpaa": {
+      "adapter": "dynasty",
+      "bodies": {
+        "kaupunginhallitus": {
+          "dynasty_id": "1",
+          "kind": "board",
+          "name": "Kaupunginhallitus"
+        },
+        "kaupunginvaltuusto": {
+          "dynasty_id": "129",
+          "kind": "council",
+          "name": "Kaupunginvaltuusto"
+        }
+      },
+      "bodies_total": 11,
+      "hosts": {
+        "djulkaisu.kankaanpaa.fi": "no_robots"
+      },
+      "meetings": {
+        "kaupunginhallitus": {
+          "latest": "2026-10-05",
+          "meetings": 25,
+          "stages": {
+            "minutes": 25
+          }
+        },
+        "kaupunginvaltuusto": {
+          "latest": "2026-10-12",
+          "meetings": 8,
+          "stages": {
+            "minutes": 8
+          }
+        }
+      }
+    },
+    "kauhajoki": {
+      "adapter": "tweb",
+      "hosts": {
+        "kauhajoki-julkaisu.triplancloud.fi": "disallowed"
+      }
+    },
+    "kauhava": {
+      "adapter": "dynasty",
+      "bodies": {
+        "kaupunginhallitus": {
+          "dynasty_id": "1",
+          "kind": "board",
+          "name": "Kaupunginhallitus"
+        },
+        "valtuusto": {
+          "dynasty_id": "91",
+          "kind": "council",
+          "name": "Valtuusto"
+        }
+      },
+      "bodies_total": 15,
+      "hosts": {
+        "kauhava-d10.oncloudos.com": "allowed"
+      },
+      "meetings": {
+        "kaupunginhallitus": {
+          "latest": "2026-10-06",
+          "meetings": 20,
+          "stages": {
+            "minutes": 20
+          }
+        },
+        "valtuusto": {
+          "latest": "2026-06-15",
+          "meetings": 6,
+          "stages": {
+            "minutes": 6
+          }
+        }
+      }
+    },
+    "kauniainen": {
+      "adapter": "dynasty",
+      "bodies": {
+        "kaupunginhallitus": {
+          "dynasty_id": "1",
+          "kind": "board",
+          "name": "Kaupunginhallitus"
+        },
+        "kaupunginvaltuusto": {
+          "dynasty_id": "8",
+          "kind": "council",
+          "name": "Kaupunginvaltuusto"
+        }
+      },
+      "bodies_total": 23,
+      "hosts": {
+        "kauniainen10fi.oncloudos.com": "no_robots"
+      },
+      "meetings": {
+        "kaupunginhallitus": {
+          "latest": "2026-10-05",
+          "meetings": 26,
+          "stages": {
+            "minutes": 26
+          }
+        },
+        "kaupunginvaltuusto": {
+          "latest": "2026-09-14",
+          "meetings": 12,
+          "stages": {
+            "minutes": 12
+          }
+        }
+      }
+    },
+    "kemi": {
+      "adapter": "dynasty",
+      "bodies": {
+        "kaupunginhallitus": {
+          "dynasty_id": "2",
+          "kind": "board",
+          "name": "Kaupunginhallitus"
+        },
+        "kaupunginvaltuusto": {
+          "dynasty_id": "1",
+          "kind": "council",
+          "name": "Kaupunginvaltuusto"
+        }
+      },
+      "bodies_total": 14,
+      "hosts": {
+        "kemi.oncloudos.com": "no_robots"
+      },
+      "meetings": {
+        "kaupunginhallitus": {
+          "latest": "2026-08-31",
+          "meetings": 38,
+          "stages": {
+            "minutes": 38
+          }
+        },
+        "kaupunginvaltuusto": {
+          "latest": "2026-09-08",
+          "meetings": 16,
+          "stages": {
+            "minutes": 16
+          }
+        }
+      }
+    },
+    "kempele": {
+      "adapter": "casem",
+      "bodies": {
+        "kunnanhallitus": {
+          "kind": "board",
+          "name": "Kunnanhallitus",
+          "slug": "Kunnanhallitus"
+        },
+        "valtuusto": {
+          "kind": "council",
+          "name": "Valtuusto",
+          "slug": "Valtuusto"
+        }
+      },
+      "bodies_total": 9,
+      "hosts": {
+        "kempele.cloudnc.fi": "allowed"
+      },
+      "meetings": {
+        "kunnanhallitus": {
+          "latest": "2026-10-14",
+          "meetings": 39,
+          "stages": {
+            "agenda": 1,
+            "minutes": 38
+          }
+        },
+        "valtuusto": {
+          "latest": "2026-09-21",
+          "meetings": 14,
+          "stages": {
+            "minutes": 14
+          }
+        }
+      }
+    },
+    "kerava": {
+      "adapter": "tweb",
+      "hosts": {
+        "kerava-julkaisu.tweb.fi": "disallowed"
+      }
+    },
+    "kirkkonummi": {
+      "adapter": "dynasty",
+      "bodies": {
+        "kunnanhallitus": {
+          "dynasty_id": "2",
+          "kind": "board",
+          "name": "Kunnanhallitus"
+        },
+        "kunnanvaltuusto": {
+          "dynasty_id": "1",
+          "kind": "council",
+          "name": "Kunnanvaltuusto"
+        }
+      },
+      "bodies_total": 25,
+      "hosts": {
+        "kirkkonummi.oncloudos.com": "no_robots"
+      },
+      "meetings": {
+        "kunnanhallitus": {
+          "latest": "2026-10-05",
+          "meetings": 46,
+          "stages": {
+            "minutes": 46
+          }
+        },
+        "kunnanvaltuusto": {
+          "latest": "2026-10-19",
+          "meetings": 16,
+          "stages": {
+            "agenda": 1,
+            "minutes": 15
+          }
+        }
+      }
+    },
+    "kokkola": {
+      "adapter": "dynasty",
+      "bodies": {
+        "kaupunginhallitus": {
+          "dynasty_id": "1",
+          "kind": "board",
+          "name": "Kaupunginhallitus"
+        },
+        "kaupunginvaltuusto": {
+          "dynasty_id": "6",
+          "kind": "council",
+          "name": "Kaupunginvaltuusto"
+        },
+        "lapsivaltuusto-barnfullmaktige": {
+          "dynasty_id": "243",
+          "kind": "council",
+          "name": "Lapsivaltuusto ⁄ Barnfullmäktige"
+        }
+      },
+      "bodies_total": 20,
+      "hosts": {
+        "kokkola10.oncloudos.com": "no_robots"
+      },
+      "meetings": {
+        "kaupunginhallitus": {
+          "latest": "2026-10-20",
+          "meetings": 29,
+          "stages": {
+            "agenda": 1,
+            "minutes": 28
+          }
+        },
+        "kaupunginvaltuusto": {
+          "latest": "2026-10-19",
+          "meetings": 10,
+          "stages": {
+            "agenda": 1,
+            "minutes": 9
+          }
+        },
+        "lapsivaltuusto-barnfullmaktige": {
+          "latest": "2026-09-23",
+          "meetings": 4,
+          "stages": {
+            "minutes": 4
+          }
+        }
+      },
+      "problems": [
+        "2 council bodies"
+      ]
+    },
+    "kontiolahti": {
+      "adapter": "dynasty",
+      "bodies": {
+        "kunnanhallitus": {
+          "dynasty_id": "1",
+          "kind": "board",
+          "name": "Kunnanhallitus"
+        },
+        "kunnanvaltuusto": {
+          "dynasty_id": "52",
+          "kind": "council",
+          "name": "Kunnanvaltuusto"
+        }
+      },
+      "bodies_total": 12,
+      "hosts": {
+        "dynastyjulkaisu.pohjoiskarjala.net": "no_robots"
+      },
+      "meetings": {
+        "kunnanhallitus": {
+          "latest": "2026-10-19",
+          "meetings": 38,
+          "stages": {
+            "agenda": 1,
+            "minutes": 37
+          }
+        },
+        "kunnanvaltuusto": {
+          "latest": "2026-06-15",
+          "meetings": 12,
+          "stages": {
+            "minutes": 12
+          }
+        }
+      }
+    },
+    "kotka": {
+      "adapter": "none",
+      "skipped": "no source system in the registry"
+    },
+    "kouvola": {
+      "adapter": "dynasty",
+      "bodies": {
+        "kaupunginhallitus": {
+          "dynasty_id": "1",
+          "kind": "board",
+          "name": "Kaupunginhallitus"
+        },
+        "kaupunginvaltuusto": {
+          "dynasty_id": "8",
+          "kind": "council",
+          "name": "Kaupunginvaltuusto"
+        }
+      },
+      "bodies_total": 18,
+      "hosts": {
+        "ep10.kouvola.fi": "no_robots"
+      },
+      "meetings": {
+        "kaupunginhallitus": {
+          "latest": "2026-06-15",
+          "meetings": 36,
+          "stages": {
+            "minutes": 36
+          }
+        },
+        "kaupunginvaltuusto": {
+          "latest": "2026-06-08",
+          "meetings": 12,
+          "stages": {
+            "minutes": 12
+          }
+        }
+      }
+    },
+    "kuopio": {
+      "adapter": "dynasty",
+      "bodies": {
+        "kaupunginhallitus": {
+          "dynasty_id": "2",
+          "kind": "board",
+          "name": "Kaupunginhallitus"
+        },
+        "kaupunginvaltuusto": {
+          "dynasty_id": "1",
+          "kind": "council",
+          "name": "Kaupunginvaltuusto"
+        }
+      },
+      "bodies_total": 18,
+      "hosts": {
+        "kuopio.oncloudos.com": "no_robots"
+      },
+      "meetings": {
+        "kaupunginhallitus": {
+          "latest": "2026-10-19",
+          "meetings": 69,
+          "stages": {
+            "agenda": 1,
+            "minutes": 68
+          }
+        },
+        "kaupunginvaltuusto": {
+          "latest": "2026-10-26",
+          "meetings": 18,
+          "stages": {
+            "agenda": 1,
+            "minutes": 17
+          }
+        }
+      }
+    },
+    "kurikka": {
+      "adapter": "none",
+      "skipped": "no source system in the registry"
+    },
+    "kuusamo": {
+      "adapter": "tweb",
+      "hosts": {
+        "kuusamo.tweb.fi": "disallowed"
+      }
+    },
+    "lahti": {
+      "adapter": "dynasty",
+      "bodies": {
+        "kaupunginhallitus": {
+          "dynasty_id": "7",
+          "kind": "board",
+          "name": "Kaupunginhallitus"
+        },
+        "kaupunginvaltuusto": {
+          "dynasty_id": "4092",
+          "kind": "council",
+          "name": "Kaupunginvaltuusto"
+        }
+      },
+      "bodies_total": 14,
+      "hosts": {
+        "lahti-prod.oncloudos.com": "no_robots"
+      },
+      "meetings": {
+        "kaupunginhallitus": {
+          "latest": "2026-10-05",
+          "meetings": 51,
+          "stages": {
+            "minutes": 51
+          }
+        },
+        "kaupunginvaltuusto": {
+          "latest": "2026-10-05",
+          "meetings": 16,
+          "stages": {
+            "minutes": 16
+          }
+        }
+      }
+    },
+    "lappeenranta": {
+      "adapter": "none",
+      "skipped": "no source system in the registry"
+    },
+    "lapua": {
+      "adapter": "casem",
+      "bodies": {
+        "kaupunginhallitus": {
+          "kind": "board",
+          "name": "Kaupunginhallitus",
+          "slug": "Kaupunginhallitus"
+        },
+        "kaupunginvaltuusto": {
+          "kind": "council",
+          "name": "Kaupunginvaltuusto",
+          "slug": "Kaupunginvaltuusto"
+        }
+      },
+      "bodies_total": 8,
+      "hosts": {
+        "lapua.cloudnc.fi": "allowed"
+      },
+      "meetings": {
+        "kaupunginhallitus": {
+          "latest": "2026-10-19",
+          "meetings": 19,
+          "stages": {
+            "agenda": 1,
+            "minutes": 18
+          }
+        },
+        "kaupunginvaltuusto": {
+          "latest": "2026-09-21",
+          "meetings": 6,
+          "stages": {
+            "minutes": 6
+          }
+        }
+      }
+    },
+    "laukaa": {
+      "adapter": "dynasty",
+      "bodies": {
+        "kunnanhallitus": {
+          "dynasty_id": "1",
+          "kind": "board",
+          "name": "Kunnanhallitus"
+        },
+        "valtuusto": {
+          "dynasty_id": "4",
+          "kind": "council",
+          "name": "Valtuusto"
+        }
+      },
+      "bodies_total": 7,
+      "hosts": {
+        "laukaa.oncloudos.com": "no_robots"
+      },
+      "meetings": {
+        "kunnanhallitus": {
+          "latest": "2026-10-05",
+          "meetings": 31,
+          "stages": {
+            "minutes": 31
+          }
+        },
+        "valtuusto": {
+          "latest": "2026-09-28",
+          "meetings": 9,
+          "stages": {
+            "minutes": 9
+          }
+        }
+      }
+    },
+    "lempaala": {
+      "adapter": "dynasty",
+      "bodies": {
+        "kunnanhallitus": {
+          "dynasty_id": "1",
+          "kind": "board",
+          "name": "Kunnanhallitus"
+        },
+        "kunnanvaltuusto": {
+          "dynasty_id": "9",
+          "kind": "council",
+          "name": "Kunnanvaltuusto"
+        }
+      },
+      "bodies_total": 10,
+      "hosts": {
+        "lempaala10.oncloudos.com": "no_robots"
+      },
+      "meetings": {
+        "kunnanhallitus": {
+          "latest": "2026-10-19",
+          "meetings": 35,
+          "stages": {
+            "agenda": 1,
+            "minutes": 34
+          }
+        },
+        "kunnanvaltuusto": {
+          "latest": "2026-09-30",
+          "meetings": 13,
+          "stages": {
+            "minutes": 13
+          }
+        }
+      }
+    },
+    "lieto": {
+      "adapter": "tweb",
+      "hosts": {
+        "lieto-julkaisu.triplancloud.fi": "disallowed"
+      }
+    },
+    "liminka": {
+      "adapter": "dynasty",
+      "bodies": {
+        "kunnanhallitus": {
+          "dynasty_id": "2",
+          "kind": "board",
+          "name": "Kunnanhallitus"
+        },
+        "kunnanvaltuusto": {
+          "dynasty_id": "1",
+          "kind": "council",
+          "name": "Kunnanvaltuusto"
+        }
+      },
+      "bodies_total": 11,
+      "hosts": {
+        "liminka.oncloudos.com": "no_robots"
+      },
+      "meetings": {
+        "kunnanhallitus": {
+          "latest": "2026-10-12",
+          "meetings": 38,
+          "stages": {
+            "agenda": 1,
+            "minutes": 37
+          }
+        },
+        "kunnanvaltuusto": {
+          "latest": "2026-10-05",
+          "meetings": 17,
+          "stages": {
+            "minutes": 17
+          }
+        }
+      }
+    },
+    "liperi": {
+      "adapter": "dynasty",
+      "bodies": {
+        "kunnanhallitus": {
+          "dynasty_id": "4",
+          "kind": "board",
+          "name": "Kunnanhallitus"
+        },
+        "valtuusto": {
+          "dynasty_id": "1",
+          "kind": "council",
+          "name": "Valtuusto"
+        }
+      },
+      "bodies_total": 12,
+      "hosts": {
+        "dynastyjulkaisu.pohjoiskarjala.net": "no_robots"
+      },
+      "meetings": {
+        "kunnanhallitus": {
+          "latest": "2026-10-05",
+          "meetings": 43,
+          "stages": {
+            "minutes": 43
+          }
+        },
+        "valtuusto": {
+          "latest": "2026-06-15",
+          "meetings": 13,
+          "stages": {
+            "minutes": 13
+          }
+        }
+      }
+    },
+    "lohja": {
+      "adapter": "dynasty",
+      "hosts": {
+        "dynasty.lohja.fi": "disallowed"
+      }
+    },
+    "loimaa": {
+      "adapter": "dynasty",
+      "bodies": {
+        "kaupunginhallitus": {
+          "dynasty_id": "1",
+          "kind": "board",
+          "name": "Kaupunginhallitus"
+        },
+        "kaupunginvaltuusto": {
+          "dynasty_id": "5",
+          "kind": "council",
+          "name": "Kaupunginvaltuusto"
+        }
+      },
+      "bodies_total": 16,
+      "hosts": {
+        "loimaad10.oncloudos.com": "no_robots"
+      },
+      "meetings": {
+        "kaupunginhallitus": {
+          "latest": "2026-09-21",
+          "meetings": 35,
+          "stages": {
+            "minutes": 35
+          }
+        },
+        "kaupunginvaltuusto": {
+          "latest": "2026-06-08",
+          "meetings": 10,
+          "stages": {
+            "minutes": 10
+          }
+        }
+      }
+    },
+    "loviisa": {
+      "adapter": "dynasty",
+      "bodies": {
+        "kaupunginhallitus": {
+          "dynasty_id": "13",
+          "kind": "board",
+          "name": "Kaupunginhallitus"
+        },
+        "kaupunginvaltuusto": {
+          "dynasty_id": "1",
+          "kind": "council",
+          "name": "Kaupunginvaltuusto"
+        }
+      },
+      "bodies_total": 24,
+      "hosts": {
+        "loviisa.oncloudos.com": "no_robots"
+      },
+      "meetings": {
+        "kaupunginhallitus": {
+          "latest": "2026-10-19",
+          "meetings": 47,
+          "stages": {
+            "agenda": 1,
+            "minutes": 46
+          }
+        },
+        "kaupunginvaltuusto": {
+          "latest": "2026-10-14",
+          "meetings": 22,
+          "stages": {
+            "agenda": 1,
+            "minutes": 21
+          }
+        }
+      }
+    },
+    "maarianhamina": {
+      "adapter": "tweb",
+      "hosts": {
+        "paragraf.mariehamn.ax": "unreachable"
+      }
+    },
+    "mantsala": {
+      "adapter": "dynasty",
+      "bodies": {
+        "kunnanhallitus": {
+          "dynasty_id": "2",
+          "kind": "board",
+          "name": "Kunnanhallitus"
+        },
+        "kunnanvaltuusto": {
+          "dynasty_id": "1",
+          "kind": "council",
+          "name": "Kunnanvaltuusto"
+        }
+      },
+      "bodies_total": 12,
+      "hosts": {
+        "mantsalad10.oncloudos.com": "no_robots"
+      },
+      "meetings": {
+        "kunnanhallitus": {
+          "latest": "2026-10-19",
+          "meetings": 36,
+          "stages": {
+            "agenda": 1,
+            "minutes": 35
+          }
+        },
+        "kunnanvaltuusto": {
+          "latest": "2026-09-14",
+          "meetings": 15,
+          "stages": {
+            "minutes": 15
+          }
+        }
+      }
+    },
+    "mikkeli": {
+      "adapter": "casem",
+      "bodies": {
+        "kaupunginhallitus": {
+          "kind": "board",
+          "name": "Kaupunginhallitus",
+          "slug": "Kaupunginhallitus"
+        },
+        "kaupunginvaltuusto": {
+          "kind": "council",
+          "name": "Kaupunginvaltuusto",
+          "slug": "Kaupunginvaltuusto"
+        }
+      },
+      "bodies_total": 34,
+      "hosts": {
+        "mikkeli.cloudnc.fi": "allowed"
+      },
+      "meetings": {
+        "kaupunginhallitus": {
+          "latest": "2026-10-12",
+          "meetings": 47,
+          "stages": {
+            "minutes": 47
+          }
+        },
+        "kaupunginvaltuusto": {
+          "latest": "2026-10-05",
+          "meetings": 15,
+          "stages": {
+            "minutes": 15
+          }
+        }
+      }
+    },
+    "mustasaari": {
+      "adapter": "none",
+      "skipped": "no source system in the registry"
+    },
+    "muurame": {
+      "adapter": "tweb",
+      "hosts": {
+        "muurame.tweb.fi": "disallowed"
+      }
+    },
+    "naantali": {
+      "adapter": "dynasty",
+      "bodies": {
+        "kaupunginhallitus": {
+          "dynasty_id": "1",
+          "kind": "board",
+          "name": "Kaupunginhallitus"
+        },
+        "kaupunginvaltuusto": {
+          "dynasty_id": "103",
+          "kind": "council",
+          "name": "Kaupunginvaltuusto"
+        }
+      },
+      "bodies_total": 15,
+      "hosts": {
+        "naantali.oncloudos.com": "no_robots"
+      },
+      "meetings": {
+        "kaupunginhallitus": {
+          "latest": "2026-10-19",
+          "meetings": 43,
+          "stages": {
+            "agenda": 1,
+            "minutes": 42
+          }
+        },
+        "kaupunginvaltuusto": {
+          "latest": "2026-10-05",
+          "meetings": 13,
+          "stages": {
+            "minutes": 13
+          }
+        }
+      }
+    },
+    "nivala": {
+      "adapter": "dynasty",
+      "hosts": {
+        "poytakirjat.nivala.fi": "disallowed"
+      }
+    },
+    "nokia": {
+      "adapter": "tweb",
+      "hosts": {
+        "nokia.tweb.fi": "disallowed"
+      }
+    },
+    "nurmijarvi": {
+      "adapter": "dynasty",
+      "bodies": {
+        "kunnanhallitus": {
+          "dynasty_id": "1",
+          "kind": "board",
+          "name": "Kunnanhallitus"
+        },
+        "valtuusto": {
+          "dynasty_id": "101",
+          "kind": "council",
+          "name": "Valtuusto"
+        }
+      },
+      "bodies_total": 16,
+      "hosts": {
+        "nurmijarvi10.oncloudos.com": "no_robots"
+      },
+      "meetings": {
+        "kunnanhallitus": {
+          "latest": "2026-10-19",
+          "meetings": 39,
+          "stages": {
+            "agenda": 1,
+            "minutes": 38
+          }
+        },
+        "valtuusto": {
+          "latest": "2026-09-30",
+          "meetings": 17,
+          "stages": {
+            "minutes": 17
+          }
+        }
+      }
+    },
+    "orimattila": {
+      "adapter": "dynasty",
+      "bodies": {
+        "kaupunginhallitus": {
+          "dynasty_id": "1",
+          "kind": "board",
+          "name": "Kaupunginhallitus"
+        },
+        "kaupunginvaltuusto": {
+          "dynasty_id": "28",
+          "kind": "council",
+          "name": "Kaupunginvaltuusto"
+        }
+      },
+      "bodies_total": 18,
+      "hosts": {
+        "orimattilad10.oncloudos.com": "no_robots"
+      },
+      "meetings": {
+        "kaupunginhallitus": {
+          "latest": "2026-06-08",
+          "meetings": 34,
+          "stages": {
+            "minutes": 34
+          }
+        },
+        "kaupunginvaltuusto": {
+          "latest": "2026-06-15",
+          "meetings": 11,
+          "stages": {
+            "minutes": 11
+          }
+        }
+      }
+    },
+    "oulu": {
+      "adapter": "tweb",
+      "hosts": {
+        "asiakirjat.ouka.fi": "disallowed",
+        "paatokset.ouka.fi": "unreachable"
+      }
+    },
+    "paimio": {
+      "adapter": "dynasty",
+      "bodies": {
+        "kaupunginhallitus": {
+          "dynasty_id": "15",
+          "kind": "board",
+          "name": "Kaupunginhallitus"
+        },
+        "kaupunginvaltuusto": {
+          "dynasty_id": "13",
+          "kind": "council",
+          "name": "Kaupunginvaltuusto"
+        }
+      },
+      "bodies_total": 9,
+      "hosts": {
+        "julkaisu.paimio.fi": "no_robots"
+      },
+      "meetings": {
+        "kaupunginhallitus": {
+          "latest": "2026-09-30",
+          "meetings": 32,
+          "stages": {
+            "minutes": 32
+          }
+        },
+        "kaupunginvaltuusto": {
+          "latest": "2026-09-23",
+          "meetings": 10,
+          "stages": {
+            "minutes": 10
+          }
+        }
+      }
+    },
+    "parainen": {
+      "adapter": "dynasty",
+      "bodies": {
+        "kaupunginhallitus": {
+          "dynasty_id": "7",
+          "kind": "board",
+          "name": "Kaupunginhallitus"
+        },
+        "kaupunginvaltuusto": {
+          "dynasty_id": "66",
+          "kind": "council",
+          "name": "Kaupunginvaltuusto"
+        },
+        "valtuusto": {
+          "dynasty_id": "35345",
+          "kind": "council",
+          "name": "Valtuusto"
+        }
+      },
+      "bodies_total": 26,
+      "hosts": {
+        "parainen.oncloudos.com": "no_robots"
+      },
+      "meetings": {
+        "kaupunginhallitus": {
+          "latest": "2026-10-05",
+          "meetings": 26,
+          "stages": {
+            "minutes": 26
+          }
+        },
+        "kaupunginvaltuusto": {
+          "latest": "2025-05-26",
+          "meetings": 3,
+          "stages": {
+            "minutes": 3
+          }
+        },
+        "valtuusto": {
+          "latest": "2026-09-21",
+          "meetings": 9,
+          "stages": {
+            "minutes": 9
+          }
+        }
+      },
+      "problems": [
+        "2 council bodies"
+      ]
+    },
+    "pedersore": {
+      "adapter": "tweb",
+      "hosts": {
+        "publ.pedersore.fi": "unreachable"
+      }
+    },
+    "pieksamaki": {
+      "adapter": "tweb",
+      "hosts": {
+        "tweb.pieksamaki.fi": "partial"
+      }
+    },
+    "pietarsaari": {
+      "adapter": "tweb",
+      "hosts": {
+        "mote.jakobstad.fi:8443": "partial"
+      }
+    },
+    "pirkkala": {
+      "adapter": "tweb",
+      "hosts": {
+        "pirkkala.tweb.fi": "disallowed"
+      }
+    },
+    "pori": {
+      "adapter": "casem",
+      "bodies": {
+        "kaupunginhallitus": {
+          "kind": "board",
+          "name": "Kaupunginhallitus",
+          "slug": "Kaupunginhallitus"
+        },
+        "kaupunginhallitus-salassa-pidettavat-asiat": {
+          "kind": "board",
+          "name": "Kaupunginhallitus, salassa pidettävät asiat",
+          "slug": "Kaupunginhallitus_salassa_pidettaumlvaumlt_asiat"
+        },
+        "kaupunginhallitus-strategiset-yhtiot": {
+          "kind": "board",
+          "name": "Kaupunginhallitus, strategiset yhtiöt",
+          "slug": "Kaupunginhallitus_strategiset_yhtioumlt"
+        },
+        "kaupunginvaltuusto": {
+          "kind": "council",
+          "name": "Kaupunginvaltuusto",
+          "slug": "Kaupunginvaltuusto"
+        }
+      },
+      "bodies_total": 25,
+      "hosts": {
+        "pori.cloudnc.fi": "allowed"
+      },
+      "meetings": {
+        "kaupunginhallitus": {
+          "latest": "2026-10-05",
+          "meetings": 55,
+          "stages": {
+            "minutes": 55
+          }
+        },
+        "kaupunginhallitus-salassa-pidettavat-asiat": {
+          "latest": null,
+          "meetings": 0,
+          "stages": {}
+        },
+        "kaupunginhallitus-strategiset-yhtiot": {
+          "latest": "2026-10-09",
+          "meetings": 8,
+          "stages": {
+            "agenda": 1,
+            "minutes": 7
+          }
+        },
+        "kaupunginvaltuusto": {
+          "latest": "2026-10-12",
+          "meetings": 20,
+          "stages": {
+            "agenda": 1,
+            "minutes": 19
+          }
+        }
+      },
+      "problems": [
+        "3 board bodies",
+        "no meetings since 2025-01-01 for Kaupunginhallitus, salassa pidettävät asiat"
+      ]
+    },
+    "porvoo": {
+      "adapter": "dynasty",
+      "bodies": {
+        "kaupunginhallitus": {
+          "dynasty_id": "1",
+          "kind": "board",
+          "name": "Kaupunginhallitus"
+        },
+        "kaupunginvaltuusto": {
+          "dynasty_id": "84",
+          "kind": "council",
+          "name": "Kaupunginvaltuusto"
+        },
+        "stadsstyrelsen": {
+          "dynasty_id": "85",
+          "kind": "board",
+          "name": "Stadsstyrelsen"
+        }
+      },
+      "bodies_total": 26,
+      "hosts": {
+        "porvoofi.oncloudos.com": "no_robots"
+      },
+      "meetings": {
+        "kaupunginhallitus": {
+          "latest": "2026-10-19",
+          "meetings": 33,
+          "stages": {
+            "agenda": 1,
+            "minutes": 32
+          }
+        },
+        "kaupunginvaltuusto": {
+          "latest": "2026-09-30",
+          "meetings": 10,
+          "stages": {
+            "agenda": 1,
+            "minutes": 9
+          }
+        },
+        "stadsstyrelsen": {
+          "latest": "2026-10-19",
+          "meetings": 33,
+          "stages": {
+            "agenda": 1,
+            "minutes": 32
+          }
+        }
+      },
+      "problems": [
+        "2 board bodies"
+      ]
+    },
+    "raahe": {
+      "adapter": "dynasty",
+      "bodies": {
+        "kaupunginhallitus": {
+          "dynasty_id": "1",
+          "kind": "board",
+          "name": "Kaupunginhallitus"
+        },
+        "kaupunginvaltuusto": {
+          "dynasty_id": "7",
+          "kind": "council",
+          "name": "Kaupunginvaltuusto"
+        }
+      },
+      "bodies_total": 14,
+      "hosts": {
+        "raahe10.oncloudos.com": "no_robots"
+      },
+      "meetings": {
+        "kaupunginhallitus": {
+          "latest": "2026-10-12",
+          "meetings": 37,
+          "stages": {
+            "minutes": 37
+          }
+        },
+        "kaupunginvaltuusto": {
+          "latest": "2026-08-31",
+          "meetings": 18,
+          "stages": {
+            "minutes": 18
+          }
+        }
+      }
+    },
+    "raasepori": {
+      "adapter": "tweb",
+      "hosts": {
+        "raseborg-publicering.triplancloud.fi": "disallowed"
+      }
+    },
+    "raisio": {
+      "adapter": "dynasty",
+      "bodies": {
+        "kaupunginhallitus": {
+          "dynasty_id": "1",
+          "kind": "board",
+          "name": "Kaupunginhallitus"
+        },
+        "kaupunginvaltuusto": {
+          "dynasty_id": "2",
+          "kind": "council",
+          "name": "Kaupunginvaltuusto"
+        }
+      },
+      "bodies_total": 16,
+      "hosts": {
+        "julkaisut.raisio.fi": "no_robots"
+      },
+      "meetings": {
+        "kaupunginhallitus": {
+          "latest": "2026-10-05",
+          "meetings": 39,
+          "stages": {
+            "minutes": 39
+          }
+        },
+        "kaupunginvaltuusto": {
+          "latest": "2026-09-14",
+          "meetings": 12,
+          "stages": {
+            "minutes": 12
+          }
+        }
+      }
+    },
+    "rauma": {
+      "adapter": "tweb",
+      "hosts": {
+        "rauma-julkaisu.tweb.fi": "disallowed"
+      }
+    },
+    "riihimaki": {
+      "adapter": "tweb",
+      "hosts": {
+        "kunta2.riihimaki.fi": "disallowed"
+      }
+    },
+    "rovaniemi": {
+      "adapter": "casem",
+      "bodies": {
+        "kaupunginhallitus": {
+          "kind": "board",
+          "name": "Kaupunginhallitus",
+          "slug": "Kaupunginhallitus"
+        },
+        "kaupunginvaltuusto": {
+          "kind": "council",
+          "name": "Kaupunginvaltuusto",
+          "slug": "Kaupunginvaltuusto"
+        }
+      },
+      "bodies_total": 24,
+      "hosts": {
+        "rovaniemi.cloudnc.fi": "allowed"
+      },
+      "meetings": {
+        "kaupunginhallitus": {
+          "latest": "2026-10-20",
+          "meetings": 37,
+          "stages": {
+            "agenda": 1,
+            "minutes": 36
+          }
+        },
+        "kaupunginvaltuusto": {
+          "latest": "2026-09-14",
+          "meetings": 14,
+          "stages": {
+            "minutes": 14
+          }
+        }
+      }
+    },
+    "salo": {
+      "adapter": "dynasty",
+      "bodies": {
+        "kaupunginhallitus": {
+          "dynasty_id": "2",
+          "kind": "board",
+          "name": "Kaupunginhallitus"
+        },
+        "kaupunginvaltuusto": {
+          "dynasty_id": "43",
+          "kind": "council",
+          "name": "Kaupunginvaltuusto"
+        }
+      },
+      "bodies_total": 14,
+      "hosts": {
+        "salo10.oncloudos.com": "no_robots"
+      },
+      "meetings": {
+        "kaupunginhallitus": {
+          "latest": "2026-10-12",
+          "meetings": 45,
+          "stages": {
+            "agenda": 1,
+            "minutes": 44
+          }
+        },
+        "kaupunginvaltuusto": {
+          "latest": "2026-09-07",
+          "meetings": 15,
+          "stages": {
+            "minutes": 15
+          }
+        }
+      }
+    },
+    "sastamala": {
+      "adapter": "dynasty",
+      "bodies": {
+        "kaupunginhallitus": {
+          "dynasty_id": "2",
+          "kind": "board",
+          "name": "Kaupunginhallitus"
+        },
+        "kaupunginvaltuusto": {
+          "dynasty_id": "1",
+          "kind": "council",
+          "name": "Kaupunginvaltuusto"
+        }
+      },
+      "bodies_total": 15,
+      "hosts": {
+        "sastamalad10.oncloudos.com": "no_robots"
+      },
+      "meetings": {
+        "kaupunginhallitus": {
+          "latest": "2026-10-19",
+          "meetings": 37,
+          "stages": {
+            "agenda": 1,
+            "minutes": 36
+          }
+        },
+        "kaupunginvaltuusto": {
+          "latest": "2026-09-28",
+          "meetings": 10,
+          "stages": {
+            "minutes": 10
+          }
+        }
+      }
+    },
+    "savonlinna": {
+      "adapter": "dynasty",
+      "bodies": {
+        "kaupunginhallitus": {
+          "dynasty_id": "4",
+          "kind": "board",
+          "name": "Kaupunginhallitus"
+        },
+        "kaupunginvaltuusto": {
+          "dynasty_id": "5",
+          "kind": "council",
+          "name": "Kaupunginvaltuusto"
+        }
+      },
+      "bodies_total": 15,
+      "hosts": {
+        "savonlinna.oncloudos.com": "no_robots"
+      },
+      "meetings": {
+        "kaupunginhallitus": {
+          "latest": "2026-10-20",
+          "meetings": 54,
+          "stages": {
+            "agenda": 1,
+            "minutes": 53
+          }
+        },
+        "kaupunginvaltuusto": {
+          "latest": "2026-10-19",
+          "meetings": 17,
+          "stages": {
+            "agenda": 1,
+            "minutes": 16
+          }
+        }
+      }
+    },
+    "seinajoki": {
+      "adapter": "tweb",
+      "hosts": {
+        "listat.seinajoki.fi": "disallowed"
+      }
+    },
+    "siilinjarvi": {
+      "adapter": "dynasty",
+      "bodies": {
+        "kunnanhallitus": {
+          "dynasty_id": "1",
+          "kind": "board",
+          "name": "Kunnanhallitus"
+        },
+        "kunnanvaltuusto": {
+          "dynasty_id": "8",
+          "kind": "council",
+          "name": "Kunnanvaltuusto"
+        }
+      },
+      "bodies_total": 11,
+      "hosts": {
+        "siilinjarvi10.oncloudos.com": "no_robots"
+      },
+      "meetings": {
+        "kunnanhallitus": {
+          "latest": "2026-09-28",
+          "meetings": 35,
+          "stages": {
+            "minutes": 35
+          }
+        },
+        "kunnanvaltuusto": {
+          "latest": "2026-10-05",
+          "meetings": 11,
+          "stages": {
+            "minutes": 11
+          }
+        }
+      }
+    },
+    "sipoo": {
+      "adapter": "dynasty",
+      "bodies": {
+        "valtuusto": {
+          "dynasty_id": "24",
+          "kind": "council",
+          "name": "Valtuusto"
+        }
+      },
+      "bodies_total": 24,
+      "hosts": {
+        "sipoofi.oncloudos.com": "no_robots"
+      },
+      "meetings": {
+        "valtuusto": {
+          "latest": "2026-10-05",
+          "meetings": 17,
+          "stages": {
+            "minutes": 17
+          }
+        }
+      },
+      "problems": [
+        "0 board bodies"
+      ]
+    },
+    "sotkamo": {
+      "adapter": "dynasty",
+      "bodies": {
+        "kunnanhallitus": {
+          "dynasty_id": "2",
+          "kind": "board",
+          "name": "Kunnanhallitus"
+        },
+        "kunnanvaltuusto": {
+          "dynasty_id": "6",
+          "kind": "council",
+          "name": "Kunnanvaltuusto"
+        }
+      },
+      "bodies_total": 8,
+      "hosts": {
+        "dynasty.voiceintuitive.com": "no_robots"
+      },
+      "meetings": {
+        "kunnanhallitus": {
+          "latest": "2026-09-22",
+          "meetings": 34,
+          "stages": {
+            "minutes": 34
+          }
+        },
+        "kunnanvaltuusto": {
+          "latest": "2026-06-09",
+          "meetings": 14,
+          "stages": {
+            "minutes": 14
+          }
+        }
+      }
+    },
+    "tampere": {
+      "adapter": "casem",
+      "hosts": {
+        "tampere.cloudnc.fi": "allowed"
+      }
+    },
+    "tornio": {
+      "adapter": "dynasty",
+      "bodies": {
+        "kaupunginhallitus": {
+          "dynasty_id": "1",
+          "kind": "board",
+          "name": "Kaupunginhallitus"
+        },
+        "kaupunginvaltuusto": {
+          "dynasty_id": "3",
+          "kind": "council",
+          "name": "Kaupunginvaltuusto"
+        }
+      },
+      "bodies_total": 15,
+      "hosts": {
+        "tornio.oncloudos.com": "no_robots"
+      },
+      "meetings": {
+        "kaupunginhallitus": {
+          "latest": "2026-06-22",
+          "meetings": 35,
+          "stages": {
+            "minutes": 35
+          }
+        },
+        "kaupunginvaltuusto": {
+          "latest": "2026-06-15",
+          "meetings": 17,
+          "stages": {
+            "minutes": 17
+          }
+        }
+      }
+    },
+    "turku": {
+      "adapter": "turku",
+      "hosts": {
+        "ah.turku.fi": "unreachable",
+        "paatokset.turku.fi": "unreachable"
+      }
+    },
+    "tuusula": {
+      "adapter": "dynasty",
+      "bodies": {
+        "kunnanhallitus": {
+          "dynasty_id": "23",
+          "kind": "board",
+          "name": "Kunnanhallitus"
+        },
+        "valtuusto": {
+          "dynasty_id": "30",
+          "kind": "council",
+          "name": "Valtuusto"
+        }
+      },
+      "bodies_total": 17,
+      "hosts": {
+        "tuusula.oncloudos.com": "no_robots"
+      },
+      "meetings": {
+        "kunnanhallitus": {
+          "latest": "2026-06-15",
+          "meetings": 21,
+          "stages": {
+            "minutes": 21
+          }
+        },
+        "valtuusto": {
+          "latest": "2026-06-08",
+          "meetings": 6,
+          "stages": {
+            "minutes": 6
+          }
+        }
+      }
+    },
+    "ulvila": {
+      "adapter": "dynasty",
+      "bodies": {
+        "kaupunginhallitus": {
+          "dynasty_id": "1",
+          "kind": "board",
+          "name": "Kaupunginhallitus"
+        },
+        "valtuusto": {
+          "dynasty_id": "2",
+          "kind": "council",
+          "name": "Valtuusto"
+        }
+      },
+      "bodies_total": 9,
+      "hosts": {
+        "paatos.ulvila.fi": "no_robots"
+      },
+      "meetings": {
+        "kaupunginhallitus": {
+          "latest": "2026-10-05",
+          "meetings": 21,
+          "stages": {
+            "minutes": 21
+          }
+        },
+        "valtuusto": {
+          "latest": "2026-09-14",
+          "meetings": 6,
+          "stages": {
+            "minutes": 6
+          }
+        }
+      }
+    },
+    "uusikaupunki": {
+      "adapter": "dynasty",
+      "bodies": {
+        "kaupunginhallitus": {
+          "dynasty_id": "1",
+          "kind": "board",
+          "name": "Kaupunginhallitus"
+        },
+        "kaupunginvaltuusto": {
+          "dynasty_id": "2",
+          "kind": "council",
+          "name": "Kaupunginvaltuusto"
+        }
+      },
+      "bodies_total": 17,
+      "hosts": {
+        "uusikaupunki.oncloudos.com": "no_robots"
+      },
+      "meetings": {
+        "kaupunginhallitus": {
+          "latest": "2026-10-19",
+          "meetings": 34,
+          "stages": {
+            "agenda": 1,
+            "minutes": 33
+          }
+        },
+        "kaupunginvaltuusto": {
+          "latest": "2026-09-07",
+          "meetings": 12,
+          "stages": {
+            "minutes": 12
+          }
+        }
+      }
+    },
+    "vaasa": {
+      "adapter": "tweb",
+      "hosts": {
+        "tweb.vaasa.fi": "unreachable"
+      }
+    },
+    "valkeakoski": {
+      "adapter": "tweb",
+      "hosts": {
+        "valkeakoski.tweb.fi": "disallowed"
+      }
+    },
+    "vantaa": {
+      "adapter": "tweb",
+      "hosts": {
+        "paatokset.vantaa.fi": "no_robots"
+      }
+    },
+    "varkaus": {
+      "adapter": "tweb",
+      "hosts": {
+        "varkaus.tweb.fi": "disallowed"
+      }
+    },
+    "vihti": {
+      "adapter": "dynasty",
+      "bodies": {
+        "kunnanhallitus": {
+          "dynasty_id": "4",
+          "kind": "board",
+          "name": "Kunnanhallitus"
+        },
+        "kunnanvaltuusto": {
+          "dynasty_id": "6",
+          "kind": "council",
+          "name": "Kunnanvaltuusto"
+        }
+      },
+      "bodies_total": 12,
+      "hosts": {
+        "vihti.oncloudos.com": "no_robots"
+      },
+      "meetings": {
+        "kunnanhallitus": {
+          "latest": "2026-05-11",
+          "meetings": 31,
+          "stages": {
+            "minutes": 31
+          }
+        },
+        "kunnanvaltuusto": {
+          "latest": "2026-03-23",
+          "meetings": 10,
+          "stages": {
+            "minutes": 10
+          }
+        }
+      }
+    },
+    "ylivieska": {
+      "adapter": "dynasty",
+      "hosts": {
+        "poytakirjat.ylivieska.fi": "partial"
+      }
+    },
+    "ylojarvi": {
+      "adapter": "dynasty",
+      "bodies": {
+        "kaupunginhallitus": {
+          "dynasty_id": "1",
+          "kind": "board",
+          "name": "Kaupunginhallitus"
+        },
+        "kaupunginvaltuusto": {
+          "dynasty_id": "26",
+          "kind": "council",
+          "name": "Kaupunginvaltuusto"
+        }
+      },
+      "bodies_total": 21,
+      "hosts": {
+        "ylojarvi10.oncloudos.com": "no_robots"
+      },
+      "meetings": {
+        "kaupunginhallitus": {
+          "latest": "2026-10-19",
+          "meetings": 36,
+          "stages": {
+            "agenda": 1,
+            "minutes": 35
+          }
+        },
+        "kaupunginvaltuusto": {
+          "latest": "2026-10-05",
+          "meetings": 16,
+          "stages": {
+            "minutes": 16
+          }
+        }
+      }
+    }
+  },
+  "since": "2025-01-01"
+}
