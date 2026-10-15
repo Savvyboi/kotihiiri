@@ -525,26 +525,19 @@
     },
     "mote.jakobstad.fi:8443": {
       "blocked": [
-        "/ktwebbin/dbisa.dll/ktwebbin/dbisa.dll/ktwebscr/fileshow?doctype=3&docid=1",
-        "/ktwebbin/dbisa.dll/ktwebbin/dbisa.dll/ktwebscr/pk_kokl_tweb.htm?+kirjaamo=1",
         "/ktwebbin/dbisa.dll/ktwebscr/epj_kokl_tweb.htm?+kirjaamo=1",
         "/ktwebbin/dbisa.dll/ktwebscr/epj_tek_tweb.htm",
         "/ktwebbin/dbisa.dll/ktwebscr/fileshow?doctype=3&docid=1",
         "/ktwebbin/dbisa.dll/ktwebscr/pk_asil_tweb.htm?+bid=1",
         "/ktwebbin/dbisa.dll/ktwebscr/pk_kokl_tweb.htm?+kirjaamo=1",
-        "/ktwebbin/dbisa.dll/ktwebscr/pk_tek_tweb.htm",
-        "/ktwebscr/epj_kokl_tweb.htm?+kirjaamo=1",
-        "/ktwebscr/epj_tek_tweb.htm",
-        "/ktwebscr/fileshow?doctype=3&docid=1",
-        "/ktwebscr/pk_asil_tweb.htm?+bid=1",
-        "/ktwebscr/pk_tek_tweb.htm"
+        "/ktwebbin/dbisa.dll/ktwebscr/pk_tek_tweb.htm"
       ],
       "checked": "2026-10-15",
       "municipalities": [
         "pietarsaari"
       ],
       "robots": "ok",
-      "status": "partial"
+      "status": "disallowed"
     },
     "muurame.tweb.fi": {
       "blocked": [
@@ -892,26 +885,19 @@
     },
     "tweb.pieksamaki.fi": {
       "blocked": [
-        "/ktwebbin/dbisa.dll/ktwebbin/dbisa.dll/ktwebscr/fileshow?doctype=3&docid=1",
-        "/ktwebbin/dbisa.dll/ktwebbin/dbisa.dll/ktwebscr/pk_kokl_tweb.htm?+kirjaamo=1",
         "/ktwebbin/dbisa.dll/ktwebscr/epj_kokl_tweb.htm?+kirjaamo=1",
         "/ktwebbin/dbisa.dll/ktwebscr/epj_tek_tweb.htm",
         "/ktwebbin/dbisa.dll/ktwebscr/fileshow?doctype=3&docid=1",
         "/ktwebbin/dbisa.dll/ktwebscr/pk_asil_tweb.htm?+bid=1",
         "/ktwebbin/dbisa.dll/ktwebscr/pk_kokl_tweb.htm?+kirjaamo=1",
-        "/ktwebbin/dbisa.dll/ktwebscr/pk_tek_tweb.htm",
-        "/ktwebscr/epj_kokl_tweb.htm?+kirjaamo=1",
-        "/ktwebscr/epj_tek_tweb.htm",
-        "/ktwebscr/fileshow?doctype=3&docid=1",
-        "/ktwebscr/pk_asil_tweb.htm?+bid=1",
-        "/ktwebscr/pk_tek_tweb.htm"
+        "/ktwebbin/dbisa.dll/ktwebscr/pk_tek_tweb.htm"
       ],
       "checked": "2026-10-15",
       "municipalities": [
         "pieksamaki"
       ],
       "robots": "ok",
-      "status": "partial"
+      "status": "disallowed"
     },
     "tweb.vaasa.fi": {
       "blocked": [

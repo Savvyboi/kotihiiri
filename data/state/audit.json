@@ -675,11 +675,6 @@
           "dynasty_id": "6",
           "kind": "council",
           "name": "Kaupunginvaltuusto"
-        },
-        "lapsivaltuusto-barnfullmaktige": {
-          "dynasty_id": "243",
-          "kind": "council",
-          "name": "Lapsivaltuusto ⁄ Barnfullmäktige"
         }
       },
       "bodies_total": 20,
@@ -702,18 +697,8 @@
             "agenda": 1,
             "minutes": 9
           }
-        },
-        "lapsivaltuusto-barnfullmaktige": {
-          "latest": "2026-09-23",
-          "meetings": 4,
-          "stages": {
-            "minutes": 4
-          }
         }
-      },
-      "problems": [
-        "2 council bodies"
-      ]
+      }
     },
     "kontiolahti": {
       "adapter": "dynasty",
@@ -1432,6 +1417,31 @@
           }
         }
       },
+      "other_bodies": [
+        "Bildningsnämndens svenskspråkiga sektion",
+        "Bildningsnämndens svenskspråkiga sektion",
+        "Elinvoimavaliokunta",
+        "Houtskarin lautakunta",
+        "Hyvinvointi- ja vapaa-aikalautakunta",
+        "Iniön lautakunta",
+        "Kasvatus- ja koulutuslautakunnan suomenkielinen jaosto",
+        "Kasvatus- ja koulutuslautakunta",
+        "Kaupunginhallituksen teknisten tukipalvelujen jaosto",
+        "Kaupunkikehityslautakunta",
+        "Keskusvaalilautakunta",
+        "Korppoon lautakunta",
+        "Kulttuuri- ja liikuntalautakunta",
+        "Lupalautakunta",
+        "Nauvon lautakunta",
+        "Nämnden för fostran och utbildnings svenskspråkiga sektion",
+        "Rakennus- ja ympäristölautakunta",
+        "Saaristolautakunta",
+        "Sivistyslautakunnan suomenkielinen jaosto",
+        "Sivistyslautakunta",
+        "Sivistyslautakunta",
+        "Sosiaali- ja terveyslautakunta",
+        "Tarkastuslautakunta"
+      ],
       "problems": [
         "2 council bodies"
       ]
@@ -1445,13 +1455,13 @@
     "pieksamaki": {
       "adapter": "tweb",
       "hosts": {
-        "tweb.pieksamaki.fi": "partial"
+        "tweb.pieksamaki.fi": "disallowed"
       }
     },
     "pietarsaari": {
       "adapter": "tweb",
       "hosts": {
-        "mote.jakobstad.fi:8443": "partial"
+        "mote.jakobstad.fi:8443": "disallowed"
       }
     },
     "pirkkala": {
@@ -1467,16 +1477,6 @@
           "kind": "board",
           "name": "Kaupunginhallitus",
           "slug": "Kaupunginhallitus"
-        },
-        "kaupunginhallitus-salassa-pidettavat-asiat": {
-          "kind": "board",
-          "name": "Kaupunginhallitus, salassa pidettävät asiat",
-          "slug": "Kaupunginhallitus_salassa_pidettaumlvaumlt_asiat"
-        },
-        "kaupunginhallitus-strategiset-yhtiot": {
-          "kind": "board",
-          "name": "Kaupunginhallitus, strategiset yhtiöt",
-          "slug": "Kaupunginhallitus_strategiset_yhtioumlt"
         },
         "kaupunginvaltuusto": {
           "kind": "council",
@@ -1496,19 +1496,6 @@
             "minutes": 55
           }
         },
-        "kaupunginhallitus-salassa-pidettavat-asiat": {
-          "latest": null,
-          "meetings": 0,
-          "stages": {}
-        },
-        "kaupunginhallitus-strategiset-yhtiot": {
-          "latest": "2026-10-09",
-          "meetings": 8,
-          "stages": {
-            "agenda": 1,
-            "minutes": 7
-          }
-        },
         "kaupunginvaltuusto": {
           "latest": "2026-10-12",
           "meetings": 20,
@@ -1517,11 +1504,7 @@
             "minutes": 19
           }
         }
-      },
-      "problems": [
-        "3 board bodies",
-        "no meetings since 2025-01-01 for Kaupunginhallitus, salassa pidettävät asiat"
-      ]
+      }
     },
     "porvoo": {
       "adapter": "dynasty",
@@ -1535,11 +1518,6 @@
           "dynasty_id": "84",
           "kind": "council",
           "name": "Kaupunginvaltuusto"
-        },
-        "stadsstyrelsen": {
-          "dynasty_id": "85",
-          "kind": "board",
-          "name": "Stadsstyrelsen"
         }
       },
       "bodies_total": 26,
@@ -1562,19 +1540,8 @@
             "agenda": 1,
             "minutes": 9
           }
-        },
-        "stadsstyrelsen": {
-          "latest": "2026-10-19",
-          "meetings": 33,
-          "stages": {
-            "agenda": 1,
-            "minutes": 32
-          }
         }
-      },
-      "problems": [
-        "2 board bodies"
-      ]
+      }
     },
     "raahe": {
       "adapter": "dynasty",
@@ -1872,6 +1839,31 @@
           }
         }
       },
+      "other_bodies": [
+        "Arjen ja vapaa-ajan valiokunta ⁄ Utskottet för vardag och fritid",
+        "Elinkeino- ja työllisyysjaosto ⁄ Näringslivs- och sysselsättningssektionen",
+        "Hyvinvointijaosto ⁄ Välfärdssektionen",
+        "Keskusvaalilautakunta ⁄ Centralvalnämnden",
+        "Koulutusvaliokunta ⁄ Utskottet för utbildning",
+        "Kunnanhallitus ⁄ Kommunstyrelsen",
+        "Maankäyttö- ja elinkeinojaosto ⁄ Markanvändnings- och näringslivssektionen",
+        "Maankäyttöjaosto ⁄ Markanvändningssektionen",
+        "Nimistötoimikunta ⁄ Namnkommittén",
+        "Nuorisovaltuusto ⁄ Ungdomsfullmäktige",
+        "Rakennus- ja ympäristövaliokunta ⁄ Byggnads- och miljöutskottet",
+        "Saaristovaltuuskunta ⁄ Skärgårdsdelegationen",
+        "Sipoon Vesi -liikelaitoksen johtokunta ⁄ Direktionen för affärsverket Sibbo Vatten",
+        "Sivistysvaliokunta ⁄ Bildningsutskottet",
+        "Sosiaali- ja terveysvaliokunta ⁄ Social- och hälsovårdsutskottet",
+        "Suomenkielinen koulutusjaosto",
+        "Svenska utbildningssektionen",
+        "Tarkastuslautakunta ⁄ Revisionsnämnden",
+        "Tekninen valiokunta ⁄ Tekniska utskottet",
+        "Vammaisneuvosto ⁄ Rådet för personer med funktionsnedsättning",
+        "Vanhusneuvosto ⁄ Äldrerådet",
+        "Vapaa-ajanjaosto ⁄ Fritidssektionen",
+        "Varhaiskasvatusvaliokunta ⁄ Utskottet för småbarnspedagogik"
+      ],
       "problems": [
         "0 board bodies"
       ]
