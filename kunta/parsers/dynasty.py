@@ -20,6 +20,9 @@ from __future__ import annotations
 
 import datetime as dt
 import re
+from collections.abc import Iterator
+from contextlib import contextmanager
+from contextvars import ContextVar
 from dataclasses import dataclass, field
 from urllib.parse import urljoin
 
@@ -31,6 +34,20 @@ from ..text import collapse_ws, strip_pii
 
 BASE = "https://espoo.oncloudos.com"
 CGI = BASE + "/cgi/DREQUEST.PHP"
+# Relative links resolve against the host being parsed; adapters set it with `base_url(...)`.
+_CGI: ContextVar[str] = ContextVar("dynasty_cgi", default=CGI)
+
+
+@contextmanager
+def base_url(base: str) -> Iterator[None]:
+    """Resolve links against `{base}/cgi/DREQUEST.PHP` (one install per municipality, §18.1)."""
+    token = _CGI.set(base.rstrip("/") + "/cgi/DREQUEST.PHP")
+    try:
+        yield
+    finally:
+        _CGI.reset(token)
+
+
 DATE = re.compile(r"(\d{1,2})\.(\d{1,2})\.(\d{4})")
 BODY_HREF = re.compile(r"[?&]page=meetings&id=(\d+)\b")
 MEETING_HREF = re.compile(r"[?&]page=meeting&id=(\d+)\b")
@@ -72,7 +89,7 @@ class Row:
     links: list[Link]
 
 
-def table_rows(html: str, base: str = BASE) -> list[list[Row]]:
+def table_rows(html: str, base: str | None = None) -> list[list[Row]]:
     """Every table on the page as rows of cell texts plus the row's links (header rows included)."""
     tree = HTMLParser(html)
     tables: list[list[Row]] = []
@@ -90,7 +107,9 @@ def table_rows(html: str, base: str = BASE) -> list[list[Row]]:
             for a in tr.css("a[href]"):
                 href = (a.attributes.get("href") or "").strip()
                 if href and not href.startswith(("#", "mailto:", "javascript:")):
-                    links.append(Link(clean(a.text(deep=True, separator=" ")), urljoin(base, href)))
+                    links.append(
+                        Link(clean(a.text(deep=True, separator=" ")), urljoin(base or _CGI.get(), href))
+                    )
             if any(cells):
                 rows.append(Row(cells, links))
         tables.append(rows)
@@ -104,7 +123,7 @@ def parse_bodies(html: str) -> dict[str, str]:
     """Dynasty body id → name, from `?page=meeting_frames`. Rows without a link (bodies with no
     published meetings, such as "Testitoimielin") are skipped."""
     out: dict[str, str] = {}
-    for link in all_links(html, CGI):
+    for link in all_links(html, _CGI.get()):
         m = BODY_HREF.search(link.href)
         if m and link.text and not STAGE_WORDS.get(link.text.lower()):
             out.setdefault(m.group(1), link.text)
@@ -171,7 +190,7 @@ def _hhmm(h: str | None, m: str | None) -> str | None:
 
 
 def parse_meeting(html: str, meeting_id: str) -> MeetingPage:
-    bl = blocks(html, CGI)
+    bl = blocks(html, _CGI.get())
     h1 = next((b.text for b in bl if b.kind == "h1"), "")
     stage = next((s for w, s in STAGE_WORDS.items() if re.search(rf"\b{w}\b", h1, re.IGNORECASE)), None)
     page = MeetingPage(stage=stage, date=parse_date(h1))
@@ -188,7 +207,7 @@ def parse_meeting(html: str, meeting_id: str) -> MeetingPage:
         elif low.startswith("julkaistu"):
             page.published = parse_date(b.text)
 
-    for link in all_links(html, CGI):
+    for link in all_links(html, _CGI.get()):
         m = PDF_HREF.search(link.href)
         if m and m.group(1) == meeting_id and not m.group(2):
             page.minutes_pdf = page.minutes_pdf or link.href
@@ -307,7 +326,7 @@ def _parts(html: str) -> tuple[str, list[tuple[str, list[Link]]]]:
         cap = part.css_first("caption") or part.css_first(".data-part-caption")
         caption = clean(cap.text(deep=True, separator=" ")) if cap else ""
         links = [
-            Link(clean(a.text(deep=True, separator=" ")), urljoin(CGI, a.attributes.get("href") or ""))
+            Link(clean(a.text(deep=True, separator=" ")), urljoin(_CGI.get(), a.attributes.get("href") or ""))
             for a in part.css("a[href]")
         ]
         others.append((f"{classes} {caption}".lower(), links))
@@ -316,13 +335,13 @@ def _parts(html: str) -> tuple[str, list[tuple[str, list[Link]]]]:
 
 def parse_item(html: str) -> ItemPage:
     page = ItemPage()
-    for link in all_links(html, CGI):
+    for link in all_links(html, _CGI.get()):
         m = PDF_HREF.search(link.href)
         if m and m.group(2) and not m.group(3):
             page.item_pdf = page.item_pdf or link.href
     text_html, parts = _parts(html)
-    links = all_links(text_html, CGI)
-    bl = blocks(INLINE_HEADING.sub(r"\1<br>", text_html), CGI)
+    links = all_links(text_html, _CGI.get())
+    bl = blocks(INLINE_HEADING.sub(r"\1<br>", text_html), _CGI.get())
 
     # Start after the "Kokousasian teksti" heading when there is one (the site chrome is above it).
     start = next((i + 1 for i, b in enumerate(bl) if b.text.lower() == "kokousasian teksti"), 0)

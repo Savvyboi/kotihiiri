@@ -7,7 +7,8 @@ from kunta.http import PoliteClient
 
 def test_oulu_and_turku_disabled_with_reason():
     cities = load_cities()
-    assert list(cities) == ["helsinki", "espoo", "tampere", "vantaa", "oulu", "turku"]
+    assert list(cities)[:6] == ["helsinki", "espoo", "tampere", "vantaa", "oulu", "turku"]
+    assert len(cities) == 96
     for c in ("oulu", "turku"):
         assert cities[c].enabled is False
         assert cities[c].reason == "robots_disallow_pending_permission"

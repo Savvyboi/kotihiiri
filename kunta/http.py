@@ -32,6 +32,9 @@ log = logging.getLogger(__name__)
 
 MAX_ATTEMPTS = 4
 MIN_INTERVAL_S = 1.0
+# Hosts of one shared provider (*.oncloudos.com, *.cloudnc.fi, …) share a cap of 2 requests/second
+# on top of the per-host 1/s (PLAN.md §18.2), until S12 shows they are separate backends.
+PROVIDER_INTERVAL_S = 0.5
 RETRY_STATUSES = {429, 500, 502, 503, 504}
 
 
@@ -80,33 +83,54 @@ class Stats:
     failures: list[dict[str, str]] = field(default_factory=list)
 
 
+def _default_provider(host: str) -> str:
+    from .registry import provider_of
+
+    return provider_of(host)
+
+
 class RateLimiter:
-    """Minimum interval between requests to the same host, one request at a time per host."""
+    """Minimum interval between requests to the same host, one request at a time per host, and a
+    shared minimum interval across the hosts of one provider (§18.2)."""
 
     def __init__(
         self,
         interval_s: float = MIN_INTERVAL_S,
         clock: Callable[[], float] = time.monotonic,
         sleep: Callable[[float], None] = time.sleep,
+        provider_interval_s: float = PROVIDER_INTERVAL_S,
+        provider_of: Callable[[str], str] = _default_provider,
     ) -> None:
         self.interval_s = interval_s
+        self.provider_interval_s = provider_interval_s
+        self._provider_of = provider_of
         self._clock = clock
         self._sleep = sleep
         self._last: dict[str, float] = {}
+        self._last_provider: dict[str, float] = {}
         self._locks: dict[str, threading.Lock] = {}
         self._guard = threading.Lock()
 
     def lock(self, host: str) -> threading.Lock:
+        # One lock per provider: hosts sharing a provider take turns, so the shared cap holds
+        # even when several hosts are fetched in parallel threads.
+        key = self._provider_of(host)
         with self._guard:
-            return self._locks.setdefault(host, threading.Lock())
+            return self._locks.setdefault(key, threading.Lock())
 
     def wait(self, host: str) -> None:
-        last = self._last.get(host)
-        if last is not None:
-            remaining = self.interval_s - (self._clock() - last)
-            if remaining > 0:
-                self._sleep(remaining)
-        self._last[host] = self._clock()
+        provider = self._provider_of(host)
+        waits = []
+        if (last := self._last.get(host)) is not None:
+            waits.append(self.interval_s - (self._clock() - last))
+        if provider != host and (last := self._last_provider.get(provider)) is not None:
+            waits.append(self.provider_interval_s - (self._clock() - last))
+        remaining = max(waits, default=0.0)
+        if remaining > 0:
+            self._sleep(remaining)
+        now = self._clock()
+        self._last[host] = now
+        self._last_provider[provider] = now
 
 
 class PoliteClient:
@@ -136,6 +160,9 @@ class PoliteClient:
             timeout=httpx.Timeout(30.0),
         )
         self._robots: dict[str, RobotsRules] = {}
+        # Per host: how robots.txt answered (`ok`, `no_robots`, `forbidden`, `unreachable`), for the
+        # robots audit (M10).
+        self.robots_status: dict[str, str] = {}
         self.validators: dict[str, dict[str, str]] = {}
         if validators_path and validators_path.exists():
             self.validators = jsonio.read(validators_path)
@@ -154,14 +181,22 @@ class PoliteClient:
                 self.stats.requests += 1
                 if resp.status_code in (401, 403):
                     rp.disallow_all = True
+                    self.robots_status[host] = "forbidden"
+                elif resp.status_code >= 500:
+                    # RFC 9309: a server error on robots.txt means assume complete disallow.
+                    rp.disallow_all = True
+                    self.robots_status[host] = "unreachable"
                 elif resp.status_code >= 400:
                     rp.allow_all = True  # no robots.txt → everything allowed
+                    self.robots_status[host] = "no_robots"
                 else:
                     rp = RobotsRules(resp.text)
+                    self.robots_status[host] = "ok"
             except httpx.HTTPError as exc:
                 # Unreachable robots.txt: be conservative and fetch nothing from this host.
                 log.warning("robots.txt unreachable for %s: %s", host, exc)
                 rp.disallow_all = True
+                self.robots_status[host] = "unreachable"
             self._robots[host] = rp
         return self._robots[host]
 

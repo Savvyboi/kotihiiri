@@ -1,0 +1,55 @@
+# Robots and listing audit of every registry host (PLAN.md M10, S11, S13). Runs on Actions because
+# the build environment cannot reach most municipal hosts. Fetches robots.txt per host, then council
+# and board listing pages of the municipalities whose hosts allow it (no meeting or item pages),
+# and commits data/state/robots.json, data/state/audit.json and the regenerated
+# config/municipalities.yaml to the branch it ran on.
+name: robots-audit
+
+on:
+  workflow_dispatch:
+    inputs:
+      args:
+        description: "Extra arguments for `kunta audit`, e.g. `--only kuopio,lahti` or `--no-counts`"
+        default: ""
+  # A push to a working branch that changes the arguments file runs the audit there.
+  push:
+    branches: ["claude/**"]
+    paths: [config/registry/audit-args]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: robots-audit-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -e .
+      - name: Audit
+        env:
+          ARGS: ${{ inputs.args }}
+        run: |
+          if [ -z "$ARGS" ] && [ -f config/registry/audit-args ]; then ARGS=$(grep -v '^#' config/registry/audit-args | xargs); fi
+          kunta audit $ARGS
+      - run: kunta registry
+      - name: Commit results
+        run: |
+          git config user.name "kotihiiri-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/state/robots.json data/state/audit.json config/municipalities.yaml
+          git diff --cached --quiet && exit 0
+          git commit -m "audit: robots and listings $(date -u +%F)"
+          for i in 1 2 3; do
+            git pull --rebase origin "$GITHUB_REF_NAME" && git push && exit 0
+            sleep $((i * 5))
+          done
+          exit 1

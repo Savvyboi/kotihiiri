@@ -27,6 +27,9 @@ from __future__ import annotations
 
 import datetime as dt
 import re
+from collections.abc import Iterator
+from contextlib import contextmanager
+from contextvars import ContextVar
 from dataclasses import dataclass, field
 from urllib.parse import urljoin
 
@@ -39,6 +42,20 @@ from ..text import classify_heading, collapse_ws, strip_pii
 
 BASE = "https://tampere.cloudnc.fi"
 ROOT = BASE + "/fi-FI/"
+# Relative links resolve against the host being parsed; adapters set it with `base_url(...)`.
+_ROOT: ContextVar[str] = ContextVar("casem_root", default=ROOT)
+
+
+@contextmanager
+def base_url(base: str) -> Iterator[None]:
+    """Resolve links against `{base}/fi-FI/` (one CloudNC site per municipality, §18.1)."""
+    token = _ROOT.set(base.rstrip("/") + "/fi-FI/")
+    try:
+        yield
+    finally:
+        _ROOT.reset(token)
+
+
 DATE = re.compile(r"(\d{1,2})\.(\d{1,2})\.(\d{4})")
 BODY_HREF = re.compile(r"/Toimielimet/([^/?#]+)/?$")
 MEETING_HREF = re.compile(r"/Toimielimet/([^/?#]+)/(Kokous_[^/?#]+)/?$")
@@ -67,8 +84,8 @@ def _content(html: str) -> str:
     return (node.html or html) if node is not None else html
 
 
-def _href(node: Node, base: str = ROOT) -> str:
-    return urljoin(base, (node.attributes.get("href") or "").strip())
+def _href(node: Node, base: str | None = None) -> str:
+    return urljoin(base or _ROOT.get(), (node.attributes.get("href") or "").strip())
 
 
 # -- bodies -------------------------------------------------------------------------------
@@ -112,7 +129,7 @@ def parse_meetings(html: str) -> list[ListingRow]:
     The URL's digits are not parsed: "Kokous_1492026" is ambiguous without separators."""
     rows: dict[str, ListingRow] = {}
     previous = ""
-    for b in blocks(_content(html), ROOT):
+    for b in blocks(_content(html), _ROOT.get()):
         for link in b.links:
             m = MEETING_HREF.search(link.href)
             if not m:
@@ -218,7 +235,7 @@ def parse_meeting(html: str) -> MeetingPage:
 
     group: tuple[bool, bool] | None = None
     in_participants = False
-    for b in blocks(_content(html), ROOT):
+    for b in blocks(_content(html), _ROOT.get()):
         low = b.text.lower().strip()
         if b.kind == "h2":
             in_participants = low.startswith("kokouksen osallistujat")
@@ -273,7 +290,7 @@ PART_HEADINGS: dict[str, SectionType | None] = {
 
 def _lines(node: Node) -> list[str]:
     """Text lines of a part, without its h3 heading."""
-    return [b.text for b in blocks(node.html or "", ROOT) if not b.is_heading and b.text]
+    return [b.text for b in blocks(node.html or "", _ROOT.get()) if not b.is_heading and b.text]
 
 
 def _section_text(lines: list[str]) -> str:
@@ -282,7 +299,7 @@ def _section_text(lines: list[str]) -> str:
 
 def _people(node: Node) -> list[str]:
     """The "Valmistelija" / "Esittelijä" list after a label paragraph: "Linnamaa Reija, Johtaja"."""
-    return [ln for ln in (b.text for b in blocks(node.html or "", ROOT)) if ln]
+    return [ln for ln in (b.text for b in blocks(node.html or "", _ROOT.get())) if ln]
 
 
 def _labelled(node: Node, label: str) -> tuple[list[Node], list[str]]:

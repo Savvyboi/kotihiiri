@@ -221,6 +221,63 @@ def stats() -> None:
 
 
 @app.command()
+def registry(
+    check: bool = typer.Option(False, "--check", help="fail if the committed file is stale"),
+) -> None:
+    """Write config/municipalities.yaml from cities.yaml, the registry CSV, the robots audit and
+    config/registry/rollout.yaml (PLAN.md §18.1, M10)."""
+    from . import registry as reg
+
+    if check:
+        if reg.is_stale():
+            _fail("config/municipalities.yaml is stale; run `kunta registry`")
+        typer.echo("config/municipalities.yaml is up to date")
+        return
+    changed = reg.write()
+    m = reg.build()
+    enabled = sum(1 for v in m.values() if v.get("enabled"))
+    reasons = Counter(v.get("reason") for v in m.values() if not v.get("enabled"))
+    typer.echo(f"{len(m)} municipalities, {enabled} enabled, changed={changed}")
+    for reason, n in sorted(reasons.items()):
+        typer.echo(f"  {reason}: {n}")
+
+
+@app.command()
+def audit(
+    only: str | None = typer.Option(None, "--only", help="comma-separated municipality slugs"),
+    since: str = typer.Option("2025-01-01", "--since"),
+    no_counts: bool = typer.Option(False, "--no-counts", help="robots.txt only"),
+) -> None:
+    """Robots audit of every registry host, plus council/board meeting counts from listing pages
+    (PLAN.md M10). Writes data/state/robots.json and data/state/audit.json."""
+    from . import audit as au
+
+    try:
+        ua = load_project().user_agent
+    except ConfigError as exc:
+        _fail(str(exc))
+    hosts, report = au.run(
+        ua,
+        dt.date.fromisoformat(since),
+        only={s.strip() for s in only.split(",")} if only else None,
+        counts=not no_counts,
+    )
+    au.write(hosts, report, dt.date.today(), dt.date.fromisoformat(since))
+    for host, r in sorted(hosts.items()):
+        blocked = f" blocked={','.join(r.get('blocked', []))}" if r.get("blocked") else ""
+        typer.echo(f"{host}: {r['status']} (robots {r['robots']}){blocked}")
+    for slug, r in report.items():
+        meetings = r.get("meetings", {})
+        counts = " ".join(f"{b}={m.get('meetings', 'ERR')}" for b, m in meetings.items())
+        line = f"{slug}: {counts}"
+        if r.get("error"):
+            line += f" ERROR {r['error']}"
+        for p in r.get("problems", []):
+            line += f" | {p}"
+        typer.echo(line)
+
+
+@app.command()
 def heartbeat() -> None:
     """Write data/state/heartbeat.json so scheduled workflows always commit (PLAN.md §2.3)."""
     jsonio.write(

@@ -15,7 +15,6 @@ from ..models import (
     Ballot,
     Body,
     Choice,
-    CityId,
     ItemRef,
     Meeting,
     MeetingRef,
@@ -80,7 +79,7 @@ class TwebAdapter:
             bodies.append(
                 Body(
                     id=f"{self.city}/{slug}",
-                    city=CityId(self.city),
+                    city=self.city,
                     name_fi=name,
                     kind=guess_kind(name),
                     source_ids={"kirjaamo": kirjaamo},

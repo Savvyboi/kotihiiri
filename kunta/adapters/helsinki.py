@@ -8,7 +8,7 @@ import logging
 from ..bodies import guess_kind, is_included
 from ..http import FetchFailed, NotFound, PoliteClient
 from ..ids import item_id, meeting_id
-from ..models import AgendaItem, Body, CityId, ItemRef, Meeting, MeetingRef, Speech, Stage, VoteEvent
+from ..models import AgendaItem, Body, ItemRef, Meeting, MeetingRef, Speech, Stage, VoteEvent
 from ..parsers import helsinki as hp
 from ..parsers import votes_helsinki as votes
 from ..text import content_sha256, is_confidential, strip_pii
@@ -57,7 +57,7 @@ class HelsinkiAdapter:
         bodies = [
             Body(
                 id=f"{self.city}/{slug}",
-                city=CityId.helsinki,
+                city=self.city,
                 name_fi=name,
                 kind=guess_kind(name),
                 source_ids={"slug": slug},

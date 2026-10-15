@@ -12,7 +12,6 @@ from ..models import (
     AgendaItem,
     Attendance,
     Body,
-    CityId,
     ItemRef,
     Meeting,
     MeetingRef,
@@ -47,10 +46,15 @@ class CasemAdapter:
             raise FetchFailed(f"{url}: HTTP {resp.status}")
         return resp.text
 
+    def _parse(self, fn, *args):
+        """Parse with relative links resolved against this municipality's host (§18.1)."""
+        with cp.base_url(self.base_url):
+            return fn(*args)
+
     # -- bodies -------------------------------------------------------------------------------
 
     def discover_bodies(self) -> list[Body]:
-        found = cp.parse_bodies(self._get("/fi-FI/Toimielimet"))
+        found = self._parse(cp.parse_bodies, self._get("/fi-FI/Toimielimet"))
         bodies = []
         for site_slug, printed in found.items():
             name = cp.body_name(printed)
@@ -58,7 +62,7 @@ class CasemAdapter:
             bodies.append(
                 Body(
                     id=f"{self.city}/{slug}",
-                    city=CityId.tampere,
+                    city=self.city,
                     name_fi=name,
                     kind=guess_kind(name),
                     source_ids={"slug": site_slug},
@@ -70,7 +74,7 @@ class CasemAdapter:
     # -- meetings -------------------------------------------------------------------------------
 
     def list_meetings(self, body: Body, since: dt.date, until: dt.date | None) -> list[MeetingRef]:
-        rows = cp.parse_meetings(self._get(f"/fi-FI/Toimielimet/{body.source_ids['slug']}"))
+        rows = self._parse(cp.parse_meetings, self._get(f"/fi-FI/Toimielimet/{body.source_ids['slug']}"))
         kept = sorted(
             (r for r in rows if r.date >= since and (until is None or r.date <= until)),
             key=lambda r: (r.date, r.meeting_key),
@@ -93,7 +97,7 @@ class CasemAdapter:
         return refs
 
     def fetch_meeting(self, ref: MeetingRef) -> Meeting:
-        page = cp.parse_meeting(self._get(ref.source_url))
+        page = self._parse(cp.parse_meeting, self._get(ref.source_url))
         mid = meeting_id(ref.body_id, ref.date, ref.same_day_index)
         if page.date and page.date != ref.date:
             log.warning("%s: page date %s differs from listing date", mid, page.date)
@@ -143,7 +147,7 @@ class CasemAdapter:
     # -- items ----------------------------------------------------------------------------------
 
     def fetch_item(self, ref: ItemRef) -> AgendaItem:
-        return build_item(ref, cp.parse_item(self._get(ref.source_url)))
+        return build_item(ref, self._parse(cp.parse_item, self._get(ref.source_url)))
 
     def fetch_votes(self, item: AgendaItem) -> list[VoteEvent]:
         return item.votes  # parsed with the item
