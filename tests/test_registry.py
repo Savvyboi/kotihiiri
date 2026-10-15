@@ -79,6 +79,8 @@ def test_body_scope_and_kinds():
     assert guess_kind("Stadsfullmäktige") == BodyKind.council
     assert guess_kind("Kaupunginhallituksen elinvoimajaosto") == BodyKind.section
     assert guess_kind("Kunnanhallitus - Kommunstyrelsen") == BodyKind.board
+    assert guess_kind("Kunnanhallitus ⁄ Kommunstyrelsen") == BodyKind.board
+    assert guess_kind("Elinvoima- ja työllisyysjaosto") == BodyKind.section
     assert guess_kind("Kaupunginhallitus, strategiset yhtiöt") == BodyKind.committee
     assert not default_included("Kaupunginhallitus, salassa pidettävät asiat", "pori")
     assert not default_included("Lapsivaltuusto - Barnfullmäktige", "kokkola")

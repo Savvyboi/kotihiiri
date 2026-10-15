@@ -63,7 +63,7 @@ _EXCLUDE = re.compile("|".join(EXCLUDE_PATTERNS), re.IGNORECASE)
 # Finnish-language municipalities.
 _SWEDISH_DUPLICATE = re.compile(r"^(stads|kommun)(fullmäktige|styrelsen?)$", re.IGNORECASE)
 # Bilingual names ("Kunnanhallitus - Kommunstyrelsen"): the kind comes from the first part.
-_BILINGUAL = re.compile(r"\s+[-–/]\s+")
+_BILINGUAL = re.compile(r"\s+[-–/⁄]\s+")
 _BOARD = re.compile(r"^(kaupungin|kunnan)?hallitus$|^(stads|kommun)styrelse(n)?$", re.IGNORECASE)
 
 

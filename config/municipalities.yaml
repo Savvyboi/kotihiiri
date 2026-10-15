@@ -94,8 +94,7 @@ municipalities:
     bodies_scope: council_board
     portal_url: https://jyvaskyla.cloudnc.fi/fi-FI
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   kuopio:
     name_fi: Kuopio
     rank: 8
@@ -110,8 +109,7 @@ municipalities:
     bodies_scope: council_board
     portal_url: https://kuopio.oncloudos.com/cgi/DREQUEST.PHP?page=meeting_frames
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   lahti:
     name_fi: Lahti
     rank: 9
@@ -126,8 +124,7 @@ municipalities:
     bodies_scope: council_board
     portal_url: https://lahti-prod.oncloudos.com/cgi/DREQUEST.PHP?page=meeting_frames
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   pori:
     name_fi: Pori
     rank: 10
@@ -142,8 +139,7 @@ municipalities:
     bodies_scope: council_board
     portal_url: https://pori.cloudnc.fi/fi-FI
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   joensuu:
     name_fi: Joensuu
     rank: 11
@@ -255,8 +251,7 @@ municipalities:
     bodies_scope: council_board
     portal_url: https://rovaniemi.cloudnc.fi/fi-FI
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   mikkeli:
     name_fi: Mikkeli
     rank: 18
@@ -271,8 +266,7 @@ municipalities:
     bodies_scope: council_board
     portal_url: https://mikkeli.cloudnc.fi/fi-FI
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   porvoo:
     name_fi: Porvoo
     name_sv: Borgå
@@ -304,8 +298,7 @@ municipalities:
     bodies_scope: council_board
     portal_url: https://salo10.oncloudos.com/cgi/DREQUEST.PHP?page=meeting_frames
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   kotka:
     name_fi: Kotka
     rank: 21
@@ -334,8 +327,7 @@ municipalities:
     bodies_scope: council_board
     portal_url: https://kokkola10.oncloudos.com/cgi/DREQUEST.PHP?page=meeting_frames
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   hyvinkaa:
     name_fi: Hyvinkää
     name_sv: Hyvinge
@@ -365,8 +357,7 @@ municipalities:
     bodies_scope: council_board
     portal_url: https://jarvenpaa.cloudnc.fi/fi-FI
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   lohja:
     name_fi: Lohja
     name_sv: Lojo
@@ -398,8 +389,7 @@ municipalities:
     portal_url: https://nurmijarvi10.oncloudos.com/cgi/DREQUEST.PHP?page=meeting_frames
     video_url: https://www.nurmijarvi.fi/paatoksenteko-ja-hallinto/paatoksenteko-ja-kuulutukset/valtuusto/kokousten-videolahteykset/
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   tuusula:
     name_fi: Tuusula
     name_sv: Tusby
@@ -415,8 +405,7 @@ municipalities:
     bodies_scope: council_board
     portal_url: https://tuusula.oncloudos.com/cgi/DREQUEST.PHP?page=meeting_frames
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   kirkkonummi:
     name_fi: Kirkkonummi
     name_sv: Kyrkslätt
@@ -432,8 +421,7 @@ municipalities:
     bodies_scope: council_board
     portal_url: https://kirkkonummi.oncloudos.com/cgi/DREQUEST.PHP?page=meeting_frames
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   rauma:
     name_fi: Rauma
     rank: 29
@@ -499,8 +487,7 @@ municipalities:
     portal_url: https://kajaani.cloudnc.fi/fi-FI
     video_url: https://www.youtube.com/playlist?list=PL-iY0lyui61jgb4mHTcR1LID_XEejEbVx
     registry_verification: linked-from-official-site
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   nokia:
     name_fi: Nokia
     rank: 33
@@ -547,8 +534,7 @@ municipalities:
     bodies_scope: council_board
     portal_url: https://ylojarvi10.oncloudos.com/cgi/DREQUEST.PHP?page=meeting_frames
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   savonlinna:
     name_fi: Savonlinna
     rank: 36
@@ -563,8 +549,7 @@ municipalities:
     bodies_scope: council_board
     portal_url: https://savonlinna.oncloudos.com/cgi/DREQUEST.PHP?page=meeting_frames
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   vihti:
     name_fi: Vihti
     name_sv: Vichtis
@@ -580,8 +565,7 @@ municipalities:
     bodies_scope: council_board
     portal_url: https://vihti.oncloudos.com/cgi/DREQUEST.PHP?page=meeting_frames
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   riihimaki:
     name_fi: Riihimäki
     rank: 38
@@ -734,8 +718,7 @@ municipalities:
     portal_url: https://hollola.cloudnc.fi/fi-FI
     video_url: https://live.mediaserver.fi/hollola/group/hollola
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   siilinjarvi:
     name_fi: Siilinjärvi
     rank: 47
@@ -898,8 +881,7 @@ municipalities:
     bodies_scope: council_board
     portal_url: https://kempele.cloudnc.fi/fi-FI
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   pietarsaari:
     name_fi: Pietarsaari
     name_sv: Jakobstad
@@ -1276,8 +1258,7 @@ municipalities:
     bodies_scope: council_board
     portal_url: https://lapua.cloudnc.fi/fi-FI
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   kankaanpaa:
     name_fi: Kankaanpää
     rank: 80
@@ -1504,8 +1485,7 @@ municipalities:
     bodies_scope: council_board
     portal_url: https://hameenkyro.cloudnc.fi/fi-FI
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   liminka:
     name_fi: Liminka
     rank: 94
