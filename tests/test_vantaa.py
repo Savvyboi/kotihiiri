@@ -157,6 +157,27 @@ def test_board_cover_with_capital_marks_and_organisations_in_roles():
     assert not any(n.startswith(("CBRE", "Vantaan", "Finavia")) for n in people)
 
 
+def test_board_cover_role_wrapped_after_the_roman_numeral():
+    # minutes of 5.10.2026: the role column breaks "I varapuheenjohtaja" after the "I"
+    cover = tp.parse_cover([
+        "Jäsenet Läsnä Varajäsenet Läsnä",
+        "Kaukola Ulla, puheenjohtaja x Laakso Päivi",
+        "Kasonen Mika, I x Forsblom-Prittinen Frida",
+        "varapuheenjohtaja",
+        "Rämö Eve, II varapuheenjohtaja x Laalo Kari",
+        "klo 17.00-17.21, § 1-9;",
+        "Muut osallistujat Läsnä",
+        "Kalske Jaakko, vastaava hallintoasiantuntija, x",
+        "pöytäkirjanpitäjä",
+    ])  # fmt: skip
+    assert [(p.name, p.role) for p in cover.participants] == [
+        ("Kaukola Ulla", "puheenjohtaja"),
+        ("Kasonen Mika", "I varapuheenjohtaja"),
+        ("Rämö Eve", "II varapuheenjohtaja"),
+        ("Kalske Jaakko", "vastaava hallintoasiantuntija, pöytäkirjanpitäjä"),
+    ]
+
+
 def test_swedish_cover_page():
     cover = tp.parse_cover(doc("3409777"))
     assert (cover.date, cover.start_time, cover.end_time) == (dt.date(2026, 6, 9), "17:05", "19:33")
@@ -329,6 +350,9 @@ def test_vote_sentence_variants():
         # a total first, then "Jaa-ääniä N (…) ja ei-ääniä N"
         "Äänestyksessä annettiin yhteensä 5 ääntä. Jaa-ääniä 2 (Abdi ja Hakala) ja ei-ääniä 3 "
         "(Karinen, Niikko ja Rämö). Kaupunginhallitus hyväksyi.": (2, 3, 0),
+        # a full stop typed for a comma inside the voters' brackets does not end the result
+        "Äänestyksessä annettiin yhteensä 5 ääntä. 3 jaa-ääntä (Abdi, Nummela. Rämö) ja 2 ei-ääntä "
+        "(Demiri, Niikko)": (3, 2, 0),
     }
     for sentence, counts in cases.items():
         [p] = tp.parse_prose([sentence])
@@ -337,6 +361,8 @@ def test_vote_sentence_variants():
     assert (p.jaa_label, p.ei_label) == ("esittelijän esitys", "Virtasen ehdotus")
     [p] = tp.parse_prose([list(cases)[2]])
     assert p.names[Choice.ei] == ["Karinen", "Niikko", "Tuomainen", "Rämö"]
+    [p] = tp.parse_prose([list(cases)[4]])
+    assert p.names[Choice.jaa] == ["Abdi", "Nummela", "Rämö"]
 
 
 def test_kasittely_spans_a_changed_proposal_but_not_a_missed_earlier_handling():

@@ -200,7 +200,7 @@ SESSION = re.compile(
 )
 PLACE = re.compile(r"^(?:Paikka|Plats)\s+(.+)$")
 _PARTICLE = r"(?:(?:el|af|von|de|van)\s+)"
-_WORD = rf"{_PARTICLE}?(?!X(?:[\s)]|$))[A-ZÅÄÖ][\wÅÄÖåäö'’-]*"
+_WORD = rf"{_PARTICLE}?(?!(?:X|[IV]+)(?:[\s)]|$))[A-ZÅÄÖ][\wÅÄÖåäö'’-]*"
 _NAME = rf"{_WORD}(?:\s+{_WORD})*"
 _MARK = r"(?P<mark>[xX]|-)(?=[\s)]|$)"
 # A note in brackets after the mark: "(klo 18.05-21.03 § 1-8)", or cut by the line end or the
@@ -209,11 +209,14 @@ NOTE = rf"\([^()]*?(?:\)|(?=\s{_NAME}\s(?:[xX]|-)(?:\s|$))|$)"
 # "Kaukola Ulla, puheenjohtaja X", "Kasonen Mika, I varapuheenjohtaja X", "Pietelin Anna, x"; the
 # role is lower case, so an unmarked name before the entry does not read as one.
 ENTRY = re.compile(
-    rf"(?P<name>{_NAME})(?:[,.]\s*(?P<role>(?:[IV]+\s+)?[a-zåäö][^()A-ZÅÄÖ]*?)?)?\s+{_MARK}"
+    rf"(?P<name>{_NAME})(?:[,.]\s*(?P<role>[IV]+(?:\s+[a-zåäö][^()A-ZÅÄÖ]*?)?|[a-zåäö][^()A-ZÅÄÖ]*?)?)?\s+{_MARK}"
     rf"(?:\s*(?P<note>{NOTE}))?"
 )
 # "Muut osallistujat" is one column, so its roles may name an organisation: "Niemistö Jussi,
 # tutkimusjohtaja, CBRE Commercial Real X"
+# the rest of a wrapped role on the line below: "Kasonen Mika, I x Forsblom-Prittinen Frida" /
+# "varapuheenjohtaja"; not a note ("klo 17.00-17.21, § 1-9;")
+ROLE_REST = re.compile(r"^(?!klo\b)[a-zåäö][^()A-ZÅÄÖ\d§]*$")
 ONE_COLUMN = re.compile(rf"^(?P<name>{_NAME})(?:[,.]\s*(?P<role>.*?))?\s+{_MARK}(?:\s*(?P<note>{NOTE}))?")
 GROUPS = [
     (re.compile(r"^(?:Jäsenet\s+(?:Läsnä|Varajäsenet)|Medlemmar\s+Närvarande)"), "jäsen"),
@@ -261,10 +264,16 @@ def parse_cover(lines: list[str]) -> Cover:
     cover = Cover()
     group: str | None = None
     deputies = False
+    wrapped: tuple[Participant, str] | None = None  # a role cut after "I" or a comma goes on below
     for raw in lines:
         line = re.sub(r"\s+", " ", raw).strip()
         if not line or re.fullmatch(r"Nro \d+/\d{4}", line):
             continue
+        if wrapped and ROLE_REST.match(line):
+            wrapped[0].role += wrapped[1] + line
+            wrapped = None
+            continue
+        wrapped = None
         if m := SESSION.match(line):
             cover.date = parse_date(m.group(1))
             cover.start_time = _hhmm(m.group(2), m.group(3))
@@ -293,16 +302,13 @@ def parse_cover(lines: list[str]) -> Cover:
                 name, second = " ".join(name.split()[-2:]), True
             if not re.match(r"^[A-ZÅÄÖa-zåäö]", name) or name.lower() in ("läsnä", "jäsenet"):
                 continue
-            role = (m.group("role") or "").strip(" ,") or ("varajäsen" if deputies and second else group)
+            raw_role = (m.group("role") or "").strip()
+            role = raw_role.strip(" ,") or ("varajäsen" if deputies and second else group)
             note = m.group("note")
-            cover.participants.append(
-                Participant(
-                    name=name,
-                    role=role,
-                    present=m.group("mark") in "xX",
-                    note=_note(note),
-                )
-            )
+            p = Participant(name=name, role=role, present=m.group("mark") in "xX", note=_note(note))
+            cover.participants.append(p)
+            if not second and re.search(r"(?:^[IV]+|,)$", raw_role):
+                wrapped = p, ", " if raw_role.endswith(",") else " "
     return cover
 
 
@@ -625,7 +631,7 @@ class TwebProse(ProseVote):
 def _names(text: str | None) -> list[str]:
     if not text:
         return []
-    return [n.strip() for n in re.split(r",|\s+ja\s+", text) if n.strip()]
+    return [n.strip() for n in re.split(r",|\.\s+|\s+ja\s+", text) if n.strip()]
 
 
 def _short_label(text: str) -> str:
@@ -640,12 +646,21 @@ def _short_label(text: str) -> str:
     return t
 
 
+def _result_end(text: str, start: int) -> re.Match | None:
+    """The first RESULT_END outside the voters' brackets ("Kivimäki, Nummela. Rämö" is a typo)."""
+    for e in RESULT_END.finditer(text, start):
+        seg = text[start : e.start()]
+        if seg.count("(") <= seg.count(")"):
+            return e
+    return None
+
+
 def parse_prose(lines: list[str]) -> list[TwebProse]:
     text = _flat(lines)
     out = []
     props = list(PROPOSITION.finditer(text))
     for m in RESULT.finditer(text):
-        end = RESULT_END.search(text, m.end())
+        end = _result_end(text, m.end())
         window = text[m.end() : end.start() if end else len(text)]
         counts: dict[Choice, int] = {}
         names: dict[Choice, list[str]] = {}
