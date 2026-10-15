@@ -2,7 +2,7 @@
 import '../styles/global.css';
 import '../styles/themes.css';
 import { t, localePath, assetPath, splitLocale, LOCALES, type Locale } from '../i18n';
-import { cities, cityName, IS_DEMO } from '../lib/data';
+import { cities, majorCities, cityName, IS_DEMO } from '../lib/data';
 import Logo from '../components/Logo.astro';
 import T from '../components/T.astro';
 import SharedI18n from '../components/SharedI18n.astro';
@@ -60,9 +60,10 @@ const site = Astro.site ? new URL(import.meta.env.BASE_URL, Astro.site).origin :
       </div>
       <nav class="city-switch" aria-label={t('nav.cities', {}, locale)} data-i18n-aria="nav.cities">
         <div class="wrap"><ul>
-          {cities().map((c) => (
+          {majorCities().map((c) => (
             <li><a class:list={{ off: !c.enabled }} href={localePath(`/${c.id}/`, locale)} aria-current={c.id === city ? 'page' : undefined}>{cityName(c, locale)}</a></li>
           ))}
+          <li><a href={localePath('/#kunnat', locale)} aria-current={cityRec && cityRec.rank > 6 ? 'page' : undefined}><T k="nav.allMunicipalities" locale={locale} /></a></li>
         </ul></div>
       </nav>
     </header>

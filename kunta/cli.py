@@ -243,6 +243,19 @@ def registry(
 
 
 @app.command()
+def groups(
+    cities: str = typer.Option("all", "--cities", help="comma-separated slugs, or `all` enabled"),
+) -> None:
+    """Print the weekly crawl matrix as JSON (PLAN.md §18.2)."""
+    import json
+
+    from .registry import crawl_groups
+
+    selected = None if cities.strip() in ("", "all") else [c.strip() for c in cities.split(",") if c.strip()]
+    typer.echo(json.dumps(crawl_groups(selected)))
+
+
+@app.command()
 def audit(
     only: str | None = typer.Option(None, "--only", help="comma-separated municipality slugs"),
     since: str = typer.Option("2025-01-01", "--since"),

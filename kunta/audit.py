@@ -16,7 +16,7 @@ from collections import Counter
 from dataclasses import dataclass
 from urllib.parse import urlsplit
 
-from .adapters import ADAPTERS
+from .adapters import build_adapter
 from .bodies import default_included, guess_kind
 from .config import DATA_DIR, CityConfig, load_cities
 from .http import FetchFailed, PoliteClient, RobotsDisallowed
@@ -100,8 +100,7 @@ def check_host(client: PoliteClient, cfg: CityConfig, base: str) -> HostResult:
 
 def count_listings(client: PoliteClient, slug: str, cfg: CityConfig, since: dt.date) -> dict:
     """Bodies and council/board meeting counts from listing pages only."""
-    adapter = ADAPTERS[cfg.adapter](client, cfg.base_urls[0])
-    adapter.city = slug
+    adapter = build_adapter(slug, cfg, client)
     out: dict = {}
     try:
         bodies = adapter.discover_bodies()

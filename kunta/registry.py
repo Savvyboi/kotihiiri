@@ -216,3 +216,37 @@ _SAFE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
 
 def check_slugs(municipalities: dict[str, dict[str, Any]]) -> list[str]:
     return [s for s in municipalities if not _SAFE.match(s)]
+
+
+SELF_HOSTED_BATCH = 6
+
+
+def crawl_groups(selected: list[str] | None = None) -> list[dict[str, str]]:
+    """The weekly matrix (§18.2): one job per enabled six-city municipality (data in git), one per
+    shared provider, and batches of self-hosted municipalities (data in R2). Within a job the
+    municipalities run one after another, so the provider-wide rate cap holds."""
+    from .config import load_cities
+
+    cities = load_cities()
+    chosen = [s for s, c in cities.items() if c.enabled and (not selected or s in selected)]
+    groups: list[dict[str, str]] = []
+    shared: dict[str, list[str]] = {}
+    own: list[str] = []
+    for slug in chosen:
+        cfg = cities[slug]
+        if int(cfg.extra.get("rank", 0)) <= 6:
+            groups.append({"name": slug, "cities": slug, "storage": "git"})
+            continue
+        provider = cfg.extra.get("provider") or ""
+        if provider in PROVIDER_SUFFIXES:
+            shared.setdefault(provider, []).append(slug)
+        else:
+            own.append(slug)
+    for provider, slugs in sorted(shared.items()):
+        groups.append({"name": provider, "cities": ",".join(slugs), "storage": "r2"})
+    for i in range(0, len(own), SELF_HOSTED_BATCH):
+        batch = own[i : i + SELF_HOSTED_BATCH]
+        groups.append(
+            {"name": f"self-hosted-{i // SELF_HOSTED_BATCH + 1}", "cities": ",".join(batch), "storage": "r2"}
+        )
+    return groups

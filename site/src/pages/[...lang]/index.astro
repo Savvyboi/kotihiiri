@@ -3,14 +3,15 @@ import Base from '../../layouts/Base.astro';
 import CityCard from '../../components/CityCard.astro';
 import VoteCard from '../../components/VoteCard.astro';
 import { localeParams, useI18n, type Locale } from '../../i18n';
-import { cities, cityName, meetingFiles, recentVotes, bodyName, meetingUrl, itemUrl, decisionText } from '../../lib/data';
+import { cities, majorCities, otherMunicipalities, cityName, cityStats, disabledKey, meetingFiles, recentVotes, bodyName, meetingUrl, itemUrl, decisionText } from '../../lib/data';
 
 export function getStaticPaths() {
   return localeParams().map(({ lang, locale }) => ({ params: { lang }, props: { locale } }));
 }
 interface Props { locale: Locale }
 const { locale } = Astro.props;
-const { t, path, shared, date } = useI18n(locale);
+const { t, path, shared, date, num } = useI18n(locale);
+const others = otherMunicipalities();
 
 const enabled = cities().filter((c) => c.enabled);
 const votes = enabled.flatMap((c) => recentVotes(c.id, 3).map((row) => ({ row, city: c.id })))
@@ -33,7 +34,28 @@ const upcoming = enabled.flatMap((c) => meetingFiles(c.id).filter((f) => f.meeti
   </section>
   <div class="wrap">
     <h2>{t('home.cities')}</h2>
-    <div class="grid">{cities().map((c) => <CityCard city={c} locale={locale} />)}</div>
+    <div class="grid">{majorCities().map((c) => <CityCard city={c} locale={locale} />)}</div>
+
+    <section id="kunnat" class="municipalities">
+      <h2>{t('home.municipalities')}</h2>
+      <p class="muted">{t('home.municipalitiesLead')}</p>
+      <label class="filter"><span class="visually-hidden">{t('home.filter')}</span>
+        <input type="search" placeholder={t('home.filter')} data-muni-filter autocomplete="off" /></label>
+      <ul class="muni-list" data-muni-list>
+        {others.map((c) => {
+          const s = c.enabled ? cityStats(c.id) : undefined;
+          return (
+            <li data-name={[c.name_fi, c.name_sv].filter(Boolean).join(' ').toLowerCase()}>
+              <a href={path(`/${c.id}/`)}>{cityName(c, locale)}</a>
+              <span class="small muted">{c.population ? `${num(c.population)} ${t('common.inhabitants')}` : ''}</span>
+              {s ? <span class="small"><span class="badge on">{t('city.enabled')}</span> {num(s.meetings)} {t('city.stats.meetings')}</span>
+                 : <span class="badge">{t(disabledKey(c))}</span>}
+            </li>
+          );
+        })}
+      </ul>
+      <p class="muted" data-muni-empty hidden>{t('home.noMatch')}</p>
+    </section>
 
     <h2>{t('home.latestVotes')}</h2>
     {votes.length
@@ -70,3 +92,27 @@ const upcoming = enabled.flatMap((c) => meetingFiles(c.id).filter((f) => f.meeti
     </div>
   </div>
 </Base>
+<script>
+  const input = document.querySelector<HTMLInputElement>('[data-muni-filter]');
+  const rows = [...document.querySelectorAll<HTMLLIElement>('[data-muni-list] li')];
+  const empty = document.querySelector<HTMLElement>('[data-muni-empty]');
+  const fold = (s: string) => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  input?.addEventListener('input', () => {
+    const q = fold(input.value.trim());
+    let shown = 0;
+    for (const li of rows) {
+      const hit = !q || fold(li.dataset.name ?? '').includes(q);
+      li.hidden = !hit;
+      shown += hit ? 1 : 0;
+    }
+    if (empty) empty.hidden = shown > 0;
+  });
+</script>
+<style>
+  .municipalities { margin-top: 2.5rem; }
+  .filter input { width: 100%; max-width: 24rem; padding: .5rem .75rem; font: inherit; border: 1px solid var(--c-border, #ccc); border-radius: .4rem; background: var(--c-bg, transparent); color: inherit; }
+  .muni-list { list-style: none; padding: 0; margin: 1rem 0 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); gap: .25rem 1.5rem; }
+  .muni-list li { display: flex; flex-wrap: wrap; align-items: baseline; gap: .25rem .6rem; padding: .35rem 0; border-bottom: 1px solid var(--c-border, #e5e5e5); }
+  .muni-list li[hidden] { display: none; }
+  .muni-list a { font-weight: 600; }
+</style>

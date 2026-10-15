@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import YAML from 'yaml';
 import Base from '../../layouts/Base.astro';
 import { localeParams, useI18n, type Locale } from '../../i18n';
-import { cities, cityName } from '../../lib/data';
+import { cities, disabledKey, cityName } from '../../lib/data';
 import { cityImages, type ImageCredit } from '../../lib/images';
 
 export function getStaticPaths() {
@@ -25,9 +25,9 @@ const credit = (x: ImageCredit) => [x.author, x.licence_name].filter(Boolean).jo
     <p>{t('about.inspiration')}</p>
     <h2>{t('about.sourcesTitle')}</h2>
     <ul>
-      {cities().map((c) => (
-        <li data-city={c.id}><b>{cityName(c, locale)}</b>: <a href={c.base_urls[0]} rel="external noopener">{c.source_name}</a>
-          {!c.enabled && <> <span class="badge">{t('city.disabled')}</span></>}</li>
+      {cities().filter((c) => c.rank <= 6 || c.enabled).map((c) => (
+        <li data-city={c.id}><b>{cityName(c, locale)}</b>: <a href={c.portal_url ?? c.base_urls[0]} rel="external noopener">{c.source_name ?? new URL(c.base_urls[0]).host}</a>
+          {!c.enabled && <> <span class="badge">{t(disabledKey(c))}</span></>}</li>
       ))}
     </ul>
     <h2>{t('about.privacyTitle')}</h2>

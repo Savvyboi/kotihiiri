@@ -116,6 +116,17 @@ jobs:
           import yaml
           print("url=https://" + yaml.safe_load(open("config/project.yaml"))["site_domain"].strip("/"))
           PY
+      # Ubuntu's rclone (1.60) got a 501 NotImplemented from R2 on every file of the first upload;
+      # use a current release instead.
+      - name: Install rclone
+        run: |
+          curl -fsSL -o rclone.deb https://downloads.rclone.org/v1.71.0/rclone-v1.71.0-linux-amd64.deb
+          sudo dpkg -i rclone.deb
+          rclone version
+      # Registry municipalities (ranks 7–96) keep their data only in kotihiiri-data (PLAN.md §18.4);
+      # the six cities' data is in git. The GitHub Pages build above stays six-city.
+      - name: Fetch registry data from R2
+        run: rclone copy r2:kotihiiri-data/data data --checksum --s3-no-check-bucket --fast-list --exclude "state/**"
       - name: Exports
         run: |
           kunta export --out build/exports
@@ -140,13 +151,6 @@ jobs:
           n=$(find site/dist -type f | wc -l)
           echo "$n files"
           test "$n" -ge 1000
-      # Ubuntu's rclone (1.60) got a 501 NotImplemented from R2 on every file of the first upload;
-      # use a current release instead.
-      - name: Install rclone
-        run: |
-          curl -fsSL -o rclone.deb https://downloads.rclone.org/v1.71.0/rclone-v1.71.0-linux-amd64.deb
-          sudo dpkg -i rclone.deb
-          rclone version
       - name: Upload to R2
         # --s3-no-check-bucket: the token has object rights only, not bucket rights.
         # --max-delete: a guard on top of the sanity check; raise it if a real cleanup needs more.
