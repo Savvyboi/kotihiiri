@@ -561,6 +561,7 @@ Each milestone: open a PR, include `kunta stats` output in the description.
 - Site build must be byte-stable (no build time in pages, only data dates) so unchanged pages are not re-uploaded.
 - Needs Savvas's steps in §18.6 first.
 - **Accept:** the six-city site served from Cloudflare with identical page count; a no-change weekly run writes zero objects to R2; `data/` removed from git with a final snapshot kept as a Release asset.
+- Log 2026-10-15: `pages.yml` gained `r2-ready` + `r2` jobs (root build for `https://kotihiiri.eu/`, `rclone sync --checksum` into `kotihiiri-site`); they skip until the §18.6 secrets exist. Two identical local builds (43,839 files) differed only in 3 `pagefind/filter/*.pf_filter` files and `pagefind-entry.json`, so a no-change run currently rewrites ~4 objects; the Astro pages and exports are byte-stable. Still open: the `/` → `index.html` transform rule on the zone (§18.4).
 
 ### M12 — Dynasty rollout (47 municipalities)
 - Generalize `dynasty.py` from Espoo: base URL and council organ id from the registry, self-hosted `…/cgi/DREQUEST.PHP` hosts, lenient RSS parsing for incremental discovery. Bring municipalities in in batches of about ten, smallest-risk first (live-verified `oncloudos.com` rows).
@@ -629,14 +630,14 @@ Fill in "Result" as you resolve each one.
 
 | Topic | Default |
 |---|---|
-| Site name, domain, contact e-mail for User-Agent | Set 2026-10-11 by Savvas: Kotihiiri, `savvyboi.github.io/kotihiiri`, project contact e-mail in `config/project.yaml` |
+| Site name, domain, contact e-mail for User-Agent | Set 2026-10-11 by Savvas: Kotihiiri, `savvyboi.github.io/kotihiiri`, project contact e-mail in `config/project.yaml`; domain changed to `kotihiiri.eu` on 2026-10-15 (§18.4) |
 | Licence for our normalized data | CC BY 4.0, attributing the cities as source |
 | Body exclude list (§1) | as written |
 | Per-person speech collections | on since 2026-10-14: Savvas confirmed the legal check (§2.2 rule 9) |
 | Oulu / Turku | disabled pending written permission |
 | Bodies for municipalities 7–96 | council and municipal board first; committees switched on per municipality after M11, once storage is off GitHub |
 | Hosts that disallow robots (likely the 13 on `*.tweb.fi`) | disabled pending written permission, as Oulu; Savvas or the team asks Triplan or the municipality |
-| Domain for the Cloudflare site | none yet; a domain is needed to serve R2 without the Worker request cap (§18.4) |
+| Domain for the Cloudflare site | `kotihiiri.eu` (Savvas, 2026-10-15), custom domain of `kotihiiri-site`; `pages.yml` uploads the build there while GitHub Pages keeps serving until M11 accepts |
 | Paid fallback | Workers Paid ($5/month) only if D1 or Worker limits bite; nothing in §18 needs it at launch |
 
 ---

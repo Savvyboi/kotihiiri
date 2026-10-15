@@ -1,5 +1,8 @@
 # Deploys the site built from committed data/. weekly.yml calls this after it commits new data
 # (pushes made with GITHUB_TOKEN do not trigger other workflows).
+# Two targets: GitHub Pages (build + deploy) and the R2 bucket kotihiiri-site behind site_domain
+# (r2-ready + r2, PLAN.md §18.4). Pages keeps serving until the R2 site matches it page for page (M11);
+# the R2 jobs skip themselves until the repository secrets from §18.6 step 4 exist.
 name: pages
 
 on:
@@ -63,3 +66,86 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+
+  r2-ready:
+    runs-on: ubuntu-latest
+    outputs:
+      ok: ${{ steps.check.outputs.ok }}
+    steps:
+      - id: check
+        env:
+          ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          KEY: ${{ secrets.R2_ACCESS_KEY_ID }}
+          SECRET: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+        run: |
+          if [ -n "$ACCOUNT" ] && [ -n "$KEY" ] && [ -n "$SECRET" ]; then
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::warning::R2 secrets (CLOUDFLARE_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY) not set; skipping the R2 upload."
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  # Same build as above, but for the root of https://<site_domain>/, then `rclone sync --checksum`
+  # into kotihiiri-site: only files whose MD5 changed are uploaded, files gone from the build are deleted.
+  r2:
+    needs: r2-ready
+    if: ${{ needs.r2-ready.outputs.ok == 'true' }}
+    runs-on: ubuntu-latest
+    concurrency:
+      group: r2-site
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -e .
+      - name: Site URL from config/project.yaml
+        id: site
+        run: |
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import yaml
+          print("url=https://" + yaml.safe_load(open("config/project.yaml"))["site_domain"].strip("/"))
+          PY
+      - name: Exports
+        run: |
+          kunta export --out build/exports
+          mkdir -p site/public/data/files
+          cp build/exports/*.parquet build/exports/all.zip build/exports/manifest.json site/public/data/files/
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+      - run: npm ci
+        working-directory: site
+      - run: npm run build
+        working-directory: site
+        env:
+          SITE_URL: ${{ steps.site.outputs.url }}
+          BASE_PATH: /
+      # A broken build must not empty the bucket through sync's deletes.
+      - name: Sanity check
+        run: |
+          test -f site/dist/index.html
+          n=$(find site/dist -type f | wc -l)
+          echo "$n files"
+          test "$n" -ge 1000
+      - run: sudo apt-get update -qq && sudo apt-get install -y rclone
+      - name: Upload to R2
+        env:
+          RCLONE_CONFIG_R2_TYPE: s3
+          RCLONE_CONFIG_R2_PROVIDER: Cloudflare
+          RCLONE_CONFIG_R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          RCLONE_CONFIG_R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          RCLONE_CONFIG_R2_ENDPOINT: https://${{ secrets.CLOUDFLARE_ACCOUNT_ID }}.r2.cloudflarestorage.com
+        # --s3-no-check-bucket: the token has object rights only, not bucket rights.
+        # --max-delete: a guard on top of the sanity check; raise it if a real cleanup needs more.
+        run: |
+          rclone sync site/dist r2:kotihiiri-site \
+            --checksum --s3-no-check-bucket --fast-list \
+            --transfers 32 --checkers 64 --max-delete 5000 \
+            --stats-one-line --stats 60s
