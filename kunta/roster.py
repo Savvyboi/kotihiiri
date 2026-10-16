@@ -31,6 +31,12 @@ _ROLES: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"^(?:jäsen|valtuutettu|medlem|ledamot)", re.I), "member"),
 ]
 _PARTICLES = {"af", "von", "de", "van", "der", "la", "di"}
+# Start of the 2025–2029 council term, as the site's TERM_START.
+TERM_START = "2025-06-01"
+# Some minutes print the party after the name ("Virtanen Matti, KOK"); the name is what precedes it.
+_PARTY_TAIL = re.compile(r"\s*,\s*[A-ZÅÄÖ]{2,5}\.?$")
+# Attendance tables sometimes carry notes in the name column ("Kokouksessa tauko klo 17:06-17:35").
+_NOT_A_NAME = re.compile(r"\d|^kokouksessa\b|^mötet\b", re.I)
 
 
 def _fold(key: str) -> str:
@@ -91,6 +97,7 @@ class _Person:
     names: Counter[str] = field(default_factory=Counter)
     seen: dict[tuple[str, str, str | None], _Seen] = field(default_factory=dict)
     election: PartyRow | None = None
+    printed: set[str] = field(default_factory=set)
 
     def see(self, body_id: str, role: str, date: dt.date, group: str | None = None) -> None:
         k = (body_id, role, group)
@@ -109,7 +116,13 @@ class Roster:
 
     def _get(self, printed: str) -> _Person:
         """The person printed as "Sukunimi Etunimi", created on first sight. Forms that differ only
-        in accents ("Limnéll", "Limnell") are one person; the name is the form printed most often."""
+        in accents ("Limnéll", "Limnell") are one person; the name is the form printed most often.
+        A form with the party after it is kept as an alias, so the site finds the printed name."""
+        bare = _PARTY_TAIL.sub("", printed)
+        if bare != printed:
+            p = self._get(bare)
+            p.printed.add(normalize_name(printed))
+            return p
         key = _fold(name_key(printed))
         p = self.people.get(key)
         if p is None:
@@ -131,8 +144,9 @@ class Roster:
             # absent rows on Tampere minutes have no role text; they are members who did not attend
             if role is None and not a.get("present") and not a.get("role_text"):
                 role = "member"
-            if role:
-                self._get(a["person_ref"]["raw"]).see(m["body_id"], role, date)
+            raw = a["person_ref"]["raw"]
+            if role and not _NOT_A_NAME.search(raw):
+                self._get(raw).see(m["body_id"], role, date)
 
     def add_group_votes(self, mf: dict, council_id: str) -> None:
         """Helsinki: council vote tables print "Sukunimi, Etunimi" with the council group."""
@@ -153,9 +167,11 @@ class Roster:
     def add_parties(self, rows: Iterable[PartyRow]) -> tuple[int, list[str]]:
         """Attach each person's 2025 candidacy (party, result, votes). Persons are never created
         here (§8 step 6). A name is matched on its order-insensitive key; failing that, on a unique
-        candidate with the same surname whose name tokens are a subset of the printed name or the
-        other way round ("Mäkinen Juha J." ↔ "Mäkinen Juha"). A name two candidates share is
-        never guessed. Returns (matched, names of councillors left without a party)."""
+        candidate whose surname is in the printed name and whose name tokens are a subset of the
+        printed name or the other way round ("Mäkinen Juha J." ↔ "Mäkinen Juha", "Ari.M Laitinen"
+        ↔ "Laitinen Ari"). A name two candidates share is never guessed, and a candidacy goes to one
+        person only: a printed form matching exactly wins over one matching by subset. Returns
+        (matched, names of this term's councillors left without a party)."""
         by_key: dict[str, list[PartyRow]] = {}
         for r in rows:
             by_key.setdefault(name_key(r.name), []).append(r)
@@ -163,28 +179,52 @@ class Roster:
         for k, rs in by_key.items():
             by_fold.setdefault(_fold(k), []).extend(rs)
         tokens = {k: set(k.split()) for k in by_key}
-        matched = 0
-        for key, p in self.people.items():
+        exact: dict[str, PartyRow] = {}
+        near: dict[str, PartyRow] = {}
+        for key in self.people:
             rs = by_key.get(key) or by_fold.get(_fold(key))
-            if rs is None:
-                mine = set(key.split())
-                near = [
-                    k
-                    for k, t in tokens.items()
-                    if (t <= mine or mine <= t) and len(t & mine) >= 2 and name_key(p.surname) in t
-                ]
-                rs = by_key[near[0]] if len(near) == 1 else None
-            if rs and len(rs) == 1:
-                p.election = rs[0]
-                matched += 1
-                # The candidate list prints "Sukunimi Etunimi"; Vantaa's council covers print some
-                # names first-name first, so take the order from the list when the names agree.
-                if _fold(name_key(rs[0].name)) == _fold(key):
-                    p.surname, p.first = split_name(rs[0].name)
+            if rs is not None:
+                if len(rs) == 1:
+                    exact[key] = rs[0]
+                continue
+            mine = set(key.split())
+            close = [
+                k
+                for k, t in tokens.items()
+                if (t <= mine or mine <= t)
+                and len(t & mine) >= 2
+                and len(by_key[k]) == 1
+                and set(name_key(by_key[k][0].surname or by_key[k][0].name.split()[0]).split()) <= mine
+            ]
+            if len(close) == 1:
+                near[key] = by_key[close[0]][0]
+        claimed = Counter(id(r) for r in exact.values())
+        near_claims = Counter(id(r) for r in near.values())
+        matched = 0
+        for key, row in [*exact.items(), *near.items()]:
+            if key in near and (claimed[id(row)] or near_claims[id(row)] > 1):
+                continue
+            p = self.people[key]
+            p.election = row
+            matched += 1
+            # The candidate list prints "Sukunimi Etunimi"; some minutes print first names first,
+            # so take the surname from the list.
+            if key in exact and _fold(name_key(row.name)) == _fold(key):
+                p.surname, p.first = split_name(row.name)
+            elif key in near and row.surname:
+                surname = set(name_key(row.surname).split())
+                form = max(p.names, key=lambda n: (p.names[n], n))
+                rest = [t for t in form.split() if name_key(t) not in surname]
+                if rest:
+                    p.surname, p.first = row.surname, " ".join(rest)
         missing = sorted(
             f"{p.surname} {p.first}"
             for p in self.people.values()
-            if p.election is None and any(s.body_id == self.council_id for s in p.seen.values())
+            if p.election is None
+            and slugify(f"{p.surname} {p.first}")
+            and any(
+                s.body_id == self.council_id and s.last.isoformat() >= TERM_START for s in p.seen.values()
+            )
         )
         return matched, missing
 
@@ -200,7 +240,7 @@ class Roster:
             pid = person_id(self.city, p.surname, p.first, taken)
             taken.add(pid)
             name = f"{p.first} {p.surname}".strip()
-            aliases = sorted(n for n in p.names if n != name)
+            aliases = sorted(n for n in set(p.names) | p.printed if n != name)
             person = {
                 "id": pid,
                 "city": self.city,

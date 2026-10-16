@@ -232,3 +232,49 @@ def test_nameless_attendance_entry_gets_no_person():
     out = r.to_json()
     assert all(p["id"].split("/")[1] for p in out["persons"])
     assert all(m["person_id"].split("/")[1] for m in out["memberships"])
+
+
+def test_registry_name_forms():
+    """Forms seen on registry municipalities' minutes (M15): a party after the name, an initial
+    glued to the first name and printed first-name first, and notes in the name column."""
+    r = Roster("x", "x/valtuusto")
+    r.add_meeting(
+        _meeting(
+            "x/valtuusto",
+            "2025-09-01",
+            [
+                ("Aaltonen Minna, KOK", "valtuutettu", True),
+                ("Ari.M Laitinen", "valtuutettu", True),
+                ("Kokouksessa tauko klo 17:06-17:35", "valtuutettu", True),
+                ("- -", "valtuutettu", True),
+            ],
+        )
+    )
+    r.add_meeting(_meeting("x/valtuusto", "2025-10-01", [("Aaltonen Minna", "valtuutettu", True)]))
+    matched, missing = r.add_parties(
+        [
+            PartyRow("Aaltonen Minna", "KOK", "elected", "t", 100, surname="Aaltonen", first="Minna"),
+            PartyRow("Laitinen Ari", "SDP", "elected", "t", 200, surname="Laitinen", first="Ari"),
+        ]
+    )
+    assert (matched, missing) == (2, [])
+    by_id = {p["id"]: p for p in r.to_json()["persons"]}
+    assert set(by_id) == {"x/aaltonen-minna", "x/laitinen-ari-m"}
+    assert by_id["x/aaltonen-minna"]["aliases"] == ["Aaltonen Minna", "Aaltonen Minna, KOK"]
+    assert by_id["x/laitinen-ari-m"]["name"] == "Ari.M Laitinen"
+    assert by_id["x/laitinen-ari-m"]["party"] == "SDP"
+
+
+def test_a_candidacy_goes_to_one_person():
+    r = Roster("x", "x/valtuusto")
+    r.add_meeting(
+        _meeting(
+            "x/valtuusto",
+            "2025-09-01",
+            [("Laitinen Pekka", "valtuutettu", True), ("Laitinen Pekka J.", "varavaltuutettu", True)],
+        )
+    )
+    matched, _ = r.add_parties([PartyRow("Laitinen Pekka", "KESK", "elected", "t", 1, surname="Laitinen")])
+    assert matched == 1
+    parties = {p["id"]: p.get("party") for p in r.to_json()["persons"]}
+    assert parties == {"x/laitinen-pekka": "KESK", "x/laitinen-pekka-j": None}
