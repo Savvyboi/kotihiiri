@@ -1,0 +1,106 @@
+# Written by `kunta discover` / `kunta crawl`. Add `included: true|false` to a body to override the
+# default exclude rules (kunta/bodies.py); manual keys survive re-discovery. `excluded_by_rule`
+# is informational.
+bodies:
+  affarsverket-borga-kost-och-stadtjansters-direktion:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Affärsverket Borgå kost- och städtjänsters direktion
+  affarsverket-borga-vattens-direktion:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Affärsverket Borgå vattens direktion
+  elinvoimalautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Elinvoimalautakunta
+  kasvun-ja-oppimisen-lautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kasvun ja oppimisen lautakunta
+  kaupunginhallituksen-konsernijaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Kaupunginhallituksen konsernijaosto
+  kaupunginhallitus:
+    kind: board
+    name_fi: Kaupunginhallitus
+  kaupunginvaltuusto:
+    kind: council
+    name_fi: Kaupunginvaltuusto
+  kaupunkikehityslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kaupunkikehityslautakunta
+  liikelaitos-porvoon-ateria-ja-puhtauspalveluiden-johtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Liikelaitos Porvoon ateria- ja puhtauspalveluiden johtokunta
+  liikelaitos-porvoon-veden-johtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Liikelaitos Porvoon veden johtokunta
+  livskraftsnamnden:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Livskraftsnämnden
+  lupa-ja-valvontalautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Lupa- ja valvontalautakunta
+  miljohalsosektionen:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Miljöhälsosektionen
+  namnden-for-sysselsattningsomradet:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Nämnden för sysselsättningsområdet
+  namnden-for-vaxande-och-larande:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Nämnden för växande och lärande
+  revisionsnamnden:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Revisionsnämnden
+  stadsfullmaktige:
+    excluded_by_rule: true
+    kind: council
+    name_fi: Stadsfullmäktige
+  stadsstyrelsen:
+    excluded_by_rule: true
+    kind: board
+    name_fi: Stadsstyrelsen
+  stadsstyrelsens-koncernsektion:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Stadsstyrelsens koncernsektion
+  stadsutvecklingsnamnden:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Stadsutvecklingsnämnden
+  suomenkielinen-koulutusjaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Suomenkielinen koulutusjaosto
+  svensksprakiga-utbildningssektionen:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Svenskspråkiga utbildningssektionen
+  tarkastuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tarkastuslautakunta
+  tillstands-och-tillsynsnamnden:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tillstånds- och tillsynsnämnden
+  tyollisyysalueen-lautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Työllisyysalueen lautakunta
+  ymparistoterveysjaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Ympäristöterveysjaosto

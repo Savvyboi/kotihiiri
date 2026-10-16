@@ -1,0 +1,102 @@
+# Written by `kunta discover` / `kunta crawl`. Add `included: true|false` to a body to override the
+# default exclude rules (kunta/bodies.py); manual keys survive re-discovery. `excluded_by_rule`
+# is informational.
+bodies:
+  elinvoimajaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Elinvoimajaosto
+  henkilostojaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Henkilöstöjaosto
+  keskusvaalilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Keskusvaalilautakunta
+  kirkkonummen-vesi-liikelaitoksen-johtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Kirkkonummen Vesi -liikelaitoksen johtokunta
+  kunnanhallitus:
+    kind: board
+    name_fi: Kunnanhallitus
+  kunnanvaltuusto:
+    kind: council
+    name_fi: Kunnanvaltuusto
+  kuntakehityksen-lautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kuntakehityksen lautakunta
+  kuntakehitysjaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Kuntakehitysjaosto
+  nimistotoimikunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Nimistötoimikunta
+  nuorisovaltuusto:
+    excluded_by_rule: true
+    kind: council
+    name_fi: Nuorisovaltuusto
+  palvelutuotannon-lautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Palvelutuotannon lautakunta
+  perusturvalautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Perusturvalautakunta
+  rakennus-ja-ymparistolautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Rakennus- ja ympäristölautakunta
+  sivistys-ja-hyvinvointilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Sivistys- ja hyvinvointilautakunta
+  sivistys-ja-vapaa-aikalautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Sivistys- ja vapaa-aikalautakunta
+  suomenkielinen-kasvatus-ja-koulutuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Suomenkielinen kasvatus- ja koulutuslautakunta
+  suomenkielinen-varhaiskasvatus-ja-opetuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Suomenkielinen varhaiskasvatus- ja opetuslautakunta
+  svenska-forskoleverksamhets-och-utbildningsnamnden:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Svenska förskoleverksamhets- och utbildningsnämnden
+  svenska-namnden-for-fostran-och-utbildning:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Svenska nämnden för fostran och utbildning
+  tarkastuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tarkastuslautakunta
+  toimitilapalvelujen-lautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Toimitilapalvelujen lautakunta
+  tyollisyys-ja-elinkeinoasioiden-lautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Työllisyys- ja elinkeinoasioiden lautakunta
+  vammaisneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vammaisneuvosto
+  vanhusneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vanhusneuvosto
+  yhdyskuntatekniikan-lautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Yhdyskuntatekniikan lautakunta

@@ -1,0 +1,62 @@
+# Written by `kunta discover` / `kunta crawl`. Add `included: true|false` to a body to override the
+# default exclude rules (kunta/bodies.py); manual keys survive re-discovery. `excluded_by_rule`
+# is informational.
+bodies:
+  hyvinvointilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Hyvinvointilautakunta
+  kasvatus-ja-opetuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kasvatus- ja opetuslautakunta
+  kaupunginhallituksen-elinvoimajaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Kaupunginhallituksen elinvoimajaosto
+  kaupunginhallituksen-kehitys-ja-henkilostojaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Kaupunginhallituksen kehitys- ja henkilöstöjaosto
+  kaupunginhallitus:
+    kind: board
+    name_fi: Kaupunginhallitus
+  kaupunginvaltuusto:
+    kind: council
+    name_fi: Kaupunginvaltuusto
+  keskusvaalilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Keskusvaalilautakunta
+  koulutuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Koulutuslautakunta
+  nimistotoimikunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Nimistötoimikunta
+  saaristolautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Saaristolautakunta
+  sosiaali-ja-terveyslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Sosiaali- ja terveyslautakunta
+  tarkastuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tarkastuslautakunta
+  tekninen-lautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tekninen lautakunta
+  vanhankaupungin-toimikunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vanhankaupungin toimikunta
+  ymparisto-ja-rakennuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Ympäristö- ja rakennuslautakunta
