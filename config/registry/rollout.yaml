@@ -24,6 +24,38 @@ enabled:
   - kempele
   - lapua
   - hameenkyro
+  # Batch 2 (2026-10-16): the other audit-allowed Dynasty municipalities (M12), except Sipoo
+  # (no board found) and Parainen (two council bodies); both need a look first.
+  - joensuu
+  - kouvola
+  - porvoo
+  - raisio
+  - lempaala
+  - raahe
+  - sastamala
+  - siilinjarvi
+  - mantsala
+  - tornio
+  - naantali
+  - kemi
+  - jamsa
+  - laukaa
+  - heinola
+  - forssa
+  - orimattila
+  - loimaa
+  - kontiolahti
+  - kauhava
+  - uusikaupunki
+  - loviisa
+  - kankaanpaa
+  - ulvila
+  - liperi
+  - paimio
+  - eura
+  - liminka
+  - kauniainen
+  - sotkamo
 
 # Per-municipality corrections found by the audit, merged over the registry row
 # (e.g. a council_source_id the registry lacked, or a moved base URL).
