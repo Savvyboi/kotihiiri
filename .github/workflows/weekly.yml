@@ -54,7 +54,9 @@ jobs:
           PY
       - id: groups
         env:
-          CITIES: ${{ inputs.cities || 'all' }}
+          # Scheduled runs crawl only the six cities while the registry rollout is paused
+          # (PLAN.md M12, Savvas 2026-10-16). Run it by hand with `all` to include the rest.
+          CITIES: ${{ inputs.cities || 'helsinki,espoo,tampere,vantaa,oulu,turku' }}
         run: |
           pip install -q -e .
           echo "json=$(kunta groups --cities "$CITIES")" >> "$GITHUB_OUTPUT"
