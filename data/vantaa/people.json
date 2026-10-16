@@ -2094,6 +2094,15 @@
       "start": "2025-09-22"
     },
     {
+      "body_id": "vantaa/kaupunginvaltuusto",
+      "end": "2025-05-27",
+      "group": "vihr",
+      "person_id": "vantaa/kauppinen-siru",
+      "role": "member",
+      "source": "vote_table",
+      "start": "2025-04-28"
+    },
+    {
       "body_id": "vantaa/kasvatuksen-ja-oppimisen-lautakunta",
       "end": "2026-10-06",
       "person_id": "vantaa/khalili-serveh",
@@ -4208,15 +4217,6 @@
     },
     {
       "body_id": "vantaa/kaupunginvaltuusto",
-      "end": "2025-05-27",
-      "group": "vihr",
-      "person_id": "vantaa/siru-kauppinen",
-      "role": "member",
-      "source": "vote_table",
-      "start": "2025-04-28"
-    },
-    {
-      "body_id": "vantaa/kaupunginvaltuusto",
       "end": "2026-09-21",
       "person_id": "vantaa/snellman-karita",
       "role": "member",
@@ -5366,8 +5366,16 @@
         "Bibani Gashaw"
       ],
       "city": "vantaa",
+      "election": {
+        "party": "VAS",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 1093,
+        "year": 2025
+      },
       "id": "vantaa/bibani-gashaw",
       "name": "Gashaw Bibani",
+      "party": "VAS",
       "sort_name": "Bibani Gashaw"
     },
     {
@@ -6596,8 +6604,16 @@
         "Kauppinen Sirpa"
       ],
       "city": "vantaa",
+      "election": {
+        "party": "VIHR",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 699,
+        "year": 2025
+      },
       "id": "vantaa/kauppinen-sirpa",
       "name": "Sirpa Kauppinen",
+      "party": "VIHR",
       "sort_name": "Kauppinen Sirpa"
     },
     {
@@ -6616,6 +6632,21 @@
       "name": "Sirpa 'Siru' Kauppinen",
       "party": "VIHR",
       "sort_name": "Kauppinen Sirpa 'Siru'"
+    },
+    {
+      "aliases": [],
+      "city": "vantaa",
+      "election": {
+        "party": "VIHR",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 699,
+        "year": 2025
+      },
+      "id": "vantaa/kauppinen-siru",
+      "name": "Siru Kauppinen",
+      "party": "VIHR",
+      "sort_name": "Kauppinen Siru"
     },
     {
       "aliases": [
@@ -8356,15 +8387,6 @@
       "id": "vantaa/siniketo-pietila-katja",
       "name": "Katja Siniketo-Pietilä",
       "sort_name": "Siniketo-Pietilä Katja"
-    },
-    {
-      "aliases": [
-        "Siru Kauppinen"
-      ],
-      "city": "vantaa",
-      "id": "vantaa/siru-kauppinen",
-      "name": "Kauppinen Siru",
-      "sort_name": "Siru Kauppinen"
     },
     {
       "aliases": [
