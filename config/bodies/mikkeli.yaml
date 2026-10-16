@@ -1,0 +1,138 @@
+# Written by `kunta discover` / `kunta crawl`. Add `included: true|false` to a body to override the
+# default exclude rules (kunta/bodies.py); manual keys survive re-discovery. `excluded_by_rule`
+# is informational.
+bodies:
+  anttolan-aluejohtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Anttolan aluejohtokunta
+  etela-savon-pelastuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Etelä-Savon pelastuslautakunta
+  haukivuoren-aluejohtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Haukivuoren aluejohtokunta
+  hyvinvoinnin-ja-osallisuuden-lautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Hyvinvoinnin ja osallisuuden lautakunta
+  hyvinvointilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Hyvinvointilautakunta
+  kasvatus-ja-opetuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kasvatus- ja opetuslautakunta
+  kaupunginhallituksen-jaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Kaupunginhallituksen jaosto
+  kaupunginhallitus:
+    kind: board
+    name_fi: Kaupunginhallitus
+  kaupunginvaltuusto:
+    kind: council
+    name_fi: Kaupunginvaltuusto
+  kaupunkikehityslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kaupunkikehityslautakunta
+  kaupunkiymparistolautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kaupunkiympäristölautakunta
+  keskusvaalilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Keskusvaalilautakunta
+  konserni-ja-elinvoimajaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Konserni- ja elinvoimajaosto
+  konsernijaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Konsernijaosto
+  kulttuuri-nuoriso-ja-liikuntalautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kulttuuri-, nuoriso- ja liikuntalautakunta
+  lupa-ja-valvontajaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Lupa- ja valvontajaosto
+  maaseutu-ja-tielautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Maaseutu- ja tielautakunta
+  mikkelin-kaupungin-liikelaitos-otavian-johtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Mikkelin kaupungin liikelaitos Otavian johtokunta
+  mikkelin-kaupungin-sosiaali-ja-terveystoimen-tuotantolautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Mikkelin kaupungin sosiaali- ja terveystoimen tuotantolautakunta
+  mikkelin-pitajan-aluejohtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Mikkelin pitäjän aluejohtokunta
+  mikkelin-seudun-sosiaali-ja-terveyslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Mikkelin seudun sosiaali- ja terveyslautakunta
+  mikkelin-seudun-tyollisyyslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Mikkelin seudun työllisyyslautakunta
+  mikkelin-seudun-ymparistolautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Mikkelin seudun ympäristölautakunta
+  otavan-opiston-liikelaitoksen-johtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Otavan Opiston Liikelaitoksen johtokunta
+  rakennuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Rakennuslautakunta
+  ristiinan-aluejohtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Ristiinan aluejohtokunta
+  sivistyslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Sivistyslautakunta
+  suomenniemen-aluejohtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Suomenniemen aluejohtokunta
+  tarkastuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tarkastuslautakunta
+  tekninen-lautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tekninen lautakunta
+  teknisen-lautakunnan-jaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Teknisen lautakunnan jaosto
+  vammaisneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vammaisneuvosto
+  vanhusneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vanhusneuvosto
+  vesiliikelaitoksen-johtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Vesiliikelaitoksen johtokunta

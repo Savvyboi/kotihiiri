@@ -1,0 +1,82 @@
+# Written by `kunta discover` / `kunta crawl`. Add `included: true|false` to a body to override the
+# default exclude rules (kunta/bodies.py); manual keys survive re-discovery. `excluded_by_rule`
+# is informational.
+bodies:
+  kaupunginhallitus:
+    kind: board
+    name_fi: Kaupunginhallitus
+  kaupunginvaltuusto:
+    kind: council
+    name_fi: Kaupunginvaltuusto
+  kaupunkirakennelautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kaupunkirakennelautakunta
+  keski-pohjanmaan-tyollisyyslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Keski-Pohjanmaan työllisyyslautakunta
+  keskusvaalilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Keskusvaalilautakunta
+  konserni-ja-kaupunkikehitysjaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Konserni- ja kaupunkikehitysjaosto
+  kulttuuri-ja-vapaa-aikalautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kulttuuri- ja vapaa-aikalautakunta
+  lapsivaltuusto-barnfullmaktige:
+    excluded_by_rule: true
+    kind: council
+    name_fi: Lapsivaltuusto ⁄ Barnfullmäktige
+  monikulttuurisuusneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Monikulttuurisuusneuvosto
+  nuorisovaltuusto:
+    excluded_by_rule: true
+    kind: council
+    name_fi: Nuorisovaltuusto
+  opetus-ja-kasvatuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Opetus- ja kasvatuslautakunta
+  opetuspalvelujen-suomenkielinen-jaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Opetuspalvelujen suomenkielinen jaosto
+  rakennus-ja-ymparistolautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Rakennus- ja ympäristölautakunta
+  sektionen-for-svenska-utbildningstjanster:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Sektionen för svenska utbildningstjänster
+  stadsfullmaktige:
+    excluded_by_rule: true
+    kind: council
+    name_fi: Stadsfullmäktige
+  tankarin-karitoimikunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tankarin karitoimikunta
+  tarkastuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tarkastuslautakunta
+  vanhus-ja-vammaisneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vanhus- ja vammaisneuvosto
+  vesilaitosjohtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Vesilaitosjohtokunta
+  ymparistoterveyslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Ympäristöterveyslautakunta

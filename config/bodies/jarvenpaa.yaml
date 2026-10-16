@@ -1,0 +1,78 @@
+# Written by `kunta discover` / `kunta crawl`. Add `included: true|false` to a body to override the
+# default exclude rules (kunta/bodies.py); manual keys survive re-discovery. `excluded_by_rule`
+# is informational.
+bodies:
+  henkilostoasiainjaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Henkilöstöasiainjaosto
+  henkilostojaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Henkilöstöjaosto
+  hyvinvointilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Hyvinvointilautakunta
+  jarvenpaan-veden-johtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Järvenpään Veden johtokunta
+  juhlavuositoimikunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Juhlavuositoimikunta
+  kaupunginhallitus:
+    kind: board
+    name_fi: Kaupunginhallitus
+  kaupunginvaltuusto:
+    kind: council
+    name_fi: Kaupunginvaltuusto
+  kaupunkikehityslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kaupunkikehityslautakunta
+  keski-uudenmaan-tyollisyysalueen-johtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Keski-Uudenmaan työllisyysalueen johtokunta
+  keskisen-uudenmaan-musiikkiopiston-johtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Keskisen Uudenmaan Musiikkiopiston johtokunta
+  keskusvaalilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Keskusvaalilautakunta
+  lupajaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Lupajaosto
+  nuorisovaltuusto:
+    excluded_by_rule: true
+    kind: council
+    name_fi: Nuorisovaltuusto
+  opetus-ja-kasvatuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Opetus- ja kasvatuslautakunta
+  puheenjohtajien-jaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Puheenjohtajien jaosto
+  talous-ja-konsernijaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Talous- ja konsernijaosto
+  talousjaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Talousjaosto
+  tarkastuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tarkastuslautakunta
+  vaalitoimikunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vaalitoimikunta

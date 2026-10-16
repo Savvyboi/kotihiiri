@@ -1,0 +1,70 @@
+# Written by `kunta discover` / `kunta crawl`. Add `included: true|false` to a body to override the
+# default exclude rules (kunta/bodies.py); manual keys survive re-discovery. `excluded_by_rule`
+# is informational.
+bodies:
+  elinkeino-ja-tyollisyysjaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Elinkeino- ja työllisyysjaosto
+  elinkeino-ja-tyollisyyslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Elinkeino- ja työllisyyslautakunta
+  hyvinvointitoimikunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Hyvinvointitoimikunta
+  jyvaskylan-seudun-jatelautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Jyväskylän seudun jätelautakunta
+  jyvaskylan-seudun-joukkoliikennelautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Jyväskylän seudun joukkoliikennelautakunta
+  jyvaskylan-seudun-ymparistoterveyslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Jyväskylän seudun ympäristöterveyslautakunta
+  kaupunginhallitus:
+    kind: board
+    name_fi: Kaupunginhallitus
+  kaupunginvaltuusto:
+    kind: council
+    name_fi: Kaupunginvaltuusto
+  kaupunkikuvatoimikunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kaupunkikuvatoimikunta
+  kaupunkirakennelautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kaupunkirakennelautakunta
+  keskusvaalilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Keskusvaalilautakunta
+  kulttuuri-ja-liikuntalautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kulttuuri- ja liikuntalautakunta
+  kylan-kattaus-liikelaitoksen-johtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Kylän Kattaus -liikelaitoksen johtokunta
+  rakennus-ja-ymparistolautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Rakennus- ja ympäristölautakunta
+  sivistyslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Sivistyslautakunta
+  tarkastuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tarkastuslautakunta
+  tilapalvelu-liikelaitoksen-johtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Tilapalvelu-liikelaitoksen johtokunta

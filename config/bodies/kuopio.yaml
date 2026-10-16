@@ -1,0 +1,74 @@
+# Written by `kunta discover` / `kunta crawl`. Add `included: true|false` to a body to override the
+# default exclude rules (kunta/bodies.py); manual keys survive re-discovery. `excluded_by_rule`
+# is informational.
+bodies:
+  elinvoimajaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Elinvoimajaosto
+  hyvinvoinnin-edistamisen-lautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Hyvinvoinnin edistämisen lautakunta
+  kasvun-ja-oppimisen-lautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kasvun ja oppimisen lautakunta
+  kaupunginhallitus:
+    kind: board
+    name_fi: Kaupunginhallitus
+  kaupunginvaltuusto:
+    kind: council
+    name_fi: Kaupunginvaltuusto
+  kaupunkirakennelautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kaupunkirakennelautakunta
+  keskusvaalilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Keskusvaalilautakunta
+  konsernijaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Konsernijaosto
+  kuopion-kaupunkiseudun-joukkoliikennelautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kuopion kaupunkiseudun joukkoliikennelautakunta
+  lahidemokratiajaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Lähidemokratiajaosto
+  omistajaohjausjaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Omistajaohjausjaosto
+  perusturva-ja-terveyslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Perusturva- ja terveyslautakunta
+  savo-pielisen-jatelautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Savo-Pielisen jätelautakunta
+  sivistyslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Sivistyslautakunta
+  tarkastuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tarkastuslautakunta
+  tyollisyysaluejaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Työllisyysaluejaosto
+  tyollisyysaluelautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Työllisyysaluelautakunta
+  ymparisto-ja-rakennuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Ympäristö- ja rakennuslautakunta
