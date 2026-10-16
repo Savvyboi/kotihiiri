@@ -1,0 +1,66 @@
+# Written by `kunta discover` / `kunta crawl`. Add `included: true|false` to a body to override the
+# default exclude rules (kunta/bodies.py); manual keys survive re-discovery. `excluded_by_rule`
+# is informational.
+bodies:
+  elinvoimatoimikunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Elinvoimatoimikunta
+  elinymparistolautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Elinympäristölautakunta
+  hyvinvointitoimikunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Hyvinvointitoimikunta
+  kaavatoimikunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kaavatoimikunta
+  kaupunginhallitus:
+    kind: board
+    name_fi: Kaupunginhallitus
+  kaupunginvaltuusto:
+    kind: council
+    name_fi: Kaupunginvaltuusto
+  keskusvaalilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Keskusvaalilautakunta
+  loimaan-seudun-toiminta-alueen-tyollisyydenhoidon-neuvottelukunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Loimaan seudun toiminta-alueen työllisyydenhoidon neuvottelukunta
+  loimaan-vesi-liikelaitoksen-johtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Loimaan Vesi -liikelaitoksen johtokunta
+  lupajaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Lupajaosto
+  nuorisovaltuusto:
+    excluded_by_rule: true
+    kind: council
+    name_fi: Nuorisovaltuusto
+  sivistyslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Sivistyslautakunta
+  taloustyoryhma:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Taloustyöryhmä
+  tarkastuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tarkastuslautakunta
+  vammaisneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vammaisneuvosto
+  vanhusneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vanhusneuvosto
