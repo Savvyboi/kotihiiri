@@ -694,8 +694,7 @@ municipalities:
     portal_url: https://sipoofi.oncloudos.com/cgi/DREQUEST.PHP?page=meeting_frames
     councillors_url: https://www.sipoo.fi/organisaatio/toimielinorganisaatio/
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   hollola:
     name_fi: Hollola
     rank: 46

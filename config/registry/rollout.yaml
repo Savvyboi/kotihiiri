@@ -24,8 +24,10 @@ enabled:
   - kempele
   - lapua
   - hameenkyro
-  # Batch 2 (2026-10-16): the other audit-allowed Dynasty municipalities (M12), except Sipoo
-  # (no board found) and Parainen (two council bodies); both need a look first.
+  # Batch 2 (2026-10-16): the other audit-allowed Dynasty municipalities (M12). Sipoo's board
+  # ("Kunnanhallitus ⁄ Kommunstyrelsen") is found since the bilingual-name fix. Parainen waits: its
+  # council moved from "Kaupunginvaltuusto" to a new "Valtuusto" body in 2025, so it has two.
+  - sipoo
   - joensuu
   - kouvola
   - porvoo
