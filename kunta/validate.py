@@ -11,7 +11,7 @@ from pydantic import ValidationError
 from . import jsonio
 from .config import DATA_DIR
 from .models import MeetingFile, PeopleFile, Speech
-from .text import contains_pii
+from .text import contains_pii, pii_shapes
 
 PARSE_ERROR_ALARM_RATIO = 0.05
 
@@ -29,14 +29,15 @@ class Report:
 
 
 def _texts(mf: MeetingFile):
+    """(item id, field, text) for every stored text of the meeting's items."""
     for item in mf.items:
-        yield item.id, item.title
+        yield item.id, "title", item.title
         for s in item.sections + item.statements:
-            yield item.id, s.text
+            yield item.id, f"section {s.type}", s.text
         for m in item.motions:
-            yield item.id, m.text
+            yield item.id, "motion", m.text
         if item.decision_summary:
-            yield item.id, item.decision_summary
+            yield item.id, "decision_summary", item.decision_summary
 
 
 def validate_meeting_file(path: Path, report: Report, has_attendance: bool = True) -> None:
@@ -64,9 +65,10 @@ def validate_meeting_file(path: Path, report: Report, has_attendance: bool = Tru
                 report.warnings.append(f"{item.id} vote {v.ordinal}: ballots ≠ counts, needs_review not set")
             if v.needs_review and not v.review_reason:
                 report.warnings.append(f"{item.id} vote {v.ordinal}: needs_review without a reason")
-    for item_id, text in _texts(mf):
+    for item_id, where, text in _texts(mf):
         if contains_pii(text):
-            report.errors.append(f"{item_id}: e-mail or phone number in stored text")
+            shapes = ", ".join(pii_shapes(text))
+            report.errors.append(f"{item_id}: e-mail or phone number in stored text ({where}: {shapes})")
 
 
 def _has_attendance(city: str) -> bool:

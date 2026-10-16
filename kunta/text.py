@@ -76,6 +76,18 @@ def contains_pii(text: str) -> bool:
     return bool(_EMAIL.search(text) or _PHONE.search(text))
 
 
+def pii_shapes(text: str) -> list[str]:
+    """What matched, without the personal data: digits as 9, letters as x, plus the word before it
+    when that word is lowercase (a label like "puh" or "kiinteistö", never a name). For logs."""
+    out = []
+    for m in [*_EMAIL.finditer(text), *_PHONE.finditer(text)]:
+        shape = re.sub(r"\d", "9", re.sub(r"[^\W\d_]", "x", m.group(0)))
+        before = text[: m.start()].split()[-1:] or [""]
+        word = before[0] if before[0].islower() else ""
+        out.append(f"{word} «{shape}»".strip())
+    return out
+
+
 def apply_takedown_strings(text: str, strings: list[str]) -> str:
     for s in strings:
         if s:

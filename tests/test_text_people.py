@@ -88,3 +88,10 @@ def test_is_confidential():
     assert is_confidential("Sekretessbelagd (OffL 24.1 § 25 p)")
     assert not is_confidential("Salassa pidettävien tietojen käsittely, ohje")
     assert not is_confidential(None)
+
+
+def test_pii_shapes_hide_the_data():
+    from kunta.text import pii_shapes
+
+    shapes = pii_shapes("Matti Meikäläinen 040 123 4567, puh. 09 310 12345, matti.m@kunta.fi")
+    assert shapes == ["«xxxxx.x@xxxxx.xx»", "«999 999 9999»", "puh. «99 999 99999»"]
