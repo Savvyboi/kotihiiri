@@ -17,7 +17,7 @@ from pathlib import Path
 
 from . import jsonio
 from .config import DATA_DIR
-from .ids import person_id
+from .ids import person_id, slugify
 from .people import name_key, normalize_name
 
 _OF = r"^(?:valtuuston )?"
@@ -195,6 +195,8 @@ class Roster:
             self.people, key=lambda k: (self.people[k].surname.lower(), self.people[k].first.lower(), k)
         ):
             p = self.people[key]
+            if not slugify(f"{p.surname} {p.first}"):
+                continue  # no letters or digits (a dash or stray mark in an attendance list)
             pid = person_id(self.city, p.surname, p.first, taken)
             taken.add(pid)
             name = f"{p.first} {p.surname}".strip()

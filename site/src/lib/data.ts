@@ -135,7 +135,17 @@ export function meetingFiles(cityId: string): MeetingFile[] {
 export function peopleFile(cityId: string): PeopleFile {
   return memo(`people:${cityId}`, () => {
     const p = path.join(DATA_DIR, cityId, 'people.json');
-    return fs.existsSync(p) ? readJson<PeopleFile>(p) : { persons: [], memberships: [] };
+    if (!fs.existsSync(p)) return { persons: [], memberships: [] };
+    // A person whose id has no slug (a name without letters, from an attendance list written
+    // before `kunta people` skipped those) gets no page and no links.
+    const file = readJson<PeopleFile>(p);
+    const bad = new Set(file.persons.filter((x) => !x.id.split('/')[1]).map((x) => x.id));
+    if (!bad.size) return file;
+    return {
+      ...file,
+      persons: file.persons.filter((x) => !bad.has(x.id)),
+      memberships: file.memberships.filter((m) => !bad.has(m.person_id)),
+    };
   });
 }
 
