@@ -15,8 +15,10 @@ from collections.abc import Iterable
 from dataclasses import dataclass, field
 from pathlib import Path
 
+import yaml
+
 from . import jsonio
-from .config import DATA_DIR
+from .config import CONFIG_DIR, DATA_DIR
 from .ids import person_id, slugify
 from .people import name_key, normalize_name
 
@@ -166,17 +168,28 @@ class Roster:
                     p = self._get(f"{surname.strip()} {first.strip()}" if first else raw)
                     p.see(m["body_id"], "member", date, b["group_text"])
 
-    def add_parties(self, rows: Iterable[PartyRow]) -> tuple[int, list[str]]:
+    def add_parties(
+        self, rows: Iterable[PartyRow], overrides: dict[str, str] | None = None
+    ) -> tuple[int, list[str]]:
         """Attach each person's 2025 candidacy (party, result, votes). Persons are never created
         here (§8 step 6). A name is matched on its order-insensitive key; failing that, on a unique
         candidate whose surname is in the printed name and whose name tokens are a subset of the
         printed name or the other way round ("Mäkinen Juha J." ↔ "Mäkinen Juha", "Ari.M Laitinen"
         ↔ "Laitinen Ari"). A name two candidates share is never guessed. Several printed forms may
         take one candidacy ("Bibani Gashaw", "Gashaw Kaisa Bibani"): they are one person printed
-        differently. Returns (matched, names of this term's councillors left without a party)."""
+        differently. `overrides` maps a printed name to its candidate's name in the list, for forms
+        no rule can join ("Kauste Mika" → "Kauste Mikki"; config/people_overrides/, §8 source 5).
+        Returns (matched, names of this term's councillors left without a party)."""
+        rows = list(rows)
         by_key: dict[str, list[PartyRow]] = {}
         for r in rows:
             by_key.setdefault(name_key(r.name), []).append(r)
+        forced: dict[str, PartyRow] = {}
+        for printed, cand in (overrides or {}).items():
+            rs = by_key.get(name_key(cand), [])
+            if len(rs) != 1:
+                raise ValueError(f"people override {printed!r}: {len(rs)} candidates named {cand!r}")
+            forced[_fold(name_key(printed))] = rs[0]
         by_fold: dict[str, list[PartyRow]] = {}
         for k, rs in by_key.items():
             by_fold.setdefault(_fold(k), []).extend(rs)
@@ -184,6 +197,9 @@ class Roster:
         exact: dict[str, PartyRow] = {}
         near: dict[str, PartyRow] = {}
         for key in self.people:
+            if key in forced:
+                exact[key] = forced[key]
+                continue
             rs = by_key.get(key) or by_fold.get(_fold(key))
             if rs is not None:
                 if len(rs) == 1:
@@ -207,7 +223,7 @@ class Roster:
             matched += 1
             # The candidate list prints "Sukunimi Etunimi"; some minutes print first names first,
             # so take the surname from the list.
-            if key in exact and _fold(name_key(row.name)) == _fold(key):
+            if key in forced or (key in exact and _fold(name_key(row.name)) == _fold(key)):
                 p.surname, p.first = split_name(row.name)
             elif key in near and row.surname:
                 surname = set(name_key(row.surname).split())
@@ -275,6 +291,15 @@ def council_body_id(city: str, data_dir: Path = DATA_DIR) -> str | None:
         return None
     councils = [b["id"] for b in jsonio.read(path) if b.get("kind") == "council" and b.get("included", True)]
     return next((c for c in councils if "kysely" not in c), councils[0] if councils else None)
+
+
+def load_overrides(city: str, config_dir: Path = CONFIG_DIR) -> dict[str, str]:
+    """config/people_overrides/{city}.yaml: `candidates: {printed name: candidate name}`."""
+    path = config_dir / "people_overrides" / f"{city}.yaml"
+    if not path.exists():
+        return {}
+    raw = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    return {str(k): str(v) for k, v in (raw.get("candidates") or {}).items()}
 
 
 def build(city: str, council_id: str | None, data_dir: Path = DATA_DIR) -> Roster:
