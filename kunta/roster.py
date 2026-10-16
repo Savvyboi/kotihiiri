@@ -178,7 +178,8 @@ class Roster:
         ↔ "Laitinen Ari"). A name two candidates share is never guessed. Several printed forms may
         take one candidacy ("Bibani Gashaw", "Gashaw Kaisa Bibani"): they are one person printed
         differently. `overrides` maps a printed name to its candidate's name in the list, for forms
-        no rule can join ("Kauste Mika" → "Kauste Mikki"; config/people_overrides/, §8 source 5).
+        no rule can join ("Kauste Mika" → "Kauste Mikki", or "Kemppainen Hannu / KESK" where two
+        candidates share a name; config/people_overrides/, §8 source 5).
         Returns (matched, names of this term's councillors left without a party)."""
         rows = list(rows)
         by_key: dict[str, list[PartyRow]] = {}
@@ -186,7 +187,9 @@ class Roster:
             by_key.setdefault(name_key(r.name), []).append(r)
         forced: dict[str, PartyRow] = {}
         for printed, cand in (overrides or {}).items():
-            rs = by_key.get(name_key(cand), [])
+            # "Kemppainen Hannu / KESK" when two candidates share the name
+            name, _, party = (x.strip() for x in cand.partition(" / "))
+            rs = [r for r in by_key.get(name_key(name), []) if not party or r.party == party]
             if len(rs) != 1:
                 raise ValueError(f"people override {printed!r}: {len(rs)} candidates named {cand!r}")
             forced[_fold(name_key(printed))] = rs[0]
