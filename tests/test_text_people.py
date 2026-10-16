@@ -95,3 +95,20 @@ def test_pii_shapes_hide_the_data():
 
     shapes = pii_shapes("Matti Meikäläinen 040 123 4567, puh. 09 310 12345, matti.m@kunta.fi")
     assert shapes == ["«xxxxx.x@xxxxx.xx»", "«999 999 9999»", "puh. «99 999 99999»"]
+
+
+def test_property_ids_are_not_phone_numbers():
+    title = "Maanvuokrasopimus kiinteistöstä 098-416-12-34 ja tilan 098-401-3-15 osalta"
+    assert not contains_pii(title) and strip_pii(title) == title
+    assert contains_pii("Lisätietoja tilaisuudesta 040-123-45-67")
+    assert contains_pii("kiinteistöasiat, puh. 040 123 4567")
+    assert contains_pii("Kiinteistöpäällikkö Etu Suku, 040-123-45-67")
+
+
+def test_post_numbers_and_title_ids_are_not_phone_numbers():
+    assert not contains_pii("Hallintojohtajan viran täyttäminen (virkanumero 0123456789)")
+    assert not contains_pii("Vakanssinumero: 01234567")
+    title = "Sopimus 0123456789 hyväksyminen"
+    assert contains_pii(title) and not contains_pii(title, title=True)
+    assert contains_pii("Sopimus, puh. 040 123 4567", title=True)
+    assert contains_pii("Lisätiedot: puhelinnumero 0401234567")

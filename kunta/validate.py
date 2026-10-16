@@ -66,8 +66,9 @@ def validate_meeting_file(path: Path, report: Report, has_attendance: bool = Tru
             if v.needs_review and not v.review_reason:
                 report.warnings.append(f"{item.id} vote {v.ordinal}: needs_review without a reason")
     for item_id, where, text in _texts(mf):
-        if contains_pii(text):
-            shapes = ", ".join(pii_shapes(text))
+        title = where == "title"
+        if contains_pii(text, title):
+            shapes = ", ".join(pii_shapes(text, title))
             report.errors.append(f"{item_id}: e-mail or phone number in stored text ({where}: {shapes})")
 
 
