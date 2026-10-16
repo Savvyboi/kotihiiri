@@ -1,0 +1,98 @@
+# Written by `kunta discover` / `kunta crawl`. Add `included: true|false` to a body to override the
+# default exclude rules (kunta/bodies.py); manual keys survive re-discovery. `excluded_by_rule`
+# is informational.
+bodies:
+  elinvoimalautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Elinvoimalautakunta
+  hairiotilanteiden-ja-poikkeusolojen-johtoryhma:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Häiriötilanteiden ja poikkeusolojen johtoryhmä
+  henkilosto-ja-nimitysjaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Henkilöstö- ja nimitysjaosto
+  hyvinvoinnin-ja-terveyden-edistamisen-jaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Hyvinvoinnin ja terveyden edistämisen jaosto
+  hyvinvointilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Hyvinvointilautakunta
+  jatehuoltojaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Jätehuoltojaosto
+  kaupunginhallitus:
+    kind: board
+    name_fi: Kaupunginhallitus
+  kaupunginvaltuusto:
+    kind: council
+    name_fi: Kaupunginvaltuusto
+  keskusvaalilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Keskusvaalilautakunta
+  kylien-kehittamisjaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Kylien kehittämisjaosto
+  lapsi-ja-lapsiperheneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Lapsi- ja lapsiperheneuvosto
+  lapsiperhe-ja-nuorisoasioiden-jaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Lapsiperhe- ja nuorisoasioiden jaosto
+  nimitysjaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Nimitysjaosto
+  nuorisohallitus:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Nuorisohallitus
+  nuorisovaltuusto:
+    excluded_by_rule: true
+    kind: council
+    name_fi: Nuorisovaltuusto
+  perusturvalautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Perusturvalautakunta
+  sivistyslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Sivistyslautakunta
+  tarkastuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tarkastuslautakunta
+  tekninen-lautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tekninen lautakunta
+  tilajaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Tilajaosto
+  vammaisneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vammaisneuvosto
+  vanhusneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vanhusneuvosto
+  yhdyskuntasuunnittelun-lautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Yhdyskuntasuunnittelun lautakunta
+  ymparistolautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Ympäristölautakunta

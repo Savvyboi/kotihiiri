@@ -1,0 +1,86 @@
+# Written by `kunta discover` / `kunta crawl`. Add `included: true|false` to a body to override the
+# default exclude rules (kunta/bodies.py); manual keys survive re-discovery. `excluded_by_rule`
+# is informational.
+bodies:
+  hyvinvointilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Hyvinvointilautakunta
+  kasvatus-ja-opetuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kasvatus- ja opetuslautakunta
+  kaupunginhallitus:
+    kind: board
+    name_fi: Kaupunginhallitus
+  kaupunginvaltuusto:
+    kind: council
+    name_fi: Kaupunginvaltuusto
+  kehittamistoimikunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kehittämistoimikunta
+  keskusvaalilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Keskusvaalilautakunta
+  kuru-neuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kuru-neuvosto
+  lapsi-ja-nuorisoneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Lapsi- ja nuorisoneuvosto
+  mielenterveysneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Mielenterveysneuvosto
+  museotoimikunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Museotoimikunta
+  nuorisovaltuusto:
+    excluded_by_rule: true
+    kind: council
+    name_fi: Nuorisovaltuusto
+  perusturvalautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Perusturvalautakunta
+  tarkastuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tarkastuslautakunta
+  tekninen-lautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tekninen lautakunta
+  tilapainen-valiokunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tilapäinen valiokunta
+  vammaisneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vammaisneuvosto
+  vanhus-ja-vammaisneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vanhus- ja vammaisneuvosto
+  vanhusneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vanhusneuvosto
+  viljakkala-neuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Viljakkala-neuvosto
+  yhteistoimintaryhma:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Yhteistoimintaryhmä
+  ymparistolautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Ympäristölautakunta

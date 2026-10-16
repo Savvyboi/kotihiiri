@@ -1,0 +1,94 @@
+# Written by `kunta discover` / `kunta crawl`. Add `included: true|false` to a body to override the
+# default exclude rules (kunta/bodies.py); manual keys survive re-discovery. `excluded_by_rule`
+# is informational.
+bodies:
+  henkilostojaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Henkilöstöjaosto
+  hyvinvointi-ja-vapaa-aikavaliokunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Hyvinvointi- ja vapaa-aikavaliokunta
+  hyvinvointivaliokunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Hyvinvointivaliokunta
+  kaupunginhallitus:
+    kind: board
+    name_fi: Kaupunginhallitus
+  kaupunginvaltuusto:
+    kind: council
+    name_fi: Kaupunginvaltuusto
+  keskusvaalilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Keskusvaalilautakunta
+  kulttuuri-ja-vapaa-aikavaliokunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kulttuuri- ja vapaa-aikavaliokunta
+  kulttuurivaliokunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kulttuurivaliokunta
+  liikuntavaliokunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Liikuntavaliokunta
+  maahanmuuttajaneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Maahanmuuttajaneuvosto
+  nuorisovaliokunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Nuorisovaliokunta
+  nuorisovaltuusto:
+    excluded_by_rule: true
+    kind: council
+    name_fi: Nuorisovaltuusto
+  rakennusvaliokunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Rakennusvaliokunta
+  sosiaali-ja-terveysvaliokunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Sosiaali- ja terveysvaliokunta
+  stadsfullmaktige:
+    excluded_by_rule: true
+    kind: council
+    name_fi: Stadsfullmäktige
+  suomenkielinen-kasvatus-ja-koulutusvaliokunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Suomenkielinen kasvatus- ja koulutusvaliokunta
+  suomenkielinen-opetus-ja-varhaiskasvatusvaliokunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Suomenkielinen opetus- ja varhaiskasvatusvaliokunta
+  svenska-utskottet-for-fostran-och-utbildning:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Svenska utskottet för fostran och utbildning
+  svenska-utskottet-for-undervisning-och-smabarnspedagogik:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Svenska utskottet för undervisning och småbarnspedagogik
+  tarkastusvaliokunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tarkastusvaliokunta
+  vammaisneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vammaisneuvosto
+  vanhusneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vanhusneuvosto
+  yhdyskuntavaliokunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Yhdyskuntavaliokunta

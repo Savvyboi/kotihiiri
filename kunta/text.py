@@ -58,6 +58,41 @@ _PHONE = re.compile(
     """,
     re.VERBOSE,
 )
+# Numbers that have a phone number's shape but are public ids, kept when the words just before
+# them say so: a post number (virkanumero, vakanssinumero) or a diary number in any shape, and a
+# property id (kiinteistötunnus, municipality-village-block-parcel, e.g. 098-416-12-34) after a
+# word naming a property.
+_ID_WORDS = re.compile(
+    r"\b(?:virkanumero|vakanssinumero|vakanssi|tehtävänumero|diaarinumero|dnro|asianumero)\w*[\s:(]{1,4}$",
+    re.IGNORECASE,
+)
+_PROPERTY_ID = re.compile(r"\d{1,3}-\d{1,3}-\d{1,4}-\d{1,4}")
+_PROPERTY_WORDS = re.compile(
+    r"\b(?:kiinteist\w*|kiint\.|tila(?:n|sta|lle|t)?|rn:o|määräal\w*|fastighet\w*)"
+    r"[\s:(]{1,4}(?:rn:o|nro|tunnus)?[\s:]{0,3}$",
+    re.IGNORECASE,
+)
+_UNBROKEN = re.compile(r"\+?\d+")
+
+
+def _is_id(text: str, m: re.Match) -> bool:
+    before = text[max(0, m.start() - 60) : m.start()]
+    if _ID_WORDS.search(before):
+        return True
+    return bool(_PROPERTY_ID.match(text, m.start()) and _PROPERTY_WORDS.search(before))
+
+
+def _phones(text: str, title: bool = False) -> list[re.Match]:
+    """Phone-number matches that are not ids. In an item title an unbroken run of digits is an id
+    (a post or case number): titles are agenda headings and never carry a person's number, and
+    one written as such would have a label or separators."""
+    return [
+        m
+        for m in _PHONE.finditer(text)
+        if not _is_id(text, m) and not (title and _UNBROKEN.fullmatch(m.group(0)))
+    ]
+
+
 _PHONE_LABEL = re.compile(r"\b(?:puh(?:elin)?\.?|p\.|tel\.?|gsm)\s*:?\s*(?=[\d+])", re.IGNORECASE)
 _REDACTED = "[poistettu]"
 
@@ -66,14 +101,27 @@ def strip_pii(text: str) -> str:
     """Remove e-mail addresses, Finnish phone numbers and their "puhelin" labels."""
     text = _EMAIL.sub(_REDACTED, text)
     text = _PHONE_LABEL.sub("", text)
-    text = _PHONE.sub(_REDACTED, text)
+    for m in reversed(_phones(text)):
+        text = text[: m.start()] + _REDACTED + text[m.end() :]
     # "[poistettu], [poistettu]" → one marker
     text = re.sub(r"(\[poistettu\][ \t,;/]*){2,}", _REDACTED + " ", text)
     return text
 
 
-def contains_pii(text: str) -> bool:
-    return bool(_EMAIL.search(text) or _PHONE.search(text))
+def contains_pii(text: str, title: bool = False) -> bool:
+    return bool(_EMAIL.search(text) or _phones(text, title))
+
+
+def pii_shapes(text: str, title: bool = False) -> list[str]:
+    """What matched, without the personal data: digits as 9, letters as x, plus the word before it
+    when that word is lowercase (a label like "puh" or "kiinteistö", never a name). For logs."""
+    out = []
+    for m in [*_EMAIL.finditer(text), *_phones(text, title)]:
+        shape = re.sub(r"\d", "9", re.sub(r"[^\W\d_]", "x", m.group(0)))
+        before = text[: m.start()].split()[-1:] or [""]
+        word = before[0] if before[0].islower() else ""
+        out.append(f"{word} «{shape}»".strip())
+    return out
 
 
 def apply_takedown_strings(text: str, strings: list[str]) -> str:

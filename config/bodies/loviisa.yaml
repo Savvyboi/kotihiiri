@@ -1,0 +1,94 @@
+# Written by `kunta discover` / `kunta crawl`. Add `included: true|false` to a body to override the
+# default exclude rules (kunta/bodies.py); manual keys survive re-discovery. `excluded_by_rule`
+# is informational.
+bodies:
+  elinkeino-ja-infrastruktuurilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Elinkeino- ja infrastruktuurilautakunta
+  elinkeino-ja-maaseutulautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Elinkeino- ja maaseutulautakunta
+  hyvinvointilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Hyvinvointilautakunta
+  kasvatus-ja-sivistyslautakunnan-suomenkielinen-koulutusjaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Kasvatus- ja sivistyslautakunnan suomenkielinen koulutusjaosto
+  kasvatus-ja-sivistyslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kasvatus- ja sivistyslautakunta
+  kaupunginhallitus:
+    kind: board
+    name_fi: Kaupunginhallitus
+  kaupunginvaltuusto:
+    kind: council
+    name_fi: Kaupunginvaltuusto
+  keskusvaalilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Keskusvaalilautakunta
+  konsernijaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Konsernijaosto
+  kulttuuri-ja-hyvinvointilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kulttuuri- ja hyvinvointilautakunta
+  kulttuuri-ja-vapaa-aikalautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kulttuuri- ja vapaa-aikalautakunta.
+  loviisan-kansalaisopiston-johtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Loviisan kansalaisopiston johtokunta
+  loviisan-vesiliikelaitos:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Loviisan Vesiliikelaitos
+  maaseutulautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Maaseutulautakunta
+  perusturvalautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Perusturvalautakunta
+  rakennus-ja-ymparistolautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Rakennus- ja ympäristölautakunta
+  revisionsnamnden:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Revisionsnämnden
+  sivistyslautakunnan-suomenkielinen-koulutusjaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Sivistyslautakunnan suomenkielinen koulutusjaosto
+  sivistyslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Sivistyslautakunta
+  tarkastuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tarkastuslautakunta
+  tekninen-lautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tekninen lautakunta
+  vammaisneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vammaisneuvosto
+  vanhusneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vanhusneuvosto

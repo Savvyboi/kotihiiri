@@ -1,0 +1,90 @@
+# Written by `kunta discover` / `kunta crawl`. Add `included: true|false` to a body to override the
+# default exclude rules (kunta/bodies.py); manual keys survive re-discovery. `excluded_by_rule`
+# is informational.
+bodies:
+  henkilosto-ja-tyollisyysjaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Henkilöstö- ja työllisyysjaosto
+  hyvinvoinnin-ja-osallisuuden-edistamisen-lautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Hyvinvoinnin ja osallisuuden edistämisen lautakunta
+  joensuun-alueellinen-jatelautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Joensuun alueellinen jätelautakunta
+  joensuun-seudun-yleiskaavatoimikunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Joensuun seudun yleiskaavatoimikunta
+  joensuun-vesi-liikelaitoksen-johtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Joensuun Vesi -liikelaitoksen johtokunta
+  kasvatus-ja-koulutuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kasvatus- ja koulutuslautakunta
+  kaupunginhallitus:
+    kind: board
+    name_fi: Kaupunginhallitus
+  kaupunginvaltuusto:
+    kind: council
+    name_fi: Kaupunginvaltuusto
+  kaupunkirakennelautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kaupunkirakennelautakunta
+  keskusvaalilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Keskusvaalilautakunta
+  konsernijaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Konsernijaosto
+  kulttuuri-ja-liikuntalautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kulttuuri- ja liikuntalautakunta
+  omistajaohjausjaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Omistajaohjausjaosto
+  osallisuus-ja-vetovoimalautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Osallisuus- ja vetovoimalautakunta
+  pohjois-karjalan-tyollisyysalueen-lautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Pohjois-Karjalan työllisyysalueen lautakunta
+  rakennus-ja-ymparistolautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Rakennus- ja ympäristölautakunta
+  seudullinen-joukkoliikennejaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Seudullinen joukkoliikennejaosto
+  sosiaali-ja-terveyspalvelujen-neuvottelukunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Sosiaali- ja terveyspalvelujen neuvottelukunta
+  tarkastuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tarkastuslautakunta
+  tilapainen-valiokunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tilapäinen valiokunta
+  vammaisneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vammaisneuvosto
+  vanhusneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vanhusneuvosto

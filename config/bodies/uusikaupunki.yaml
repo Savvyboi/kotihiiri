@@ -1,0 +1,70 @@
+# Written by `kunta discover` / `kunta crawl`. Add `included: true|false` to a body to override the
+# default exclude rules (kunta/bodies.py); manual keys survive re-discovery. `excluded_by_rule`
+# is informational.
+bodies:
+  hyvinvointi-ja-vapaa-aikalautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Hyvinvointi- ja vapaa-aikalautakunta
+  kaupunginhallitus:
+    kind: board
+    name_fi: Kaupunginhallitus
+  kaupunginvaltuusto:
+    kind: council
+    name_fi: Kaupunginvaltuusto
+  kaupunkisuunnittelujaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Kaupunkisuunnittelujaosto
+  keskusvaalilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Keskusvaalilautakunta
+  nuorisovaltuusto:
+    excluded_by_rule: true
+    kind: council
+    name_fi: Nuorisovaltuusto
+  opetus-ja-kasvatuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Opetus- ja kasvatuslautakunta
+  sosiaalilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Sosiaalilautakunta
+  tarkastuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tarkastuslautakunta
+  tekninen-lautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tekninen lautakunta
+  terveyslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Terveyslautakunta
+  uudenkaupungin-veden-johtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Uudenkaupungin Veden johtokunta
+  vakka-suomen-veden-johtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Vakka-Suomen Veden johtokunta
+  vammaisneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vammaisneuvosto
+  vanhusneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vanhusneuvosto
+  ymparisto-ja-lupalautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Ympäristö- ja lupalautakunta
+  ymparistoterveydenhuollon-lautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Ympäristöterveydenhuollon lautakunta

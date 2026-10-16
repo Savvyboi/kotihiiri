@@ -1,0 +1,74 @@
+# Written by `kunta discover` / `kunta crawl`. Add `included: true|false` to a body to override the
+# default exclude rules (kunta/bodies.py); manual keys survive re-discovery. `excluded_by_rule`
+# is informational.
+bodies:
+  elinvoimajaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Elinvoimajaosto
+  elinvoimavaliokunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Elinvoimavaliokunta
+  hyvinvoinnin-ja-osallisuuden-jaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Hyvinvoinnin ja osallisuuden jaosto
+  hyvinvointivaliokunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Hyvinvointivaliokunta
+  kaupunginhallitus:
+    kind: board
+    name_fi: Kaupunginhallitus
+  kaupunginvaltuusto:
+    kind: council
+    name_fi: Kaupunginvaltuusto
+  kaupunkikehitys-ja-tekninen-valiokunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kaupunkikehitys- ja tekninen valiokunta
+  keskusvaalilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Keskusvaalilautakunta
+  lupajaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Lupajaosto
+  nuorisovaltuusto:
+    excluded_by_rule: true
+    kind: council
+    name_fi: Nuorisovaltuusto
+  sivistysvaliokunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Sivistysvaliokunta
+  tarkastuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tarkastuslautakunta
+  tilapainen-valiokunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tilapäinen valiokunta
+  vanhus-ja-vammaisneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vanhus- ja vammaisneuvosto
+  veteraaniasiain-neuvottelukunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Veteraaniasiain neuvottelukunta
+  yhteistoimintaelin:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Yhteistoimintaelin
+  yhteistoimintajaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Yhteistoimintajaosto
+  ymparistovaliokunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Ympäristövaliokunta

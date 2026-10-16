@@ -1,0 +1,98 @@
+# Written by `kunta discover` / `kunta crawl`. Add `included: true|false` to a body to override the
+# default exclude rules (kunta/bodies.py); manual keys survive re-discovery. `excluded_by_rule`
+# is informational.
+bodies:
+  arjen-ja-vapaa-ajan-valiokunta-utskottet-for-vardag-och-fritid:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Arjen ja vapaa-ajan valiokunta ⁄ Utskottet för vardag och fritid
+  elinkeino-ja-tyollisyysjaosto-naringslivs-och-sysselsattningssektionen:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Elinkeino- ja työllisyysjaosto ⁄ Näringslivs- och sysselsättningssektionen
+  hyvinvointijaosto-valfardssektionen:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Hyvinvointijaosto ⁄ Välfärdssektionen
+  keskusvaalilautakunta-centralvalnamnden:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Keskusvaalilautakunta ⁄ Centralvalnämnden
+  koulutusvaliokunta-utskottet-for-utbildning:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Koulutusvaliokunta ⁄ Utskottet för utbildning
+  kunnanhallitus-kommunstyrelsen:
+    kind: board
+    name_fi: Kunnanhallitus ⁄ Kommunstyrelsen
+  maankaytto-ja-elinkeinojaosto-markanvandnings-och-naringslivssektionen:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Maankäyttö- ja elinkeinojaosto ⁄ Markanvändnings- och näringslivssektionen
+  maankayttojaosto-markanvandningssektionen:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Maankäyttöjaosto ⁄ Markanvändningssektionen
+  nimistotoimikunta-namnkommitten:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Nimistötoimikunta ⁄ Namnkommittén
+  nuorisovaltuusto-ungdomsfullmaktige:
+    excluded_by_rule: true
+    kind: council
+    name_fi: Nuorisovaltuusto ⁄ Ungdomsfullmäktige
+  rakennus-ja-ymparistovaliokunta-byggnads-och-miljoutskottet:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Rakennus- ja ympäristövaliokunta ⁄ Byggnads- och miljöutskottet
+  saaristovaltuuskunta-skargardsdelegationen:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Saaristovaltuuskunta ⁄ Skärgårdsdelegationen
+  sipoon-vesi-liikelaitoksen-johtokunta-direktionen-for-affarsverket-sibbo-vatten:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Sipoon Vesi -liikelaitoksen johtokunta ⁄ Direktionen för affärsverket Sibbo Vatten
+  sivistysvaliokunta-bildningsutskottet:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Sivistysvaliokunta ⁄ Bildningsutskottet
+  sosiaali-ja-terveysvaliokunta-social-och-halsovardsutskottet:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Sosiaali- ja terveysvaliokunta ⁄ Social- och hälsovårdsutskottet
+  suomenkielinen-koulutusjaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Suomenkielinen koulutusjaosto
+  svenska-utbildningssektionen:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Svenska utbildningssektionen
+  tarkastuslautakunta-revisionsnamnden:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tarkastuslautakunta ⁄ Revisionsnämnden
+  tekninen-valiokunta-tekniska-utskottet:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tekninen valiokunta ⁄ Tekniska utskottet
+  valtuusto:
+    kind: council
+    name_fi: Valtuusto
+  vammaisneuvosto-radet-for-personer-med-funktionsnedsattning:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vammaisneuvosto ⁄ Rådet för personer med funktionsnedsättning
+  vanhusneuvosto-aldreradet:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vanhusneuvosto ⁄ Äldrerådet
+  vapaa-ajanjaosto-fritidssektionen:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Vapaa-ajanjaosto ⁄ Fritidssektionen
+  varhaiskasvatusvaliokunta-utskottet-for-smabarnspedagogik:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Varhaiskasvatusvaliokunta ⁄ Utskottet för småbarnspedagogik

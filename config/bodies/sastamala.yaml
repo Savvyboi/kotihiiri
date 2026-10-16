@@ -1,0 +1,62 @@
+# Written by `kunta discover` / `kunta crawl`. Add `included: true|false` to a body to override the
+# default exclude rules (kunta/bodies.py); manual keys survive re-discovery. `excluded_by_rule`
+# is informational.
+bodies:
+  henkilostojaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Henkilöstöjaosto
+  kaupunginhallitus:
+    kind: board
+    name_fi: Kaupunginhallitus
+  kaupunginvaltuusto:
+    kind: council
+    name_fi: Kaupunginvaltuusto
+  keskusvaalilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Keskusvaalilautakunta
+  konserni-ja-elinvoimajaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Konserni- ja elinvoimajaosto
+  kulttuuriasiain-neuvottelukunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kulttuuriasiain neuvottelukunta
+  sastamalan-vesi-liikelaitoksen-johtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Sastamalan Vesi liikelaitoksen johtokunta
+  sivistyslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Sivistyslautakunta
+  tarkastuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tarkastuslautakunta
+  tekninen-lautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tekninen lautakunta
+  tyollisyyslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Työllisyyslautakunta
+  vammaisneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vammaisneuvosto
+  vanhusneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vanhusneuvosto
+  ymparistolautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Ympäristölautakunta
+  ymparistoterveydenhuollon-jaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Ympäristöterveydenhuollon jaosto

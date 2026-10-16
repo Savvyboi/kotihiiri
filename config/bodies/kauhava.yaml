@@ -1,0 +1,62 @@
+# Written by `kunta discover` / `kunta crawl`. Add `included: true|false` to a body to override the
+# default exclude rules (kunta/bodies.py); manual keys survive re-discovery. `excluded_by_rule`
+# is informational.
+bodies:
+  alaharman-asukasneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Alahärmän asukasneuvosto
+  elamanlaatulautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Elämänlaatulautakunta
+  kaavoitus-ja-lupalautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kaavoitus- ja lupalautakunta
+  kasvatus-ja-opetuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kasvatus- ja opetuslautakunta
+  kauhavan-asukasneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kauhavan asukasneuvosto
+  kaupunginhallitus:
+    kind: board
+    name_fi: Kaupunginhallitus
+  konserni-ja-henkilostojaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Konserni- ja henkilöstöjaosto
+  kortesjarven-asukasneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kortesjärven asukasneuvosto
+  nuorisovaltuusto:
+    excluded_by_rule: true
+    kind: council
+    name_fi: Nuorisovaltuusto
+  tarkastuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tarkastuslautakunta
+  tekninen-lautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tekninen lautakunta
+  valtuusto:
+    kind: council
+    name_fi: Valtuusto
+  vammaisneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vammaisneuvosto
+  vanhusneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vanhusneuvosto
+  yliharman-asukasneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Ylihärmän asukasneuvosto

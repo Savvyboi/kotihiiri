@@ -1,0 +1,62 @@
+# Written by `kunta discover` / `kunta crawl`. Add `included: true|false` to a body to override the
+# default exclude rules (kunta/bodies.py); manual keys survive re-discovery. `excluded_by_rule`
+# is informational.
+bodies:
+  aineen-taidemuseon-johtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Aineen taidemuseon johtokunta
+  elamanlaatulautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Elämänlaatulautakunta
+  henkilostojaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Henkilöstöjaosto
+  kaupunginhallitus:
+    kind: board
+    name_fi: Kaupunginhallitus
+  kaupunginvaltuusto:
+    kind: council
+    name_fi: Kaupunginvaltuusto
+  keskusvaalilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Keskusvaalilautakunta
+  konsernijaosto-jaosto-lopetetaan-31-5-2025:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Konsernijaosto (jaosto lopetetaan 31.5.2025)
+  meri-lapin-tyollisyyslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Meri-Lapin työllisyyslautakunta
+  meri-lapin-ymparistolautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Meri-Lapin ympäristölautakunta
+  meri-lapin-ymparistoterveys-ja-joukkoliikennejaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Meri-Lapin ympäristöterveys- ja joukkoliikennejaosto
+  perameren-jatelautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Perämeren jätelautakunta
+  sivistyslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Sivistyslautakunta
+  tarkastuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tarkastuslautakunta
+  teknisten-palvelujen-lautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Teknisten palvelujen lautakunta
+  tornionlaakson-museon-johtokunta-tornedalens-museums-styrelse:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Tornionlaakson museon johtokunta - Tornedalens museums styrelse

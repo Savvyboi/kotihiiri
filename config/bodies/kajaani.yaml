@@ -1,0 +1,78 @@
+# Written by `kunta discover` / `kunta crawl`. Add `included: true|false` to a body to override the
+# default exclude rules (kunta/bodies.py); manual keys survive re-discovery. `excluded_by_rule`
+# is informational.
+bodies:
+  elinkeinojaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Elinkeinojaosto
+  kainuu-koillismaan-tyollisyysalueen-johtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Kainuu-Koillismaan työllisyysalueen johtokunta
+  kajaanin-kaupungin-koulutusliikelaitoksen-johtokunta-31-12-2025-saakka:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Kajaanin kaupungin koulutusliikelaitoksen johtokunta (31.12.2025 saakka)
+  kajaanin-mamselli-liikelaitoksen-johtokunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kajaanin Mamselli - liikelaitoksen johtokunta
+  kajaanin-vesi-liikelaitoksen-johtokunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kajaanin Vesi - liikelaitoksen johtokunta
+  kaupunginhallitus:
+    kind: board
+    name_fi: Kaupunginhallitus
+  kaupunginvaltuusto:
+    kind: council
+    name_fi: Kaupunginvaltuusto
+  keskusvaalilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Keskusvaalilautakunta
+  konsernijaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Konsernijaosto
+  lupa-ja-valvontalautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Lupa- ja valvontalautakunta
+  maahanmuuttajaneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Maahanmuuttajaneuvosto
+  osallisuus-ja-hyvinvointijaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Osallisuus- ja hyvinvointijaosto
+  sivistyslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Sivistyslautakunta
+  tarkastuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tarkastuslautakunta
+  tyollisyys-ja-kansainvalisyysjaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Työllisyys- ja kansainvälisyysjaosto
+  tyollisyysjaosto-31-12-2024-saakka:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Työllisyysjaosto (31.12.2024 saakka)
+  vuolijoen-aluelautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vuolijoen aluelautakunta
+  ymparistotekninen-lautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Ympäristötekninen lautakunta
+  ymparistoteknisen-lautakunnan-lupajaosto-2-6-2025-saakka:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Ympäristöteknisen lautakunnan lupajaosto 2.6.2025 saakka

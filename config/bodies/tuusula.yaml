@@ -1,0 +1,70 @@
+# Written by `kunta discover` / `kunta crawl`. Add `included: true|false` to a body to override the
+# default exclude rules (kunta/bodies.py); manual keys survive re-discovery. `excluded_by_rule`
+# is informational.
+bodies:
+  elinvoimajaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Elinvoimajaosto
+  hyvinvoinnin-ja-terveyden-edistamisen-lautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Hyvinvoinnin ja terveyden edistämisen lautakunta
+  ikaihmisten-neuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Ikäihmisten neuvosto
+  kasvatus-ja-sivistyslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kasvatus- ja sivistyslautakunta
+  keski-uudenmaan-ymparistolautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Keski-Uudenmaan ympäristölautakunta
+  kulttuuri-ja-vapaa-aikalautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kulttuuri- ja vapaa-aikalautakunta
+  kunnanhallitus:
+    kind: board
+    name_fi: Kunnanhallitus
+  kuntakehityslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kuntakehityslautakunta
+  lapsi-ja-perheasiainneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Lapsi- ja perheasiainneuvosto
+  nimistotoimikunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Nimistötoimikunta
+  nuorisovaltuusto:
+    excluded_by_rule: true
+    kind: council
+    name_fi: Nuorisovaltuusto
+  rakennusvalvontajaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Rakennusvalvontajaosto
+  tarkastuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tarkastuslautakunta
+  tekninen-lautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tekninen lautakunta
+  valtuusto:
+    kind: council
+    name_fi: Valtuusto
+  vammaisneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vammaisneuvosto
+  vesihuoltoliikelaitoksen-johtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Vesihuoltoliikelaitoksen johtokunta

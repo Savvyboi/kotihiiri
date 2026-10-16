@@ -1,0 +1,66 @@
+# Written by `kunta discover` / `kunta crawl`. Add `included: true|false` to a body to override the
+# default exclude rules (kunta/bodies.py); manual keys survive re-discovery. `excluded_by_rule`
+# is informational.
+bodies:
+  aleksia-liikelaitoksen-johtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Aleksia -liikelaitoksen johtokunta
+  asemakaavoitus-ja-rakennuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Asemakaavoitus- ja rakennuslautakunta
+  elinvoimalautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Elinvoimalautakunta
+  hyvinvointilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Hyvinvointilautakunta
+  keskusvaalilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Keskusvaalilautakunta
+  kunnanhallitus:
+    kind: board
+    name_fi: Kunnanhallitus
+  liikelaitosten-johtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Liikelaitosten johtokunta
+  maankayttolautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Maankäyttölautakunta
+  nurmijarven-vesi-liikelaitoksen-johtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Nurmijärven Vesi -liikelaitoksen johtokunta
+  sivistyslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Sivistyslautakunta
+  tarkastuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tarkastuslautakunta
+  tekninen-lautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tekninen lautakunta
+  tulevaisuusvaliokunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tulevaisuusvaliokunta
+  valtuusto:
+    kind: council
+    name_fi: Valtuusto
+  vammaisneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vammaisneuvosto
+  vanhusneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vanhusneuvosto

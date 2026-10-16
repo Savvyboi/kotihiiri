@@ -155,8 +155,7 @@ municipalities:
     portal_url: https://dynastyjulkaisu.pohjoiskarjala.net/joensuu/cgi/DREQUEST.PHP?page=meeting_frames
     councillors_url: https://www.joensuu.fi/hallinto-ja-paatoksenteko/paatoksenteko/luottamushenkiloorganisaatio/
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   kouvola:
     name_fi: Kouvola
     rank: 12
@@ -171,8 +170,7 @@ municipalities:
     bodies_scope: council_board
     portal_url: https://ep10.kouvola.fi/cgi/DREQUEST.PHP?page=meeting_frames
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   lappeenranta:
     name_fi: Lappeenranta
     rank: 13
@@ -282,8 +280,7 @@ municipalities:
     bodies_scope: council_board
     portal_url: https://porvoofi.oncloudos.com/cgi/DREQUEST.PHP?page=meeting_frames
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   salo:
     name_fi: Salo
     rank: 20
@@ -617,8 +614,7 @@ municipalities:
     portal_url: https://julkaisut.raisio.fi/dynasty10/cgi/DREQUEST.PHP?page=meeting_frames
     video_url: https://www.youtube.com/channel/UCponTTLT9SSQ0NgNL5pGwXQ
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   lempaala:
     name_fi: Lempäälä
     rank: 41
@@ -634,8 +630,7 @@ municipalities:
     portal_url: https://lempaala10.oncloudos.com/cgi/DREQUEST.PHP?page=meeting_frames
     councillors_url: https://www.lempaala.fi/lempaala-tietoa/organisaatio/toimielimet/kunnanvaltuusto/jasenet/
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   imatra:
     name_fi: Imatra
     rank: 42
@@ -667,8 +662,7 @@ municipalities:
     councillors_url: https://www.raahe.fi/paatoksenteko/valtuuston-kokoonpano
     video_url: https://www.raahe.fi/osallistu-ja-vaikuta/valtuuston-verkkolahetys
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   sastamala:
     name_fi: Sastamala
     rank: 44
@@ -683,8 +677,7 @@ municipalities:
     bodies_scope: council_board
     portal_url: https://sastamalad10.oncloudos.com/cgi/DREQUEST.PHP?page=meeting_frames
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   sipoo:
     name_fi: Sipoo
     name_sv: Sibbo
@@ -701,8 +694,7 @@ municipalities:
     portal_url: https://sipoofi.oncloudos.com/cgi/DREQUEST.PHP?page=meeting_frames
     councillors_url: https://www.sipoo.fi/organisaatio/toimielinorganisaatio/
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   hollola:
     name_fi: Hollola
     rank: 46
@@ -736,8 +728,7 @@ municipalities:
       contacts via Aimoa https://aimoa.fi/reports/unit-membership?organization=34&unit=599
     video_url: Teams live link posted per meeting on council page
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   pirkkala:
     name_fi: Pirkkala
     rank: 48
@@ -768,8 +759,7 @@ municipalities:
     bodies_scope: council_board
     portal_url: https://mantsalad10.oncloudos.com/cgi/DREQUEST.PHP?page=meeting_frames
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   tornio:
     name_fi: Tornio
     rank: 50
@@ -784,8 +774,7 @@ municipalities:
     bodies_scope: council_board
     portal_url: https://tornio.oncloudos.com/cgi/DREQUEST.PHP?page=meeting_frames
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   valkeakoski:
     name_fi: Valkeakoski
     rank: 51
@@ -850,8 +839,7 @@ municipalities:
     bodies_scope: council_board
     portal_url: https://naantali.oncloudos.com/cgi/DREQUEST.PHP?page=meeting_frames
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   mustasaari:
     name_fi: Mustasaari
     name_sv: Korsholm
@@ -945,8 +933,7 @@ municipalities:
     portal_url: https://kemi.oncloudos.com/cgi/DREQUEST.PHP?page=meeting_frames
     video_url: https://www.youtube.com/channel/UC7p98Rv8u8w80UM8fC1W9nQ
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   hamina:
     name_fi: Hamina
     name_sv: Fredrikshamn
@@ -979,8 +966,7 @@ municipalities:
     portal_url: https://jamsa10.oncloudos.com/cgi/DREQUEST.PHP?page=meeting_frames
     councillors_url: https://easiointi.jamsa.fi/muutpalvelut/luottamus/
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   laukaa:
     name_fi: Laukaa
     rank: 63
@@ -995,8 +981,7 @@ municipalities:
     bodies_scope: council_board
     portal_url: https://laukaa.oncloudos.com/cgi/DREQUEST.PHP?page=meeting_frames
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   heinola:
     name_fi: Heinola
     rank: 64
@@ -1011,8 +996,7 @@ municipalities:
     bodies_scope: council_board
     portal_url: https://kokoukset.heinola.fi/dynasty2025/cgi/DREQUEST.PHP?page=meeting_frames
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   aanekoski:
     name_fi: Äänekoski
     rank: 65
@@ -1061,8 +1045,7 @@ municipalities:
     bodies_scope: council_board
     portal_url: https://forssa.oncloudos.com/cgi/DREQUEST.PHP?page=meeting_frames
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   akaa:
     name_fi: Akaa
     rank: 68
@@ -1109,8 +1092,7 @@ municipalities:
     bodies_scope: council_board
     portal_url: https://orimattilad10.oncloudos.com/cgi/DREQUEST.PHP?page=meeting_frames
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   ylivieska:
     name_fi: Ylivieska
     rank: 71
@@ -1141,8 +1123,7 @@ municipalities:
     bodies_scope: council_board
     portal_url: https://loimaad10.oncloudos.com/cgi/DREQUEST.PHP?page=meeting_frames
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   kontiolahti:
     name_fi: Kontiolahti
     rank: 73
@@ -1157,8 +1138,7 @@ municipalities:
     bodies_scope: council_board
     portal_url: https://dynastyjulkaisu.pohjoiskarjala.net/kontiolahti/cgi/DREQUEST.PHP?page=meeting_frames
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   kauhava:
     name_fi: Kauhava
     rank: 74
@@ -1173,8 +1153,7 @@ municipalities:
     bodies_scope: council_board
     portal_url: https://kauhava-d10.oncloudos.com/dyninternet/cgi/DREQUEST.PHP?page=meeting_frames
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   kuusamo:
     name_fi: Kuusamo
     rank: 75
@@ -1223,8 +1202,7 @@ municipalities:
     bodies_scope: council_board
     portal_url: https://uusikaupunki.oncloudos.com/cgi/DREQUEST.PHP?page=meeting_frames
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   loviisa:
     name_fi: Loviisa
     name_sv: Lovisa
@@ -1242,8 +1220,7 @@ municipalities:
     councillors_url: https://www.loviisa.fi/kaupunki-ja-paatoksenteko/paatoksenteko/kaupunginvaltuusto/valtuuston-jasenet/
     video_url: https://www.loviisa.fi/kaupunki-ja-paatoksenteko/osallistu-ja-vaikuta/verkkolahetykset/
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   lapua:
     name_fi: Lapua
     rank: 79
@@ -1273,8 +1250,7 @@ municipalities:
     bodies_scope: council_board
     portal_url: https://djulkaisu.kankaanpaa.fi/D10_Kankaanpaa/cgi/DREQUEST.PHP?page=meeting_frames
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   kauhajoki:
     name_fi: Kauhajoki
     rank: 81
@@ -1322,8 +1298,7 @@ municipalities:
     bodies_scope: council_board
     portal_url: https://paatos.ulvila.fi/cgi/DREQUEST.PHP?page=meeting_frames
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   kalajoki:
     name_fi: Kalajoki
     rank: 84
@@ -1354,8 +1329,7 @@ municipalities:
     portal_url: https://dynastyjulkaisu.pohjoiskarjala.net/liperi/cgi/DREQUEST.PHP?page=meeting_frames
     video_url: https://www.youtube.com/@LiperinkuntaVirallinen/streams
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   maarianhamina:
     name_fi: Maarianhamina
     name_sv: Mariehamn
@@ -1405,8 +1379,7 @@ municipalities:
     bodies_scope: council_board
     portal_url: https://julkaisu.paimio.fi/dynasty10/cgi/DREQUEST.PHP?page=meeting_frames
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   eura:
     name_fi: Eura
     rank: 89
@@ -1423,8 +1396,7 @@ municipalities:
     councillors_url: https://www.eura.fi/kunta-ja-hallinto/paatoksenteko/lautakunnat-ja-luottamushenkilot/
     video_url: https://www.eura.fi/kunta-ja-hallinto/osallistu-ja-vaikuta/valtuuston-kokousten-videointi/
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   alavus:
     name_fi: Alavus
     rank: 90
@@ -1500,8 +1472,7 @@ municipalities:
     bodies_scope: council_board
     portal_url: https://liminka.oncloudos.com/cgi/DREQUEST.PHP?page=meeting_frames
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   kauniainen:
     name_fi: Kauniainen
     name_sv: Grankulla
@@ -1517,8 +1488,7 @@ municipalities:
     bodies_scope: council_board
     portal_url: https://kauniainen10fi.oncloudos.com/cgi/DREQUEST.PHP?page=meeting_frames
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true
   sotkamo:
     name_fi: Sotkamo
     rank: 96
@@ -1533,5 +1503,4 @@ municipalities:
     bodies_scope: council_board
     portal_url: https://dynasty.voiceintuitive.com/sotkamod10/cgi/DREQUEST.PHP?page=meeting_frames
     registry_verification: live-verified
-    enabled: false
-    reason: rollout_pending
+    enabled: true

@@ -1,0 +1,58 @@
+# Written by `kunta discover` / `kunta crawl`. Add `included: true|false` to a body to override the
+# default exclude rules (kunta/bodies.py); manual keys survive re-discovery. `excluded_by_rule`
+# is informational.
+bodies:
+  elinvoima-ja-hyvinvointilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Elinvoima- ja hyvinvointilautakunta
+  elinvoima-ja-tyollisyysjaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Elinvoima- ja työllisyysjaosto
+  hyvinvoinnin-ja-vapaa-ajan-lautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Hyvinvoinnin ja vapaa-ajan lautakunta
+  kaupunginhallitus:
+    kind: board
+    name_fi: Kaupunginhallitus
+  kaupunginvaltuusto:
+    kind: council
+    name_fi: Kaupunginvaltuusto
+  kaupunkiymparistolautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kaupunkiympäristölautakunta
+  keskusvaalilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Keskusvaalilautakunta
+  konserni-ja-tilajaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Konserni- ja tilajaosto
+  lahden-seudun-jatelautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Lahden seudun jätelautakunta
+  lahden-seudun-joukkoliikennelautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Lahden seudun joukkoliikennelautakunta
+  rakennus-ja-ymparistolupalautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Rakennus- ja ympäristölupalautakunta
+  sivistyslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Sivistyslautakunta
+  tarkastuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tarkastuslautakunta
+  wellamo-opiston-johtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Wellamo-opiston johtokunta

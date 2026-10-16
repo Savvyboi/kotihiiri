@@ -1,0 +1,102 @@
+# Written by `kunta discover` / `kunta crawl`. Add `included: true|false` to a body to override the
+# default exclude rules (kunta/bodies.py); manual keys survive re-discovery. `excluded_by_rule`
+# is informational.
+bodies:
+  elinvoima-ja-ymparistolautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Elinvoima- ja ympäristölautakunta
+  jatehuoltojaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Jätehuoltojaosto
+  joukkoliikennejaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Joukkoliikennejaosto
+  kansalaisopiston-hallintojaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Kansalaisopiston hallintojaosto
+  kaupunginhallitus:
+    kind: board
+    name_fi: Kaupunginhallitus
+  kaupunginhallitus-salassa-pidettavat-asiat:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kaupunginhallitus, salassa pidettävät asiat
+  kaupunginhallitus-strategiset-yhtiot:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kaupunginhallitus, strategiset yhtiöt
+  kaupunginvaltuusto:
+    kind: council
+    name_fi: Kaupunginvaltuusto
+  keskusvaalilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Keskusvaalilautakunta
+  nuorisovaltuusto:
+    excluded_by_rule: true
+    kind: council
+    name_fi: Nuorisovaltuusto
+  perusturvalautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Perusturvalautakunta
+  porin-palveluliikelaitoksen-johtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Porin Palveluliikelaitoksen johtokunta
+  porin-vesi-liikelaitoksen-johtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Porin Vesi, liikelaitoksen johtokunta
+  rintamaveteraaniasiain-neuvottelukunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Rintamaveteraaniasiain neuvottelukunta
+  satakunnan-pelastuslaitoksen-johtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Satakunnan pelastuslaitoksen johtokunta
+  satakunnan-tyollisyysalueen-jaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Satakunnan työllisyysalueen jaosto
+  seniorineuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Seniorineuvosto
+  sivistyslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Sivistyslautakunta
+  tarkastuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tarkastuslautakunta
+  tekninen-lautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tekninen lautakunta
+  vammaisneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vammaisneuvosto
+  vanhusneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vanhusneuvosto
+  vapaa-ajan-lautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vapaa-ajan lautakunta
+  ymparisto-ja-lupapalveluiden-lautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Ympäristö- ja lupapalveluiden lautakunta
+  ymparistoterveysjaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Ympäristöterveysjaosto
