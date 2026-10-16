@@ -4995,7 +4995,7 @@
     {
       "body_id": "tampere/kaupunginvaltuusto",
       "end": "2026-08-24",
-      "person_id": "tampere/pursianen-hautala-sirpa",
+      "person_id": "tampere/pursiainen-hautala-sirpa-2",
       "role": "member",
       "source": "attendance",
       "start": "2026-08-24"
@@ -6763,7 +6763,7 @@
     {
       "body_id": "tampere/kaupunginvaltuusto",
       "end": "2026-09-14",
-      "person_id": "tampere/vikman-maria",
+      "person_id": "tampere/vikman-sofia",
       "role": "member",
       "source": "attendance",
       "start": "2026-09-14"
@@ -6771,7 +6771,7 @@
     {
       "body_id": "tampere/kaupunginvaltuusto",
       "end": "2026-08-24",
-      "person_id": "tampere/vikman-sofia",
+      "person_id": "tampere/vikman-sofia-2",
       "role": "member",
       "source": "attendance",
       "start": "2025-01-27"
@@ -6779,7 +6779,7 @@
     {
       "body_id": "tampere/kaupunginvaltuuston-kyselytunti",
       "end": "2026-09-14",
-      "person_id": "tampere/vikman-sofia",
+      "person_id": "tampere/vikman-sofia-2",
       "role": "member",
       "source": "attendance",
       "start": "2025-01-27"
@@ -10837,9 +10837,17 @@
         "Pursianen-Hautala Sirpa"
       ],
       "city": "tampere",
-      "id": "tampere/pursianen-hautala-sirpa",
-      "name": "Sirpa Pursianen-Hautala",
-      "sort_name": "Pursianen-Hautala Sirpa"
+      "election": {
+        "party": "KD",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 613,
+        "year": 2025
+      },
+      "id": "tampere/pursiainen-hautala-sirpa-2",
+      "name": "Sirpa Pursiainen-Hautala",
+      "party": "KD",
+      "sort_name": "Pursiainen-Hautala Sirpa"
     },
     {
       "aliases": [
@@ -12347,9 +12355,17 @@
         "Vikman Maria"
       ],
       "city": "tampere",
-      "id": "tampere/vikman-maria",
-      "name": "Maria Vikman",
-      "sort_name": "Vikman Maria"
+      "election": {
+        "party": "KOK",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 1745,
+        "year": 2025
+      },
+      "id": "tampere/vikman-sofia",
+      "name": "Sofia Vikman",
+      "party": "KOK",
+      "sort_name": "Vikman Sofia"
     },
     {
       "aliases": [
@@ -12363,7 +12379,7 @@
         "votes": 1745,
         "year": 2025
       },
-      "id": "tampere/vikman-sofia",
+      "id": "tampere/vikman-sofia-2",
       "name": "Sofia Vikman",
       "party": "KOK",
       "sort_name": "Vikman Sofia"

@@ -4177,7 +4177,7 @@
     {
       "body_id": "vantaa/kaupunginvaltuusto",
       "end": "2026-01-26",
-      "person_id": "vantaa/sillapaa-minttu",
+      "person_id": "vantaa/sillanpaa-minttu-2",
       "role": "deputy",
       "source": "attendance",
       "start": "2026-01-26"
@@ -8358,9 +8358,17 @@
         "Sillapää Minttu"
       ],
       "city": "vantaa",
-      "id": "vantaa/sillapaa-minttu",
-      "name": "Minttu Sillapää",
-      "sort_name": "Sillapää Minttu"
+      "election": {
+        "party": "VAS",
+        "result": "deputy",
+        "source": "statfin-kvaa-2025",
+        "votes": 240,
+        "year": 2025
+      },
+      "id": "vantaa/sillanpaa-minttu-2",
+      "name": "Minttu Sillanpää",
+      "party": "VAS",
+      "sort_name": "Sillanpää Minttu"
     },
     {
       "aliases": [

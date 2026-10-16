@@ -1129,7 +1129,7 @@
       "body_id": "helsinki/kaupunginvaltuusto",
       "end": "2026-09-23",
       "group": "Kristillisdemokraattien valtuustoryhmä",
-      "person_id": "helsinki/korhola-dunderfelt-eija-riitta",
+      "person_id": "helsinki/korhola-eija-riitta-2",
       "role": "member",
       "source": "vote_table",
       "start": "2026-02-04"
@@ -3851,9 +3851,17 @@
         "Korhola-Dunderfelt Eija-Riitta"
       ],
       "city": "helsinki",
-      "id": "helsinki/korhola-dunderfelt-eija-riitta",
-      "name": "Eija-Riitta Korhola-Dunderfelt",
-      "sort_name": "Korhola-Dunderfelt Eija-Riitta"
+      "election": {
+        "party": "KD",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 1158,
+        "year": 2025
+      },
+      "id": "helsinki/korhola-eija-riitta-2",
+      "name": "Eija-Riitta Korhola",
+      "party": "KD",
+      "sort_name": "Korhola Eija-Riitta"
     },
     {
       "aliases": [

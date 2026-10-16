@@ -281,3 +281,26 @@ def test_printed_forms_of_one_person_share_a_candidacy():
     assert matched == 2
     parties = {p["id"]: p.get("party") for p in r.to_json()["persons"]}
     assert parties == {"x/laitinen-pekka": "KESK", "x/laitinen-pekka-j": "KESK"}
+
+
+def test_override_joins_a_printed_name_to_its_candidate():
+    r = Roster("x", "x/valtuusto")
+    r.add_meeting(_meeting("x/valtuusto", "2025-09-01", [("Kauste Mika", "valtuutettu", True)]))
+    rows = [PartyRow("Kauste Mikki", "PS", "elected", "t", 700, surname="Kauste", first="Mikki")]
+    assert r.add_parties(rows) == (0, ["Kauste Mika"])
+    assert r.add_parties(rows, {"Kauste Mika": "Kauste Mikki"}) == (1, [])
+    (p,) = r.to_json()["persons"]
+    assert (p["party"], p["aliases"]) == ("PS", ["Kauste Mika"])
+
+
+def test_override_picks_one_of_two_namesakes_by_party():
+    r = Roster("x", "x/valtuusto")
+    r.add_meeting(_meeting("x/valtuusto", "2025-09-01", [("Hannu Kemppainen", "valtuutettu", True)]))
+    rows = [
+        PartyRow("Kemppainen Hannu", "SDP", "not_elected", "t", 20, surname="Kemppainen", first="Hannu"),
+        PartyRow("Kemppainen Hannu", "KESK", "elected", "t", 400, surname="Kemppainen", first="Hannu"),
+    ]
+    assert r.add_parties(rows) == (0, ["Hannu Kemppainen"])
+    assert r.add_parties(rows, {"Hannu Kemppainen": "Kemppainen Hannu / KESK"}) == (1, [])
+    (p,) = r.to_json()["persons"]
+    assert (p["id"], p["name"], p["party"]) == ("x/kemppainen-hannu", "Hannu Kemppainen", "KESK")

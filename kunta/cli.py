@@ -131,8 +131,9 @@ def people(city: str = typer.Option(..., "--city")) -> None:
     """Write data/{city}/people.json: persons and memberships from attendance lists and Helsinki's
     vote tables, with party and result from the 2025 election (PLAN.md §8)."""
     from .http import FetchFailed
+    from .people import name_key
     from .people_sources import statfin
-    from .roster import PartyRow, build, council_body_id
+    from .roster import PartyRow, build, council_body_id, load_overrides
 
     try:
         cfg = require_enabled(city)
@@ -153,7 +154,7 @@ def people(city: str = typer.Option(..., "--city")) -> None:
             # Keep last week's parties rather than dropping them when Statistics Finland is down.
             log.warning("statfin unavailable (%s); reusing the parties in %s", exc, out)
             rows = statfin.rows_from_people(jsonio.read(out)) if out.exists() else []
-    matched, missing = roster.add_parties(rows)
+    matched, missing = roster.add_parties(rows, load_overrides(city) if rows else None)
     changed = jsonio.write(out, roster.to_json())
     elected = sum(r.result == "elected" for r in rows)
     found = len(
@@ -165,6 +166,15 @@ def people(city: str = typer.Option(..., "--city")) -> None:
     )
     if missing:
         typer.echo(f"  council members without a party ({len(missing)}): {', '.join(missing)}")
+        # Candidates sharing a name with each, to write overrides from (§8 source 5).
+        for name in missing:
+            mine = {t for t in name_key(name).split() if len(t) > 2}
+            near = [f"{r.name} ({r.party}, {r.result})" for r in rows if mine & set(name_key(r.name).split())]
+            typer.echo(f"    {name}: {'; '.join(near[:8]) or '-'}")
+    taken = {id(p.election) for p in roster.people.values() if p.election}
+    unmatched = [f"{r.name} ({r.party})" for r in rows if r.result == "elected" and id(r) not in taken]
+    if unmatched:
+        typer.echo(f"  elected candidates not on any roster ({len(unmatched)}): {', '.join(unmatched)}")
 
 
 @app.command()

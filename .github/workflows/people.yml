@@ -15,6 +15,7 @@ on:
       - kunta/roster.py
       - kunta/people_sources/**
       - config/registry/electoral_districts.yaml
+      - config/people_overrides/**
       - .github/workflows/people.yml
   workflow_dispatch:
     inputs:
