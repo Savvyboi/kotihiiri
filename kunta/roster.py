@@ -36,6 +36,8 @@ TERM_START = "2025-06-01"
 # Some minutes print the party after the name ("Virtanen Matti, KOK"); the name is what precedes it.
 _PARTY_TAIL = re.compile(r"\s*,\s*[A-ZÅÄÖ]{2,5}\.?$")
 # Attendance tables sometimes carry notes in the name column ("Kokouksessa tauko klo 17:06-17:35").
+# Järvenpää prints a deputy's role after the name, sometimes without the closing bracket.
+_ROLE_TAIL = re.compile(r"\s*\(?\s*(?:varajäsen|varavaltuutettu|ersättare)\s*\)?\s*$", re.I)
 _NOT_A_NAME = re.compile(r"\d|^kokouksessa\b|^mötet\b", re.I)
 
 
@@ -118,7 +120,7 @@ class Roster:
         """The person printed as "Sukunimi Etunimi", created on first sight. Forms that differ only
         in accents ("Limnéll", "Limnell") are one person; the name is the form printed most often.
         A form with the party after it is kept as an alias, so the site finds the printed name."""
-        bare = _PARTY_TAIL.sub("", printed)
+        bare = _ROLE_TAIL.sub("", _PARTY_TAIL.sub("", printed))
         if bare != printed:
             p = self._get(bare)
             p.printed.add(normalize_name(printed))
@@ -169,9 +171,9 @@ class Roster:
         here (§8 step 6). A name is matched on its order-insensitive key; failing that, on a unique
         candidate whose surname is in the printed name and whose name tokens are a subset of the
         printed name or the other way round ("Mäkinen Juha J." ↔ "Mäkinen Juha", "Ari.M Laitinen"
-        ↔ "Laitinen Ari"). A name two candidates share is never guessed, and a candidacy goes to one
-        person only: a printed form matching exactly wins over one matching by subset. Returns
-        (matched, names of this term's councillors left without a party)."""
+        ↔ "Laitinen Ari"). A name two candidates share is never guessed. Several printed forms may
+        take one candidacy ("Bibani Gashaw", "Gashaw Kaisa Bibani"): they are one person printed
+        differently. Returns (matched, names of this term's councillors left without a party)."""
         by_key: dict[str, list[PartyRow]] = {}
         for r in rows:
             by_key.setdefault(name_key(r.name), []).append(r)
@@ -198,12 +200,8 @@ class Roster:
             ]
             if len(close) == 1:
                 near[key] = by_key[close[0]][0]
-        claimed = Counter(id(r) for r in exact.values())
-        near_claims = Counter(id(r) for r in near.values())
         matched = 0
         for key, row in [*exact.items(), *near.items()]:
-            if key in near and (claimed[id(row)] or near_claims[id(row)] > 1):
-                continue
             p = self.people[key]
             p.election = row
             matched += 1

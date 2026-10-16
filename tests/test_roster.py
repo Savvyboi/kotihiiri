@@ -247,6 +247,7 @@ def test_registry_name_forms():
                 ("Ari.M Laitinen", "valtuutettu", True),
                 ("Kokouksessa tauko klo 17:06-17:35", "valtuutettu", True),
                 ("- -", "valtuutettu", True),
+                ("Henri Ihander (varajäsen", "varajäsen", True),
             ],
         )
     )
@@ -255,17 +256,19 @@ def test_registry_name_forms():
         [
             PartyRow("Aaltonen Minna", "KOK", "elected", "t", 100, surname="Aaltonen", first="Minna"),
             PartyRow("Laitinen Ari", "SDP", "elected", "t", 200, surname="Laitinen", first="Ari"),
+            PartyRow("Ihander Henri", "PS", "deputy", "t", 20, surname="Ihander", first="Henri"),
         ]
     )
-    assert (matched, missing) == (2, [])
+    assert (matched, missing) == (3, [])
     by_id = {p["id"]: p for p in r.to_json()["persons"]}
-    assert set(by_id) == {"x/aaltonen-minna", "x/laitinen-ari-m"}
+    assert set(by_id) == {"x/aaltonen-minna", "x/laitinen-ari-m", "x/ihander-henri"}
+    assert by_id["x/ihander-henri"]["aliases"] == ["Henri Ihander (varajäsen"]
     assert by_id["x/aaltonen-minna"]["aliases"] == ["Aaltonen Minna", "Aaltonen Minna, KOK"]
     assert by_id["x/laitinen-ari-m"]["name"] == "Ari.M Laitinen"
     assert by_id["x/laitinen-ari-m"]["party"] == "SDP"
 
 
-def test_a_candidacy_goes_to_one_person():
+def test_printed_forms_of_one_person_share_a_candidacy():
     r = Roster("x", "x/valtuusto")
     r.add_meeting(
         _meeting(
@@ -275,6 +278,6 @@ def test_a_candidacy_goes_to_one_person():
         )
     )
     matched, _ = r.add_parties([PartyRow("Laitinen Pekka", "KESK", "elected", "t", 1, surname="Laitinen")])
-    assert matched == 1
+    assert matched == 2
     parties = {p["id"]: p.get("party") for p in r.to_json()["persons"]}
-    assert parties == {"x/laitinen-pekka": "KESK", "x/laitinen-pekka-j": None}
+    assert parties == {"x/laitinen-pekka": "KESK", "x/laitinen-pekka-j": "KESK"}
