@@ -25,7 +25,7 @@ _NTH = r"(?:\d\.|i+|ensimmäinen|toinen|kolmas)?\s*"
 # role_text as printed on minutes → membership role; anything else (officials, youth reps,
 # staff representatives, a council group's own chair) is not a membership.
 _ROLES: list[tuple[re.Pattern[str], str]] = [
-    (re.compile(_OF + _NTH + r"(?:varapuheenjohtaja|vpj\.?$)", re.I), "vice_chair"),
+    (re.compile(_OF + _NTH + r"(?:varapuheenjohtaja|vpj\.?$|vice ?ordförande)", re.I), "vice_chair"),
     (re.compile(_OF + r"(?:puheenjohtaja|pj\.?$)|^ordförande", re.I), "chair"),
     (re.compile(r"^(?:varajäsen|varavaltuutettu|ersättare)", re.I), "deputy"),
     (re.compile(r"^(?:jäsen|valtuutettu|medlem|ledamot)", re.I), "member"),

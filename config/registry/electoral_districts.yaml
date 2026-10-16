@@ -1,0 +1,45 @@
+# Statistics Finland's 2025 municipal-election candidate table per electoral district (PLAN.md §8
+# source 4, M15): "Ehdokkaiden äänimäärä ja valintatieto kuntavaaleissa 2025" in StatFin/kvaa, one
+# table per district. `kunta registry` gives every municipality listed here
+# `statfin_candidates_table`, which `kunta people` reads for party, result and votes. Maarianhamina
+# is not listed: Åland holds its own elections.
+districts:
+  helsinki:
+    table: 14uk
+    municipalities: [Helsinki]
+  uusimaa:
+    table: 14ux
+    municipalities: [Espoo, Vantaa, Porvoo, Hyvinkää, Järvenpää, Lohja, Nurmijärvi, Tuusula, Kirkkonummi,
+      Kerava, Vihti, Raasepori, Sipoo, Mäntsälä, Loviisa, Kauniainen]
+  varsinais-suomi:
+    table: 14uy
+    municipalities: [Turku, Salo, Kaarina, Raisio, Lieto, Naantali, Loimaa, Parainen, Uusikaupunki, Paimio]
+  satakunta:
+    table: 14uz
+    municipalities: [Pori, Rauma, Kankaanpää, Ulvila, Eura]
+  hame:
+    table: 14v1
+    municipalities: [Lahti, Hämeenlinna, Riihimäki, Hollola, Heinola, Forssa, Janakkala, Orimattila]
+  pirkanmaa:
+    table: 14v2
+    municipalities: [Tampere, Nokia, Kangasala, Ylöjärvi, Lempäälä, Sastamala, Pirkkala, Valkeakoski, Akaa,
+      Hämeenkyrö]
+  kaakkois-suomi:
+    table: 14v3
+    municipalities: [Kouvola, Lappeenranta, Mikkeli, Kotka, Savonlinna, Imatra, Hamina, Pieksämäki]
+  savo-karjala:
+    table: 14v4
+    municipalities: [Kuopio, Joensuu, Siilinjärvi, Iisalmi, Varkaus, Kontiolahti, Liperi]
+  vaasa:
+    table: 14v5
+    municipalities: [Vaasa, Seinäjoki, Kokkola, Mustasaari, Pietarsaari, Kurikka, Kauhava, Lapua, Kauhajoki,
+      Ilmajoki, Pedersöre, Alavus]
+  keski-suomi:
+    table: 14v6
+    municipalities: [Jyväskylä, Jämsä, Laukaa, Äänekoski, Muurame]
+  oulu:
+    table: 14v7
+    municipalities: [Oulu, Kajaani, Raahe, Kempele, Ylivieska, Kuusamo, Kalajoki, Nivala, Liminka, Sotkamo]
+  lappi:
+    table: 14v8
+    municipalities: [Rovaniemi, Tornio, Kemi]

@@ -15,6 +15,9 @@ def test_role_of():
     assert role_of("Valtuuston pj.") == "chair"
     assert role_of("2. Varapuheenjohtaja") == "vice_chair"
     assert role_of("valtuuston 1. vpj.") == "vice_chair"
+    assert role_of("I viceordförande") == "vice_chair"
+    assert role_of("Ordförande") == "chair"
+    assert role_of("Ersättare") == "deputy"
     assert role_of("kaupunginhallituksen I varapuheenjohtaja") is None  # a guest at the council
     for official in (
         "kaupunginjohtaja",

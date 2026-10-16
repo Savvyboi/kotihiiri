@@ -155,7 +155,12 @@ def people(city: str = typer.Option(..., "--city")) -> None:
             rows = statfin.rows_from_people(jsonio.read(out)) if out.exists() else []
     matched, missing = roster.add_parties(rows)
     changed = jsonio.write(out, roster.to_json())
-    typer.echo(f"{city}: persons={len(roster.people)} with_party={matched} changed={changed}")
+    elected = sum(r.result == "elected" for r in rows)
+    found = sum(p.election is not None and p.election.result == "elected" for p in roster.people.values())
+    typer.echo(
+        f"{city}: persons={len(roster.people)} with_party={matched} "
+        f"elected_found={found}/{elected} changed={changed}"
+    )
     if missing:
         typer.echo(f"  council members without a party ({len(missing)}): {', '.join(missing)}")
 

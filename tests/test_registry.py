@@ -125,3 +125,13 @@ def test_audit_host_statuses():
     assert check_host(_client("", 404), kuopio, base).status == "no_robots"
     assert check_host(_client("", 403), kuopio, base).status == "disallowed"
     assert check_host(_client("", 503), kuopio, base).status == "unreachable"
+
+
+def test_every_enabled_municipality_has_a_candidate_table():
+    """M15: party and 2025 result come from the electoral district's table at Statistics Finland."""
+    from kunta.config import load_cities
+
+    missing = [
+        c for c, cfg in load_cities().items() if cfg.enabled and not cfg.extra.get("statfin_candidates_table")
+    ]
+    assert missing == []

@@ -1,18 +1,26 @@
-# Rebuilds data/{city}/people.json without a crawl (PLAN.md §8): persons and memberships from the
-# committed attendance lists and vote tables, party and 2025 election result from Statistics
-# Finland. The weekly crawl runs the same step; this one is for roster changes between crawls,
-# and runs on a working branch when the roster code changes there.
+# Rebuilds data/{city}/people.json without a crawl (PLAN.md §8, M15): persons and memberships from
+# the stored attendance lists and vote tables, party and 2025 election result from Statistics
+# Finland. The weekly crawl runs the same step; this one is for roster changes between crawls, and
+# runs on a working branch when the roster code changes there.
+#
+# The six cities' data is in git and their people.json is committed. Registry municipalities keep
+# their data in the R2 bucket kotihiiri-data (§18.4): their meetings are read from there, and the new
+# people.json is uploaded back only from main, so a working branch only reports what it would write.
 name: people
 
 on:
   push:
     branches: ["claude/**"]
-    paths: [kunta/roster.py, kunta/people_sources/**, .github/workflows/people.yml]
+    paths:
+      - kunta/roster.py
+      - kunta/people_sources/**
+      - config/registry/electoral_districts.yaml
+      - .github/workflows/people.yml
   workflow_dispatch:
     inputs:
       cities:
-        description: "Cities, comma-separated"
-        default: "helsinki,espoo,tampere,vantaa"
+        description: "Municipalities, comma-separated, or `all` for every enabled one"
+        default: "all"
 
 permissions:
   contents: write
@@ -24,6 +32,13 @@ concurrency:
 jobs:
   people:
     runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      RCLONE_CONFIG_R2_TYPE: s3
+      RCLONE_CONFIG_R2_PROVIDER: Cloudflare
+      RCLONE_CONFIG_R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+      RCLONE_CONFIG_R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+      RCLONE_CONFIG_R2_ENDPOINT: https://${{ secrets.CLOUDFLARE_ACCOUNT_ID }}.r2.cloudflarestorage.com
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -31,18 +46,57 @@ jobs:
           python-version: "3.12"
           cache: pip
       - run: pip install -e .
-      - env:
-          CITIES: ${{ inputs.cities || 'helsinki,espoo,tampere,vantaa' }}
+      - name: Install rclone
         run: |
-          for c in ${CITIES//,/ }; do
-            kunta people --city "$c"
-            kunta validate --city "$c"
+          curl -fsSL -o rclone.deb https://downloads.rclone.org/v1.71.0/rclone-v1.71.0-linux-amd64.deb
+          sudo dpkg -i rclone.deb
+      - name: Rebuild rosters
+        env:
+          CITIES: ${{ inputs.cities || 'all' }}
+        run: |
+          set +e
+          kunta groups --cities "$CITIES" > groups.json
+          python - <<'PY' > lists.txt
+          import json
+          groups = json.load(open("groups.json"))
+          print(" ".join(c for g in groups if g["storage"] == "git" for c in g["cities"].split(",")))
+          print(" ".join(c for g in groups if g["storage"] == "r2" for c in g["cities"].split(",")))
+          PY
+          git_cities=$(sed -n 1p lists.txt)
+          r2_cities=$(sed -n 2p lists.txt)
+          ok=""
+          failed=""
+          for c in $git_cities $r2_cities; do
+            if [[ " $r2_cities " == *" $c "* ]]; then
+              rclone copy "r2:kotihiiri-data/data/$c" "data/$c" --checksum --s3-no-check-bucket --fast-list \
+                --include "meetings/**" --include bodies.json --include people.json
+            fi
+            if kunta people --city "$c" && kunta validate --city "$c"; then
+              ok="$ok $c"
+            else
+              echo "::error::$c: people or validation failed"
+              failed="$failed $c"
+            fi
+          done
+          echo "$ok" > ok.txt
+          echo "r2=$r2_cities" >> "$GITHUB_ENV"
+          [ -z "$failed" ]
+      - name: Upload registry rosters to R2
+        if: ${{ !cancelled() && github.ref == 'refs/heads/main' }}
+        run: |
+          for c in $(cat ok.txt); do
+            if [[ " $r2 " == *" $c "* ]]; then
+              rclone copy "data/$c/people.json" "r2:kotihiiri-data/data/$c/" --checksum --s3-no-check-bucket
+            fi
           done
       - name: Commit people.json
+        if: ${{ !cancelled() }}
         run: |
           git config user.name "kotihiiri-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/*/people.json
+          for c in $(cat ok.txt); do
+            [[ " $r2 " == *" $c "* ]] || git add "data/$c/people.json"
+          done
           git diff --cached --quiet && exit 0
           git commit -m "data: people $(date -u +%F)"
           for i in 1 2 3; do
