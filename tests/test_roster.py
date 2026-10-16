@@ -215,3 +215,17 @@ def test_accent_variants_are_one_person():
         "Jarno Limnell",
         ["Limnell Jarno", "Limnéll Jarno"],
     )
+
+
+def test_nameless_attendance_entry_gets_no_person():
+    r = Roster("espoo", "espoo/valtuusto")
+    r.add_meeting(
+        _meeting(
+            "espoo/valtuusto",
+            "2025-06-16",
+            [("Virtanen Matti", "valtuutettu", True), ("–", "valtuutettu", True)],
+        )
+    )
+    out = r.to_json()
+    assert all(p["id"].split("/")[1] for p in out["persons"])
+    assert all(m["person_id"].split("/")[1] for m in out["memberships"])
