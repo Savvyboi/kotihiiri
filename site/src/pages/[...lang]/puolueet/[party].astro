@@ -1,0 +1,131 @@
+---
+// One party across every followed municipality (/puolueet/{party}/): its seats per municipality,
+// which parties it votes with, the latest votes it lost, and its councillors who most often vote
+// against their own group.
+import Base from '../../../layouts/Base.astro';
+import { localeParams, sharedPath, useI18n, type Key, type Locale } from '../../../i18n';
+import { city as cityRec, cityName, itemUrl } from '../../../lib/data';
+import { councillorRows } from '../../../lib/councillors';
+import { NAMED_PARTIES, pairKey, partyView, type PartySide } from '../../../lib/national';
+import { PARTY_COLOURS, partyKey, type Party } from '../../../lib/parties';
+
+const MIN_SHARED = 10;
+const LOST = 20;
+
+export function getStaticPaths() {
+  const view = partyView();
+  const parties = view.stats.filter((s) => s.seats || s.positions).map((s) => s.party);
+  return localeParams().flatMap(({ lang, locale }) => parties.map((party) => ({ params: { lang, party }, props: { locale, party } })));
+}
+interface Props { locale: Locale; party: Party }
+const { locale, party } = Astro.props;
+const { t, num, date, path } = useI18n(locale);
+const view = partyView();
+const st = view.stats.find((s) => s.party === party)!;
+const name = (p: Party) => t(partyKey(p));
+const pct = (a: number, b: number) => (b ? Math.round((100 * a) / b) : undefined);
+const wins = pct(st.wins, st.positions);
+const cohesion = pct(st.together, st.cast);
+const muniName = (id: string) => cityName(cityRec(id)!, locale);
+const seats = view.seats.get(party) ?? [];
+const allies = NAMED_PARTIES.filter((o) => o !== party).map((o) => {
+  const [x, y] = NAMED_PARTIES.indexOf(party) < NAMED_PARTIES.indexOf(o) ? [party, o] : [o, party];
+  const pr = view.pairs.get(pairKey(x, y));
+  return pr && pr.both >= MIN_SHARED ? { party: o, p: pct(pr.same, pr.both)!, n: pr.both } : undefined;
+}).filter((x): x is { party: Party; p: number; n: number } => !!x).sort((a, b) => b.p - a.p || b.n - a.n);
+// one line per item: an item can have several votes (amendments, then the final decision)
+const lostByItem = new Map<string, { s: PartySide; n: number }>();
+for (const s of view.sides.get(party) ?? []) {
+  if (s.won) continue;
+  const e = lostByItem.get(s.row.item.id);
+  if (e) e.n += 1;
+  else lostByItem.set(s.row.item.id, { s, n: 1 });
+}
+const lost = [...lostByItem.values()].slice(0, LOST);
+const lostTotal = st.positions - st.wins;
+const members = councillorRows().filter((r) => r.p === party);
+const rebels = members.filter((r) => r.x > 0).sort((a, b) => b.x / Math.max(b.v, 1) - a.x / Math.max(a.v, 1) || b.x - a.x).slice(0, 10);
+const colour = PARTY_COLOURS[party];
+---
+<Base title={name(party)} locale={locale}>
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow"><a href={path('/puolueet/')}>{t('pp.back')}</a></p>
+      <h1><i class="party-dot party-dot-lg" style={`background:${colour}`} />{name(party)}</h1>
+      <ul class="stats">
+        <li><b>{num(st.seats)}</b> {t('pp.stat.seats', { n: num(st.munis) })}</li>
+        <li><b>{num(st.positions)}</b> {t('pp.stat.positions')}</li>
+        {wins !== undefined && <li><b>{wins} %</b> {t('pp.stat.wins')}</li>}
+        {cohesion !== undefined && <li><b>{cohesion} %</b> {t('pp.stat.cohesion')}</li>}
+      </ul>
+    </div>
+  </section>
+  <div class="wrap party-page">
+    <div class="grid party-cols">
+      {seats.length > 0 && (
+        <section class="card ally-card" style={`--party:${colour}`}>
+          <h2>{t('pp.seats.title')}</h2>
+          <p class="small muted">{t('pp.seats.lead')}</p>
+          <ol class="ally-bars">
+            {seats.map((s) => (
+              <li title={t('pp.seats.cell', { n: num(s.n), of: num(s.of) })}>
+                <span class="ab-name"><a href={path(`/${s.city}/`)}>{muniName(s.city)}</a></span>
+                <span class="ab-bar"><i style={`width:${(100 * s.n) / Math.max(s.of, 1)}%;background:${colour}`} /></span>
+                <span class="ab-p">{s.n}/{s.of}</span>
+              </li>
+            ))}
+          </ol>
+        </section>
+      )}
+      {allies.length > 0 && (
+        <section class="card ally-card" style={`--party:${colour}`}>
+          <h2>{t('parties.agree.title')}</h2>
+          <p class="small muted">{t('parties.agree.cardLead', { party: name(party) })}</p>
+          <ol class="ally-bars">
+            {allies.map((o) => (
+              <li title={t('parties.agree.cell', { a: name(party), b: name(o.party), p: o.p, n: num(o.n) })}>
+                <span class="ab-name"><a href={path(`/puolueet/${o.party}/`)}>{name(o.party)}</a></span>
+                <span class="ab-bar"><i style={`width:${o.p}%;background:${PARTY_COLOURS[o.party]}`} /></span>
+                <span class="ab-p">{o.p} %</span>
+              </li>
+            ))}
+          </ol>
+        </section>
+      )}
+    </div>
+
+    {lost.length > 0 && (
+      <section>
+        <h2>{t('pp.lost.title')}</h2>
+        <p class="muted">{t('pp.lost.lead', { party: name(party), n: num(lostTotal) })}</p>
+        <ul class="list">
+          {lost.map(({ s, n }) => (
+            <li><span class="date">{date(s.row.meeting.date)}</span>
+              <span><a href={sharedPath(itemUrl(s.row.item), locale)} data-shared>{s.row.item.title}</a><br />
+              <span class="small muted">{muniName(s.city)} · {t('pp.lost.side', { side: t(`vote.${s.choice}` as Key), jaa: s.row.vote.counts.jaa, ei: s.row.vote.counts.ei })}{n > 1 && <> · {t('pp.lost.more', { n: n - 1 })}</>}</span></span></li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    {rebels.length > 0 && (
+      <section>
+        <h2>{t('pp.rebels.title')}</h2>
+        <p class="muted">{t('pp.rebels.lead')}</p>
+        <div class="table-scroll">
+          <table class="party-table councillors">
+            <thead><tr><th>{t('cl.col.name')}</th><th>{t('allVotes.muni')}</th><th class="num">{t('cl.col.votes')}</th><th class="num">{t('cl.col.against')}</th></tr></thead>
+            <tbody>
+              {rebels.map((r) => (
+                <tr><td><a href={sharedPath(r.u, locale)} data-shared>{r.n}</a></td><td>{muniName(r.c)}</td>
+                  <td class="num">{num(r.v)}</td><td class="num">{r.x} <span class="small muted">({Math.round((100 * r.x) / Math.max(r.v, 1))} %)</span></td></tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    )}
+    {members.length > 0 && <p><a href={path(`/valtuutetut/?puolue=${party}`)}>{t('pp.allCouncillors', { n: num(members.length) })}</a></p>}
+    <p class="small muted" style="margin-top:2rem">{t('parties.note', { votes: num(view.votes), munis: num(view.munis) })}</p>
+  </div>
+</Base>

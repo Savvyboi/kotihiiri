@@ -1,5 +1,5 @@
 // Views across every enabled municipality: all meetings (/kokoukset/) and parties (/puolueet/).
-import { allVotes, bodies, bodyName, cities, meetingFiles, meetingUrl, voteOutcome, type Choice } from './data';
+import { allVotes, bodies, bodyName, cities, meetingFiles, meetingUrl, voteOutcome, type Choice, type VoteRow } from './data';
 import { ballotGroup, councilRoster } from './people';
 import { PARTY_ORDER, partyOf, type Party } from './parties';
 
@@ -54,7 +54,13 @@ export interface PartyView {
   pairs: Map<string, { both: number; same: number }>;
   votes: number; // votes with members' names and a known party
   munis: number; // municipalities those votes come from
+  /** Per party: council seats per municipality, most seats first. */
+  seats: Map<Party, { city: string; n: number; of: number }[]>;
+  /** Per party: every vote where it took a side, newest first. */
+  sides: Map<Party, PartySide[]>;
 }
+
+export interface PartySide { row: VoteRow; city: string; choice: 'jaa' | 'ei'; won: boolean }
 
 export const pairKey = (a: Party, b: Party) => `${a}|${b}`;
 
@@ -67,18 +73,24 @@ export function partyView(): PartyView {
     party: p, seats: 0, munis: 0, positions: 0, wins: 0, together: 0, cast: 0,
   }]));
   const pairs = new Map<string, { both: number; same: number }>();
+  const seats = new Map<Party, { city: string; n: number; of: number }[]>(NAMED_PARTIES.map((p) => [p, []]));
+  const sides = new Map<Party, PartySide[]>(NAMED_PARTIES.map((p) => [p, []]));
   let votes = 0;
   const voteMunis = new Set<string>();
   for (const c of cities().filter((x) => x.enabled)) {
     const roster = councilRoster(c.id);
-    const here = new Set<Party>();
+    const here = new Map<Party, number>();
+    const total = (roster?.seats ?? []).reduce((k, s) => k + s.n, 0);
     for (const s of roster?.seats ?? []) {
       const st = stats.get(s.party);
       if (!st) continue;
       st.seats += s.n;
-      here.add(s.party);
+      here.set(s.party, (here.get(s.party) ?? 0) + s.n);
     }
-    for (const p of here) stats.get(p)!.munis += 1;
+    for (const [p, n] of here) {
+      stats.get(p)!.munis += 1;
+      seats.get(p)!.push({ city: c.id, n, of: total });
+    }
     for (const row of allVotes(c.id)) {
       const outcome = voteOutcome(row.vote);
       const tally = new Map<Party, Record<Choice, number>>();
@@ -100,6 +112,7 @@ export function partyView(): PartyView {
         side.set(party, choice);
         st.positions += 1;
         if (choice === outcome) st.wins += 1;
+        sides.get(party)!.push({ row, city: c.id, choice, won: choice === outcome });
         st.together += t[choice];
         st.cast += t.jaa + t.ei + t.tyhja;
       }
@@ -115,6 +128,10 @@ export function partyView(): PartyView {
       }
     }
   }
-  partyCache = { stats: [...stats.values()], pairs, votes, munis: voteMunis.size };
+  for (const list of seats.values()) list.sort((a, b) => b.n - a.n || a.city.localeCompare(b.city));
+  for (const list of sides.values()) {
+    list.sort((a, b) => b.row.meeting.date.localeCompare(a.row.meeting.date) || a.row.item.id.localeCompare(b.row.item.id));
+  }
+  partyCache = { stats: [...stats.values()], pairs, votes, munis: voteMunis.size, seats, sides };
   return partyCache;
 }
