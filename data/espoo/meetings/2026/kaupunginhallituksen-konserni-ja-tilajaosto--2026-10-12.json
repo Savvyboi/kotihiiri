@@ -2,18 +2,19 @@
   "items": [
     {
       "attachments": [],
-      "content_sha256": "3e86f25a4c2951d4314b8a7a0cee6ff8c28a0889ac68e5efe3e4cc56551b0421",
+      "content_sha256": "10527ccd1da6e29df758eec00e9c304495306c79f8d244ba8bf0469afb019337",
       "disqualified": [],
       "id": "espoo/kaupunginhallituksen-konserni-ja-tilajaosto/2026-10-12/1",
       "meeting_id": "espoo/kaupunginhallituksen-konserni-ja-tilajaosto/2026-10-12",
       "motions": [],
       "ordinal": 1,
       "preparers": [],
+      "pykala": 131,
       "sections": [
         {
-          "heading": "Päätösehdotus",
-          "text": "Puheenjohtaja toteaa kokouksen laillisesti koolle kutsutuksi ja päätösvaltaiseksi.",
-          "type": "proposal"
+          "heading": "Päätös",
+          "text": "Puheenjohtaja totesi kokouksen laillisesti koolle kutsutuksi ja päätösvaltaiseksi.",
+          "type": "decision"
         },
         {
           "heading": "Selostus",
@@ -33,18 +34,19 @@
     },
     {
       "attachments": [],
-      "content_sha256": "2dcc42443a7a52a8bd3f9a14238d67f9843b5f2e3f9eecf1c616c5f090bbc29d",
+      "content_sha256": "ac381746b11b34ed8fbaf899d4a6327f098868bfd5b19bf9d7129954d38e8e05",
       "disqualified": [],
       "id": "espoo/kaupunginhallituksen-konserni-ja-tilajaosto/2026-10-12/2",
       "meeting_id": "espoo/kaupunginhallituksen-konserni-ja-tilajaosto/2026-10-12",
       "motions": [],
       "ordinal": 2,
       "preparers": [],
+      "pykala": 132,
       "sections": [
         {
-          "heading": "Päätösehdotus",
-          "text": "Pöytäkirjan tarkastajiksi valitaan Tere Sammallahti ja Helena Marttila.",
-          "type": "proposal"
+          "heading": "Päätös",
+          "text": "Pöytäkirjan tarkastajiksi valittiin Helena Marttila ja Tere Sammallahti.",
+          "type": "decision"
         }
       ],
       "source_ids": {
@@ -81,16 +83,31 @@
         }
       ],
       "case_number": "4523/02.02.00/2025",
-      "content_sha256": "665ec132bd4a085b9097312e5b307492931ba417b19ed8f8daa5e82fbcfdd685",
+      "content_sha256": "8f10b8719c1b29dcb40bbdc2cc51a89964b908941f85fb5d5e4015a8598bd5cf",
       "disqualified": [],
       "id": "espoo/kaupunginhallituksen-konserni-ja-tilajaosto/2026-10-12/3",
       "meeting_id": "espoo/kaupunginhallituksen-konserni-ja-tilajaosto/2026-10-12",
-      "motions": [],
+      "motions": [
+        {
+          "kind": "counter_proposal",
+          "outcome": "adopted",
+          "proposer_ref": {
+            "raw": "Holma"
+          },
+          "seconder_refs": [
+            {
+              "raw": "Partasen"
+            }
+          ],
+          "text": "Konserni- ja tilajaosto edellyttää, että Lahnuksen koulu huomioidaan tarpeellisilta osin vuosien 2027–2036 investointiohjelmassa. Tavoitteena tulee olla toiminnallisesti ja teknisesti tarkoituksenmukainen ratkaisu, joka toteutetaan mahdollisimman kustannustehokkaasti elinkaarikustannukset huomioiden. Mikäli Kasvun ja oppimisen toimialan toimivaltainen viranomainen myöhemmin päättää, ettei opetusta enää järjestetä Lahnuksen koulussa, korjaus-, investointi- ja rahoitustarve arvioidaan uudelleen muuttuneista lähtökohdista."
+        }
+      ],
       "ordinal": 3,
       "preparers": [
         "Moisander Heikki"
       ],
       "presenter": "Kaupunkiympäristön toimialajohtaja Isotalo Olli",
+      "pykala": 133,
       "sections": [
         {
           "heading": "Päätösehdotus",
@@ -98,8 +115,18 @@
           "type": "proposal"
         },
         {
+          "heading": "Käsittely",
+          "text": "Esittelijän kokouksessa tekemät muutokset on huomioitu pöytäkirjassa.\n\nHolma Partasen kannattamana teki seuraavan lisäysehdotuksen:\n\nKonserni- ja tilajaosto edellyttää, että Lahnuksen koulu huomioidaan tarpeellisilta osin vuosien 2027–2036 investointiohjelmassa. Tavoitteena tulee olla toiminnallisesti ja teknisesti tarkoituksenmukainen ratkaisu, joka toteutetaan mahdollisimman kustannustehokkaasti elinkaarikustannukset huomioiden. Mikäli Kasvun ja oppimisen toimialan toimivaltainen viranomainen myöhemmin päättää, ettei opetusta enää järjestetä Lahnuksen koulussa, korjaus-, investointi- ja rahoitustarve arvioidaan uudelleen muuttuneista lähtökohdista.\n\nKeskustelun päätyttyä puheenjohtaja tiedusteli, voidaanko Holman ehdotus yksimielisesti hyväksyä. Koska ehdotusta ei vastustettu, puheenjohtaja totesi kaupunginhallituksen konserni- ja tilajaoston hyväksyneen sen.",
+          "type": "deliberation"
+        },
+        {
+          "heading": "Päätös",
+          "text": "Kaupunginhallituksen konserni- ja tilajaosto:\n\nEsittelijän kokouksessa tarkistama ehdotus hyväksyttiin yksimielisesti lisäyksin.",
+          "type": "decision"
+        },
+        {
           "heading": "Selostus",
-          "text": "Valtuusto on 8.6.2026 päättänyt vuoden 2027 talousarvion ja vuosien 2028–2029 taloussuunnitelman kehyksestä sekä vuosien 2027–2036 investointikehyksestä. Valtuusto on samassa kokouksessa päättänyt myös vuoden 2027 veroprosenteista.\n\nValtuuston päätöksen pohjalta toimialat ja tulosalue vievät esitykset lautakuntien ja jaostojen käsiteltäväksi viimeistään syyskuun aikana. Lautakunnat ja jaostot tekevät esitykset kaupunginjohtajan talousarvioesityksen jatkovalmistelua varten.\n\nKaupunginjohtajan talousarvioesitys julkaistaan 27.10.2026. Valtuusto päättää vuoden 2027 talousarviosta sekä vuosien 2028–2029 taloussuunnitelmasta 3.12.2026.\n\nLähtökohdat talousarviovalmisteluun ja kaupungin talouden epätasapaino\n\nEspoon talous on viime vuosina ajautunut epätasapainoon useiden samanaikaisten tekijöiden seurauksena. Sote-uudistus heikensi Espoon taloudellista asemaa pysyvästi, kaupunki on kasvanut viime vuodet voimakkaasti ja menojen kasvu on ollut nopeampaa kuin asiakas- ja asukasmäärän kasvu tai kaupungin tulojen kasvu. Rakenteellisia muutoksia ei saatu TaKE-ohjelmassa (Taloudellisesti kestävä Espoo) toteutettua riittävästi. Kasvava kaupunki tarvitsee palveluja ja investointeja, mutta nykyinen käyttötalouden ja investointien menokehitys ylittää sen mihin kaupungin tulokehitys ja rahoitusasema pystyvät vastaamaan. Talouden tasapainotus edellyttää pysyviä rakenteellisia muutoksia.\n\nTalouteen liittyy edelleen epävarmuustekijöitä kuten verotulojen kehitys, investointiohjelman realistisuus ja globaalin toimintaympäristön epävakaus. Nämä voivat edelleen heikentää talouden tilannetta ja kasvattaa sopeutustarvetta. Myös valtion toimenpiteet vaikuttavat suoraan Espoon talouteen. Työllisyysuudistus siirsi kaupungeille uusia vastuita ja rahoitusriskejä, mikä kasvattaa rakenteellista alijäämää erityisesti tilanteessa, jossa työttömyysaste ei ole palautunut pandemiaa edeltäneelle tasolle.\n\nTalouden tasapainottaminen on välttämätöntä, jotta velkaantumisen kasvu voidaan pysäyttää ja kaupungin taloudellinen asema turvata.\n\nValtuusto päätti vuoden 2026 talousarvion yhteydessä, että kaupunginhallitus käynnistää valmistelun tulevan vuoden kehys-, vero- ja talousarviopäätöksentekoa varten Espoo-tarinassa määriteltyjen tavoitteiden saavuttamiseksi. Talouden tasapainotustyön tehtävänä on varmistaa Espoo-tarinassa hyväksyttyjen tavoitteiden saavuttamisen. Tavoitteena on saavuttaa tasapaino vuoden 2029 loppuun mennessä siten, että tasapainotuksella tavoitellaan keskimäärin n. 70 milj. euron vuosivaikutukseen taloussuunnitelmakaudella 2027–2029. Valtuuston päätöksen mukaan tasapainotustyö tulee painottua taloussuunnitelmakauden ensimmäisille vuosille 2027–2028, varmistaen tasapainotuksen kumulatiivinen vaikutus koko taloussuunnitelmakauden ajalle.\n\nTalousarvion ja taloussuunnitelman kehys\n\nValtuusto hyväksyi 8.6.2026 vuoden 2027 talousarvion kehyksen sekä vuosien 2028–2029 taloussuunnitelmakehyksen, jotka perustuvat Espoo-tarinan keskeisiin linjauksiin, valtuuston 4.12.2025 hyväksymään vuoden 2026 talousarvioon ja taloussuunnitelmaan 2027–2028 sekä talouden tasapainotuksen neuvottelutulokseen. Lisäksi valtuusto kehotti kaupunginjohtajaa ryhtymään tarvittaviin jatkovalmisteluihin neuvottelutuloksen mukaisesti. Valtuuston kehyspäätöksen toteutuminen edellyttää sen taustalla olevien ja valtuuston 8.6. tiedoksi merkitsemien tasapainotuksen valmistelukehotusten toteuttamista.\n\nKeskeisenä tavoitteena on turvata toimintakykyinen Espoo 2030-luvulla. Tämä edellyttää tuottavuuden parantamista palvelujen järjestämisessä sekä johtamisessa, asiantuntijatyössä, hallinto- ja tukitehtävissä. Uusien toimintamallien kehittäminen ja käyttöönotto sekä teknologian hyödyntäminen ovat keskeinen osa tuottavuuden parantamisessa. Organisaation kehittäminen ja rakenteelliset muutokset tukevat Espoo-tarinan tavoitteissa onnistumista, kaupungin johtamista, sujuvoittaa prosesseja, yksinkertaistaa organisaation rakennetta ja kehittää taloudellista vaikuttavuutta.\n\nKehyslaskelmat sisältävät ulkoiset tulot ja menot. Kaupungin sisäiset tulot ja menot huomioidaan talousarvion yhteydessä sen jälkeen, kun talouden tasapainotustoimenpiteet on tarkemmin laskettu sisäisiin eriin. Niistä ei aiheudu muutoksia talouden tasapainotuskokonaisuuteen.\n\nNeuvottelutuloksen mukaisten toimenpiteiden vuosittaiset määrärahavaikutukset on huomioitu toimialojen ja tulosalueen kehyslukuihin. Organisaatio- sekä hallinto- ja tukitoimintojen tarkastelun vaikutukset eivät sisällyt vielä toimialojen kehyslukuihin. Vaikutukset huomioidaan kaupunginjohtajan talousarvioesityksen yhteydessä.\n\nVuodelle 2027 kehyksessä varaudutaan n. 2,2 % menojen kokonaiskasvuun, huolimatta talouden tasapainotuksen vaikutuksista. Talouden tasapainotuksella hillitään menojen kasvua, mutta se ei pysäytä kasvua tai pienennä toimialojen kokonaismenoja, pois lukien konsernihallinto. Talouden tasapainotuksen toimenpiteillä on keskeisiä vaikutuksia vuodelle 2027, jonka takia toimenpiteiden valmistelu tulee käynnistää mahdollisimman nopeasti. Näin vuodelle 2027 asetetut tavoitteet saadaan toteutumaan täysimääräisinä. Toimenpiteiden tarvittavan jatkovalmistelun ja toimeenpanon viivästyminen kasvattaisi sopeutustarvetta ja siirtäisi painetta taloussuunnitelmakauden loppupuolelle, mikä ei ole realistista.\n\nVuoden 2027 kehyksen tilikauden tulos on 94 milj. euroa ja investointimenot 362 milj. euroa. Vuosikate ei riitä investointien rahoittamiseen, jonka takia toiminnan ja investointien rahavirta on alijäämäinen 44 milj. euroa. Investointien rahavirta on alijäämäinen koko taloussuunnitelmakauden ajan, pienentyen kuitenkin kauden lopulla noin - 13 milj. euroon. Lainakanta kasvaa vuoden 2025 tasosta vuoden 2029 loppuun mennessä noin 54 milj. euroa, mutta lainakanta per asukas pysyy vuoden 2025 tasolla, johtuen asukasmäärän kasvusta Taloussuunnitelmakauden lainojen takaisinmaksut noin 150 milj. euroa katetaan kassavaroin.\n\nInvestointiohjelma jatkuu mittavana\n\nValtuustokauden 2026–2029 investointien kokonaismäärä on enintään 1 738 milj. euroa. Kokonaismäärään sisältyy sekä kaupungin omat investoinnit ml. yhtiöhankkeena toteutettava Tapiolan stadion sekä vuokrakohteena hankittavien toimitilojen kustannukset kaudella 2026–2029. Kaupungin omat investoinnit ovat yhteensä 1 582 milj. euroa ja vuokrakohteet sekä muilla malleilla mm. PPP-malli (Public-Private Partnership) hankittavat yhteensä 155 milj. euroa.\n\nInvestointiohjelman valmistelussa on huomioitu esiin tulleita lisäinvestointitarpeita sekä päivitetty hankkeiden tarkentuneita kustannusarvioita sekä hankkeiden ajoitusmuutokset (suunnittelun ja hankeaikataulun tarkennukset sekä tekniset muutokset). Toimitilainvestointeihin on päivitetty useampi päiväkotikohde peruskorjauksesta korvaavaksi uudisrakennukseksi tai lisätty kohteeseen myös laajennus. Lisäksi muutamien koulukohteiden ajoitusta on aikaistettu.\n\nTalouden tasapainotustoimenpiteenä investointiohjelmaan on tehty eräitä karsintoja ja hankkeiden aikataulujen lykkäyksiä. Valmistelun haasteena on ollut lisäinvestointitarpeet, jotka kompensoivat investointeihin esitettyjä säästöjä ja siirtoja. Investointien osalta valmistelun lähtökohtana on valtuuston viime joulukuussa taloussuunnitelman yhteydessä hyväksymä investointiohjelma.",
+          "text": "Valtuusto on 8.6.2026 päättänyt vuoden 2027 talousarvion ja vuosien 2028–2029 taloussuunnitelman kehyksestä sekä vuosien 2027–2036 investointikehyksestä. Valtuusto on samassa kokouksessa päättänyt myös vuoden 2027 veroprosenteista.\n\nValtuuston päätöksen pohjalta toimialat ja tulosalue vievät esitykset lautakuntien ja jaostojen käsiteltäväksi viimeistään syyskuun aikana. Lautakunnat ja jaostot tekevät esitykset kaupunginjohtajan talousarvioesityksen jatkovalmistelua varten.\n\nKaupunginjohtajan talousarvioesitys julkaistaan 27.10.2026. Valtuusto päättää vuoden 2027 talousarviosta sekä vuosien 2028–2029 taloussuunnitelmasta 3.12.2026.\n\nTilapalvelujen nyt käsittelyssä oleva vuoden 2027 talousarvio on laadittu talousarviokehyksen mukaisesti, ja siinä on huomioitu Tilapalveluille asetetut säästö- ja tuottavuustavoitteet. Talousarviota tarkennetaan kaupunginjohtajan talousarviovalmistelun perusteella.\n\nLähtökohdat talousarviovalmisteluun ja kaupungin talouden epätasapaino\n\nEspoon talous on viime vuosina ajautunut epätasapainoon useiden samanaikaisten tekijöiden seurauksena. Sote-uudistus heikensi Espoon taloudellista asemaa pysyvästi, kaupunki on kasvanut viime vuodet voimakkaasti ja menojen kasvu on ollut nopeampaa kuin asiakas- ja asukasmäärän kasvu tai kaupungin tulojen kasvu. Rakenteellisia muutoksia ei saatu TaKE-ohjelmassa (Taloudellisesti kestävä Espoo) toteutettua riittävästi. Kasvava kaupunki tarvitsee palveluja ja investointeja, mutta nykyinen käyttötalouden ja investointien menokehitys ylittää sen mihin kaupungin tulokehitys ja rahoitusasema pystyvät vastaamaan. Talouden tasapainotus edellyttää pysyviä rakenteellisia muutoksia.\n\nTalouteen liittyy edelleen epävarmuustekijöitä kuten verotulojen kehitys, investointiohjelman realistisuus ja globaalin toimintaympäristön epävakaus. Nämä voivat edelleen heikentää talouden tilannetta ja kasvattaa sopeutustarvetta. Myös valtion toimenpiteet vaikuttavat suoraan Espoon talouteen. Työllisyysuudistus siirsi kaupungeille uusia vastuita ja rahoitusriskejä, mikä kasvattaa rakenteellista alijäämää erityisesti tilanteessa, jossa työttömyysaste ei ole palautunut pandemiaa edeltäneelle tasolle.\n\nTalouden tasapainottaminen on välttämätöntä, jotta velkaantumisen kasvu voidaan pysäyttää ja kaupungin taloudellinen asema turvata.\n\nValtuusto päätti vuoden 2026 talousarvion yhteydessä, että kaupunginhallitus käynnistää valmistelun tulevan vuoden kehys-, vero- ja talousarviopäätöksentekoa varten Espoo-tarinassa määriteltyjen tavoitteiden saavuttamiseksi. Talouden tasapainotustyön tehtävänä on varmistaa Espoo-tarinassa hyväksyttyjen tavoitteiden saavuttamisen. Tavoitteena on saavuttaa tasapaino vuoden 2029 loppuun mennessä siten, että tasapainotuksella tavoitellaan keskimäärin n. 70 milj. euron vuosivaikutukseen taloussuunnitelmakaudella 2027–2029. Valtuuston päätöksen mukaan tasapainotustyö tulee painottua taloussuunnitelmakauden ensimmäisille vuosille 2027–2028, varmistaen tasapainotuksen kumulatiivinen vaikutus koko taloussuunnitelmakauden ajalle.\n\nTalousarvion ja taloussuunnitelman kehys\n\nValtuusto hyväksyi 8.6.2026 vuoden 2027 talousarvion kehyksen sekä vuosien 2028–2029 taloussuunnitelmakehyksen, jotka perustuvat Espoo-tarinan keskeisiin linjauksiin, valtuuston 4.12.2025 hyväksymään vuoden 2026 talousarvioon ja taloussuunnitelmaan 2027–2028 sekä talouden tasapainotuksen neuvottelutulokseen. Lisäksi valtuusto kehotti kaupunginjohtajaa ryhtymään tarvittaviin jatkovalmisteluihin neuvottelutuloksen mukaisesti. Valtuuston kehyspäätöksen toteutuminen edellyttää sen taustalla olevien ja valtuuston 8.6. tiedoksi merkitsemien tasapainotuksen valmistelukehotusten toteuttamista.\n\nKeskeisenä tavoitteena on turvata toimintakykyinen Espoo 2030-luvulla. Tämä edellyttää tuottavuuden parantamista palvelujen järjestämisessä sekä johtamisessa, asiantuntijatyössä, hallinto- ja tukitehtävissä. Uusien toimintamallien kehittäminen ja käyttöönotto sekä teknologian hyödyntäminen ovat keskeinen osa tuottavuuden parantamisessa. Organisaation kehittäminen ja rakenteelliset muutokset tukevat Espoo-tarinan tavoitteissa onnistumista, kaupungin johtamista, sujuvoittaa prosesseja, yksinkertaistaa organisaation rakennetta ja kehittää taloudellista vaikuttavuutta.\n\nKehyslaskelmat sisältävät ulkoiset tulot ja menot. Kaupungin sisäiset tulot ja menot huomioidaan talousarvion yhteydessä sen jälkeen, kun talouden tasapainotustoimenpiteet on tarkemmin laskettu sisäisiin eriin. Niistä ei aiheudu muutoksia talouden tasapainotuskokonaisuuteen.\n\nNeuvottelutuloksen mukaisten toimenpiteiden vuosittaiset määrärahavaikutukset on huomioitu toimialojen ja tulosalueen kehyslukuihin. Organisaatio- sekä hallinto- ja tukitoimintojen tarkastelun vaikutukset eivät sisällyt vielä toimialojen kehyslukuihin. Vaikutukset huomioidaan kaupunginjohtajan talousarvioesityksen yhteydessä.\n\nVuodelle 2027 kehyksessä varaudutaan n. 2,2 % menojen kokonaiskasvuun, huolimatta talouden tasapainotuksen vaikutuksista. Talouden tasapainotuksella hillitään menojen kasvua, mutta se ei pysäytä kasvua tai pienennä toimialojen kokonaismenoja, pois lukien konsernihallinto. Talouden tasapainotuksen toimenpiteillä on keskeisiä vaikutuksia vuodelle 2027, jonka takia toimenpiteiden valmistelu tulee käynnistää mahdollisimman nopeasti. Näin vuodelle 2027 asetetut tavoitteet saadaan toteutumaan täysimääräisinä. Toimenpiteiden tarvittavan jatkovalmistelun ja toimeenpanon viivästyminen kasvattaisi sopeutustarvetta ja siirtäisi painetta taloussuunnitelmakauden loppupuolelle, mikä ei ole realistista.\n\nVuoden 2027 kehyksen tilikauden tulos on 94 milj. euroa ja investointimenot 362 milj. euroa. Vuosikate ei riitä investointien rahoittamiseen, jonka takia toiminnan ja investointien rahavirta on alijäämäinen 44 milj. euroa. Investointien rahavirta on alijäämäinen koko taloussuunnitelmakauden ajan, pienentyen kuitenkin kauden lopulla noin - 13 milj. euroon. Lainakanta kasvaa vuoden 2025 tasosta vuoden 2029 loppuun mennessä noin 54 milj. euroa, mutta lainakanta per asukas pysyy vuoden 2025 tasolla, johtuen asukasmäärän kasvusta Taloussuunnitelmakauden lainojen takaisinmaksut noin 150 milj. euroa katetaan kassavaroin.\n\nInvestointiohjelma jatkuu mittavana\n\nValtuustokauden 2026–2029 investointien kokonaismäärä on enintään 1 738 milj. euroa. Kokonaismäärään sisältyy sekä kaupungin omat investoinnit ml. yhtiöhankkeena toteutettava Tapiolan stadion sekä vuokrakohteena hankittavien toimitilojen kustannukset kaudella 2026–2029. Kaupungin omat investoinnit ovat yhteensä 1 582 milj. euroa ja vuokrakohteet sekä muilla malleilla mm. PPP-malli (Public-Private Partnership) hankittavat yhteensä 155 milj. euroa.\n\nInvestointiohjelman valmistelussa on huomioitu esiin tulleita lisäinvestointitarpeita sekä päivitetty hankkeiden tarkentuneita kustannusarvioita sekä hankkeiden ajoitusmuutokset (suunnittelun ja hankeaikataulun tarkennukset sekä tekniset muutokset). Toimitilainvestointeihin on päivitetty useampi päiväkotikohde peruskorjauksesta korvaavaksi uudisrakennukseksi tai lisätty kohteeseen myös laajennus. Lisäksi muutamien koulukohteiden ajoitusta on aikaistettu.\n\nTalouden tasapainotustoimenpiteenä investointiohjelmaan on tehty eräitä karsintoja ja hankkeiden aikataulujen lykkäyksiä. Valmistelun haasteena on ollut lisäinvestointitarpeet, jotka kompensoivat investointeihin esitettyjä säästöjä ja siirtoja. Investointien osalta valmistelun lähtökohtana on valtuuston viime joulukuussa taloussuunnitelman yhteydessä hyväksymä investointiohjelma.",
           "type": "background"
         },
         {
@@ -126,18 +153,24 @@
           "url": "https://espoo.oncloudos.com/kokous/20261746-4-376423.PDF"
         }
       ],
-      "content_sha256": "cba9c197723afa353a718df984554ba343b1e2d47b71e20169e6e9fd757290a9",
+      "content_sha256": "265ab0de62e5382ba30cecdc6d41c88668f572ffcd61ab38e1e51579a44f72da",
       "disqualified": [],
       "id": "espoo/kaupunginhallituksen-konserni-ja-tilajaosto/2026-10-12/4",
       "meeting_id": "espoo/kaupunginhallituksen-konserni-ja-tilajaosto/2026-10-12",
       "motions": [],
       "ordinal": 4,
       "preparers": [],
+      "pykala": 134,
       "sections": [
         {
           "heading": "Päätösehdotus",
           "text": "Kaupunginhallituksen konserni- ja tilajaosto merkitsee tiedoksi selostusosassa mainitut päätökset ja kirjelmät sekä kokouksessa kuultavat selostukset.",
           "type": "proposal"
+        },
+        {
+          "heading": "Päätös",
+          "text": "Kaupunginhallituksen konserni- ja tilajaosto:\n\nEsittelijän ehdotus hyväksyttiin yksimielisesti.",
+          "type": "decision"
         },
         {
           "heading": "Selostus",
@@ -157,18 +190,24 @@
     },
     {
       "attachments": [],
-      "content_sha256": "86966b4503e1510bd1663ea04e081366bac544a7ec9cafb51ca151e177e61d4b",
+      "content_sha256": "192c22c05f73a87e2614a4a1d8e85f8a2f992515e6f2fab9a16da8ee489b5e36",
       "disqualified": [],
       "id": "espoo/kaupunginhallituksen-konserni-ja-tilajaosto/2026-10-12/5",
       "meeting_id": "espoo/kaupunginhallituksen-konserni-ja-tilajaosto/2026-10-12",
       "motions": [],
       "ordinal": 5,
       "preparers": [],
+      "pykala": 135,
       "sections": [
         {
           "heading": "Päätösehdotus",
           "text": "Tilapalvelut-liikelaitoksen toimitusjohtaja\n\nKaupunginhallituksen konserni- ja tilajaosto ei käytä kuntalain 92 §:n mukaista otto-oikeuttaan seuraaviin päätöksiin:\n\nTilapalvelut-liikelaitoksen toimitusjohtaja\n\n- Tilapalvelut-liikelaitoksen toimitusjohtajan päätöspöytäkirja\n\n(Hankinta-asiat) 1.10.2026 § 68\n\nHankintapäätös: Albergan kartanon peruskorjauksen pää-, arkkitehti- ja pihasuunnittelu\n\nTilapalvelut-liikelaitoksen toimitusjohtajan päätöspöytäkirja\n\n(Yleiset asiat) 1.10.2026 § 5\n\nSalainen asia",
           "type": "proposal"
+        },
+        {
+          "heading": "Päätös",
+          "text": "Kaupunginhallituksen konserni- ja tilajaosto:\n\nEsittelijän ehdotus hyväksyttiin yksimielisesti.",
+          "type": "decision"
         }
       ],
       "source_ids": {
@@ -183,9 +222,151 @@
     }
   ],
   "meeting": {
-    "attendance": [],
+    "attendance": [
+      {
+        "person_ref": {
+          "raw": "Partanen Henna"
+        },
+        "present": true,
+        "role_text": "puheenjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Hagerlund Tony"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Holma Jussi"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "af Hällström Nina"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Kilpijoki Kerttu-Liisa"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Marttila Helena"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Sammallahti Tere"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Schauman Ari"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Katainen Mervi"
+        },
+        "present": true,
+        "role_text": "kaupunginhallituksen puheenjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Sistonen Markku"
+        },
+        "present": true,
+        "role_text": "kaupunginhallituksen II varapuheenjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Caesar Aatos"
+        },
+        "present": true,
+        "role_text": "nuorisovaltuuston edustaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Mykkänen Kai"
+        },
+        "present": true,
+        "role_text": "kaupunginjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Isotalo Olli"
+        },
+        "present": true,
+        "role_text": "kaupunkiympäristön toimialajohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Narvo-Akkola Merja"
+        },
+        "present": true,
+        "role_text": "kasvun ja oppimisen toimialajohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Konttas Ari"
+        },
+        "present": true,
+        "role_text": "rahoitusjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Kalliokoski Taneli"
+        },
+        "present": true,
+        "role_text": "toimitusjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Pajakoski Johanna"
+        },
+        "present": true,
+        "role_text": "viestintäjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Heino Waltteri"
+        },
+        "present": true,
+        "role_text": "konserniohjauksen johtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Yli-Leppälä Henna"
+        },
+        "present": true,
+        "role_text": "hallintopäällikkö"
+      },
+      {
+        "person_ref": {
+          "raw": "Aaltonen Matti"
+        },
+        "present": true,
+        "role_text": "juristi, sihteeri"
+      }
+    ],
     "body_id": "espoo/kaupunginhallituksen-konserni-ja-tilajaosto",
     "date": "2026-10-12",
+    "end_time": "10:40",
     "id": "espoo/kaupunginhallituksen-konserni-ja-tilajaosto/2026-10-12",
     "items": [
       "espoo/kaupunginhallituksen-konserni-ja-tilajaosto/2026-10-12/1",
@@ -195,12 +376,13 @@
       "espoo/kaupunginhallituksen-konserni-ja-tilajaosto/2026-10-12/5"
     ],
     "location": "Teams-kokous",
+    "minutes_pdf_url": "https://espoo.oncloudos.com/kokous/20261746.PDF",
     "source_ids": {
       "meeting_id": "20261746",
       "pdf": "https://espoo.oncloudos.com/kokous/20261746.PDF"
     },
     "source_url": "https://espoo.oncloudos.com/cgi/DREQUEST.PHP?page=meeting&id=20261746",
-    "stage": "agenda",
-    "start_time": "09:00"
+    "stage": "minutes",
+    "start_time": "09:02"
   }
 }

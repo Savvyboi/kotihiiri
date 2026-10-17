@@ -2,18 +2,19 @@
   "items": [
     {
       "attachments": [],
-      "content_sha256": "7797d548e8197628fc922880918c776dae2e4f660a3dcc77babde935ee204cd0",
+      "content_sha256": "ecc7cb7a83c450405ec9f1ca1807293ee70a4e5eb9a09ffa9676d15b5a430327",
       "disqualified": [],
       "id": "espoo/kaupunkisuunnittelulautakunta/2026-10-14/1",
       "meeting_id": "espoo/kaupunkisuunnittelulautakunta/2026-10-14",
       "motions": [],
       "ordinal": 1,
       "preparers": [],
+      "pykala": 114,
       "sections": [
         {
-          "heading": "Päätösehdotus",
-          "text": "Puheenjohtaja toteaa kokouksen laillisesti koolle kutsutuksi ja päätösvaltaiseksi.",
-          "type": "proposal"
+          "heading": "Päätös",
+          "text": "Puheenjohtaja totesi kokouksen laillisesti koolle kutsutuksi ja päätösvaltaiseksi.",
+          "type": "decision"
         },
         {
           "heading": "Selostus",
@@ -33,18 +34,19 @@
     },
     {
       "attachments": [],
-      "content_sha256": "780cbf4529293276416132a32ecf524e9eb0845c35641b91b043f968b256ebd6",
+      "content_sha256": "c8c3a43d6c2d702c49b07d7100df0479c64b00f7af70e8beb885d41d96f3ad61",
       "disqualified": [],
       "id": "espoo/kaupunkisuunnittelulautakunta/2026-10-14/2",
       "meeting_id": "espoo/kaupunkisuunnittelulautakunta/2026-10-14",
       "motions": [],
       "ordinal": 2,
       "preparers": [],
+      "pykala": 115,
       "sections": [
         {
-          "heading": "Päätösehdotus",
-          "text": "Pöytäkirjan tarkastajaksi valitaan Cosmo Jenytin.",
-          "type": "proposal"
+          "heading": "Päätös",
+          "text": "Pöytäkirjan tarkastajaksi valittiin Cosmo Jenytin.",
+          "type": "decision"
         }
       ],
       "source_ids": {
@@ -91,7 +93,7 @@
         }
       ],
       "case_number": "2504/10.02.03/2024",
-      "content_sha256": "5359264793cc5839fdcc8af3f49b3c59132c62b234d55ef95d61729bef8bed6d",
+      "content_sha256": "6521fa7a3a4642ab99c4a0a510921de0a35648608c2a10b4287f74f7e99c5aa1",
       "disqualified": [],
       "id": "espoo/kaupunkisuunnittelulautakunta/2026-10-14/3",
       "meeting_id": "espoo/kaupunkisuunnittelulautakunta/2026-10-14",
@@ -102,11 +104,17 @@
         "Tuominen Annika Keskisaari Ville"
       ],
       "presenter": "Kaupunkisuunnittelujohtaja Hokkanen Torsti",
+      "pykala": 116,
       "sections": [
         {
           "heading": "Päätösehdotus",
           "text": "Kaupunkisuunnittelulautakunta\n\n1\n\nyhtyy vastineisiin, jotka ilmenevät asian liitteistä. Lausunnot, kannanotot ja muistutukset on annettu Jupperin rantapuiston asemakaavan muutosehdotuksesta, alue 141010,\n\n2\n\nhyväksyy 20.5.2026 päivätyn ja 14.10.2026 muutetun Jupperin rantapuisto – Jupper strandpark asemakaavan muutoksen, piirustusnumero 7579, 60. kaupunginosassa Laaksolahti, alue 141010,\n\n3\n\nilmoittaa asemakaavan muutoksen hakijalle, että kaupunki tulee AKL 59 §:n mukaisesti perimään kaavoitus- ja kuulutuskulujen loppuosan, 50 %,\n\n2 000,00 euroa, kun kaupunkisuunnittelulautakunta on käsitellyt asian.",
           "type": "proposal"
+        },
+        {
+          "heading": "Päätös",
+          "text": "Kaupunkisuunnittelulautakunta\n\nEsittelijän ehdotus hyväksyttiin yksimielisesti.",
+          "type": "decision"
         },
         {
           "heading": "Selostus",
@@ -283,22 +291,42 @@
         }
       ],
       "case_number": "42/10.02.02/2026",
-      "content_sha256": "7e1bb5b354992fc3c66555f9164ef20504f58c9f3fdf8eac4e95c7edbddb8e24",
+      "content_sha256": "576c43ab3f4cbe36296ffe83f57551ab9f29661a83c6abc8351a3503ffd61844",
       "disqualified": [],
       "id": "espoo/kaupunkisuunnittelulautakunta/2026-10-14/4",
       "meeting_id": "espoo/kaupunkisuunnittelulautakunta/2026-10-14",
-      "motions": [],
+      "motions": [
+        {
+          "kind": "table",
+          "proposer_ref": {
+            "raw": "Keskustelun"
+          },
+          "seconder_refs": [],
+          "text": "asian jättämistä pöydälle lautakunnan seuraavaan kokoukseen."
+        }
+      ],
       "ordinal": 4,
       "preparers": [
         "Leino Essi",
         "Kuusisto Elina Uusitupa Antti Jäppinen Sakari Kuusisto-Hjort Paula"
       ],
       "presenter": "Kaupunkisuunnittelujohtaja Hokkanen Torsti",
+      "pykala": 117,
       "sections": [
         {
           "heading": "Päätösehdotus",
           "text": "Kaupunkisuunnittelulautakunta\n\n1\n\nyhtyy vastineisiin, jotka ilmenevät asian liitteistä. Lausunnot ja mielipiteet on annettu Espoon yleiskaava 2060:n luonnoksesta, alue 800100,\n\n2\n\nehdottaa kaupunginhallitukselle, että kaupunginhallitus hyväksyy MRA 19 § mukaisesti nähtäville 5.10.2026 päivätyn yleiskaavaehdotuksen, Espoon yleiskaava 2060, kaavakartan piirustusnumero 7500,\n\n3\n\npyytää yleiskaavaehdotuksesta tarvittavat lausunnot,\n\n4\n\njärjestää yleiskaavaehdotuksesta yhteistyössä kaupunginhallituksen kanssa asukastilaisuudet 14., 19. ja 27.1.2027 ja ruotsin- ja englanninkieliset tilaisuudet sekä valitsee tilaisuuksille puheenjohtajiksi _________________.",
           "type": "proposal"
+        },
+        {
+          "heading": "Käsittely",
+          "text": "Keskustelun aikana puheenjohtaja varapuheenjohtajan kannattamana ehdotti asian jättämistä pöydälle lautakunnan seuraavaan kokoukseen.\n\nKeskustelun pöydällepanosta päätyttyä puheenjohtaja tiedusteli, voidaanko ehdotus asian jättämisestä pöydälle hyväksyä. Koska ehdotusta ei vastustettu, puheenjohtaja totesi sen tulleen yksimielisesti hyväksytyksi.",
+          "type": "deliberation"
+        },
+        {
+          "heading": "Päätös",
+          "text": "Kaupunkisuunnittelulautakunta\n\npäätti yksimielisesti jättää asian pöydälle lautakunnan 28.10.2026 pidettävään kokoukseen.",
+          "type": "decision"
         },
         {
           "heading": "Selostus",
@@ -333,13 +361,14 @@
     },
     {
       "attachments": [],
-      "content_sha256": "a92f243b0724f3ffe6da6fefc646bfb4238e3a373d0728937cf348cbdc7ccf58",
+      "content_sha256": "be51ad8a8a54f411b640abab9bcc9821befd086d0684b00da04340fa361d1fba",
       "disqualified": [],
       "id": "espoo/kaupunkisuunnittelulautakunta/2026-10-14/5",
       "meeting_id": "espoo/kaupunkisuunnittelulautakunta/2026-10-14",
       "motions": [],
       "ordinal": 5,
       "preparers": [],
+      "pykala": 118,
       "sections": [
         {
           "heading": "Päätösehdotus",
@@ -348,7 +377,7 @@
         },
         {
           "heading": "Päätös",
-          "text": "Kaupunkisuunnittelulautakunta:",
+          "text": "Kaupunkisuunnittelulautakunta:\n\nEsittelijän ehdotus hyväksyttiin yksimielisesti.",
           "type": "decision"
         }
       ],
@@ -364,7 +393,155 @@
     }
   ],
   "meeting": {
-    "attendance": [],
+    "attendance": [
+      {
+        "person_ref": {
+          "raw": "Vuornos Henrik"
+        },
+        "present": true,
+        "role_text": "puheenjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Aarnio Antti"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Ali Habiba"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Havu Isto"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Jenytin Cosmo"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Juuti Sini"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Karimäki Johanna"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Kerola Hannele"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Laakso Mikko"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Laakso Ville"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Lindholm Julia"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Puntila Päivi"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Särkiö Ilkka"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Partanen Henna"
+        },
+        "present": true,
+        "role_text": "kaupunginhallituksen edustaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Karppinen Thomas"
+        },
+        "present": true,
+        "role_text": "nuorisovaltuuston edustaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Hokkanen Torsti"
+        },
+        "present": true,
+        "role_text": "kaupunkisuunnittelujohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Eronen Tiina"
+        },
+        "present": true,
+        "role_text": "sihteeri"
+      },
+      {
+        "person_ref": {
+          "raw": "Leino Essi"
+        },
+        "present": true,
+        "role_text": "yleiskaavapäällikkö"
+      },
+      {
+        "person_ref": {
+          "raw": "Keränen Ossi"
+        },
+        "present": true,
+        "role_text": "asemakaavapäällikkö"
+      },
+      {
+        "person_ref": {
+          "raw": "Kaitanen Susanna"
+        },
+        "present": true,
+        "role_text": "liikennesuunnittelupäällikkö"
+      },
+      {
+        "person_ref": {
+          "raw": "Kare Aleksi"
+        },
+        "present": true,
+        "role_text": "juristi"
+      }
+    ],
     "body_id": "espoo/kaupunkisuunnittelulautakunta",
     "date": "2026-10-14",
     "id": "espoo/kaupunkisuunnittelulautakunta/2026-10-14",
@@ -375,13 +552,14 @@
       "espoo/kaupunkisuunnittelulautakunta/2026-10-14/4",
       "espoo/kaupunkisuunnittelulautakunta/2026-10-14/5"
     ],
-    "location": "Tekniikantie 15 Otaniemi, neuvotteluhuone Loojärvi",
+    "location": "Ei tarkastettu Tekniikantie 15 Otaniemi, neuvotteluhuone Loojärvi",
+    "minutes_pdf_url": "https://espoo.oncloudos.com/kokous/20261740.PDF",
     "source_ids": {
       "meeting_id": "20261740",
       "pdf": "https://espoo.oncloudos.com/kokous/20261740.PDF"
     },
     "source_url": "https://espoo.oncloudos.com/cgi/DREQUEST.PHP?page=meeting&id=20261740",
-    "stage": "agenda",
+    "stage": "minutes",
     "start_time": "17:30"
   }
 }

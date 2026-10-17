@@ -135,13 +135,13 @@ bodies:
     name_fi: Sosiaali- ja terveyslautakunta
   stadsfullmaktige:
     excluded_by_rule: true
-    kind: committee
+    kind: council
     name_fi: Stadsfullmäktige
   svenska-kommitten:
     kind: committee
     name_fi: Svenska kommittén
   svensksprakiga-sektionen-inom-namnden-for-fostran-och-larande:
-    kind: committee
+    kind: section
     name_fi: Svenskspråkiga sektionen inom nämnden för fostran och lärande
   tarkastuslautakunta:
     kind: committee
@@ -158,7 +158,7 @@ bodies:
     kind: committee
     name_fi: Tikkurilan kaupunkikeskuksen seurantaryhmä
   undervisningsnamndens-svensksprakiga-sektion:
-    kind: committee
+    kind: section
     name_fi: Undervisningsnämndens svenskspråkiga sektion
   vammaisneuvosto:
     excluded_by_rule: true
