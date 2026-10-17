@@ -50,3 +50,4 @@ addopts = "-q"
 "tests/test_espoo.py" = ["E501"]
 "tests/test_tampere.py" = ["E501"]
 "tests/test_vantaa.py" = ["E501"]
+"tests/test_votes_prose.py" = ["E501"]

@@ -22,6 +22,7 @@ from ..models import (
 )
 from ..parsers import casem as cp
 from ..parsers import votes_casem as votes
+from ..parsers import votes_prose
 from ..text import content_sha256, strip_pii
 
 log = logging.getLogger(__name__)
@@ -159,13 +160,17 @@ class CasemAdapter:
 def build_item(ref: ItemRef, page: cp.ItemPage) -> AgendaItem:
     final = ref.stage == Stage.minutes  # motions and votes only count once minutes are out (§6)
     motions, drafts = votes.parse_motions(page.deliberation_lines) if final else ([], [])
-    item_votes = (
-        votes.build_votes(
-            page.votes_html, drafts, ref.source_url, votes.parse_results(page.deliberation_lines)
-        )
-        if final and page.votes_html
-        else []
-    )
+    item_votes: list = []
+    if final:
+        prose_text = [s.text for s in page.sections if s.type in ("deliberation", "decision")]
+        prose = votes_prose.parse(prose_text, item_url=ref.source_url)
+        if page.votes_html:
+            # Tampere's "Äänestyksen tulos: … äänin a-b" first; other CloudNC municipalities word
+            # the result their own way, read by votes_prose (PLAN.md §7.6).
+            results = votes.parse_results(page.deliberation_lines) + [votes.result_of(v) for v in prose]
+            item_votes = votes.build_votes(page.votes_html, drafts, ref.source_url, results)
+        else:
+            item_votes = prose
     for m in motions:
         m.text = strip_pii(m.text)
     title = page.title or ref.title or ""  # the page marks confidential items, the listing does not

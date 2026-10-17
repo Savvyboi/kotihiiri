@@ -8,6 +8,7 @@ on:
     branches: ["claude/**"]
     paths:
       - scripts/votes_audit.py
+      - kunta/parsers/votes_prose.py
       - .github/workflows/votes-audit.yml
   workflow_dispatch:
     inputs:
@@ -16,7 +17,7 @@ on:
         default: "all"
       samples:
         description: "Sample gaps printed per municipality"
-        default: "8"
+        default: "12"
 
 permissions:
   contents: read
@@ -45,7 +46,7 @@ jobs:
       - name: Audit
         env:
           CITIES: ${{ inputs.cities || 'all' }}
-          SAMPLES: ${{ inputs.samples || '8' }}
+          SAMPLES: ${{ inputs.samples || '12' }}
         run: |
           kunta groups --cities "$CITIES" > groups.json
           python - <<'PY' > lists.txt
@@ -58,4 +59,4 @@ jobs:
             rclone copy "r2:kotihiiri-data/data/$c" "data/$c" --checksum --s3-no-check-bucket --fast-list \
               --include "meetings/**" -q
           done
-          python scripts/votes_audit.py --samples "$SAMPLES" $(sed -n 1p lists.txt) $(sed -n 2p lists.txt)
+          python scripts/votes_audit.py --reparse --samples "$SAMPLES" $(sed -n 1p lists.txt) $(sed -n 2p lists.txt)

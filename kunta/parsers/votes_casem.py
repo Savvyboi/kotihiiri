@@ -291,6 +291,12 @@ def _result(line: str, r: re.Match) -> ProseResult:
     )
 
 
+def result_of(vote: VoteEvent) -> ProseResult:
+    """A vote read from the minutes text, as a result sentence a vote block can be checked against."""
+    c = vote.counts
+    return ProseResult(vote.result_text or "", tuple(sorted((c.jaa, c.ei))), c.tyhja, c.poissa)
+
+
 def parse_results(lines: list[str]) -> list[ProseResult]:
     """Every "Äänestyksen tulos: … äänin a-b" sentence, in text order."""
     found = []
