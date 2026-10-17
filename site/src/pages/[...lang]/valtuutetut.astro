@@ -1,0 +1,146 @@
+---
+// Every council member of every followed municipality in one table (/valtuutetut/): filter by
+// municipality, party and name, and sort by election votes, votes cast, votes against their own
+// group, attendance or motions. Without JavaScript the first rows are listed; the script loads the
+// rest from /valtuutetut.json.
+import Base from '../../layouts/Base.astro';
+import PartyChip from '../../components/PartyChip.astro';
+import { assetPath, localeParams, localePath, sharedPath, useI18n, type Locale } from '../../i18n';
+import { city as cityRec, cityName } from '../../lib/data';
+import { councillorRows } from '../../lib/councillors';
+import { NAMED_PARTIES } from '../../lib/national';
+import { PARTY_ABBR, PARTY_COLOURS, lightColour, partyKey } from '../../lib/parties';
+
+export function getStaticPaths() {
+  return localeParams().map(({ lang, locale }) => ({ params: { lang }, props: { locale } }));
+}
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const { t, num } = useI18n(locale);
+
+const rows = councillorRows();
+const FIRST = 100;
+const muniIds = [...new Set(rows.map((r) => r.c))];
+const munis = muniIds.map((id) => ({ id, name: cityName(cityRec(id)!, locale) })).sort((a, b) => a.name.localeCompare(b.name, locale));
+const names = Object.fromEntries(munis.map((m) => [m.id, m.name]));
+const parties = NAMED_PARTIES.filter((p) => rows.some((r) => r.p === p));
+const chips = Object.fromEntries(parties.map((p) => [p, { a: PARTY_ABBR[p], c: PARTY_COLOURS[p], l: lightColour(PARTY_COLOURS[p]) }]));
+const i18n = { shown: t('cl.shown', { n: '{n}' }) };
+const lang = locale;
+const json = assetPath('/valtuutetut.json');
+const prefix = localePath('/').replace(/\/$/, '');
+const pct = (n: number | null) => (n === null ? '' : `${n} %`);
+---
+<Base title={t('cl.title')} locale={locale}>
+  <section class="hero">
+    <div class="wrap">
+      <h1>{t('cl.title')}</h1>
+      <p class="lead">{t('cl.lead', { n: num(rows.length), munis: num(munis.length) })}</p>
+    </div>
+  </section>
+  <div class="wrap">
+    <form class="vote-filters" aria-label={t('votes.filters')} hidden data-filters>
+      <label>{t('allVotes.muni')}
+        <select name="kunta">
+          <option value="">{t('votes.all')}</option>
+          {munis.map((m) => <option value={m.id}>{m.name}</option>)}
+        </select>
+      </label>
+      <label>{t('cl.party')}
+        <select name="puolue">
+          <option value="">{t('votes.all')}</option>
+          {parties.map((p) => <option value={p}>{t(partyKey(p))}</option>)}
+        </select>
+      </label>
+      <label>{t('cl.q')}<input type="search" name="q" autocomplete="off" /></label>
+      <label>{t('cl.sort')}
+        <select name="jarjestys">
+          <option value="">{t('cl.sort.name')}</option>
+          <option value="e">{t('cl.col.election')}</option>
+          <option value="v">{t('cl.col.votes')}</option>
+          <option value="x">{t('cl.col.against')}</option>
+          <option value="a">{t('cl.col.attendance')}</option>
+          <option value="m">{t('cl.col.motions')}</option>
+        </select>
+      </label>
+      <p class="small"><a href={json} download="valtuutetut.json">JSON</a></p>
+    </form>
+    <p class="small muted" aria-live="polite" data-count>{t('cl.shown', { n: num(rows.length) })}</p>
+    <div class="table-scroll">
+      <table class="party-table councillors">
+        <thead><tr>
+          <th>{t('cl.col.name')}</th><th>{t('allVotes.muni')}</th>
+          <th class="num">{t('cl.col.election')}</th><th class="num">{t('cl.col.votes')}</th>
+          <th class="num">{t('cl.col.against')}</th><th class="num">{t('cl.col.attendance')}</th>
+          <th class="num">{t('cl.col.motions')}</th>
+        </tr></thead>
+        <tbody data-rows>
+          {rows.slice(0, FIRST).map((r) => (
+            <tr>
+              <td><a href={sharedPath(r.u, locale)} data-shared>{r.n}</a> <PartyChip group={r.g} /></td>
+              <td>{names[r.c]}</td>
+              <td class="num">{r.e === null ? '' : num(r.e)}</td><td class="num">{num(r.v)}</td>
+              <td class="num">{r.x || ''}</td><td class="num">{pct(r.a)}</td><td class="num">{r.m || ''}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p class="empty" hidden data-nomatch>{t('cl.none')}</p>
+    <p><button type="button" class="more" hidden data-more>{t('allVotes.more')}</button></p>
+    <dl class="party-help small">
+      <div><dt>{t('cl.col.election')}</dt><dd>{t('cl.help.election')}</dd></div>
+      <div><dt>{t('cl.col.votes')}</dt><dd>{t('cl.help.votes')}</dd></div>
+      <div><dt>{t('cl.col.against')}</dt><dd>{t('cl.help.against')}</dd></div>
+      <div><dt>{t('cl.col.attendance')}</dt><dd>{t('cl.help.attendance')}</dd></div>
+      <div><dt>{t('cl.col.motions')}</dt><dd>{t('cl.help.motions')}</dd></div>
+    </dl>
+    <p class="small muted" style="margin-top:1.5rem">{t('cl.note')}</p>
+  </div>
+  <script is:inline define:vars={{ json, prefix, i18n, names, chips, lang, FIRST }}>
+    (async () => {
+      const form = document.querySelector('[data-filters]');
+      const body = document.querySelector('[data-rows]');
+      if (!form || !body) return;
+      let rows;
+      try { rows = await (await fetch(json)).json(); } catch { return; }
+      form.hidden = false;
+      const nf = new Intl.NumberFormat(lang === 'en' ? 'en-GB' : `${lang}-FI`);
+      const href = (u) => `${prefix}${u}${lang === 'fi' ? '' : `?lang=${lang}`}`;
+      const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+      const chip = (r) => { const c = chips[r.p];
+        return !r.g ? '' : c ? `<span class="pchip${c.l ? ' light' : ''}" style="--pc:${c.c}" title="${esc(r.g)}">${esc(c.a)}</span>`
+          : `<span class="pchip" title="${esc(r.g)}">${esc(r.g)}</span>`; };
+      const keys = ['kunta', 'puolue', 'q', 'jarjestys'];
+      const params = new URLSearchParams(location.search);
+      for (const k of keys) if (params.get(k)) form.elements[k].value = params.get(k);
+      let shown = FIRST, current = [];
+      const row = (r) => `<tr><td><a href="${esc(href(r.u))}">${esc(r.n)}</a> ${chip(r)}</td><td>${esc(names[r.c] ?? r.c)}</td>`
+        + `<td class="num">${r.e === null ? '' : nf.format(r.e)}</td><td class="num">${nf.format(r.v)}</td>`
+        + `<td class="num">${r.x || ''}</td><td class="num">${r.a === null ? '' : `${r.a} %`}</td><td class="num">${r.m || ''}</td></tr>`;
+      const render = () => {
+        body.innerHTML = current.slice(0, shown).map(row).join('');
+        document.querySelector('[data-more]').hidden = current.length <= shown;
+        document.querySelector('[data-nomatch]').hidden = current.length > 0;
+        document.querySelector('[data-count]').textContent = i18n.shown.replace('{n}', nf.format(current.length));
+      };
+      const apply = () => {
+        const v = Object.fromEntries(keys.map((k) => [k, form.elements[k].value.trim()]));
+        const words = v.q.toLowerCase().split(/\s+/).filter(Boolean);
+        current = rows.filter((r) => (!v.kunta || r.c === v.kunta) && (!v.puolue || r.p === v.puolue)
+          && words.every((w) => r.n.toLowerCase().includes(w)));
+        const by = v.jarjestys;
+        if (by) current = [...current].sort((a, b) => (b[by] ?? -1) - (a[by] ?? -1) || a.s.localeCompare(b.s, 'fi'));
+        shown = FIRST;
+        render();
+        const q = new URLSearchParams();
+        for (const k of keys) if (v[k]) q.set(k, v[k]);
+        history.replaceState(null, '', q.size ? `?${q}` : location.pathname);
+      };
+      form.addEventListener('input', apply);
+      form.addEventListener('submit', (e) => e.preventDefault());
+      document.querySelector('[data-more]').addEventListener('click', () => { shown += FIRST; render(); });
+      apply();
+    })();
+  </script>
+</Base>

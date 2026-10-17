@@ -330,3 +330,10 @@ button.more { font: inherit; padding: .45rem 1rem; border-radius: 8px; border: 1
 .agree-table { margin-top: 1.4rem; }
 .agree-table summary { cursor: pointer; font-weight: 600; }
 .party-table tbody th { text-transform: none; letter-spacing: normal; font-size: inherit; font-weight: 600; color: inherit; white-space: nowrap; }
+/* Councillors in every municipality (/valtuutetut/) */
+.councillors td:first-child { white-space: nowrap; }
+.councillors thead th { white-space: nowrap; }
+@media (max-width: 640px) {
+  .councillors { font-size: .88rem; }
+  .councillors th:first-child, .councillors td:first-child { position: sticky; left: 0; background: var(--c-bg, #fff); z-index: 1; }
+}
