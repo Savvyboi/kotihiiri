@@ -1,0 +1,116 @@
+---
+// One topic's items in every municipality, newest first (/aiheet/{topic}/). Without JavaScript the
+// newest items are listed; the script loads the rest from /aiheet/{topic}.json for the filters.
+import Base from '../../../layouts/Base.astro';
+import { assetPath, localeParams, localePath, sharedPath, useI18n, type Key, type Locale } from '../../../i18n';
+import { city as cityRec, cityName } from '../../../lib/data';
+import { topicIds, topicRows } from '../../../lib/topics';
+
+export function getStaticPaths() {
+  return localeParams().flatMap(({ lang, locale }) =>
+    topicIds.map((topic) => ({ params: { lang, topic }, props: { locale, topic } })));
+}
+interface Props { locale: Locale; topic: string }
+const { locale, topic } = Astro.props;
+const { t, date, num, path } = useI18n(locale);
+const rows = topicRows().get(topic) ?? [];
+const FIRST = 100;
+const muniIds = [...new Set(rows.map((r) => r.c))];
+const munis = muniIds.map((id) => ({ id, name: cityName(cityRec(id)!, locale) })).sort((a, b) => a.name.localeCompare(b.name, locale));
+const names = Object.fromEntries(munis.map((m) => [m.id, m.name]));
+const kinds = ['council', 'board', 'committee', 'section', 'enterprise_board'].filter((k) => rows.some((r) => r.k === k));
+const title = t(`topic.${topic}` as Key);
+const i18n = { shown: t('topics.count', { n: '{n}' }), votes: t('meetings.col.votes').toLowerCase() };
+const lang = locale;
+const dateTpl = t('common.date');
+const json = assetPath(`/aiheet/${topic}.json`);
+const prefix = localePath('/').replace(/\/$/, '');
+---
+<Base title={title} locale={locale}>
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow"><a href={path('/aiheet/')}>{t('topics.back')}</a></p>
+      <h1>{title}</h1>
+      <p class="lead">{t('topics.count', { n: num(rows.length) })}</p>
+    </div>
+  </section>
+  <div class="wrap">
+    <form class="vote-filters" aria-label={t('votes.filters')} hidden data-filters>
+      <label>{t('allVotes.muni')}
+        <select name="kunta">
+          <option value="">{t('votes.all')}</option>
+          {munis.map((m) => <option value={m.id}>{m.name}</option>)}
+        </select>
+      </label>
+      <label>{t('allVotes.kind')}
+        <select name="tyyppi">
+          <option value="">{t('votes.all')}</option>
+          {kinds.map((k) => <option value={k}>{t(`body.kind.${k}` as Key)}</option>)}
+        </select>
+      </label>
+      <label>{t('allVotes.from')}<input type="date" name="alkaen" /></label>
+      <label>{t('allVotes.to')}<input type="date" name="asti" /></label>
+      <label>{t('allVotes.q')}<input type="search" name="q" autocomplete="off" /></label>
+      <label class="check"><input type="checkbox" name="aanestetyt" value="1" /> {t('topics.withVotes')}</label>
+      <p class="small"><a href={json} download={`${topic}.json`}>JSON</a></p>
+    </form>
+    <p class="small muted" aria-live="polite" data-count>{t('topics.count', { n: num(rows.length) })}</p>
+    <ul class="list topic-items" data-rows>
+      {rows.slice(0, FIRST).map((r) => (
+        <li><span class="date">{date(r.d)}</span>
+          <span><a href={sharedPath(r.u, locale)} data-shared>{r.t}</a><br />
+          <span class="small muted">{names[r.c]} · {r.b}{r.v > 0 && <> · {r.v} {i18n.votes}</>}</span></span></li>
+      ))}
+    </ul>
+    <p class="empty" hidden data-nomatch>{t('votes.noMatch')}</p>
+    <p><button type="button" class="more" hidden data-more>{t('allVotes.more')}</button></p>
+  </div>
+  <script is:inline define:vars={{ json, prefix, dateTpl, i18n, names, lang, FIRST }}>
+    (async () => {
+      const form = document.querySelector('[data-filters]');
+      const list = document.querySelector('[data-rows]');
+      if (!form || !list) return;
+      let rows;
+      try { rows = await (await fetch(json)).json(); } catch { return; }
+      form.hidden = false;
+      const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      const fmt = (iso) => { const [y, m, d] = iso.split('-').map(Number);
+        return dateTpl.replace('{d}', d).replace('{m}', m).replace('{y}', y).replace('{mon}', MON[m - 1]); };
+      const nf = new Intl.NumberFormat(lang === 'en' ? 'en-GB' : `${lang}-FI`);
+      const href = (u) => `${prefix}${u}${lang === 'fi' ? '' : `?lang=${lang}`}`;
+      const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+      const keys = ['kunta', 'tyyppi', 'alkaen', 'asti', 'q'];
+      const params = new URLSearchParams(location.search);
+      for (const k of keys) if (params.get(k)) form.elements[k].value = params.get(k);
+      form.elements.aanestetyt.checked = params.get('aanestetyt') === '1';
+      let shown = FIRST, current = [];
+      const item = (r) => `<li><span class="date">${fmt(r.d)}</span><span><a href="${esc(href(r.u))}">${esc(r.t)}</a><br />`
+        + `<span class="small muted">${esc(names[r.c] ?? r.c)} · ${esc(r.b)}${r.v ? ` · ${r.v} ${esc(i18n.votes)}` : ''}</span></span></li>`;
+      const render = () => {
+        list.innerHTML = current.slice(0, shown).map(item).join('');
+        document.querySelector('[data-more]').hidden = current.length <= shown;
+        document.querySelector('[data-nomatch]').hidden = current.length > 0;
+        document.querySelector('[data-count]').textContent = i18n.shown.replace('{n}', nf.format(current.length));
+      };
+      const apply = () => {
+        const v = Object.fromEntries(keys.map((k) => [k, form.elements[k].value.trim()]));
+        const voted = form.elements.aanestetyt.checked;
+        const words = v.q.toLowerCase().split(/\s+/).filter(Boolean);
+        current = rows.filter((r) => (!v.kunta || r.c === v.kunta) && (!v.tyyppi || r.k === v.tyyppi)
+          && (!v.alkaen || r.d >= v.alkaen) && (!v.asti || r.d <= v.asti) && (!voted || r.v > 0)
+          && words.every((w) => r.t.toLowerCase().includes(w)));
+        shown = FIRST;
+        render();
+        const q = new URLSearchParams();
+        for (const k of keys) if (v[k]) q.set(k, v[k]);
+        if (voted) q.set('aanestetyt', '1');
+        history.replaceState(null, '', q.size ? `?${q}` : location.pathname);
+      };
+      form.addEventListener('input', apply);
+      form.addEventListener('change', apply);
+      form.addEventListener('submit', (e) => e.preventDefault());
+      document.querySelector('[data-more]').addEventListener('click', () => { shown += FIRST; render(); });
+      apply();
+    })();
+  </script>
+</Base>

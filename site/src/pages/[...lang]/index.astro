@@ -2,7 +2,8 @@
 import Base from '../../layouts/Base.astro';
 import CityCard from '../../components/CityCard.astro';
 import VoteCard from '../../components/VoteCard.astro';
-import { localeParams, useI18n, type Locale } from '../../i18n';
+import { localeParams, useI18n, type Key, type Locale } from '../../i18n';
+import { TOPICS, topicRows } from '../../lib/topics';
 import { cities, majorCities, otherMunicipalities, cityName, cityStats, disabledKey, meetingFiles, recentVotes, bodyName, meetingUrl, itemUrl, decisionText } from '../../lib/data';
 
 export function getStaticPaths() {
@@ -23,6 +24,12 @@ const decisions = enabled.flatMap((c) => meetingFiles(c.id)
 const today = new Date().toISOString().slice(0, 10);
 const upcoming = enabled.flatMap((c) => meetingFiles(c.id).filter((f) => f.meeting.stage === 'agenda' && f.meeting.date >= today)
   .map((f) => ({ meeting: f.meeting, city: c }))).sort((a, b) => a.meeting.date.localeCompare(b.meeting.date)).slice(0, 6);
+const totals = enabled.map((c) => cityStats(c.id)).reduce((s, x) => ({
+  meetings: s.meetings + x.meetings, items: s.items + x.items, votes: s.votes + x.votes,
+}), { meetings: 0, items: 0, votes: 0 });
+const byTopic = topicRows();
+const topics = TOPICS.map((tp) => ({ id: tp.id, n: byTopic.get(tp.id)?.length ?? 0 }))
+  .filter((x) => x.n && x.id !== 'ilmoitusasiat').sort((a, b) => b.n - a.n);
 ---
 <Base locale={locale}>
   <section class="hero">
@@ -30,6 +37,12 @@ const upcoming = enabled.flatMap((c) => meetingFiles(c.id).filter((f) => f.meeti
       <p class="eyebrow">{t('site.name')}</p>
       <h1>{t('home.title')}</h1>
       <p class="lead">{t('home.lead')}</p>
+      <ul class="stats">
+        <li><b>{num(enabled.length)}</b> {t('home.stats.munis')}</li>
+        <li><b>{num(totals.meetings)}</b> {t('home.stats.meetings')}</li>
+        <li><b>{num(totals.items)}</b> {t('home.stats.items')}</li>
+        <li><b><a href={path('/aanestykset/')}>{num(totals.votes)}</a></b> {t('home.stats.votes')}</li>
+      </ul>
     </div>
   </section>
   <div class="wrap">
@@ -63,6 +76,13 @@ const upcoming = enabled.flatMap((c) => meetingFiles(c.id).filter((f) => f.meeti
       : <p class="empty">{t('city.empty')}</p>}
     <p><a href={path('/aanestykset/')}>{t('home.allVotes')}</a></p>
 
+    {topics.length > 0 && <section>
+      <h2>{t('home.topics')}</h2>
+      <ul class="topic-chips">
+        {topics.map((x) => <li><a href={path(`/aiheet/${x.id}/`)}>{t(`topic.${x.id}` as Key)} <span class="muted">{num(x.n)}</span></a></li>)}
+      </ul>
+    </section>}
+
     <div class="two-col">
       <section>
         <h2>{t('home.latest')}</h2>
@@ -86,6 +106,7 @@ const upcoming = enabled.flatMap((c) => meetingFiles(c.id).filter((f) => f.meeti
             ))}
           </ul>
         ) : <p class="muted">{t('common.none')}</p>}
+        <p><a href={path('/kokoukset/')}>{t('home.allMeetings')}</a></p>
         <h2>{t('home.howTitle')}</h2>
         <p>{t('home.how')}</p>
         {locale !== 'fi' && <p class="small muted">{t('lang.docsNote')}</p>}
