@@ -176,3 +176,11 @@ def test_names_then_total():
         "Lehtosen muutosehdotusta (ei) kannattivat Jussi Lehtonen ja Anna Virtanen, yhteensä kaksi ääntä.",
     )
     assert counts(v)[:2] == (8, 2) and len(v.ballots) == 10
+
+
+def test_result_with_its_winner():
+    [v] = votes("Puheenjohtaja totesi, että EI äänet voittivat ja palautusehdotus voitti äänin kuusi (6) – viisi (5).")
+    assert counts(v)[:2] == (5, 6) and not v.needs_review
+    [v] = votes("Perokorven esitys voitti kaupunginjohtajan esityksen äänin 8 (Lybeck Robin, Valasti Matti, Hjelt Nea, Ahonen Noora, Ryynänen Sami, Riikonen Jere, Jokisaari Milla, Perokorpi Jenna) 5 (Sigfrids Frida, Lund Bodil, Nylander Mikaela, Holmström Johnny, Söderberg Johan).")
+    assert counts(v)[:2] == (8, 5) and len(v.ballots) == 13 and not v.needs_review
+    assert v.jaa_label == "Perokorven esitys" and v.ei_label == "Kaupunginjohtajan esityksen"

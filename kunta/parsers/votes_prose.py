@@ -265,6 +265,41 @@ class _Vote:
         return Choice.jaa in self.counts and Choice.ei in self.counts
 
 
+WON_CHOICE = re.compile(r"\b(?P<c>JAA|EI)[ -]?äänet\s+voittivat", re.I)
+WON = re.compile(
+    r"(?P<w>[^.;:]{2,160}?)\s+voitti\s+(?:äänestyksessä\s+)?(?P<l>[^.;:]{2,160}?)\s+(?:äänestyksessä\s+)?äänin",
+    re.I,
+)
+LOST = re.compile(
+    r"(?P<l>[^.;:]{2,160}?)\s+hävisi\s+(?:äänestyksessä\s+)?(?P<w>[^.;:]{2,160}?)\s+äänin", re.I
+)
+
+
+def _sides_of_result(v: _Vote, sentence: str) -> None:
+    """A bare result written with its winner: "EI äänet voittivat … äänin 6 - 5" says which count
+    was Ei; "X voitti Y:n äänin 8 (…) 5 (…)" and "Y hävisi X:lle äänin …" name both sides, the
+    winner's count first."""
+    a, b = v.counts[Choice.jaa], v.counts[Choice.ei]
+    m = WON_CHOICE.search(sentence)
+    if m and a != b:
+        won = Choice.jaa if m.group("c").lower() == "jaa" else Choice.ei
+        lost = Choice.ei if won == Choice.jaa else Choice.jaa
+        big, small = (a, b) if a > b else (b, a)
+        names = {
+            big: v.names.get(Choice.jaa if a > b else Choice.ei),
+            small: v.names.get(Choice.ei if a > b else Choice.jaa),
+        }
+        v.counts[won], v.counts[lost] = big, small
+        v.names = {k: n for k, n in ((won, names[big]), (lost, names[small])) if n}
+        v.bare = False
+        return
+    m = WON.search(sentence) or LOST.search(sentence)
+    if m:
+        w, lo = _clean_label(m.group("w")), _clean_label(m.group("l"))
+        if w and lo:
+            v.labels = {Choice.jaa: w, Choice.ei: lo}
+
+
 def _is_count(m: re.Match[str]) -> bool:
     """A choice word counts as a vote count when written as one: "7 JAA", "9 jaa-ääntä",
     "4 ei (Name, …)", or a table row."""
@@ -401,6 +436,7 @@ def parse(lines: list[str], *, item_url: str) -> list[VoteEvent]:
                 cur.names[Choice.jaa] = split_names(gd["na"])
             if gd.get("nb"):
                 cur.names[Choice.ei] = split_names(gd["nb"])
+            _sides_of_result(cur, sent)
             note(cur, ev)
 
     events: list[VoteEvent] = []

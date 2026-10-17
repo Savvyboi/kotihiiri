@@ -77,6 +77,7 @@ def audit(city: str, samples: int, redo: bool = False) -> dict:
     root = Path("data") / city / "meetings"
     c: Counter[str] = Counter()
     found: list[tuple[str, dict]] = []
+    flagged: list[tuple[str, dict, list[str]]] = []
     reasons: Counter[str] = Counter()
     missing: list[tuple[str, list[str], list[str]]] = []
     for path in sorted(root.glob("*/*.json")):
@@ -98,6 +99,8 @@ def audit(city: str, samples: int, redo: bool = False) -> dict:
             c["votes_with_ballots"] += sum(1 for v in votes if v.get("ballots"))
             for v in votes:
                 if v.get("needs_review"):
+                    if len(flagged) < samples:
+                        flagged.append((it["source_url"], v, vote_sentences(it)))
                     c["needs_review"] += 1
                     reasons[re.sub(r"\d+", "N", (v.get("review_reason") or "?"))[:90]] += 1
             sents = vote_sentences(it)
@@ -117,6 +120,7 @@ def audit(city: str, samples: int, redo: bool = False) -> dict:
         "missing": missing[:samples],
         "missing_total": len(missing),
         "found": found[:samples],
+        "flagged": flagged,
     }
 
 
@@ -141,7 +145,7 @@ def main(argv: list[str]) -> None:
             f"{k.get('votes', 0)} | {k.get('votes_with_ballots', 0)} | {k.get('needs_review', 0)}"
         )
     for r in rows:
-        if not r["missing"] and not r["reasons"] and not r.get("found"):
+        if not (r["missing"] or r["reasons"] or r.get("found")):
             continue
         print(f"\n=== {r['city']}: {r['missing_total']} items mention a vote without one")
         for reason, n in r["reasons"]:
@@ -153,6 +157,11 @@ def main(argv: list[str]) -> None:
                 f" / tyhjä {k['tyhja']} poissa {k['poissa']} | ballots {len(v['ballots'])}"
                 + (f" | review: {v['review_reason']}" if v.get("needs_review") else "")
             )
+        for url, v, sents in r.get("flagged", []):
+            k = v["counts"]
+            print(f"! {url} | {k['jaa']}-{k['ei']} t{k['tyhja']} | {v['review_reason']}")
+            for s in sents[:5]:
+                print(f"    > {s[:400]}")
         for url, sents, atts in r["missing"]:
             print(f"- {url}")
             for s in sents[:4]:
