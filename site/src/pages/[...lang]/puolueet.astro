@@ -33,10 +33,10 @@ const allies = stats.filter((s) => shown.includes(s.party)).map((s) => ({
 }));
 const name = (p: Party) => t(partyKey(p));
 ---
-<Base title={t('parties.title')} locale={locale}>
+<Base title={t('parties.pageTitle')} locale={locale}>
   <section class="hero">
     <div class="wrap">
-      <h1>{t('parties.title')}</h1>
+      <h1>{t('parties.pageTitle')}</h1>
       <p class="lead">{t('parties.lead')}</p>
     </div>
   </section>

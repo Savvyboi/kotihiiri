@@ -191,7 +191,7 @@ export const sv: Dict = {
   'topic.turvallisuus': 'Säkerhet och beredskap',
   'topic.digitalisaatio': 'Digitalisering',
   'topic.ilmoitusasiat': 'Anmälningsärenden och tjänstemannabeslut',
-  'parties.title': 'Partierna i kommunerna',
+  'parties.pageTitle': 'Partierna i kommunerna',
   'parties.lead': 'Hur partiernas fullmäktigeledamöter och ledamöter röstar i alla kommuner vi följer: hur ofta partiet är på den vinnande sidan, hur enigt dess ledamöter röstar och vilka partier det röstar lika med.',
   'parties.note': 'Siffrorna räknas från omröstningar där protokollet anger varje ledamots röst och ledamotens parti är känt: {votes} omröstningar i {munis} kommuner. Partiets ståndpunkt är majoriteten av dess ledamöters röster. Platserna är fullmäktigeplatser under denna mandatperiod.',
   'parties.col.party': 'Parti',

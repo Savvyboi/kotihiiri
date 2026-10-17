@@ -189,7 +189,7 @@ export const fi = {
   'topic.turvallisuus': 'Turvallisuus ja varautuminen',
   'topic.digitalisaatio': 'Digitalisaatio',
   'topic.ilmoitusasiat': 'Ilmoitusasiat ja viranhaltijapäätökset',
-  'parties.title': 'Puolueet kunnissa',
+  'parties.pageTitle': 'Puolueet kunnissa',
   'parties.lead': 'Miten puolueiden valtuutetut ja jäsenet äänestävät kaikissa seuratuissa kunnissa: kuinka usein puolue on voittavalla puolella, kuinka yhtenäisesti sen jäsenet äänestävät ja kenen kanssa se äänestää samoin.',
   'parties.note': 'Luvut lasketaan äänestyksistä, joissa pöytäkirja kertoo jokaisen jäsenen äänen ja jäsenen puolue tunnetaan: {votes} äänestystä {munis} kunnasta. Puolueen kanta on sen jäsenten enemmistön ääni. Paikat ovat valtuustopaikkoja tällä valtuustokaudella.',
   'parties.col.party': 'Puolue',

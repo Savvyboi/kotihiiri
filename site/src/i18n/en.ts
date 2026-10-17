@@ -191,7 +191,7 @@ export const en: Dict = {
   'topic.turvallisuus': 'Safety and preparedness',
   'topic.digitalisaatio': 'Digitalisation',
   'topic.ilmoitusasiat': 'Notices and officials’ decisions',
-  'parties.title': 'Parties in the municipalities',
+  'parties.pageTitle': 'Parties in the municipalities',
   'parties.lead': 'How each party’s councillors and members vote across every municipality we follow: how often the party is on the winning side, how united its members vote, and which parties it votes with.',
   'parties.note': 'Figures come from votes where the minutes record each member’s vote and the member’s party is known: {votes} votes in {munis} municipalities. A party’s position is how most of its members voted. Seats are council seats this term.',
   'parties.col.party': 'Party',
