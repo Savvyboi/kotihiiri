@@ -506,6 +506,7 @@
       "motions": [
         {
           "kind": "counter_proposal",
+          "outcome": "rejected",
           "proposer_ref": {
             "raw": "Funda Demiri"
           },
@@ -561,7 +562,115 @@
       ],
       "status": "active",
       "title": "Lentorata Oy rahoituskutsu 2026",
-      "votes": []
+      "votes": [
+        {
+          "ballots": [
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Abdi"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Aura"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Hakala"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Kasonen"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Kaukola"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Kivimäki"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Nummela"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Rämö"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Räsänen"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Strohm"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Tammi"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Tuomainen"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Demiri"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Niikko"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Roininen"
+              }
+            }
+          ],
+          "counts": {
+            "ei": 3,
+            "jaa": 12,
+            "poissa": 0,
+            "tyhja": 0
+          },
+          "ei_label": "Demirin hylkäysesitys",
+          "jaa_label": "kaupunginjohtajan esitys",
+          "needs_review": false,
+          "ordinal": 1,
+          "result_text": "Äänestyksessä annettiin yhteensä 15 ääntä.",
+          "source": "html",
+          "source_url": "https://paatokset.vantaa.fi/ktwebscr/fileshow?doctype=3&docid=3281344"
+        }
+      ]
     },
     {
       "attachments": [

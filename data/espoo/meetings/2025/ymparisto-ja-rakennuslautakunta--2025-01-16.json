@@ -471,7 +471,73 @@
       "statements": [],
       "status": "active",
       "title": "Miilukorven vastaanottokeskus, toimenpidepyyntö",
-      "votes": []
+      "votes": [
+        {
+          "ballots": [
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Nieminen Jarmo"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Salmi Jatta"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Noponen Jyrki"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Nores Mia"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Kalliomaa Antti"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Juuti Sini"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Savela Sari"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Laakso Ville"
+              }
+            }
+          ],
+          "counts": {
+            "ei": 8,
+            "jaa": 5,
+            "poissa": 0,
+            "tyhja": 0
+          },
+          "ei_label": "- Kalliomaan vastaesitys",
+          "jaa_label": "- esittelijän",
+          "needs_review": true,
+          "ordinal": 1,
+          "review_reason": "jaa: 0 names vs 5 in the PDF totals; unparsed voter lines: Virtanen Sofia Jaa - esittelijän päätösehdotus, Karimäki Johanna Jaa - esittelijän päätösehdotus, Paukku Ari Jaa - esittelijän päätösehdotus, Hentunen Mika Jaa - esittelijän päätösehdotus, Hotakainen ; no matching vote sentence in the minutes text",
+          "source": "pdf",
+          "source_url": "https://espoo.oncloudos.com/kokous/20251349-10-278621.PDF"
+        }
+      ]
     },
     {
       "attachments": [

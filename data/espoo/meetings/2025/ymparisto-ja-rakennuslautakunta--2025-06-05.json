@@ -286,7 +286,25 @@
       "statements": [],
       "status": "active",
       "title": "Espoon kaupungin rakennusjärjestysluonnoksen nähtäville asettaminen",
-      "votes": []
+      "votes": [
+        {
+          "ballots": [],
+          "counts": {
+            "ei": 8,
+            "jaa": 5,
+            "poissa": 0,
+            "tyhja": 0
+          },
+          "ei_label": "- Niemisen",
+          "jaa_label": "- Asian käsittelyä",
+          "needs_review": true,
+          "ordinal": 1,
+          "result_text": "Äänestyksen jälkeen puheenjohtaja totesi ympäristö- ja rakennuslautakunnan kahdeksalla (8) äänellä viittä (5) ääntä vastaan hyväksyneen Niemisen palautusesityksen.\nÄänestystulosraportti on pöytäkirjan liitteenä.",
+          "review_reason": "jaa: 0 names vs 5 in the PDF totals; ei: 0 names vs 8 in the PDF totals; unparsed voter lines: Savela Sari Ei - Niemisen palautusesitys, hyväksytään, Nieminen Jarmo Ei - Niemisen palautusesitys, hyväksytään, Laakso Ville Ei - Niemisen palautusesitys, hyväksytään, Nores Mia Ei - Niemisen palautu",
+          "source": "pdf",
+          "source_url": "https://espoo.oncloudos.com/kokous/20251453-7-303041.PDF"
+        }
+      ]
     },
     {
       "attachments": [],
@@ -818,7 +836,38 @@
       "statements": [],
       "status": "active",
       "title": "Valituksen jättäminen korkeimmalle hallinto-oikeudelle Helsingin hallinto-oikeuden päätöksestä 19.5.2025, 6366⁄03.04.04.04.16⁄2024",
-      "votes": []
+      "votes": [
+        {
+          "ballots": [
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Nieminen Jarmo"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Noponen Jyrki"
+              }
+            }
+          ],
+          "counts": {
+            "ei": 2,
+            "jaa": 11,
+            "poissa": 0,
+            "tyhja": 0
+          },
+          "ei_label": "- Niemisen vastaesitys",
+          "jaa_label": "- esittelijän",
+          "needs_review": true,
+          "ordinal": 1,
+          "result_text": "Äänestyksen jälkeen puheenjohtaja totesi ympäristö- ja rakennuslautakunnan yhdellätoista (11) äänellä kahta (2) ääntä vastaan hylänneen Niemisen vastaesityksen.\nÄänestystulosraportti on pöytäkirjan liitteenä.",
+          "review_reason": "jaa: 0 names vs 11 in the PDF totals; unparsed voter lines: Hentunen Mika Jaa - esittelijän päätösehdotus, Karimäki Johanna Jaa - esittelijän päätösehdotus, Laakso Ville Jaa - esittelijän päätösehdotus, Paukku Ari Jaa - esittelijän päätösehdotus, Saarentaus Mi",
+          "source": "pdf",
+          "source_url": "https://espoo.oncloudos.com/kokous/20251453-18-303045.PDF"
+        }
+      ]
     },
     {
       "attachments": [
@@ -1081,7 +1130,25 @@
       "statements": [],
       "status": "active",
       "title": "Uudisrakennuslupa 2024-1395, Meriusva 4",
-      "votes": []
+      "votes": [
+        {
+          "ballots": [],
+          "counts": {
+            "ei": 5,
+            "jaa": 8,
+            "poissa": 0,
+            "tyhja": 0
+          },
+          "ei_label": "- Sihto-Nissilän",
+          "jaa_label": "- esittelijän",
+          "needs_review": true,
+          "ordinal": 1,
+          "result_text": "Äänestyksen jälkeen puheenjohtaja totesi ympäristö- ja rakennuslautakunnan kahdeksalla (8) äänellä viittä (5) ääntä vastaan hylänneen Sihto-Nissilän vastaesityksen.\nÄänestystulosraportti on pöytäkirjan liitteenä.",
+          "review_reason": "jaa: 0 names vs 8 in the PDF totals; ei: 0 names vs 5 in the PDF totals; unparsed voter lines: Savela Sari Ei - Sihto-Nissilän vastaesitys, Sihto-Nissilä Sanna-Liisa Ei - Sihto-Nissilän vastaesitys, Nieminen Jarmo Ei - Sihto-Nissilän vastaesitys, Karimäki Johanna Ei - Sihto-Nissilän vastaesitys",
+          "source": "pdf",
+          "source_url": "https://espoo.oncloudos.com/kokous/20251453-24-303098.PDF"
+        }
+      ]
     },
     {
       "attachments": [

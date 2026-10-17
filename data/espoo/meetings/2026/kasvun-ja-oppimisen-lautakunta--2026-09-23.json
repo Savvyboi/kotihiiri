@@ -130,7 +130,223 @@
       "statements": [],
       "status": "active",
       "title": "Vuoden 2027 talousarvio, vuosien 2028–2029 taloussuunnitelma ja vuosien 2027–2036 investointiohjelman kehys",
-      "votes": []
+      "votes": [
+        {
+          "ballots": [
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Pesonen Aili"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Peltoniemi Noora"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Taussi Liina"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Walls Mika-Erik"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Smith Oscar"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Dookie Gyan"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Kokko Elina"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Määttänen Petra"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Hellström Martti"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Laiho Mia"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Hokkanen Ari-Pekka"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Lievonen Mikko"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Kurri Vanessa"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Sarasmaa Aleksi"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Hietanen-Tanskanen Ira"
+              }
+            }
+          ],
+          "counts": {
+            "ei": 8,
+            "jaa": 6,
+            "poissa": 0,
+            "tyhja": 0
+          },
+          "ei_label": "- Määttäsen lisäysehdotus",
+          "jaa_label": "- Puheenjohtajan lisäysehdotus",
+          "needs_review": true,
+          "ordinal": 1,
+          "result_text": "Puheenjohtaja totesi Määttäsen lisäysehdotuksen yhdeksällä äänellä kuutta ääntä vastaan voittaneen äänestyksen.",
+          "review_reason": "ei: 9 names vs 8 in the PDF totals; PDF total 15 differs from the sum of its options; minutes text says 9–6, 0 blank; the PDF says 6 Jaa, 8 Ei, 0 Tyhjä",
+          "source": "pdf",
+          "source_url": "https://espoo.oncloudos.com/cgi/DREQUEST.PHP?page=meetingitem&id=20261714-3"
+        },
+        {
+          "ballots": [
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Kokko Elina"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Taussi Liina"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Walls Mika-Erik"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Peltoniemi Noora"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Smith Oscar"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Pesonen Aili"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Määttänen Petra"
+              }
+            },
+            {
+              "choice": "ei",
+              "person_ref": {
+                "raw": "Dookie Gyan"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Hietanen-Tanskanen Ira"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Laiho Mia"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Sarasmaa Aleksi"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Hellström Martti"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Hokkanen Ari-Pekka"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Kurri Vanessa"
+              }
+            },
+            {
+              "choice": "jaa",
+              "person_ref": {
+                "raw": "Lievonen Mikko"
+              }
+            }
+          ],
+          "counts": {
+            "ei": 8,
+            "jaa": 7,
+            "poissa": 0,
+            "tyhja": 0
+          },
+          "ei_label": "- Määttäsen lisäysehdotus",
+          "jaa_label": "- Esittelijän päätösehdotus",
+          "needs_review": false,
+          "ordinal": 2,
+          "result_text": "Puheenjohtaja totesi kasvun ja oppimisen lautakunnan kahdeksalla äänellä seitsemää ääntä vastaan hyväksyneen Määttäsen lisäysehdotuksen.",
+          "source": "pdf",
+          "source_url": "https://espoo.oncloudos.com/cgi/DREQUEST.PHP?page=meetingitem&id=20261714-3"
+        }
+      ]
     },
     {
       "attachments": [
