@@ -11,7 +11,7 @@ export function getStaticPaths() {
 }
 interface Props { locale: Locale }
 const { locale } = Astro.props;
-const { t, num } = useI18n(locale);
+const { t, num, path } = useI18n(locale);
 const view = partyView();
 const pct = (a: number, b: number) => (b ? Math.round((100 * a) / b) : undefined);
 const stats = view.stats.filter((s) => s.seats || s.positions)
@@ -57,7 +57,7 @@ const name = (p: Party) => t(partyKey(p));
             const coh = pct(s.together, s.cast);
             return (
               <tr>
-                <th scope="row"><i class="party-dot" style={`background:${PARTY_COLOURS[s.party]}`} />{name(s.party)}</th>
+                <th scope="row"><i class="party-dot" style={`background:${PARTY_COLOURS[s.party]}`} /><a href={path(`/puolueet/${s.party}/`)}>{name(s.party)}</a></th>
                 <td class="num">{num(s.seats)}<span class="small muted"> · {t('parties.inMunis', { n: num(s.munis) })}</span></td>
                 <td class="num">{num(s.positions)}</td>
                 <td class="num">{wins === undefined ? '–' : <><span class="meter" style={`--v:${wins}%`} />{wins} %</>}</td>
@@ -82,7 +82,7 @@ const name = (p: Party) => t(partyKey(p));
         <div class="grid ally-grid">
           {allies.map((a) => (
             <article class="card ally-card" style={`--party:${PARTY_COLOURS[a.party]}`}>
-              <h3><i class="party-dot" style={`background:${PARTY_COLOURS[a.party]}`} />{name(a.party)}</h3>
+              <h3><i class="party-dot" style={`background:${PARTY_COLOURS[a.party]}`} /><a href={path(`/puolueet/${a.party}/`)}>{name(a.party)}</a></h3>
               <p class="small muted">{t('parties.agree.cardLead', { party: name(a.party) })}</p>
               <ol class="ally-bars">
                 {a.others.map((o) => (

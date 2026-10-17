@@ -337,3 +337,8 @@ button.more { font: inherit; padding: .45rem 1rem; border-radius: 8px; border: 1
   .councillors { font-size: .88rem; }
   .councillors th:first-child, .councillors td:first-child { position: sticky; left: 0; background: var(--c-bg, #fff); z-index: 1; }
 }
+/* One party (/puolueet/{party}/) */
+.party-dot-lg { width: .7em; height: .7em; vertical-align: .02em; }
+.party-cols { grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr)); margin-top: 1.5rem; }
+.party-cols h2 { font-size: 1.15rem; margin: 0 0 .2rem; }
+.party-page .ab-name a { color: inherit; }
