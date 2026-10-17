@@ -13,10 +13,10 @@ import urllib.parse
 import urllib.request
 
 UA = "KuntaDataBot/0.1 (+https://kotihiiri.eu/tietoa; archive probe)"
-CC_CRAWLS = 4
+CC_CRAWLS = 2
 
 
-def get(url, timeout=60):
+def get(url, timeout=30):
     req = urllib.request.Request(url, headers={"User-Agent": UA})
     try:
         with urllib.request.urlopen(req, timeout=timeout) as r:
@@ -61,7 +61,7 @@ def main():
             "url": f"{host}/*", "from": "2025", "output": "json", "limit": "5000",
             "fl": "timestamp,original,statuscode", "collapse": "urlkey",
         })
-        st, body = get(f"https://web.archive.org/cdx/search/cdx?{q}", timeout=120)
+        st, body = get(f"https://web.archive.org/cdx/search/cdx?{q}", timeout=60)
         rows = json.loads(body)[1:] if st == 200 and body.strip().startswith("[") else []
         mins = [r for r in rows if "pk_" in r[1] or "fileshow" in r[1]]
         print(f"Wayback since 2025: http {st}, {len(rows)} distinct URLs, {len(mins)} minutes/doc")
