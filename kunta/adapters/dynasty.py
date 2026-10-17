@@ -22,6 +22,7 @@ from ..models import (
 )
 from ..parsers import dynasty as dp
 from ..parsers import votes_cloudmeeting as votes
+from ..parsers import votes_prose
 from ..text import content_sha256, strip_pii
 from .base import TransientItemError
 
@@ -158,9 +159,20 @@ class DynastyAdapter:
     def fetch_item(self, ref: ItemRef) -> AgendaItem:
         page = self._parse(dp.parse_item, self._get(ref.source_url))
         item = build_item(ref, page)
-        if ref.stage == Stage.minutes and votes.mentions_vote_list(page.deliberation_lines):
+        if ref.stage != Stage.minutes:
+            return item
+        listed = votes.mentions_vote_list(page.deliberation_lines) or any(
+            votes.VOTE_LIST_TITLE.search(a.title) for a in item.attachments
+        )
+        if listed:
             item.votes = self._votes(ref, page, item)
-            votes.resolve_outcomes(item.motions, item.votes)
+        # Most municipalities print the vote in the minutes text only, in their own words; that
+        # reading also stands in for a vote list we could not read (PLAN.md §7.7).
+        if not any(v.ballots for v in item.votes):
+            prose = votes_prose.parse(prose_lines(page.sections), item_url=ref.source_url)
+            if prose and (not item.votes or any(v.ballots for v in prose)):
+                item.votes = prose
+        votes.resolve_outcomes(item.motions, item.votes)
         return item
 
     def _votes(self, ref: ItemRef, page: dp.ItemPage, item: AgendaItem) -> list[VoteEvent]:
@@ -196,6 +208,12 @@ class DynastyAdapter:
 
     def fetch_speeches(self, meeting: Meeting) -> list[Speech]:
         return []  # Espoo publishes no transcripts (§7.2)
+
+
+def prose_lines(sections) -> list[str]:
+    """The meeting's own handling and decision text, where vote sentences are (history is an
+    earlier body's)."""
+    return [s.text for s in sections if s.type in ("deliberation", "decision")]
 
 
 def build_item(ref: ItemRef, page: dp.ItemPage) -> AgendaItem:

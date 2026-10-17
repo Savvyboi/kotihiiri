@@ -241,3 +241,25 @@ h1 .pchip { font-size: .45em; vertical-align: .35em; }
 .speech summary .excerpt { display: block; font-weight: 400; margin-top: .2rem; }
 .speech .prose p { margin: 0 0 .7rem; }
 .speech[open] summary .excerpt { display: none; }
+
+/* Votes in every municipality (/aanestykset/) */
+.vote-filters input { font: inherit; font-size: .95rem; padding: .35rem .55rem; border-radius: 8px; border: 1px solid var(--c-border); background: var(--c-surface); color: var(--c-text); }
+.all-votes td:last-child { white-space: nowrap; }
+.av-sides { display: block; margin-top: .15rem; }
+.av-score b.jaa { color: var(--c-jaa); }
+.av-score b.ei { color: var(--c-ei); }
+.av-score.jaa b.jaa, .av-score.ei b.ei { font-size: 1.05em; }
+.av-flag { margin-left: .35rem; }
+.av-flag.review { color: var(--c-accent); font-weight: 800; }
+button.more { font: inherit; padding: .45rem 1rem; border-radius: 8px; border: 1px solid var(--c-border); background: var(--c-surface); color: var(--c-text); cursor: pointer; }
+@media (max-width: 640px) {
+  .all-votes thead { display: none; }
+  .all-votes, .all-votes tbody, .all-votes tr, .all-votes td { display: block; width: 100%; }
+  .all-votes tr { border-bottom: 1px solid var(--c-border); padding: .55rem 0; display: grid; grid-template-columns: auto 1fr auto; gap: 0 .6rem; }
+  .all-votes td { border: 0; padding: .1rem 0; }
+  .all-votes td:nth-child(1) { grid-column: 1; font-size: .85rem; color: var(--c-muted); }
+  .all-votes td:nth-child(2) { grid-column: 2; font-size: .85rem; font-weight: 650; }
+  .all-votes td:nth-child(3) { grid-column: 1 / -1; grid-row: 2; font-size: .85rem; color: var(--c-muted); }
+  .all-votes td:nth-child(4) { grid-column: 1 / -1; grid-row: 3; }
+  .all-votes td:nth-child(5) { grid-column: 3; grid-row: 1; text-align: right; }
+}

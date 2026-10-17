@@ -18,6 +18,7 @@ const cityRec = city ? cities().find((c) => c.id === city) : undefined;
 const fullTitle = title ? `${title} · ${t('site.name', {}, locale)}` : `${t('site.name', {}, locale)} · ${t('home.title', {}, locale)}`;
 const { rest } = splitLocale(Astro.url.pathname);
 const nav = [
+  { href: '/aanestykset/', key: 'nav.votes' },
   { href: '/haku/', key: 'nav.search' },
   { href: '/data/', key: 'nav.data' },
   { href: '/tietoa/', key: 'nav.about' },

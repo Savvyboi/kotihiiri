@@ -31,10 +31,10 @@ const choiceLabel = (ch: string) => (ch === 'split' ? tr('vote.split') : t(`vote
   </div>
   {winner && <p class="vc-winner small">{clip(winner)}</p>}
   <VoteBar counts={row.vote.counts} legend={false} locale={locale} />
-  <dl class="vc-labels small">
-    <div><dt>{tr('vote.jaa')}</dt><dd>{clip(row.vote.jaa_label, 70)}</dd></div>
-    <div><dt>{tr('vote.ei')}</dt><dd>{clip(row.vote.ei_label, 70)}</dd></div>
-  </dl>
+  {(row.vote.jaa_label || row.vote.ei_label) && <dl class="vc-labels small">
+    <div><dt>{tr('vote.jaa')}</dt><dd>{clip(row.vote.jaa_label, 70) || '–'}</dd></div>
+    <div><dt>{tr('vote.ei')}</dt><dd>{clip(row.vote.ei_label, 70) || '–'}</dd></div>
+  </dl>}
   {groups.length > 0 && (
     <ul class="vc-groups" aria-label={tr('vote.groups')}>
       {groups.map((g) => (

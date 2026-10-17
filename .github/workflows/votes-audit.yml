@@ -1,0 +1,62 @@
+# Vote coverage per municipality, printed to the log (scripts/votes_audit.py): which minutes items
+# mention a vote and which have one, with sample sentences for the gaps. Reads registry
+# municipalities' meetings from R2 (read only); writes nothing back.
+name: votes-audit
+
+on:
+  push:
+    branches: ["claude/**"]
+    paths:
+      - scripts/votes_audit.py
+      - kunta/parsers/votes_prose.py
+      - .github/workflows/votes-audit.yml
+  workflow_dispatch:
+    inputs:
+      cities:
+        description: "Municipalities, comma-separated, or `all` for every enabled one"
+        default: "all"
+      samples:
+        description: "Sample gaps printed per municipality"
+        default: "12"
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      RCLONE_CONFIG_R2_TYPE: s3
+      RCLONE_CONFIG_R2_PROVIDER: Cloudflare
+      RCLONE_CONFIG_R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+      RCLONE_CONFIG_R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+      RCLONE_CONFIG_R2_ENDPOINT: https://${{ secrets.CLOUDFLARE_ACCOUNT_ID }}.r2.cloudflarestorage.com
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -e .
+      - name: Install rclone
+        run: |
+          curl -fsSL -o rclone.deb https://downloads.rclone.org/v1.71.0/rclone-v1.71.0-linux-amd64.deb
+          sudo dpkg -i rclone.deb
+      - name: Audit
+        env:
+          CITIES: ${{ inputs.cities || 'all' }}
+          SAMPLES: ${{ inputs.samples || '12' }}
+        run: |
+          kunta groups --cities "$CITIES" > groups.json
+          python - <<'PY' > lists.txt
+          import json
+          groups = json.load(open("groups.json"))
+          print(" ".join(c for g in groups if g["storage"] == "git" for c in g["cities"].split(",")))
+          print(" ".join(c for g in groups if g["storage"] == "r2" for c in g["cities"].split(",")))
+          PY
+          for c in $(sed -n 2p lists.txt); do
+            rclone copy "r2:kotihiiri-data/data/$c" "data/$c" --checksum --s3-no-check-bucket --fast-list \
+              --include "meetings/**" -q
+          done
+          python scripts/votes_audit.py --reparse --samples "$SAMPLES" $(sed -n 1p lists.txt) $(sed -n 2p lists.txt)

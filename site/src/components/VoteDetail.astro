@@ -46,10 +46,12 @@ const dotted = ballots;
 ---
 <section class="card vote">
   <h3><T k="vote.title" vars={{ n: vote.ordinal }} locale={locale} /></h3>
-  <div class="vote-labels">
-    <div><b><T k="vote.jaaMeans" locale={locale} />:</b> {vote.jaa_label}</div>
-    <div><b><T k="vote.eiMeans" locale={locale} />:</b> {vote.ei_label}</div>
-  </div>
+  {(vote.jaa_label || vote.ei_label) && (
+    <div class="vote-labels">
+      <div><b><T k="vote.jaaMeans" locale={locale} />:</b> {vote.jaa_label || '–'}</div>
+      <div><b><T k="vote.eiMeans" locale={locale} />:</b> {vote.ei_label || '–'}</div>
+    </div>
+  )}
   <VoteBar counts={vote.counts} locale={locale} />
   {hasGroups && (
     <div class="vote-dots" aria-hidden="true">
@@ -62,6 +64,7 @@ const dotted = ballots;
   )}
   {vote.result_text && <p style="margin-top:.6rem"><b><T k="vote.result" locale={locale} />:</b> <span lang="fi">{vote.result_text}</span></p>}
   {vote.needs_review && <p class="small muted"><T k="vote.needsReview" locale={locale} /></p>}
+  {vote.ballots.length === 0 && <p class="small muted"><T k="vote.countsOnly" locale={locale} /></p>}
 
   {hasGroups && (
     <details open>
