@@ -22,6 +22,16 @@ const pair = (a: Party, b: Party) => {
   const [x, y] = NAMED_PARTIES.indexOf(a) < NAMED_PARTIES.indexOf(b) ? [a, b] : [b, a];
   return view.pairs.get(pairKey(x, y));
 };
+const MIN_SHARED = 10;
+/** For each party, every other party it shared at least MIN_SHARED votes with, most alike first. */
+const allies = stats.filter((s) => shown.includes(s.party)).map((s) => ({
+  party: s.party,
+  others: matrix.filter((o) => o !== s.party).map((o) => {
+    const pr = pair(s.party, o);
+    return pr && pr.both >= MIN_SHARED ? { party: o, p: pct(pr.same, pr.both)!, n: pr.both } : undefined;
+  }).filter((x): x is { party: Party; p: number; n: number } => !!x).sort((a, b) => b.p - a.p || b.n - a.n),
+}));
+const name = (p: Party) => t(partyKey(p));
 ---
 <Base title={t('parties.title')} locale={locale}>
   <section class="hero">
@@ -31,16 +41,15 @@ const pair = (a: Party, b: Party) => {
     </div>
   </section>
   <div class="wrap">
-    <p class="small muted" style="margin-top:1rem">{t('parties.note', { votes: num(view.votes), munis: num(view.munis) })}</p>
+    <h2>{t('parties.table.title')}</h2>
     <div class="table-scroll">
       <table class="party-table">
         <thead><tr>
           <th>{t('parties.col.party')}</th>
           <th class="num">{t('parties.col.seats')}</th>
-          <th class="num">{t('parties.col.munis')}</th>
           <th class="num">{t('parties.col.positions')}</th>
-          <th class="num"><abbr title={t('parties.help.wins')}>{t('parties.col.wins')}</abbr></th>
-          <th class="num"><abbr title={t('parties.help.cohesion')}>{t('parties.col.cohesion')}</abbr></th>
+          <th class="num">{t('parties.col.wins')}</th>
+          <th class="num">{t('parties.col.cohesion')}</th>
         </tr></thead>
         <tbody>
           {stats.map((s) => {
@@ -48,9 +57,8 @@ const pair = (a: Party, b: Party) => {
             const coh = pct(s.together, s.cast);
             return (
               <tr>
-                <td><i class="party-dot" style={`background:${PARTY_COLOURS[s.party]}`} />{t(partyKey(s.party))}</td>
-                <td class="num">{num(s.seats)}</td>
-                <td class="num">{num(s.munis)}</td>
+                <th scope="row"><i class="party-dot" style={`background:${PARTY_COLOURS[s.party]}`} />{name(s.party)}</th>
+                <td class="num">{num(s.seats)}<span class="small muted"> · {t('parties.inMunis', { n: num(s.munis) })}</span></td>
                 <td class="num">{num(s.positions)}</td>
                 <td class="num">{wins === undefined ? '–' : <><span class="meter" style={`--v:${wins}%`} />{wins} %</>}</td>
                 <td class="num">{coh === undefined ? '–' : <><span class="meter" style={`--v:${coh}%`} />{coh} %</>}</td>
@@ -60,32 +68,59 @@ const pair = (a: Party, b: Party) => {
         </tbody>
       </table>
     </div>
+    <dl class="party-help small">
+      <div><dt>{t('parties.col.seats')}</dt><dd>{t('parties.help.seats')}</dd></div>
+      <div><dt>{t('parties.col.positions')}</dt><dd>{t('parties.help.positions')}</dd></div>
+      <div><dt>{t('parties.col.wins')}</dt><dd>{t('parties.help.wins')}</dd></div>
+      <div><dt>{t('parties.col.cohesion')}</dt><dd>{t('parties.help.cohesion')}</dd></div>
+    </dl>
 
-    {matrix.length > 1 && (
+    {allies.length > 1 && (
       <section>
         <h2>{t('parties.agree.title')}</h2>
         <p class="muted">{t('parties.agree.lead')}</p>
-        <div class="table-scroll">
-          <table class="agree-matrix">
-            <thead><tr><th />{matrix.map((p) => <th scope="col"><abbr title={t(partyKey(p))}>{PARTY_ABBR[p]}</abbr></th>)}</tr></thead>
-            <tbody>
-              {matrix.map((a) => (
-                <tr>
-                  <th scope="row"><abbr title={t(partyKey(a))}>{PARTY_ABBR[a]}</abbr></th>
-                  {matrix.map((b) => {
-                    if (a === b) return <td class="self" />;
-                    const pr = pair(a, b);
-                    const p = pr && pr.both >= 10 ? pct(pr.same, pr.both) : undefined;
-                    return p === undefined ? <td class="none">–</td> : (
-                      <td class={p >= 60 ? 'dark' : undefined} style={`--v:${p / 100}`} title={t('parties.agree.cell', { a: t(partyKey(a)), b: t(partyKey(b)), p, n: num(pr!.both) })}>{p}</td>
-                    );
-                  })}
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div class="grid ally-grid">
+          {allies.map((a) => (
+            <article class="card ally-card" style={`--party:${PARTY_COLOURS[a.party]}`}>
+              <h3><i class="party-dot" style={`background:${PARTY_COLOURS[a.party]}`} />{name(a.party)}</h3>
+              <p class="small muted">{t('parties.agree.cardLead', { party: name(a.party) })}</p>
+              <ol class="ally-bars">
+                {a.others.map((o) => (
+                  <li title={t('parties.agree.cell', { a: name(a.party), b: name(o.party), p: o.p, n: num(o.n) })}>
+                    <span class="ab-name">{name(o.party)}</span>
+                    <span class="ab-bar"><i style={`width:${o.p}%;background:${PARTY_COLOURS[o.party]}`} /></span>
+                    <span class="ab-p">{o.p} %</span>
+                  </li>
+                ))}
+              </ol>
+            </article>
+          ))}
         </div>
+        <details class="agree-table">
+          <summary>{t('parties.agree.asTable')}</summary>
+          <div class="table-scroll">
+            <table class="agree-matrix">
+              <thead><tr><th />{matrix.map((p) => <th scope="col"><abbr title={name(p)}>{PARTY_ABBR[p]}</abbr></th>)}</tr></thead>
+              <tbody>
+                {matrix.map((a) => (
+                  <tr>
+                    <th scope="row"><abbr title={name(a)}>{PARTY_ABBR[a]}</abbr></th>
+                    {matrix.map((b) => {
+                      if (a === b) return <td class="self" />;
+                      const pr = pair(a, b);
+                      const p = pr && pr.both >= MIN_SHARED ? pct(pr.same, pr.both) : undefined;
+                      return p === undefined ? <td class="none">–</td> : (
+                        <td class={p >= 60 ? 'dark' : undefined} style={`--v:${p / 100}`} title={t('parties.agree.cell', { a: name(a), b: name(b), p, n: num(pr!.both) })}>{p}</td>
+                      );
+                    })}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </details>
       </section>
     )}
+    <p class="small muted" style="margin-top:2rem">{t('parties.note', { votes: num(view.votes), munis: num(view.munis) })}</p>
   </div>
 </Base>

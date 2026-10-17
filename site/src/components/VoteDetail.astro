@@ -4,7 +4,7 @@
 // them (Helsinki), else the voter's 2025 party from data/{city}/people.json. Item pages are shared
 // across locales, so all interface text goes through <T>.
 import { sharedPath, type Locale } from '../i18n';
-import type { VoteEvent, Choice } from '../lib/data';
+import { voteOutcome, type VoteEvent, type Choice } from '../lib/data';
 import { partyColour, partyOf, PARTY_ORDER } from '../lib/parties';
 import { ballotGroup, displayName, findPerson, personUrl } from '../lib/people';
 import VoteBar from './VoteBar.astro';
@@ -43,15 +43,37 @@ const ballots = [...vote.ballots].sort((a, b) =>
   || a.person_ref.raw.localeCompare(b.person_ref.raw, 'fi'));
 const choices: Choice[] = ['jaa', 'ei', 'tyhja', 'poissa'];
 const dotted = ballots;
+const outcome = voteOutcome(vote);
+const sides = (['jaa', 'ei'] as const).map((c) => ({
+  choice: c, n: vote.counts[c], label: c === 'jaa' ? vote.jaa_label : vote.ei_label,
+  won: outcome === c, voters: ballots.filter((b) => b.choice === c),
+}));
+const others = (['tyhja', 'poissa'] as const).map((c) => ({ choice: c, n: vote.counts[c], voters: ballots.filter((b) => b.choice === c) }))
+  .filter((o) => o.n > 0 || o.voters.length);
+const anyAgainst = ballots.some((b) => against(b));
 ---
 <section class="card vote">
   <h3><T k="vote.title" vars={{ n: vote.ordinal }} locale={locale} /></h3>
-  {(vote.jaa_label || vote.ei_label) && (
-    <div class="vote-labels">
-      <div><b><T k="vote.jaaMeans" locale={locale} />:</b> {vote.jaa_label || '–'}</div>
-      <div><b><T k="vote.eiMeans" locale={locale} />:</b> {vote.ei_label || '–'}</div>
-    </div>
-  )}
+  <div class="vote-sides">
+    {sides.map((sd) => (
+      <div class:list={['vs-side', `vs-${sd.choice}`, { won: sd.won }]}>
+        <p class="vs-head"><b><T k={`vote.${sd.choice}`} locale={locale} /></b><span class="vs-n">{sd.n}</span>
+          {sd.won && <span class="vs-won"><T k="vote.wonBadge" locale={locale} /></span>}</p>
+        <p class="vs-label">{sd.label || <span class="muted">–</span>}</p>
+        {sd.voters.length > 0 && (
+          <ul class="vs-names">
+            {sd.voters.map((b) => { const r = resolved.get(b)!; return (
+              <li class:list={{ against: against(b) }}>{r.href ? <a href={sharedPath(r.href, locale)} data-shared>{r.name}</a> : r.name}<PartyChip group={r.group} />{against(b) && <span class="visually-hidden"> (<T k="vote.againstGroup" locale={locale} />)</span>}</li>
+            ); })}
+          </ul>
+        )}
+      </div>
+    ))}
+  </div>
+  {others.map((o) => (
+    <p class="vs-other small"><b><T k={`vote.${o.choice}`} locale={locale} /> {o.n}</b>{o.voters.length > 0 && <>: {o.voters.map((b, i) => { const r = resolved.get(b)!; return <>{i > 0 && ', '}{r.href ? <a href={sharedPath(r.href, locale)} data-shared>{r.name}</a> : r.name}<PartyChip group={r.group} /></>; })}</>}</p>
+  ))}
+  {anyAgainst && <p class="small muted"><span class="vs-against-key" aria-hidden="true" /> <T k="vote.againstLegend" locale={locale} /></p>}
   <VoteBar counts={vote.counts} locale={locale} />
   {hasGroups && (
     <div class="vote-dots" aria-hidden="true">
@@ -77,24 +99,6 @@ const dotted = ballots;
               <tr><td><span class="dot" style={`background:${partyColour(g)}`} />{g || <T k="party.unknown" locale={locale} />}</td>
                 <td class="num">{c.jaa}</td><td class="num">{c.ei}</td><td class="num">{c.tyhja}</td><td class="num">{c.poissa}</td></tr>
             ))}
-          </tbody>
-        </table>
-      </div>
-    </details>
-  )}
-  {ballots.length > 0 && (
-    <details>
-      <summary><T k="vote.members" locale={locale} /> ({ballots.length})</summary>
-      <div class="table-scroll">
-        <table>
-          <thead><tr><th><T k="vote.member" locale={locale} /></th><th><T k="vote.choice" locale={locale} /></th></tr></thead>
-          <tbody>
-            {ballots.map((b) => { const r = resolved.get(b)!; return (
-              <tr class:list={{ against: against(b) }}>
-                <td>{r.href ? <a href={sharedPath(r.href, locale)} data-shared>{r.name}</a> : r.name}<PartyChip group={r.group} />{against(b) && <span class="visually-hidden"> (<T k="vote.againstGroup" locale={locale} />)</span>}</td>
-                <td><span class="dot" style={`background:var(--c-${b.choice})`} /><T k={`vote.${b.choice}`} locale={locale} /></td>
-              </tr>
-            ); })}
           </tbody>
         </table>
       </div>

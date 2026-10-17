@@ -12,7 +12,12 @@ export function getStaticPaths() {
 interface Props { locale: Locale }
 const { locale } = Astro.props;
 const { t, path, shared, date, num } = useI18n(locale);
-const others = otherMunicipalities();
+const others = otherMunicipalities().filter((c) => c.enabled);
+// Municipalities not followed yet, in their own folded section, grouped by why (§18.1).
+const notYet = cities().filter((c) => !c.enabled);
+const reasons = (['city.disabled', 'city.noAdapter', 'city.coming'] as const)
+  .map((k) => ({ k, list: notYet.filter((c) => disabledKey(c) === k).sort((a, b) => a.rank - b.rank) }))
+  .filter((g) => g.list.length);
 
 const enabled = cities().filter((c) => c.enabled);
 const votes = enabled.flatMap((c) => recentVotes(c.id, 3).map((row) => ({ row, city: c.id })))
@@ -47,7 +52,7 @@ const topics = TOPICS.map((tp) => ({ id: tp.id, n: byTopic.get(tp.id)?.length ??
   </section>
   <div class="wrap">
     <h2>{t('home.cities')}</h2>
-    <div class="grid">{majorCities().map((c) => <CityCard city={c} locale={locale} />)}</div>
+    <div class="grid">{majorCities().filter((c) => c.enabled).map((c) => <CityCard city={c} locale={locale} />)}</div>
 
     <section id="kunnat" class="municipalities">
       <h2>{t('home.municipalities')}</h2>
@@ -56,19 +61,33 @@ const topics = TOPICS.map((tp) => ({ id: tp.id, n: byTopic.get(tp.id)?.length ??
         <input type="search" placeholder={t('home.filter')} data-muni-filter autocomplete="off" /></label>
       <ul class="muni-list" data-muni-list>
         {others.map((c) => {
-          const s = c.enabled ? cityStats(c.id) : undefined;
+          const s = cityStats(c.id);
           return (
             <li data-name={[c.name_fi, c.name_sv].filter(Boolean).join(' ').toLowerCase()}>
               <a href={path(`/${c.id}/`)}>{cityName(c, locale)}</a>
               <span class="small muted">{c.population ? `${num(c.population)} ${t('common.inhabitants')}` : ''}</span>
-              {s ? <span class="small"><span class="badge on">{t('city.enabled')}</span> {num(s.meetings)} {t('city.stats.meetings')}</span>
-                 : <span class="badge">{t(disabledKey(c))}</span>}
+              <span class="small">{num(s.meetings)} {t('city.stats.meetings')}{s.votes > 0 && <> · {num(s.votes)} {t('home.stats.votes')}</>}</span>
             </li>
           );
         })}
       </ul>
       <p class="muted" data-muni-empty hidden>{t('home.noMatch')}</p>
     </section>
+
+    {reasons.length > 0 && (
+      <section class="not-followed">
+        <details>
+          <summary><h2>{t('home.notFollowed', { n: num(notYet.length) })}</h2></summary>
+          <p class="muted">{t('home.notFollowedLead')}</p>
+          {reasons.map((g) => (
+            <div class="nf-group">
+              <h3><span class="badge">{t(g.k)}</span> <span class="small muted">{num(g.list.length)}</span></h3>
+              <p class="nf-list">{g.list.map((c, i) => <>{i > 0 && ', '}<a href={path(`/${c.id}/`)}>{cityName(c, locale)}</a></>)}</p>
+            </div>
+          ))}
+        </details>
+      </section>
+    )}
 
     <h2>{t('home.latestVotes')}</h2>
     {votes.length
