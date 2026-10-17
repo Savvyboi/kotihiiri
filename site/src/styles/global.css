@@ -263,3 +263,30 @@ button.more { font: inherit; padding: .45rem 1rem; border-radius: 8px; border: 1
   .all-votes td:nth-child(4) { grid-column: 1 / -1; grid-row: 3; }
   .all-votes td:nth-child(5) { grid-column: 3; grid-row: 1; text-align: right; }
 }
+
+/* Topics, meetings and parties across municipalities */
+.stats b a { color: inherit; text-decoration: none; }
+.topic-chips { list-style: none; padding: 0; margin: .5rem 0 0; display: flex; flex-wrap: wrap; gap: .4rem; }
+.topic-chips a { display: inline-block; padding: .35rem .75rem; border: 1px solid var(--c-border); border-radius: 999px; text-decoration: none; font-size: .92rem; }
+.topic-chips a:hover { border-color: var(--c-link); }
+.topic-grid { margin-top: 1rem; }
+.topic-card h2 { font-size: 1.1rem; margin: 0 0 .2rem; }
+.topic-card ul { list-style: none; padding: 0; margin: .6rem 0 0; display: grid; gap: .55rem; }
+.vote-filters label.check { display: flex; flex-direction: row; align-items: center; gap: .4rem; align-self: end; }
+.all-meetings td:nth-child(3) { min-width: 12rem; }
+.party-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+.party-table th, .party-table td { padding: .55rem .6rem; border-bottom: 1px solid var(--c-border); text-align: left; }
+.party-table .num { text-align: right; white-space: nowrap; }
+.party-dot { display: inline-block; width: .8rem; height: .8rem; border-radius: 50%; margin-right: .5rem; vertical-align: -.05rem; }
+.meter { display: inline-block; width: 3.5rem; height: .45rem; margin-right: .5rem; border-radius: 999px; vertical-align: .1rem;
+  background: linear-gradient(90deg, var(--c-primary) var(--v), var(--c-border) var(--v)); }
+.agree-matrix { border-collapse: collapse; margin-top: .8rem; font-variant-numeric: tabular-nums; }
+.agree-matrix th, .agree-matrix td { width: 3.2rem; height: 2.4rem; text-align: center; font-size: .85rem; }
+.agree-matrix td { background: color-mix(in srgb, var(--c-primary) calc(var(--v) * 85%), transparent); border: 1px solid var(--c-bg, #fff); }
+.agree-matrix td.dark { color: #fff; }
+.agree-matrix td.self { background: var(--c-border); }
+.agree-matrix td.none { color: var(--c-muted); background: none; }
+@media (max-width: 640px) {
+  .party-table .meter { display: none; }
+  .agree-matrix th, .agree-matrix td { width: 2.4rem; height: 2rem; font-size: .75rem; }
+}

@@ -18,7 +18,10 @@ const cityRec = city ? cities().find((c) => c.id === city) : undefined;
 const fullTitle = title ? `${title} · ${t('site.name', {}, locale)}` : `${t('site.name', {}, locale)} · ${t('home.title', {}, locale)}`;
 const { rest } = splitLocale(Astro.url.pathname);
 const nav = [
+  { href: '/kokoukset/', key: 'nav.meetings' },
   { href: '/aanestykset/', key: 'nav.votes' },
+  { href: '/aiheet/', key: 'nav.topics' },
+  { href: '/puolueet/', key: 'nav.parties' },
   { href: '/haku/', key: 'nav.search' },
   { href: '/data/', key: 'nav.data' },
   { href: '/tietoa/', key: 'nav.about' },
@@ -47,7 +50,7 @@ const site = Astro.site ? new URL(import.meta.env.BASE_URL, Astro.site).origin :
         <nav class="site-nav" aria-label={t('nav.main', {}, locale)} data-i18n-aria="nav.main">
           <ul>
             {nav.map((n) => (
-              <li><a href={localePath(n.href, locale)} aria-current={rest === n.href ? 'page' : undefined}><T k={n.key} locale={locale} /></a></li>
+              <li><a href={localePath(n.href, locale)} aria-current={rest === n.href ? 'page' : rest.startsWith(n.href) ? 'true' : undefined} aria-keyshortcuts={n.href === '/haku/' ? 'Control+K' : undefined} data-search-link={n.href === '/haku/' ? '' : undefined}><T k={n.key} locale={locale} /></a></li>
             ))}
           </ul>
         </nav>
@@ -79,5 +82,15 @@ const site = Astro.site ? new URL(import.meta.env.BASE_URL, Astro.site).origin :
       </div>
     </footer>
     {shared && <SharedI18n />}
+    <script is:inline>
+      // Ctrl+K (⌘K on a Mac) opens search, as on the parliament and wellbeing-services sites.
+      addEventListener('keydown', (e) => {
+        if (e.key.toLowerCase() !== 'k' || !(e.ctrlKey || e.metaKey) || e.altKey || e.shiftKey) return;
+        const box = document.querySelector('.pagefind-ui__search-input');
+        if (box) { e.preventDefault(); box.focus(); return; }
+        const link = document.querySelector('[data-search-link]');
+        if (link) { e.preventDefault(); location.href = link.href; }
+      });
+    </script>
   </body>
 </html>

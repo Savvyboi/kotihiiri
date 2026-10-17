@@ -1,0 +1,42 @@
+---
+// Topics across every municipality, each with its item count and newest items (/aiheet/).
+import Base from '../../../layouts/Base.astro';
+import { localeParams, useI18n, type Key, type Locale } from '../../../i18n';
+import { city as cityRec, cityName } from '../../../lib/data';
+import { TOPICS, topicRows } from '../../../lib/topics';
+
+export function getStaticPaths() {
+  return localeParams().map(({ lang, locale }) => ({ params: { lang }, props: { locale } }));
+}
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const { t, date, num, path, shared } = useI18n(locale);
+const byTopic = topicRows();
+const topics = TOPICS.map((tp) => ({ id: tp.id, rows: byTopic.get(tp.id) ?? [] }))
+  .filter((x) => x.rows.length).sort((a, b) => b.rows.length - a.rows.length);
+const muni = (id: string) => cityName(cityRec(id)!, locale);
+---
+<Base title={t('topics.title')} locale={locale}>
+  <section class="hero">
+    <div class="wrap">
+      <h1>{t('topics.title')}</h1>
+      <p class="lead">{t('topics.lead')}</p>
+    </div>
+  </section>
+  <div class="wrap">
+    <p class="small muted" style="margin-top:1rem">{t('topics.note')}</p>
+    <div class="grid topic-grid">
+      {topics.map(({ id, rows }) => (
+        <article class="card topic-card">
+          <h2><a href={path(`/aiheet/${id}/`)}>{t(`topic.${id}` as Key)}</a></h2>
+          <p class="small muted">{t('topics.count', { n: num(rows.length) })}</p>
+          <ul class="small">
+            {rows.slice(0, 3).map((r) => (
+              <li><a href={shared(r.u)} data-shared>{r.t}</a><br /><span class="muted">{muni(r.c)} · {date(r.d)}</span></li>
+            ))}
+          </ul>
+        </article>
+      ))}
+    </div>
+  </div>
+</Base>
