@@ -22,6 +22,7 @@ const nav = [
   { href: '/aanestykset/', key: 'nav.votes' },
   { href: '/aiheet/', key: 'nav.topics' },
   { href: '/puolueet/', key: 'nav.parties' },
+  { href: '/valtuutetut/', key: 'nav.councillors' },
   { href: '/haku/', key: 'nav.search' },
   { href: '/data/', key: 'nav.data' },
   { href: '/tietoa/', key: 'nav.about' },
@@ -64,8 +65,8 @@ const site = Astro.site ? new URL(import.meta.env.BASE_URL, Astro.site).origin :
       </div>
       <nav class="city-switch" aria-label={t('nav.cities', {}, locale)} data-i18n-aria="nav.cities">
         <div class="wrap"><ul>
-          {majorCities().map((c) => (
-            <li><a class:list={{ off: !c.enabled }} href={localePath(`/${c.id}/`, locale)} aria-current={c.id === city ? 'page' : undefined}>{cityName(c, locale)}</a></li>
+          {majorCities().filter((c) => c.enabled).map((c) => (
+            <li><a href={localePath(`/${c.id}/`, locale)} aria-current={c.id === city ? 'page' : undefined}>{cityName(c, locale)}</a></li>
           ))}
           <li><a href={localePath('/#kunnat', locale)} aria-current={cityRec && cityRec.rank > 6 ? 'page' : undefined}><T k="nav.allMunicipalities" locale={locale} /></a></li>
         </ul></div>
