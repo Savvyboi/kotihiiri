@@ -61,6 +61,7 @@ const upcoming = enabled.flatMap((c) => meetingFiles(c.id).filter((f) => f.meeti
     {votes.length
       ? <div class="grid vote-grid">{votes.map(({ row, city }) => <VoteCard row={row} showCity={city} locale={locale} />)}</div>
       : <p class="empty">{t('city.empty')}</p>}
+    <p><a href={path('/aanestykset/')}>{t('home.allVotes')}</a></p>
 
     <div class="two-col">
       <section>

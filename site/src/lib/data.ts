@@ -253,3 +253,38 @@ export function voteOutcome(v: VoteEvent): 'jaa' | 'ei' | 'tie' {
   }
   return v.counts.jaa > v.counts.ei ? 'jaa' : 'ei';
 }
+
+/** One vote as a row of the votes page across all municipalities (/aanestykset/), short keys
+ * because every vote of every municipality is in one JSON file. */
+export interface AllVotesRow {
+  d: string; // meeting date
+  c: string; // municipality id
+  b: string; // body name
+  k: string; // body kind
+  t: string; // item title
+  u: string; // item page path (Finnish)
+  j: number; e: number; ty: number; p: number; // counts
+  jl: string; el: string; // what Jaa and Ei meant
+  n: number; // ballots with a name
+  r: 0 | 1; // flagged for review
+}
+
+export function allVotesRows(): AllVotesRow[] {
+  return memo('allVotesRows', () => {
+    const clip = (s: string, n: number) => (s.length > n ? `${s.slice(0, n - 1).trimEnd()}…` : s);
+    const rows: AllVotesRow[] = [];
+    for (const c of cities().filter((x) => x.enabled)) {
+      const kinds = new Map(bodies(c.id).map((b) => [b.id, b.kind]));
+      for (const { item, meeting, vote } of allVotes(c.id)) {
+        rows.push({
+          d: meeting.date, c: c.id, b: bodyName(meeting.body_id), k: kinds.get(meeting.body_id) ?? 'other',
+          t: clip(item.title, 200), u: itemUrl(item),
+          j: vote.counts.jaa, e: vote.counts.ei, ty: vote.counts.tyhja, p: vote.counts.poissa,
+          jl: clip(vote.jaa_label, 140), el: clip(vote.ei_label, 140), n: vote.ballots.length, r: vote.needs_review ? 1 : 0,
+        });
+      }
+    }
+    // Newest first; ties in a stable order so the file is byte-stable between builds.
+    return rows.sort((a, b) => b.d.localeCompare(a.d) || a.c.localeCompare(b.c) || a.u.localeCompare(b.u, 'fi', { numeric: true }));
+  });
+}

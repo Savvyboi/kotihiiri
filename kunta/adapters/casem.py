@@ -166,7 +166,7 @@ def build_item(ref: ItemRef, page: cp.ItemPage) -> AgendaItem:
         prose = votes_prose.parse(prose_text, item_url=ref.source_url)
         if page.votes_html:
             # Tampere's "Äänestyksen tulos: … äänin a-b" first; other CloudNC municipalities word
-            # the result their own way, read by votes_prose (PLAN.md §7.6).
+            # the result their own way, read by votes_prose (PLAN.md §7.7).
             results = votes.parse_results(page.deliberation_lines) + [votes.result_of(v) for v in prose]
             item_votes = votes.build_votes(page.votes_html, drafts, ref.source_url, results)
         else:

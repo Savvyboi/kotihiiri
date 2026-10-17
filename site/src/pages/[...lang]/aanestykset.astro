@@ -1,0 +1,169 @@
+---
+// Every vote in every municipality in one table: filter by municipality, body type, date and
+// words in the title, sort by date or by how close the vote was, and download what is shown.
+// Without JavaScript the newest votes are listed; the script loads the rest from
+// /aanestykset.json.
+import Base from '../../layouts/Base.astro';
+import { assetPath, localeParams, localePath, sharedPath, useI18n, type Key, type Locale } from '../../i18n';
+import { allVotesRows, city as cityRec, cityName } from '../../lib/data';
+
+export function getStaticPaths() {
+  return localeParams().map(({ lang, locale }) => ({ params: { lang }, props: { locale } }));
+}
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const { t, date, num } = useI18n(locale);
+
+const rows = allVotesRows();
+const FIRST = 100;
+const muniCounts = new Map<string, number>();
+for (const r of rows) muniCounts.set(r.c, (muniCounts.get(r.c) ?? 0) + 1);
+const munis = [...muniCounts].map(([id, n]) => ({ id, n, name: cityName(cityRec(id)!, locale) }))
+  .sort((a, b) => a.name.localeCompare(b.name, locale));
+const names = Object.fromEntries(munis.map((m) => [m.id, m.name]));
+const kinds = ['council', 'board', 'committee', 'section', 'enterprise_board'].filter((k) => rows.some((r) => r.k === k));
+const kindNames = Object.fromEntries(kinds.map((k) => [k, t(`body.kind.${k}` as Key)]));
+const close = rows.filter((r) => Math.abs(r.j - r.e) <= 2).length;
+const withNames = rows.filter((r) => r.n > 0).length;
+const i18n = {
+  shown: t('allVotes.shown', { n: '{n}' }), more: t('allVotes.more'), jaa: t('vote.jaa'), ei: t('vote.ei'),
+  tyhja: t('vote.tyhja').toLowerCase(), review: t('allVotes.review'), named: t('allVotes.named'),
+};
+const csvHead = ['date', 'municipality', 'body', 'body_kind', 'item', 'url', 'jaa', 'ei', 'tyhja', 'poissa', 'jaa_label', 'ei_label', 'named_ballots', 'needs_review'];
+const lang = locale;
+const dateTpl = t('common.date');
+const json = assetPath('/aanestykset.json');
+const prefix = localePath('/').replace(/\/$/, '');
+const fiPath = (u: string) => sharedPath(u, locale);
+---
+<Base title={t('allVotes.title')} locale={locale}>
+  <section class="hero">
+    <div class="wrap">
+      <h1>{t('allVotes.title')}</h1>
+      <p class="lead">{t('allVotes.lead')}</p>
+      <ul class="stats">
+        <li><b>{num(rows.length)}</b> {t('allVotes.stat.votes')}</li>
+        <li><b>{num(muniCounts.size)}</b> {t('allVotes.stat.munis')}</li>
+        <li><b>{num(withNames)}</b> {t('allVotes.stat.named')}</li>
+        <li><b>{num(close)}</b> {t('allVotes.stat.close')}</li>
+      </ul>
+    </div>
+  </section>
+  <div class="wrap">
+    <p class="small muted" style="margin-top:1rem">{t('allVotes.note')}</p>
+    <form class="vote-filters" aria-label={t('votes.filters')} hidden data-filters>
+      <label>{t('allVotes.muni')}
+        <select name="kunta">
+          <option value="">{t('votes.all')}</option>
+          {munis.map((m) => <option value={m.id}>{m.name} ({m.n})</option>)}
+        </select>
+      </label>
+      <label>{t('allVotes.kind')}
+        <select name="tyyppi">
+          <option value="">{t('votes.all')}</option>
+          {kinds.map((k) => <option value={k}>{kindNames[k]}</option>)}
+        </select>
+      </label>
+      <label>{t('allVotes.from')}<input type="date" name="alkaen" /></label>
+      <label>{t('allVotes.to')}<input type="date" name="asti" /></label>
+      <label>{t('allVotes.q')}<input type="search" name="q" autocomplete="off" /></label>
+      <label>{t('allVotes.sort')}
+        <select name="jarjestys">
+          <option value="new">{t('allVotes.sort.new')}</option>
+          <option value="old">{t('allVotes.sort.old')}</option>
+          <option value="close">{t('allVotes.sort.close')}</option>
+        </select>
+      </label>
+      <p class="small"><a href={json} download="aanestykset.json">JSON</a> · <a href="#" data-csv>CSV</a></p>
+    </form>
+    <p class="small muted" aria-live="polite" data-count>{t('allVotes.shown', { n: num(rows.length) })}</p>
+    {rows.length === 0 ? <p class="empty">{t('votes.none')}</p> : (
+      <div class="table-scroll">
+        <table class="all-votes">
+          <thead><tr>
+            <th>{t('allVotes.col.date')}</th><th>{t('allVotes.muni')}</th><th>{t('votes.body')}</th>
+            <th>{t('allVotes.col.item')}</th><th class="num">{t('vote.result')}</th>
+          </tr></thead>
+          <tbody data-rows>
+            {rows.slice(0, FIRST).map((r) => (
+              <tr>
+                <td>{date(r.d)}</td><td>{names[r.c]}</td><td>{r.b}</td>
+                <td><a href={fiPath(r.u)} data-shared>{r.t}</a>
+                  {(r.jl || r.el) && <span class="small muted av-sides">{t('vote.jaa')}: {r.jl || '–'} · {t('vote.ei')}: {r.el || '–'}</span>}</td>
+                <td class="num"><span class:list={['av-score', r.j > r.e ? 'jaa' : r.e > r.j ? 'ei' : 'tie']}><b class="jaa">{r.j}</b>–<b class="ei">{r.e}</b></span>
+                  {r.ty > 0 && <span class="small muted"> · {r.ty} {i18n.tyhja}</span>}
+                  {r.n > 0 && <span class="small muted av-flag" title={i18n.named}>●</span>}
+                  {r.r === 1 && <span class="small av-flag review" title={i18n.review}>!</span>}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    )}
+    <p class="empty" hidden data-nomatch>{t('votes.noMatch')}</p>
+    <p><button type="button" class="more" hidden data-more>{t('allVotes.more')}</button></p>
+    <p class="small muted">{t('allVotes.legend')}</p>
+  </div>
+  <script is:inline define:vars={{ json, prefix, dateTpl, i18n, names, kindNames, lang, csvHead, FIRST }}>
+    (async () => {
+      const form = document.querySelector('[data-filters]');
+      const body = document.querySelector('[data-rows]');
+      if (!form || !body) return;
+      let rows;
+      try { rows = await (await fetch(json)).json(); } catch { return; }
+      form.hidden = false;
+      const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      const fmt = { format: (iso) => { const [y, m, d] = iso.split('-').map(Number);
+        return dateTpl.replace('{d}', d).replace('{m}', m).replace('{y}', y).replace('{mon}', MON[m - 1]); } };
+      const nf = new Intl.NumberFormat(lang === 'en' ? 'en-GB' : `${lang}-FI`);
+      const href = (u) => `${prefix}${u}${lang === 'fi' ? '' : `?lang=${lang}`}`;
+      const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+      const keys = ['kunta', 'tyyppi', 'alkaen', 'asti', 'q', 'jarjestys'];
+      const params = new URLSearchParams(location.search);
+      for (const k of keys) if (params.get(k)) form.elements[k].value = params.get(k);
+      let shown = FIRST, current = [];
+      const row = (r) => `<tr><td>${fmt.format(r.d)}</td><td>${esc(names[r.c] ?? r.c)}</td><td>${esc(r.b)}</td>`
+        + `<td><a href="${esc(href(r.u))}">${esc(r.t)}</a>`
+        + (r.jl || r.el ? `<span class="small muted av-sides">${i18n.jaa}: ${esc(r.jl || '–')} · ${i18n.ei}: ${esc(r.el || '–')}</span>` : '')
+        + `</td><td class="num"><span class="av-score ${r.j > r.e ? 'jaa' : r.e > r.j ? 'ei' : 'tie'}"><b class="jaa">${r.j}</b>–<b class="ei">${r.e}</b></span>`
+        + (r.ty ? `<span class="small muted"> · ${r.ty} ${i18n.tyhja}</span>` : '')
+        + (r.n ? `<span class="small muted av-flag" title="${esc(i18n.named)}">●</span>` : '')
+        + (r.r ? `<span class="small av-flag review" title="${esc(i18n.review)}">!</span>` : '') + '</td></tr>';
+      const render = () => {
+        body.innerHTML = current.slice(0, shown).map(row).join('');
+        document.querySelector('[data-more]').hidden = current.length <= shown;
+        document.querySelector('[data-nomatch]').hidden = current.length > 0;
+        document.querySelector('[data-count]').textContent = i18n.shown.replace('{n}', nf.format(current.length));
+      };
+      const apply = () => {
+        const v = Object.fromEntries(keys.map((k) => [k, form.elements[k].value.trim()]));
+        const words = v.q.toLowerCase().split(/\s+/).filter(Boolean);
+        current = rows.filter((r) => (!v.kunta || r.c === v.kunta) && (!v.tyyppi || r.k === v.tyyppi)
+          && (!v.alkaen || r.d >= v.alkaen) && (!v.asti || r.d <= v.asti)
+          && words.every((w) => `${r.t} ${r.jl} ${r.el} ${r.b}`.toLowerCase().includes(w)));
+        if (v.jarjestys === 'old') current = [...current].reverse();
+        if (v.jarjestys === 'close') current = [...current].sort((a, b) => Math.abs(a.j - a.e) - Math.abs(b.j - b.e) || b.d.localeCompare(a.d));
+        shown = FIRST;
+        render();
+        const q = new URLSearchParams();
+        for (const k of keys) if (v[k] && !(k === 'jarjestys' && v[k] === 'new')) q.set(k, v[k]);
+        history.replaceState(null, '', q.size ? `?${q}` : location.pathname);
+      };
+      form.addEventListener('input', apply);
+      form.addEventListener('submit', (e) => e.preventDefault());
+      document.querySelector('[data-more]').addEventListener('click', () => { shown += FIRST; render(); });
+      document.querySelector('[data-csv]').addEventListener('click', (e) => {
+        e.preventDefault();
+        const cell = (x) => (/[",\n]/.test(String(x)) ? `"${String(x).replace(/"/g, '""')}"` : String(x));
+        const lines = [csvHead.join(',')].concat(current.map((r) => [r.d, names[r.c] ?? r.c, r.b, kindNames[r.k] ?? r.k, r.t,
+          new URL(href(r.u), location.href).href, r.j, r.e, r.ty, r.p, r.jl, r.el, r.n, r.r].map(cell).join(',')));
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(new Blob([`﻿${lines.join('\n')}\n`], { type: 'text/csv;charset=utf-8' }));
+        a.download = 'aanestykset.csv';
+        a.click();
+        URL.revokeObjectURL(a.href);
+      });
+      apply();
+    })();
+  </script>
+</Base>

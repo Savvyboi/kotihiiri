@@ -1,4 +1,4 @@
-"""Votes from the minutes text alone, in the many ways municipalities word them (PLAN.md §7.6).
+"""Votes from the minutes text alone, in the many ways municipalities word them (PLAN.md §7.7).
 
 Most registry municipalities publish no vote list that we read: the minutes sentence is the
 record. The wording differs from place to place, but it is built from a few parts, which this
@@ -135,7 +135,16 @@ PATTERNS: list[tuple[str, re.Pattern[str]]] = [
             + NAMES
         ),
     ),
+    # "annettiin JAA ääniä 3 ja EI ääniä 7", "JAA-ääniä tuli 5"
+    (
+        "choice",
+        re.compile(
+            r"\b(?P<c>JAA|EI|TYHJIÄ|Jaa|Ei|Tyhjiä)\s*-?\s*(?P<aan>ään\w*)\s+(?:tuli\s+)?(?P<n>\d+)\b(?:\s*kpl)?"
+            + NAMES
+        ),
+    ),
     # Bare results.
+    ("pair", re.compile(r"\btasan\s+(?P<a>\d+)\s*-\s*(?P<b>\d+)\b", re.I)),
     (
         "pair",
         re.compile(
@@ -242,13 +251,24 @@ CHOICES = {
 }
 
 
+# Lowercase name particles: "van Schevikhoven", "af Hällström", "von Bell".
+PARTICLES = {"van", "von", "af", "de", "da", "di", "der", "den", "le", "la", "zu", "del"}
+
+
+def _capitalised(name: str) -> bool:
+    words = name.split()
+    while len(words) > 1 and words[0] in PARTICLES:
+        words = words[1:]
+    return words[0][:1].isupper()
+
+
 def split_names(raw: str | None) -> list[str]:
     if not raw:
         return []
     text = re.sub(r"\([^)]*\)", "", raw).strip().rstrip(".")
     names = [n.strip(" .") for n in re.split(r",\s*|\s+ja\s+|\s+och\s+", text)]
     names = [n for n in names if n]
-    if any(re.search(r"\d", n) or len(n.split()) > 4 or not n[:1].isupper() for n in names):
+    if any(re.search(r"\d", n) or len(n.split()) > 4 or not _capitalised(n) for n in names):
         return ["?"]  # not a name list; never matches a count
     return names
 

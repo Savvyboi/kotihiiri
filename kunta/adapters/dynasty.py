@@ -167,7 +167,7 @@ class DynastyAdapter:
         if listed:
             item.votes = self._votes(ref, page, item)
         # Most municipalities print the vote in the minutes text only, in their own words; that
-        # reading also stands in for a vote list we could not read (PLAN.md §7.6).
+        # reading also stands in for a vote list we could not read (PLAN.md §7.7).
         if not any(v.ballots for v in item.votes):
             prose = votes_prose.parse(prose_lines(page.sections), item_url=ref.source_url)
             if prose and (not item.votes or any(v.ballots for v in prose)):
