@@ -4,9 +4,6 @@ name: archive-probe
 
 on:
   workflow_dispatch:
-  push:
-    branches: ["claude/**"]
-    paths: [scripts/probe_archives.py, .github/workflows/archive-probe.yml]
 
 permissions:
   contents: read

@@ -11,6 +11,7 @@ import sys
 import time
 import urllib.parse
 import urllib.request
+from pathlib import Path
 
 UA = "KuntaDataBot/0.1 (+https://kotihiiri.eu/tietoa; archive probe)"
 CC_CRAWLS = 2
@@ -28,10 +29,12 @@ def get(url, timeout=30):
 
 
 def main():
-    hosts = json.load(open("data/state/robots.json"))["hosts"]
+    hosts = json.loads(Path("data/state/robots.json").read_text())["hosts"]
     tweb = sorted(
-        h for h, v in hosts.items()
-        if v["status"] != "allowed" and v["status"] != "no_robots"
+        h
+        for h, v in hosts.items()
+        if v["status"] != "allowed"
+        and v["status"] != "no_robots"
         and h not in ("paatokset.turku.fi", "ah.turku.fi")
     )
     print(f"{len(tweb)} hosts")
@@ -57,10 +60,16 @@ def main():
             for x in mins[:3]:
                 print("   ", x.get("status"), x["url"])
             time.sleep(1.5)
-        q = urllib.parse.urlencode({
-            "url": f"{host}/*", "from": "2025", "output": "json", "limit": "5000",
-            "fl": "timestamp,original,statuscode", "collapse": "urlkey",
-        })
+        q = urllib.parse.urlencode(
+            {
+                "url": f"{host}/*",
+                "from": "2025",
+                "output": "json",
+                "limit": "5000",
+                "fl": "timestamp,original,statuscode",
+                "collapse": "urlkey",
+            }
+        )
         st, body = get(f"https://web.archive.org/cdx/search/cdx?{q}", timeout=60)
         rows = json.loads(body)[1:] if st == 200 and body.strip().startswith("[") else []
         mins = [r for r in rows if "pk_" in r[1] or "fileshow" in r[1]]
