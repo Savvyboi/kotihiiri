@@ -1,0 +1,23 @@
+# One-off probe (PLAN.md M14): do Common Crawl or the Internet Archive hold the blocked Tweb hosts'
+# minutes? Reads archive index APIs and robots.txt only; output is the job log.
+name: archive-probe
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["claude/**"]
+    paths: [scripts/probe_archives.py, .github/workflows/archive-probe.yml]
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python scripts/probe_archives.py
