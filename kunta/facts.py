@@ -24,9 +24,12 @@ log = logging.getLogger(__name__)
 
 HOST = "pxdata.stat.fi"
 TABLE = "kuntien_avainluvut_viimeisin"
-PATH = f"Kuntien_avainluvut/Kuntien_avainluvut__uusin/{TABLE}.px"
+# The API names the folder "uusin"; the web pages write database and folder as "…__uusin".
+PATH = f"Kuntien_avainluvut/uusin/{TABLE}.px"
 LANGS = ("fi", "sv", "en")
-SOURCE_PAGE = "https://pxdata.stat.fi/PxWeb/pxweb/{lang}/" + PATH + "/"
+SOURCE_PAGE = (
+    "https://pxdata.stat.fi/PxWeb/pxweb/{lang}/Kuntien_avainluvut/Kuntien_avainluvut__uusin/" + TABLE + ".px/"
+)
 COUNTRY_TEXTS = {"koko maa", "hela landet", "whole country"}
 
 
