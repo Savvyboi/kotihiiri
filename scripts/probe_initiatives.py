@@ -8,6 +8,8 @@ from __future__ import annotations
 import json
 import re
 
+import httpx
+
 from kunta.config import load_project
 from kunta.http import PoliteClient, RobotsDisallowed
 
@@ -40,10 +42,13 @@ def show(client: PoliteClient, path: str, limit: int = 6000) -> object | None:
 
 def main() -> None:
     with PoliteClient(load_project().user_agent, allowed_hosts={HOST}) as client:
-        try:
-            print(client.get(BASE + "/robots.txt").text)
-        except Exception as e:  # noqa: BLE001
-            print("robots", e)
+        # robots.txt itself (the one file its rules never cover); everything else goes through the
+        # polite client and stops if robots.txt disallows it.
+        r = httpx.get(BASE + "/robots.txt", headers={"User-Agent": load_project().user_agent}, timeout=20)
+        print("robots.txt", r.status_code, r.headers.get("content-type"))
+        print(r.text[:4000])
+        print("allowed /api/v1/initiatives:", client.allowed(BASE + "/api/v1/initiatives"))
+        print("robots status:", client.robots_status)
         show(client, "/api", 20000)
         show(client, "/fi/api", 20000)
         munis = show(client, "/api/v1/municipalities", 3000)
