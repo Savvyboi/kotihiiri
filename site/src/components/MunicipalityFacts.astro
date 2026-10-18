@@ -1,0 +1,46 @@
+---
+// "Kunta lukuina": Statistics Finland's municipal key figures for one municipality, each with the
+// whole country's value next to it (src/lib/facts.ts).
+import { useI18n, type Locale } from '../i18n';
+import { municipalityFacts, factsSource } from '../lib/facts';
+interface Props { city: string; locale: Locale }
+const { city, locale } = Astro.props;
+const { t, date } = useI18n(locale);
+const rows = municipalityFacts(city, locale);
+const source = factsSource();
+const intl = { fi: 'fi-FI', sv: 'sv-FI', en: 'en-GB' }[locale];
+const fmt = (n: number, decimals: number) =>
+  new Intl.NumberFormat(intl, { minimumFractionDigits: decimals, maximumFractionDigits: decimals }).format(n);
+const show = (n: number, unit: string, decimals: number) => (unit === '%' ? `${fmt(n, decimals)} %` : fmt(n, decimals));
+---
+{rows.length > 0 && source && (
+  <section class="key-figures">
+    <h2>{t('facts.title')}</h2>
+    <dl class="facts-grid">
+      {rows.map((r) => (
+        <div class="card fact">
+          <dt>{r.name}{r.unit && r.unit !== '%' && <span class="muted">, {r.unit}</span>}</dt>
+          <dd><b>{show(r.value, r.unit, r.decimals)}</b>{' '}<span class="small muted">{r.year}</span></dd>
+          {r.country != null && <dd class="small muted">{t('facts.country')}{' '}{show(r.country, r.unit, r.decimals)}</dd>}
+        </div>
+      ))}
+    </dl>
+    <p class="small muted">
+      {t('facts.source')}{' '}<a href={source.page_url[locale] ?? source.page_url.fi} rel="external noopener">{source.title[locale] ?? source.title.fi}</a>{' '}
+      ({source.updated && <>{t('facts.updated')}{' '}{date(source.updated.slice(0, 10))}, </>}{source.licence})
+    </p>
+  </section>
+)}
+
+<style>
+  .facts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr)); gap: .75rem; margin: 0 0 .8rem; }
+  .fact { padding: .8rem 1rem; display: flex; flex-direction: column; gap: .2rem; }
+  .fact dt { font-size: .9rem; line-height: 1.3; }
+  .fact dd { margin: 0; }
+  .fact dd b { font-size: 1.25rem; }
+  @media (max-width: 520px) {
+    .facts-grid { grid-template-columns: 1fr 1fr; gap: .5rem; }
+    .fact { padding: .65rem .75rem; }
+    .fact dd b { font-size: 1.1rem; }
+  }
+</style>
