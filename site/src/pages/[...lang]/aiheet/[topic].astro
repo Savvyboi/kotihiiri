@@ -1,6 +1,7 @@
 ---
 // One topic's items in every municipality, newest first (/aiheet/{topic}/). Without JavaScript the
 // newest items are listed; the script loads the rest from /aiheet/{topic}.json for the filters.
+import Pager from '../../../components/Pager.astro';
 import Base from '../../../layouts/Base.astro';
 import { assetPath, localeParams, localePath, sharedPath, useI18n, type Key, type Locale } from '../../../i18n';
 import { city as cityRec, cityName } from '../../../lib/data';
@@ -64,7 +65,7 @@ const prefix = localePath('/').replace(/\/$/, '');
       ))}
     </ul>
     <p class="empty" hidden data-nomatch>{t('votes.noMatch')}</p>
-    <p><button type="button" class="more" hidden data-more>{t('allVotes.more')}</button></p>
+    <Pager locale={locale} />
   </div>
   <script is:inline define:vars={{ json, prefix, dateTpl, i18n, names, lang, FIRST }}>
     (async () => {
@@ -84,12 +85,13 @@ const prefix = localePath('/').replace(/\/$/, '');
       const params = new URLSearchParams(location.search);
       for (const k of keys) if (params.get(k)) form.elements[k].value = params.get(k);
       form.elements.aanestetyt.checked = params.get('aanestetyt') === '1';
-      let shown = FIRST, current = [];
+      let page = kotiPager.start(), started = false, current = [];
       const item = (r) => `<li><span class="date">${fmt(r.d)}</span><span><a href="${esc(href(r.u))}">${esc(r.t)}</a><br />`
         + `<span class="small muted">${esc(names[r.c] ?? r.c)} · ${esc(r.b)}${r.v ? ` · ${r.v} ${esc(i18n.votes)}` : ''}</span></span></li>`;
       const render = () => {
-        list.innerHTML = current.slice(0, shown).map(item).join('');
-        document.querySelector('[data-more]').hidden = current.length <= shown;
+        page = Math.min(page, Math.max(1, Math.ceil(current.length / FIRST)));
+        list.innerHTML = current.slice((page - 1) * FIRST, page * FIRST).map(item).join('');
+        pager.update(current.length, FIRST, page);
         document.querySelector('[data-nomatch]').hidden = current.length > 0;
         document.querySelector('[data-count]').textContent = i18n.shown.replace('{n}', nf.format(current.length));
       };
@@ -100,7 +102,8 @@ const prefix = localePath('/').replace(/\/$/, '');
         current = rows.filter((r) => (!v.kunta || r.c === v.kunta) && (!v.tyyppi || r.k === v.tyyppi)
           && (!v.alkaen || r.d >= v.alkaen) && (!v.asti || r.d <= v.asti) && (!voted || r.v > 0)
           && words.every((w) => r.t.toLowerCase().includes(w)));
-        shown = FIRST;
+        if (started) page = 1;
+        started = true;
         render();
         const q = new URLSearchParams();
         for (const k of keys) if (v[k]) q.set(k, v[k]);
@@ -110,7 +113,7 @@ const prefix = localePath('/').replace(/\/$/, '');
       form.addEventListener('input', apply);
       form.addEventListener('change', apply);
       form.addEventListener('submit', (e) => e.preventDefault());
-      document.querySelector('[data-more]').addEventListener('click', () => { shown += FIRST; render(); });
+      const pager = kotiPager(document.querySelector('[data-pager]'), (p) => { page = p; render(); });
       apply();
     })();
   </script>

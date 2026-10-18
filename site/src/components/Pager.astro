@@ -1,0 +1,58 @@
+---
+// Numbered pages under a long list that a page script filters in the browser (votes, meetings,
+// initiatives, councillors, a topic). The page script calls
+//   const pager = kotiPager(navElement, (page) => { ...render page... });
+//   pager.update(total, perPage, page);
+// and reads the starting page from ?sivu= with kotiPager.start(). Without JavaScript the first rows
+// are in the HTML and the pager stays hidden.
+import { useI18n, type Locale } from '../i18n';
+interface Props { locale: Locale }
+const { t } = useI18n(Astro.props.locale);
+const pagerText = { prev: t('pager.prev'), next: t('pager.next'), page: t('pager.page', { n: '{n}' }) };
+---
+<nav class="pager" aria-label={t('pager.label')} data-pager hidden></nav>
+<script is:inline define:vars={{ pagerText }}>
+  window.kotiPager = (nav, onPage) => {
+    let pages = 1, current = 1;
+    const btn = (n, label, extra = '') => `<button type="button" data-p="${n}"${extra}>${label}</button>`;
+    // 1 … 4 5 [6] 7 8 … 26: the first and last page, and two on each side of the current one.
+    const numbers = () => {
+      const out = [];
+      for (let n = 1; n <= pages; n++) {
+        if (n === 1 || n === pages || Math.abs(n - current) <= 2) out.push(n);
+        else if (out[out.length - 1] !== '…') out.push('…');
+      }
+      return out;
+    };
+    const draw = () => {
+      nav.hidden = pages <= 1;
+      if (pages <= 1) { nav.innerHTML = ''; return; }
+      nav.innerHTML = `<ul>`
+        + `<li>${btn(current - 1, `← ${pagerText.prev}`, current === 1 ? ' disabled' : '')}</li>`
+        + numbers().map((n) => n === '…' ? '<li class="gap" aria-hidden="true">…</li>'
+          : `<li>${btn(n, n, ` aria-label="${pagerText.page.replace('{n}', n)}"${n === current ? ' aria-current="page"' : ''}`)}</li>`).join('')
+        + `<li>${btn(current + 1, `${pagerText.next} →`, current === pages ? ' disabled' : '')}</li></ul>`;
+    };
+    nav.addEventListener('click', (e) => {
+      const b = e.target.closest('button[data-p]');
+      if (!b || b.disabled) return;
+      onPage(Math.min(Math.max(1, Number(b.dataset.p)), pages));
+      document.querySelector('[data-count]')?.scrollIntoView({ block: 'start' });
+      nav.querySelector('[aria-current="page"]')?.focus();
+    });
+    return {
+      update(total, per, page) {
+        pages = Math.max(1, Math.ceil(total / per));
+        current = Math.min(Math.max(1, page), pages);
+        draw();
+        // After the page script has written its own filters to the URL.
+        setTimeout(() => {
+          const q = new URLSearchParams(location.search);
+          if (current > 1) q.set('sivu', String(current)); else q.delete('sivu');
+          history.replaceState(null, '', q.size ? `?${q}` : location.pathname);
+        });
+      },
+    };
+  };
+  window.kotiPager.start = () => Math.max(1, Number(new URLSearchParams(location.search).get('sivu')) || 1);
+</script>
