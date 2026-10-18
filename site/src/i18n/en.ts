@@ -437,6 +437,7 @@ export const en: Dict = {
   'initiatives.stat.munis': 'municipalities',
   'initiatives.stat.sent': 'sent to the municipality',
   'initiatives.stat.year': 'published in the last year',
+  'initiatives.filters': 'Filter initiatives',
   'initiatives.status': 'Status',
   'initiatives.status.sent': 'Sent to the municipality',
   'initiatives.status.open': 'Not sent',

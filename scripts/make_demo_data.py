@@ -338,4 +338,44 @@ make_city(
 make_city("espoo", "Valtuusto", [dt.date(2026, 9, 21)], groups=False, upcoming=dt.date(2026, 10, 19))
 make_city("tampere", "Kaupunginvaltuusto", [dt.date(2026, 9, 14)])
 make_city("vantaa", "Kaupunginvaltuusto", [dt.date(2026, 9, 28)])
+
+
+def make_initiatives(city, mid, n, start):
+    """Fictional municipal initiatives in the shape `kunta initiatives` writes (no author names)."""
+    r = random.Random(f"initiatives-{city}")
+    topics = ["koirapuisto", "pyörätie", "uimahalli", "kirjaston aukioloajat", "leikkipuisto", "katuvalot"]
+    recs = []
+    for k in range(n):
+        i = start + k
+        pub = dt.date(2026, 9, 30) - dt.timedelta(days=11 * k)
+        sent = pub + dt.timedelta(days=r.randint(5, 60)) if k > 2 and r.random() < 0.6 else None
+        rec = {
+            "id": i,
+            "name": f"Esimerkkialoite: {topics[k % len(topics)]} ({k + 1})",
+            "type": "SINGLE" if k % 4 == 0 else "COLLABORATIVE",
+            "collaborative": k % 4 != 0,
+            "publish_date": pub.isoformat(),
+            "participants": 0 if k % 4 == 0 else r.randint(1, 400),
+            "url_fi": f"https://www.kuntalaisaloite.fi/fi/aloite/{i}",
+            "url_sv": f"https://www.kuntalaisaloite.fi/sv/initiativ/{i}",
+            "proposal": "Esimerkkiteksti. Ehdotamme, että kunta selvittää asian ja ryhtyy toimiin.",
+            "authors": 1 + k % 3,
+        }
+        if sent:
+            rec["sent_date"] = sent.isoformat()
+        recs.append(rec)
+    jsonio.write(
+        OUT / "initiatives" / f"{city}.json",
+        {
+            "municipality": city,
+            "source": "https://www.kuntalaisaloite.fi/api",
+            "source_municipality_id": mid,
+            "active_in_service": True,
+            "initiatives": sorted(recs, key=lambda x: -x["id"]),
+        },
+    )
+
+
+make_initiatives("helsinki", 91, 12, 9000)
+make_initiatives("espoo", 49, 5, 8000)
 print("ok")

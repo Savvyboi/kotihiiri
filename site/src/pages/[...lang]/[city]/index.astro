@@ -8,6 +8,7 @@ import PartyLegend from '../../../components/PartyLegend.astro';
 import { localized, useI18n } from '../../../i18n';
 import { cities, bodies, meetingFiles, recentVotes, cityStats, bodyName, meetingUrl, bodySlug, cityName, disabledKey, type City } from '../../../lib/data';
 import { councilRoster } from '../../../lib/people';
+import { initiatives, initiativeUrl } from '../../../lib/initiatives';
 
 export function getStaticPaths() {
   return localized(cities().map((city) => ({ params: { city: city.id }, props: { city } })));
@@ -23,6 +24,7 @@ const recent = meetingFiles(city.id).slice(0, 10);
 const votes = recentVotes(city.id, 6);
 const roster = councilRoster(city.id);
 const name = cityName(city, locale);
+const inits = initiatives(city.id);
 ---
 <Base title={name} city={city.id} description={`${name}: ${t('site.tagline')}`} locale={locale}>
   <CityHero city={city} locale={locale}>
@@ -86,6 +88,17 @@ const name = cityName(city, locale);
               <li><a href={path(`/${city.id}/${bodySlug(b.id)}/`)}>{b.name_fi}</a></li>
             ))}
           </ul>
+        </>}
+        {inits.length > 0 && <>
+          <h2>{t('initiatives.recent')}</h2>
+          <ul class="list">
+            {inits.slice(0, 5).map((x) => (
+              <li><span class="date">{x.publish_date ? date(x.publish_date) : ''}</span>
+                <span><a href={initiativeUrl(x, locale)} rel="external noopener">{x.name}</a><br />
+                <span class="small muted">{x.sent_date ? t('initiatives.sentOn', { date: date(x.sent_date) }) : t('initiatives.notSent')}</span></span></li>
+            ))}
+          </ul>
+          <p class="small"><a href={path(`/${city.id}/aloitteet/`)}>{t('initiatives.allCity')} ({num(inits.length)}) →</a></p>
         </>}
         <h2>{t('city.source')}</h2>
         <p><a href={city.base_urls[0]} rel="external noopener">{city.source_name ?? city.base_urls[0]}</a></p>

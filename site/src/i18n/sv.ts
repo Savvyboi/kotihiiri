@@ -437,6 +437,7 @@ export const sv: Dict = {
   'initiatives.stat.munis': 'kommuner',
   'initiatives.stat.sent': 'skickade till kommunen',
   'initiatives.stat.year': 'publicerade det senaste året',
+  'initiatives.filters': 'Filtrera initiativ',
   'initiatives.status': 'Status',
   'initiatives.status.sent': 'Skickat till kommunen',
   'initiatives.status.open': 'Inte skickat',

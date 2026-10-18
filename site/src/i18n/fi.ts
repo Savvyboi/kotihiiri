@@ -435,6 +435,7 @@ export const fi = {
   'initiatives.stat.munis': 'kuntaa',
   'initiatives.stat.sent': 'lähetetty kunnalle',
   'initiatives.stat.year': 'julkaistu viimeisen vuoden aikana',
+  'initiatives.filters': 'Rajaa aloitteita',
   'initiatives.status': 'Tila',
   'initiatives.status.sent': 'Lähetetty kunnalle',
   'initiatives.status.open': 'Ei lähetetty',

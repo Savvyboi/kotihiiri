@@ -133,6 +133,8 @@ main { padding-bottom: 3rem; }
 .list > li:last-child { border-bottom: 0; }
 .list .date { min-width: 6.5rem; font-variant-numeric: tabular-nums; color: var(--c-muted); }
 .list .pykala { min-width: 3.5rem; color: var(--c-muted); font-variant-numeric: tabular-nums; }
+.initiatives details { margin-top: .35rem; }
+.initiatives details .prose { margin: .4rem 0; }
 
 .empty { background: var(--c-surface); border: 1px dashed var(--c-border); border-radius: var(--radius); padding: 1.4rem; color: var(--c-muted); }
 

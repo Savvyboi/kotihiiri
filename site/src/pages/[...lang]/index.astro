@@ -4,7 +4,8 @@ import CityCard from '../../components/CityCard.astro';
 import VoteCard from '../../components/VoteCard.astro';
 import { localeParams, useI18n, type Key, type Locale } from '../../i18n';
 import { TOPICS, topicRows } from '../../lib/topics';
-import { cities, majorCities, otherMunicipalities, cityName, cityStats, disabledKey, meetingFiles, recentVotes, bodyName, meetingUrl, itemUrl, decisionText } from '../../lib/data';
+import { allInitiativeRows } from '../../lib/initiatives';
+import { city as cityById, cities, majorCities, otherMunicipalities, cityName, cityStats, disabledKey, meetingFiles, recentVotes, bodyName, meetingUrl, itemUrl, decisionText } from '../../lib/data';
 
 export function getStaticPaths() {
   return localeParams().map(({ lang, locale }) => ({ params: { lang }, props: { locale } }));
@@ -32,6 +33,7 @@ const upcoming = enabled.flatMap((c) => meetingFiles(c.id).filter((f) => f.meeti
 const totals = enabled.map((c) => cityStats(c.id)).reduce((s, x) => ({
   meetings: s.meetings + x.meetings, items: s.items + x.items, votes: s.votes + x.votes,
 }), { meetings: 0, items: 0, votes: 0 });
+const newInits = allInitiativeRows().slice(0, 5);
 const byTopic = topicRows();
 const topics = TOPICS.map((tp) => ({ id: tp.id, n: byTopic.get(tp.id)?.length ?? 0 }))
   .filter((x) => x.n && x.id !== 'ilmoitusasiat').sort((a, b) => b.n - a.n);
@@ -126,6 +128,17 @@ const topics = TOPICS.map((tp) => ({ id: tp.id, n: byTopic.get(tp.id)?.length ??
           </ul>
         ) : <p class="muted">{t('common.none')}</p>}
         <p><a href={path('/kokoukset/')}>{t('home.allMeetings')}</a></p>
+        {newInits.length > 0 && <>
+          <h2>{t('initiatives.recent')}</h2>
+          <ul class="list">
+            {newInits.map((r) => (
+              <li><span class="date">{date(r.d)}</span>
+                <span><a href={`https://www.kuntalaisaloite.fi/${locale === 'sv' ? 'sv/initiativ' : 'fi/aloite'}/${r.i}`} rel="external noopener">{r.n}</a><br />
+                <span class="small muted">{cityName(cityById(r.c)!, locale)}</span></span></li>
+            ))}
+          </ul>
+          <p><a href={path('/aloitteet/')}>{t('initiatives.allNational')}</a></p>
+        </>}
         <h2>{t('home.howTitle')}</h2>
         <p>{t('home.how')}</p>
         {locale !== 'fi' && <p class="small muted">{t('lang.docsNote')}</p>}

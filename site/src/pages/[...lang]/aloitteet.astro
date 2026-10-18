@@ -1,0 +1,148 @@
+---
+// Municipal initiatives (kuntalaisaloitteet) from kuntalaisaloite.fi in every municipality: totals,
+// then one table to filter by municipality, status, dates and words. Without JavaScript the newest
+// initiatives are listed; the script loads the rest from /aloitteet.json.
+import Base from '../../layouts/Base.astro';
+import { assetPath, localeParams, localePath, useI18n, type Locale } from '../../i18n';
+import { city as cityRec, cityName } from '../../lib/data';
+import { allInitiativeRows } from '../../lib/initiatives';
+
+export function getStaticPaths() {
+  return localeParams().map(({ lang, locale }) => ({ params: { lang }, props: { locale } }));
+}
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const { t, date, num, path } = useI18n(locale);
+
+const rows = allInitiativeRows();
+const FIRST = 100;
+const muniIds = [...new Set(rows.map((r) => r.c))];
+const munis = muniIds.map((id) => ({ id, name: cityName(cityRec(id)!, locale) })).sort((a, b) => a.name.localeCompare(b.name, locale));
+const names = Object.fromEntries(munis.map((m) => [m.id, m.name]));
+const yearAgo = new Date(Date.now() - 365 * 864e5).toISOString().slice(0, 10);
+const sent = rows.filter((r) => r.s).length;
+const lastYear = rows.filter((r) => r.d >= yearAgo).length;
+const i18n = { shown: t('initiatives.shown', { n: '{n}' }), sent: t('initiatives.status.sent'), open: t('initiatives.status.open') };
+const lang = locale;
+const dateTpl = t('common.date');
+const json = assetPath('/aloitteet.json');
+const prefix = localePath('/').replace(/\/$/, '');
+const src = (i: number) => locale === 'sv' ? `https://www.kuntalaisaloite.fi/sv/initiativ/${i}` : `https://www.kuntalaisaloite.fi/fi/aloite/${i}`;
+---
+<Base title={t('initiatives.title')} locale={locale}>
+  <section class="hero">
+    <div class="wrap">
+      <h1>{t('initiatives.title')}</h1>
+      <p class="lead">{t('initiatives.lead')}</p>
+      {rows.length > 0 && (
+        <ul class="stats">
+          <li><b>{num(rows.length)}</b>{t('initiatives.stat.total')}</li>
+          <li><b>{num(munis.length)}</b>{t('initiatives.stat.munis')}</li>
+          <li><b>{num(sent)}</b>{t('initiatives.stat.sent')}</li>
+          <li><b>{num(lastYear)}</b>{t('initiatives.stat.year')}</li>
+        </ul>
+      )}
+    </div>
+  </section>
+  <div class="wrap">
+    <p class="small muted">{t('initiatives.note')}</p>
+    {rows.length === 0 ? <p class="empty">{t('initiatives.none')}</p> : <>
+    <form class="vote-filters" aria-label={t('initiatives.filters')} hidden data-filters>
+      <label>{t('allVotes.muni')}
+        <select name="kunta">
+          <option value="">{t('votes.all')}</option>
+          {munis.map((m) => <option value={m.id}>{m.name}</option>)}
+        </select>
+      </label>
+      <label>{t('initiatives.status')}
+        <select name="tila">
+          <option value="">{t('votes.all')}</option>
+          <option value="sent">{t('initiatives.status.sent')}</option>
+          <option value="open">{t('initiatives.status.open')}</option>
+        </select>
+      </label>
+      <label>{t('allVotes.from')}<input type="date" name="alkaen" /></label>
+      <label>{t('allVotes.to')}<input type="date" name="asti" /></label>
+      <label>{t('allVotes.q')}<input type="search" name="q" autocomplete="off" /></label>
+      <label>{t('allVotes.sort')}
+        <select name="jarjestys">
+          <option value="">{t('allVotes.sort.new')}</option>
+          <option value="old">{t('allVotes.sort.old')}</option>
+          <option value="tuki">{t('initiatives.sort.supporters')}</option>
+        </select>
+      </label>
+      <p class="small"><a href={json} download="aloitteet.json">JSON</a></p>
+    </form>
+    <p class="small muted" aria-live="polite" data-count>{t('initiatives.shown', { n: num(rows.length) })}</p>
+    <div class="table-scroll">
+      <table class="all-votes all-initiatives">
+        <thead><tr>
+          <th>{t('allVotes.col.date')}</th><th>{t('allVotes.muni')}</th><th>{t('initiatives.col.title')}</th>
+          <th class="num">{t('initiatives.col.supporters')}</th><th>{t('initiatives.col.sent')}</th>
+        </tr></thead>
+        <tbody data-rows>
+          {rows.slice(0, FIRST).map((r) => (
+            <tr>
+              <td>{r.d ? date(r.d) : ''}</td>
+              <td><a href={path(`/${r.c}/aloitteet/`)}>{names[r.c]}</a></td>
+              <td><a href={src(r.i)} rel="external noopener">{r.n}</a></td>
+              <td class="num">{r.p || ''}</td>
+              <td>{r.s ? date(r.s) : <span class="muted">{t('initiatives.status.open')}</span>}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p class="empty" hidden data-nomatch>{t('initiatives.none')}</p>
+    <p><button type="button" class="more" hidden data-more>{t('allVotes.more')}</button></p>
+    </>}
+  </div>
+  <script is:inline define:vars={{ json, prefix, dateTpl, i18n, names, lang, FIRST }}>
+    (async () => {
+      const form = document.querySelector('[data-filters]');
+      const body = document.querySelector('[data-rows]');
+      if (!form || !body) return;
+      let rows;
+      try { rows = await (await fetch(json)).json(); } catch { return; }
+      form.hidden = false;
+      const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      const fmt = (iso) => { if (!iso) return ''; const [y, m, d] = iso.split('-').map(Number);
+        return dateTpl.replace('{d}', d).replace('{m}', m).replace('{y}', y).replace('{mon}', MON[m - 1]); };
+      const nf = new Intl.NumberFormat(lang === 'en' ? 'en-GB' : `${lang}-FI`);
+      const href = (u) => `${prefix}${lang === 'fi' ? '' : `/${lang}`}${u}`;
+      const src = (i) => lang === 'sv' ? `https://www.kuntalaisaloite.fi/sv/initiativ/${i}` : `https://www.kuntalaisaloite.fi/fi/aloite/${i}`;
+      const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+      const keys = ['kunta', 'tila', 'alkaen', 'asti', 'q', 'jarjestys'];
+      const params = new URLSearchParams(location.search);
+      for (const k of keys) if (params.get(k)) form.elements[k].value = params.get(k);
+      let shown = FIRST, current = [];
+      const row = (r) => `<tr><td>${fmt(r.d)}</td><td><a href="${esc(href(`/${r.c}/aloitteet/`))}">${esc(names[r.c] ?? r.c)}</a></td>`
+        + `<td><a href="${esc(src(r.i))}" rel="external noopener">${esc(r.n)}</a></td><td class="num">${r.p || ''}</td>`
+        + `<td>${r.s ? fmt(r.s) : `<span class="muted">${esc(i18n.open)}</span>`}</td></tr>`;
+      const render = () => {
+        body.innerHTML = current.slice(0, shown).map(row).join('');
+        document.querySelector('[data-more]').hidden = current.length <= shown;
+        document.querySelector('[data-nomatch]').hidden = current.length > 0;
+        document.querySelector('[data-count]').textContent = i18n.shown.replace('{n}', nf.format(current.length));
+      };
+      const apply = () => {
+        const v = Object.fromEntries(keys.map((k) => [k, form.elements[k].value.trim()]));
+        const words = v.q.toLowerCase().split(/\s+/).filter(Boolean);
+        current = rows.filter((r) => (!v.kunta || r.c === v.kunta) && (!v.tila || (v.tila === 'sent') === Boolean(r.s))
+          && (!v.alkaen || r.d >= v.alkaen) && (!v.asti || r.d <= v.asti)
+          && words.every((w) => r.n.toLowerCase().includes(w)));
+        if (v.jarjestys === 'old') current = [...current].reverse();
+        else if (v.jarjestys === 'tuki') current = [...current].sort((a, b) => b.p - a.p || b.d.localeCompare(a.d));
+        shown = FIRST;
+        render();
+        const q = new URLSearchParams();
+        for (const k of keys) if (v[k]) q.set(k, v[k]);
+        history.replaceState(null, '', q.size ? `?${q}` : location.pathname);
+      };
+      form.addEventListener('input', apply);
+      form.addEventListener('submit', (e) => e.preventDefault());
+      document.querySelector('[data-more]').addEventListener('click', () => { shown += FIRST; render(); });
+      apply();
+    })();
+  </script>
+</Base>
