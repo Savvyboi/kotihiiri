@@ -15,6 +15,7 @@ the municipality code and names. Same input gives byte-identical output (PLAN.md
 
 from __future__ import annotations
 
+import math
 import re
 import unicodedata
 from collections.abc import Iterable
@@ -98,6 +99,57 @@ def svg_path(geometry: dict, origin: tuple[int, int]) -> str:
     return re.sub(r" -", "-", "".join(parts))
 
 
+def _polygons(geometry: dict) -> list[list[list[list[float]]]]:
+    return [geometry["coordinates"]] if geometry["type"] == "Polygon" else list(geometry["coordinates"])
+
+
+def _seg_dist(px: float, py: float, ax: float, ay: float, bx: float, by: float) -> float:
+    dx, dy = bx - ax, by - ay
+    t = 0.0 if dx == dy == 0 else max(0.0, min(1.0, ((px - ax) * dx + (py - ay) * dy) / (dx * dx + dy * dy)))
+    return math.hypot(px - ax - t * dx, py - ay - t * dy)
+
+
+def _inside_dist(px: float, py: float, rings: list[list[list[float]]]) -> float:
+    """Distance from a point to the polygon's edges, negative outside (even-odd over all rings)."""
+    inside = False
+    best = math.inf
+    for ring in rings:
+        for (ax, ay, *_), (bx, by, *_) in zip(ring, ring[1:], strict=False):
+            if (ay > py) != (by > py) and px < (bx - ax) * (py - ay) / (by - ay) + ax:
+                inside = not inside
+            best = min(best, _seg_dist(px, py, ax, ay, bx, by))
+    return best if inside else -best
+
+
+def label_point(geometry: dict, steps: int = 24) -> tuple[float, float]:
+    """A point well inside the largest polygon, for a name label: the grid point farthest from any
+    edge, refined once on a finer grid around it. Unlike a centroid it never lands in a hole
+    (Kauniainen inside Espoo) or outside a crescent-shaped municipality."""
+
+    def area(ring: list[list[float]]) -> float:
+        return abs(sum(a[0] * b[1] - b[0] * a[1] for a, b in zip(ring, ring[1:], strict=False))) / 2
+
+    rings = max(_polygons(geometry), key=lambda poly: area(poly[0]))
+    xs = [p[0] for p in rings[0]]
+    ys = [p[1] for p in rings[0]]
+    x0, y0, w, h = min(xs), min(ys), max(xs) - min(xs), max(ys) - min(ys)
+    best = (-math.inf, x0 + w / 2, y0 + h / 2)
+    for _ in range(2):
+        cand = [
+            (
+                _inside_dist(x0 + w * (i + 0.5) / steps, y0 + h * (j + 0.5) / steps, rings),
+                x0 + w * (i + 0.5) / steps,
+                y0 + h * (j + 0.5) / steps,
+            )
+            for i in range(steps)
+            for j in range(steps)
+        ]
+        best = max([best, *cand])
+        w, h = 2 * w / steps, 2 * h / steps
+        x0, y0 = best[1] - w / 2, best[2] - h / 2
+    return best[1], best[2]
+
+
 def fold(name: str) -> str:
     text = unicodedata.normalize("NFKD", name.casefold())
     return "".join(ch for ch in text if not unicodedata.combining(ch)).strip()
@@ -157,7 +209,7 @@ def build_map(
     width = round((maxx - origin[0]) / UNIT_M) + 1
     height = round((origin[1] - miny) / UNIT_M) + 1
 
-    def rows(fs: list[dict]) -> list[dict]:
+    def rows(fs: list[dict], labels: bool = False) -> list[dict]:
         out = []
         for f in sorted(fs, key=lambda f: f["properties"]["kunta"]):
             p = f["properties"]
@@ -166,6 +218,9 @@ def build_map(
                 row["name_sv"] = p["namn"]
             if p["kunta"] in ids:
                 row["id"] = ids[p["kunta"]]
+            if labels:
+                lx, ly = label_point(f["geometry"])
+                row["label"] = [round((lx - origin[0]) / UNIT_M), round((origin[1] - ly) / UNIT_M)]
             out.append(row)
         return out
 
@@ -188,6 +243,6 @@ def build_map(
                 round((bx1 - bx0) / UNIT_M),
                 round((by1 - by0) / UNIT_M),
             ],
-            "municipalities": rows(inset["features"]),
+            "municipalities": rows(inset["features"], labels=True),
         }
     return result

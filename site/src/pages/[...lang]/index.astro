@@ -56,7 +56,7 @@ const topics = TOPICS.map((tp) => ({ id: tp.id, n: byTopic.get(tp.id)?.length ??
 
     <section id="kunnat" class="municipalities">
       <h2>{t('home.municipalities')}</h2>
-      <p class="muted">{t('home.municipalitiesLead')}</p>
+      <p class="muted">{t('home.municipalitiesLead')} <a href={path('/kartta/')}>{t('home.showMap')}</a></p>
       <label class="filter"><span class="visually-hidden">{t('home.filter')}</span>
         <input type="search" placeholder={t('home.filter')} data-muni-filter autocomplete="off" /></label>
       <ul class="muni-list" data-muni-list>

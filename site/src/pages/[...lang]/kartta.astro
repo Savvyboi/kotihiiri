@@ -1,0 +1,154 @@
+---
+// Map of Finland's municipalities (/kartta/): followed municipalities link to their pages, the ones
+// on the list but not followed yet are marked, and the rest are drawn for context. Boundaries are
+// Statistics Finland's (src/lib/map.ts). The map is plain SVG with links and works without
+// JavaScript; the script only adds a label that follows the pointer or keyboard focus.
+import Base from '../../layouts/Base.astro';
+import { localeParams, useI18n, type Locale } from '../../i18n';
+import { cities, cityName, cityStats, disabledKey } from '../../lib/data';
+import { MUNICIPALITY_MAP as MAP, shapeName, type MapShape } from '../../lib/map';
+
+export function getStaticPaths() {
+  return localeParams().map(({ lang, locale }) => ({ params: { lang }, props: { locale } }));
+}
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const { t, num, path } = useI18n(locale);
+
+const byId = new Map(cities().map((c) => [c.id, c]));
+type Status = 'followed' | 'pending' | 'other';
+const statusOf = (s: MapShape): Status => {
+  const c = s.id ? byId.get(s.id) : undefined;
+  return !c ? 'other' : c.enabled ? 'followed' : 'pending';
+};
+/** One line under the name in the label: what we have for this municipality. */
+const detail = (s: MapShape): string => {
+  const c = s.id ? byId.get(s.id) : undefined;
+  if (!c) return t('map.notListed');
+  if (!c.enabled) return t(disabledKey(c));
+  const st = cityStats(c.id);
+  return [`${num(st.meetings)} ${t('city.stats.meetings')}`, st.votes ? `${num(st.votes)} ${t('home.stats.votes')}` : '']
+    .filter(Boolean).join(' · ');
+};
+const name = (s: MapShape) => {
+  const c = s.id ? byId.get(s.id) : undefined;
+  return c ? cityName(c, locale) : shapeName(s, locale);
+};
+const counts = MAP
+  ? (['followed', 'pending', 'other'] as Status[]).map((k) => ({ k, n: MAP.municipalities.filter((s) => statusOf(s) === k).length }))
+  : [];
+const box = (v: number[]) => v.join(' ');
+---
+<Base title={t('map.title')} description={t('map.lead', { n: num(counts[0]?.n ?? 0), all: num(MAP?.municipalities.length ?? 0) })} locale={locale}>
+  <section class="hero">
+    <div class="wrap">
+      <h1>{t('map.title')}</h1>
+      {MAP && <p class="lead">{t('map.lead', { n: num(counts[0].n), all: num(MAP.municipalities.length) })}</p>}
+    </div>
+  </section>
+  <div class="wrap">
+    {MAP ? (
+      <div class="muni-map">
+        <figure class="map-main">
+          <svg viewBox={box(MAP.viewbox)} role="group" aria-label={t('map.title')} data-map>
+            {MAP.municipalities.map((s) => {
+              const st = statusOf(s);
+              const shape = <path d={s.d} class={`m-${st}`} data-name={name(s)} data-detail={detail(s)}><title>{name(s)}: {detail(s)}</title></path>;
+              return st === 'other' ? shape : <a href={path(`/${s.id}/`)} aria-label={`${name(s)}: ${detail(s)}`}>{shape}</a>;
+            })}
+            {MAP.inset && <rect class="inset-frame" x={MAP.inset.viewbox[0]} y={MAP.inset.viewbox[1]} width={MAP.inset.viewbox[2]} height={MAP.inset.viewbox[3]} aria-hidden="true" />}
+          </svg>
+        </figure>
+        <div class="map-side">
+          <ul class="map-legend">
+            {counts.map(({ k, n }) => <li><span class={`swatch m-${k}`} aria-hidden="true"></span>{t(`map.legend.${k}`)} <span class="muted">{num(n)}</span></li>)}
+          </ul>
+          {MAP.inset && (
+            <figure class="map-inset">
+              <svg viewBox={box(MAP.inset.viewbox)} role="group" aria-label={t('map.inset')} data-map>
+                {MAP.inset.municipalities.map((s) => {
+                  const st = statusOf(s);
+                  const shape = <path d={s.d} class={`m-${st}`} data-name={name(s)} data-detail={detail(s)}><title>{name(s)}: {detail(s)}</title></path>;
+                  // The inset repeats links from the main map; keep it out of the tab order.
+                  return st === 'other' ? shape : <a href={path(`/${s.id}/`)} tabindex="-1" aria-hidden="true">{shape}</a>;
+                })}
+                {MAP.inset.municipalities.filter((s) => s.label && statusOf(s) !== 'other').map((s) => (
+                  <text x={s.label![0]} y={s.label![1]} class={`lbl lbl-${statusOf(s)}`} aria-hidden="true">{name(s)}</text>
+                ))}
+              </svg>
+              <figcaption class="small muted">{t('map.inset')}</figcaption>
+            </figure>
+          )}
+          <p class="map-label" data-map-label aria-hidden="true" hidden><b></b><span class="small muted"></span></p>
+        </div>
+      </div>
+    ) : <p class="empty">{t('map.missing')}</p>}
+    {MAP && (
+      <p class="small muted map-source">
+        {t('map.source', { year: MAP.year })} <a href="https://stat.fi/org/avoindata/paikkatietoaineistot/tilastoalueet.html">Tilastokeskus</a>, {MAP.licence}.
+        {' '}<a href={path('/#kunnat')}>{t('map.list')}</a>
+      </p>
+    )}
+  </div>
+</Base>
+<script>
+  // A label beside the map with the name and status of the municipality under the pointer or focus.
+  const label = document.querySelector<HTMLElement>('[data-map-label]');
+  if (label) {
+    const [nameEl, detailEl] = [label.querySelector('b')!, label.querySelector('span')!];
+    let current: Element | null = null;
+    const show = (p: Element | null) => {
+      if (p === current) return;
+      current?.classList.remove('hover');
+      current = p;
+      if (!p) { label.hidden = true; return; }
+      p.classList.add('hover');
+      nameEl.textContent = (p as HTMLElement).dataset.name ?? '';
+      detailEl.textContent = (p as HTMLElement).dataset.detail ?? '';
+      label.hidden = false;
+    };
+    for (const svg of document.querySelectorAll('[data-map]')) {
+      svg.addEventListener('pointerover', (e) => show((e.target as Element).closest('path')));
+      svg.addEventListener('pointerleave', () => show(null));
+      svg.addEventListener('focusin', (e) => show((e.target as Element).querySelector('path')));
+      svg.addEventListener('focusout', () => show(null));
+    }
+  }
+</script>
+<style>
+  .muni-map { display: grid; grid-template-columns: minmax(0, 1fr) minmax(220px, 300px); gap: 1.5rem; align-items: start; margin: 1.5rem 0 1rem; }
+  .muni-map figure { margin: 0; }
+  .map-main svg { display: block; width: 100%; height: auto; max-height: 82vh; }
+  .map-side { position: sticky; top: 1rem; display: grid; gap: 1rem; }
+  .map-inset { background: var(--c-surface); border: 1px solid var(--c-border); border-radius: var(--radius); padding: .6rem; }
+  .map-inset svg { display: block; width: 100%; height: auto; }
+  .map-inset figcaption { margin-top: .3rem; }
+  path { stroke: var(--c-bg); stroke-width: .6px; vector-effect: non-scaling-stroke; stroke-linejoin: round; transition: fill .12s; }
+  .map-inset path { stroke-width: 1px; }
+  .m-followed { fill: var(--c-primary); }
+  .m-pending { fill: color-mix(in srgb, var(--c-primary) 32%, var(--c-bg)); }
+  .m-other { fill: color-mix(in srgb, var(--c-muted) 18%, var(--c-bg)); }
+  a:hover path.m-followed, a:focus-visible path.m-followed, path.m-followed.hover { fill: var(--c-accent); }
+  a:hover path.m-pending, a:focus-visible path.m-pending, path.m-pending.hover { fill: color-mix(in srgb, var(--c-primary) 55%, var(--c-bg)); }
+  path.m-other.hover { fill: color-mix(in srgb, var(--c-muted) 35%, var(--c-bg)); }
+  svg a:focus-visible { outline: none; }
+  svg a:focus-visible path { stroke: var(--c-text); stroke-width: 2px; }
+  .lbl { font-size: 15px; font-weight: 650; text-anchor: middle; dominant-baseline: middle; pointer-events: none; paint-order: stroke; stroke-width: 3px; stroke-linejoin: round; }
+  .lbl-followed { fill: var(--c-on-primary); stroke: var(--c-primary); }
+  .lbl-pending { fill: var(--c-text); stroke: color-mix(in srgb, var(--c-primary) 32%, var(--c-bg)); font-size: 12px; }
+  .inset-frame { fill: none; stroke: var(--c-text); stroke-width: 1px; vector-effect: non-scaling-stroke; stroke-dasharray: 3 2; pointer-events: none; }
+  .map-legend { list-style: none; margin: 0; padding: 0; display: grid; gap: .35rem; }
+  .map-legend li { display: flex; align-items: center; gap: .5rem; }
+  .swatch { width: 1.1rem; height: 1.1rem; border-radius: 4px; flex: none; border: 1px solid var(--c-border); }
+  .swatch.m-followed { background: var(--c-primary); }
+  .swatch.m-pending { background: color-mix(in srgb, var(--c-primary) 32%, var(--c-bg)); }
+  .swatch.m-other { background: color-mix(in srgb, var(--c-muted) 18%, var(--c-bg)); }
+  .map-label { margin: 0; padding: .6rem .8rem; background: var(--c-surface); border: 1px solid var(--c-border); border-radius: var(--radius); display: grid; }
+  .map-source { margin-top: 1rem; }
+  @media (max-width: 760px) {
+    .muni-map { grid-template-columns: 1fr; }
+    .map-side { position: static; order: -1; }
+    .map-main svg { max-height: none; }
+    .map-label { display: none; }
+  }
+</style>

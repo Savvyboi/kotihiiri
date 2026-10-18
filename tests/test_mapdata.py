@@ -5,7 +5,7 @@ from __future__ import annotations
 import pytest
 
 from kunta import jsonio
-from kunta.mapdata import build_map, capabilities_layers, newest_layer, svg_path
+from kunta.mapdata import build_map, capabilities_layers, label_point, newest_layer, svg_path
 
 
 def square(x: int, y: int, size: int = 10_000) -> dict:
@@ -80,7 +80,7 @@ def test_build_map_matches_ids_and_drops_tiny_islets() -> None:
     assert rows["091"]["id"] == "helsinki" and rows["478"]["id"] == "maarianhamina"
     assert "id" not in rows["999"]
     assert rows["999"]["d"].count("M") == 1  # the 40 m islet rounds away
-    assert data["viewbox"] == [0, 0, 3001, 101]
+    assert data["viewbox"] == [0, 0, 3001, 121]
 
 
 def test_build_map_fails_on_unmatched_municipality() -> None:
@@ -93,3 +93,19 @@ def test_build_map_deterministic() -> None:
     a = jsonio.dumps(build_map(COUNTRY, COUNTRY, MUNIS, year=2025, layers=[]))
     b = jsonio.dumps(build_map(reversed_country, reversed_country, MUNIS, year=2025, layers=[]))
     assert a == b
+
+
+def test_label_point_avoids_hole() -> None:
+    # A 10 km square with a 4 km hole in the middle: the label must not sit in the hole.
+    outer = square(380_000, 6_670_000)["coordinates"][0]
+    hole = square(383_000, 6_673_000, 4_000)["coordinates"][0]
+    x, y = label_point({"type": "Polygon", "coordinates": [outer, hole]})
+    assert not (383_000 < x < 387_000 and 6_673_000 < y < 6_677_000)
+    assert 380_000 < x < 390_000 and 6_670_000 < y < 6_680_000
+
+
+def test_inset_rows_have_labels() -> None:
+    data = build_map(COUNTRY, COUNTRY, MUNIS, year=2025, layers=[])
+    helsinki = next(r for r in data["inset"]["municipalities"] if r["code"] == "091")
+    assert helsinki["label"] == [2850, 70]  # the square's centre
+    assert "label" not in data["municipalities"][0]
