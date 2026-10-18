@@ -248,6 +248,8 @@ export const sv: Dict = {
   'parties.help.cohesion': 'Hur stor andel av partiledamöternas röster som följde partimajoriteten. 100 % betyder att ledamöterna alltid röstade enigt.',
   'parties.agree.cardLead': 'Hur ofta {party} röstade som de andra partierna:',
   'parties.agree.asTable': 'Visa alla par som tabell',
+  'feed.link': 'RSS-flöde',
+  'feed.lead': 'Nya ärenden i din flödesläsare när de publiceras. Rubrikerna är på finska.',
   'pp.back': '← Alla partier',
   'pp.stat.seats': 'fullmäktigeplatser i {n} kommuner',
   'pp.stat.positions': 'omröstningar där partiet tog ställning',
