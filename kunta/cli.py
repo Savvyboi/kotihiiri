@@ -308,6 +308,35 @@ def audit(
 
 
 @app.command()
+def budgets(
+    cities: str = typer.Option("all", "--cities", help="comma-separated slugs, or `all` with a business ID"),
+) -> None:
+    """Budgets and financial plans from the State Treasury's open API (PLAN.md §19).
+    Writes data/talous/{city}.json and data/talous/items.json."""
+    from .budget import HOSTS, fetch_budgets, load_business_ids
+    from .http import PoliteClient
+
+    try:
+        project = load_project()
+    except ConfigError as exc:
+        _fail(str(exc))
+    ids = load_business_ids()
+    selected = (
+        sorted(ids) if cities.strip() in ("", "all") else [c.strip() for c in cities.split(",") if c.strip()]
+    )
+    missing = [c for c in selected if c not in ids]
+    if missing:
+        _fail(f"no business ID in config/registry/business_ids.yaml for: {', '.join(missing)}")
+    with PoliteClient(project.user_agent, allowed_hosts=HOSTS) as client:
+        summary = fetch_budgets(client, selected, business_ids=ids)
+    for city, n in summary.items():
+        typer.echo(f"{city}: {n} budget years")
+    empty = [c for c, n in summary.items() if n == 0]
+    if empty:
+        typer.echo(f"no budgets for: {', '.join(empty)}")
+
+
+@app.command()
 def heartbeat() -> None:
     """Write data/state/heartbeat.json so scheduled workflows always commit (PLAN.md §2.3)."""
     jsonio.write(
