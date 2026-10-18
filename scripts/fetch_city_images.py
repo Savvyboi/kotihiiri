@@ -17,6 +17,7 @@ import json
 import re
 import sys
 import time
+import unicodedata
 from pathlib import Path
 
 import httpx
@@ -73,52 +74,79 @@ def wikidata_arms(api: Api, fiwiki: str) -> str:
     return arms[0]["mainsnak"]["datavalue"]["value"]
 
 
-# Wikidata classes: municipality of Finland, town of Finland.
-FINNISH_MUNICIPALITY = {"Q856076", "Q127448"}
+def fold(text: str) -> str:
+    """Lowercase ASCII: "Hyvinkää" and "Hyvinkaa.vaakuna" compare alike."""
+    return unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode().lower()
 
 
-def wikidata_arms_many(api: Api, titles: dict[str, str]) -> dict[str, str]:
-    """Coat of arms file per municipality id, from {id: fiwiki title}; 50 titles per request.
-
-    An item that is not a Finnish municipality (a disambiguation page, a namesake) is skipped with
-    a warning, so one odd name never blocks the rest; pin it with `arms_fiwiki` or `arms_file`.
-    """
-    found: dict[str, str] = {}
-    ids = list(titles)
-    for i in range(0, len(ids), 50):
-        chunk = ids[i : i + 50]
+def fiwiki_items(api: Api, titles: list[str]) -> dict[str, dict]:
+    """Wikidata items by Finnish Wikipedia title (redirects followed), 50 titles per request."""
+    found: dict[str, dict] = {}
+    for i in range(0, len(titles), 50):
+        chunk = titles[i : i + 50]
         data = api.json(
             WIKIDATA,
             action="wbgetentities",
             sites="fiwiki",
-            titles="|".join(titles[m] for m in chunk),
+            titles="|".join(chunk),
             props="claims|sitelinks",
             sitefilter="fiwiki",
-            normalize="1" if len(chunk) == 1 else None,
         )
-        by_title = {}
-        for entity in data["entities"].values():
+        for entity in data.get("entities", {}).values():
             link = entity.get("sitelinks", {}).get("fiwiki", {}).get("title")
             if link:
-                by_title[link] = entity
-        for m in chunk:
-            entity = by_title.get(titles[m])
-            if entity is None:
-                print(f"  WARN {m}: no Wikidata item for fiwiki {titles[m]!r}")
-                continue
-            claims = entity.get("claims", {})
-            kinds = {
-                c["mainsnak"].get("datavalue", {}).get("value", {}).get("id") for c in claims.get("P31", [])
-            }
-            if not kinds & FINNISH_MUNICIPALITY:
-                print(f"  WARN {m}: {entity['id']} ({titles[m]}) is not a municipality of Finland")
-                continue
-            arms = [c for c in claims.get("P94", []) if c.get("rank") != "deprecated"]
-            arms.sort(key=lambda c: c.get("rank") != "preferred")
-            if not arms:
-                print(f"  WARN {m}: no coat of arms (P94) on {entity['id']}")
-                continue
-            found[m] = arms[0]["mainsnak"]["datavalue"]["value"]
+                found[link] = entity
+    return found
+
+
+def is_municipality(entity: dict | None) -> bool:
+    """Only a Finnish municipality has a municipality number (P1203); namesakes, birds and
+    disambiguation pages do not."""
+    return bool(entity and entity.get("claims", {}).get("P1203"))
+
+
+def pick_arms(entity: dict, name: str) -> str | None:
+    """The municipality's own arms. Items of merged municipalities also list the arms of the
+    former ones (Salo: Halikko, ...), so a file named after the municipality wins, then the
+    preferred rank."""
+    arms = [c for c in entity.get("claims", {}).get("P94", []) if c.get("rank") != "deprecated"]
+    files = [c["mainsnak"]["datavalue"]["value"] for c in arms if "datavalue" in c["mainsnak"]]
+    # "Kemi.vaakuna.svg" or "Porin vaakuna.svg", not "Kemijärvi.vaakuna.svg"
+    own = [f for f in files if re.match(rf"(file:)?{re.escape(fold(name))}n?[ ._-]", fold(f))]
+    if own:
+        return own[0]
+    preferred = [c["mainsnak"]["datavalue"]["value"] for c in arms if c.get("rank") == "preferred"]
+    if len(files) > 1:
+        print(f"  WARN {name}: {len(files)} arms on {entity['id']} and none named after it: {files}")
+    return (preferred or files or [None])[0]
+
+
+def wikidata_arms_many(api: Api, titles: dict[str, str], names: dict[str, str]) -> dict[str, str]:
+    """Coat of arms file per municipality id, from {id: fiwiki title}.
+
+    When the plain title is not the municipality (Kotka is also a bird, Varkaus means theft), the
+    usual article names "X (kaupunki)", "X (kunta)", "Xn kunta" and "Xn kaupunki" are tried. One
+    that still cannot be found is skipped with a warning; pin it with `arms_fiwiki` or `arms_file`.
+    """
+    items = fiwiki_items(api, list(titles.values()))
+    entity = {m: items.get(t) for m, t in titles.items()}
+    missing = [m for m in titles if not is_municipality(entity[m])]
+    if missing:
+        forms = ("{} (kaupunki)", "{} (kunta)", "{}n kunta", "{}n kaupunki")
+        tries = {m: [f.format(titles[m]) for f in forms] for m in missing}
+        more = fiwiki_items(api, [t for ts in tries.values() for t in ts])
+        for m in missing:
+            entity[m] = next((more[t] for t in tries[m] if is_municipality(more.get(t))), None)
+    found: dict[str, str] = {}
+    for m in titles:
+        if entity[m] is None:
+            print(f"  WARN {m}: no Wikidata municipality for fiwiki {titles[m]!r}")
+            continue
+        arms = pick_arms(entity[m], names[m])
+        if arms is None:
+            print(f"  WARN {m}: no coat of arms (P94) on {entity[m]['id']}")
+            continue
+        found[m] = arms
     return found
 
 
@@ -137,7 +165,7 @@ def other_arms(api: Api, cfg: dict, done: set[str], only: set[str], credits: dic
         if m not in pinned
     }
     print(f"other municipalities: {len(todo)}")
-    files = pinned | wikidata_arms_many(api, titles)
+    files = pinned | wikidata_arms_many(api, titles, {m: c["name_fi"] for m, c in todo.items()})
     for m in sorted(files):
         try:
             arms = file_info(api, files[m])
