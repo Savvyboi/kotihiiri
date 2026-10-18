@@ -5,6 +5,7 @@ import CityTabs from '../../../components/CityTabs.astro';
 import VoteCard from '../../../components/VoteCard.astro';
 import Hemicycle from '../../../components/Hemicycle.astro';
 import PartyLegend from '../../../components/PartyLegend.astro';
+import MunicipalityFacts from '../../../components/MunicipalityFacts.astro';
 import { localized, useI18n } from '../../../i18n';
 import { cities, bodies, meetingFiles, recentVotes, cityStats, bodyName, meetingUrl, bodySlug, cityName, disabledKey, type City } from '../../../lib/data';
 import { councilRoster } from '../../../lib/people';
@@ -65,6 +66,8 @@ const inits = initiatives(city.id);
         <Hemicycle seats={roster.seats} locale={locale} />
       </section>
     )}
+
+    <MunicipalityFacts city={city.id} locale={locale} />
 
     <div class="two-col">
       <section>

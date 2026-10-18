@@ -1,0 +1,44 @@
+# Fetches Statistics Finland's municipal key figures (kunta facts, kunta/facts.py) into
+# site/src/data/municipality-facts.json and commits it to the branch the run is on. The build
+# environment cannot reach pxdata.stat.fi, so the fetch runs here. Statistics Finland updates the
+# table about once a year; the monthly run picks that up on main.
+name: facts
+
+on:
+  push:
+    branches: ["claude/**"]
+    paths:
+      - kunta/facts.py
+      - .github/workflows/facts.yml
+  schedule:
+    - cron: "17 4 3 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: data-writer
+  cancel-in-progress: false
+
+jobs:
+  facts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -e .
+      - run: kunta facts
+      - name: Commit facts
+        run: |
+          git add site/src/data/municipality-facts.json
+          if git diff --cached --quiet; then echo "No changes."; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "facts: municipal key figures from Statistics Finland"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
