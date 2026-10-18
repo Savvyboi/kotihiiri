@@ -1,0 +1,238 @@
+---
+// Every statistic we hold on the municipalities side by side (/vertailu/): one row per
+// municipality, one column per figure. Sort by any column, pick which columns show, filter by
+// name. Without JavaScript the full table is shown in population order (src/lib/compare.ts).
+import Base from '../../layouts/Base.astro';
+import { assetPath, localeParams, useI18n, type Key, type Locale } from '../../i18n';
+import { GROUPS, compareColumns, compareRows, countryValues } from '../../lib/compare';
+import { cityImages } from '../../lib/images';
+import { factsSource } from '../../lib/facts';
+import { budgetItems } from '../../lib/budget';
+
+export function getStaticPaths() {
+  return localeParams().map(({ lang, locale }) => ({ params: { lang }, props: { locale } }));
+}
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const { t, path, num } = useI18n(locale);
+
+const cols = compareColumns(locale).map((c) => ({
+  ...c,
+  label: c.labelKey ? t(c.labelKey as Key) : c.label,
+  sub: c.subKey ? t(c.subKey as Key, c.subVars ?? {}) : c.sub,
+}));
+const rows = compareRows(locale);
+const country = countryValues();
+const facts = factsSource();
+const budget = budgetItems();
+const intl = { fi: 'fi-FI', sv: 'sv-FI', en: 'en-GB' }[locale];
+const fmt = (v: number | null | undefined, decimals: number, percent: boolean) => {
+  if (v == null) return '–';
+  const s = new Intl.NumberFormat(intl, { minimumFractionDigits: decimals, maximumFractionDigits: decimals }).format(v);
+  return percent ? `${s} %` : s;
+};
+const groups = GROUPS.map((g) => ({ g, cols: cols.filter((c) => c.group === g) })).filter((x) => x.cols.length);
+const initial = cols.filter((c) => c.initial).map((c) => c.key);
+const i18n = { shown: t('cmp.shown', { n: '{n}' }) };
+const lang = locale;
+---
+<Base title={t('cmp.title')} locale={locale}>
+  <section class="hero">
+    <div class="wrap">
+      <h1>{t('cmp.title')}</h1>
+      <p class="lead">{t('cmp.lead', { n: num(rows.length), cols: num(cols.length) })}</p>
+    </div>
+  </section>
+  <div class="wrap">
+    <form class="vote-filters cmp-filters" aria-label={t('votes.filters')} hidden data-filters>
+      <label>{t('cmp.q')}<input type="search" name="q" autocomplete="off" /></label>
+      <label class="check"><input type="checkbox" name="seuratut" value="1" /> {t('cmp.followed')}</label>
+      <details class="cmp-cols">
+        <summary>{t('cmp.columns')} <span class="muted" data-colcount></span></summary>
+        <div class="cmp-cols-body">
+          {groups.map(({ g, cols: gc }) => (
+            <fieldset>
+              <legend>{t(`cmp.group.${g}` as Key)}</legend>
+              {gc.map((c) => (
+                <label><input type="checkbox" name="col" value={c.key} checked={c.initial} /> {c.label}</label>
+              ))}
+            </fieldset>
+          ))}
+          <p class="cmp-cols-actions">
+            <button type="button" class="more" data-cols="initial">{t('cmp.colsInitial')}</button>
+            <button type="button" class="more" data-cols="all">{t('cmp.colsAll')}</button>
+          </p>
+        </div>
+      </details>
+    </form>
+    <p class="small muted" aria-live="polite" data-count>{t('cmp.shown', { n: num(rows.length) })}</p>
+    <div class="table-scroll cmp-scroll">
+      <table class="party-table cmp-table" data-table>
+        <thead>
+          <tr>
+            <th scope="col" class="cmp-name" data-sort="name">{t('budget.col.municipality')}</th>
+            {cols.map((c) => (
+              <th scope="col" class="num" data-col={c.key} data-sort={c.key}>
+                <span class="cmp-label">{c.label}</span>{c.sub && <span class="cmp-sub">{c.sub}</span>}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody data-rows>
+          {rows.map((r) => {
+            const arms = cityImages(r.city.id).arms;
+            return (
+              <tr data-name={r.name} data-rank={r.city.rank} data-followed={r.values.meetings != null ? '1' : undefined}>
+                <th scope="row" class="cmp-name">
+                  <span class="cmp-muni">
+                    {arms
+                      ? <img class="cmp-arms" src={assetPath(`/images/cities/${arms.files[0]}`)} alt="" width="20" height="24" loading="lazy" decoding="async" />
+                      : <span class="cmp-arms none" aria-hidden="true">{r.name.slice(0, 1)}</span>}
+                    <a href={path(`/${r.city.id}/`)}>{r.name}</a>
+                  </span>
+                </th>
+                {cols.map((c) => {
+                  const v = r.values[c.key];
+                  return <td class="num" data-col={c.key} data-v={v == null ? '' : String(v)}>{fmt(v, c.decimals, c.percent)}</td>;
+                })}
+              </tr>
+            );
+          })}
+        </tbody>
+        {Object.keys(country).length > 0 && (
+          <tfoot>
+            <tr>
+              <th scope="row" class="cmp-name">{t('facts.country')}</th>
+              {cols.map((c) => <td class="num" data-col={c.key}>{c.key in country ? fmt(country[c.key], c.decimals, c.percent) : ''}</td>)}
+            </tr>
+          </tfoot>
+        )}
+      </table>
+    </div>
+    <p class="empty" hidden data-nomatch>{t('cmp.none')}</p>
+    <dl class="party-help small">
+      <div><dt>{t('cmp.group.people')}, {t('cmp.group.work')}</dt><dd>
+        {t('cmp.help.facts')}{facts && <> <a href={facts.page_url[locale] ?? facts.page_url.fi} rel="external noopener">{facts.title[locale] ?? facts.title.fi}</a> ({facts.licence})</>}
+      </dd></div>
+      <div><dt>{t('cmp.group.budget')}</dt><dd>
+        {t('cmp.help.budget')}{budget && <> <a href={budget.source.url} rel="external noopener">{budget.source.name}</a> ({budget.source.licence})</>}{' '}
+        <a href={path('/talous/')}>{t('cmp.help.budgetLink')}</a>
+      </dd></div>
+      <div><dt>{t('cmp.group.decisions')}</dt><dd>{t('cmp.help.decisions')}</dd></div>
+    </dl>
+  </div>
+  <script is:inline define:vars={{ i18n, lang, initial }}>
+    (() => {
+      const form = document.querySelector('[data-filters]');
+      const table = document.querySelector('[data-table]');
+      const body = document.querySelector('[data-rows]');
+      if (!form || !table || !body) return;
+      form.hidden = false;
+      const rows = [...body.rows];
+      const boxes = [...form.querySelectorAll('input[name="col"]')];
+      const allKeys = boxes.map((b) => b.value);
+      const style = document.createElement('style');
+      document.head.append(style);
+      const nf = new Intl.NumberFormat(lang === 'en' ? 'en-GB' : `${lang}-FI`);
+      const fold = (s) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+      const params = new URLSearchParams(location.search);
+
+      if (params.get('q')) form.elements.q.value = params.get('q');
+      form.elements.seuratut.checked = params.get('seuratut') === '1';
+      const wanted = params.has('sarakkeet') ? params.get('sarakkeet').split(',').filter((k) => allKeys.includes(k)) : initial;
+      for (const b of boxes) b.checked = wanted.includes(b.value);
+
+      // Sorting: click a header; a second click reverses. Names start A–Z, figures largest first.
+      const heads = [...table.tHead.querySelectorAll('th[data-sort]')];
+      let sortBy = heads.some((h) => h.dataset.sort === params.get('jarjestys')) ? params.get('jarjestys') : '';
+      let asc = sortBy ? (params.get('suunta') === 'nouseva' ? true : params.get('suunta') === 'laskeva' ? false : sortBy === 'name') : true;
+      for (const th of heads) {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'sort-btn';
+        b.append(...th.childNodes);
+        th.append(b);
+        b.addEventListener('click', () => {
+          const k = th.dataset.sort;
+          asc = k === sortBy ? !asc : k === 'name';
+          sortBy = k;
+          apply();
+        });
+      }
+      const cell = (tr, k) => tr.querySelector(`td[data-col="${CSS.escape(k)}"]`)?.dataset.v ?? '';
+      const compare = (a, b) => {
+        if (sortBy === 'name') { const d = a.dataset.name.localeCompare(b.dataset.name, lang); return asc ? d : -d; }
+        const x = cell(a, sortBy), y = cell(b, sortBy);
+        // Missing figures go last either way.
+        if ((x === '') !== (y === '')) return x === '' ? 1 : -1;
+        if (x === '') return 0;
+        const d = Number(x) - Number(y);
+        return asc ? d : -d;
+      };
+
+      const apply = () => {
+        const shown = boxes.filter((b) => b.checked).map((b) => b.value);
+        style.textContent = allKeys.filter((k) => !shown.includes(k))
+          .map((k) => `.cmp-table [data-col="${CSS.escape(k)}"]`).join(',') + (shown.length < allKeys.length ? '{display:none}' : '');
+        document.querySelector('[data-colcount]').textContent = `(${shown.length}/${allKeys.length})`;
+
+        const words = fold(form.elements.q.value.trim()).split(/\s+/).filter(Boolean);
+        const onlyFollowed = form.elements.seuratut.checked;
+        let n = 0;
+        for (const tr of rows) {
+          const hit = words.every((w) => fold(tr.dataset.name).includes(w)) && (!onlyFollowed || tr.dataset.followed);
+          tr.hidden = !hit;
+          n += hit ? 1 : 0;
+        }
+        const order = sortBy ? [...rows].sort((a, b) => compare(a, b) || a.dataset.rank - b.dataset.rank)
+          : [...rows].sort((a, b) => a.dataset.rank - b.dataset.rank);
+        body.append(...order);
+        for (const th of heads) th.setAttribute('aria-sort', th.dataset.sort === sortBy ? (asc ? 'ascending' : 'descending') : 'none');
+        document.querySelector('[data-count]').textContent = i18n.shown.replace('{n}', nf.format(n));
+        document.querySelector('[data-nomatch]').hidden = n > 0;
+
+        const q = new URLSearchParams();
+        if (form.elements.q.value.trim()) q.set('q', form.elements.q.value.trim());
+        if (onlyFollowed) q.set('seuratut', '1');
+        if (shown.join(',') !== initial.join(',')) q.set('sarakkeet', shown.join(','));
+        if (sortBy) { q.set('jarjestys', sortBy); q.set('suunta', asc ? 'nouseva' : 'laskeva'); }
+        history.replaceState(null, '', q.size ? `?${q}` : location.pathname);
+      };
+      form.addEventListener('input', apply);
+      form.addEventListener('submit', (e) => e.preventDefault());
+      for (const b of form.querySelectorAll('[data-cols]')) {
+        b.addEventListener('click', () => {
+          for (const x of boxes) x.checked = b.dataset.cols === 'all' || initial.includes(x.value);
+          apply();
+        });
+      }
+      apply();
+    })();
+  </script>
+</Base>
+
+<style>
+  .cmp-filters { align-items: start; }
+  .cmp-filters > label { align-self: end; }
+  .cmp-cols { flex: 1 1 100%; border: 1px solid var(--c-border); border-radius: var(--radius, 3px); background: var(--c-surface); }
+  .cmp-cols summary { cursor: pointer; padding: .5rem .8rem; font-weight: 650; font-size: .9rem; }
+  .cmp-cols-body { padding: 0 .8rem .8rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr)); gap: .8rem 1.4rem; }
+  .cmp-cols fieldset { border: 0; margin: 0; padding: 0; display: grid; gap: .3rem; align-content: start; }
+  .cmp-cols legend { font-weight: 700; font-size: .85rem; margin-bottom: .3rem; padding: 0; }
+  .cmp-cols fieldset label { display: flex; gap: .45rem; align-items: baseline; font-size: .88rem; font-weight: 400; color: var(--c-text); line-height: 1.3; }
+  .cmp-cols-actions { grid-column: 1 / -1; display: flex; gap: .6rem; flex-wrap: wrap; margin: 0; }
+  .cmp-scroll { max-height: 80vh; overflow: auto; border-top: 1px solid var(--c-border); }
+  .cmp-table { margin-top: 0; font-variant-numeric: tabular-nums; font-size: .92rem; }
+  .cmp-table thead th { position: sticky; top: 0; z-index: 2; background: var(--c-bg); vertical-align: bottom; min-width: 7.5rem; max-width: 11rem; font-size: .8rem; line-height: 1.25; }
+  .cmp-label, .cmp-sub { display: block; }
+  .cmp-sub { font-weight: 400; color: var(--c-muted); text-transform: none; letter-spacing: normal; margin-top: .15rem; }
+  .cmp-table .sort-btn { display: inline-block; text-align: inherit; }
+  .cmp-table .cmp-name { position: sticky; left: 0; z-index: 1; background: var(--c-bg); text-align: left; min-width: 0; max-width: none; }
+  .cmp-table thead .cmp-name { z-index: 3; }
+  .cmp-muni { display: inline-flex; align-items: center; gap: .5rem; }
+  .cmp-arms { width: 1.25rem; height: 1.5rem; object-fit: contain; flex: none; }
+  .cmp-arms.none { display: inline-grid; place-items: center; border-radius: var(--radius, 3px) var(--radius, 3px) .7rem .7rem; background: var(--c-tint); border: 1px solid var(--c-border); font-weight: 700; font-size: .7rem; color: var(--c-muted); }
+  .cmp-table tbody tr:hover > * { background: var(--c-tint, var(--c-surface)); }
+  .cmp-table tfoot th, .cmp-table tfoot td { position: sticky; bottom: 0; background: var(--c-bg); font-weight: 650; border-top: 2px solid var(--c-border); }
+  .cmp-table tfoot .cmp-name { z-index: 3; }
+</style>

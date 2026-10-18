@@ -478,6 +478,7 @@ Finnish UI at the root, Swedish under `/sv/`, English under `/en/` (since 2026-1
 /{city}/henkilot/{person}/                 memberships, attendance %, voting record, motions; speeches with excerpts (§2.2 rule 9)
 /{city}/ryhmat/{group}/                    group cohesion, splits
 /haku/                                     Pagefind search (filters: city, body, year, kind)
+/vertailu/                                 every statistic per municipality in one sortable table (columns can be picked)
 /kartta/                                   map of all municipalities: followed ones link to their page (boundaries: Statistics Finland, §13 note)
 /data/                                     downloads + schema docs + licence
 /tietoa/                                   about, method, sources, privacy notice, takedown contact
