@@ -16,7 +16,7 @@ const name = cityName(city, locale);
   </div>
   <div class="body">
     {city.enabled
-      ? <p class="small" style="margin:0"><span class="badge on">{t('city.enabled', {}, locale)}</span> {formatNumber(s.meetings, locale)} {t('city.stats.meetings', {}, locale)} · {formatNumber(s.votes, locale)} {t('city.stats.votes', {}, locale)}</p>
+      ? <p class="card-stats"><span><b>{formatNumber(s.meetings, locale)}</b> {t('city.stats.meetings', {}, locale)}</span><span><b>{formatNumber(s.votes, locale)}</b> {t('city.stats.votes', {}, locale)}</span></p>
       : <p class="small" style="margin:0"><span class="badge">{t(disabledKey(city), {}, locale)}</span></p>}
   </div>
 </article>

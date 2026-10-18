@@ -3,6 +3,7 @@
 // words in the title, sort by date or by how close the vote was, and download what is shown.
 // Without JavaScript the newest votes are listed; the script loads the rest from
 // /aanestykset.json.
+import Pager from '../../components/Pager.astro';
 import Base from '../../layouts/Base.astro';
 import { assetPath, localeParams, localePath, sharedPath, useI18n, type Key, type Locale } from '../../i18n';
 import { allVotesRows, city as cityRec, cityName } from '../../lib/data';
@@ -26,7 +27,7 @@ const kindNames = Object.fromEntries(kinds.map((k) => [k, t(`body.kind.${k}` as 
 const close = rows.filter((r) => Math.abs(r.j - r.e) <= 2).length;
 const withNames = rows.filter((r) => r.n > 0).length;
 const i18n = {
-  shown: t('allVotes.shown', { n: '{n}' }), more: t('allVotes.more'), jaa: t('vote.jaa'), ei: t('vote.ei'),
+  shown: t('allVotes.shown', { n: '{n}' }), jaa: t('vote.jaa'), ei: t('vote.ei'),
   tyhja: t('vote.tyhja').toLowerCase(), review: t('allVotes.review'), named: t('allVotes.named'),
 };
 const csvHead = ['date', 'municipality', 'body', 'body_kind', 'item', 'url', 'jaa', 'ei', 'tyhja', 'poissa', 'jaa_label', 'ei_label', 'named_ballots', 'needs_review'];
@@ -101,7 +102,7 @@ const fiPath = (u: string) => sharedPath(u, locale);
       </div>
     )}
     <p class="empty" hidden data-nomatch>{t('votes.noMatch')}</p>
-    <p><button type="button" class="more" hidden data-more>{t('allVotes.more')}</button></p>
+    <Pager locale={locale} />
     <p class="small muted">{t('allVotes.legend')}</p>
   </div>
   <script is:inline define:vars={{ json, prefix, dateTpl, i18n, names, kindNames, lang, csvHead, FIRST }}>
@@ -121,7 +122,7 @@ const fiPath = (u: string) => sharedPath(u, locale);
       const keys = ['kunta', 'tyyppi', 'alkaen', 'asti', 'q', 'jarjestys'];
       const params = new URLSearchParams(location.search);
       for (const k of keys) if (params.get(k)) form.elements[k].value = params.get(k);
-      let shown = FIRST, current = [];
+      let page = kotiPager.start(), started = false, current = [];
       const row = (r) => `<tr><td>${fmt.format(r.d)}</td><td>${esc(names[r.c] ?? r.c)}</td><td>${esc(r.b)}</td>`
         + `<td><a href="${esc(href(r.u))}">${esc(r.t)}</a>`
         + (r.jl || r.el ? `<span class="small muted av-sides">${i18n.jaa}: ${esc(r.jl || '–')} · ${i18n.ei}: ${esc(r.el || '–')}</span>` : '')
@@ -130,8 +131,9 @@ const fiPath = (u: string) => sharedPath(u, locale);
         + (r.n ? `<span class="small muted av-flag" title="${esc(i18n.named)}">●</span>` : '')
         + (r.r ? `<span class="small av-flag review" title="${esc(i18n.review)}">!</span>` : '') + '</td></tr>';
       const render = () => {
-        body.innerHTML = current.slice(0, shown).map(row).join('');
-        document.querySelector('[data-more]').hidden = current.length <= shown;
+        page = Math.min(page, Math.max(1, Math.ceil(current.length / FIRST)));
+        body.innerHTML = current.slice((page - 1) * FIRST, page * FIRST).map(row).join('');
+        pager.update(current.length, FIRST, page);
         document.querySelector('[data-nomatch]').hidden = current.length > 0;
         document.querySelector('[data-count]').textContent = i18n.shown.replace('{n}', nf.format(current.length));
       };
@@ -143,7 +145,8 @@ const fiPath = (u: string) => sharedPath(u, locale);
           && words.every((w) => `${r.t} ${r.jl} ${r.el} ${r.b}`.toLowerCase().includes(w)));
         if (v.jarjestys === 'old') current = [...current].reverse();
         if (v.jarjestys === 'close') current = [...current].sort((a, b) => Math.abs(a.j - a.e) - Math.abs(b.j - b.e) || b.d.localeCompare(a.d));
-        shown = FIRST;
+        if (started) page = 1;
+        started = true;
         render();
         const q = new URLSearchParams();
         for (const k of keys) if (v[k] && !(k === 'jarjestys' && v[k] === 'new')) q.set(k, v[k]);
@@ -151,7 +154,7 @@ const fiPath = (u: string) => sharedPath(u, locale);
       };
       form.addEventListener('input', apply);
       form.addEventListener('submit', (e) => e.preventDefault());
-      document.querySelector('[data-more]').addEventListener('click', () => { shown += FIRST; render(); });
+      const pager = kotiPager(document.querySelector('[data-pager]'), (p) => { page = p; render(); });
       document.querySelector('[data-csv]').addEventListener('click', (e) => {
         e.preventDefault();
         const cell = (x) => (/[",\n]/.test(String(x)) ? `"${String(x).replace(/"/g, '""')}"` : String(x));

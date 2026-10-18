@@ -2,11 +2,11 @@
    accent and a tint used for hero and card backgrounds. Contrast of --c-on-primary on
    --c-primary is ≥ 4.5:1 for every city. */
 :root {
-  --c-primary: #2b2d42;      /* Kotihiiri: mouse-grey ink */
+  --c-primary: #1d3f73;      /* Kotihiiri: heraldic azure */
   --c-on-primary: #ffffff;
-  --c-accent: #ef8354;
-  --c-tint: #f1efe9;
-  --c-link: #2b2d42;
+  --c-accent: #d9a521;       /* or */
+  --c-tint: #e6e9ee;
+  --c-link: #1d3f73;
 }
 [data-city="helsinki"] { --c-primary: #0000bf; --c-on-primary: #fff; --c-accent: #ffc61e; --c-tint: #e8edff; --c-link: #0000bf; }
 [data-city="espoo"]    { --c-primary: #00664a; --c-on-primary: #fff; --c-accent: #f2a900; --c-tint: #e6f3ec; --c-link: #00664a; }
@@ -16,7 +16,7 @@
 [data-city="turku"]    { --c-primary: #9e1b32; --c-on-primary: #fff; --c-accent: #d4a62a; --c-tint: #f8e9ea; --c-link: #9e1b32; }
 
 @media (prefers-color-scheme: dark) {
-  :root { --c-tint: #24262f; --c-link: #c9cbe0; }
+  :root { --c-tint: #1a2130; --c-link: #9fbbe8; }
   [data-city="helsinki"] { --c-tint: #10183a; --c-link: #9fb0ff; }
   [data-city="espoo"]    { --c-tint: #0f2a21; --c-link: #7fd1b0; }
   [data-city="tampere"]  { --c-tint: #2e1714; --c-link: #f0a493; }

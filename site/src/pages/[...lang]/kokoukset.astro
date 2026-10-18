@@ -2,6 +2,7 @@
 // Every meeting in every municipality: upcoming agendas first, then one table to filter by
 // municipality, body type, stage, date and body name. Without JavaScript the newest meetings are
 // listed; the script loads the rest from /kokoukset.json.
+import Pager from '../../components/Pager.astro';
 import Base from '../../layouts/Base.astro';
 import { assetPath, localeParams, localePath, useI18n, type Key, type Locale } from '../../i18n';
 import { city as cityRec, cityName } from '../../lib/data';
@@ -94,7 +95,7 @@ const prefix = localePath('/').replace(/\/$/, '');
       </table>
     </div>
     <p class="empty" hidden data-nomatch>{t('meetings.none')}</p>
-    <p><button type="button" class="more" hidden data-more>{t('allVotes.more')}</button></p>
+    <Pager locale={locale} />
   </div>
   <script is:inline define:vars={{ json, prefix, dateTpl, i18n, names, stageNames, lang, FIRST }}>
     (async () => {
@@ -113,12 +114,13 @@ const prefix = localePath('/').replace(/\/$/, '');
       const keys = ['kunta', 'tyyppi', 'vaihe', 'alkaen', 'asti', 'q'];
       const params = new URLSearchParams(location.search);
       for (const k of keys) if (params.get(k)) form.elements[k].value = params.get(k);
-      let shown = FIRST, current = [];
+      let page = kotiPager.start(), started = false, current = [];
       const row = (r) => `<tr><td>${fmt(r.d)}</td><td>${esc(names[r.c] ?? r.c)}</td><td><a href="${esc(href(r.u))}">${esc(r.b)}</a></td>`
         + `<td>${esc(stageNames[r.s] ?? r.s)}</td><td class="num">${r.n}</td><td class="num">${r.v || ''}</td></tr>`;
       const render = () => {
-        body.innerHTML = current.slice(0, shown).map(row).join('');
-        document.querySelector('[data-more]').hidden = current.length <= shown;
+        page = Math.min(page, Math.max(1, Math.ceil(current.length / FIRST)));
+        body.innerHTML = current.slice((page - 1) * FIRST, page * FIRST).map(row).join('');
+        pager.update(current.length, FIRST, page);
         document.querySelector('[data-nomatch]').hidden = current.length > 0;
         document.querySelector('[data-count]').textContent = i18n.shown.replace('{n}', nf.format(current.length));
       };
@@ -128,7 +130,8 @@ const prefix = localePath('/').replace(/\/$/, '');
         current = rows.filter((r) => (!v.kunta || r.c === v.kunta) && (!v.tyyppi || r.k === v.tyyppi)
           && (!v.vaihe || r.s === v.vaihe) && (!v.alkaen || r.d >= v.alkaen) && (!v.asti || r.d <= v.asti)
           && words.every((w) => r.b.toLowerCase().includes(w)));
-        shown = FIRST;
+        if (started) page = 1;
+        started = true;
         render();
         const q = new URLSearchParams();
         for (const k of keys) if (v[k]) q.set(k, v[k]);
@@ -136,7 +139,7 @@ const prefix = localePath('/').replace(/\/$/, '');
       };
       form.addEventListener('input', apply);
       form.addEventListener('submit', (e) => e.preventDefault());
-      document.querySelector('[data-more]').addEventListener('click', () => { shown += FIRST; render(); });
+      const pager = kotiPager(document.querySelector('[data-pager]'), (p) => { page = p; render(); });
       apply();
     })();
   </script>

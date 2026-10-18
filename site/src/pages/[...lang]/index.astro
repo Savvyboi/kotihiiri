@@ -2,18 +2,18 @@
 import Base from '../../layouts/Base.astro';
 import CityCard from '../../components/CityCard.astro';
 import VoteCard from '../../components/VoteCard.astro';
+import MunicipalityMap from '../../components/MunicipalityMap.astro';
 import { assetPath, localeParams, useI18n, type Key, type Locale } from '../../i18n';
 import { cityImages } from '../../lib/images';
 import { TOPICS, topicRows } from '../../lib/topics';
-import { allInitiativeRows } from '../../lib/initiatives';
-import { city as cityById, cities, majorCities, otherMunicipalities, cityName, cityStats, disabledKey, meetingFiles, recentVotes, bodyName, meetingUrl, itemUrl, decisionText } from '../../lib/data';
+import { cities, majorCities, otherMunicipalities, cityName, cityStats, disabledKey, recentVotes } from '../../lib/data';
 
 export function getStaticPaths() {
   return localeParams().map(({ lang, locale }) => ({ params: { lang }, props: { locale } }));
 }
 interface Props { locale: Locale }
 const { locale } = Astro.props;
-const { t, path, shared, date, num } = useI18n(locale);
+const { t, path, num } = useI18n(locale);
 const others = otherMunicipalities().filter((c) => c.enabled);
 // Municipalities not followed yet, in their own folded section, grouped by why (§18.1).
 const notYet = cities().filter((c) => !c.enabled);
@@ -24,17 +24,9 @@ const reasons = (['city.disabled', 'city.noAdapter', 'city.coming'] as const)
 const enabled = cities().filter((c) => c.enabled);
 const votes = enabled.flatMap((c) => recentVotes(c.id, 3).map((row) => ({ row, city: c.id })))
   .sort((a, b) => b.row.meeting.date.localeCompare(a.row.meeting.date)).slice(0, 6);
-const decisions = enabled.flatMap((c) => meetingFiles(c.id)
-  .filter((f) => f.meeting.stage !== 'agenda')
-  .flatMap((f) => f.items.filter((i) => decisionText(i)).map((i) => ({ item: i, meeting: f.meeting, city: c }))))
-  .sort((a, b) => b.meeting.date.localeCompare(a.meeting.date)).slice(0, 8);
-const today = new Date().toISOString().slice(0, 10);
-const upcoming = enabled.flatMap((c) => meetingFiles(c.id).filter((f) => f.meeting.stage === 'agenda' && f.meeting.date >= today)
-  .map((f) => ({ meeting: f.meeting, city: c }))).sort((a, b) => a.meeting.date.localeCompare(b.meeting.date)).slice(0, 6);
 const totals = enabled.map((c) => cityStats(c.id)).reduce((s, x) => ({
   meetings: s.meetings + x.meetings, items: s.items + x.items, votes: s.votes + x.votes,
 }), { meetings: 0, items: 0, votes: 0 });
-const newInits = allInitiativeRows().slice(0, 5);
 const byTopic = topicRows();
 const topics = TOPICS.map((tp) => ({ id: tp.id, n: byTopic.get(tp.id)?.length ?? 0 }))
   .filter((x) => x.n && x.id !== 'ilmoitusasiat').sort((a, b) => b.n - a.n);
@@ -59,7 +51,10 @@ const topics = TOPICS.map((tp) => ({ id: tp.id, n: byTopic.get(tp.id)?.length ??
 
     <section id="kunnat" class="municipalities">
       <h2>{t('home.municipalities')}</h2>
-      <p class="muted">{t('home.municipalitiesLead')} <a href={path('/kartta/')}>{t('home.showMap')}</a></p>
+      <div class="muni-layout">
+        <MunicipalityMap locale={locale} compact />
+        <div class="muni-col">
+      <p class="muted">{t('home.municipalitiesLead')}</p>
       <label class="filter"><span class="visually-hidden">{t('home.filter')}</span>
         <input type="search" placeholder={t('home.filter')} data-muni-filter autocomplete="off" /></label>
       <ul class="muni-list" data-muni-list>
@@ -83,6 +78,8 @@ const topics = TOPICS.map((tp) => ({ id: tp.id, n: byTopic.get(tp.id)?.length ??
         })}
       </ul>
       <p class="muted" data-muni-empty hidden>{t('home.noMatch')}</p>
+        </div>
+      </div>
     </section>
 
     {reasons.length > 0 && (
@@ -113,46 +110,11 @@ const topics = TOPICS.map((tp) => ({ id: tp.id, n: byTopic.get(tp.id)?.length ??
       </ul>
     </section>}
 
-    <div class="two-col">
-      <section>
-        <h2>{t('home.latest')}</h2>
-        {decisions.length ? (
-          <ul class="list">
-            {decisions.map(({ item, meeting, city }) => (
-              <li><span class="date">{date(meeting.date)}</span>
-                <span><a href={shared(itemUrl(item))} data-shared>{item.title}</a><br />
-                <span class="small muted">{cityName(city, locale)} · {bodyName(meeting.body_id)}</span></span></li>
-            ))}
-          </ul>
-        ) : <p class="empty">{t('city.empty')}</p>}
-      </section>
-      <aside>
-        <h2>{t('home.upcoming')}</h2>
-        {upcoming.length ? (
-          <ul class="list">
-            {upcoming.map(({ meeting, city }) => (
-              <li><span class="date">{date(meeting.date)}</span>
-                <a href={path(meetingUrl(meeting))}>{cityName(city, locale)}: {bodyName(meeting.body_id)}</a></li>
-            ))}
-          </ul>
-        ) : <p class="muted">{t('common.none')}</p>}
-        <p><a href={path('/kokoukset/')}>{t('home.allMeetings')}</a></p>
-        {newInits.length > 0 && <>
-          <h2>{t('initiatives.recent')}</h2>
-          <ul class="list">
-            {newInits.map((r) => (
-              <li><span class="date">{date(r.d)}</span>
-                <span><a href={`https://www.kuntalaisaloite.fi/${locale === 'sv' ? 'sv/initiativ' : 'fi/aloite'}/${r.i}`} rel="external noopener">{r.n}</a><br />
-                <span class="small muted">{cityName(cityById(r.c)!, locale)}</span></span></li>
-            ))}
-          </ul>
-          <p><a href={path('/aloitteet/')}>{t('initiatives.allNational')}</a></p>
-        </>}
-        <h2>{t('home.howTitle')}</h2>
-        <p>{t('home.how')}</p>
-        {locale !== 'fi' && <p class="small muted">{t('lang.docsNote')}</p>}
-      </aside>
-    </div>
+    <section class="how">
+      <h2>{t('home.howTitle')}</h2>
+      <p>{t('home.how')}</p>
+      {locale !== 'fi' && <p class="small muted">{t('lang.docsNote')}</p>}
+    </section>
   </div>
 </Base>
 <script>
@@ -173,6 +135,15 @@ const topics = TOPICS.map((tp) => ({ id: tp.id, n: byTopic.get(tp.id)?.length ??
 </script>
 <style>
   .municipalities { margin-top: 2.5rem; }
+  /* Map and the searchable list side by side; the list scrolls beside the map. */
+  .muni-layout { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 2rem; align-items: start; }
+  .muni-col { min-width: 0; }
+  .muni-col .muni-list { max-height: 44rem; overflow-y: auto; padding-right: .5rem; scrollbar-width: thin; }
+  .how { max-width: 46rem; }
+  @media (max-width: 860px) {
+    .muni-layout { grid-template-columns: 1fr; }
+    .muni-col .muni-list { max-height: none; overflow: visible; }
+  }
   .filter input { width: 100%; max-width: 24rem; padding: .5rem .75rem; font: inherit; border: 1px solid var(--c-border, #ccc); border-radius: .4rem; background: var(--c-bg, transparent); color: inherit; }
   .muni-list { list-style: none; padding: 0; margin: 1rem 0 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); gap: 0 1.5rem; }
   .muni-list li { display: grid; grid-template-columns: 1.75rem minmax(0, 1fr) auto; align-items: center; gap: .7rem; padding: .45rem 0; border-bottom: 1px solid var(--c-border, #e5e5e5); min-height: 3.3rem; }
