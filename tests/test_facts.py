@@ -129,3 +129,20 @@ def test_fetch_queries_only_our_areas_and_is_deterministic():
     assert posted[0]["response"] == {"format": "json-stat2"}
     assert jsonio.dumps(a) == jsonio.dumps(b)
     assert "fetched" not in jsonio.dumps(a).decode()
+
+
+def test_bilingual_and_genitive_area_names():
+    area = {
+        "code": "Alue",
+        "values": ["SSS", "KU478", "KU599"],
+        "valueTexts": ["KOKO MAA", "Maarianhamina - Mariehamn", "Pedersören kunta"],
+    }
+    codes, country = facts.match_areas(
+        area,
+        {
+            "maarianhamina": {"name_fi": "Maarianhamina", "name_sv": "Mariehamn"},
+            "pedersore": {"name_fi": "Pedersöre"},
+        },
+    )
+    assert codes == {"maarianhamina": "KU478", "pedersore": "KU599"}
+    assert country == "SSS"

@@ -30,6 +30,7 @@ LANGS = ("fi", "sv", "en")
 SOURCE_PAGE = (
     "https://pxdata.stat.fi/PxWeb/pxweb/{lang}/Kuntien_avainluvut/Kuntien_avainluvut__uusin/" + TABLE + ".px/"
 )
+TITLES = {"fi": "Kuntien avainluvut", "sv": "Kommunernas nyckeltal", "en": "Municipal key figures"}
 COUNTRY_TEXTS = {"koko maa", "hela landet", "whole country"}
 
 
@@ -65,7 +66,13 @@ def match_areas(area: dict, municipalities: dict[str, dict]) -> tuple[dict[str, 
     by_text: dict[str, str] = {}
     country = None
     for code, text in zip(area["values"], area["valueTexts"], strict=True):
-        by_text.setdefault(_key(text), code)
+        # Statistics Finland prints a few names differently: "Maarianhamina - Mariehamn" (both
+        # languages) and "Pedersören kunta" (genitive, for Pedersöre).
+        for part in [text, *text.split(" - ")]:
+            by_text.setdefault(_key(part), code)
+            m = re.fullmatch(r"(.+)n kunta", _key(part))
+            if m:
+                by_text.setdefault(m.group(1), code)
         if _key(text) in COUNTRY_TEXTS:
             country = code
     out: dict[str, str] = {}
@@ -162,12 +169,11 @@ def build(
         {"code": code, "label": labels[code], "decimals": dec.get(code, 0), "order": i}
         for i, code in enumerate(figures["values"])
     ]
-    titles = {lang: meta.get("title", "").strip() for lang, meta in metas.items()}
     out = {
         "source": {
             "publisher": "Tilastokeskus / Statistics Finland",
             "table": TABLE,
-            "title": titles,
+            "title": TITLES,
             "updated": data.get("updated"),
             "api_url": api_url("fi"),
             "page_url": {lang: SOURCE_PAGE.format(lang=lang) for lang in LANGS},
