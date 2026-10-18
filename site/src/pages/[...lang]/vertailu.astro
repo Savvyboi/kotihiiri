@@ -73,7 +73,7 @@ const lang = locale;
             <th scope="col" class="cmp-name" data-sort="name">{t('budget.col.municipality')}</th>
             {cols.map((c) => (
               <th scope="col" class="num" data-col={c.key} data-sort={c.key}>
-                <span class="cmp-label">{c.label}</span>{c.sub && <span class="cmp-sub">{c.sub}</span>}
+                <span class="cmp-head"><span class="cmp-label">{c.label}</span>{c.sub && <span class="cmp-sub">{c.sub}</span>}</span>
               </th>
             ))}
           </tr>
@@ -226,7 +226,8 @@ const lang = locale;
   .cmp-table thead th { position: sticky; top: 0; z-index: 2; background: var(--c-bg); vertical-align: bottom; min-width: 7.5rem; max-width: 11rem; font-size: .8rem; line-height: 1.25; }
   .cmp-label, .cmp-sub { display: block; }
   .cmp-sub { font-weight: 400; color: var(--c-muted); text-transform: none; letter-spacing: normal; margin-top: .15rem; }
-  .cmp-table .sort-btn { display: inline-block; text-align: inherit; }
+  .cmp-head { display: block; }
+  .cmp-table th.num .sort-btn { align-items: end; text-align: right; }
   .cmp-table .cmp-name { position: sticky; left: 0; z-index: 1; background: var(--c-bg); text-align: left; min-width: 0; max-width: none; }
   .cmp-table thead .cmp-name { z-index: 3; }
   .cmp-muni { display: inline-flex; align-items: center; gap: .5rem; }
