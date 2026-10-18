@@ -1,5 +1,5 @@
 ---
-// Parties across every municipality (/puolueet/): council seats, how often each party's side wins,
+// Parties across every municipality (/puolueet/): council seats, how many votes each took part in,
 // how united its members vote, and which parties vote the same way.
 import Base from '../../layouts/Base.astro';
 import { localeParams, useI18n, type Locale } from '../../i18n';
@@ -48,19 +48,16 @@ const name = (p: Party) => t(partyKey(p));
           <th>{t('parties.col.party')}</th>
           <th class="num">{t('parties.col.seats')}</th>
           <th class="num">{t('parties.col.positions')}</th>
-          <th class="num">{t('parties.col.wins')}</th>
           <th class="num">{t('parties.col.cohesion')}</th>
         </tr></thead>
         <tbody>
           {stats.map((s) => {
-            const wins = pct(s.wins, s.positions);
             const coh = pct(s.together, s.cast);
             return (
               <tr>
                 <th scope="row"><i class="party-dot" style={`background:${PARTY_COLOURS[s.party]}`} /><a href={path(`/puolueet/${s.party}/`)}>{name(s.party)}</a></th>
                 <td class="num">{num(s.seats)}<span class="small muted"> · {t('parties.inMunis', { n: num(s.munis) })}</span></td>
                 <td class="num">{num(s.positions)}</td>
-                <td class="num">{wins === undefined ? '–' : <><span class="meter" style={`--v:${wins}%`} />{wins} %</>}</td>
                 <td class="num">{coh === undefined ? '–' : <><span class="meter" style={`--v:${coh}%`} />{coh} %</>}</td>
               </tr>
             );
@@ -71,7 +68,6 @@ const name = (p: Party) => t(partyKey(p));
     <dl class="party-help small">
       <div><dt>{t('parties.col.seats')}</dt><dd>{t('parties.help.seats')}</dd></div>
       <div><dt>{t('parties.col.positions')}</dt><dd>{t('parties.help.positions')}</dd></div>
-      <div><dt>{t('parties.col.wins')}</dt><dd>{t('parties.help.wins')}</dd></div>
       <div><dt>{t('parties.col.cohesion')}</dt><dd>{t('parties.help.cohesion')}</dd></div>
     </dl>
 
@@ -100,13 +96,13 @@ const name = (p: Party) => t(partyKey(p));
           <summary>{t('parties.agree.asTable')}</summary>
           <div class="table-scroll">
             <table class="agree-matrix">
-              <thead><tr><th />{matrix.map((p) => <th scope="col"><abbr title={name(p)}>{PARTY_ABBR[p]}</abbr></th>)}</tr></thead>
+              <thead><tr><th></th>{matrix.map((p) => <th scope="col"><abbr title={name(p)}>{PARTY_ABBR[p]}</abbr></th>)}</tr></thead>
               <tbody>
                 {matrix.map((a) => (
                   <tr>
                     <th scope="row"><abbr title={name(a)}>{PARTY_ABBR[a]}</abbr></th>
                     {matrix.map((b) => {
-                      if (a === b) return <td class="self" />;
+                      if (a === b) return <td class="self"></td>;
                       const pr = pair(a, b);
                       const p = pr && pr.both >= MIN_SHARED ? pct(pr.same, pr.both) : undefined;
                       return p === undefined ? <td class="none">–</td> : (

@@ -29,11 +29,12 @@ const pct = new Intl.NumberFormat(locale === 'fi' ? 'fi-FI' : locale === 'sv' ? 
           <li><a href={path(i === 0 ? '/talous/' : `/talous/${y}/`)} aria-current={y === year ? 'page' : undefined}>{y}</a></li>
         ))}</ul>
       </nav>
+      <p class="small muted budget-unit">{t('budget.unitPerResident')}</p>
       <div class="table-scroll">
-        <table class="party-table">
+        <table class="party-table budget-national">
           <thead><tr>
             <th>{t('budget.col.municipality')}</th>
-            {SUMMARY.map((m) => <th class="num">{t(m.label)}{m.amount && <span class="small muted"><br />€ / {t('budget.perResident')}</span>}</th>)}
+            {SUMMARY.map((m) => <th class="num" scope="col">{t(m.label)}</th>)}
           </tr></thead>
           <tbody>
             {rows.map(({ c, y }) => (

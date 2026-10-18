@@ -47,7 +47,7 @@ const stageName = (s: string) => (['Alustava', 'Lopullinen', 'Jälkikorjattu'].i
       <div class="table-scroll">
         <table class="party-table budget-table">
           <thead><tr>
-            <th />
+            <th></th>
             {COLUMNS.map((c) => <th class="num">{t(`budget.col.${c}`, { year: colYear[c] })}</th>)}
             {pop && <th class="num">{t('budget.perResident')}</th>}
           </tr></thead>

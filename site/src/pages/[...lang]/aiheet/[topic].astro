@@ -60,7 +60,7 @@ const prefix = localePath('/').replace(/\/$/, '');
       {rows.slice(0, FIRST).map((r) => (
         <li><span class="date">{date(r.d)}</span>
           <span><a href={sharedPath(r.u, locale)} data-shared>{r.t}</a><br />
-          <span class="small muted">{names[r.c]} · {r.b}{r.v > 0 && <> · {r.v} {i18n.votes}</>}</span></span></li>
+          <span class="small muted">{names[r.c]} · {r.b}{r.v > 0 && ` · ${r.v} ${i18n.votes}`}</span></span></li>
       ))}
     </ul>
     <p class="empty" hidden data-nomatch>{t('votes.noMatch')}</p>
