@@ -1,0 +1,54 @@
+---
+// Budgets of every municipality for one year (/talous/ and /talous/{year}/, PLAN.md §19): the main
+// figures per resident, largest municipality first.
+import Base from '../layouts/Base.astro';
+import { useI18n, type Locale } from '../i18n';
+import { cities, cityName } from '../lib/data';
+import { SUMMARY, budget, budgetItems, budgetYears, population, summaryValue } from '../lib/budget';
+interface Props { year: number; locale: Locale }
+const { year, locale } = Astro.props;
+const { t, path, num } = useI18n(locale);
+const all = cities();
+const years = budgetYears(all.map((c) => c.id));
+const items = budgetItems();
+const rows = all.map((c) => ({ c, y: budget(c.id)?.years.find((y) => y.year === year) }))
+  .filter((r) => r.y);
+const pct = new Intl.NumberFormat(locale === 'fi' ? 'fi-FI' : locale === 'sv' ? 'sv-FI' : 'en-GB', { maximumFractionDigits: 2 });
+---
+<Base title={t('budget.title')} locale={locale}>
+  <section class="hero">
+    <div class="wrap">
+      <h1>{t('budget.title')}</h1>
+      <p class="lead">{t('budget.lead')}</p>
+    </div>
+  </section>
+  <div class="wrap">
+    {years.length === 0 ? <p class="empty" style="margin-top:2rem">{t('common.none')}</p> : <>
+      <nav class="year-tabs" aria-label={t('budget.year')}>
+        <ul>{years.map((y, i) => (
+          <li><a href={path(i === 0 ? '/talous/' : `/talous/${y}/`)} aria-current={y === year ? 'page' : undefined}>{y}</a></li>
+        ))}</ul>
+      </nav>
+      <div class="table-scroll">
+        <table class="party-table">
+          <thead><tr>
+            <th>{t('budget.col.municipality')}</th>
+            {SUMMARY.map((m) => <th class="num">{t(m.label)}{m.amount && <span class="small muted"><br />€ / {t('budget.perResident')}</span>}</th>)}
+          </tr></thead>
+          <tbody>
+            {rows.map(({ c, y }) => (
+              <tr>
+                <th scope="row"><a href={path(`/${c.id}/talous/`)}>{cityName(c, locale)}</a></th>
+                {SUMMARY.map((m) => {
+                  const v = summaryValue(y, m);
+                  return <td class="num">{v === undefined ? '–' : !m.amount ? `${pct.format(v)} %` : population(c) ? num(Math.round(v / population(c)!)) : '–'}</td>;
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {items && <p class="small muted">{t('budget.source')}: <a href={items.source.url} rel="external">{items.source.name}</a> ({items.source.licence})</p>}
+    </>}
+  </div>
+</Base>
