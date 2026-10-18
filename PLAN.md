@@ -621,6 +621,7 @@ Fill in "Result" as you resolve each one.
 
 ### Build log
 
+- 2026-10-18 — Municipal budgets (§19, at Savvas's request): `kunta budgets` fetches each municipality's approved budget and financial plan (KTAS) from the State Treasury's open API into `data/talous/` (4.7 MB, in git); `budgets.yml` refreshes it monthly. First run (budgets run 39101825890): 95 municipalities, 2020–2026, 7 years for 94 of them, 1,497 notes from the municipalities. Site: `/talous/` and `/talous/{year}/` compare the main figures per resident; `/{city}/talous/` shows the latest budget in full (four columns, 40 lines), the main figures for every year and the notes, for followed and not-yet-followed municipalities alike. Per-resident figures use Statistics Finland's population from `site/src/data/municipality-facts.json` when present (the facts PR), else the registry's; the six cities have no registry population, so their per-resident figures wait for that file. The income tax rate is left out of the summaries: 55 municipalities report it only in the plan-year columns, and a few report 0 or other placeholders.
 - 2026-10-17 — Party pages `/puolueet/{party}/` (at Savvas's request, after vahtikissa.fi): one page per party with council seats or votes, linked from `/puolueet/`. Shows seats per municipality against council size, which parties it votes with, the latest 20 items where its side lost (several lost votes on one item are one line), and the councillors who most often vote against their own group, relative to their votes cast. `partyView()` now also keeps per-party seats per municipality and every vote where the party took a side.
 - 2026-10-17 — Councillors page `/valtuutetut/` (at Savvas's request, after vahtikissa.fi): every council member of every enabled municipality with a roster in one filterable, sortable table, from `site/src/lib/councillors.ts` and `/valtuutetut.json`: party, 2025 election votes, ballots cast this term, votes against their own group's majority (blank counts as different), council attendance from the minutes, and motions. Municipalities whose minutes print no names have no rows; Helsinki's minutes have no attendance lists, so its attendance is blank. Also gave the national parties page its own title key (`parties.pageTitle`); it had overwritten the party-share heading on city and body pages.
 - 2026-10-17 — Clearer votes, municipalities and parties (at Savvas's request): each vote shows a Jaa and an Ei column with its meaning, its count, a "won" badge and the names of who voted that way (members who went against their group highlighted); blank and absent voters listed below. The home page and city switcher list only followed municipalities; the rest fold into one "not yet followed" section grouped by reason. `/puolueet/` explains each column and shows who votes with whom as one bar list per party (pairs with at least 10 shared votes); the old matrix stays behind a toggle.
@@ -738,3 +739,37 @@ Cloudflare (free zone on Savvas's domain)
 3. Register a domain (e.g. a `.fi`) at any registrar and add it to Cloudflare as a free zone, then connect it to `kotihiiri-site` as the bucket's custom domain. Update `site_domain` in `config/project.yaml`, which also changes the crawler's User-Agent.
 4. Create an R2 API token (Object Read & Write, both buckets) and add GitHub repository secrets `CLOUDFLARE_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`.
 5. Decide whether to ask Triplan (or the 13 municipalities) for crawl permission if S11 confirms the `*.tweb.fi` disallow.
+
+## 19. Municipal budgets (added 2026-10-18)
+
+At Savvas's request: each municipality's approved budget and financial plan, from the State
+Treasury's open municipal-finance service (Valtiokonttori, Kuntien ja hyvinvointialueiden
+taloustietopalvelu; avoindata.tutkihallintoa.fi, CC BY 4.0).
+
+- **Source.** Every municipality files its budget as the KTAS report ("talousarvio ja
+  -suunnitelma"). The dataset list (`prodkuntarest.westeurope.cloudapp.azure.com/rest/v1/json/aineistot`)
+  names each published report by business ID, report code, year, approval stage (Alustava,
+  Lopullinen, Jälkikorjattu) and approval time, with the URL of its figures. The Kuntatalous API's
+  taxonomy (`api.tutkihallintoa.fi/kuntatalous/v1/taksonomia`, files on
+  `tkdpprodjrpstacc02.blob.core.windows.net`) names each cell in Finnish, Swedish and English with
+  its line, column and level. No key is needed. None of the three hosts has a robots.txt (404 on
+  2026-10-18), so §2 rule 1 allows fetching; `PoliteClient` still checks it on every run.
+- **Coverage.** KTAS years 2020 onward. For each year the latest stage wins, then the latest
+  approval time. A report has about 40 lines (operating income and expenses, tax revenue, central
+  government transfers, annual margin, investments, loans, person-years, income tax rate) in four
+  columns: last year's budget with amendments, the budget year, and the two plan years.
+- **Business IDs.** `config/registry/business_ids.yaml`, 95 of the 96 municipalities, from the
+  KTAS reporters looked up in the Service Catalogue (PTV) by business ID and matched by name.
+  Mariehamn is left out: Åland municipalities do not report to the State Treasury. Budgets do not
+  depend on `enabled`; disabled municipalities (Oulu, Turku) get budget pages too, because the data
+  comes from the Treasury, not from their sites.
+- **Data.** `kunta budgets` writes `data/talous/items.json` (the line list with labels) and
+  `data/talous/{city}.json` (years newest first: stage, approval time, source URL, values per line
+  and column, the municipality's notes for the budget column after the PII pass). Small, so it is
+  committed to git for all municipalities. A stored year is re-fetched only when its approval time
+  or URL changes, so a re-run writes the same bytes.
+- **Schedule.** `budgets.yml` monthly (budgets are approved in December and corrected now and then),
+  on dispatch, and on a working branch when the fetcher changes.
+- **Site.** `/talous/` compares municipalities for a chosen year (per resident where it is an amount);
+  `/{city}/talous/` shows the latest budget in full, the trend over the years and the notes. Both
+  linked from the nav and the city tabs.
