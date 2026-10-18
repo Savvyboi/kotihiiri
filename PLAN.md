@@ -778,6 +778,6 @@ taloustietopalvelu; avoindata.tutkihallintoa.fi, CC BY 4.0).
   or URL changes, so a re-run writes the same bytes.
 - **Schedule.** `budgets.yml` monthly (budgets are approved in December and corrected now and then),
   on dispatch, and on a working branch when the fetcher changes.
-- **Site.** `/talous/` compares municipalities for a chosen year (per resident where it is an amount);
+- **Site.** `/talous/` compares municipalities for a chosen year, per resident or in total (millions of euros), sortable by any column;
   `/{city}/talous/` shows the latest budget in full, the trend over the years and the notes. Both
   linked from the nav and the city tabs.

@@ -69,6 +69,10 @@ export function compareColumns(locale: Locale): Column[] {
       cols.push({ key: `b:${m.id}`, group: 'budget', label: '', labelKey: m.label, sub: '', subKey: 'cmp.sub.perResident', subVars: { year },
         decimals: 0, percent: false, initial: INITIAL.has(`b:${m.id}`) });
     }
+    for (const m of SUMMARY) {
+      cols.push({ key: `b:${m.id}:total`, group: 'budget', label: '', labelKey: m.label, sub: '', subKey: 'cmp.sub.millions', subVars: { year },
+        decimals: 1, percent: false, initial: false });
+    }
     cols.push({ key: 'b:tax-rate', group: 'budget', label: '', labelKey: 'cmp.col.taxRate', sub: '', subKey: 'cmp.sub.pctYear', subVars: { year },
       decimals: 2, percent: true, initial: INITIAL.has('b:tax-rate') });
     cols.push({ key: 'b:staff', group: 'budget', label: '', labelKey: 'cmp.col.staff', sub: '', subKey: 'cmp.sub.per1000', subVars: { year },
@@ -105,7 +109,11 @@ export function compareRows(locale: Locale): Row[] {
     const pop = population(c);
     const y = year ? budget(c.id)?.years.find((x) => x.year === year) : undefined;
     const per = (n: number | undefined, k = 1) => (n === undefined || !pop ? null : (n * k) / pop);
-    for (const [id, key] of summaryKeys) values[`b:${id}`] = key ? per(value(y, key)) : null;
+    for (const [id, key] of summaryKeys) {
+      const v = key ? value(y, key) : undefined;
+      values[`b:${id}`] = per(v);
+      values[`b:${id}:total`] = v === undefined ? null : v / 1e6;
+    }
     // Only the budget column: 55 municipalities leave it empty and fill the plan years only.
     values['b:tax-rate'] = taxKey ? value(y, taxKey) ?? null : null;
     values['b:staff'] = staffKey ? per(value(y, staffKey), 1000) : null;

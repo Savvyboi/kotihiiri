@@ -1,6 +1,7 @@
 ---
 // Budgets of every municipality for one year (/talous/ and /talous/{year}/, PLAN.md §19): the main
-// figures per resident, largest municipality first.
+// figures per resident or in total, largest municipality first. Click a header to sort; a small
+// script switches the unit. Without JavaScript the per-resident figures show.
 import Base from '../layouts/Base.astro';
 import { useI18n, type Locale } from '../i18n';
 import { cities, cityName } from '../lib/data';
@@ -13,7 +14,10 @@ const years = budgetYears(all.map((c) => c.id));
 const items = budgetItems();
 const rows = all.map((c) => ({ c, y: budget(c.id)?.years.find((y) => y.year === year) }))
   .filter((r) => r.y);
-const pct = new Intl.NumberFormat(locale === 'fi' ? 'fi-FI' : locale === 'sv' ? 'sv-FI' : 'en-GB', { maximumFractionDigits: 2 });
+const intl = locale === 'fi' ? 'fi-FI' : locale === 'sv' ? 'sv-FI' : 'en-GB';
+const pct = new Intl.NumberFormat(intl, { maximumFractionDigits: 2 });
+const mil = new Intl.NumberFormat(intl, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+const lang = locale;
 ---
 <Base title={t('budget.title')} locale={locale}>
   <section class="hero">
@@ -29,27 +33,114 @@ const pct = new Intl.NumberFormat(locale === 'fi' ? 'fi-FI' : locale === 'sv' ? 
           <li><a href={path(i === 0 ? '/talous/' : `/talous/${y}/`)} aria-current={y === year ? 'page' : undefined}>{y}</a></li>
         ))}</ul>
       </nav>
-      <p class="small muted budget-unit">{t('budget.unitPerResident')}</p>
+      <div class="budget-unit-switch" role="group" aria-label={t('budget.unit.label')} hidden data-unit-switch>
+        <button type="button" data-unit="per" aria-pressed="true">{t('budget.unit.per')}</button>
+        <button type="button" data-unit="abs" aria-pressed="false">{t('budget.unit.abs')}</button>
+      </div>
+      <p class="small muted budget-unit" data-unit-note>{t('budget.unitPerResident')}</p>
       <div class="table-scroll">
-        <table class="party-table budget-national">
+        <table class="party-table budget-national" data-budget-table>
           <thead><tr>
-            <th>{t('budget.col.municipality')}</th>
-            {SUMMARY.map((m) => <th class="num" scope="col">{t(m.label)}</th>)}
+            <th data-sort="name">{t('budget.col.municipality')}</th>
+            <th class="num" scope="col" data-sort="pop">{t('budget.col.population')}</th>
+            {SUMMARY.map((m) => <th class="num" scope="col" data-sort={m.id}>{t(m.label)}</th>)}
           </tr></thead>
-          <tbody>
-            {rows.map(({ c, y }) => (
-              <tr>
-                <th scope="row"><a href={path(`/${c.id}/talous/`)}>{cityName(c, locale)}</a></th>
-                {SUMMARY.map((m) => {
-                  const v = summaryValue(y, m);
-                  return <td class="num">{v === undefined ? '–' : !m.amount ? `${pct.format(v)} %` : population(c) ? num(Math.round(v / population(c)!)) : '–'}</td>;
-                })}
-              </tr>
-            ))}
+          <tbody data-rows>
+            {rows.map(({ c, y }, i) => {
+              const pop = population(c);
+              const name = cityName(c, locale);
+              return (
+                <tr data-name={name} data-i={i}>
+                  <th scope="row"><a href={path(`/${c.id}/talous/`)}>{name}</a></th>
+                  <td class="num" data-col="pop" data-v={pop ?? ''}>{pop ? num(pop) : '–'}</td>
+                  {SUMMARY.map((m) => {
+                    const v = summaryValue(y, m);
+                    if (v === undefined) return <td class="num" data-col={m.id} data-per="" data-abs="">–</td>;
+                    if (!m.amount) return <td class="num" data-col={m.id} data-per={v} data-abs={v}>{`${pct.format(v)} %`}</td>;
+                    const per = pop ? v / pop : undefined;
+                    return (
+                      <td class="num" data-col={m.id} data-per={per ?? ''} data-abs={v}>
+                        <span class="u-per">{per === undefined ? '–' : num(Math.round(per))}</span>
+                        <span class="u-abs">{mil.format(v / 1e6)}</span>
+                      </td>
+                    );
+                  })}
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
       {items && <p class="small muted">{t('budget.source')}: <a href={items.source.url} rel="external">{items.source.name}</a> ({items.source.licence})</p>}
     </>}
   </div>
+  <script is:inline define:vars={{ lang, notes: { per: t('budget.unitPerResident'), abs: t('budget.unitMillions') } }}>
+    (() => {
+      const table = document.querySelector('[data-budget-table]');
+      const body = table?.querySelector('[data-rows]');
+      const sw = document.querySelector('[data-unit-switch]');
+      if (!table || !body || !sw) return;
+      sw.hidden = false;
+      const rows = [...body.rows];
+      const params = new URLSearchParams(location.search);
+      let unit = params.get('yksikko') === 'yhteensa' ? 'abs' : 'per';
+      const heads = [...table.tHead.querySelectorAll('th[data-sort]')];
+      let sortBy = heads.some((h) => h.dataset.sort === params.get('jarjestys')) ? params.get('jarjestys') : '';
+      let asc = sortBy ? (params.get('suunta') === 'nouseva' ? true : params.get('suunta') === 'laskeva' ? false : sortBy === 'name') : true;
+      // A number per cell: population, a rate, or an amount in the chosen unit; '' when missing.
+      const val = (tr, k) => {
+        const td = tr.querySelector(`td[data-col="${k}"]`);
+        return td ? (td.dataset.v ?? td.dataset[unit]) : '';
+      };
+      const compare = (a, b) => {
+        if (sortBy === 'name') { const d = a.dataset.name.localeCompare(b.dataset.name, lang); return asc ? d : -d; }
+        const x = val(a, sortBy), y = val(b, sortBy);
+        if ((x === '') !== (y === '')) return x === '' ? 1 : -1; // missing values last either way
+        if (x === '') return 0;
+        return asc ? x - y : y - x;
+      };
+      const apply = () => {
+        table.classList.toggle('show-abs', unit === 'abs');
+        for (const b of sw.querySelectorAll('button')) b.setAttribute('aria-pressed', String(b.dataset.unit === unit));
+        document.querySelector('[data-unit-note]').textContent = notes[unit];
+        const order = [...rows].sort((a, b) => (sortBy ? compare(a, b) : 0) || a.dataset.i - b.dataset.i);
+        body.append(...order);
+        for (const th of heads) th.setAttribute('aria-sort', th.dataset.sort === sortBy ? (asc ? 'ascending' : 'descending') : 'none');
+        const q = new URLSearchParams();
+        if (unit === 'abs') q.set('yksikko', 'yhteensa');
+        if (sortBy) { q.set('jarjestys', sortBy); q.set('suunta', asc ? 'nouseva' : 'laskeva'); }
+        history.replaceState(null, '', q.size ? `?${q}` : location.pathname);
+      };
+      for (const th of heads) {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'sort-btn';
+        b.append(...th.childNodes);
+        th.append(b);
+        b.addEventListener('click', () => {
+          const k = th.dataset.sort;
+          asc = k === sortBy ? !asc : k === 'name';
+          sortBy = k;
+          apply();
+        });
+      }
+      for (const b of sw.querySelectorAll('button')) b.addEventListener('click', () => { unit = b.dataset.unit; apply(); });
+      // Keep the unit when moving between years.
+      for (const a of document.querySelectorAll('.year-tabs a')) {
+        a.addEventListener('click', () => { const q = location.search; if (q) a.href = a.href.split('?')[0] + q; });
+      }
+      apply();
+    })();
+  </script>
 </Base>
+
+<style>
+  .budget-unit-switch { display: inline-flex; margin-top: 1.2rem; border: 1px solid var(--c-border); border-radius: var(--radius, 3px); overflow: hidden; }
+  .budget-unit-switch button { font: inherit; font-size: .9rem; font-weight: 650; padding: .35rem .9rem; border: 0; background: var(--c-surface); color: var(--c-muted); cursor: pointer; }
+  .budget-unit-switch button + button { border-left: 1px solid var(--c-border); }
+  .budget-unit-switch button[aria-pressed="true"] { background: var(--c-primary); color: var(--c-on-primary); }
+  .budget-unit-switch button:focus-visible { outline: 3px solid var(--c-accent); outline-offset: -3px; }
+  .budget-national .u-abs { display: none; }
+  .budget-national.show-abs .u-abs { display: inline; }
+  .budget-national.show-abs .u-per { display: none; }
+</style>
