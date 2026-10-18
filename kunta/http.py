@@ -144,6 +144,7 @@ class PoliteClient:
         rate_limiter: RateLimiter | None = None,
         sleep: Callable[[float], None] = time.sleep,
         allowed_hosts: set[str] | None = None,
+        robots_exceptions: dict[str, tuple[str, ...]] | None = None,
     ) -> None:
         if not user_agent:
             raise ValueError("user_agent is required")
@@ -151,6 +152,8 @@ class PoliteClient:
         self.cache_dir = cache_dir
         self.validators_path = validators_path
         self.allowed_hosts = allowed_hosts
+        # Paths a human allowed despite robots.txt (ProjectConfig.robots_exceptions); empty by default.
+        self.robots_exceptions = robots_exceptions or {}
         self.rate = rate_limiter or RateLimiter(sleep=sleep)
         self._sleep = sleep
         self._client = httpx.Client(
@@ -202,6 +205,8 @@ class PoliteClient:
 
     def allowed(self, url: str) -> bool:
         parts = urlsplit(url)
+        if any(parts.path.startswith(p) for p in self.robots_exceptions.get(parts.netloc, ())):
+            return True
         return self._robots_for(parts.scheme, parts.netloc).can_fetch(self.user_agent, url)
 
     # -- fetching -------------------------------------------------------------
