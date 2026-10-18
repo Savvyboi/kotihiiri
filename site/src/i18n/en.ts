@@ -248,6 +248,8 @@ export const en: Dict = {
   'parties.help.cohesion': 'How many of the members’ votes went the same way as the party majority. 100% means the members always voted together.',
   'parties.agree.cardLead': 'How often {party} voted the same way as each other party:',
   'parties.agree.asTable': 'Show every pair as a table',
+  'feed.link': 'RSS feed',
+  'feed.lead': 'New items in your feed reader as they are published. Titles are in Finnish.',
   'pp.back': '← All parties',
   'pp.stat.seats': 'council seats in {n} municipalities',
   'pp.stat.positions': 'votes where the party took a side',

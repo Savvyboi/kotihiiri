@@ -246,6 +246,8 @@ export const fi = {
   'parties.help.cohesion': 'Kuinka suuri osa puolueen jäsenten äänistä annettiin samoin kuin puolueen enemmistö. 100 % tarkoittaa, että jäsenet äänestivät aina yhtenäisesti.',
   'parties.agree.cardLead': 'Kuinka usein {party} äänesti samoin kuin muut puolueet:',
   'parties.agree.asTable': 'Näytä kaikki parit taulukkona',
+  'feed.link': 'RSS-syöte',
+  'feed.lead': 'Uudet asiat syötelukijaan, kun ne julkaistaan.',
   'pp.back': '← Kaikki puolueet',
   'pp.stat.seats': 'valtuustopaikkaa {n} kunnassa',
   'pp.stat.positions': 'äänestystä, joissa puolueella oli kanta',

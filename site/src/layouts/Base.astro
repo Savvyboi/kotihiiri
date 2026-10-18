@@ -11,8 +11,10 @@ interface Props {
   title?: string; description?: string; city?: string; locale: Locale;
   /** Built once at its Finnish path and translated client-side (item pages). */
   shared?: boolean;
+  /** Path of this page's RSS feed, announced to feed readers. */
+  feed?: string;
 }
-const { title, city, locale, shared = false } = Astro.props;
+const { title, city, locale, shared = false, feed } = Astro.props;
 const description = Astro.props.description ?? t('site.tagline', {}, locale);
 const cityRec = city ? cities().find((c) => c.id === city) : undefined;
 const fullTitle = title ? `${title} · ${t('site.name', {}, locale)}` : `${t('site.name', {}, locale)} · ${t('home.title', {}, locale)}`;
@@ -41,6 +43,7 @@ const site = Astro.site ? new URL(import.meta.env.BASE_URL, Astro.site).origin :
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href={assetPath('/favicon.svg')} />
     {!shared && (LOCALES as Locale[]).map((l) => <link rel="alternate" hreflang={l} href={`${site}${localePath(rest, l)}`} />)}
+    {feed && <link rel="alternate" type="application/rss+xml" title={fullTitle} href={assetPath(feed)} />}
     <slot name="head" />
   </head>
   <body>

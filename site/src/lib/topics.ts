@@ -32,7 +32,7 @@ export const TOPICS: Topic[] = [
 export const topicIds = TOPICS.map((t) => t.id);
 
 /** Meeting formalities, never a topic even when a word matches ("Pöytäkirjan tarkastajien valinta"). */
-const FORMALITY = /pöytäkirjan tarkast|laillisuu|päätösvaltaisuu|työjärjestyksen hyväksy|protokolljustera|laglighet och beslutför/i;
+export const FORMALITY = /pöytäkirjan tarkast|laillisuu|päätösvaltaisuu|työjärjestyksen hyväksy|protokolljustera|laglighet och beslutför/i;
 
 export function itemTopics(title: string): string[] {
   if (FORMALITY.test(title)) return [];

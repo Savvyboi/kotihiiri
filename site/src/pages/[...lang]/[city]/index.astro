@@ -6,7 +6,7 @@ import VoteCard from '../../../components/VoteCard.astro';
 import Hemicycle from '../../../components/Hemicycle.astro';
 import PartyLegend from '../../../components/PartyLegend.astro';
 import MunicipalityFacts from '../../../components/MunicipalityFacts.astro';
-import { localized, useI18n } from '../../../i18n';
+import { localized, useI18n, assetPath } from '../../../i18n';
 import { cities, bodies, meetingFiles, recentVotes, cityStats, bodyName, meetingUrl, bodySlug, cityName, disabledKey, type City } from '../../../lib/data';
 import { councilRoster } from '../../../lib/people';
 import { initiatives, initiativeUrl } from '../../../lib/initiatives';
@@ -27,7 +27,7 @@ const roster = councilRoster(city.id);
 const name = cityName(city, locale);
 const inits = initiatives(city.id);
 ---
-<Base title={name} city={city.id} description={`${name}: ${t('site.tagline')}`} locale={locale}>
+<Base title={name} city={city.id} description={`${name}: ${t('site.tagline')}`} locale={locale} feed={city.enabled ? `/${city.id}/syote.xml` : undefined}>
   <CityHero city={city} locale={locale}>
     {city.enabled ? (
       <ul class="stats">
@@ -38,6 +38,7 @@ const inits = initiatives(city.id);
       </ul>
     ) : <p class="lead"><span class="badge">{t(disabledKey(city))}</span> {t(`${disabledKey(city)}Long`)}</p>}
     {city.enabled && city.rank > 6 && <p class="small">{t('city.scopeCouncilBoard')}</p>}
+    {city.enabled && <p class="feed-link small"><a href={assetPath(`/${city.id}/syote.xml`)}><svg aria-hidden="true" viewBox="0 0 16 16" width="14" height="14"><circle cx="3" cy="13" r="2" fill="currentColor"/><path d="M1 7a8 8 0 0 1 8 8M1 2a13 13 0 0 1 13 13" stroke="currentColor" stroke-width="2.2" fill="none"/></svg>{t('feed.link')}</a></p>}
   </CityHero>
   <div class="wrap">
     <CityTabs city={city} locale={locale} current="overview" />

@@ -26,12 +26,13 @@ const dateTpl = t('common.date');
 const json = assetPath(`/aiheet/${topic}.json`);
 const prefix = localePath('/').replace(/\/$/, '');
 ---
-<Base title={title} locale={locale}>
+<Base title={title} locale={locale} feed={`/aiheet/${topic}/syote.xml`}>
   <section class="hero">
     <div class="wrap">
       <p class="eyebrow"><a href={path('/aiheet/')}>{t('topics.back')}</a></p>
       <h1>{title}</h1>
       <p class="lead">{t('topics.count', { n: num(rows.length) })}</p>
+      <p class="feed-link small"><a href={assetPath(`/aiheet/${topic}/syote.xml`)}><svg aria-hidden="true" viewBox="0 0 16 16" width="14" height="14"><circle cx="3" cy="13" r="2" fill="currentColor"/><path d="M1 7a8 8 0 0 1 8 8M1 2a13 13 0 0 1 13 13" stroke="currentColor" stroke-width="2.2" fill="none"/></svg>{t('feed.link')}</a> <span class="muted">{t('feed.lead')}</span></p>
     </div>
   </section>
   <div class="wrap">

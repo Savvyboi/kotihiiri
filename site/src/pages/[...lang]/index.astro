@@ -38,7 +38,7 @@ const byTopic = topicRows();
 const topics = TOPICS.map((tp) => ({ id: tp.id, n: byTopic.get(tp.id)?.length ?? 0 }))
   .filter((x) => x.n && x.id !== 'ilmoitusasiat').sort((a, b) => b.n - a.n);
 ---
-<Base locale={locale}>
+<Base locale={locale} feed="/syote.xml">
   <section class="hero">
     <div class="wrap">
       <p class="eyebrow">{t('site.name')}</p>

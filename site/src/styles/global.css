@@ -344,6 +344,10 @@ button.more { font: inherit; padding: .45rem 1rem; border-radius: 8px; border: 1
 .party-cols { grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr)); margin-top: 1.5rem; }
 .party-cols h2 { font-size: 1.15rem; margin: 0 0 .2rem; }
 .party-page .ab-name a { color: inherit; }
+/* RSS feed links */
+.feed-link { margin: .6rem 0 0; }
+.feed-link a { display: inline-flex; align-items: center; gap: .35rem; font-weight: 600; }
+.feed-link svg { color: #f26522; }
 .budget-table tbody th { font-weight: 400; }
 .budget-table tr.lvl-1 th { font-weight: 600; }
 .budget-table tr.total th, .budget-table tr.total td { font-weight: 700; }
