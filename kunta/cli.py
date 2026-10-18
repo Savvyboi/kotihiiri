@@ -308,6 +308,40 @@ def audit(
 
 
 @app.command()
+def facts() -> None:
+    """Write site/src/data/municipality-facts.json: Statistics Finland's municipal key figures for
+    every municipality in config/municipalities.yaml (kunta/facts.py)."""
+    import yaml
+
+    from . import facts as fa
+    from .http import FetchFailed, PoliteClient
+
+    try:
+        ua = load_project().user_agent
+    except ConfigError as exc:
+        _fail(str(exc))
+    raw = yaml.safe_load((ROOT / "config" / "municipalities.yaml").read_text(encoding="utf-8"))
+    municipalities = raw["municipalities"]
+    out = ROOT / "site" / "src" / "data" / "municipality-facts.json"
+    try:
+        with PoliteClient(ua, allowed_hosts={fa.HOST}) as client:
+            result = fa.fetch(client, municipalities)
+    except (FetchFailed, ValueError, KeyError, StopIteration) as exc:
+        # Keep the last good file rather than writing an empty one.
+        _fail(f"Statistics Finland unavailable ({exc!r}); {out} left as it was")
+    if not result["municipalities"]:
+        _fail("no municipality matched the key-figure table; file left as it was")
+    changed = jsonio.write(out, result)
+    missing = sorted(set(municipalities) - set(result["municipalities"]))
+    typer.echo(
+        f"facts: {len(result['municipalities'])}/{len(municipalities)} municipalities, "
+        f"{len(result['figures'])} figures, updated {result['source']['updated']}, changed={changed}"
+    )
+    if missing:
+        typer.echo(f"  not in the table: {', '.join(missing)}")
+
+
+@app.command()
 def heartbeat() -> None:
     """Write data/state/heartbeat.json so scheduled workflows always commit (PLAN.md §2.3)."""
     jsonio.write(
