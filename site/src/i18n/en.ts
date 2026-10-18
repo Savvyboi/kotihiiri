@@ -13,6 +13,7 @@ export const en: Dict = {
   'nav.data': 'Open data',
   'nav.about': 'About',
   'nav.main': 'Main menu',
+  'nav.menu': 'Menu',
   'nav.breadcrumb': 'Breadcrumb',
   'nav.home': 'Home',
   'nav.language': 'Language',
