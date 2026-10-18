@@ -38,6 +38,10 @@ class ProjectConfig:
     user_agent_template: str
     since: str
     features: dict[str, bool]
+    # host → path prefixes Savvas has allowed despite robots.txt (PLAN.md §2.1 rule 1, §17); each
+    # entry in config/project.yaml names who approved it and when. Only commands that pass these
+    # to the client use them.
+    robots_exceptions: dict[str, tuple[str, ...]] = field(default_factory=dict)
 
     @property
     def user_agent(self) -> str:
@@ -72,7 +76,20 @@ def load_project(config_dir: Path = CONFIG_DIR) -> ProjectConfig:
         user_agent_template=raw["user_agent_template"],
         since=str(raw.get("since", "2025-01-01")),
         features=dict(raw.get("features") or {}),
+        robots_exceptions=_robots_exceptions(raw.get("robots_exceptions") or []),
     )
+
+
+def _robots_exceptions(entries: list[dict[str, Any]]) -> dict[str, tuple[str, ...]]:
+    out: dict[str, tuple[str, ...]] = {}
+    for e in entries:
+        if not (e.get("host") and e.get("paths") and e.get("approved_by") and e.get("approved_on")):
+            raise ConfigError(
+                "config/project.yaml robots_exceptions: each entry needs host, paths, "
+                "approved_by and approved_on"
+            )
+        out[str(e["host"])] = tuple(str(p) for p in e["paths"])
+    return out
 
 
 _KNOWN = {"name_fi", "name_sv", "enabled", "adapter", "base_urls", "reason"}
