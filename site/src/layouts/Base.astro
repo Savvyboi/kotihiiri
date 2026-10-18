@@ -69,6 +69,7 @@ const site = Astro.site ? new URL(import.meta.env.BASE_URL, Astro.site).origin :
             <li><a href={localePath(`/${c.id}/`, locale)} aria-current={c.id === city ? 'page' : undefined}>{cityName(c, locale)}</a></li>
           ))}
           <li><a href={localePath('/#kunnat', locale)} aria-current={cityRec && cityRec.rank > 6 ? 'page' : undefined}><T k="nav.allMunicipalities" locale={locale} /></a></li>
+          <li><a href={localePath('/kartta/', locale)} aria-current={rest === '/kartta/' ? 'page' : undefined}><T k="nav.map" locale={locale} /></a></li>
         </ul></div>
       </nav>
     </header>
