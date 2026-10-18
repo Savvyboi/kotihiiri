@@ -613,6 +613,7 @@ Fill in "Result" as you resolve each one.
 | S13 | Real item counts per municipality since 2025-01-01 (replaces the §18.3 estimate) | §18.3 | |
 | S14 | Pagefind index size and query latency at ~200k items; fall back to D1 FTS5 if it doesn't hold | §18.4 | |
 | S15 | Do municipal hosts block GitHub Actions (Azure) IP ranges? Hyvinkää, Kurikka and Alavus refused automated fetches during research | §18.2 | |
+| S16 | Can we read municipal initiatives from the kuntalaisaloite.fi open API (`/api/v1/`)? | Savvas's feature request 2026-10-18 | 2026-10-18: no. From GitHub Actions the site's Cloudflare check answers even robots.txt with a 403 challenge page (`initiatives-probe.yml`); from Savvas's own connection robots.txt is served (HTTP 200) and, after blocks for named search engines, ends with `User-agent: *` / `Disallow: /`, with no Allow for `/api`. So the API is closed to KuntaDataBot (§2.1 rule 1). Disabled pending written permission from the operator (Ministry of Justice), like Oulu and Turku. |
 
 ---
 
@@ -649,6 +650,7 @@ Fill in "Result" as you resolve each one.
 | Body exclude list (§1) | as written |
 | Per-person speech collections | on since 2026-10-14: Savvas confirmed the legal check (§2.2 rule 9) |
 | Oulu / Turku | disabled pending written permission |
+| Municipal initiatives (kuntalaisaloite.fi) | not built: robots.txt disallows every path for our agent (S16); Savvas asks the operator for permission or an export |
 | Bodies for municipalities 7–96 | council and municipal board first; committees switched on per municipality after M11, once storage is off GitHub |
 | Hosts that disallow robots (likely the 13 on `*.tweb.fi`) | disabled pending written permission, as Oulu; Savvas or the team asks Triplan or the municipality |
 | Domain for the Cloudflare site | `kotihiiri.eu` (Savvas, 2026-10-15), custom domain of `kotihiiri-site`; `pages.yml` uploads the build there while GitHub Pages keeps serving until M11 accepts |
