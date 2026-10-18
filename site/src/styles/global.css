@@ -342,3 +342,9 @@ button.more { font: inherit; padding: .45rem 1rem; border-radius: 8px; border: 1
 .party-cols { grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr)); margin-top: 1.5rem; }
 .party-cols h2 { font-size: 1.15rem; margin: 0 0 .2rem; }
 .party-page .ab-name a { color: inherit; }
+.budget-table tbody th { font-weight: 400; }
+.budget-table tr.lvl-1 th { font-weight: 600; }
+.budget-table tr.total th, .budget-table tr.total td { font-weight: 700; }
+.budget-notes div { margin: 0 0 .9rem; }
+.budget-notes dt { font-weight: 650; }
+.budget-notes dd { margin: .15rem 0 0; }

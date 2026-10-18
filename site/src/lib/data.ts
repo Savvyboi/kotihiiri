@@ -7,7 +7,7 @@ import YAML from 'yaml';
 
 const SITE_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const ROOT = path.resolve(SITE_DIR, '..');
-const DATA_DIR = process.env.KUNTA_DATA_DIR
+export const DATA_DIR = process.env.KUNTA_DATA_DIR
   ? path.resolve(SITE_DIR, process.env.KUNTA_DATA_DIR)
   : path.join(ROOT, 'data');
 export const IS_DEMO = fs.existsSync(path.join(DATA_DIR, 'DEMO'));
