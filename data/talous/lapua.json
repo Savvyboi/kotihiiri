@@ -1,0 +1,1744 @@
+{
+  "business_id": "0209113-7",
+  "city": "lapua",
+  "report": "KTAS",
+  "source": {
+    "licence": "CC BY 4.0",
+    "name": "Valtiokonttori, Kuntien ja hyvinvointialueiden taloustietopalvelu",
+    "url": "https://www.tutkihallintoa.fi/kuntien-ja-kuntayhtymien-talous/"
+  },
+  "years": [
+    {
+      "approved": "2025-12-11 08:35:40",
+      "source_url": "https://prodkuntarest.westeurope.cloudapp.azure.com/rest/v1/json/dokumentti/lopullinen/KTAS/0209113-7/2026",
+      "stage": "Lopullinen",
+      "values": {
+        "aineet-tarvikkeet-ja-tavarat": {
+          "budget": 5711848.0,
+          "plan1": 5769000.0,
+          "plan2": 5907700.0,
+          "prev": 5608663.0
+        },
+        "aineettomat-hyodykkeet": {
+          "budget": 299000.0,
+          "plan1": 50000.0,
+          "plan2": 50000.0,
+          "prev": 269000.0
+        },
+        "avustukset": {
+          "budget": 1828800.0,
+          "plan1": 1837000.0,
+          "plan2": 1891500.0,
+          "prev": 1784150.0
+        },
+        "henkilostomenot": {
+          "budget": 31944690.0,
+          "plan1": 32615000.0,
+          "plan2": 33300000.0,
+          "prev": 31692908.0
+        },
+        "henkilotyovuodet": {
+          "budget": 600.0,
+          "plan1": 600.0,
+          "plan2": 600.0,
+          "prev": 600.0
+        },
+        "investointihyodykkeiden-luovutustulot-brutto": {
+          "budget": 520000.0,
+          "plan1": 620000.0,
+          "plan2": 620000.0,
+          "prev": 744500.0
+        },
+        "investointimenot-yhteensa-brutto": {
+          "budget": 13220000.0,
+          "plan1": 10726000.0,
+          "plan2": 8943000.0,
+          "prev": 11944000.0
+        },
+        "kiinteat-rakenteet-ja-laitteet": {
+          "budget": 3700000.0,
+          "plan1": 3025000.0,
+          "plan2": 2975000.0,
+          "prev": 3085000.0
+        },
+        "koneet-ja-kalusto": {
+          "budget": 921000.0,
+          "plan1": 736000.0,
+          "plan2": 1148000.0,
+          "prev": 830000.0
+        },
+        "lainakanta-31-12": {
+          "budget": 70025000.0,
+          "plan1": 71942000.0,
+          "plan2": 74559000.0,
+          "prev": 70150000.0
+        },
+        "maa-ja-vesialueet": {
+          "budget": 690000.0,
+          "plan1": 690000.0,
+          "plan2": 690000.0,
+          "prev": 720000.0
+        },
+        "maksutulot": {
+          "budget": 1161250.0,
+          "plan1": 1173000.0,
+          "plan2": 1100000.0,
+          "prev": 1154852.0
+        },
+        "muut-aineelliset-hyodykkeet": {
+          "budget": 0.0,
+          "plan1": 0.0,
+          "plan2": 0.0,
+          "prev": 0.0
+        },
+        "muut-toimintamenot": {
+          "budget": 365570.0,
+          "plan1": 369000.0,
+          "plan2": 378000.0,
+          "prev": 491251.0
+        },
+        "muut-toimintatulot": {
+          "budget": 4278750.0,
+          "plan1": 4322000.0,
+          "plan2": 4000000.0,
+          "prev": 4144890.0
+        },
+        "myyntitulot": {
+          "budget": 5115900.0,
+          "plan1": 5167000.0,
+          "plan2": 5291000.0,
+          "prev": 4938080.0
+        },
+        "osakkeet-ja-osuudet": {
+          "budget": 10000.0,
+          "plan1": 10000.0,
+          "plan2": 10000.0,
+          "prev": 10000.0
+        },
+        "palvelujen-ostot": {
+          "budget": 12193620.0,
+          "plan1": 12315000.0,
+          "plan2": 12611800.0,
+          "prev": 11622347.0
+        },
+        "poistot-ja-arvonalentumiset": {
+          "budget": 7000000.0,
+          "plan1": 7000000.0,
+          "plan2": 7000000.0,
+          "prev": 6700000.0
+        },
+        "rahoitusosuudet-investointimenoihin": {
+          "budget": 0.0,
+          "plan1": 0.0,
+          "plan2": 0.0,
+          "prev": 0.0
+        },
+        "rahoitustulot-ja-menot": {
+          "budget": -1148850.0,
+          "plan1": -1555000.0,
+          "plan2": -1755000.0,
+          "prev": -1631500.0
+        },
+        "rakennukset": {
+          "budget": 7600000.0,
+          "plan1": 6215000.0,
+          "plan2": 4070000.0,
+          "prev": 7030000.0
+        },
+        "rakennukset-muut": {
+          "budget": 6850000.0,
+          "plan1": 5855000.0,
+          "plan2": 3960000.0,
+          "prev": 6110000.0
+        },
+        "rakennukset-opetus-ja-kulttuuritoimi": {
+          "budget": 750000.0,
+          "plan1": 360000.0,
+          "plan2": 110000.0,
+          "prev": 920000.0
+        },
+        "rakennukset-sosiaali-ja-terveystoimi": {
+          "budget": 0.0,
+          "plan1": 0.0,
+          "plan2": 0.0,
+          "prev": 0.0
+        },
+        "satunnaiset-erat": {
+          "budget": 0.0,
+          "plan1": 0.0,
+          "plan2": 0.0,
+          "prev": 0.0
+        },
+        "tilikauden-tulos": {
+          "budget": 0.0,
+          "plan1": -241000.0,
+          "plan2": -118000.0,
+          "prev": -1836979.0
+        },
+        "tilikauden-ylijaama-alijaama": {
+          "budget": 0.0,
+          "plan1": -241000.0,
+          "plan2": -118000.0,
+          "prev": -1836979.0
+        },
+        "tilinpaatossiirrot": {
+          "budget": 0.0,
+          "plan1": 0.0,
+          "plan2": 0.0,
+          "prev": 0.0
+        },
+        "toiminnan-ja-investointien-rahavirta": {
+          "budget": -5700000.0,
+          "plan1": -3347000.0,
+          "plan2": -1441000.0,
+          "prev": -6336479.0
+        },
+        "toimintakate": {
+          "budget": -40234550.0,
+          "plan1": -40980000.0,
+          "plan2": -42548000.0,
+          "prev": -39583479.0
+        },
+        "toimintamenot": {
+          "budget": 52044528.0,
+          "plan1": 52905000.0,
+          "plan2": 54089000.0,
+          "prev": 51199319.0
+        },
+        "toimintatulot": {
+          "budget": 11409978.0,
+          "plan1": 11525000.0,
+          "plan2": 11241000.0,
+          "prev": 11215840.0
+        },
+        "tuet-ja-avustukset": {
+          "budget": 854078.0,
+          "plan1": 863000.0,
+          "plan2": 850000.0,
+          "prev": 978018.0
+        },
+        "tuloveroprosentti": {
+          "plan1": 8.9,
+          "plan2": 8.9
+        },
+        "valmistevarastojen-muutos": {
+          "budget": 0.0,
+          "plan1": 0.0,
+          "plan2": 0.0,
+          "prev": 0.0
+        },
+        "valmistus-omaan-kayttoon": {
+          "budget": 400000.0,
+          "plan1": 400000.0,
+          "plan2": 300000.0,
+          "prev": 400000.0
+        },
+        "valtionosuudet": {
+          "budget": 14746400.0,
+          "plan1": 15064000.0,
+          "plan2": 15777000.0,
+          "prev": 14409000.0
+        },
+        "verotulot": {
+          "budget": 33637000.0,
+          "plan1": 34230000.0,
+          "plan2": 35408000.0,
+          "prev": 31669000.0
+        },
+        "vuosikate": {
+          "budget": 7000000.0,
+          "plan1": 6759000.0,
+          "plan2": 6882000.0,
+          "prev": 4863021.0
+        }
+      },
+      "year": 2026
+    },
+    {
+      "approved": "2024-12-11 08:27:25",
+      "source_url": "https://prodkuntarest.westeurope.cloudapp.azure.com/rest/v1/json/dokumentti/lopullinen/KTAS/0209113-7/2025",
+      "stage": "Lopullinen",
+      "values": {
+        "aineet-tarvikkeet-ja-tavarat": {
+          "budget": 5608663.0,
+          "plan1": 5681576.0,
+          "plan2": 5755436.0,
+          "prev": 5732363.0
+        },
+        "aineettomat-hyodykkeet": {
+          "budget": 269000.0,
+          "plan1": 219000.0,
+          "plan2": 50000.0,
+          "prev": 210000.0
+        },
+        "avustukset": {
+          "budget": 1784150.0,
+          "plan1": 1793071.0,
+          "plan2": 1802036.0,
+          "prev": 1653400.0
+        },
+        "henkilostomenot": {
+          "budget": 31692908.0,
+          "plan1": 32643695.0,
+          "plan2": 33623006.0,
+          "prev": 31009139.0
+        },
+        "henkilotyovuodet": {
+          "budget": 600.0,
+          "plan1": 600.0,
+          "plan2": 600.0,
+          "prev": 600.0
+        },
+        "investointihyodykkeiden-luovutustulot-brutto": {
+          "budget": 744500.0,
+          "plan1": 650000.0,
+          "plan2": 650000.0,
+          "prev": 642200.0
+        },
+        "investointimenot-yhteensa-brutto": {
+          "budget": 11944000.0,
+          "plan1": 15279000.0,
+          "plan2": 9516000.0,
+          "prev": 9329800.0
+        },
+        "kiinteat-rakenteet-ja-laitteet": {
+          "budget": 3085000.0,
+          "plan1": 4560000.0,
+          "plan2": 3546000.0,
+          "prev": 4228000.0
+        },
+        "koneet-ja-kalusto": {
+          "budget": 830000.0,
+          "plan1": 930000.0,
+          "plan2": 705000.0,
+          "prev": 1375800.0
+        },
+        "lainakanta-31-12": {
+          "budget": 70150000.0,
+          "plan1": 79150000.0,
+          "plan2": 83150000.0,
+          "prev": 64300000.0
+        },
+        "maa-ja-vesialueet": {
+          "budget": 720000.0,
+          "plan1": 690000.0,
+          "plan2": 690000.0,
+          "prev": 590000.0
+        },
+        "maksutulot": {
+          "budget": 1154852.0,
+          "plan1": 1166401.0,
+          "plan2": 1178065.0,
+          "prev": 1206000.0
+        },
+        "muut-aineelliset-hyodykkeet": {
+          "budget": 0.0,
+          "plan1": 0.0,
+          "plan2": 0.0,
+          "prev": 0.0
+        },
+        "muut-toimintamenot": {
+          "budget": 491251.0,
+          "plan1": 497637.0,
+          "plan2": 504107.0,
+          "prev": 535351.0
+        },
+        "muut-toimintatulot": {
+          "budget": 4144890.0,
+          "plan1": 4186339.0,
+          "plan2": 4228202.0,
+          "prev": 3874400.0
+        },
+        "myyntitulot": {
+          "budget": 4938080.0,
+          "plan1": 4987461.0,
+          "plan2": 5037335.0,
+          "prev": 4625580.0
+        },
+        "osakkeet-ja-osuudet": {
+          "budget": 10000.0,
+          "plan1": 10000.0,
+          "plan2": 10000.0,
+          "prev": 43000.0
+        },
+        "palvelujen-ostot": {
+          "budget": 11622347.0,
+          "plan1": 11773438.0,
+          "plan2": 11926492.0,
+          "prev": 10334877.0
+        },
+        "poistot-ja-arvonalentumiset": {
+          "budget": 6700000.0,
+          "plan1": 6900000.0,
+          "plan2": 6900000.0,
+          "prev": 6700000.0
+        },
+        "rahoitusosuudet-investointimenoihin": {
+          "budget": 0.0,
+          "plan1": 0.0,
+          "plan2": 0.0,
+          "prev": 355000.0
+        },
+        "rahoitustulot-ja-menot": {
+          "budget": -1631500.0,
+          "plan1": -1946500.0,
+          "plan2": -2046500.0,
+          "prev": -1566500.0
+        },
+        "rakennukset": {
+          "budget": 7030000.0,
+          "plan1": 8870000.0,
+          "plan2": 4515000.0,
+          "prev": 2883000.0
+        },
+        "rakennukset-muut": {
+          "budget": 6110000.0,
+          "plan1": 8050000.0,
+          "plan2": 4115000.0,
+          "prev": 1603000.0
+        },
+        "rakennukset-opetus-ja-kulttuuritoimi": {
+          "budget": 920000.0,
+          "plan1": 820000.0,
+          "plan2": 400000.0,
+          "prev": 1230000.0
+        },
+        "rakennukset-sosiaali-ja-terveystoimi": {
+          "budget": 0.0,
+          "plan1": 0.0,
+          "plan2": 0.0,
+          "prev": 50000.0
+        },
+        "satunnaiset-erat": {
+          "budget": 0.0,
+          "plan1": 0.0,
+          "plan2": 0.0,
+          "prev": 0.0
+        },
+        "tilikauden-tulos": {
+          "budget": -1836979.0,
+          "plan1": -1082918.0,
+          "plan2": -1552299.0,
+          "prev": -1896630.0
+        },
+        "tilikauden-ylijaama-alijaama": {
+          "budget": -1836979.0,
+          "plan1": -1082918.0,
+          "plan2": -1552299.0,
+          "prev": -1896630.0
+        },
+        "tilinpaatossiirrot": {
+          "budget": 0.0,
+          "plan1": 0.0,
+          "plan2": 0.0,
+          "prev": 0.0
+        },
+        "toiminnan-ja-investointien-rahavirta": {
+          "budget": -6336479.0,
+          "plan1": -8811918.0,
+          "plan2": -3518299.0,
+          "prev": -3529230.0
+        },
+        "toimintakate": {
+          "budget": -39583479.0,
+          "plan1": -40661418.0,
+          "plan2": -41769799.0,
+          "prev": -37759130.0
+        },
+        "toimintamenot": {
+          "budget": 51199319.0,
+          "plan1": 52389417.0,
+          "plan2": 53611077.0,
+          "prev": 49265130.0
+        },
+        "toimintatulot": {
+          "budget": 11215840.0,
+          "plan1": 11327999.0,
+          "plan2": 11441278.0,
+          "prev": 10994000.0
+        },
+        "tuet-ja-avustukset": {
+          "budget": 978018.0,
+          "plan1": 987798.0,
+          "plan2": 997676.0,
+          "prev": 1288020.0
+        },
+        "tuloveroprosentti": {
+          "plan1": 8.9,
+          "plan2": 8.9
+        },
+        "valmistevarastojen-muutos": {
+          "budget": 0.0,
+          "plan1": 0.0,
+          "plan2": 0.0,
+          "prev": 0.0
+        },
+        "valmistus-omaan-kayttoon": {
+          "budget": 400000.0,
+          "plan1": 400000.0,
+          "plan2": 400000.0,
+          "prev": 512000.0
+        },
+        "valtionosuudet": {
+          "budget": 14409000.0,
+          "plan1": 15072000.0,
+          "plan2": 15133000.0,
+          "prev": 13855000.0
+        },
+        "verotulot": {
+          "budget": 31669000.0,
+          "plan1": 33353000.0,
+          "plan2": 34031000.0,
+          "prev": 30274000.0
+        },
+        "vuosikate": {
+          "budget": 4863021.0,
+          "plan1": 5817082.0,
+          "plan2": 5347701.0,
+          "prev": 4803370.0
+        }
+      },
+      "year": 2025
+    },
+    {
+      "approved": "2023-12-18 12:44:15",
+      "notes": {
+        "osakkeet-ja-osuudet": "Kasvu johtuu työllisyyspalvelujen kuntayhtymän peruspääomaan varatusta määrärahasta.",
+        "rahoitusosuudet-investointimenoihin": "Siltojen kunnostustyöhön varattu avustusmääräraha ja kirjastoauton avustusmääräraha.",
+        "rahoitustulot-ja-menot": "Rahoituskulut on suuremmat korkokulujen nousun vuoksi.",
+        "toiminnan-ja-investointien-rahavirta": "Toiminnan ja investointien rahavirta on huonompi heikomman vuosikatteen vuoksi."
+      },
+      "source_url": "https://prodkuntarest.westeurope.cloudapp.azure.com/rest/v1/json/dokumentti/lopullinen/KTAS/0209113-7/2024",
+      "stage": "Lopullinen",
+      "values": {
+        "aineet-tarvikkeet-ja-tavarat": {
+          "budget": 5732363.0,
+          "plan1": 5732400.0,
+          "plan2": 5847000.0,
+          "prev": 5275195.0
+        },
+        "aineettomat-hyodykkeet": {
+          "budget": 210000.0,
+          "plan1": 219000.0,
+          "plan2": 219000.0,
+          "prev": 757000.0
+        },
+        "avustukset": {
+          "budget": 1653400.0,
+          "plan1": 1653400.0,
+          "plan2": 1686500.0,
+          "prev": 1885800.0
+        },
+        "henkilostomenot": {
+          "budget": 31009139.0,
+          "plan1": 32094500.0,
+          "plan2": 33314000.0,
+          "prev": 30485903.0
+        },
+        "henkilotyovuodet": {
+          "budget": 600.0,
+          "plan1": 600.0,
+          "plan2": 600.0,
+          "prev": 550.0
+        },
+        "investointihyodykkeiden-luovutustulot-brutto": {
+          "budget": 642200.0,
+          "plan1": 550000.0,
+          "plan2": 550000.0,
+          "prev": 800000.0
+        },
+        "investointimenot-yhteensa-brutto": {
+          "budget": 7633000.0,
+          "plan1": 10557000.0,
+          "plan2": 9627000.0,
+          "prev": 9604000.0
+        },
+        "kiinteat-rakenteet-ja-laitteet": {
+          "budget": 3927000.0,
+          "plan1": 5976000.0,
+          "plan2": 5640000.0,
+          "prev": 3682000.0
+        },
+        "koneet-ja-kalusto": {
+          "budget": 1248000.0,
+          "plan1": 772000.0,
+          "plan2": 603000.0,
+          "prev": 1091100.0
+        },
+        "lainakanta-31-12": {
+          "budget": 68100000.0,
+          "plan1": 72800000.0,
+          "plan2": 77100000.0,
+          "prev": 66200000.0
+        },
+        "maa-ja-vesialueet": {
+          "budget": 590000.0,
+          "plan1": 590000.0,
+          "plan2": 590000.0,
+          "prev": 840000.0
+        },
+        "maksutulot": {
+          "budget": 1206000.0,
+          "plan1": 1222900.0,
+          "plan2": 1240000.0,
+          "prev": 1248875.0
+        },
+        "muut-aineelliset-hyodykkeet": {
+          "budget": 0.0,
+          "plan1": 0.0,
+          "plan2": 0.0,
+          "prev": 0.0
+        },
+        "muut-toimintamenot": {
+          "budget": 535351.0,
+          "plan1": 535400.0,
+          "plan2": 546100.0,
+          "prev": 500615.0
+        },
+        "muut-toimintatulot": {
+          "budget": 3874400.0,
+          "plan1": 3928600.0,
+          "plan2": 3983600.0,
+          "prev": 3494470.0
+        },
+        "myyntitulot": {
+          "budget": 4625580.0,
+          "plan1": 4690300.0,
+          "plan2": 4756000.0,
+          "prev": 4265428.0
+        },
+        "osakkeet-ja-osuudet": {
+          "budget": 43000.0,
+          "plan1": 10000.0,
+          "plan2": 10000.0,
+          "prev": 10000.0
+        },
+        "palvelujen-ostot": {
+          "budget": 10334877.0,
+          "plan1": 11790600.0,
+          "plan2": 12026400.0,
+          "prev": 9849135.0
+        },
+        "poistot-ja-arvonalentumiset": {
+          "budget": 6700000.0,
+          "plan1": 6800000.0,
+          "plan2": 6800000.0,
+          "prev": 7000000.0
+        },
+        "rahoitusosuudet-investointimenoihin": {
+          "budget": 355000.0,
+          "plan1": 423000.0,
+          "plan2": 10000.0,
+          "prev": 50000.0
+        },
+        "rahoitustulot-ja-menot": {
+          "budget": -1566500.0,
+          "plan1": -2082300.0,
+          "plan2": -2180500.0,
+          "prev": -965000.0
+        },
+        "rakennukset": {
+          "budget": 1615000.0,
+          "plan1": 2990000.0,
+          "plan2": 2565000.0,
+          "prev": 3223900.0
+        },
+        "rakennukset-muut": {
+          "budget": 1035000.0,
+          "plan1": 1545000.0,
+          "plan2": 710000.0,
+          "prev": 1934900.0
+        },
+        "rakennukset-opetus-ja-kulttuuritoimi": {
+          "budget": 580000.0,
+          "plan1": 1285000.0,
+          "plan2": 855000.0,
+          "prev": 1289000.0
+        },
+        "rakennukset-sosiaali-ja-terveystoimi": {
+          "budget": 0.0,
+          "plan1": 160000.0,
+          "plan2": 1000000.0,
+          "prev": 0.0
+        },
+        "satunnaiset-erat": {
+          "budget": 0.0,
+          "plan1": 0.0,
+          "plan2": 0.0,
+          "prev": 0.0
+        },
+        "tilikauden-tulos": {
+          "budget": -1896630.0,
+          "plan1": -1725700.0,
+          "plan2": -2006500.0,
+          "prev": 1448655.0
+        },
+        "tilikauden-ylijaama-alijaama": {
+          "budget": -1896630.0,
+          "plan1": -1725700.0,
+          "plan2": -2006500.0,
+          "prev": 1448655.0
+        },
+        "tilinpaatossiirrot": {
+          "budget": 0.0,
+          "plan1": 0.0,
+          "plan2": 0.0,
+          "prev": 0.0
+        },
+        "toiminnan-ja-investointien-rahavirta": {
+          "budget": -1832430.0,
+          "plan1": -4509700.0,
+          "plan2": -4273500.0,
+          "prev": -305345.0
+        },
+        "toimintakate": {
+          "budget": -37759130.0,
+          "plan1": -40146400.0,
+          "plan2": -41604000.0,
+          "prev": -37046345.0
+        },
+        "toimintamenot": {
+          "budget": 49265130.0,
+          "plan1": 51806300.0,
+          "plan2": 53420000.0,
+          "prev": 47996648.0
+        },
+        "toimintatulot": {
+          "budget": 10994000.0,
+          "plan1": 11147900.0,
+          "plan2": 11304000.0,
+          "prev": 10450303.0
+        },
+        "tuet-ja-avustukset": {
+          "budget": 1288020.0,
+          "plan1": 1306100.0,
+          "plan2": 1324400.0,
+          "prev": 1441530.0
+        },
+        "tuloveroprosentti": {
+          "plan1": 8.9,
+          "plan2": 8.9
+        },
+        "valmistevarastojen-muutos": {
+          "budget": 0.0,
+          "plan1": 0.0,
+          "plan2": 0.0,
+          "prev": 0.0
+        },
+        "valmistus-omaan-kayttoon": {
+          "budget": 512000.0,
+          "plan1": 512000.0,
+          "plan2": 512000.0,
+          "prev": 500000.0
+        },
+        "valtionosuudet": {
+          "budget": 13855000.0,
+          "plan1": 16014000.0,
+          "plan2": 16460000.0,
+          "prev": 16047000.0
+        },
+        "verotulot": {
+          "budget": 30274000.0,
+          "plan1": 31289000.0,
+          "plan2": 32118000.0,
+          "prev": 30413000.0
+        },
+        "vuosikate": {
+          "budget": 4803370.0,
+          "plan1": 5074300.0,
+          "plan2": 4793500.0,
+          "prev": 8448655.0
+        }
+      },
+      "year": 2024
+    },
+    {
+      "approved": "2022-12-21 10:54:12",
+      "source_url": "https://prodkuntarest.westeurope.cloudapp.azure.com/rest/v1/json/dokumentti/lopullinen/KTAS/0209113-7/2023",
+      "stage": "Lopullinen",
+      "values": {
+        "aineet-tarvikkeet-ja-tavarat": {
+          "budget": 5209945.0,
+          "plan1": 5329774.0,
+          "plan2": 5452359.0,
+          "prev": 6304002.0
+        },
+        "aineettomat-hyodykkeet": {
+          "budget": 593000.0,
+          "plan1": 0.0,
+          "plan2": 105000.0,
+          "prev": 150000.0
+        },
+        "avustukset": {
+          "budget": 1885800.0,
+          "plan1": 1929173.0,
+          "plan2": 1967757.0,
+          "prev": 4566500.0
+        },
+        "henkilostomenot": {
+          "budget": 30443903.0,
+          "plan1": 31174557.0,
+          "plan2": 31922746.0,
+          "prev": 48799544.0
+        },
+        "henkilotyovuodet": {
+          "budget": 550.0,
+          "plan1": 550.0,
+          "plan2": 550.0,
+          "prev": 980.0
+        },
+        "investointihyodykkeiden-luovutustulot-brutto": {
+          "budget": 800000.0,
+          "plan1": 800000.0,
+          "plan2": 800000.0,
+          "prev": 1405000.0
+        },
+        "investointimenot-yhteensa-brutto": {
+          "budget": 7550000.0,
+          "plan1": 14060000.0,
+          "plan2": 12442000.0,
+          "prev": 11432600.0
+        },
+        "kiinteat-rakenteet-ja-laitteet": {
+          "budget": 3422000.0,
+          "plan1": 4266000.0,
+          "plan2": 3685000.0,
+          "prev": 4631600.0
+        },
+        "koneet-ja-kalusto": {
+          "budget": 975000.0,
+          "plan1": 874000.0,
+          "plan2": 682000.0,
+          "prev": 922300.0
+        },
+        "lainakanta-31-12": {
+          "budget": 66200000.0,
+          "plan1": 70700000.0,
+          "plan2": 75400000.0,
+          "prev": 67000000.0
+        },
+        "maa-ja-vesialueet": {
+          "budget": 840000.0,
+          "plan1": 840000.0,
+          "plan2": 840000.0,
+          "prev": 1340000.0
+        },
+        "maksutulot": {
+          "budget": 1248875.0,
+          "plan1": 1273853.0,
+          "plan2": 1301877.0,
+          "prev": 4304769.0
+        },
+        "muut-aineelliset-hyodykkeet": {
+          "budget": 0.0,
+          "plan1": 0.0,
+          "plan2": 0.0,
+          "prev": 0.0
+        },
+        "muut-toimintamenot": {
+          "budget": 440615.0,
+          "plan1": 450749.0,
+          "plan2": 461116.0,
+          "prev": 1035344.0
+        },
+        "muut-toimintatulot": {
+          "budget": 3395020.0,
+          "plan1": 3397981.0,
+          "plan2": 3415569.0,
+          "prev": 1771424.0
+        },
+        "myyntitulot": {
+          "budget": 4265428.0,
+          "plan1": 4350737.0,
+          "plan2": 4446453.0,
+          "prev": 4658399.0
+        },
+        "osakkeet-ja-osuudet": {
+          "budget": 10000.0,
+          "plan1": 10000.0,
+          "plan2": 10000.0,
+          "prev": 60000.0
+        },
+        "palvelujen-ostot": {
+          "budget": 9814935.0,
+          "plan1": 10040679.0,
+          "plan2": 11271630.0,
+          "prev": 43149602.0
+        },
+        "poistot-ja-arvonalentumiset": {
+          "budget": 7000000.0,
+          "plan1": 6900000.0,
+          "plan2": 6900000.0,
+          "prev": 6750000.0
+        },
+        "rahoitusosuudet-investointimenoihin": {
+          "budget": 50000.0,
+          "plan1": 1110000.0,
+          "plan2": 0.0,
+          "prev": 225000.0
+        },
+        "rahoitustulot-ja-menot": {
+          "budget": -560000.0,
+          "plan1": -1080000.0,
+          "plan2": -1060000.0,
+          "prev": -339000.0
+        },
+        "rakennukset": {
+          "budget": 1710000.0,
+          "plan1": 8070000.0,
+          "plan2": 7120000.0,
+          "prev": 4328700.0
+        },
+        "rakennukset-muut": {
+          "budget": 825000.0,
+          "plan1": 590000.0,
+          "plan2": 790000.0,
+          "prev": 420700.0
+        },
+        "rakennukset-opetus-ja-kulttuuritoimi": {
+          "budget": 885000.0,
+          "plan1": 7480000.0,
+          "plan2": 6070000.0,
+          "prev": 3438000.0
+        },
+        "rakennukset-sosiaali-ja-terveystoimi": {
+          "budget": 0.0,
+          "plan1": 0.0,
+          "plan2": 260000.0,
+          "prev": 470000.0
+        },
+        "satunnaiset-erat": {
+          "budget": 0.0,
+          "plan1": 0.0,
+          "plan2": 0.0,
+          "prev": 0.0
+        },
+        "tilikauden-tulos": {
+          "budget": 274655.0,
+          "plan1": 0.0,
+          "plan2": 0.0,
+          "prev": 687000.0
+        },
+        "tilikauden-ylijaama-alijaama": {
+          "budget": 274655.0,
+          "plan1": 0.0,
+          "plan2": 0.0,
+          "prev": 687000.0
+        },
+        "tilinpaatossiirrot": {
+          "budget": 0.0,
+          "plan1": 0.0,
+          "plan2": 0.0,
+          "prev": 0.0
+        },
+        "toiminnan-ja-investointien-rahavirta": {
+          "budget": 574655.0,
+          "plan1": -5250000.0,
+          "plan2": -4742000.0,
+          "prev": -2365600.0
+        },
+        "toimintakate": {
+          "budget": -36944345.0,
+          "plan1": -37932000.0,
+          "plan2": -39909000.0,
+          "prev": -90636700.0
+        },
+        "toimintamenot": {
+          "budget": 47795198.0,
+          "plan1": 48924932.0,
+          "plan2": 51075608.0,
+          "prev": 103854992.0
+        },
+        "toimintatulot": {
+          "budget": 10350853.0,
+          "plan1": 10492932.0,
+          "plan2": 10666608.0,
+          "prev": 12603292.0
+        },
+        "tuet-ja-avustukset": {
+          "budget": 1441530.0,
+          "plan1": 1470361.0,
+          "plan2": 1502709.0,
+          "prev": 1868700.0
+        },
+        "tuloveroprosentti": {
+          "plan1": 8.86,
+          "plan2": 8.86
+        },
+        "valmistevarastojen-muutos": {
+          "budget": 0.0,
+          "plan1": 0.0,
+          "plan2": 0.0,
+          "prev": 0.0
+        },
+        "valmistus-omaan-kayttoon": {
+          "budget": 500000.0,
+          "plan1": 500000.0,
+          "plan2": 500000.0,
+          "prev": 615000.0
+        },
+        "valtionosuudet": {
+          "budget": 14863000.0,
+          "plan1": 16600000.0,
+          "plan2": 18000000.0,
+          "prev": 42812700.0
+        },
+        "verotulot": {
+          "budget": 29916000.0,
+          "plan1": 29312000.0,
+          "plan2": 29869000.0,
+          "prev": 55600000.0
+        },
+        "vuosikate": {
+          "budget": 7274655.0,
+          "plan1": 6900000.0,
+          "plan2": 6900000.0,
+          "prev": 7437000.0
+        }
+      },
+      "year": 2023
+    },
+    {
+      "approved": "2021-12-21 12:21:29",
+      "notes": {
+        "osakkeet-ja-osuudet": "Investonnit osakkeisiin kasvaa."
+      },
+      "source_url": "https://prodkuntarest.westeurope.cloudapp.azure.com/rest/v1/json/dokumentti/lopullinen/KTAS/0209113-7/2022",
+      "stage": "Lopullinen",
+      "values": {
+        "aineet-tarvikkeet-ja-tavarat": {
+          "budget": 6304002.0,
+          "plan1": 5013000.0,
+          "plan2": 5013000.0,
+          "prev": 6558668.0
+        },
+        "aineettomat-hyodykkeet": {
+          "budget": 345000.0,
+          "plan1": 70000.0,
+          "plan2": 70000.0,
+          "prev": 235000.0
+        },
+        "avustukset": {
+          "budget": 4566500.0,
+          "plan1": 1373000.0,
+          "plan2": 1373000.0,
+          "prev": 4692156.0
+        },
+        "henkilostomenot": {
+          "budget": 48549544.0,
+          "plan1": 29349000.0,
+          "plan2": 30112000.0,
+          "prev": 47346609.0
+        },
+        "henkilotyovuodet": {
+          "budget": 980.0,
+          "plan1": 590.0,
+          "plan2": 590.0,
+          "prev": 980.0
+        },
+        "investointihyodykkeiden-luovutustulot-brutto": {
+          "budget": 1300000.0,
+          "plan1": 1300000.0,
+          "plan2": 1300000.0,
+          "prev": 1300000.0
+        },
+        "investointimenot-yhteensa-brutto": {
+          "budget": 10645000.0,
+          "plan1": 15620000.0,
+          "plan2": 10919000.0,
+          "prev": 9767680.0
+        },
+        "kiinteat-rakenteet-ja-laitteet": {
+          "budget": 3909000.0,
+          "plan1": 3735000.0,
+          "plan2": 2858000.0,
+          "prev": 3682000.0
+        },
+        "koneet-ja-kalusto": {
+          "budget": 781000.0,
+          "plan1": 1008000.0,
+          "plan2": 501000.0,
+          "prev": 1371000.0
+        },
+        "lainakanta-31-12": {
+          "budget": 69600000.0,
+          "plan1": 73700000.0,
+          "plan2": 76700000.0,
+          "prev": 74510000.0
+        },
+        "maa-ja-vesialueet": {
+          "budget": 1340000.0,
+          "plan1": 1340000.0,
+          "plan2": 1340000.0,
+          "prev": 1340000.0
+        },
+        "maksutulot": {
+          "budget": 4304769.0,
+          "plan1": 1216000.0,
+          "plan2": 1216000.0,
+          "prev": 4129965.0
+        },
+        "muut-aineelliset-hyodykkeet": {
+          "budget": 0.0,
+          "plan1": 0.0,
+          "plan2": 0.0,
+          "prev": 0.0
+        },
+        "muut-toimintamenot": {
+          "budget": 1035344.0,
+          "plan1": 235000.0,
+          "plan2": 235000.0,
+          "prev": 1088667.0
+        },
+        "muut-toimintatulot": {
+          "budget": 1771424.0,
+          "plan1": 957000.0,
+          "plan2": 957000.0,
+          "prev": 1820924.0
+        },
+        "myyntitulot": {
+          "budget": 4658399.0,
+          "plan1": 4295000.0,
+          "plan2": 4439000.0,
+          "prev": 4998156.0
+        },
+        "osakkeet-ja-osuudet": {
+          "budget": 60000.0,
+          "plan1": 10000.0,
+          "plan2": 10000.0,
+          "prev": 216680.0
+        },
+        "palvelujen-ostot": {
+          "budget": 41549602.0,
+          "plan1": 10330000.0,
+          "plan2": 10400000.0,
+          "prev": 41793886.0
+        },
+        "poistot-ja-arvonalentumiset": {
+          "budget": 6750000.0,
+          "plan1": 6800000.0,
+          "plan2": 6700000.0,
+          "prev": 6700000.0
+        },
+        "rahoitusosuudet-investointimenoihin": {
+          "budget": 330000.0,
+          "plan1": 1290000.0,
+          "plan2": 50000.0,
+          "prev": 227000.0
+        },
+        "rahoitustulot-ja-menot": {
+          "budget": -339000.0,
+          "plan1": -382000.0,
+          "plan2": -382000.0,
+          "prev": -253600.0
+        },
+        "rakennukset": {
+          "budget": 4210000.0,
+          "plan1": 9457000.0,
+          "plan2": 6140000.0,
+          "prev": 2923000.0
+        },
+        "rakennukset-muut": {
+          "budget": 520000.0,
+          "plan1": 170000.0,
+          "plan2": 850000.0,
+          "prev": 475000.0
+        },
+        "rakennukset-opetus-ja-kulttuuritoimi": {
+          "budget": 3340000.0,
+          "plan1": 8607000.0,
+          "plan2": 5090000.0,
+          "prev": 2043000.0
+        },
+        "rakennukset-sosiaali-ja-terveystoimi": {
+          "budget": 350000.0,
+          "plan1": 680000.0,
+          "plan2": 200000.0,
+          "prev": 405000.0
+        },
+        "satunnaiset-erat": {
+          "budget": 0.0,
+          "plan1": 0.0,
+          "plan2": 0.0,
+          "prev": 0.0
+        },
+        "tilikauden-tulos": {
+          "budget": 0.0,
+          "plan1": 995000.0,
+          "plan2": -291000.0,
+          "prev": -1554570.0
+        },
+        "tilikauden-ylijaama-alijaama": {
+          "budget": 0.0,
+          "plan1": 995000.0,
+          "plan2": -291000.0,
+          "prev": -1554570.0
+        },
+        "tilinpaatossiirrot": {
+          "budget": 0.0,
+          "plan1": 0.0,
+          "plan2": 0.0,
+          "prev": 0.0
+        },
+        "toiminnan-ja-investointien-rahavirta": {
+          "budget": -2265000.0,
+          "plan1": -5235000.0,
+          "plan2": -3160000.0,
+          "prev": -3095250.0
+        },
+        "toimintakate": {
+          "budget": -89036700.0,
+          "plan1": -38000000.0,
+          "plan2": -38689000.0,
+          "prev": -88594970.0
+        },
+        "toimintamenot": {
+          "budget": 102004992.0,
+          "plan1": 46300000.0,
+          "plan2": 47133000.0,
+          "prev": 101479986.0
+        },
+        "toimintatulot": {
+          "budget": 12603292.0,
+          "plan1": 8000000.0,
+          "plan2": 8144000.0,
+          "prev": 12401823.0
+        },
+        "tuet-ja-avustukset": {
+          "budget": 1868700.0,
+          "plan1": 1532000.0,
+          "plan2": 1532000.0,
+          "prev": 1452778.0
+        },
+        "tuloveroprosentti": {
+          "plan1": 0.0,
+          "plan2": 0.0
+        },
+        "valmistevarastojen-muutos": {
+          "budget": 0.0,
+          "plan1": 0.0,
+          "plan2": 0.0,
+          "prev": 0.0
+        },
+        "valmistus-omaan-kayttoon": {
+          "budget": 365000.0,
+          "plan1": 300000.0,
+          "plan2": 300000.0,
+          "prev": 483193.0
+        },
+        "valtionosuudet": {
+          "budget": 42812700.0,
+          "plan1": 17327000.0,
+          "plan2": 17188000.0,
+          "prev": 41082000.0
+        },
+        "verotulot": {
+          "budget": 53313000.0,
+          "plan1": 28850000.0,
+          "plan2": 28292000.0,
+          "prev": 52912000.0
+        },
+        "vuosikate": {
+          "budget": 6750000.0,
+          "plan1": 7795000.0,
+          "plan2": 6409000.0,
+          "prev": 5145430.0
+        }
+      },
+      "year": 2022
+    },
+    {
+      "approved": "2021-01-14 15:31:40",
+      "notes": {
+        "investointimenot-yhteensa-brutto": "Vuonna 2020 on rakennettu uusi koulu. 2021 ei näin isoja investointeja ole.",
+        "muut-aineelliset-hyodykkeet": "Oletus, että vuosi 2020 sisältää kaiken muun aineellisen lukuunottamatta rakennuksia. 2021 jaoteltu tarkemmin.",
+        "rakennukset": "Vuonna 2020 on rakennettu uusi koulu. 2021 ei näin isoja investointeja ole.",
+        "rakennukset-opetus-ja-kulttuuritoimi": "Vuonna 2020 on rakennettu uusi koulu. 2021 ei näin isoja investointeja ole.",
+        "tuet-ja-avustukset": "Sivistystoimi laskee savansa avustuksia huomattavasti edellistä vuotta enemmän.",
+        "valmistus-omaan-kayttoon": "Valmistus omaan käyttöön tulee kasvamaan."
+      },
+      "source_url": "https://prodkuntarest.westeurope.cloudapp.azure.com/rest/v1/json/dokumentti/lopullinen/KTAS/0209113-7/2021",
+      "stage": "Lopullinen",
+      "values": {
+        "aineet-tarvikkeet-ja-tavarat": {
+          "budget": 6293668.0,
+          "plan1": 6400660.0,
+          "plan2": 6496670.0,
+          "prev": 6418059.0
+        },
+        "aineettomat-hyodykkeet": {
+          "budget": 235000.0,
+          "plan1": 0.0,
+          "plan2": 0.0,
+          "prev": 0.0
+        },
+        "avustukset": {
+          "budget": 6409156.0,
+          "plan1": 6518112.0,
+          "plan2": 6615883.0,
+          "prev": 5017456.0
+        },
+        "henkilostomenot": {
+          "budget": 46519709.0,
+          "plan1": 47310544.0,
+          "plan2": 48020202.0,
+          "prev": 44982662.0
+        },
+        "henkilotyovuodet": {
+          "budget": 970.0,
+          "plan1": 980.0,
+          "plan2": 980.0,
+          "prev": 960.0
+        },
+        "investointihyodykkeiden-luovutustulot-brutto": {
+          "budget": 1300000.0,
+          "plan1": 1360000.0,
+          "plan2": 1300000.0,
+          "prev": 90000.0
+        },
+        "investointimenot-yhteensa-brutto": {
+          "budget": 9327000.0,
+          "plan1": 12992000.0,
+          "plan2": 8017000.0,
+          "prev": 0.0
+        },
+        "kiinteat-rakenteet-ja-laitteet": {
+          "budget": 3046000.0,
+          "plan1": 4069000.0,
+          "plan2": 2336000.0,
+          "prev": 0.0
+        },
+        "koneet-ja-kalusto": {
+          "budget": 1371000.0,
+          "plan1": 812000.0,
+          "plan2": 897000.0,
+          "prev": 0.0
+        },
+        "lainakanta-31-12": {
+          "budget": 74510000.0,
+          "plan1": 81910000.0,
+          "plan2": 83110000.0,
+          "prev": 70776630.0
+        },
+        "maa-ja-vesialueet": {
+          "budget": 1340000.0,
+          "plan1": 1390000.0,
+          "plan2": 1390000.0,
+          "prev": 0.0
+        },
+        "maksutulot": {
+          "budget": 4129965.0,
+          "plan1": 4200174.0,
+          "plan2": 4263177.0,
+          "prev": 4032520.0
+        },
+        "muut-aineelliset-hyodykkeet": {
+          "budget": 402000.0,
+          "plan1": 0.0,
+          "plan2": 0.0,
+          "prev": 0.0
+        },
+        "muut-toimintamenot": {
+          "budget": 985567.0,
+          "plan1": 1002321.64,
+          "plan2": 1017356.0,
+          "prev": 1418488.0
+        },
+        "muut-toimintatulot": {
+          "budget": 1820924.0,
+          "plan1": 1851879.0,
+          "plan2": 1879658.0,
+          "prev": 1986424.0
+        },
+        "myyntitulot": {
+          "budget": 4998156.0,
+          "plan1": 5083124.0,
+          "plan2": 5159371.0,
+          "prev": 5002856.0
+        },
+        "osakkeet-ja-osuudet": {
+          "budget": 10000.0,
+          "plan1": 10000.0,
+          "plan2": 10000.0,
+          "prev": 0.0
+        },
+        "palvelujen-ostot": {
+          "budget": 39471886.0,
+          "plan1": 40142908.0,
+          "plan2": 40745052.0,
+          "prev": 39160898.0
+        },
+        "poistot-ja-arvonalentumiset": {
+          "budget": 6500000.0,
+          "plan1": 6400000.0,
+          "plan2": 6200000.0,
+          "prev": 6500000.0
+        },
+        "rahoitusosuudet-investointimenoihin": {
+          "budget": 227000.0,
+          "plan1": 0.0,
+          "plan2": 0.0,
+          "prev": 0.0
+        },
+        "rahoitustulot-ja-menot": {
+          "budget": -382600.0,
+          "plan1": -389104.0,
+          "plan2": -395330.0,
+          "prev": -420000.0
+        },
+        "rakennukset": {
+          "budget": 2923000.0,
+          "plan1": 6711000.0,
+          "plan2": 3384000.0,
+          "prev": 0.0
+        },
+        "rakennukset-muut": {
+          "budget": 475000.0,
+          "plan1": 1305000.0,
+          "plan2": 810000.0,
+          "prev": 0.0
+        },
+        "rakennukset-opetus-ja-kulttuuritoimi": {
+          "budget": 2043000.0,
+          "plan1": 4836000.0,
+          "plan2": 2574000.0,
+          "prev": 0.0
+        },
+        "rakennukset-sosiaali-ja-terveystoimi": {
+          "budget": 405000.0,
+          "plan1": 570000.0,
+          "plan2": 0.0,
+          "prev": 0.0
+        },
+        "satunnaiset-erat": {
+          "budget": 0.0,
+          "plan1": 0.0,
+          "plan2": 0.0,
+          "prev": 0.0
+        },
+        "tilikauden-tulos": {
+          "budget": -1577570.0,
+          "plan1": -2223185.64,
+          "plan2": -327150.0,
+          "prev": 896337.0
+        },
+        "tilikauden-ylijaama-alijaama": {
+          "budget": -1577570.0,
+          "plan1": -2223185.64,
+          "plan2": -327150.0,
+          "prev": 896337.0
+        },
+        "tilinpaatossiirrot": {
+          "budget": 0.0,
+          "plan1": 0.0,
+          "plan2": 0.0,
+          "prev": 0.0
+        },
+        "toiminnan-ja-investointien-rahavirta": {
+          "budget": -2877570.0,
+          "plan1": -7455186.0,
+          "plan2": -844150.0,
+          "prev": 5401337.0
+        },
+        "toimintakate": {
+          "budget": -86794970.0,
+          "plan1": -88516393.64,
+          "plan2": -89847820.0,
+          "prev": -84856663.0
+        },
+        "toimintamenot": {
+          "budget": 99679986.0,
+          "plan1": 101374545.64,
+          "plan2": 102895163.0,
+          "prev": 96997563.0
+        },
+        "toimintatulot": {
+          "budget": 12401823.0,
+          "plan1": 12612652.0,
+          "plan2": 12801843.0,
+          "prev": 11895400.0
+        },
+        "tuet-ja-avustukset": {
+          "budget": 1452778.0,
+          "plan1": 1477475.0,
+          "plan2": 1499637.0,
+          "prev": 873600.0
+        },
+        "tuloveroprosentti": {
+          "plan1": 21.5,
+          "plan2": 21.5
+        },
+        "valmistevarastojen-muutos": {
+          "budget": 0.0,
+          "plan1": 0.0,
+          "plan2": 0.0,
+          "prev": 0.0
+        },
+        "valmistus-omaan-kayttoon": {
+          "budget": 483193.0,
+          "plan1": 245500.0,
+          "plan2": 245500.0,
+          "prev": 245500.0
+        },
+        "valtionosuudet": {
+          "budget": 41082000.0,
+          "plan1": 41739312.0,
+          "plan2": 43666000.0,
+          "prev": 42655000.0
+        },
+        "verotulot": {
+          "budget": 51018000.0,
+          "plan1": 51343000.0,
+          "plan2": 52450000.0,
+          "prev": 50018000.0
+        },
+        "vuosikate": {
+          "budget": 4922430.0,
+          "plan1": 4176814.36,
+          "plan2": 5872850.0,
+          "prev": 7396337.0
+        }
+      },
+      "year": 2021
+    },
+    {
+      "approved": "2020-02-12 15:27:02",
+      "source_url": "https://prodkuntarest.westeurope.cloudapp.azure.com/rest/v1/json/dokumentti/lopullinen/KTAS/0209113-7/2020",
+      "stage": "Lopullinen",
+      "values": {
+        "aineet-tarvikkeet-ja-tavarat": {
+          "budget": 6379680.0,
+          "plan1": 6526412.64,
+          "plan2": 6600000.0,
+          "prev": 6066583.0
+        },
+        "aineettomat-hyodykkeet": {
+          "budget": 0.0,
+          "plan1": 0.0,
+          "plan2": 0.0,
+          "prev": 0.0
+        },
+        "avustukset": {
+          "budget": 7041956.0,
+          "plan1": 7196879.03,
+          "plan2": 7197000.0,
+          "prev": 6679756.0
+        },
+        "henkilostomenot": {
+          "budget": 44723262.0,
+          "plan1": 46448506.96,
+          "plan2": 48544000.0,
+          "prev": 43962229.0
+        },
+        "henkilotyovuodet": {
+          "budget": 960.0,
+          "plan1": 950.0,
+          "plan2": 950.0,
+          "prev": 960.0
+        },
+        "investointihyodykkeiden-luovutustulot-brutto": {
+          "budget": 1600000.0,
+          "plan1": 0.0,
+          "plan2": 0.0,
+          "prev": 180000.0
+        },
+        "investointimenot-yhteensa-brutto": {
+          "budget": 20810000.0,
+          "plan1": 9311000.0,
+          "plan2": 8106000.0,
+          "prev": 22245000.0
+        },
+        "kiinteat-rakenteet-ja-laitteet": {
+          "budget": 2465000.0,
+          "plan1": 3255000.0,
+          "plan2": 3255000.0,
+          "prev": 2599000.0
+        },
+        "koneet-ja-kalusto": {
+          "budget": 2234000.0,
+          "plan1": 1292000.0,
+          "plan2": 772000.0,
+          "prev": 1041000.0
+        },
+        "lainakanta-31-12": {
+          "budget": 85200000.0,
+          "plan1": 97000000.0,
+          "plan2": 10700000.0
+        },
+        "maa-ja-vesialueet": {
+          "budget": 1690000.0,
+          "plan1": 1340000.0,
+          "plan2": 1340000.0,
+          "prev": 1390000.0
+        },
+        "maksutulot": {
+          "budget": 4333120.0,
+          "plan1": 4393800.0,
+          "plan2": 4638000.0,
+          "prev": 4204042.0
+        },
+        "muut-aineelliset-hyodykkeet": {
+          "budget": 2980000.0,
+          "plan1": 675000.0,
+          "plan2": 675000.0,
+          "prev": 1635000.0
+        },
+        "muut-toimintamenot": {
+          "budget": 1507035.0,
+          "plan1": 1537175.7,
+          "plan2": 1537000.0,
+          "prev": 1338245.0
+        },
+        "muut-toimintatulot": {
+          "budget": 2080424.0,
+          "plan1": 2080424.0,
+          "plan2": 2080900.0,
+          "prev": 306500.0
+        },
+        "myyntitulot": {
+          "budget": 5546002.0,
+          "plan1": 5677561.0,
+          "plan2": 5682885.0,
+          "prev": 4899026.0
+        },
+        "osakkeet-ja-osuudet": {
+          "budget": 0.0,
+          "plan1": 0.0,
+          "plan2": 0.0,
+          "prev": 0.0
+        },
+        "palvelujen-ostot": {
+          "budget": 38555467.0,
+          "plan1": 39448026.06,
+          "plan2": 40000000.0,
+          "prev": 37220889.0
+        },
+        "poistot-ja-arvonalentumiset": {
+          "budget": 6500000.0,
+          "plan1": 6700000.0,
+          "plan2": 6800000.0,
+          "prev": 5500000.0
+        },
+        "rahoitusosuudet-investointimenoihin": {
+          "budget": 0.0,
+          "plan1": 1300000.0,
+          "plan2": 1300000.0,
+          "prev": 0.0
+        },
+        "rahoitustulot-ja-menot": {
+          "budget": 530000.0,
+          "plan1": 630000.0,
+          "plan2": 730000.0,
+          "prev": 930000.0
+        },
+        "rakennukset": {
+          "budget": 11441000.0,
+          "plan1": 2749000.0,
+          "plan2": 2064000.0,
+          "prev": 15580000.0
+        },
+        "rakennukset-muut": {
+          "budget": 560000.0,
+          "plan1": 725000.0,
+          "plan2": 465000.0,
+          "prev": 425000.0
+        },
+        "rakennukset-opetus-ja-kulttuuritoimi": {
+          "budget": 10503000.0,
+          "plan1": 1564000.0,
+          "plan2": 1309000.0,
+          "prev": 14629000.0
+        },
+        "rakennukset-sosiaali-ja-terveystoimi": {
+          "budget": 378000.0,
+          "plan1": 460000.0,
+          "plan2": 290000.0,
+          "prev": 526000.0
+        },
+        "satunnaiset-erat": {
+          "budget": 0.0,
+          "plan1": 0.0,
+          "plan2": 0.0,
+          "prev": 0.0
+        },
+        "tilikauden-tulos": {
+          "budget": -573754.0,
+          "plan1": -2321500.37,
+          "plan2": -2592500.0,
+          "prev": -1861252.0
+        },
+        "tilikauden-ylijaama-alijaama": {
+          "budget": -573754.0,
+          "plan1": -2321500.37,
+          "plan2": -2592500.0,
+          "prev": -1861252.0
+        },
+        "toiminnan-ja-investointien-rahavirta": {
+          "budget": -17543800.0,
+          "plan1": -4893000.0,
+          "plan2": -4059000.0,
+          "prev": 3477248.0
+        },
+        "toimintakate": {
+          "budget": -85103754.0,
+          "plan1": -87851500.37,
+          "plan2": -90322500.0,
+          "prev": -84691252.0
+        },
+        "toimintamenot": {
+          "budget": 98207400.0,
+          "plan1": 101157000.39,
+          "plan2": 103878000.0,
+          "prev": 95267702.0
+        },
+        "toimintatulot": {
+          "budget": 12858146.0,
+          "plan1": 13060000.02,
+          "plan2": 13310000.0,
+          "prev": 10293450.0
+        },
+        "tuet-ja-avustukset": {
+          "budget": 898600.0,
+          "plan1": 908215.02,
+          "plan2": 908215.0,
+          "prev": 883882.0
+        },
+        "tuloveroprosentti": {
+          "plan1": 21.5,
+          "plan2": 21.5
+        },
+        "valmistevarastojen-muutos": {
+          "budget": 0.0,
+          "plan1": 0.0,
+          "plan2": 0.0,
+          "prev": 0.0
+        },
+        "valmistus-omaan-kayttoon": {
+          "budget": 245500.0,
+          "plan1": 245500.0,
+          "plan2": 245500.0,
+          "prev": 283000.0
+        },
+        "valtionosuudet": {
+          "budget": 38600000.0,
+          "plan1": 38600000.0,
+          "plan2": 39400000.0,
+          "prev": 36200000.0
+        },
+        "verotulot": {
+          "budget": 51900000.0,
+          "plan1": 53000000.0,
+          "plan2": 54400000.0,
+          "prev": 51200000.0
+        },
+        "vuosikate": {
+          "budget": 5926246.0,
+          "plan1": 4378499.63,
+          "plan2": 4207500.0,
+          "prev": 3638748.0
+        }
+      },
+      "year": 2020
+    }
+  ]
+}
