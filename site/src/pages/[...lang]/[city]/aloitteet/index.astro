@@ -1,0 +1,59 @@
+---
+// One municipality's initiatives from kuntalaisaloite.fi, newest first, each with its proposal
+// folded away and a link to the initiative's own page there.
+import Base from '../../../../layouts/Base.astro';
+import CityHero from '../../../../components/CityHero.astro';
+import CityTabs from '../../../../components/CityTabs.astro';
+import { localized, useI18n, type Locale } from '../../../../i18n';
+import { cities, cityName, type City } from '../../../../lib/data';
+import { initiativeFile, initiatives, initiativeUrl } from '../../../../lib/initiatives';
+
+export function getStaticPaths() {
+  return localized(cities().filter((c) => initiatives(c.id).length > 0).map((city) => ({ params: { city: city.id }, props: { city } })));
+}
+interface Props { city: City; locale: Locale }
+const { city, locale } = Astro.props;
+const { t, path, date, num } = useI18n(locale);
+const list = initiatives(city.id);
+const file = initiativeFile(city.id)!;
+const name = cityName(city, locale);
+const sent = list.filter((x) => x.sent_date).length;
+const MAX = 700;
+const excerpt = (s: string) => (s.length > MAX ? `${s.slice(0, s.lastIndexOf(' ', MAX) > 0 ? s.lastIndexOf(' ', MAX) : MAX)} …` : s);
+---
+<Base title={`${t('initiatives.cityTitle')}: ${name}`} city={city.id} locale={locale}>
+  <CityHero city={city} locale={locale}>
+    <ul class="stats">
+      <li><b>{num(list.length)}</b>{t('initiatives.stat.total')}</li>
+      <li><b>{num(sent)}</b>{t('initiatives.stat.sent')}</li>
+    </ul>
+  </CityHero>
+  <div class="wrap">
+    <CityTabs city={city} locale={locale} current="initiatives" />
+    <h2>{t('initiatives.cityTitle')}</h2>
+    <p class="lead">{t('initiatives.lead')}</p>
+    {!file.active_in_service && <p class="small"><span class="badge">{t('initiatives.inactive')}</span></p>}
+    <p class="small muted">{t('initiatives.note')} <a href={path(`/aloitteet/?kunta=${city.id}`)}>{t('initiatives.allNational')}</a></p>
+    <ul class="list initiatives">
+      {list.map((x) => (
+        <li id={`aloite-${x.id}`}>
+          <span class="date">{x.publish_date ? date(x.publish_date) : ''}</span>
+          <span>
+            <a href={initiativeUrl(x, locale)} rel="external noopener">{x.name}</a><br />
+            <span class="small muted">
+              {x.participants > 0 && <>{t('initiatives.supporters', { n: num(x.participants) })} · </>}
+              {x.sent_date ? t('initiatives.sentOn', { date: date(x.sent_date) }) : t('initiatives.notSent')}
+            </span>
+            {x.proposal && (
+              <details>
+                <summary class="small">{t('initiatives.proposal')}</summary>
+                <p class="small prose">{excerpt(x.proposal)}</p>
+                {x.proposal.length > MAX && <p class="small"><a href={initiativeUrl(x, locale)} rel="external noopener">{t('initiatives.source')} →</a></p>}
+              </details>
+            )}
+          </span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</Base>

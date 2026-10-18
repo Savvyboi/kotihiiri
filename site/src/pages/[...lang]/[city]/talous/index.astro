@@ -1,0 +1,108 @@
+---
+// A municipality's budget (/{city}/talous/, PLAN.md §19): the latest approved budget and plan in
+// full, the main figures over the years, and the municipality's own notes. Built for every
+// municipality with budget data, followed or not, because the figures come from the State Treasury.
+import Base from '../../../../layouts/Base.astro';
+import CityHero from '../../../../components/CityHero.astro';
+import CityTabs from '../../../../components/CityTabs.astro';
+import Breadcrumb from '../../../../components/Breadcrumb.astro';
+import { localized, useI18n, type Locale } from '../../../../i18n';
+import { cities, cityName, type City } from '../../../../lib/data';
+import { COLUMNS, SUMMARY, budget, budgetItems, isAmount, isTotal, lineLabel, population, summaryValue, value, type BudgetFile } from '../../../../lib/budget';
+
+export function getStaticPaths() {
+  return localized(cities().filter((c) => budget(c.id)).map((city) => ({ params: { city: city.id }, props: { city, data: budget(city.id)! } })));
+}
+interface Props { city: City; data: BudgetFile; locale: Locale }
+const { city, data, locale } = Astro.props;
+const { t, path, num, date } = useI18n(locale);
+const items = budgetItems()!;
+const name = cityName(city, locale);
+const latest = data.years[0];
+const colYear = { prev: latest.year - 1, budget: latest.year, plan1: latest.year + 1, plan2: latest.year + 2 };
+const fmt = (v: number | undefined, amount: boolean) =>
+  v === undefined ? '–' : amount ? num(Math.round(v)) : new Intl.NumberFormat(locale === 'fi' ? 'fi-FI' : locale === 'sv' ? 'sv-FI' : 'en-GB', { maximumFractionDigits: 2 }).format(v);
+const lines = items.lines.filter((l) => COLUMNS.some((c) => value(latest, l.key, c) !== undefined));
+const pop = population(city);
+const cards = SUMMARY.map((m) => ({ ...m, v: summaryValue(latest, m) })).filter((m) => m.v !== undefined);
+const noted = items.lines.filter((l) => latest.notes?.[l.key]);
+const stageName = (s: string) => (['Alustava', 'Lopullinen', 'Jälkikorjattu'].includes(s) ? t(`budget.stageName.${s}` as 'budget.stageName.Lopullinen') : s);
+---
+<Base title={`${t('budget.cityTitle')} · ${name}`} city={city.id} description={t('budget.cityLead', { city: name, year: latest.year })} locale={locale}>
+  <CityHero city={city} locale={locale}>
+    <Breadcrumb slot="crumbs" locale={locale} items={[{ label: name, href: `/${city.id}/` }, { label: t('budget.cityTitle') }]} />
+    <ul class="stats">
+      {cards.slice(0, 4).map((m) => (
+        <li><b>{m.amount && pop ? `${num(Math.round(m.v! / pop))} €` : m.amount ? `${num(Math.round(m.v! / 1e6))} M€` : `${fmt(m.v, false)} %`}</b>{t(m.label)}{m.amount && pop ? ` ${t('budget.perResident')}` : ''}</li>
+      ))}
+    </ul>
+  </CityHero>
+  <div class="wrap">
+    <CityTabs city={city} locale={locale} current="budget" />
+    <p class="lead" style="margin-top:1.5rem">{t('budget.cityLead', { city: name, year: latest.year })}</p>
+
+    <section>
+      <h2>{t('budget.full', { year: latest.year })}</h2>
+      <p class="small muted">{t('budget.stage', { stage: stageName(latest.stage), date: date(latest.approved.slice(0, 10)) })} · {t('budget.unit')}</p>
+      <div class="table-scroll">
+        <table class="party-table budget-table">
+          <thead><tr>
+            <th />
+            {COLUMNS.map((c) => <th class="num">{t(`budget.col.${c}`, { year: colYear[c] })}</th>)}
+            {pop && <th class="num">{t('budget.perResident')}</th>}
+          </tr></thead>
+          <tbody>
+            {lines.map((l) => {
+              const amount = isAmount(l);
+              const b = value(latest, l.key);
+              return (
+                <tr class:list={[`lvl-${l.level}`, { total: isTotal(l) }]}>
+                  <th scope="row" style={`padding-left:${0.6 + Math.max(0, l.level - 1) * 1.1}rem`}>{lineLabel(l, locale)}</th>
+                  {COLUMNS.map((c) => <td class="num">{fmt(value(latest, l.key, c), amount)}</td>)}
+                  {pop && <td class="num">{amount && b !== undefined ? `${num(Math.round(b / pop))} €` : ''}</td>}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    {data.years.length > 1 && (
+      <section>
+        <h2>{t('budget.trend')}</h2>
+        <p class="small muted">{t('budget.trendLead')}</p>
+        <div class="table-scroll">
+          <table class="party-table">
+            <thead><tr>
+              <th>{t('budget.year')}</th>
+              {SUMMARY.map((m) => <th class="num">{t(m.label)}</th>)}
+            </tr></thead>
+            <tbody>
+              {data.years.map((y) => (
+                <tr>
+                  <th scope="row">{y.year}</th>
+                  {SUMMARY.map((m) => {
+                    const v = summaryValue(y, m);
+                    return <td class="num">{v === undefined ? '–' : m.amount ? `${num(Math.round(v / 1e6 * 10) / 10)} M€` : `${fmt(v, false)} %`}</td>;
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    )}
+
+    {noted.length > 0 && (
+      <section>
+        <h2>{t('budget.notes')}</h2>
+        <dl class="budget-notes">
+          {noted.map((l) => <div><dt>{lineLabel(l, locale)}</dt><dd>{latest.notes![l.key]}</dd></div>)}
+        </dl>
+      </section>
+    )}
+
+    <p class="small muted">{t('budget.source')}: <a href={items.source.url} rel="external">{items.source.name}</a> ({items.source.licence}) · <a href={latest.source_url} rel="external">{t('budget.sourceDoc')}</a> · <a href={path('/talous/')}>{t('budget.title')} →</a></p>
+  </div>
+</Base>

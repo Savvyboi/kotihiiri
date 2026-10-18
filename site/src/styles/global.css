@@ -133,6 +133,8 @@ main { padding-bottom: 3rem; }
 .list > li:last-child { border-bottom: 0; }
 .list .date { min-width: 6.5rem; font-variant-numeric: tabular-nums; color: var(--c-muted); }
 .list .pykala { min-width: 3.5rem; color: var(--c-muted); font-variant-numeric: tabular-nums; }
+.initiatives details { margin-top: .35rem; }
+.initiatives details .prose { margin: .4rem 0; }
 
 .empty { background: var(--c-surface); border: 1px dashed var(--c-border); border-radius: var(--radius); padding: 1.4rem; color: var(--c-muted); }
 
@@ -346,3 +348,9 @@ button.more { font: inherit; padding: .45rem 1rem; border-radius: 8px; border: 1
 .feed-link { margin: .6rem 0 0; }
 .feed-link a { display: inline-flex; align-items: center; gap: .35rem; font-weight: 600; }
 .feed-link svg { color: #f26522; }
+.budget-table tbody th { font-weight: 400; }
+.budget-table tr.lvl-1 th { font-weight: 600; }
+.budget-table tr.total th, .budget-table tr.total td { font-weight: 700; }
+.budget-notes div { margin: 0 0 .9rem; }
+.budget-notes dt { font-weight: 650; }
+.budget-notes dd { margin: .15rem 0 0; }

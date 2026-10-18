@@ -308,6 +308,82 @@ def audit(
 
 
 @app.command()
+def initiatives(
+    cities: str = typer.Option("all", "--cities", help="comma-separated slugs, or `all` in the registry"),
+    details: bool = typer.Option(True, "--details/--no-details", help="fetch each new or changed initiative"),
+    max_minutes: float | None = typer.Option(None, "--max-minutes", help="stop cleanly after this long"),
+) -> None:
+    """Municipal initiatives from kuntalaisaloite.fi's Open Data API → data/initiatives/{city}.json.
+
+    Run from a home connection: the site's bot check refuses GitHub's servers (PLAN.md S16)."""
+    import time
+
+    from .http import PoliteClient
+    from .initiatives import HOST, BotCheck, run
+
+    every = load_cities()
+    wanted = list(every) if cities == "all" else [c.strip() for c in cities.split(",") if c.strip()]
+    unknown = [c for c in wanted if c not in every]
+    if unknown:
+        _fail(f"unknown municipalities: {', '.join(unknown)}")
+    project = load_project()
+    if HOST not in project.robots_exceptions:
+        _fail(f"{HOST}'s robots.txt disallows us and config/project.yaml has no robots_exceptions entry")
+    deadline = time.monotonic() + max_minutes * 60 if max_minutes else None
+    with PoliteClient(
+        project.user_agent, allowed_hosts={HOST}, robots_exceptions=project.robots_exceptions
+    ) as client:
+        try:
+            stats = run(
+                client,
+                {c: every[c].name_fi for c in wanted},
+                DATA_DIR / "initiatives",
+                details=details,
+                deadline=deadline,
+            )
+        except BotCheck as exc:
+            _fail(str(exc))
+    typer.echo(
+        f"{stats.municipalities} municipalities, {stats.initiatives} initiatives, "
+        f"{stats.details_fetched} details fetched, {stats.details_reused} reused, "
+        f"{client.stats.requests} requests"
+    )
+    if stats.unmatched:
+        typer.echo(f"not in the service: {', '.join(stats.unmatched)}")
+    if stats.stopped_early:
+        typer.echo("stopped at --max-minutes; run again to continue")
+
+
+@app.command()
+def budgets(
+    cities: str = typer.Option("all", "--cities", help="comma-separated slugs, or `all` with a business ID"),
+) -> None:
+    """Budgets and financial plans from the State Treasury's open API (PLAN.md §19).
+    Writes data/talous/{city}.json and data/talous/items.json."""
+    from .budget import HOSTS, fetch_budgets, load_business_ids
+    from .http import PoliteClient
+
+    try:
+        project = load_project()
+    except ConfigError as exc:
+        _fail(str(exc))
+    ids = load_business_ids()
+    selected = (
+        sorted(ids) if cities.strip() in ("", "all") else [c.strip() for c in cities.split(",") if c.strip()]
+    )
+    missing = [c for c in selected if c not in ids]
+    if missing:
+        _fail(f"no business ID in config/registry/business_ids.yaml for: {', '.join(missing)}")
+    with PoliteClient(project.user_agent, allowed_hosts=HOSTS) as client:
+        summary = fetch_budgets(client, selected, business_ids=ids)
+    for city, n in summary.items():
+        typer.echo(f"{city}: {n} budget years")
+    empty = [c for c, n in summary.items() if n == 0]
+    if empty:
+        typer.echo(f"no budgets for: {', '.join(empty)}")
+
+
+@app.command()
 def facts() -> None:
     """Write site/src/data/municipality-facts.json: Statistics Finland's municipal key figures for
     every municipality in config/municipalities.yaml (kunta/facts.py)."""

@@ -616,12 +616,15 @@ Fill in "Result" as you resolve each one.
 | S13 | Real item counts per municipality since 2025-01-01 (replaces the §18.3 estimate) | §18.3 | |
 | S14 | Pagefind index size and query latency at ~200k items; fall back to D1 FTS5 if it doesn't hold | §18.4 | |
 | S15 | Do municipal hosts block GitHub Actions (Azure) IP ranges? Hyvinkää, Kurikka and Alavus refused automated fetches during research | §18.2 | |
+| S16 | Can we read municipal initiatives from the kuntalaisaloite.fi open API (`/api/v1/`)? | Savvas's feature request 2026-10-18 | 2026-10-18: no. From GitHub Actions the site's Cloudflare check answers even robots.txt with a 403 challenge page (a one-off probe workflow); from Savvas's own connection robots.txt is served (HTTP 200) and, after blocks for named search engines, ends with `User-agent: *` / `Disallow: /`, with no Allow for `/api`. So the API is closed to KuntaDataBot by robots.txt (§2.1 rule 1). Same day Savvas allowed `/api/v1/` on that host as an exception (`robots_exceptions` in config/project.yaml): the ministry publishes it as the service's Open Data API. `kunta initiatives` therefore runs from Savvas's computer, not from Actions. |
 
 ---
 
 ### Build log
 
 - 2026-10-18 — RSS feeds (at Savvas's request, after vahtikissa.fi's alerts): `/syote.xml` (all followed municipalities), `/{city}/syote.xml` and `/aiheet/{topic}/syote.xml`, the latest 100 agenda items each, meeting formalities left out. An item reappears when its minutes come out (the guid carries the stage). Dates come from the meeting date, so a rebuild with the same data writes the same bytes. Announced with `<link rel=alternate>` and an RSS link on the meetings, municipality and topic pages.
+- 2026-10-18 — Municipal initiatives (at Savvas's request): `kunta initiatives` reads kuntalaisaloite.fi's Open Data API v1 (`/api/v1/municipalities`, `/api/v1/initiatives?municipality=…` in pages of 50, `/api/v1/initiatives/{id}`) for every municipality in the registry, matched by Finnish name, and writes `data/initiatives/{city}.json`: title, type, publish and sent dates, supporters, the service's links, the proposal, and the number of authors. Author names and home municipalities are never stored; e-mail addresses and phone numbers are stripped. Details are fetched only for initiatives that are new or whose list fields changed, and `--max-minutes` stops cleanly so the next run continues. The polite client gained `robots_exceptions` (host → path prefixes), used only by this command (S16). Site: `/aloitteet/` (every initiative in one table with filters by municipality, status, dates and words, sort by date or supporters, `/aloitteet.json`), `/{city}/aloitteet/` (a municipality's initiatives with each proposal folded away) and a city tab, the five newest on city and home pages, and an Aloitteet nav link. The service gives no decision or reply field, only whether an initiative was sent to the municipality. First run 2026-10-18 from Savvas's computer: 95 of 96 registry municipalities (Pedersöre is not in the service), 8,267 initiatives with details, 8,483 requests in 2 h 21 min, all HTTP 200; `data/initiatives` is about 15 MB, Helsinki the largest (528 initiatives).
+- 2026-10-18 — Municipal budgets (§19, at Savvas's request): `kunta budgets` fetches each municipality's approved budget and financial plan (KTAS) from the State Treasury's open API into `data/talous/` (4.7 MB, in git); `budgets.yml` refreshes it monthly. First run (budgets run 39101825890): 95 municipalities, 2020–2026, 7 years for 94 of them, 1,497 notes from the municipalities. Site: `/talous/` and `/talous/{year}/` compare the main figures per resident; `/{city}/talous/` shows the latest budget in full (four columns, 40 lines), the main figures for every year and the notes, for followed and not-yet-followed municipalities alike. Per-resident figures use Statistics Finland's population from `site/src/data/municipality-facts.json` (`kunta facts`), else the registry's. The income tax rate is left out of the summaries: 55 municipalities report it only in the plan-year columns, and a few report 0 or other placeholders.
 - 2026-10-18 — Municipality facts (at Savvas's request, "basic info from official factbooks"): every municipality page, followed or not, shows a "Kunta lukuina" section with Statistics Finland's municipal key figures (Kuntien avainluvut, table `kuntien_avainluvut_viimeisin` on the PxWeb API, CC BY 4.0): population and its change, age groups, Swedish speakers, foreign citizens, urbanisation, births, migration, families, households, education, employment, jobs by sector, each for the latest year with the whole country's value beside it. `kunta facts` (kunta/facts.py) matches our municipalities to the table by Finnish then Swedish name and writes `site/src/data/municipality-facts.json` (labels in fi/sv/en from the table's own metadata); it lives with the site because R2 builds do not carry `data/`. `facts.yml` runs the fetch on Actions (the build environment cannot reach pxdata.stat.fi): on a push of the fetcher, by dispatch, and monthly on main.
 - 2026-10-17 — Party pages `/puolueet/{party}/` (at Savvas's request, after vahtikissa.fi): one page per party with council seats or votes, linked from `/puolueet/`. Shows seats per municipality against council size, which parties it votes with, the latest 20 items where its side lost (several lost votes on one item are one line), and the councillors who most often vote against their own group, relative to their votes cast. `partyView()` now also keeps per-party seats per municipality and every vote where the party took a side.
 - 2026-10-17 — Councillors page `/valtuutetut/` (at Savvas's request, after vahtikissa.fi): every council member of every enabled municipality with a roster in one filterable, sortable table, from `site/src/lib/councillors.ts` and `/valtuutetut.json`: party, 2025 election votes, ballots cast this term, votes against their own group's majority (blank counts as different), council attendance from the minutes, and motions. Municipalities whose minutes print no names have no rows; Helsinki's minutes have no attendance lists, so its attendance is blank. Also gave the national parties page its own title key (`parties.pageTitle`); it had overwritten the party-share heading on city and body pages.
@@ -654,6 +657,7 @@ Fill in "Result" as you resolve each one.
 | Body exclude list (§1) | as written |
 | Per-person speech collections | on since 2026-10-14: Savvas confirmed the legal check (§2.2 rule 9) |
 | Oulu / Turku | disabled pending written permission |
+| Municipal initiatives (kuntalaisaloite.fi) | robots.txt disallows every path for our agent (S16); Savvas allowed reading `/api/v1/` anyway on 2026-10-18. The Cloudflare check blocks GitHub's servers, so `kunta initiatives` is run by hand from his computer and the data committed; a weekly refresh needs the operator to let our bot through |
 | Bodies for municipalities 7–96 | council and municipal board first; committees switched on per municipality after M11, once storage is off GitHub |
 | Hosts that disallow robots (likely the 13 on `*.tweb.fi`) | disabled pending written permission, as Oulu; Savvas or the team asks Triplan or the municipality |
 | Domain for the Cloudflare site | `kotihiiri.eu` (Savvas, 2026-10-15), custom domain of `kotihiiri-site`; `pages.yml` uploads the build there while GitHub Pages keeps serving until M11 accepts |
@@ -740,3 +744,37 @@ Cloudflare (free zone on Savvas's domain)
 3. Register a domain (e.g. a `.fi`) at any registrar and add it to Cloudflare as a free zone, then connect it to `kotihiiri-site` as the bucket's custom domain. Update `site_domain` in `config/project.yaml`, which also changes the crawler's User-Agent.
 4. Create an R2 API token (Object Read & Write, both buckets) and add GitHub repository secrets `CLOUDFLARE_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`.
 5. Decide whether to ask Triplan (or the 13 municipalities) for crawl permission if S11 confirms the `*.tweb.fi` disallow.
+
+## 19. Municipal budgets (added 2026-10-18)
+
+At Savvas's request: each municipality's approved budget and financial plan, from the State
+Treasury's open municipal-finance service (Valtiokonttori, Kuntien ja hyvinvointialueiden
+taloustietopalvelu; avoindata.tutkihallintoa.fi, CC BY 4.0).
+
+- **Source.** Every municipality files its budget as the KTAS report ("talousarvio ja
+  -suunnitelma"). The dataset list (`prodkuntarest.westeurope.cloudapp.azure.com/rest/v1/json/aineistot`)
+  names each published report by business ID, report code, year, approval stage (Alustava,
+  Lopullinen, Jälkikorjattu) and approval time, with the URL of its figures. The Kuntatalous API's
+  taxonomy (`api.tutkihallintoa.fi/kuntatalous/v1/taksonomia`, files on
+  `tkdpprodjrpstacc02.blob.core.windows.net`) names each cell in Finnish, Swedish and English with
+  its line, column and level. No key is needed. None of the three hosts has a robots.txt (404 on
+  2026-10-18), so §2 rule 1 allows fetching; `PoliteClient` still checks it on every run.
+- **Coverage.** KTAS years 2020 onward. For each year the latest stage wins, then the latest
+  approval time. A report has about 40 lines (operating income and expenses, tax revenue, central
+  government transfers, annual margin, investments, loans, person-years, income tax rate) in four
+  columns: last year's budget with amendments, the budget year, and the two plan years.
+- **Business IDs.** `config/registry/business_ids.yaml`, 95 of the 96 municipalities, from the
+  KTAS reporters looked up in the Service Catalogue (PTV) by business ID and matched by name.
+  Mariehamn is left out: Åland municipalities do not report to the State Treasury. Budgets do not
+  depend on `enabled`; disabled municipalities (Oulu, Turku) get budget pages too, because the data
+  comes from the Treasury, not from their sites.
+- **Data.** `kunta budgets` writes `data/talous/items.json` (the line list with labels) and
+  `data/talous/{city}.json` (years newest first: stage, approval time, source URL, values per line
+  and column, the municipality's notes for the budget column after the PII pass). Small, so it is
+  committed to git for all municipalities. A stored year is re-fetched only when its approval time
+  or URL changes, so a re-run writes the same bytes.
+- **Schedule.** `budgets.yml` monthly (budgets are approved in December and corrected now and then),
+  on dispatch, and on a working branch when the fetcher changes.
+- **Site.** `/talous/` compares municipalities for a chosen year (per resident where it is an amount);
+  `/{city}/talous/` shows the latest budget in full, the trend over the years and the notes. Both
+  linked from the nav and the city tabs.

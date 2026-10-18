@@ -1,0 +1,55 @@
+# Municipal budgets and financial plans from the State Treasury's open API (PLAN.md §19):
+# `kunta budgets` writes data/talous/{city}.json and data/talous/items.json, which are small and
+# committed to git for every municipality. Monthly, because budgets are approved once a year
+# (December) and corrected now and then; also runs on a working branch when the fetcher changes.
+name: budgets
+
+on:
+  schedule:
+    - cron: "17 4 3 * *"
+  push:
+    branches: ["claude/**"]
+    paths:
+      - kunta/budget.py
+      - config/registry/business_ids.yaml
+      - .github/workflows/budgets.yml
+  workflow_dispatch:
+    inputs:
+      cities:
+        description: "Municipalities, comma-separated, or `all` for every one with a business ID"
+        default: "all"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: data-writer
+  cancel-in-progress: false
+
+jobs:
+  budgets:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -e .
+      - name: Fetch budgets
+        env:
+          CITIES: ${{ inputs.cities || 'all' }}
+        run: kunta budgets --cities "$CITIES"
+      - name: Commit data/talous
+        run: |
+          git config user.name "kotihiiri-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/talous
+          git diff --cached --quiet && exit 0
+          git commit -m "data: budgets $(date -u +%F)"
+          for i in 1 2 3; do
+            git pull --rebase origin "$GITHUB_REF_NAME" && git push && exit 0
+            sleep $((i * 5))
+          done
+          exit 1

@@ -1,0 +1,15 @@
+---
+import BudgetNational from '../../../components/BudgetNational.astro';
+import { localeParams, type Locale } from '../../../i18n';
+import { cities } from '../../../lib/data';
+import { budgetYears } from '../../../lib/budget';
+
+export function getStaticPaths() {
+  const years = budgetYears(cities().map((c) => c.id)).slice(1);
+  return localeParams().flatMap(({ lang, locale }) =>
+    years.map((year) => ({ params: { lang, year: String(year) }, props: { locale, year } })));
+}
+interface Props { locale: Locale; year: number }
+const { locale, year } = Astro.props;
+---
+<BudgetNational year={year} locale={locale} />

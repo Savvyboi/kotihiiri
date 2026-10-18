@@ -8,3 +8,13 @@ data_licence: CC-BY-4.0
 since: "2025-01-01"
 features:
   SPEECHES_BY_PERSON: true   # legal check in PLAN.md §2.2 rule 9 confirmed by Savvas on 2026-10-14
+# Paths read despite robots.txt, each approved by a human (PLAN.md §2.1 rule 1, §17). Used only by
+# the commands that name them; the polite client's rate limit and retries still apply.
+robots_exceptions:
+  - host: www.kuntalaisaloite.fi
+    paths: ["/api/v1/"]
+    approved_by: Savvas
+    approved_on: "2026-10-18"
+    reason: >-
+      The Ministry of Justice publishes /api/v1/ as the service's Open Data API; robots.txt ends in
+      "User-agent: * / Disallow: /" with no Allow for it. Only the API is read, at 1 request/second.

@@ -1,18 +1,23 @@
 ---
 import { useI18n, type Locale } from '../i18n';
 import { bodySlug, councilBody, peopleFile, type City } from '../lib/data';
-interface Props { city: City; locale: Locale; current: 'overview' | 'votes' | 'council' | 'people' }
+import { initiatives } from '../lib/initiatives';
+import { budget } from '../lib/budget';
+interface Props { city: City; locale: Locale; current: 'overview' | 'votes' | 'council' | 'people' | 'initiatives' | 'budget' }
 const { city, locale, current } = Astro.props;
 const { t, path } = useI18n(locale);
 const council = councilBody(city.id);
+const hasBudget = !!budget(city.id);
 const tabs = [
   { id: 'overview', href: `/${city.id}/`, label: t('city.tab.overview') },
-  { id: 'votes', href: `/${city.id}/aanestykset/`, label: t('city.tab.votes') },
+  ...(city.enabled ? [{ id: 'votes', href: `/${city.id}/aanestykset/`, label: t('city.tab.votes') }] : []),
   ...(council ? [{ id: 'council', href: `/${city.id}/${bodySlug(council.id)}/`, label: t('city.tab.council') }] : []),
   ...(peopleFile(city.id).persons.length ? [{ id: 'people', href: `/${city.id}/henkilot/`, label: t('city.tab.people') }] : []),
+  ...(initiatives(city.id).length ? [{ id: 'initiatives', href: `/${city.id}/aloitteet/`, label: t('city.tab.initiatives') }] : []),
+  ...(hasBudget ? [{ id: 'budget', href: `/${city.id}/talous/`, label: t('city.tab.budget') }] : []),
 ];
 ---
-{city.enabled && (
+{tabs.length > 1 && (
   <nav class="city-tabs" aria-label={t('nav.city')}>
     <ul>{tabs.map((tab) => <li><a href={path(tab.href)} aria-current={tab.id === current ? 'page' : undefined}>{tab.label}</a></li>)}</ul>
   </nav>

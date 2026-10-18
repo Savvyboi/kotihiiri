@@ -1,0 +1,330 @@
+{
+  "lines": [
+    {
+      "en": "Operating income",
+      "fi": "Toimintatulot",
+      "key": "toimintatulot",
+      "level": 1,
+      "order": 2,
+      "sv": "Verksamhetsintäkter"
+    },
+    {
+      "en": "Sales income",
+      "fi": "Myyntitulot",
+      "key": "myyntitulot",
+      "level": 2,
+      "order": 3,
+      "sv": "Försäljningsintäkter"
+    },
+    {
+      "en": "Fee income",
+      "fi": "Maksutulot",
+      "key": "maksutulot",
+      "level": 2,
+      "order": 4,
+      "sv": "Avgiftsintäkter"
+    },
+    {
+      "en": "Subsidies and grants",
+      "fi": "Tuet ja avustukset",
+      "key": "tuet-ja-avustukset",
+      "level": 2,
+      "order": 5,
+      "sv": "Understöd och bidrag"
+    },
+    {
+      "en": "Other operating income",
+      "fi": "Muut toimintatulot",
+      "key": "muut-toimintatulot",
+      "level": 2,
+      "order": 6,
+      "sv": "Övriga verksamhetsintäkter"
+    },
+    {
+      "en": "Change in stocks of products",
+      "fi": "Valmistevarastojen muutos",
+      "key": "valmistevarastojen-muutos",
+      "level": 1,
+      "order": 7,
+      "sv": "Förändring av produktlager"
+    },
+    {
+      "en": "Manufacturing for own use",
+      "fi": "Valmistus omaan käyttöön",
+      "key": "valmistus-omaan-kayttoon",
+      "level": 1,
+      "order": 8,
+      "sv": "Tillverkning för eget bruk"
+    },
+    {
+      "en": "Operating expenses",
+      "fi": "Toimintamenot",
+      "key": "toimintamenot",
+      "level": 1,
+      "order": 9,
+      "sv": "Omkostnader"
+    },
+    {
+      "en": "Staff expenditure",
+      "fi": "Henkilöstömenot",
+      "key": "henkilostomenot",
+      "level": 2,
+      "order": 10,
+      "sv": "Personalkostnader"
+    },
+    {
+      "en": "Services purchased",
+      "fi": "Palvelujen ostot",
+      "key": "palvelujen-ostot",
+      "level": 2,
+      "order": 11,
+      "sv": "Köp av tjänster"
+    },
+    {
+      "en": "Raw materials and consumables",
+      "fi": "Aineet, tarvikkeet ja tavarat",
+      "key": "aineet-tarvikkeet-ja-tavarat",
+      "level": 2,
+      "order": 12,
+      "sv": "Material, förnödenheter och varor"
+    },
+    {
+      "en": "Subsidies",
+      "fi": "Avustukset",
+      "key": "avustukset",
+      "level": 2,
+      "order": 13,
+      "sv": "Bidrag"
+    },
+    {
+      "en": "Other operating expenditure",
+      "fi": "Muut toimintamenot",
+      "key": "muut-toimintamenot",
+      "level": 2,
+      "order": 14,
+      "sv": "Övriga omkostnader"
+    },
+    {
+      "en": "Operating margin",
+      "fi": "TOIMINTAKATE",
+      "key": "toimintakate",
+      "level": 1,
+      "order": 15,
+      "sv": "Verksamhetsbidrag"
+    },
+    {
+      "en": "Tax revenue",
+      "fi": "Verotulot",
+      "key": "verotulot",
+      "level": 1,
+      "order": 16,
+      "sv": "Skatteinkomster"
+    },
+    {
+      "en": "Central government transfers",
+      "fi": "Valtionosuudet",
+      "key": "valtionosuudet",
+      "level": 1,
+      "order": 17,
+      "sv": "Statsandelar"
+    },
+    {
+      "en": "Financial revenue (+) and expenditure (-)",
+      "fi": "Rahoitustulot (+) ja -menot (-)",
+      "key": "rahoitustulot-ja-menot",
+      "level": 1,
+      "order": 18,
+      "sv": "Finansiella intäkter (+) och kostnader (-)"
+    },
+    {
+      "en": "Annual margin",
+      "fi": "VUOSIKATE",
+      "key": "vuosikate",
+      "level": 1,
+      "order": 19,
+      "sv": "Årsbidrag"
+    },
+    {
+      "en": "Depreciations and write-downs",
+      "fi": "Poistot ja arvonalentumiset",
+      "key": "poistot-ja-arvonalentumiset",
+      "level": 1,
+      "order": 20,
+      "sv": "Avskrivningar och nedskrivningar"
+    },
+    {
+      "en": "Extraordinary items",
+      "fi": "Satunnaiset erät",
+      "key": "satunnaiset-erat",
+      "level": 1,
+      "order": 21,
+      "sv": "Extraordinära poster"
+    },
+    {
+      "en": "Results for the financial year",
+      "fi": "TILIKAUDEN TULOS",
+      "key": "tilikauden-tulos",
+      "level": 1,
+      "order": 22,
+      "sv": "Räkenskapsperiodens resultat"
+    },
+    {
+      "en": "Appropriations + (-)",
+      "fi": "Tilinpäätössiirrot + (-)",
+      "key": "tilinpaatossiirrot",
+      "level": 1,
+      "order": 23,
+      "sv": "Bokslutsdispositioner + (-)"
+    },
+    {
+      "en": "Surplus for the financial year(deficit)",
+      "fi": "TILIKAUDEN YLIJÄÄMÄ (ALIJÄÄMÄ)",
+      "key": "tilikauden-ylijaama-alijaama",
+      "level": 1,
+      "order": 24,
+      "sv": "Räkenskapsperiodens överskott (underskott)"
+    },
+    {
+      "en": "Investment expenditure, total (gross)",
+      "fi": "Investointimenot yhteensä (brutto)",
+      "key": "investointimenot-yhteensa-brutto",
+      "level": 1,
+      "order": 25,
+      "sv": "Investeringsutgifter totalt (brutto)"
+    },
+    {
+      "en": "Intangible assets",
+      "fi": "Aineettomat hyödykkeet",
+      "key": "aineettomat-hyodykkeet",
+      "level": 2,
+      "order": 26,
+      "sv": "Immateriella tillgångar"
+    },
+    {
+      "en": "Land and water areas",
+      "fi": "Maa- ja vesialueet",
+      "key": "maa-ja-vesialueet",
+      "level": 2,
+      "order": 27,
+      "sv": "Mark- och vattenområden"
+    },
+    {
+      "en": "Buildings",
+      "fi": "Rakennukset",
+      "key": "rakennukset",
+      "level": 2,
+      "order": 28,
+      "sv": "Byggnader"
+    },
+    {
+      "en": "Buildings: education and culture",
+      "fi": "Rakennukset: opetus- ja kulttuuritoimi",
+      "key": "rakennukset-opetus-ja-kulttuuritoimi",
+      "level": 3,
+      "order": 29,
+      "sv": "Byggnader: undervisnings- och kultursektorn"
+    },
+    {
+      "en": "Buildings: social welfare and healthcare",
+      "fi": "Rakennukset: sosiaali- ja terveystoimi",
+      "key": "rakennukset-sosiaali-ja-terveystoimi",
+      "level": 3,
+      "order": 30,
+      "sv": "Byggnader: social- och hälsovårdssektorn"
+    },
+    {
+      "en": "Buildings: other",
+      "fi": "Rakennukset: muut",
+      "key": "rakennukset-muut",
+      "level": 3,
+      "order": 31,
+      "sv": "Byggnader: övriga"
+    },
+    {
+      "en": "Fixed structures and installations",
+      "fi": "Kiinteät rakenteet ja laitteet",
+      "key": "kiinteat-rakenteet-ja-laitteet",
+      "level": 2,
+      "order": 32,
+      "sv": "Fasta konstruktioner och anordningar"
+    },
+    {
+      "en": "Machinery and equipment",
+      "fi": "Koneet ja kalusto",
+      "key": "koneet-ja-kalusto",
+      "level": 2,
+      "order": 33,
+      "sv": "Maskiner och inventarier"
+    },
+    {
+      "en": "Other tangible assets",
+      "fi": "Muut aineelliset hyödykkeet",
+      "key": "muut-aineelliset-hyodykkeet",
+      "level": 2,
+      "order": 34,
+      "sv": "Övriga materiella tillgångar"
+    },
+    {
+      "en": "Shares",
+      "fi": "Osakkeet ja osuudet",
+      "key": "osakkeet-ja-osuudet",
+      "level": 2,
+      "order": 35,
+      "sv": "Aktier och andelar"
+    },
+    {
+      "en": "Contributions to investment expenditure",
+      "fi": "Rahoitusosuudet investointimenoihin",
+      "key": "rahoitusosuudet-investointimenoihin",
+      "level": 1,
+      "order": 36,
+      "sv": "Finansieringsandelar för investeringsutgifter"
+    },
+    {
+      "en": "Gross capital gains on investment goods",
+      "fi": "Investointihyödykkeiden luovutustulot (brutto)",
+      "key": "investointihyodykkeiden-luovutustulot-brutto",
+      "level": 1,
+      "order": 37,
+      "sv": "Överlåtelseintäkter från investeringstillgångar (brutto)"
+    },
+    {
+      "en": "Cash flow from operations and investments",
+      "fi": "Toiminnan ja investointien rahavirta",
+      "key": "toiminnan-ja-investointien-rahavirta",
+      "level": 1,
+      "order": 38,
+      "sv": "Verksamhetens och investeringarnas kassaflöde"
+    },
+    {
+      "en": "Loan stock, 31 December",
+      "fi": "Lainakanta 31.12.",
+      "key": "lainakanta-31-12",
+      "level": 1,
+      "order": 39,
+      "sv": "Lånestock 31.12"
+    },
+    {
+      "en": "Person-years",
+      "fi": "Henkilötyövuodet",
+      "key": "henkilotyovuodet",
+      "level": 1,
+      "order": 40,
+      "sv": "Årsverken"
+    },
+    {
+      "en": "Income tax rate",
+      "fi": "Tuloveroprosentti",
+      "key": "tuloveroprosentti",
+      "level": 1,
+      "order": 41,
+      "sv": "Inkomstskattesats"
+    }
+  ],
+  "report": "KTAS",
+  "source": {
+    "licence": "CC BY 4.0",
+    "name": "Valtiokonttori, Kuntien ja hyvinvointialueiden taloustietopalvelu",
+    "url": "https://www.tutkihallintoa.fi/kuntien-ja-kuntayhtymien-talous/"
+  }
+}
