@@ -1,0 +1,42 @@
+# Fetches municipality boundaries from Statistics Finland (geo.stat.fi, CC BY 4.0) and commits
+# site/src/data/municipality-map.json to the branch (scripts/fetch_municipality_map.py). The build
+# environment has no route to geo.stat.fi. The municipality division changes at most once a year,
+# on 1 January; run this from the Actions tab after Statistics Finland publishes the new year.
+name: municipality-map
+
+on:
+  push:
+    branches-ignore: [main]
+    paths:
+      - kunta/mapdata.py
+      - scripts/fetch_municipality_map.py
+      - .github/workflows/municipality-map.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: municipality-map-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -e .
+      - run: python scripts/fetch_municipality_map.py
+      - name: Commit map
+        run: |
+          git add site/src/data/municipality-map.json
+          if git diff --cached --quiet; then echo "No changes."; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "map: municipality boundaries from Statistics Finland"
+          for i in 1 2 3; do git pull --rebase origin "$GITHUB_REF_NAME" && git push && exit 0; sleep $((i * 5)); done
+          exit 1

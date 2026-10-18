@@ -478,6 +478,7 @@ Finnish UI at the root, Swedish under `/sv/`, English under `/en/` (since 2026-1
 /{city}/henkilot/{person}/                 memberships, attendance %, voting record, motions; speeches with excerpts (§2.2 rule 9)
 /{city}/ryhmat/{group}/                    group cohesion, splits
 /haku/                                     Pagefind search (filters: city, body, year, kind)
+/kartta/                                   map of all municipalities: followed ones link to their page (boundaries: Statistics Finland, §13 note)
 /data/                                     downloads + schema docs + licence
 /tietoa/                                   about, method, sources, privacy notice, takedown contact
 ```
@@ -489,6 +490,8 @@ Finnish UI at the root, Swedish under `/sv/`, English under `/en/` (since 2026-1
 - Search index: titles + decisions + proposals; exclude `history` sections and speeches from the default index to keep it small (speeches get a separate optional index if size allows).
 - Accessibility WCAG 2.1 AA; works without JS except search and charts.
 - No analytics, no cookies, no third-party embeds until clicked (video links open the source site).
+
+**Map (added 2026-10-18 at Savvas's request).** `/kartta/` draws all of Finland's municipalities as static SVG from Statistics Finland's open boundary data (geo.stat.fi WFS, `kunta4500k_{year}` for the country and `kunta1000k_{year}` for a capital-region inset, CC BY 4.0). `scripts/fetch_municipality_map.py` writes `site/src/data/municipality-map.json` (~100 KB, SVG paths in 100 m units, matched to `config/municipalities.yaml` by name; it fails if any of our municipalities has no boundary). It runs in the `municipality-map` workflow, since the build environment can't reach geo.stat.fi; rerun it once a year after the new municipality division is published.
 
 **Size budget.** Measure after M1: bytes of HTML per item × projected items. If the projection exceeds 700 MB, stop rendering `history` sections in full (link to the source instead) and move exports to a GitHub Release asset.
 
