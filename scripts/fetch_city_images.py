@@ -2,6 +2,7 @@
 
 Reads config/images.yaml, writes site/public/images/cities/{city}-arms.svg,
 {city}-photo-{1920,960}.jpg and site/src/data/city-images.json (source, author, licence per file).
+Every other municipality in config/municipalities.yaml gets its coat of arms only (`other_arms`).
 Run by .github/workflows/city-images.yml; the build environment has no route to Wikimedia.
 
 Only the Wikidata and Commons APIs are used, one request per second, with the project
@@ -48,6 +49,7 @@ class Api:
         return resp
 
     def json(self, url: str, **params) -> dict:
+        params = {k: v for k, v in params.items() if v is not None}
         return self.get(url, format="json", formatversion="2", **params).json()
 
 
@@ -69,6 +71,85 @@ def wikidata_arms(api: Api, fiwiki: str) -> str:
     if not arms:
         raise SystemExit(f"{fiwiki}: no coat of arms (P94) on {entity['id']}")
     return arms[0]["mainsnak"]["datavalue"]["value"]
+
+
+# Wikidata classes: municipality of Finland, town of Finland.
+FINNISH_MUNICIPALITY = {"Q856076", "Q127448"}
+
+
+def wikidata_arms_many(api: Api, titles: dict[str, str]) -> dict[str, str]:
+    """Coat of arms file per municipality id, from {id: fiwiki title}; 50 titles per request.
+
+    An item that is not a Finnish municipality (a disambiguation page, a namesake) is skipped with
+    a warning, so one odd name never blocks the rest; pin it with `arms_fiwiki` or `arms_file`.
+    """
+    found: dict[str, str] = {}
+    ids = list(titles)
+    for i in range(0, len(ids), 50):
+        chunk = ids[i : i + 50]
+        data = api.json(
+            WIKIDATA,
+            action="wbgetentities",
+            sites="fiwiki",
+            titles="|".join(titles[m] for m in chunk),
+            props="claims|sitelinks",
+            sitefilter="fiwiki",
+            normalize="1" if len(chunk) == 1 else None,
+        )
+        by_title = {}
+        for entity in data["entities"].values():
+            link = entity.get("sitelinks", {}).get("fiwiki", {}).get("title")
+            if link:
+                by_title[link] = entity
+        for m in chunk:
+            entity = by_title.get(titles[m])
+            if entity is None:
+                print(f"  WARN {m}: no Wikidata item for fiwiki {titles[m]!r}")
+                continue
+            claims = entity.get("claims", {})
+            kinds = {
+                c["mainsnak"].get("datavalue", {}).get("value", {}).get("id") for c in claims.get("P31", [])
+            }
+            if not kinds & FINNISH_MUNICIPALITY:
+                print(f"  WARN {m}: {entity['id']} ({titles[m]}) is not a municipality of Finland")
+                continue
+            arms = [c for c in claims.get("P94", []) if c.get("rank") != "deprecated"]
+            arms.sort(key=lambda c: c.get("rank") != "preferred")
+            if not arms:
+                print(f"  WARN {m}: no coat of arms (P94) on {entity['id']}")
+                continue
+            found[m] = arms[0]["mainsnak"]["datavalue"]["value"]
+    return found
+
+
+def other_arms(api: Api, cfg: dict, done: set[str], only: set[str], credits: dict) -> None:
+    """Arms (no photo) for every municipality not configured under `cities`."""
+    opts = cfg.get("other_arms") or {}
+    if not opts.get("enabled"):
+        return
+    munis = yaml.safe_load((ROOT / "config" / "municipalities.yaml").read_text(encoding="utf-8"))
+    overrides = opts.get("overrides") or {}
+    todo = {m: c for m, c in munis["municipalities"].items() if m not in done and (not only or m in only)}
+    pinned = {m: overrides[m]["arms_file"] for m in todo if (overrides.get(m) or {}).get("arms_file")}
+    titles = {
+        m: (overrides.get(m) or {}).get("arms_fiwiki") or c["name_fi"]
+        for m, c in todo.items()
+        if m not in pinned
+    }
+    print(f"other municipalities: {len(todo)}")
+    files = pinned | wikidata_arms_many(api, titles)
+    for m in sorted(files):
+        try:
+            arms = file_info(api, files[m])
+            if not licence_ok(arms, cfg["licences"]["arms"]):
+                print(f"  WARN {m}: arms {arms['title']} has licence {arms['licence']!r}")
+                continue
+            save_arms(api, m, arms)
+        except SystemExit as e:  # not on Commons, not an SVG
+            print(f"  WARN {m}: {e}")
+            continue
+        print(f"  {m}: arms {arms['title']} ({arms['licence']})")
+        credits[m] = {"arms": credit(arms, [f"{m}-arms.svg"])}
 
 
 def file_info(api: Api, title: str, width: int | None = None) -> dict:
@@ -244,6 +325,8 @@ def main() -> None:
             "photo": credit(photo, [f"{city}-photo-{w}.jpg" for w in PHOTO_WIDTHS])
             | {"description": photo["description"]},
         }
+
+    other_arms(api, cfg, set(cfg["cities"]), only, credits)
 
     CREDITS.write_text(
         json.dumps(credits, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8"

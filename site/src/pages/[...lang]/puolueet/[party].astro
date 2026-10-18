@@ -24,7 +24,6 @@ const view = partyView();
 const st = view.stats.find((s) => s.party === party)!;
 const name = (p: Party) => t(partyKey(p));
 const pct = (a: number, b: number) => (b ? Math.round((100 * a) / b) : undefined);
-const wins = pct(st.wins, st.positions);
 const cohesion = pct(st.together, st.cast);
 const muniName = (id: string) => cityName(cityRec(id)!, locale);
 const seats = view.seats.get(party) ?? [];
@@ -55,7 +54,6 @@ const colour = PARTY_COLOURS[party];
       <ul class="stats">
         <li><b>{num(st.seats)}</b> {t('pp.stat.seats', { n: num(st.munis) })}</li>
         <li><b>{num(st.positions)}</b> {t('pp.stat.positions')}</li>
-        {wins !== undefined && <li><b>{wins} %</b> {t('pp.stat.wins')}</li>}
         {cohesion !== undefined && <li><b>{cohesion} %</b> {t('pp.stat.cohesion')}</li>}
       </ul>
     </div>

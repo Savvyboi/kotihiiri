@@ -7,6 +7,11 @@
 #        Wikipedia uses for the official arms. Pin a different Commons file with `arms_file`.
 # review: true makes the workflow skip that city and upload a contact sheet of nine candidates
 #        (artifact "review") instead, to choose a `photo_file` from.
+# other_arms: every municipality in config/municipalities.yaml that is not under `cities` gets its
+#        coat of arms (no photo), from the Wikidata item of the Finnish Wikipedia article named
+#        like the municipality (name_fi). One that cannot be found is skipped with a warning in the
+#        workflow log; fix it under `overrides` with `arms_fiwiki` (article title) or `arms_file`.
+#        Savvas asked for arms in the home page list (2026-10-18).
 # photo: `photo_file` pins a Commons file. Without a pin the script searches `photo_queries`
 #        in order and takes the first landscape photo, at least 1920 px wide, whose licence is
 #        in `licences.photo`, skipping anything listed in `photo_exclude`.
@@ -69,3 +74,7 @@ cities:
       - 'Aura river Turku'
       - 'Turku'
     photo_exclude: []
+
+other_arms:
+  enabled: true
+  overrides: {}

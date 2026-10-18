@@ -2,7 +2,8 @@
 import Base from '../../layouts/Base.astro';
 import CityCard from '../../components/CityCard.astro';
 import VoteCard from '../../components/VoteCard.astro';
-import { localeParams, useI18n, type Key, type Locale } from '../../i18n';
+import { assetPath, localeParams, useI18n, type Key, type Locale } from '../../i18n';
+import { cityImages } from '../../lib/images';
 import { TOPICS, topicRows } from '../../lib/topics';
 import { allInitiativeRows } from '../../lib/initiatives';
 import { city as cityById, cities, majorCities, otherMunicipalities, cityName, cityStats, disabledKey, meetingFiles, recentVotes, bodyName, meetingUrl, itemUrl, decisionText } from '../../lib/data';
@@ -64,11 +65,19 @@ const topics = TOPICS.map((tp) => ({ id: tp.id, n: byTopic.get(tp.id)?.length ??
       <ul class="muni-list" data-muni-list>
         {others.map((c) => {
           const s = cityStats(c.id);
+          const arms = cityImages(c.id).arms;
+          const name = cityName(c, locale);
           return (
             <li data-name={[c.name_fi, c.name_sv].filter(Boolean).join(' ').toLowerCase()}>
-              <a href={path(`/${c.id}/`)}>{cityName(c, locale)}</a>
-              <span class="small muted">{c.population ? `${num(c.population)} ${t('common.inhabitants')}` : ''}</span>
-              <span class="small">{num(s.meetings)} {t('city.stats.meetings')}{s.votes > 0 && <> · {num(s.votes)} {t('home.stats.votes')}</>}</span>
+              {arms
+                ? <img class="muni-arms" src={assetPath(`/images/cities/${arms.files[0]}`)} alt="" width="28" height="32" loading="lazy" decoding="async" />
+                : <span class="muni-arms none" aria-hidden="true">{name.slice(0, 1)}</span>}
+              <span class="muni-name"><a href={path(`/${c.id}/`)}>{name}</a>
+                {c.population ? <span class="small muted">{`${num(c.population)} ${t('common.inhabitants')}`}</span> : null}</span>
+              <span class="muni-stats small muted">
+                <span>{`${num(s.meetings)} ${t('city.stats.meetings')}`}</span>
+                {s.votes > 0 && <span>{`${num(s.votes)} ${t('home.stats.votes')}`}</span>}
+              </span>
             </li>
           );
         })}
@@ -165,8 +174,12 @@ const topics = TOPICS.map((tp) => ({ id: tp.id, n: byTopic.get(tp.id)?.length ??
 <style>
   .municipalities { margin-top: 2.5rem; }
   .filter input { width: 100%; max-width: 24rem; padding: .5rem .75rem; font: inherit; border: 1px solid var(--c-border, #ccc); border-radius: .4rem; background: var(--c-bg, transparent); color: inherit; }
-  .muni-list { list-style: none; padding: 0; margin: 1rem 0 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); gap: .25rem 1.5rem; }
-  .muni-list li { display: flex; flex-wrap: wrap; align-items: baseline; gap: .25rem .6rem; padding: .35rem 0; border-bottom: 1px solid var(--c-border, #e5e5e5); }
+  .muni-list { list-style: none; padding: 0; margin: 1rem 0 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); gap: 0 1.5rem; }
+  .muni-list li { display: grid; grid-template-columns: 1.75rem minmax(0, 1fr) auto; align-items: center; gap: .7rem; padding: .45rem 0; border-bottom: 1px solid var(--c-border, #e5e5e5); min-height: 3.3rem; }
   .muni-list li[hidden] { display: none; }
-  .muni-list a { font-weight: 600; }
+  .muni-arms { width: 1.75rem; height: 2rem; object-fit: contain; }
+  .muni-arms.none { display: grid; place-items: center; border-radius: .35rem .35rem .9rem .9rem; background: var(--c-tint); border: 1px solid var(--c-border); font-weight: 700; font-size: .85rem; color: var(--c-muted); }
+  .muni-name { display: flex; flex-direction: column; line-height: 1.25; min-width: 0; }
+  .muni-name a { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .muni-stats { display: flex; flex-direction: column; align-items: flex-end; line-height: 1.25; text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
 </style>

@@ -1,7 +1,6 @@
 ---
 // Every council member of every followed municipality in one table (/valtuutetut/): filter by
-// municipality, party and name, and sort by election votes, votes cast, votes against their own
-// group, attendance or motions. Without JavaScript the first rows are listed; the script loads the
+// municipality, party and name, and sort by any column (click its header). Without JavaScript the first rows are listed; the script loads the
 // rest from /valtuutetut.json.
 import Base from '../../layouts/Base.astro';
 import PartyChip from '../../components/PartyChip.astro';
@@ -53,26 +52,15 @@ const pct = (n: number | null) => (n === null ? '' : `${n} %`);
         </select>
       </label>
       <label>{t('cl.q')}<input type="search" name="q" autocomplete="off" /></label>
-      <label>{t('cl.sort')}
-        <select name="jarjestys">
-          <option value="">{t('cl.sort.name')}</option>
-          <option value="e">{t('cl.col.election')}</option>
-          <option value="v">{t('cl.col.votes')}</option>
-          <option value="x">{t('cl.col.against')}</option>
-          <option value="a">{t('cl.col.attendance')}</option>
-          <option value="m">{t('cl.col.motions')}</option>
-        </select>
-      </label>
       <p class="small"><a href={json} download="valtuutetut.json">JSON</a></p>
     </form>
     <p class="small muted" aria-live="polite" data-count>{t('cl.shown', { n: num(rows.length) })}</p>
     <div class="table-scroll">
       <table class="party-table councillors">
         <thead><tr>
-          <th>{t('cl.col.name')}</th><th>{t('allVotes.muni')}</th>
-          <th class="num">{t('cl.col.election')}</th><th class="num">{t('cl.col.votes')}</th>
-          <th class="num">{t('cl.col.against')}</th><th class="num">{t('cl.col.attendance')}</th>
-          <th class="num">{t('cl.col.motions')}</th>
+          <th data-sort="n">{t('cl.col.name')}</th><th data-sort="c">{t('allVotes.muni')}</th>
+          <th class="num" data-sort="e">{t('cl.col.election')}</th><th class="num" data-sort="v">{t('cl.col.votes')}</th>
+          <th class="num" data-sort="a">{t('cl.col.attendance')}</th><th class="num" data-sort="m">{t('cl.col.motions')}</th>
         </tr></thead>
         <tbody data-rows>
           {rows.slice(0, FIRST).map((r) => (
@@ -80,7 +68,7 @@ const pct = (n: number | null) => (n === null ? '' : `${n} %`);
               <td><a href={sharedPath(r.u, locale)} data-shared>{r.n}</a> <PartyChip group={r.g} /></td>
               <td>{names[r.c]}</td>
               <td class="num">{r.e === null ? '' : num(r.e)}</td><td class="num">{num(r.v)}</td>
-              <td class="num">{r.x || ''}</td><td class="num">{pct(r.a)}</td><td class="num">{r.m || ''}</td>
+              <td class="num">{pct(r.a)}</td><td class="num">{r.m || ''}</td>
             </tr>
           ))}
         </tbody>
@@ -91,7 +79,6 @@ const pct = (n: number | null) => (n === null ? '' : `${n} %`);
     <dl class="party-help small">
       <div><dt>{t('cl.col.election')}</dt><dd>{t('cl.help.election')}</dd></div>
       <div><dt>{t('cl.col.votes')}</dt><dd>{t('cl.help.votes')}</dd></div>
-      <div><dt>{t('cl.col.against')}</dt><dd>{t('cl.help.against')}</dd></div>
       <div><dt>{t('cl.col.attendance')}</dt><dd>{t('cl.help.attendance')}</dd></div>
       <div><dt>{t('cl.col.motions')}</dt><dd>{t('cl.help.motions')}</dd></div>
     </dl>
@@ -111,13 +98,40 @@ const pct = (n: number | null) => (n === null ? '' : `${n} %`);
       const chip = (r) => { const c = chips[r.p];
         return !r.g ? '' : c ? `<span class="pchip${c.l ? ' light' : ''}" style="--pc:${c.c}" title="${esc(r.g)}">${esc(c.a)}</span>`
           : `<span class="pchip" title="${esc(r.g)}">${esc(r.g)}</span>`; };
-      const keys = ['kunta', 'puolue', 'q', 'jarjestys'];
+      const keys = ['kunta', 'puolue', 'q'];
       const params = new URLSearchParams(location.search);
       for (const k of keys) if (params.get(k)) form.elements[k].value = params.get(k);
       let shown = FIRST, current = [];
+      // Sorting: click a header; a second click reverses. Text columns start A-Z, numbers largest first.
+      const TEXT = { n: (r) => r.s, c: (r) => names[r.c] ?? r.c };
+      const heads = [...document.querySelectorAll('th[data-sort]')];
+      let sortBy = heads.some((h) => h.dataset.sort === params.get('jarjestys')) ? params.get('jarjestys') : '';
+      let asc = sortBy ? params.get('suunta') === 'nouseva' ? true : params.get('suunta') === 'laskeva' ? false : sortBy in TEXT : true;
+      for (const th of heads) {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'sort-btn';
+        b.append(...th.childNodes);
+        th.append(b);
+        b.addEventListener('click', () => {
+          const k = th.dataset.sort;
+          asc = k === sortBy ? !asc : k in TEXT;
+          sortBy = k;
+          apply();
+        });
+      }
+      const compare = (a, b) => {
+        if (!sortBy) return 0;
+        // Missing values (no election result, no attendance record) go last either way.
+        if (!(sortBy in TEXT) && (a[sortBy] == null) !== (b[sortBy] == null)) return a[sortBy] == null ? 1 : -1;
+        const d = sortBy in TEXT
+          ? TEXT[sortBy](a).localeCompare(TEXT[sortBy](b), lang) || (sortBy === 'c' ? a.s.localeCompare(b.s, lang) : 0)
+          : (a[sortBy] ?? 0) - (b[sortBy] ?? 0);
+        return asc ? d : -d;
+      };
       const row = (r) => `<tr><td><a href="${esc(href(r.u))}">${esc(r.n)}</a> ${chip(r)}</td><td>${esc(names[r.c] ?? r.c)}</td>`
         + `<td class="num">${r.e === null ? '' : nf.format(r.e)}</td><td class="num">${nf.format(r.v)}</td>`
-        + `<td class="num">${r.x || ''}</td><td class="num">${r.a === null ? '' : `${r.a} %`}</td><td class="num">${r.m || ''}</td></tr>`;
+        + `<td class="num">${r.a === null ? '' : `${r.a} %`}</td><td class="num">${r.m || ''}</td></tr>`;
       const render = () => {
         body.innerHTML = current.slice(0, shown).map(row).join('');
         document.querySelector('[data-more]').hidden = current.length <= shown;
@@ -129,12 +143,15 @@ const pct = (n: number | null) => (n === null ? '' : `${n} %`);
         const words = v.q.toLowerCase().split(/\s+/).filter(Boolean);
         current = rows.filter((r) => (!v.kunta || r.c === v.kunta) && (!v.puolue || r.p === v.puolue)
           && words.every((w) => r.n.toLowerCase().includes(w)));
-        const by = v.jarjestys;
-        if (by) current = [...current].sort((a, b) => (b[by] ?? -1) - (a[by] ?? -1) || a.s.localeCompare(b.s, 'fi'));
+        if (sortBy) current = [...current].sort((a, b) => compare(a, b) || a.c.localeCompare(b.c) || a.s.localeCompare(b.s, 'fi'));
+        for (const th of heads) {
+          th.setAttribute('aria-sort', th.dataset.sort === sortBy ? (asc ? 'ascending' : 'descending') : 'none');
+        }
         shown = FIRST;
         render();
         const q = new URLSearchParams();
         for (const k of keys) if (v[k]) q.set(k, v[k]);
+        if (sortBy) { q.set('jarjestys', sortBy); q.set('suunta', asc ? 'nouseva' : 'laskeva'); }
         history.replaceState(null, '', q.size ? `?${q}` : location.pathname);
       };
       form.addEventListener('input', apply);

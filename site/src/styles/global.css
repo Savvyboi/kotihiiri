@@ -71,15 +71,19 @@ p { margin: 0 0 1em; }
 .arms { width: 72px; height: auto; flex: none; filter: drop-shadow(0 2px 6px rgb(0 0 0 / .25)); }
 .city-hero.has-photo { color: #fff; border-bottom: 0; padding: 3.2rem 0 2.2rem; min-height: 300px; display: flex; align-items: flex-end; background: #111; }
 .city-hero.has-photo > .wrap { width: 100%; }
-.hero-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.city-hero.has-photo::before { content: ""; position: absolute; inset: 0; z-index: 0;
-  background: linear-gradient(180deg, rgb(0 0 0 / .45) 0%, rgb(0 0 0 / .55) 40%, color-mix(in srgb, var(--c-primary) 65%, black) 100%); }
-.city-hero.has-photo .wrap { z-index: 1; }
+.hero-photo { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; object-fit: cover; }
+/* The shade sits above the photo (z-index 1) and below the text (2); the photo is positioned too, so
+   without explicit layers it painted over the shade and left white text on a bright sky. */
+.city-hero.has-photo::before { content: ""; position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(90deg, rgb(0 0 0 / .62) 0%, rgb(0 0 0 / .42) 55%, rgb(0 0 0 / .18) 100%),
+    linear-gradient(180deg, rgb(0 0 0 / .25) 0%, rgb(0 0 0 / .35) 45%, color-mix(in srgb, var(--c-primary) 70%, black) 100%); }
+.city-hero.has-photo .wrap { z-index: 2; }
 .city-hero.has-photo .lead, .city-hero.has-photo .stats b, .city-hero.has-photo a, .city-hero.has-photo .breadcrumb li + li::before { color: #fff; }
-.city-hero.has-photo .lead { text-shadow: 0 1px 3px rgb(0 0 0 / .5); }
+.city-hero.has-photo .wrap { text-shadow: 0 1px 3px rgb(0 0 0 / .7); }
+.city-hero.has-photo .muted { color: rgb(255 255 255 / .82); }
 .city-hero.has-photo h1 { text-shadow: 0 2px 8px rgb(0 0 0 / .45); }
 .city-hero.has-photo .badge { background: rgb(255 255 255 / .9); color: #1d1e24; }
-.photo-credit { position: absolute; right: 16px; bottom: -1.6rem; margin: 0; font-size: .72rem; opacity: .85; }
+.photo-credit { position: absolute; right: 16px; bottom: -1.6rem; margin: 0; font-size: .72rem; opacity: .9; max-width: calc(100% - 32px); text-align: right; }
 .photo-credit a { text-decoration: none; }
 @media (max-width: 640px) { .arms { width: 52px; } .photo-credit { position: static; margin-top: .8rem; } }
 
@@ -131,6 +135,9 @@ main { padding-bottom: 3rem; }
 .list { list-style: none; padding: 0; margin: 0; }
 .list > li { border-bottom: 1px solid var(--c-border); padding: .8rem 0; display: flex; gap: 1rem; align-items: baseline; }
 .list > li:last-child { border-bottom: 0; }
+/* Long words and links (initiative titles, URLs) wrap instead of widening the page on phones. */
+.list > li > * { min-width: 0; overflow-wrap: anywhere; }
+.list .date, .list .pykala { flex: none; overflow-wrap: normal; }
 .list .date { min-width: 6.5rem; font-variant-numeric: tabular-nums; color: var(--c-muted); }
 .list .pykala { min-width: 3.5rem; color: var(--c-muted); font-variant-numeric: tabular-nums; }
 .initiatives details { margin-top: .35rem; }
@@ -282,6 +289,7 @@ button.more { font: inherit; padding: .45rem 1rem; border-radius: 8px; border: 1
 .party-dot { display: inline-block; width: .8rem; height: .8rem; border-radius: 50%; margin-right: .5rem; vertical-align: -.05rem; }
 .meter { display: inline-block; width: 3.5rem; height: .45rem; margin-right: .5rem; border-radius: 999px; vertical-align: .1rem;
   background: linear-gradient(90deg, var(--c-primary) var(--v), var(--c-border) var(--v)); }
+@media (prefers-color-scheme: dark) { .meter { background: linear-gradient(90deg, var(--c-link) var(--v), var(--c-border) var(--v)); } }
 .agree-matrix { border-collapse: collapse; margin-top: .8rem; font-variant-numeric: tabular-nums; }
 .agree-matrix th, .agree-matrix td { width: 3.2rem; height: 2.4rem; text-align: center; font-size: .85rem; }
 .agree-matrix td { background: color-mix(in srgb, var(--c-primary) calc(var(--v) * 85%), transparent); border: 1px solid var(--c-bg, #fff); }
@@ -335,6 +343,13 @@ button.more { font: inherit; padding: .45rem 1rem; border-radius: 8px; border: 1
 /* Councillors in every municipality (/valtuutetut/) */
 .councillors td:first-child { white-space: nowrap; }
 .councillors thead th { white-space: nowrap; }
+.sort-btn { all: unset; cursor: pointer; display: inline-flex; align-items: center; gap: .3em; }
+.sort-btn::after { content: "↕"; opacity: .45; font-size: .95em; }
+th[aria-sort="ascending"] .sort-btn::after { content: "↑"; opacity: 1; }
+th[aria-sort="descending"] .sort-btn::after { content: "↓"; opacity: 1; }
+th[aria-sort="ascending"], th[aria-sort="descending"] { color: var(--c-text); }
+.sort-btn:hover { color: var(--c-text); }
+.sort-btn:focus-visible { outline: 3px solid var(--c-accent); outline-offset: 2px; border-radius: 4px; }
 @media (max-width: 640px) {
   .councillors { font-size: .88rem; }
   .councillors th:first-child, .councillors td:first-child { position: sticky; left: 0; background: var(--c-bg, #fff); z-index: 1; }
@@ -348,9 +363,21 @@ button.more { font: inherit; padding: .45rem 1rem; border-radius: 8px; border: 1
 .feed-link { margin: .6rem 0 0; }
 .feed-link a { display: inline-flex; align-items: center; gap: .35rem; font-weight: 600; }
 .feed-link svg { color: #f26522; }
-.budget-table tbody th { font-weight: 400; }
+.budget-table tbody th { font-weight: 400; white-space: normal; min-width: 13rem; }
+/* Long column headings ("Talousarvio 2026 muutoksineen") wrap instead of pushing the table wider. */
+.party-table thead th.num { white-space: normal; vertical-align: bottom; }
+.party-table.councillors thead th { white-space: nowrap; }
+.budget-table th:first-child { position: sticky; left: 0; z-index: 1; background: var(--c-bg); }
 .budget-table tr.lvl-1 th { font-weight: 600; }
 .budget-table tr.total th, .budget-table tr.total td { font-weight: 700; }
 .budget-notes div { margin: 0 0 .9rem; }
 .budget-notes dt { font-weight: 650; }
 .budget-notes dd { margin: .15rem 0 0; }
+/* Budgets of every municipality (/talous/): eight columns; headers wrap, the name column stays put
+   while the figures scroll sideways on narrow screens. */
+.budget-unit { margin: 1rem 0 0; }
+.budget-national { margin-top: .4rem; }
+.party-table.budget-national thead th { line-height: 1.25; }
+.budget-national th, .budget-national td { padding-left: .45rem; padding-right: .45rem; }
+.budget-national tbody th { white-space: nowrap; }
+.budget-national th:first-child { position: sticky; left: 0; z-index: 1; background: var(--c-bg); }
