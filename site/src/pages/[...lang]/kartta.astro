@@ -38,6 +38,12 @@ const counts = MAP
   ? (['followed', 'pending', 'other'] as Status[]).map((k) => ({ k, n: MAP.municipalities.filter((s) => statusOf(s) === k).length }))
   : [];
 const box = (v: number[]) => v.join(' ');
+/** Inset label x, nudged so a long name near the edge (Kirkkonummi) stays inside the frame. */
+const labelX = (s: MapShape) => {
+  const [x0, , w] = MAP!.inset!.viewbox;
+  const half = (name(s).length * (statusOf(s) === 'followed' ? 24 : 18) * 0.62) / 2 + 4;
+  return Math.round(Math.min(Math.max(s.label![0], x0 + half), x0 + w - half));
+};
 ---
 <Base title={t('map.title')} description={t('map.lead', { n: num(counts[0]?.n ?? 0), all: num(MAP?.municipalities.length ?? 0) })} locale={locale}>
   <section class="hero">
@@ -73,7 +79,7 @@ const box = (v: number[]) => v.join(' ');
                   return st === 'other' ? shape : <a href={path(`/${s.id}/`)} tabindex="-1" aria-hidden="true">{shape}</a>;
                 })}
                 {MAP.inset.municipalities.filter((s) => s.label && statusOf(s) !== 'other').map((s) => (
-                  <text x={s.label![0]} y={s.label![1]} class={`lbl lbl-${statusOf(s)}`} aria-hidden="true">{name(s)}</text>
+                  <text x={labelX(s)} y={s.label![1]} class={`lbl lbl-${statusOf(s)}`} aria-hidden="true">{name(s)}</text>
                 ))}
               </svg>
               <figcaption class="small muted">{t('map.inset')}</figcaption>
@@ -116,6 +122,22 @@ const box = (v: number[]) => v.join(' ');
   }
 </script>
 <style>
+  .muni-map {
+    --m-on: var(--c-primary); --m-on-text: var(--c-on-primary);
+    --m-pending: color-mix(in srgb, var(--c-primary) 32%, var(--c-bg));
+    --m-pending-hover: color-mix(in srgb, var(--c-primary) 55%, var(--c-bg));
+    --m-other: color-mix(in srgb, var(--c-muted) 18%, var(--c-bg));
+    --m-other-hover: color-mix(in srgb, var(--c-muted) 35%, var(--c-bg));
+  }
+  @media (prefers-color-scheme: dark) {
+    .muni-map {
+      --m-on: var(--c-link); --m-on-text: var(--c-bg);
+      --m-pending: color-mix(in srgb, var(--c-link) 30%, var(--c-bg));
+      --m-pending-hover: color-mix(in srgb, var(--c-link) 50%, var(--c-bg));
+      --m-other: color-mix(in srgb, var(--c-muted) 22%, var(--c-bg));
+      --m-other-hover: color-mix(in srgb, var(--c-muted) 40%, var(--c-bg));
+    }
+  }
   .muni-map { display: grid; grid-template-columns: minmax(0, 1fr) minmax(220px, 300px); gap: 1.5rem; align-items: start; margin: 1.5rem 0 1rem; }
   .muni-map figure { margin: 0; }
   .map-main svg { display: block; width: 100%; height: auto; max-height: 82vh; }
@@ -125,29 +147,30 @@ const box = (v: number[]) => v.join(' ');
   .map-inset figcaption { margin-top: .3rem; }
   path { stroke: var(--c-bg); stroke-width: .6px; vector-effect: non-scaling-stroke; stroke-linejoin: round; transition: fill .12s; }
   .map-inset path { stroke-width: 1px; }
-  .m-followed { fill: var(--c-primary); }
-  .m-pending { fill: color-mix(in srgb, var(--c-primary) 32%, var(--c-bg)); }
-  .m-other { fill: color-mix(in srgb, var(--c-muted) 18%, var(--c-bg)); }
+  .m-followed { fill: var(--m-on); }
+  .m-pending { fill: var(--m-pending); }
+  .m-other { fill: var(--m-other); }
   a:hover path.m-followed, a:focus-visible path.m-followed, path.m-followed.hover { fill: var(--c-accent); }
-  a:hover path.m-pending, a:focus-visible path.m-pending, path.m-pending.hover { fill: color-mix(in srgb, var(--c-primary) 55%, var(--c-bg)); }
-  path.m-other.hover { fill: color-mix(in srgb, var(--c-muted) 35%, var(--c-bg)); }
+  a:hover path.m-pending, a:focus-visible path.m-pending, path.m-pending.hover { fill: var(--m-pending-hover); }
+  path.m-other.hover { fill: var(--m-other-hover); }
   svg a:focus-visible { outline: none; }
   svg a:focus-visible path { stroke: var(--c-text); stroke-width: 2px; }
-  .lbl { font-size: 15px; font-weight: 650; text-anchor: middle; dominant-baseline: middle; pointer-events: none; paint-order: stroke; stroke-width: 3px; stroke-linejoin: round; }
-  .lbl-followed { fill: var(--c-on-primary); stroke: var(--c-primary); }
-  .lbl-pending { fill: var(--c-text); stroke: color-mix(in srgb, var(--c-primary) 32%, var(--c-bg)); font-size: 12px; }
+  .lbl { font-size: 24px; font-weight: 650; text-anchor: middle; dominant-baseline: middle; pointer-events: none; paint-order: stroke; stroke-width: 5px; stroke-linejoin: round; }
+  .lbl-followed { fill: var(--m-on-text); stroke: var(--m-on); }
+  .lbl-pending { fill: var(--c-text); stroke: var(--m-pending); font-size: 18px; }
   .inset-frame { fill: none; stroke: var(--c-text); stroke-width: 1px; vector-effect: non-scaling-stroke; stroke-dasharray: 3 2; pointer-events: none; }
   .map-legend { list-style: none; margin: 0; padding: 0; display: grid; gap: .35rem; }
   .map-legend li { display: flex; align-items: center; gap: .5rem; }
   .swatch { width: 1.1rem; height: 1.1rem; border-radius: 4px; flex: none; border: 1px solid var(--c-border); }
-  .swatch.m-followed { background: var(--c-primary); }
-  .swatch.m-pending { background: color-mix(in srgb, var(--c-primary) 32%, var(--c-bg)); }
-  .swatch.m-other { background: color-mix(in srgb, var(--c-muted) 18%, var(--c-bg)); }
+  .swatch.m-followed { background: var(--m-on); }
+  .swatch.m-pending { background: var(--m-pending); }
+  .swatch.m-other { background: var(--m-other); }
   .map-label { margin: 0; padding: .6rem .8rem; background: var(--c-surface); border: 1px solid var(--c-border); border-radius: var(--radius); display: grid; }
+  .map-label[hidden] { display: none; }
   .map-source { margin-top: 1rem; }
   @media (max-width: 760px) {
     .muni-map { grid-template-columns: 1fr; }
-    .map-side { position: static; order: -1; }
+    .map-side { position: static; }
     .map-main svg { max-height: none; }
     .map-label { display: none; }
   }
