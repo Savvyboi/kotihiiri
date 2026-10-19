@@ -13,6 +13,7 @@ export const sv: Dict = {
   'nav.data': 'Öppna data',
   'nav.about': 'Om tjänsten',
   'nav.main': 'Huvudmeny',
+  'nav.menu': 'Meny',
   'nav.breadcrumb': 'Brödsmulor',
   'nav.home': 'Startsida',
   'nav.language': 'Språk',

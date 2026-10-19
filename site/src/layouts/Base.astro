@@ -56,6 +56,11 @@ const site = Astro.site ? new URL(import.meta.env.BASE_URL, Astro.site).origin :
         <a class="brand" href={localePath('/', locale)}>
           <Logo />{t('site.name', {}, locale)}{cityRec && <span class="city">/ {cityName(cityRec, locale)}</span>}
         </a>
+        <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="site-menu" data-menu-toggle>
+          <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path class="bars" d="M2 4.5h16M2 10h16M2 15.5h16" /><path class="cross" d="M4 4l12 12M16 4 4 16" /></svg>
+          <T k="nav.menu" locale={locale} />
+        </button>
+        <div class="site-menu" id="site-menu">
         <nav class="site-nav" aria-label={t('nav.main', {}, locale)} data-i18n-aria="nav.main">
           <ul>
             {nav.map((n) => (
@@ -63,6 +68,16 @@ const site = Astro.site ? new URL(import.meta.env.BASE_URL, Astro.site).origin :
             ))}
           </ul>
         </nav>
+        </div>
+      </div>
+      <div class="city-switch">
+        <div class="wrap"><nav class="cities" aria-label={t('nav.cities', {}, locale)} data-i18n-aria="nav.cities"><ul>
+          {majorCities().filter((c) => c.enabled).map((c) => (
+            <li><a href={localePath(`/${c.id}/`, locale)} aria-current={c.id === city ? 'page' : undefined}>{cityName(c, locale)}</a></li>
+          ))}
+          <li><a href={localePath('/#kunnat', locale)} aria-current={cityRec && cityRec.rank > 6 ? 'page' : undefined}><T k="nav.allMunicipalities" locale={locale} /></a></li>
+          <li><a href={localePath('/kartta/', locale)} aria-current={rest === '/kartta/' ? 'page' : undefined}><T k="nav.map" locale={locale} /></a></li>
+        </ul></nav>
         <nav class="lang-switch" aria-label={t('nav.language', {}, locale)} data-i18n-aria="nav.language" data-lang-switch>
           <ul>
             {(LOCALES as Locale[]).map((l) => (
@@ -70,16 +85,8 @@ const site = Astro.site ? new URL(import.meta.env.BASE_URL, Astro.site).origin :
             ))}
           </ul>
         </nav>
+        </div>
       </div>
-      <nav class="city-switch" aria-label={t('nav.cities', {}, locale)} data-i18n-aria="nav.cities">
-        <div class="wrap"><ul>
-          {majorCities().filter((c) => c.enabled).map((c) => (
-            <li><a href={localePath(`/${c.id}/`, locale)} aria-current={c.id === city ? 'page' : undefined}>{cityName(c, locale)}</a></li>
-          ))}
-          <li><a href={localePath('/#kunnat', locale)} aria-current={cityRec && cityRec.rank > 6 ? 'page' : undefined}><T k="nav.allMunicipalities" locale={locale} /></a></li>
-          <li><a href={localePath('/kartta/', locale)} aria-current={rest === '/kartta/' ? 'page' : undefined}><T k="nav.map" locale={locale} /></a></li>
-        </ul></div>
-      </nav>
     </header>
     {IS_DEMO && <div class="demo-banner" role="note"><div class="wrap"><T k="site.demo" locale={locale} /></div></div>}
     <main id="main">
@@ -93,6 +100,26 @@ const site = Astro.site ? new URL(import.meta.env.BASE_URL, Astro.site).origin :
     </footer>
     {shared && <SharedI18n />}
     <script is:inline>
+      // Compact menu: if the main menu wraps below the site name, fold them behind the
+      // menu button (global.css, .compact). Measured again when the window changes size.
+      (() => {
+        const header = document.querySelector('.site-header');
+        const btn = header.querySelector('[data-menu-toggle]');
+        const brand = header.querySelector('.brand');
+        const set = (open) => { header.classList.toggle('menu-open', open); btn.setAttribute('aria-expanded', String(open)); };
+        const fit = () => {
+          header.classList.remove('compact');
+          const top = brand.getBoundingClientRect().top;
+          const wraps = [...header.querySelectorAll('.site-nav li')].some((li) => li.getBoundingClientRect().top > top + 30);
+          header.classList.toggle('compact', wraps);
+          if (!wraps) set(false);
+        };
+        btn.addEventListener('click', () => set(btn.getAttribute('aria-expanded') !== 'true'));
+        addEventListener('keydown', (e) => { if (e.key === 'Escape' && header.classList.contains('menu-open')) { set(false); btn.focus(); } });
+        addEventListener('resize', fit);
+        fit();
+        document.fonts?.ready.then(fit);
+      })();
       // Ctrl+K (⌘K on a Mac) opens search, as on the parliament and wellbeing-services sites.
       addEventListener('keydown', (e) => {
         if (e.key.toLowerCase() !== 'k' || !(e.ctrlKey || e.metaKey) || e.altKey || e.shiftKey) return;

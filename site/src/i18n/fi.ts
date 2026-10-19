@@ -11,6 +11,7 @@ export const fi = {
   'nav.data': 'Avoin data',
   'nav.about': 'Tietoa',
   'nav.main': 'Päävalikko',
+  'nav.menu': 'Valikko',
   'nav.breadcrumb': 'Murupolku',
   'nav.home': 'Etusivu',
   'nav.language': 'Kieli',

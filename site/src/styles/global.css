@@ -56,15 +56,17 @@ p { margin: 0 0 1em; }
 .brand svg { width: 30px; height: 30px; }
 .brand .city { font-weight: 500; opacity: .85; }
 .site-nav { margin-left: auto; }
-.site-nav ul { display: flex; gap: .3rem; list-style: none; margin: 0; padding: 0; flex-wrap: wrap; }
-.site-nav a { color: inherit; text-decoration: none; padding: .45rem .55rem .35rem; font-weight: 600; font-size: .97rem; border-bottom: 3px solid transparent; }
+.site-nav ul { display: flex; gap: .15rem; list-style: none; margin: 0; padding: 0; flex-wrap: wrap; }
+.site-nav a { color: inherit; text-decoration: none; padding: .45rem .45rem .35rem; font-weight: 600; font-size: .95rem; border-bottom: 3px solid transparent; }
 .site-nav a:hover { border-bottom-color: rgb(255 255 255 / .45); }
 .site-nav a[aria-current="page"], .site-nav a[aria-current="true"] { border-bottom-color: var(--c-or); }
 .city-switch { background: var(--c-primary); border-top: 1px solid rgb(255 255 255 / .18); }
-.city-switch ul { display: flex; gap: .2rem; list-style: none; margin: 0 0 0 -.75rem; padding: .35rem 0; overflow-x: auto; }
-.city-switch a { color: var(--c-on-primary); text-decoration: none; padding: .3rem .75rem; font-size: .92rem; white-space: nowrap; opacity: .85; border-bottom: 2px solid transparent; }
-.city-switch a:hover { opacity: 1; border-bottom-color: rgb(255 255 255 / .45); }
-.city-switch a[aria-current="page"] { opacity: 1; border-bottom-color: var(--c-or); font-weight: 650; }
+.city-switch .wrap { display: flex; align-items: center; gap: 1rem; }
+.city-switch .cities { flex: 1 1 auto; min-width: 0; }
+.city-switch .cities ul { display: flex; gap: .2rem; list-style: none; margin: 0 0 0 -.75rem; padding: .35rem 0; overflow-x: auto; }
+.city-switch .cities a { color: var(--c-on-primary); text-decoration: none; padding: .3rem .75rem; font-size: .92rem; white-space: nowrap; opacity: .85; border-bottom: 2px solid transparent; }
+.city-switch .cities a:hover { opacity: 1; border-bottom-color: rgb(255 255 255 / .45); }
+.city-switch .cities a[aria-current="page"] { opacity: 1; border-bottom-color: var(--c-or); font-weight: 650; }
 .city-switch .off { opacity: .55; }
 
 .demo-banner { background: #fff4c2; color: #4a3b00; font-size: .9rem; padding: .55rem 0; border-bottom: 1px solid #e8d77a; }
@@ -101,10 +103,38 @@ p { margin: 0 0 1em; }
 .photo-credit a { text-decoration: none; }
 @media (max-width: 640px) { .arms { width: 52px; } .photo-credit { position: static; margin-top: .8rem; } }
 
+.lang-switch { margin-left: auto; }
 .lang-switch ul { display: flex; gap: .15rem; list-style: none; margin: 0; padding: 0; }
 .lang-switch a { color: inherit; text-decoration: none; padding: .3rem .5rem; font-size: .82rem; font-weight: 650; opacity: .75; }
 .lang-switch a[aria-current="true"] { opacity: 1; box-shadow: inset 0 -2px currentColor; }
 .lang-switch a:hover { opacity: 1; background: rgb(255 255 255 / .16); }
+
+/* Compact menu: when the main menu doesn't fit on one line beside the name (phones,
+   narrow windows, long Swedish labels), the script in Base.astro adds .compact and they fold behind
+   one button with the cities. Without JavaScript the full header shows. */
+.menu-toggle { display: none; }
+.site-menu { display: contents; }
+.compact .brand { flex: 1 1 0; min-width: 0; }
+.compact .brand .city { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.compact .menu-toggle {
+  display: inline-flex; align-items: center; gap: .45rem; margin-left: auto; padding: .45rem .75rem;
+  background: none; color: inherit; border: 1px solid rgb(255 255 255 / .45); border-radius: var(--radius);
+  font: inherit; font-weight: 650; font-size: .95rem; cursor: pointer;
+}
+.menu-toggle svg { fill: none; stroke: currentColor; stroke-width: 2; }
+.menu-toggle .cross, .menu-toggle[aria-expanded="true"] .bars { display: none; }
+.menu-toggle[aria-expanded="true"] .cross { display: inline; }
+.compact .site-menu, .compact .city-switch { display: none; }
+.compact.menu-open .site-menu { display: block; flex-basis: 100%; padding-bottom: .9rem; }
+.compact .site-nav { max-width: 36rem; margin-left: 0; }
+.compact.menu-open .city-switch { display: block; }
+.compact .site-nav ul { flex-direction: column; gap: 0; }
+.compact .site-nav a { display: block; padding: .7rem .2rem; font-size: 1.05rem; border-bottom: 1px solid rgb(255 255 255 / .15); }
+.compact .site-nav a[aria-current="page"], .compact .site-nav a[aria-current="true"] { border-bottom-color: rgb(255 255 255 / .15); box-shadow: inset 4px 0 var(--c-or); padding-left: .8rem; }
+.compact.menu-open .city-switch .wrap { flex-direction: column; align-items: flex-start; gap: 0; padding-bottom: .6rem; }
+.compact .lang-switch { margin-left: -.5rem; }
+.compact .lang-switch a { display: inline-block; padding: .45rem .7rem; font-size: .92rem; }
+.compact.menu-open .city-switch .cities ul { flex-wrap: wrap; overflow: visible; padding: .5rem 0 .7rem; }
 
 .city-tabs ul, .year-tabs ul { display: flex; gap: .3rem; list-style: none; margin: 1.2rem 0 0; padding: 0; flex-wrap: wrap; border-bottom: 1px solid var(--c-border); }
 .city-tabs a, .year-tabs a { display: block; padding: .55rem .9rem; text-decoration: none; color: var(--c-muted); font-weight: 650; border-bottom: 3px solid transparent; margin-bottom: -1px; }
