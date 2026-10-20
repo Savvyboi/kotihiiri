@@ -16,6 +16,8 @@ on:
 
 permissions:
   contents: write
+  pages: write # the deploy job below runs pages.yml
+  id-token: write
 
 concurrency:
   group: data-writer
@@ -25,6 +27,8 @@ jobs:
   facts:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    outputs:
+      committed: ${{ steps.commit.outputs.committed }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -34,6 +38,7 @@ jobs:
       - run: pip install -e .
       - run: kunta facts
       - name: Commit facts
+        id: commit
         run: |
           git add site/src/data/municipality-facts.json
           if git diff --cached --quiet; then echo "No changes."; exit 0; fi
@@ -42,3 +47,11 @@ jobs:
           git commit -m "facts: municipal key figures from Statistics Finland"
           git pull --rebase origin "${GITHUB_REF_NAME}"
           git push origin "HEAD:${GITHUB_REF_NAME}"
+          echo "committed=true" >> "$GITHUB_OUTPUT"
+
+  # A push made with GITHUB_TOKEN does not start pages.yml, so new figures on main are deployed here.
+  deploy:
+    needs: facts
+    if: ${{ needs.facts.outputs.committed == 'true' && github.ref == 'refs/heads/main' }}
+    uses: ./.github/workflows/pages.yml
+    secrets: inherit # R2 credentials for the kotihiiri-site upload
