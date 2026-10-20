@@ -6,7 +6,7 @@ name: budgets
 
 on:
   schedule:
-    - cron: "17 4 3 * *"
+    - cron: "17 4 4 * *" # a day after facts.yml: both share the data-writer queue, which holds one waiting run
   push:
     branches: ["claude/**"]
     paths:
@@ -21,6 +21,8 @@ on:
 
 permissions:
   contents: write
+  pages: write # the deploy job below runs pages.yml
+  id-token: write
 
 concurrency:
   group: data-writer
@@ -30,6 +32,8 @@ jobs:
   budgets:
     runs-on: ubuntu-latest
     timeout-minutes: 60
+    outputs:
+      committed: ${{ steps.commit.outputs.committed }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -42,6 +46,7 @@ jobs:
           CITIES: ${{ inputs.cities || 'all' }}
         run: kunta budgets --cities "$CITIES"
       - name: Commit data/talous
+        id: commit
         run: |
           git config user.name "kotihiiri-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -49,7 +54,14 @@ jobs:
           git diff --cached --quiet && exit 0
           git commit -m "data: budgets $(date -u +%F)"
           for i in 1 2 3; do
-            git pull --rebase origin "$GITHUB_REF_NAME" && git push && exit 0
+            git pull --rebase origin "$GITHUB_REF_NAME" && git push && echo "committed=true" >> "$GITHUB_OUTPUT" && exit 0
             sleep $((i * 5))
           done
           exit 1
+
+  # A push made with GITHUB_TOKEN does not start pages.yml, so new budgets on main are deployed here.
+  deploy:
+    needs: budgets
+    if: ${{ needs.budgets.outputs.committed == 'true' && github.ref == 'refs/heads/main' }}
+    uses: ./.github/workflows/pages.yml
+    secrets: inherit # R2 credentials for the kotihiiri-site upload
