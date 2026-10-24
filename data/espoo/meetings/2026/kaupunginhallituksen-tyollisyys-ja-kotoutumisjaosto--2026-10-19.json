@@ -2,18 +2,19 @@
   "items": [
     {
       "attachments": [],
-      "content_sha256": "4725285bb478ed30850011317b1e5fe801b2be0127a52c21e02a0c75d621fe00",
+      "content_sha256": "9c37fe249831d0770c71d79f5ae0e11e4503af8fb4c399b5bf46f23dfd35ebbf",
       "disqualified": [],
       "id": "espoo/kaupunginhallituksen-tyollisyys-ja-kotoutumisjaosto/2026-10-19/1",
       "meeting_id": "espoo/kaupunginhallituksen-tyollisyys-ja-kotoutumisjaosto/2026-10-19",
       "motions": [],
       "ordinal": 1,
       "preparers": [],
+      "pykala": 41,
       "sections": [
         {
-          "heading": "Päätösehdotus",
-          "text": "Puheenjohtaja toteaa kokouksen laillisesti koolle kutsutuksi ja päätösvaltaiseksi.",
-          "type": "proposal"
+          "heading": "Päätös",
+          "text": "Puheenjohtaja totesi kokouksen laillisesti koolle kutsutuksi ja päätösvaltaiseksi.",
+          "type": "decision"
         },
         {
           "heading": "Selostus",
@@ -33,18 +34,19 @@
     },
     {
       "attachments": [],
-      "content_sha256": "1b2f079638f7c8590fdeb66b7f6987185471488a7a6541bd73ca1adb2cebe398",
+      "content_sha256": "48b8181d609d6f8fb5cb0931a40fb90b5a26e47809a3e9a5cc67d1e2a34c1b2d",
       "disqualified": [],
       "id": "espoo/kaupunginhallituksen-tyollisyys-ja-kotoutumisjaosto/2026-10-19/2",
       "meeting_id": "espoo/kaupunginhallituksen-tyollisyys-ja-kotoutumisjaosto/2026-10-19",
       "motions": [],
       "ordinal": 2,
       "preparers": [],
+      "pykala": 42,
       "sections": [
         {
-          "heading": "Päätösehdotus",
-          "text": "Pöytäkirjan tarkastajiksi valitaan Mikko Laakso ja Anne Ahlefelt.",
-          "type": "proposal"
+          "heading": "Päätös",
+          "text": "Pöytäkirjan tarkastajiksi valittiin Mikko Laakso ja Anne Ahlefelt.",
+          "type": "decision"
         }
       ],
       "source_ids": {
@@ -71,21 +73,45 @@
         }
       ],
       "case_number": "3583/04.03.00/2026",
-      "content_sha256": "bdd26fb6e8fdc9b7a3e99a68a532ffbaf1f86665673734b9c3c90563d2b4e704",
+      "content_sha256": "435b3a04ad305b4686188d4e0a8bd18f636bd3804aa8b5d11c337b616c9d56e9",
       "disqualified": [],
       "id": "espoo/kaupunginhallituksen-tyollisyys-ja-kotoutumisjaosto/2026-10-19/3",
       "meeting_id": "espoo/kaupunginhallituksen-tyollisyys-ja-kotoutumisjaosto/2026-10-19",
-      "motions": [],
+      "motions": [
+        {
+          "kind": "send_back",
+          "proposer_ref": {
+            "raw": "Sistonen"
+          },
+          "seconder_refs": [
+            {
+              "raw": "Laakson"
+            }
+          ],
+          "text": "että asia palautetaan uudelleen valmisteltavaksi. Valmistelun aikana selvitetään toimenpiteitä, joilla maahanmuutto- ja kotoutumisohjelmassa esitettyihin tavoitteisiin voidaan vastata."
+        }
+      ],
       "ordinal": 3,
       "preparers": [
         "Lindholm Sanna"
       ],
       "presenter": "Elinvoimajohtaja Heinaro Mervi",
+      "pykala": 43,
       "sections": [
         {
           "heading": "Päätösehdotus",
           "text": "Kaupunginhallituksen työllisyys- ja kotoutumisjaosto ehdottaa kaupunginhallitukselle, että valtuusto hyväksyy Espoon maahanmuutto- ja kotoutumisohjelman vuosille 2026–2029 liitteen mukaisesti ja valtuuttaa kaupunginjohtajan tekemään maahanmuutto- ja kotoutumisohjelman tekstiin ennen kaupunginhallituksen käsittelyä teknisluonteisia muutoksia.",
           "type": "proposal"
+        },
+        {
+          "heading": "Käsittely",
+          "text": "Sistonen Laakson ym. kannattamana ehdotti, että asia palautetaan uudelleen valmisteltavaksi. Valmistelun aikana selvitetään toimenpiteitä, joilla maahanmuutto- ja kotoutumisohjelmassa esitettyihin tavoitteisiin voidaan vastata.\n\nKeskustelun päätyttyä puheenjohtaja tiedusteli, voidaanko Sistosen palautusta koskeva ehdotus yksimielisesti hyväksyä. Koska ehdotusta ei vastustettu, puheenjohtaja totesi kaupunginhallituksen työllisyys- ja kotoutumisjaoston yksimielisesti hyväksyneen sen.",
+          "type": "deliberation"
+        },
+        {
+          "heading": "Päätös",
+          "text": "Kaupunginhallituksen työllisyys- ja kotoutumisjaosto:\n\nAsia palautettiin uudelleen valmisteltavaksi. Valmistelun aikana selvitetään toimenpiteitä, joilla maahanmuutto- ja kotoutumisohjelmassa esitettyihin tavoitteisiin voidaan vastata.",
+          "type": "decision"
         },
         {
           "heading": "Selostus",
@@ -110,9 +136,158 @@
     }
   ],
   "meeting": {
-    "attendance": [],
+    "attendance": [
+      {
+        "person_ref": {
+          "raw": "Sistonen Markku"
+        },
+        "present": true,
+        "role_text": "puheenjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Ahlefelt Anne"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Hopsu Inka"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Laakso Mikko"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Rönni-Sällinen Annika"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Saarentaus Elina"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Vanhanen Joel"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Katainen Mervi"
+        },
+        "present": true,
+        "role_text": "kaupunginhallituksen puheenjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Partanen Henna"
+        },
+        "present": true,
+        "role_text": "kaupunginhallituksen I varapuheenjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Mykkänen Kai"
+        },
+        "present": true,
+        "role_text": "kaupunginjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Heinaro Mervi"
+        },
+        "present": true,
+        "role_text": "elinvoimajohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Narvo-Akkola Merja"
+        },
+        "present": true,
+        "role_text": "kasvun ja oppimisen toimialajohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Isotalo Olli"
+        },
+        "present": true,
+        "role_text": "kaupunkiympäristön toimialajohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Suomi Hilla-Maaria"
+        },
+        "present": true,
+        "role_text": "työllisyysjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Konttas Ari"
+        },
+        "present": true,
+        "role_text": "rahoitusjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Lindholm Sanna"
+        },
+        "present": true,
+        "role_text": "maahanmuuttoasioiden johtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Haapalehto Teemu"
+        },
+        "present": true,
+        "role_text": "elinkeinojohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Ensio Ira"
+        },
+        "present": true,
+        "role_text": "viestintäpäällikkö"
+      },
+      {
+        "person_ref": {
+          "raw": "Yli-Leppälä Henna"
+        },
+        "present": true,
+        "role_text": "hallintopäällikkö"
+      },
+      {
+        "person_ref": {
+          "raw": "Alppivuori Aaro"
+        },
+        "present": true,
+        "role_text": "nuorisovaltuuston edustaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Nyman Janne"
+        },
+        "present": true,
+        "role_text": "juristi, sihteeri"
+      }
+    ],
     "body_id": "espoo/kaupunginhallituksen-tyollisyys-ja-kotoutumisjaosto",
     "date": "2026-10-19",
+    "end_time": "10:09",
     "id": "espoo/kaupunginhallituksen-tyollisyys-ja-kotoutumisjaosto/2026-10-19",
     "items": [
       "espoo/kaupunginhallituksen-tyollisyys-ja-kotoutumisjaosto/2026-10-19/1",
@@ -120,12 +295,13 @@
       "espoo/kaupunginhallituksen-tyollisyys-ja-kotoutumisjaosto/2026-10-19/3"
     ],
     "location": "Kaupunginhallituksen kokoushuone, Virastopiha 2 C 1. krs, 02070 Espoo",
+    "minutes_pdf_url": "https://espoo.oncloudos.com/kokous/20261741.PDF",
     "source_ids": {
       "meeting_id": "20261741",
       "pdf": "https://espoo.oncloudos.com/kokous/20261741.PDF"
     },
     "source_url": "https://espoo.oncloudos.com/cgi/DREQUEST.PHP?page=meeting&id=20261741",
-    "stage": "agenda",
+    "stage": "minutes",
     "start_time": "09:00"
   }
 }
