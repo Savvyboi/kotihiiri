@@ -122,17 +122,21 @@ def test_run_pages_lists_strips_authors_and_pii(tmp_path):
     assert "[poistettu]" in rec["proposal"]
 
 
-def test_rerun_reuses_unchanged_details_and_is_byte_identical(tmp_path):
+def test_rerun_fetches_only_new_initiatives_and_is_byte_identical(tmp_path):
     cities = {"helsinki": "Helsinki"}
     run(client(Api()), cities, tmp_path)
     before = (tmp_path / "helsinki.json").read_bytes()
     api = Api()
-    api.lists[91][0] = entry(1, sent="2026-03-01", n=5)  # sent and new supporters
+    api.lists[91][0] = entry(1, sent="2026-03-01", n=5)  # sent, and the list's count differs
+    api.lists[91].append(entry(61))  # a new initiative
     stats = run(client(api), cities, tmp_path)
-    assert stats.details_fetched == 1 and stats.details_reused == 59
-    assert [p for p in api.paths if p.startswith("/api/v1/initiatives/")] == ["/api/v1/initiatives/1"]
+    assert stats.details_fetched == 1 and stats.details_reused == 60
+    assert [p for p in api.paths if p.startswith("/api/v1/initiatives/")] == ["/api/v1/initiatives/61"]
     after = jsonio.read(tmp_path / "helsinki.json")
-    assert after["initiatives"][-1]["sent_date"] == "2026-03-01"
+    first = next(r for r in after["initiatives"] if r["id"] == 1)
+    assert first["sent_date"] == "2026-03-01"  # list fields are refreshed
+    assert first["participants"] == 3 and "proposal" in first  # details are kept
+    assert any(r["id"] == 61 and "proposal" in r for r in after["initiatives"])
     run(client(api), cities, tmp_path)
     again = (tmp_path / "helsinki.json").read_bytes()
     assert again != before and json.loads(again) == after

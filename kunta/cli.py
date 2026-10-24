@@ -310,7 +310,7 @@ def audit(
 @app.command()
 def initiatives(
     cities: str = typer.Option("all", "--cities", help="comma-separated slugs, or `all` in the registry"),
-    details: bool = typer.Option(True, "--details/--no-details", help="fetch each new or changed initiative"),
+    details: bool = typer.Option(True, "--details/--no-details", help="fetch details of each new initiative"),
     max_minutes: float | None = typer.Option(None, "--max-minutes", help="stop cleanly after this long"),
 ) -> None:
     """Municipal initiatives from kuntalaisaloite.fi's Open Data API → data/initiatives/{city}.json.

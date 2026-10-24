@@ -114,9 +114,15 @@ def normalize(entry: dict[str, Any], detail: dict[str, Any] | None) -> dict[str,
     return {k: v for k, v in rec.items() if v is not None}
 
 
-def _list_key(rec: dict[str, Any]) -> tuple:
-    """Fields from the list that tell whether a stored detail is still current."""
-    return (rec.get("name"), rec.get("sent_date"), rec.get("participants"), rec.get("type"))
+# Fields that come from an initiative's details page. A stored initiative keeps these; only new
+# initiatives are fetched. The list's participantCount is not compared: it often differs from the
+# details page's total (e.g. 1 vs 0), which made every run refetch about 60% of initiatives.
+DETAIL_FIELDS = ("proposal", "authors", "participants", "participants_external")
+
+
+def _reuse(prev: dict[str, Any], base: dict[str, Any]) -> dict[str, Any]:
+    """A stored initiative updated with the fresh list fields (title, sent date, type, links)."""
+    return {**base, **{k: prev[k] for k in DETAIL_FIELDS if k in prev}}
 
 
 def match_municipalities(
@@ -169,9 +175,10 @@ def run(
     deadline: float | None = None,
 ) -> RunStats:
     """Fetch every initiative of the given municipalities ({city id: Finnish name}) and write
-    `out_dir/{city}.json`. Details are fetched only for initiatives that are new or whose list fields
-    changed since the stored file; with `deadline` (time.monotonic) the run stops cleanly and keeps
-    the stored records for what it did not reach, so the next run continues."""
+    `out_dir/{city}.json`. Details are fetched only for initiatives not yet in the stored file (the
+    others keep their stored details and take the fresh list fields); with `deadline`
+    (time.monotonic) the run stops cleanly and keeps the stored records for what it did not reach,
+    so the next run continues."""
     stats = RunStats()
     api_munis = _json(client, f"{API}/municipalities")
     mapping, stats.unmatched = match_municipalities(api_munis, cities)
@@ -187,8 +194,8 @@ def run(
         for entry in entries:
             base = normalize(entry, None)
             prev = old.get(base["id"])
-            if prev is not None and "proposal" in prev and _list_key(prev) == _list_key(base):
-                recs.append(prev)
+            if prev is not None and "proposal" in prev:
+                recs.append(_reuse(prev, base))
                 stats.details_reused += 1
                 continue
             out_of_time = deadline is not None and time.monotonic() > deadline
