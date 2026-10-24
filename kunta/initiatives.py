@@ -109,6 +109,10 @@ def normalize(entry: dict[str, Any], detail: dict[str, Any] | None) -> dict[str,
         pc = detail.get("participantCount")
         if isinstance(pc, dict):
             rec["participants"] = _count(pc)
+            # The list's count can differ from the details' total (it may leave some names out).
+            # Keep it when it does, so the next run can tell an unchanged initiative by its list entry.
+            if rec["participants"] != _count(entry.get("participantCount")):
+                rec["participants_list"] = _count(entry.get("participantCount"))
             if pc.get("externalNames"):
                 rec["participants_external"] = int(pc["externalNames"])
     return {k: v for k, v in rec.items() if v is not None}
@@ -116,7 +120,8 @@ def normalize(entry: dict[str, Any], detail: dict[str, Any] | None) -> dict[str,
 
 def _list_key(rec: dict[str, Any]) -> tuple:
     """Fields from the list that tell whether a stored detail is still current."""
-    return (rec.get("name"), rec.get("sent_date"), rec.get("participants"), rec.get("type"))
+    listed = rec.get("participants_list", rec.get("participants"))
+    return (rec.get("name"), rec.get("sent_date"), listed, rec.get("type"))
 
 
 def match_municipalities(
@@ -199,6 +204,8 @@ def run(
             else:
                 stats.stopped_early = stats.stopped_early or out_of_time
                 # keep what we had (with its proposal) rather than lose it; the list fields win
+                if prev:
+                    prev = {k: v for k, v in prev.items() if k != "participants_list"}
                 recs.append({**prev, **base} if prev else base)
         jsonio.write(path, municipality_file(city, mid, meta.get(mid), recs))
         stats.municipalities += 1
