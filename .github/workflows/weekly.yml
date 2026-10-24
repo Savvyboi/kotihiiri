@@ -8,6 +8,10 @@ name: weekly
 on:
   schedule:
     - cron: "23 3 * * 6" # Sat 03:23 UTC
+    # Backups: GitHub delays scheduled runs under load and sometimes drops them (it skipped
+    # 2026-10-24). A backup run does nothing if a crawl already committed in the last 20 hours.
+    - cron: "23 9 * * 6"
+    - cron: "23 15 * * 6"
   workflow_dispatch:
     inputs:
       since:
@@ -38,6 +42,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       ready: ${{ steps.check.outputs.ready }}
+      skip: ${{ steps.recent.outputs.skip }}
       groups: ${{ steps.groups.outputs.json }}
     steps:
       - uses: actions/checkout@v4
@@ -52,6 +57,19 @@ jobs:
           p = yaml.safe_load(open("config/project.yaml"))
           print("ready=" + ("true" if p.get("site_domain") and p.get("contact_email") else "false"))
           PY
+      # A scheduled run that finds a crawl from the last 20 hours skips itself. The heartbeat is read
+      # from the branch as it is now: a run that waited in the data-writer queue was checked out
+      # before the crawl ahead of it committed.
+      - id: recent
+        if: github.event_name == 'schedule'
+        run: |
+          git fetch -q --depth=1 origin "$GITHUB_REF_NAME"
+          last=$(git show FETCH_HEAD:data/state/heartbeat.json | python -c "import json,sys; print(json.load(sys.stdin)['last_run'])")
+          age=$(( $(date -u +%s) - $(date -u -d "$last" +%s) ))
+          if [ "$age" -lt 72000 ]; then
+            echo "Last crawl $last is under 20 hours old; skipping this backup run."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          fi
       - id: groups
         env:
           CITIES: ${{ inputs.cities || 'all' }}
@@ -63,7 +81,7 @@ jobs:
 
   crawl:
     needs: preflight
-    if: needs.preflight.outputs.ready == 'true'
+    if: needs.preflight.outputs.ready == 'true' && needs.preflight.outputs.skip != 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 330
     strategy:
@@ -179,7 +197,7 @@ jobs:
 
   commit:
     needs: [preflight, crawl]
-    if: ${{ !cancelled() && needs.preflight.outputs.ready == 'true' }}
+    if: ${{ !cancelled() && needs.preflight.outputs.ready == 'true' && needs.preflight.outputs.skip != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
