@@ -40,7 +40,7 @@ def entry(i, mid=91, sent=None, n=3):
     }
 
 
-def detail(i, n=3):
+def detail(i, n=3, external=0):
     return {
         **entry(i, n=n),
         "authors": {
@@ -48,7 +48,12 @@ def detail(i, n=3):
             "publicNames": 1,
             "publicAuthors": [{"name": "Teemu Teekkari", "municipality": MUNIS[0]}],
         },
-        "participantCount": {"externalNames": 0, "privateNames": n - 1, "publicNames": 1, "total": n},
+        "participantCount": {
+            "externalNames": external,
+            "privateNames": n - 1,
+            "publicNames": 1,
+            "total": n + external,
+        },
         "proposal": f"Ehdotamme puistoa {i}. Lisätietoja teemu@example.org, puh. 040 123 4567.",
     }
 
@@ -60,6 +65,7 @@ class Api:
             49: [entry(1000 + i, 49) for i in range(espoo)],
         }
         self.paths: list[str] = []
+        self.external: dict[int, int] = {}  # initiative id → names the details count but the list doesn't
 
     def __call__(self, req: httpx.Request) -> httpx.Response:
         self.paths.append(req.url.path + ("?" + req.url.query.decode() if req.url.query else ""))
@@ -75,7 +81,7 @@ class Api:
             return httpx.Response(200, json=rows[off : off + lim])
         if p.startswith("/api/v1/initiatives/"):
             i = int(p.rsplit("/", 1)[1])
-            return httpx.Response(200, json=detail(i))
+            return httpx.Response(200, json=detail(i, external=self.external.get(i, 0)))
         return httpx.Response(404)
 
 
@@ -120,6 +126,23 @@ def test_run_pages_lists_strips_authors_and_pii(tmp_path):
     raw = (tmp_path / "helsinki.json").read_text()
     assert "Teemu" not in raw and "teemu@example.org" not in raw and "040 123" not in raw
     assert "[poistettu]" in rec["proposal"]
+
+
+def test_rerun_reuses_details_whose_total_differs_from_the_list(tmp_path):
+    cities = {"helsinki": "Helsinki"}
+    api = Api()
+    api.external = {1: 2, 2: 4}
+    run(client(api), cities, tmp_path)
+    recs = {r["id"]: r for r in jsonio.read(tmp_path / "helsinki.json")["initiatives"]}
+    assert recs[1]["participants"] == 5 and recs[1]["participants_list"] == 3
+    assert "participants_list" not in recs[3]
+    before = (tmp_path / "helsinki.json").read_bytes()
+    stats = run(client(api), cities, tmp_path)
+    assert stats.details_fetched == 0 and stats.details_reused == 60
+    assert (tmp_path / "helsinki.json").read_bytes() == before
+    api.lists[91][1] = entry(2, n=4)  # a new supporter on the list
+    stats = run(client(api), cities, tmp_path)
+    assert stats.details_fetched == 1
 
 
 def test_rerun_reuses_unchanged_details_and_is_byte_identical(tmp_path):
