@@ -2,7 +2,7 @@
   "items": [
     {
       "attachments": [],
-      "content_sha256": "d51cbc042baa9493c5f21c9faeb0fed181732d36d720feffcbba0e192b87e7f7",
+      "content_sha256": "ff2dd616947698d960d47331c03fee6456f4389ddea4319a09eee6fb83f062b1",
       "disqualified": [],
       "id": "helsinki/taloushallintopalveluliikelaitoksen-johtokunta/2026-10-28/1",
       "meeting_id": "helsinki/taloushallintopalveluliikelaitoksen-johtokunta/2026-10-28",
@@ -10,17 +10,23 @@
       "ordinal": 1,
       "preparers": [],
       "presenter": "Anniina Kitula",
+      "pykala": 24,
       "sections": [
         {
+          "heading": "Päätös",
+          "text": "Taloushallintopalveluliikelaitoksen johtokunta päätti todeta kokouksen laillisesti koolle kutsutuksi ja päätösvaltaiseksi. Samalla taloushallintopalveluliikelaitoksen johtokunta päätti valita pöytäkirjantarkastajiksi jäsenet Ari Hietamäki ja Tero Vuontisjärvi.",
+          "type": "decision"
+        },
+        {
           "heading": "Päätösehdotus",
-          "text": "Taloushallintopalveluliikelaitoksen johtokunta päättää todeta kokouksen laillisesti koolle kutsutuksi ja päätösvaltaiseksi. Samalla taloushallintopalveluliikelaitoksen johtokunta päättää valita pöytäkirjantarkastajiksi jäsenet Ari Hietamäki ja Tero Vuontisjärvi.",
+          "text": "Päätös on ehdotuksen mukainen.",
           "type": "proposal"
         }
       ],
       "source_ids": {
-        "case": "745a41c7-5665-43dd-9f39-9e1b602d54b3"
+        "case": "5112a094-3a05-406e-9bf6-196e18e127d7"
       },
-      "source_url": "https://paatokset.hel.fi/fi/asia/745a41c7-5665-43dd-9f39-9e1b602d54b3",
+      "source_url": "https://paatokset.hel.fi/fi/asia/5112a094-3a05-406e-9bf6-196e18e127d7",
       "statements": [],
       "status": "active",
       "title": "Kokouksen laillisuuden ja päätösvaltaisuuden toteaminen sekä pöytäkirjan tarkastajien valinta",
@@ -28,17 +34,24 @@
     },
     {
       "attachments": [],
-      "content_sha256": "495e883e217ef9c5b89f78888f383bad5cd71a4218460be5d81026da8a75eb41",
+      "content_sha256": "fab14d267c08320165c82fb43f9739eb1961028d527fc360065067a186c60f68",
       "disqualified": [],
       "id": "helsinki/taloushallintopalveluliikelaitoksen-johtokunta/2026-10-28/2",
       "meeting_id": "helsinki/taloushallintopalveluliikelaitoksen-johtokunta/2026-10-28",
       "motions": [],
       "ordinal": 2,
       "preparers": [],
+      "presenter": "Anniina Kitula",
+      "pykala": 25,
       "sections": [
         {
+          "heading": "Päätös",
+          "text": "Taloushallintopalveluliikelaitoksen johtokunta päätti hyväksyä vuoden 2026 talousarvion toteutumisennusteen 3/2026 oheismateriaalin 1 mukaisesti.",
+          "type": "decision"
+        },
+        {
           "heading": "Päätösehdotus",
-          "text": "Taloushallintopalveluliikelaitoksen johtokunta päättää hyväksyä vuoden 2026 talousarvion toteutumisennusteen 3/2026 oheismateriaalin 1 mukaisesti.",
+          "text": "Päätös on ehdotuksen mukainen.",
           "type": "proposal"
         },
         {
@@ -49,9 +62,9 @@
       ],
       "source_ids": {
         "case": "hel-2026-006333",
-        "decision": "c333ceda-187c-4f5e-b050-a10a0fbf2a60"
+        "decision": "dc9278ab-d8b2-46b8-a76a-b6046bf3f08a"
       },
-      "source_url": "https://paatokset.hel.fi/fi/asia/hel-2026-006333?paatos=c333ceda-187c-4f5e-b050-a10a0fbf2a60",
+      "source_url": "https://paatokset.hel.fi/fi/asia/hel-2026-006333?paatos=dc9278ab-d8b2-46b8-a76a-b6046bf3f08a",
       "statements": [],
       "status": "active",
       "title": "Taloushallintopalveluliikelaitoksen vuoden 2026 talousarvion toteutumisennuste 3/2026",
@@ -68,13 +81,14 @@
       "helsinki/taloushallintopalveluliikelaitoksen-johtokunta/2026-10-28/2"
     ],
     "location": "Kokoushuone Lintsi, Teams-linkki",
+    "minutes_pdf_url": "https://ahjojulkaisu.hel.fi/885D4B7B-09AD-CE71-B8C5-A18D4B600001.pdf",
     "source_ids": {
       "meeting_code": "U7190020268",
       "number": "8/2026",
-      "print_pdf": "https://ahjojulkaisu.hel.fi/5A5CEA4F-7F48-CE65-8698-A1683D100000.pdf"
+      "print_pdf": "https://ahjojulkaisu.hel.fi/885D4B7B-09AD-CE71-B8C5-A18D4B600001.pdf"
     },
     "source_url": "https://paatokset.hel.fi/fi/paattajat/taloushallintopalveluliikelaitoksen-johtokunta/asiakirjat/U7190020268",
-    "stage": "agenda",
+    "stage": "minutes",
     "start_time": "13:00"
   }
 }

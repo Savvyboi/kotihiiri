@@ -2,7 +2,7 @@
   "items": [
     {
       "attachments": [],
-      "content_sha256": "c1020fee52cda0faf8d90e6097c7d0bce62fac981ffcbd9db7ab1d5258e70082",
+      "content_sha256": "e7260e2e5f6dcfa9935cf76659c7fde2fced69b5d71cf8ea780896fadb97c1a5",
       "disqualified": [],
       "id": "helsinki/tarkastuslautakunta/2026-10-20/1",
       "meeting_id": "helsinki/tarkastuslautakunta/2026-10-20",
@@ -10,7 +10,18 @@
       "ordinal": 1,
       "preparers": [],
       "presenter": "Teija Makkonen",
+      "pykala": 79,
       "sections": [
+        {
+          "heading": "Päätös",
+          "text": "Tarkastuslautakunta päätti todeta kokouksen laillisesti koolle kutsutuksi ja päätösvaltaiseksi. Samalla tarkastuslautakunta päätti valita pöytäkirjantarkastajiksi Jonas Eiringin ja Iiris Suomelan sekä varatarkastajaksi Petra Malinin.",
+          "type": "decision"
+        },
+        {
+          "heading": "Käsittely",
+          "text": "Esittelijän muutetun ehdotuksen mukaan:\n\nPöytäkirjantarkastajiksi valittiin Jonas Eiring ja Iiris Suomela sekä varatarkastajaksi Petra Malin.",
+          "type": "deliberation"
+        },
         {
           "heading": "Päätösehdotus",
           "text": "Tarkastuslautakunta päättää todeta kokouksen laillisesti koolle kutsutuksi ja päätösvaltaiseksi. Samalla tarkastuslautakunta päättää valita pöytäkirjantarkastajiksi Mikael Jungnerin ja Kimmo Niemelän sekä varatarkastajaksi Petra Malinin.",
@@ -18,9 +29,9 @@
         }
       ],
       "source_ids": {
-        "case": "cbfda720-b795-47e7-ae10-a7ff9290a353"
+        "case": "0eb200d1-187d-415d-a1bd-d0b76c567627"
       },
-      "source_url": "https://paatokset.hel.fi/fi/asia/cbfda720-b795-47e7-ae10-a7ff9290a353",
+      "source_url": "https://paatokset.hel.fi/fi/asia/0eb200d1-187d-415d-a1bd-d0b76c567627",
       "statements": [],
       "status": "active",
       "title": "Kokouksen laillisuuden ja päätösvaltaisuuden toteaminen sekä pöytäkirjan tarkastajien valinta",
@@ -28,7 +39,7 @@
     },
     {
       "attachments": [],
-      "content_sha256": "ff38667cf0b82f024b0ba047a4bcca4c9094146c36c5073abde6f93519b80e6a",
+      "content_sha256": "bda50ef597d0b0b68ba187215d9bdcc4e0b8c83ad5e539cea5d1db1d92d3e446",
       "disqualified": [],
       "id": "helsinki/tarkastuslautakunta/2026-10-20/2",
       "meeting_id": "helsinki/tarkastuslautakunta/2026-10-20",
@@ -36,10 +47,21 @@
       "ordinal": 2,
       "preparers": [],
       "presenter": "Timo Terävä",
+      "pykala": 80,
       "sections": [
         {
+          "heading": "Päätös",
+          "text": "Tarkastuslautakunta päätti merkitä tiedoksi selostuksen työllisyyspalveluliikelaitoksen toiminnan käynnistymisestä ja palkkatuesta.",
+          "type": "decision"
+        },
+        {
+          "heading": "Käsittely",
+          "text": "Kokoukseen oli kutsuttu työllisyyspalveluliikelaitoksen toimitusjohtaja Annukka Sorjonen kertomaan työllisyyspalveluliikelaitoksen toiminnan käynnistymisestä ja palkkatuesta. Asiantuntija poistui kuulemisensa jälkeen kokouksesta.",
+          "type": "deliberation"
+        },
+        {
           "heading": "Päätösehdotus",
-          "text": "Tarkastuslautakunta päättää merkitä tiedoksi selostuksen työllisyyspalveluliikelaitoksen toiminnan käynnistymisestä ja palkkatuesta.",
+          "text": "Päätös on ehdotuksen mukainen.",
           "type": "proposal"
         },
         {
@@ -50,9 +72,9 @@
       ],
       "source_ids": {
         "case": "hel-2026-013227",
-        "decision": "416152f8-6043-4949-88b0-d43a31abc46e"
+        "decision": "e091f76b-7f63-4d29-9c72-94f98a442eeb"
       },
-      "source_url": "https://paatokset.hel.fi/fi/asia/hel-2026-013227?paatos=416152f8-6043-4949-88b0-d43a31abc46e",
+      "source_url": "https://paatokset.hel.fi/fi/asia/hel-2026-013227?paatos=e091f76b-7f63-4d29-9c72-94f98a442eeb",
       "statements": [],
       "status": "active",
       "title": "Työllisyyspalveluliikelaitoksen toiminnan käynnistyminen ja palkkatuki",
@@ -60,7 +82,7 @@
     },
     {
       "attachments": [],
-      "content_sha256": "7c9e85353903e00ed5f16bb1271b88303117448a2b6b6394ff624c456c54fbf2",
+      "content_sha256": "a228e989625831bf227daf114ddbccb43da7dc9b68dd7f09795ec50739c09790",
       "disqualified": [],
       "id": "helsinki/tarkastuslautakunta/2026-10-20/3",
       "meeting_id": "helsinki/tarkastuslautakunta/2026-10-20",
@@ -68,10 +90,21 @@
       "ordinal": 3,
       "preparers": [],
       "presenter": "Timo Terävä",
+      "pykala": 81,
       "sections": [
         {
+          "heading": "Päätös",
+          "text": "Tarkastuslautakunta päätti merkitä tiedoksi selostuksen Helsingin jätevesihuollosta ja mikroepäpuhtauksista.",
+          "type": "decision"
+        },
+        {
+          "heading": "Käsittely",
+          "text": "Kokoukseen oli kutsuttu HSY:n vesihuollon osastonjohtaja Kristian Sahlstedt kertomaan aiheesta Helsingin jätevesihuolto ja mikroepäpuhtaudet. Asiantuntija poistui kuulemisensa jälkeen kokouksesta.",
+          "type": "deliberation"
+        },
+        {
           "heading": "Päätösehdotus",
-          "text": "Tarkastuslautakunta päättää merkitä tiedoksi selostuksen Helsingin jätevesihuollosta ja mikroepäpuhtauksista.",
+          "text": "Päätös on ehdotuksen mukainen.",
           "type": "proposal"
         },
         {
@@ -82,9 +115,9 @@
       ],
       "source_ids": {
         "case": "hel-2026-013228",
-        "decision": "c1e43359-160e-4cf1-9b04-cbb01656926c"
+        "decision": "51e263fc-c2a2-40ff-a910-89ab6417a43e"
       },
-      "source_url": "https://paatokset.hel.fi/fi/asia/hel-2026-013228?paatos=c1e43359-160e-4cf1-9b04-cbb01656926c",
+      "source_url": "https://paatokset.hel.fi/fi/asia/hel-2026-013228?paatos=51e263fc-c2a2-40ff-a910-89ab6417a43e",
       "statements": [],
       "status": "active",
       "title": "Helsingin jätevesihuolto ja mikroepäpuhtaudet",
@@ -92,7 +125,7 @@
     },
     {
       "attachments": [],
-      "content_sha256": "36e47534c082a2ea1e537bd115f39b0a2c511236d47ec1fbf7189003f8646643",
+      "content_sha256": "a2114e1e2afdcb19e7e071c4d18941e1315ce05095bc7dda5c2b380cf15d2da9",
       "disqualified": [],
       "id": "helsinki/tarkastuslautakunta/2026-10-20/4",
       "meeting_id": "helsinki/tarkastuslautakunta/2026-10-20",
@@ -100,23 +133,29 @@
       "ordinal": 4,
       "preparers": [],
       "presenter": "Timo Terävä",
+      "pykala": 82,
       "sections": [
         {
+          "heading": "Päätös",
+          "text": "Tarkastuslautakunta päätti hyväksyä esityksen liitteiden mukaiset periaatteet, joilla kilpailutetaan Helsingin kaupungin tilintarkastuspalvelut seuraavalle sopimuskaudelle.\n\nTarkastuslautakunta päätti oikeuttaa tarkastusjohtajan tekemään tarjouspyyntöasiakirjoihin tarvittaessa välttämättömiä ja vähäisiä muutoksia.",
+          "type": "decision"
+        },
+        {
           "heading": "Päätösehdotus",
-          "text": "Tarkastuslautakunta päättää hyväksyä esityksen liitteiden mukaiset periaatteet, joilla kilpailutetaan Helsingin kaupungin tilintarkastuspalvelut seuraavalle sopimuskaudelle.\n\nTarkastuslautakunta päättää oikeuttaa tarkastusjohtajan tekemään tarjouspyyntöasiakirjoihin tarvittaessa välttämättömiä ja vähäisiä muutoksia.",
+          "text": "Päätös on ehdotuksen mukainen.",
           "type": "proposal"
         },
         {
           "heading": "Esittelijän perustelut",
-          "text": "Voimassa oleva Helsingin kaupungin tilintarkastuspalveluja koskeva sopimus päättyy tilikauteen 2026.\n\nKuntalain 121 §:n mukaan tarkastuslautakunta valmistelee valtuuston päätettävät hallinnon ja talouden tarkastusta koskevat asiat. Helsingin kaupungin hallintosäännön 13 luvun 1 §:n mukaan tarkastuslautakunta valmistelee kaupunginvaltuustolle esityksen tilintarkastajan valinnasta, tekee tilintarkastussopimuksen ja valvoo sopimuksen noudattamista. Valinnan valmistelun yhteydessä lautakunta määrittelee tilintarkastajan toimikauden pituuden, joka voi olla enintään kuusi vuotta. Tilintarkastuspalvelujen hankinnassa noudatetaan lakia julkisista hankinnoista.\n\nKuntalain 122 §:n mukaan valtuusto valitsee hallinnon ja talouden tarkastamista varten tilintarkastusyhteisön. Yhteisön on määrättävä vastuunalaiseksi tilintarkastajaksi JHT-tilintarkastaja. Tilintarkastaja toimii tehtävässään virkavastuulla. Tilintarkastusyhteisö voidaan valita kerrallaan enintään kuuden tilikauden hallinnon ja talouden tarkastamista varten.\n\nHankintaa valmistellaan tarkastusvirastossa ja kaupunginkanslia vastaa tarjouskilpailun teknisestä toteutuksesta.\n\nHankintamenettely ja valinnan perusteet\n\nTarjouspyyntöön liittyvissä asiakirjoissa on esitetty tarjoajan soveltuvuutta koskevat vähimmäisvaatimukset sekä tarjousten vertailuperusteet. Parhaan tarjouksen valintaperusteena on kokonaistaloudellinen edullisuus, jossa huomioidaan hinnan lisäksi myös laatu.\n\nTarjoukset pyydetään Helsingin kaupungin hallinnon ja talouden lakisääteisen tilintarkastuksen suorittamisesta tilikausilta 2027–2029. Lisäksi hankintaan sisältyy optio tilikausille 2030–2031. Kaupungin tytäryhteisöjä koskevat tilintarkastuspalvelut on tarkoitus kilpailuttaa vuonna 2027.\n\nEsitys tarjouspyyntöasiakirjoiksi on tämän esityksen liitteinä. Hankintalain (1397/2016) 60 §:n mukaan hankintailmoitusta tai sen sisältämiä tietoja ei saa julkaista muualla ennen kuin ilmoitus on julkaistu julkisten hankintojen internetosoitteessa www.hankintailmoitukset.fi, joten tarjouspyyntöasiakirjoja ei julkaista internetissä.\n\nTilintarkastuspalvelujen hankinta ylittää hankintalaissa tarkoitetun 216 000 euron EU-kynnysarvon.\n\nToimivalta\n\nKuntalain 121 §:n mukaan tarkastuslautakunta valmistelee valtuuston päätettävät hallinnon ja talouden tarkastusta koskevat asiat. Helsingin kaupungin hallintosäännön 13 luvun 1 §:n mukaan tarkastuslautakunta valmistelee kaupunginvaltuustolle esityksen tilintarkastajan valinnasta, tekee tilintarkastussopimuksen ja valvoo sopimuksen noudattamista.",
+          "text": "Voimassa oleva Helsingin kaupungin tilintarkastuspalveluja koskeva sopimus päättyy tilikauteen 2026.\n\nKuntalain 121 §:n mukaan tarkastuslautakunta valmistelee valtuuston päätettävät hallinnon ja talouden tarkastusta koskevat asiat. Helsingin kaupungin hallintosäännön 13 luvun 1 §:n mukaan tarkastuslautakunta valmistelee kaupunginvaltuustolle esityksen tilintarkastajan valinnasta, tekee tilintarkastussopimuksen ja valvoo sopimuksen noudattamista. Valinnan valmistelun yhteydessä lautakunta määrittelee tilintarkastajan toimikauden pituuden, joka voi olla enintään kuusi vuotta. Tilintarkastuspalvelujen hankinnassa noudatetaan lakia julkisista hankinnoista.\n\nKuntalain 122 §:n mukaan valtuusto valitsee hallinnon ja talouden tarkastamista varten tilintarkastusyhteisön. Yhteisön on määrättävä vastuunalaiseksi tilintarkastajaksi JHT-tilintarkastaja. Tilintarkastaja toimii tehtävässään virkavastuulla. Tilintarkastusyhteisö voidaan valita kerrallaan enintään kuuden tilikauden hallinnon ja talouden tarkastamista varten.\n\nHankintaa valmistellaan tarkastusvirastossa ja kaupunginkanslia vastaa tarjouskilpailun teknisestä toteutuksesta.\n\nHankintamenettely ja valinnan perusteet\n\nTarjouspyyntöön liittyvissä asiakirjoissa on esitetty tarjoajan soveltuvuutta koskevat vähimmäisvaatimukset sekä tarjousten vertailuperusteet. Parhaan tarjouksen valintaperusteena on kokonaistaloudellinen edullisuus, jossa huomioidaan hinnan lisäksi myös laatu.\n\nTarjoukset pyydetään Helsingin kaupungin hallinnon ja talouden lakisääteisen tilintarkastuksen suorittamisesta tilikausilta 2027–2029. Lisäksi hankintaan sisältyy optio tilikausille 2030–2031. Kaupungin tytäryhteisöjä koskevat tilintarkastuspalvelut on tarkoitus kilpailuttaa vuonna 2027.\n\nEsitys tarjouspyyntöasiakirjoiksi on tämän esityksen liitteinä. Hankintalain (1397/2016) 60 §:n mukaan hankintailmoitusta tai sen sisältämiä tietoja ei saa julkaista muualla ennen kuin ilmoitus on julkaistu julkisten hankintojen internetosoitteessa www.hankintailmoitukset.fi(Linkki johtaa ulkoiseen palveluun), joten tarjouspyyntöasiakirjoja ei julkaista internetissä.\n\nTilintarkastuspalvelujen hankinta ylittää hankintalaissa tarkoitetun 216 000 euron EU-kynnysarvon.\n\nToimivalta\n\nKuntalain 121 §:n mukaan tarkastuslautakunta valmistelee valtuuston päätettävät hallinnon ja talouden tarkastusta koskevat asiat. Helsingin kaupungin hallintosäännön 13 luvun 1 §:n mukaan tarkastuslautakunta valmistelee kaupunginvaltuustolle esityksen tilintarkastajan valinnasta, tekee tilintarkastussopimuksen ja valvoo sopimuksen noudattamista.",
           "type": "background"
         }
       ],
       "source_ids": {
         "case": "hel-2026-014217",
-        "decision": "0a669a9b-7f90-42f2-9ed7-a94088af71d4"
+        "decision": "7ff92195-1832-4328-818f-8da625740cf2"
       },
-      "source_url": "https://paatokset.hel.fi/fi/asia/hel-2026-014217?paatos=0a669a9b-7f90-42f2-9ed7-a94088af71d4",
+      "source_url": "https://paatokset.hel.fi/fi/asia/hel-2026-014217?paatos=7ff92195-1832-4328-818f-8da625740cf2",
       "statements": [],
       "status": "active",
       "title": "Helsingin kaupungin tilintarkastuspalvelujen hankinta",
@@ -124,7 +163,7 @@
     },
     {
       "attachments": [],
-      "content_sha256": "28fdd1fa93f2d7769bd85c9f7abc7afaecb2043ea6031ffc8bc3c92671c735f9",
+      "content_sha256": "2fe96264771ca16ea76444b4d42cb65d117b0a9b68382fa3ed01a16809fe7b8a",
       "disqualified": [],
       "id": "helsinki/tarkastuslautakunta/2026-10-20/5",
       "meeting_id": "helsinki/tarkastuslautakunta/2026-10-20",
@@ -132,10 +171,16 @@
       "ordinal": 5,
       "preparers": [],
       "presenter": "Timo Terävä",
+      "pykala": 83,
       "sections": [
         {
+          "heading": "Päätös",
+          "text": "Tarkastuslautakunta päätti kokoontua vuonna 2027 osoitteessa Sörnäistenkatu 1 seuraavasti:\n\n12.1.2027 klo 16.15\n\n2.2.2027 klo 16.15\n\n16.2.2027 klo 16.15\n\n2.3.2027 klo 16.15\n\n16.3.2027 klo 16.15\n\n6.4.2027 klo 16.15\n\n13.4.2027 klo 16.15\n\n11.5.2027 klo 16.15\n\n1.6.2027 klo 16.15\n\n7.9.2027 klo 16.15\n\n12.10.2027 klo 16.15\n\n9.11.2027 klo 16.15\n\n14.12.2027 klo 16.15\n\nLisäksi tarkastuslautakunta päätti pitää vuoden 2027 arviointisuunnitelman valmistelutilaisuuden 4.5.2027 klo 14.30.\n\nPöytäkirja pidetään nähtävänä yleisessä tietoverkossa osoitteessa www.hel.fi.",
+          "type": "decision"
+        },
+        {
           "heading": "Päätösehdotus",
-          "text": "Tarkastuslautakunta päättää kokoontua vuonna 2027 osoitteessa Sörnäistenkatu 1 seuraavasti:\n\n12.1.2027 klo 16.15\n\n2.2.2027 klo 16.15\n\n16.2.2027 klo 16.15\n\n2.3.2027 klo 16.15\n\n16.3.2027 klo 16.15\n\n6.4.2027 klo 16.15\n\n13.4.2027 klo 16.15\n\n11.5.2027 klo 16.15\n\n1.6.2027 klo 16.15\n\n7.9.2027 klo 16.15\n\n12.10.2027 klo 16.15\n\n9.11.2027 klo 16.15\n\n14.12.2027 klo 16.15\n\nLisäksi tarkastuslautakunta päättää pitää vuoden 2027 arviointisuunnitelman valmistelutilaisuuden 4.5.2027 klo 14.30.\n\nPöytäkirja pidetään nähtävänä yleisessä tietoverkossa osoitteessa www.hel.fi.",
+          "text": "Päätös on ehdotuksen mukainen.",
           "type": "proposal"
         },
         {
@@ -146,9 +191,9 @@
       ],
       "source_ids": {
         "case": "hel-2026-016955",
-        "decision": "5f9a03ed-4146-455a-be82-d55aec6caab8"
+        "decision": "c5cd5590-3a15-4cf2-b6f8-bd3b49cfef4c"
       },
-      "source_url": "https://paatokset.hel.fi/fi/asia/hel-2026-016955?paatos=5f9a03ed-4146-455a-be82-d55aec6caab8",
+      "source_url": "https://paatokset.hel.fi/fi/asia/hel-2026-016955?paatos=c5cd5590-3a15-4cf2-b6f8-bd3b49cfef4c",
       "statements": [],
       "status": "active",
       "title": "Tarkastuslautakunnan kokousajat vuonna 2027 ja pöytäkirjojen nähtävänä pitäminen",
@@ -156,17 +201,24 @@
     },
     {
       "attachments": [],
-      "content_sha256": "8cd22bc5de9986e634599d2801c19cb8e0e6f84162d2ce3590382617f3946ee2",
+      "content_sha256": "7203254c01ec69f3d8cca4a609f762d680599de576c52e9deb60df94f19bad06",
       "disqualified": [],
       "id": "helsinki/tarkastuslautakunta/2026-10-20/6",
       "meeting_id": "helsinki/tarkastuslautakunta/2026-10-20",
       "motions": [],
       "ordinal": 6,
       "preparers": [],
+      "presenter": "Timo Terävä",
+      "pykala": 84,
       "sections": [
         {
+          "heading": "Päätös",
+          "text": "Tarkastuslautakunta päätti merkitä tiedoksi KPMG Oy Ab:n erityistoimeksiannot 32–34/2026.",
+          "type": "decision"
+        },
+        {
           "heading": "Päätösehdotus",
-          "text": "Tarkastuslautakunta päättää merkitä tiedoksi KPMG Oy Ab:n erityistoimeksiannot 32–34/2026.",
+          "text": "Päätös on ehdotuksen mukainen.",
           "type": "proposal"
         },
         {
@@ -177,9 +229,9 @@
       ],
       "source_ids": {
         "case": "hel-2026-000094",
-        "decision": "d27f5bc0-3cd2-4f9d-aa2b-4472b010165a"
+        "decision": "f7b7f541-083e-44fa-8bbe-57e020dd2ffb"
       },
-      "source_url": "https://paatokset.hel.fi/fi/asia/hel-2026-000094?paatos=d27f5bc0-3cd2-4f9d-aa2b-4472b010165a",
+      "source_url": "https://paatokset.hel.fi/fi/asia/hel-2026-000094?paatos=f7b7f541-083e-44fa-8bbe-57e020dd2ffb",
       "statements": [],
       "status": "active",
       "title": "KPMG Oy Ab:n lisä- ja erityistoimeksiantoilmoitukset 2026",
@@ -187,7 +239,7 @@
     },
     {
       "attachments": [],
-      "content_sha256": "afdb7191f4e6388f6a8f10a54654e07c19038230a67258033106cf107f4df4f2",
+      "content_sha256": "dd36b7aa58bb1873da75841cf8049487102bbfb0edf45b186e49791580f2a094",
       "disqualified": [],
       "id": "helsinki/tarkastuslautakunta/2026-10-20/7",
       "meeting_id": "helsinki/tarkastuslautakunta/2026-10-20",
@@ -195,10 +247,16 @@
       "ordinal": 7,
       "preparers": [],
       "presenter": "Timo Terävä",
+      "pykala": 85,
       "sections": [
         {
+          "heading": "Päätös",
+          "text": "Tarkastuslautakunta päätti merkitä tiedoksi, ettei tarkastuslautakunnan puheenjohtajan ja tarkastusjohtajan päätöksiä ajalta 8.9.–19.10.2026 ollut.",
+          "type": "decision"
+        },
+        {
           "heading": "Päätösehdotus",
-          "text": "Tarkastuslautakunta päättää, ettei se ota käsiteltäväkseen tarkastuslautakunnan puheenjohtajan ja tarkastusjohtajan 8.9.–19.10.2026 tekemiä päätöksiä.",
+          "text": "Päätös on ehdotuksen mukainen.",
           "type": "proposal"
         },
         {
@@ -208,9 +266,9 @@
         }
       ],
       "source_ids": {
-        "case": "4602898e-7a35-4ca3-98df-08e087a83a0b"
+        "case": "e8bcc5d2-065c-4313-8510-925d5f83a19c"
       },
-      "source_url": "https://paatokset.hel.fi/fi/asia/4602898e-7a35-4ca3-98df-08e087a83a0b",
+      "source_url": "https://paatokset.hel.fi/fi/asia/e8bcc5d2-065c-4313-8510-925d5f83a19c",
       "statements": [],
       "status": "active",
       "title": "Kaupungin viranomaisten päätösten seuraaminen",
@@ -218,7 +276,7 @@
     },
     {
       "attachments": [],
-      "content_sha256": "3200fa07a8bddbd45f21c16a18e7b66eee680d8403a90f341753f6da2a59afd5",
+      "content_sha256": "5c344ad15e0ffbcefbbb08ac4e237fe28c13fa290d39ae63d4c8e46f22893bb7",
       "disqualified": [],
       "id": "helsinki/tarkastuslautakunta/2026-10-20/8",
       "meeting_id": "helsinki/tarkastuslautakunta/2026-10-20",
@@ -226,10 +284,16 @@
       "ordinal": 8,
       "preparers": [],
       "presenter": "Timo Terävä",
+      "pykala": 86,
       "sections": [
         {
+          "heading": "Päätös",
+          "text": "Tarkastuslautakunta päätti merkitä tiedoksi viraston ilmoitusasiat.",
+          "type": "decision"
+        },
+        {
           "heading": "Päätösehdotus",
-          "text": "Tarkastuslautakunta päättää merkitä tiedoksi viraston ilmoitusasiat.",
+          "text": "Päätös on ehdotuksen mukainen.",
           "type": "proposal"
         },
         {
@@ -239,9 +303,9 @@
         }
       ],
       "source_ids": {
-        "case": "2436c0cb-a968-43f1-886b-c4d555b59b9f"
+        "case": "134872ef-034e-409f-a16b-b9940a7e7bb4"
       },
-      "source_url": "https://paatokset.hel.fi/fi/asia/2436c0cb-a968-43f1-886b-c4d555b59b9f",
+      "source_url": "https://paatokset.hel.fi/fi/asia/134872ef-034e-409f-a16b-b9940a7e7bb4",
       "statements": [],
       "status": "active",
       "title": "Ilmoitusasiat",
@@ -264,13 +328,14 @@
       "helsinki/tarkastuslautakunta/2026-10-20/8"
     ],
     "location": "Tarkastusvirasto, Sörnäistenkatu 1, kokoushuone",
+    "minutes_pdf_url": "https://ahjojulkaisu.hel.fi/6C63E8FB-901A-CE63-900F-A18127C00001.pdf",
     "source_ids": {
       "meeting_code": "U003110202611",
       "number": "12/2026",
-      "print_pdf": "https://ahjojulkaisu.hel.fi/E5CE80E6-2937-CAE0-975F-A13F28C00002.pdf"
+      "print_pdf": "https://ahjojulkaisu.hel.fi/6C63E8FB-901A-CE63-900F-A18127C00001.pdf"
     },
     "source_url": "https://paatokset.hel.fi/fi/paattajat/tarkastuslautakunta/asiakirjat/U003110202611",
-    "stage": "agenda",
+    "stage": "minutes",
     "start_time": "16:15"
   }
 }

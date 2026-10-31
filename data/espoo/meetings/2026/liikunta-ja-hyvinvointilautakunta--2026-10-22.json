@@ -2,18 +2,19 @@
   "items": [
     {
       "attachments": [],
-      "content_sha256": "030e75bc3bf7168f1123e6835babb04bed819f2a845e3e9f0bdebe7579096568",
+      "content_sha256": "03e34898173cc0ddcbd5319ef9470d4633ed10bdb960a8c2c774a74f39051565",
       "disqualified": [],
       "id": "espoo/liikunta-ja-hyvinvointilautakunta/2026-10-22/1",
       "meeting_id": "espoo/liikunta-ja-hyvinvointilautakunta/2026-10-22",
       "motions": [],
       "ordinal": 1,
       "preparers": [],
+      "pykala": 55,
       "sections": [
         {
-          "heading": "Päätösehdotus",
-          "text": "Puheenjohtaja toteaa kokouksen laillisesti koolle kutsutuksi ja päätösvaltaiseksi.",
-          "type": "proposal"
+          "heading": "Päätös",
+          "text": "Puheenjohtaja totesi kokouksen laillisesti koolle kutsutuksi ja päätösvaltaiseksi.",
+          "type": "decision"
         },
         {
           "heading": "Selostus",
@@ -33,18 +34,19 @@
     },
     {
       "attachments": [],
-      "content_sha256": "e21a1269b83edf433f6c7ff306fa871e071863a1d1f26321ecd54d35aadfa844",
+      "content_sha256": "a0011b371b1e1946cd1d765b9bd11404f96727a82793095cc836c9c87f47fbce",
       "disqualified": [],
       "id": "espoo/liikunta-ja-hyvinvointilautakunta/2026-10-22/2",
       "meeting_id": "espoo/liikunta-ja-hyvinvointilautakunta/2026-10-22",
       "motions": [],
       "ordinal": 2,
       "preparers": [],
+      "pykala": 56,
       "sections": [
         {
-          "heading": "Päätösehdotus",
-          "text": "Pöytäkirjan tarkastajiksi valitaan Olli Aro ja Heli Halava",
-          "type": "proposal"
+          "heading": "Päätös",
+          "text": "Pöytäkirjan tarkastajiksi valittiin Janne Pesonen ja Heli Halava",
+          "type": "decision"
         }
       ],
       "source_ids": {
@@ -66,7 +68,7 @@
         }
       ],
       "case_number": "4339/00.01.02/2025",
-      "content_sha256": "966b3bb18254ab19fa7bc9a9d0e9922b9c07da0a6339b9b7b576c36c999a5ae5",
+      "content_sha256": "8c934ba463e6252e916475220a21ef90f0b14afb650985b1f2d4ff4bcbc9340b",
       "disqualified": [],
       "id": "espoo/liikunta-ja-hyvinvointilautakunta/2026-10-22/3",
       "meeting_id": "espoo/liikunta-ja-hyvinvointilautakunta/2026-10-22",
@@ -76,11 +78,17 @@
         "Ikäheimonen Taru"
       ],
       "presenter": "Liikuntajohtaja Merra Martti",
+      "pykala": 57,
       "sections": [
         {
           "heading": "Päätösehdotus",
           "text": "Liikunta- ja hyvinvointilautakunta merkitsee tiedoksi Espoon hyvinvointisuunnitelman toimenpiteet vuonna 2026.",
           "type": "proposal"
+        },
+        {
+          "heading": "Päätös",
+          "text": "Liikunta- ja hyvinvointilautakunta:\n\nEsittelijän ehdotus hyväksyttiin yksimielisesti.",
+          "type": "decision"
         },
         {
           "heading": "Selostus",
@@ -107,7 +115,7 @@
         }
       ],
       "case_number": "2670/10.03.01/2026",
-      "content_sha256": "adeb1c86053239c37972a96bbf1ff1abcabe8267f61c2b031ba6356aaf6a2ab8",
+      "content_sha256": "029b4c5a5c7e4f81d92f8e5f9d2ea6d95d19f0ffa196fe6e80203795a144b96d",
       "disqualified": [],
       "id": "espoo/liikunta-ja-hyvinvointilautakunta/2026-10-22/4",
       "meeting_id": "espoo/liikunta-ja-hyvinvointilautakunta/2026-10-22",
@@ -117,11 +125,17 @@
         "Taskinen Tapio"
       ],
       "presenter": "Liikuntajohtaja Merra Martti",
+      "pykala": 58,
       "sections": [
         {
           "heading": "Päätösehdotus",
           "text": "Liikunta- ja hyvinvointilautakunta esittää kaupunginhallitukselle, että valtuusto merkitsee selostusosan tiedoksi vastauksena varavaltuutettu Tony Hagerlundin sekä 28 muun kaupunginvaltuutetun 8.6.2026 jättämään valtuustoaloitteeseen selvittää mahdollisuuden toteuttaa julkinen uimaranta Nuuksion Pitkäjärvelle ja toteaa aloitteen loppuun käsitellyksi.",
           "type": "proposal"
+        },
+        {
+          "heading": "Päätös",
+          "text": "Liikunta- ja hyvinvointilautakunta:\n\nEsittelijän ehdotus hyväksyttiin yksimielisesti.",
+          "type": "decision"
         },
         {
           "heading": "Selostus",
@@ -148,6 +162,7 @@
       "motions": [],
       "ordinal": 5,
       "preparers": [],
+      "pykala": 59,
       "sections": [
         {
           "heading": "Päätösehdotus",
@@ -167,9 +182,144 @@
     }
   ],
   "meeting": {
-    "attendance": [],
+    "attendance": [
+      {
+        "person_ref": {
+          "raw": "Tiitinen Helena"
+        },
+        "present": true,
+        "role_text": "puheenjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Pesonen Janne"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Suontausta Martti"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Mäkäräinen Karoliina"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Blomqvist-Kakko Minea"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Keisteri-Sipilä Elli"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Laine Anna"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Halava Heli"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Manneh Petra"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Yawari Zabi"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Kotti Tuukka"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Jakobsson Charlotta"
+        },
+        "present": true,
+        "role_text": "varajäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Heinaro Mervi"
+        },
+        "present": true,
+        "role_text": "elinvoimajohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Merra Martti"
+        },
+        "present": true,
+        "role_text": "liikuntajohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Taskinen Tapio"
+        },
+        "present": true,
+        "role_text": "liikuntapalvelupäällikkö"
+      },
+      {
+        "person_ref": {
+          "raw": "Ikäheimonen Taru"
+        },
+        "present": true,
+        "role_text": "hyvinvointipäällikkö"
+      },
+      {
+        "person_ref": {
+          "raw": "Lähdesmäki Aaron"
+        },
+        "present": true,
+        "role_text": "nuorisovaltuuston edustaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Kilpijoki Kerttu-Liisa"
+        },
+        "present": true,
+        "role_text": "kaupunginhallituksen edustaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Pirkanniemi Risto"
+        },
+        "present": true,
+        "role_text": "sihteeri, juristi"
+      }
+    ],
     "body_id": "espoo/liikunta-ja-hyvinvointilautakunta",
     "date": "2026-10-22",
+    "end_time": "18:53",
     "id": "espoo/liikunta-ja-hyvinvointilautakunta/2026-10-22",
     "items": [
       "espoo/liikunta-ja-hyvinvointilautakunta/2026-10-22/1",
@@ -179,12 +329,13 @@
       "espoo/liikunta-ja-hyvinvointilautakunta/2026-10-22/5"
     ],
     "location": "Sähköinen Teams -kokous",
+    "minutes_pdf_url": "https://espoo.oncloudos.com/kokous/20261700.PDF",
     "source_ids": {
       "meeting_id": "20261700",
       "pdf": "https://espoo.oncloudos.com/kokous/20261700.PDF"
     },
     "source_url": "https://espoo.oncloudos.com/cgi/DREQUEST.PHP?page=meeting&id=20261700",
-    "stage": "agenda",
+    "stage": "minutes",
     "start_time": "17:30"
   }
 }
