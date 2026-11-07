@@ -9,6 +9,7 @@
       "motions": [],
       "ordinal": 1,
       "preparers": [],
+      "pykala": 90,
       "sections": [],
       "source_ids": {
         "item_id": "20261744-1",
@@ -29,6 +30,7 @@
       "motions": [],
       "ordinal": 2,
       "preparers": [],
+      "pykala": 91,
       "sections": [],
       "source_ids": {
         "item_id": "20261744-2",
@@ -49,6 +51,7 @@
       "motions": [],
       "ordinal": 3,
       "preparers": [],
+      "pykala": 92,
       "sections": [],
       "source_ids": {
         "item_id": "20261744-3",
@@ -63,6 +66,11 @@
     {
       "attachments": [
         {
+          "kind": "attachment",
+          "title": "Liite 1 Rapport över röstningsresultat § 93",
+          "url": "https://espoo.oncloudos.com/kokous/20261744-4-383073.PDF"
+        },
+        {
           "kind": "supplementary",
           "title": "Oheismateriaali 1 Förhandsbedömning av konsekvenser för barn",
           "url": "https://espoo.oncloudos.com/kokous/20261744-4-381311.PDF"
@@ -75,6 +83,7 @@
       "motions": [],
       "ordinal": 4,
       "preparers": [],
+      "pykala": 93,
       "sections": [],
       "source_ids": {
         "item_id": "20261744-4",
@@ -95,6 +104,7 @@
       "motions": [],
       "ordinal": 5,
       "preparers": [],
+      "pykala": 94,
       "sections": [],
       "source_ids": {
         "item_id": "20261744-5",
@@ -115,6 +125,7 @@
       "motions": [],
       "ordinal": 6,
       "preparers": [],
+      "pykala": 95,
       "sections": [],
       "source_ids": {
         "item_id": "20261744-6",
@@ -135,6 +146,7 @@
       "motions": [],
       "ordinal": 7,
       "preparers": [],
+      "pykala": 96,
       "sections": [],
       "source_ids": {
         "item_id": "20261744-7",
@@ -155,6 +167,7 @@
       "motions": [],
       "ordinal": 8,
       "preparers": [],
+      "pykala": 97,
       "sections": [],
       "source_ids": {
         "item_id": "20261744-8",
@@ -175,6 +188,7 @@
       "motions": [],
       "ordinal": 9,
       "preparers": [],
+      "pykala": 98,
       "sections": [],
       "source_ids": {
         "item_id": "20261744-9",
@@ -188,9 +202,158 @@
     }
   ],
   "meeting": {
-    "attendance": [],
+    "attendance": [
+      {
+        "person_ref": {
+          "raw": "Gästrin Eva-Lena"
+        },
+        "present": true,
+        "role_text": "ordförande"
+      },
+      {
+        "person_ref": {
+          "raw": "Kling Eero"
+        },
+        "present": true,
+        "role_text": "ersättare"
+      },
+      {
+        "person_ref": {
+          "raw": "Stenholm Elena"
+        },
+        "present": true,
+        "role_text": "medlem"
+      },
+      {
+        "person_ref": {
+          "raw": "Sorvanto Mikael"
+        },
+        "present": true,
+        "role_text": "medlem"
+      },
+      {
+        "person_ref": {
+          "raw": "Weurlander Hans"
+        },
+        "present": true,
+        "role_text": "medlem"
+      },
+      {
+        "person_ref": {
+          "raw": "Solhagen Tuuli"
+        },
+        "present": true,
+        "role_text": "medlem"
+      },
+      {
+        "person_ref": {
+          "raw": "Aho Heidi"
+        },
+        "present": true,
+        "role_text": "medlem"
+      },
+      {
+        "person_ref": {
+          "raw": "Liljelund John"
+        },
+        "present": true,
+        "role_text": "medlem"
+      },
+      {
+        "person_ref": {
+          "raw": "Ståhle Julia"
+        },
+        "present": true,
+        "role_text": "medlem"
+      },
+      {
+        "person_ref": {
+          "raw": "Långström Sebastian"
+        },
+        "present": true,
+        "role_text": "medlem"
+      },
+      {
+        "person_ref": {
+          "raw": "Lönnqvist Bo"
+        },
+        "present": true,
+        "role_text": "medlem"
+      },
+      {
+        "person_ref": {
+          "raw": "Kuisma Anna-Liisa"
+        },
+        "present": true,
+        "role_text": "ersättare"
+      },
+      {
+        "person_ref": {
+          "raw": "Chakraborty Vikram"
+        },
+        "present": true,
+        "role_text": "medlem"
+      },
+      {
+        "person_ref": {
+          "raw": "Marttila Helena"
+        },
+        "present": true,
+        "role_text": "representant för stadsstyrelsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Enoksson Vera"
+        },
+        "present": true,
+        "role_text": "representant för ungdomsfullmäktige"
+      },
+      {
+        "person_ref": {
+          "raw": "Jaakkola Tomas"
+        },
+        "present": true,
+        "role_text": "representant för personalen"
+      },
+      {
+        "person_ref": {
+          "raw": "Högström Barbro"
+        },
+        "present": true,
+        "role_text": "direktör för svenska bildningstjänster"
+      },
+      {
+        "person_ref": {
+          "raw": "Reimars Mia"
+        },
+        "present": true,
+        "role_text": "förvaltningschef"
+      },
+      {
+        "person_ref": {
+          "raw": "Kambouris Veera"
+        },
+        "present": true,
+        "role_text": "sekreterare"
+      },
+      {
+        "person_ref": {
+          "raw": "Luttinen Harri"
+        },
+        "present": true,
+        "role_text": "digital utvecklingschef"
+      },
+      {
+        "person_ref": {
+          "raw": "Nerg-Öhman Satu"
+        },
+        "present": true,
+        "role_text": "digipedagogisk sakkunnig"
+      }
+    ],
     "body_id": "espoo/namnden-svenska-rum",
     "date": "2026-10-29",
+    "end_time": "19:07",
     "id": "espoo/namnden-svenska-rum/2026-10-29",
     "items": [
       "espoo/namnden-svenska-rum/2026-10-29/1",
@@ -204,12 +367,13 @@
       "espoo/namnden-svenska-rum/2026-10-29/9"
     ],
     "location": "Sektorn för Fostran och lärande, Karaporten 1, Esbo",
+    "minutes_pdf_url": "https://espoo.oncloudos.com/kokous/20261744.PDF",
     "source_ids": {
       "meeting_id": "20261744",
       "pdf": "https://espoo.oncloudos.com/kokous/20261744.PDF"
     },
     "source_url": "https://espoo.oncloudos.com/cgi/DREQUEST.PHP?page=meeting&id=20261744",
-    "stage": "agenda",
-    "start_time": "17:30"
+    "stage": "minutes",
+    "start_time": "17:33"
   }
 }

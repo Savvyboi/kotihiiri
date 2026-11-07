@@ -28,9 +28,9 @@
         }
       ],
       "source_ids": {
-        "item": "525521/37510"
+        "item": "527103/37567"
       },
-      "source_url": "https://tampere.cloudnc.fi/fi-FI/content/525521/37510",
+      "source_url": "https://tampere.cloudnc.fi/fi-FI/content/527103/37567",
       "statements": [],
       "status": "active",
       "title": "Kokouksen laillisuus ja päätösvaltaisuus",
@@ -64,9 +64,9 @@
         }
       ],
       "source_ids": {
-        "item": "525522/37510"
+        "item": "527104/37567"
       },
-      "source_url": "https://tampere.cloudnc.fi/fi-FI/content/525522/37510",
+      "source_url": "https://tampere.cloudnc.fi/fi-FI/content/527104/37567",
       "statements": [],
       "status": "active",
       "title": "Pöytäkirjan tarkastus",
@@ -101,9 +101,9 @@
         }
       ],
       "source_ids": {
-        "item": "525523/37510"
+        "item": "527105/37567"
       },
-      "source_url": "https://tampere.cloudnc.fi/fi-FI/content/525523/37510",
+      "source_url": "https://tampere.cloudnc.fi/fi-FI/content/527105/37567",
       "statements": [],
       "status": "active",
       "title": "Ajankohtaiskatsaus",
@@ -146,33 +146,69 @@
         }
       ],
       "source_ids": {
-        "item": "525528/37510",
-        "pdf": "https://tampere.cloudnc.fi/download/noname/{d02b7b75-ec79-4e73-8a62-f3e3ddeb12c7}/10952548"
+        "item": "527110/37567",
+        "pdf": "https://tampere.cloudnc.fi/download/noname/{643fbca0-3bc1-4123-a44c-f2ff3f4ceaac}/10970513"
       },
-      "source_url": "https://tampere.cloudnc.fi/fi-FI/content/525528/37510",
+      "source_url": "https://tampere.cloudnc.fi/fi-FI/content/527110/37567",
       "statements": [],
       "status": "active",
       "title": "Lausunto BER-biojätteen keräysjärjestelmästä",
       "votes": []
     },
     {
-      "attachments": [],
-      "content_sha256": "baac9084a5ef86e70cdafab09800462b892190560d154dd5904e1d8c470809c8",
+      "attachments": [
+        {
+          "kind": "attachment",
+          "title": "HRP2026 ehdokkaiden esittelyt.pdf",
+          "url": "https://tampere.cloudnc.fi/download/noname/{2a39634a-87af-48c5-a0b5-c973438cc8e3}/10970508"
+        },
+        {
+          "kind": "attachment",
+          "title": "HRP2026 Perustelut ehdokkaista.pdf",
+          "url": "https://tampere.cloudnc.fi/download/noname/{170142fb-4b2b-4c2c-91fc-d9d67f85c6e5}/10970509"
+        }
+      ],
+      "case_number": "TRE:5132/00.04.02/2026",
+      "content_sha256": "24d5e5d27bea61cd7b5abab36515828e1c23dadcdf70b72cfab67abd622099be",
       "disqualified": [],
       "id": "tampere/yhdyskuntalautakunnan-ymparisto-ja-rakennusjaosto/2026-10-27/5",
       "meeting_id": "tampere/yhdyskuntalautakunnan-ymparisto-ja-rakennusjaosto/2026-10-27",
       "motions": [],
       "ordinal": 5,
-      "preparers": [],
+      "preparers": [
+        "Keinänen Ella"
+      ],
+      "presenter": "Karala Saana, Kaupunkikuva-arkkitehti",
       "pykala": 113,
-      "sections": [],
+      "sections": [
+        {
+          "heading": "Perustelut",
+          "text": "Ympäristölautakunta perusti 30.8.1994 Hyvän rakentamisen palkinnon. Palkinto on tarkoitettu kannustamaan suunnittelijoita ja toteuttajia hyvään rakentamiseen.\n\nLautakunnan hyväksymien sääntöjen mukaan palkinto annetaan ensisijaisesti hyvälle rakennuskohteelle, joka on kohottamassa tamperelaisen rakennussuunnittelun tasoa huomioon ottaen kaupunkikuvalliset ja rakennustaiteelliset sekä toiminnalliset näkökohdat. Palkittavana voi vastaavin edellytyksin olla myös muu toimialan kohde.\n\nYhdyskuntalautakunnan ympäristö- ja rakennusjaosto jatkaa hyvästä rakentamisesta palkitsemista alkuperäisten periaatteiden ja 6.6.2023 § 74 uudistettujen sääntöjen mukaisesti. Esityksen palkittaviksi harkittavista kohteista ympäristö- ja rakennusjaostolle on koonnut kaupunkikuvatoimikunta.\n\nHyvän rakentamisen palkinto on viime vuosina jaettu seuraavasti:\n\n- v. 2021: Pyynikinlinnan peruskorjaus ja asunto-osakeyhtiö Pyynikinkulman julkisivun korjaus- ja muutostyö\n\n- v. 2022: Makkarajärvenkatu 74, opiskelijoiden asuinkerrostalo Lumipuu\n\n- v. 2023: Tampereen yliopistollisen sairaalan aikuispsykiatrian osasto\n\n- v. 2024: Tammelan stadionkortteli\n\n- v. 2025: Tampereen teatterin peruskojaus",
+          "type": "background"
+        },
+        {
+          "heading": "Päätösehdotus oli",
+          "text": "Vuoden 2026 hyvän palkinnon saaja ja mahdolliset kunniamaininnan saajat valitaan.\n\nPalkinnon saaja julkistetaan Pirkanmaan rakennuspäivillä 3.11.2026.",
+          "type": "proposal"
+        },
+        {
+          "heading": "Päätös",
+          "text": "Vuoden 2026 Hyvän rakentamisen palkinto myönnetään As. Oy Tampereen Nikamalle ja kunniamaininnan saajaksi valitaan Hervannan kirkon perusparannus.",
+          "type": "decision"
+        },
+        {
+          "heading": "Kokouskäsittely",
+          "text": "Puheenjohtaja Jussi Lahtinen ehdotti Hyvän rakentamisen palkinnon saajaksi As. Oy Tampereen Nikamaa ja kunniamaininnan saajaksi Hervannan kirkon perusparannusta. Jaosto hyväksyi puheenjohtaja Lahtisen ehdotuksen yksimielisesti.\n\nAleksi Tammi saapui kokoukseen asian käsittelyn aikana.\n\nSaana Karala oli asiantuntijana läsnä kokouksessa ja hän poistui ennen päätöksentekoa.",
+          "type": "deliberation"
+        }
+      ],
       "source_ids": {
-        "item": "525524/37510"
+        "item": "527106/37567"
       },
-      "source_url": "https://tampere.cloudnc.fi/fi-FI/content/525524/37510",
+      "source_url": "https://tampere.cloudnc.fi/fi-FI/content/527106/37567",
       "statements": [],
       "status": "active",
-      "title": "Hyvän rakentamisen palkinnon myöntäminen v. 2026 (Ei vielä julkinen)",
+      "title": "Hyvän rakentamisen palkinnon myöntäminen v. 2026",
       "votes": []
     },
     {
@@ -180,7 +216,7 @@
         {
           "kind": "attachment",
           "title": "Toimenpideselvitys ja lupaehdot, pöytäkirja.pdf",
-          "url": "https://tampere.cloudnc.fi/download/noname/{2c4fada0-6685-445e-8d82-e3f940abfa97}/10952547"
+          "url": "https://tampere.cloudnc.fi/download/noname/{3bb26926-4f1a-4f01-a160-682cb843b052}/10970512"
         }
       ],
       "case_number": "TRE:4374/10.03.01/2026",
@@ -213,10 +249,10 @@
         }
       ],
       "source_ids": {
-        "item": "525526/37510",
-        "pdf": "https://tampere.cloudnc.fi/download/noname/{e0e14ee9-3c21-47c9-9d62-9e8e4800bd75}/10952549"
+        "item": "527108/37567",
+        "pdf": "https://tampere.cloudnc.fi/download/noname/{0ec48d12-da3e-48ce-9973-8b7bff3ab467}/10970514"
       },
-      "source_url": "https://tampere.cloudnc.fi/fi-FI/content/525526/37510",
+      "source_url": "https://tampere.cloudnc.fi/fi-FI/content/527108/37567",
       "statements": [],
       "status": "active",
       "title": "Rakentamislupahakemus, Pinninkatu 45 (LP-837-2023-00232) 837-117-311-60",
@@ -227,7 +263,7 @@
         {
           "kind": "attachment",
           "title": "Toimenpideselvitys ja lupaehdot, pöytäkirja.pdf",
-          "url": "https://tampere.cloudnc.fi/download/noname/{1b2d47fe-0374-411b-86b9-4420c624b907}/10952545"
+          "url": "https://tampere.cloudnc.fi/download/noname/{41703a20-20ac-4094-ba3e-3029f3fc07de}/10970510"
         }
       ],
       "case_number": "TRE:4029/10.03.01/2026",
@@ -265,10 +301,10 @@
         }
       ],
       "source_ids": {
-        "item": "525527/37510",
-        "pdf": "https://tampere.cloudnc.fi/download/noname/{de496ed7-e701-46ee-8797-80867432120f}/10952550"
+        "item": "527109/37567",
+        "pdf": "https://tampere.cloudnc.fi/download/noname/{fae0c3cb-9a16-4bcb-85f2-c36e0b390a78}/10970515"
       },
-      "source_url": "https://tampere.cloudnc.fi/fi-FI/content/525527/37510",
+      "source_url": "https://tampere.cloudnc.fi/fi-FI/content/527109/37567",
       "statements": [],
       "status": "active",
       "title": "Rakentamislupahakemus, Kuntokatu 4 (LP-837-2025-02841) 837-132-881-51",
@@ -279,7 +315,7 @@
         {
           "kind": "attachment",
           "title": "Toimenpideselvitys ja lupaehdot, pöytäkirja.pdf",
-          "url": "https://tampere.cloudnc.fi/download/noname/{8a49b580-986b-4234-9f0f-b05276b99249}/10952546"
+          "url": "https://tampere.cloudnc.fi/download/noname/{b3dec721-bbf5-4385-b2a1-ed746d89332a}/10970511"
         }
       ],
       "case_number": "TRE:3735/10.03.01/2026",
@@ -312,10 +348,10 @@
         }
       ],
       "source_ids": {
-        "item": "525525/37510",
-        "pdf": "https://tampere.cloudnc.fi/download/noname/{0f5fb463-5a3a-4a3d-b98e-330ce29c7c03}/10952551"
+        "item": "527107/37567",
+        "pdf": "https://tampere.cloudnc.fi/download/noname/{7409f376-30c1-48eb-8a0c-7d2463ffc310}/10970516"
       },
-      "source_url": "https://tampere.cloudnc.fi/fi-FI/content/525525/37510",
+      "source_url": "https://tampere.cloudnc.fi/fi-FI/content/527107/37567",
       "statements": [],
       "status": "active",
       "title": "Rakentamislupahakemus, Jalkaharpinkatu 6 (LP-837-2026-02515) 837-330-6145-4 (aloittamisoikeus)",
@@ -444,10 +480,10 @@
       "tampere/yhdyskuntalautakunnan-ymparisto-ja-rakennusjaosto/2026-10-27/7",
       "tampere/yhdyskuntalautakunnan-ymparisto-ja-rakennusjaosto/2026-10-27/8"
     ],
-    "minutes_pdf_url": "https://tampere.cloudnc.fi/download/noname/{61a33543-dbf8-433e-99b4-aedc154d42d9}/10952544",
+    "minutes_pdf_url": "https://tampere.cloudnc.fi/download/noname/{e9d9384f-b52e-43ce-a1ed-0ce86590c25b}/10970507",
     "source_ids": {
       "meeting": "Kokous_27102026",
-      "pdf": "https://tampere.cloudnc.fi/download/noname/{61a33543-dbf8-433e-99b4-aedc154d42d9}/10952544"
+      "pdf": "https://tampere.cloudnc.fi/download/noname/{e9d9384f-b52e-43ce-a1ed-0ce86590c25b}/10970507"
     },
     "source_url": "https://tampere.cloudnc.fi/fi-FI/Toimielimet/Yhdyskuntalautakunnan_ympaumlristouml_ja_rakennusjaosto/Kokous_27102026",
     "stage": "minutes"
