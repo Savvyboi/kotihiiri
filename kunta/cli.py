@@ -24,12 +24,24 @@ def _client(city: str):
     cfg = require_enabled(city)
     project = load_project()
     hosts = {u.split("://", 1)[1].split("/", 1)[0] for u in cfg.base_urls}
+    override = project.robots_override
+    if override.applies_to(city):
+        log.warning(
+            "%s: robots override on (approved by %s on %s); robots.txt Disallow rules are not applied, "
+            "at most one request every %.0f s per host",
+            city,
+            override.approved_by,
+            override.approved_on,
+            override.min_interval_s,
+        )
     return PoliteClient(
         project.user_agent,
         cache_dir=CACHE_DIR,
         # ETags only help together with the cached bodies, so they live next to them, not in data/.
         validators_path=CACHE_DIR.parent / "validators" / f"{city}.json",
         allowed_hosts=hosts,
+        robots_override_hosts=hosts if override.applies_to(city) else None,
+        robots_override_interval_s=override.min_interval_s,
     )
 
 
@@ -95,7 +107,8 @@ def crawl(
     typer.echo(report.summary())
     typer.echo(
         f"http: requests={http.requests} not_modified={http.not_modified} "
-        f"skipped_robots={len(http.skipped_robots)} failures={len(http.failures)}"
+        f"skipped_robots={len(http.skipped_robots)} robots_overridden={http.robots_overridden} "
+        f"failures={len(http.failures)}"
     )
     for url in report.needs_refetch:
         typer.echo(f"  needs_refetch: {url}")
