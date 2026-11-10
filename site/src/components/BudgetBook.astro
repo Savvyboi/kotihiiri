@@ -1,0 +1,278 @@
+---
+// One municipality's budget for one year as an "open book" (PLAN.md §19.1, after the Harvard Ash
+// Center's Open Book portal): the balance check and where each €100 comes from and goes first, then
+// income, running costs, investments and debt one by one with plain-language explanations, the
+// change from last year and the place among all municipalities, the trend over the years, every
+// figure, questions and answers, and downloads. Used by /{city}/talous/ and /{city}/talous/{year}/.
+import Base from '../layouts/Base.astro';
+import CityHero from './CityHero.astro';
+import CityTabs from './CityTabs.astro';
+import Breadcrumb from './Breadcrumb.astro';
+import { assetPath, useI18n, type Locale } from '../i18n';
+import { cityName, type City } from '../lib/data';
+import { COLUMNS, budgetItems, isAmount, isTotal, lineLabel, population, value, type BudgetFile, type BudgetYear } from '../lib/budget';
+import { balance, change, costGroup, incomeGroup, investGroup, line, ownUse, peers, rank, trend, type Group, type Part } from '../lib/budgetBook';
+import { EXPLAIN, FAQ, FIN_LABEL } from '../lib/budgetGlossary';
+interface Props { city: City; data: BudgetFile; y: BudgetYear; locale: Locale }
+const { city, data, y, locale } = Astro.props;
+const { t, path, num, date } = useI18n(locale);
+const items = budgetItems()!;
+const name = cityName(city, locale);
+const pop = population(city);
+const intl = locale === 'fi' ? 'fi-FI' : locale === 'sv' ? 'sv-FI' : 'en-GB';
+const one = new Intl.NumberFormat(intl, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+const two = new Intl.NumberFormat(intl, { maximumFractionDigits: 2 });
+const signed = new Intl.NumberFormat(intl, { maximumFractionDigits: 1, signDisplay: 'exceptZero' });
+// Negative amounts get a minus sign in front of the whole amount (−€3.1m, not €-3.1m).
+const mil = (v: number) => `${v < -5e4 ? '−' : ''}${t('book.mil', { v: one.format(Math.abs(v) / 1e6) })}`;
+const eur = (v: number) => `${Math.round(v) < 0 ? '−' : ''}${num(Math.abs(Math.round(v)))} €`;
+const per = (v: number) => (pop ? eur(v / pop) : '');
+const label = (p: Part) => (p.synthetic ? FIN_LABEL[p.synthetic][locale] : lineLabel(line(p.key)!, locale));
+const explain = (key: string) => EXPLAIN[key]?.[locale];
+
+const income = incomeGroup(y);
+const costs = costGroup(y);
+const invest = investGroup(y);
+const bal = balance(y);
+const own = ownUse(y);
+// Running costs net of own work on investments, so that income − running costs = annual margin.
+const running = costs ? costs.total - own : undefined;
+const grants = value(y, 'rahoitusosuudet-investointimenoihin') ?? 0;
+const sales = value(y, 'investointihyodykkeiden-luovutustulot-brutto') ?? 0;
+const loans = COLUMNS.map((c) => ({ c, year: y.year + { prev: -1, budget: 0, plan1: 1, plan2: 2 }[c], v: value(y, 'lainakanta-31-12', c) }))
+  .filter((x) => x.v !== undefined) as { c: string; year: number; v: number }[];
+const loanMax = Math.max(1, ...loans.map((l) => l.v));
+const colYear = { prev: y.year - 1, budget: y.year, plan1: y.year + 1, plan2: y.year + 2 };
+const lines = items.lines.filter((l) => COLUMNS.some((c) => value(y, l.key, c) !== undefined));
+const noted = items.lines.filter((l) => y.notes?.[l.key]);
+const stageName = (s: string) => (['Alustava', 'Lopullinen', 'Jälkikorjattu'].includes(s) ? t(`budget.stageName.${s}` as 'budget.stageName.Lopullinen') : s);
+const fmt = (v: number | undefined, amount: boolean) => (v === undefined ? '–' : amount ? num(Math.round(v)) : two.format(v));
+
+const TRENDS = ['toimintamenot', 'verotulot', 'valtionosuudet', 'vuosikate', 'investointimenot-yhteensa-brutto', 'lainakanta-31-12'];
+const charts = TRENDS.map((key) => ({ key, l: line(key), pts: trend(data.years.filter((x) => x.year <= y.year), key) }))
+  .filter((c) => c.l && c.pts.length > 1);
+const W = 320, H = 150, PAD = 18, BASE = 22;
+
+// The verdict names a deficit in words, so its amount is shown without the sign.
+const verdictAmount = bal.result === undefined ? undefined : bal.verdict === 'short' ? Math.abs(bal.result) : bal.result;
+const verdictValue = verdictAmount !== undefined ? `${mil(verdictAmount)}${pop ? ` (${per(verdictAmount)} ${t('budget.perResident')})` : ''}` : '';
+const afterInvest = bal.margin !== undefined ? bal.margin - bal.investNet : undefined;
+const sections = [
+  ['overview', 'book.s.overview'], ['income', 'book.s.income'], ['costs', 'book.s.costs'], ['invest', 'book.s.invest'],
+  ['debt', 'book.s.debt'], ['trend', 'book.s.trend'], ['all', 'book.s.all'], ['faq', 'book.s.faq'], ['data', 'book.s.data'],
+] as const;
+---
+<Base title={`${t('budget.cityTitle')} ${y.year} · ${name}`} city={city.id} description={t('budget.cityLead', { city: name, year: y.year })} locale={locale}>
+  <CityHero city={city} locale={locale}>
+    <Breadcrumb slot="crumbs" locale={locale} items={[{ label: name, href: `/${city.id}/` }, { label: t('budget.cityTitle') }]} />
+    <ul class="stats">
+      {income && <li><b>{pop ? eur(income.total / pop) : mil(income.total)}</b>{t('book.flow.income')}{pop ? ` ${t('budget.perResident')}` : ''}</li>}
+      {running !== undefined && <li><b>{pop ? eur(running / pop) : mil(running)}</b>{t('book.flow.costs')}{pop ? ` ${t('budget.perResident')}` : ''}</li>}
+      {invest && <li><b>{pop ? eur(invest.total / pop) : mil(invest.total)}</b>{t('budget.m.investments')}{pop ? ` ${t('budget.perResident')}` : ''}</li>}
+      {loans.find((l) => l.c === 'budget') && <li><b>{pop ? eur(loans.find((l) => l.c === 'budget')!.v / pop) : mil(loans.find((l) => l.c === 'budget')!.v)}</b>{t('budget.m.loans')}{pop ? ` ${t('budget.perResident')}` : ''}</li>}
+    </ul>
+  </CityHero>
+  <div class="wrap budget-book">
+    <CityTabs city={city} locale={locale} current="budget" />
+
+    <p class="lead" style="margin-top:1.5rem">{t('budget.cityLead', { city: name, year: y.year })}</p>
+    <p class="small muted">{t('budget.stage', { stage: stageName(y.stage), date: date(y.approved.slice(0, 10)) })}</p>
+
+    <nav class="book-nav" aria-label={t('book.sections')}>
+      <ul>{sections.map(([id, k]) => <li><a href={`#${id}`}>{t(k)}</a></li>)}</ul>
+    </nav>
+
+    <section id="overview">
+      <h2>{t('book.balanceTitle')}</h2>
+      {bal.verdict && <p class={`verdict verdict-${bal.verdict}`}><span class="verdict-mark" aria-hidden="true">{bal.verdict === 'surplus' || bal.verdict === 'covers' ? '✓' : bal.verdict === 'short' ? '!' : '✕'}</span>{t(`book.verdict.${bal.verdict}`, { v: verdictValue })}</p>}
+      {income && running !== undefined && bal.margin !== undefined && (
+        <dl class="flow">
+          <div><dt>{t('book.flow.income')}</dt><dd>{mil(income.total)}</dd></div>
+          <div class="minus"><dt>{t('book.flow.costs')}</dt><dd>− {mil(running)}</dd></div>
+          <div class="sum"><dt>{t('book.flow.margin')} <details class="explain"><summary aria-label={t('book.whatIs')}>?</summary><p>{explain('vuosikate')}</p></details></dt><dd>{mil(bal.margin)}</dd></div>
+          {bal.depreciation !== undefined && <div class="minus"><dt>{t('book.flow.depr')} <details class="explain"><summary aria-label={t('book.whatIs')}>?</summary><p>{explain('poistot-ja-arvonalentumiset')}</p></details></dt><dd>− {mil(bal.depreciation)}</dd></div>}
+          {bal.result !== undefined && <div class="sum"><dt>{t('book.flow.result')}</dt><dd class:list={[{ neg: bal.result < 0 }]}>{mil(bal.result)}</dd></div>}
+          <div class="gap"><dt>{t('book.flow.margin')}</dt><dd>{mil(bal.margin)}</dd></div>
+          <div class="minus"><dt>{t('book.flow.invest')}</dt><dd>− {mil(bal.investNet)}</dd></div>
+          <div class="sum"><dt>{t(afterInvest! < 0 ? 'book.flow.borrow' : 'book.flow.spare')} <details class="explain"><summary aria-label={t('book.whatIs')}>?</summary><p>{explain('toiminnan-ja-investointien-rahavirta')}</p></details></dt><dd class:list={[{ neg: afterInvest! < 0 }]}>{mil(afterInvest!)}</dd></div>
+        </dl>
+      )}
+      {own > 0 && <p class="small muted">{t('book.flow.ownUse', { v: mil(own) })}</p>}
+
+      <div class="per100">
+        {[[income, 'book.incomeTitle', 'income'], [costs, 'book.costsTitle', 'costs']].map(([g, k, id]) => g && (
+          <figure>
+            <figcaption><a href={`#${id}`}>{t(k as 'book.incomeTitle')}</a> · {t('book.per100')}</figcaption>
+            <ol class="hundred">
+              {(g as Group).parts.map((p) => {
+                const share = (p.v / (g as Group).total) * 100;
+                return <li><span class="hundred-v">{num(Math.round(share))} €</span><span class="hundred-bar" style={`width:${Math.max(share, 0.6)}%`}></span><span class="hundred-l">{label(p)}</span></li>;
+              })}
+            </ol>
+          </figure>
+        ))}
+      </div>
+    </section>
+
+    {[
+      { id: 'income', g: income, title: 'book.incomeTitle', lead: income && t('book.incomeLead', { year: y.year, total: mil(income.total), per: per(income.total) }) },
+      { id: 'costs', g: costs, title: 'book.costsTitle', lead: costs && t('book.costsLead', { year: y.year, total: mil(costs.total), per: per(costs.total) }) },
+      { id: 'invest', g: invest, title: 'book.investTitle', lead: invest && t('book.investLead', { year: y.year, total: mil(invest.total), per: per(invest.total), grants: mil(grants), sales: mil(sales) }) },
+    ].map(({ id, g, title, lead }) => g && (
+      <section id={id}>
+        <h2>{t(title as 'book.incomeTitle')}</h2>
+        <p>{lead}</p>
+        <ul class="book-parts">
+          {g.parts.map((p) => {
+            const share = (p.v / g.total) * 100;
+            const d = change(p.v, p.prev);
+            const rk = pop ? rank(y.year, p.key, p.v / pop, p.synthetic) : undefined;
+            const med = pop ? peers(y.year, p.key, p.synthetic).median : undefined;
+            const ex = explain(p.key);
+            return (
+              <li>
+                <div class="part-head">
+                  <span class="part-name">{label(p)}</span>
+                  <span class="part-v">{mil(p.v)}</span>
+                </div>
+                <div class="part-bar" role="img" aria-label={`${label(p)}: ${num(Math.round(share))} %`}><span style={`width:${Math.max(share, 0.4)}%`}></span></div>
+                <p class="part-facts small">
+                  <span>{num(Math.round(share))} % {t('book.share')}</span>
+                  {pop && <span>{per(p.v)} {t('budget.perResident')}</span>}
+                  {d !== undefined && <span>{t('book.vsPrev', { d: `${signed.format(d)} %`, year: y.year - 1 })}</span>}
+                  {rk && med !== undefined && <span>{t('book.vsPeers', { r: rk.rank, n: rk.n, m: eur(med) })}</span>}
+                </p>
+                {ex && <details class="explain-row"><summary>{t('book.whatIs')}</summary><p>{ex}</p></details>}
+              </li>
+            );
+          })}
+        </ul>
+      </section>
+    ))}
+
+    {loans.length > 0 && (
+      <section id="debt">
+        <h2>{t('book.debtTitle')}</h2>
+        <p>{t('book.debtLead')} <span class="muted">{explain('lainakanta-31-12')}</span></p>
+        <ul class="book-parts">
+          {loans.map((l) => (
+            <li>
+              <div class="part-head"><span class="part-name">{l.year}{l.c === 'plan1' || l.c === 'plan2' ? ` (${t('book.plan')})` : ''}</span><span class="part-v">{mil(l.v)}</span></div>
+              <div class:list={['part-bar', { plan: l.c === 'plan1' || l.c === 'plan2' }]} aria-hidden="true"><span style={`width:${(l.v / loanMax) * 100}%`}></span></div>
+              {pop && <p class="part-facts small"><span>{per(l.v)} {t('budget.perResident')}</span>{l.c === 'budget' && (() => { const r = rank(y.year, 'lainakanta-31-12', l.v / pop); const m = peers(y.year, 'lainakanta-31-12').median; return r ? <span>{t('book.vsPeers', { r: r.rank, n: r.n, m: eur(m) })}</span> : null; })()}</p>}
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    {charts.length > 0 && (
+      <section id="trend">
+        <h2>{t('book.trendTitle')}</h2>
+        <p class="small muted">{t('book.trendLead')}</p>
+        <div class="trend-grid">
+          {charts.map(({ l, pts }) => {
+            const max = Math.max(0, ...pts.map((p) => p.v));
+            const min = Math.min(0, ...pts.map((p) => p.v));
+            const span = max - min || 1;
+            const plotH = H - PAD - BASE;
+            const zero = PAD + (max / span) * plotH;
+            const bw = (W - 8) / pts.length;
+            const cur = pts.find((p) => p.year === y.year);
+            return (
+              <figure class="trend">
+                <figcaption>{lineLabel(l!, locale)}{cur && <b> {mil(cur.v)}</b>}</figcaption>
+                <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`${lineLabel(l!, locale)}: ${pts.map((p) => `${p.year} ${mil(p.v)}`).join(', ')}`}>
+                  <line x1="0" x2={W} y1={zero} y2={zero} class="axis" />
+                  {pts.map((p, i) => {
+                    const h = Math.max((Math.abs(p.v) / span) * plotH, 1);
+                    const x = 4 + i * bw + 2;
+                    return (
+                      <g class:list={['bar', { plan: p.plan, cur: p.year === y.year }]}>
+                        <title>{`${p.year}${p.plan ? ` (${t('book.plan')})` : ''}: ${mil(p.v)}`}</title>
+                        <rect x={x - 2} y={PAD - 4} width={bw} height={plotH + 8} fill="transparent" />
+                        <rect x={x} y={p.v >= 0 ? zero - h : zero} width={bw - 4} height={h} rx="2" />
+                        {<text x={x + (bw - 4) / 2} y={H - 6} text-anchor="middle">{String(p.year).slice(2)}</text>}
+                      </g>
+                    );
+                  })}
+                </svg>
+              </figure>
+            );
+          })}
+        </div>
+        <p class="small muted trend-key"><span class="key key-budget"></span> {t('book.budgetBar')} <span class="key key-plan"></span> {t('book.plan')}</p>
+      </section>
+    )}
+
+    <section id="all">
+      <h2>{t('budget.full', { year: y.year })}</h2>
+      <p class="small muted">{t('budget.unit')}</p>
+      <div class="table-scroll">
+        <table class="party-table budget-table">
+          <thead><tr>
+            <th></th>
+            {COLUMNS.map((c) => <th class="num">{t(`budget.col.${c}`, { year: colYear[c] })}</th>)}
+            {pop && <th class="num">{t('budget.perResident')}</th>}
+          </tr></thead>
+          <tbody>
+            {lines.map((l) => {
+              const amount = isAmount(l);
+              const b = value(y, l.key);
+              const ex = explain(l.key);
+              return (
+                <tr class:list={[`lvl-${l.level}`, { total: isTotal(l) }]}>
+                  <th scope="row" style={`padding-left:${0.6 + Math.max(0, l.level - 1) * 1.1}rem`}>
+                    {lineLabel(l, locale)}
+                    {ex && <details class="explain"><summary aria-label={t('book.whatIs')}>?</summary><p>{ex}</p></details>}
+                  </th>
+                  {COLUMNS.map((c) => <td class="num">{fmt(value(y, l.key, c), amount)}</td>)}
+                  {pop && <td class="num">{amount && b !== undefined ? eur(b / pop) : ''}</td>}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+      {noted.length > 0 && (
+        <>
+          <h3>{t('budget.notes')}</h3>
+          <dl class="budget-notes">
+            {noted.map((l) => <div><dt>{lineLabel(l, locale)}</dt><dd>{y.notes![l.key]}</dd></div>)}
+          </dl>
+        </>
+      )}
+    </section>
+
+    <section id="faq">
+      <h2>{t('book.s.faq')}</h2>
+      <div class="faq">
+        {FAQ.map((f) => <details><summary>{f.q[locale]}</summary><p>{f.a[locale]}</p></details>)}
+      </div>
+    </section>
+
+    <section id="data">
+      <h2>{t('book.s.data')}</h2>
+      <p>{t('book.downloadLead')}</p>
+      <ul class="downloads">
+        <li><a href={assetPath(`/${city.id}/talous.csv`)} download>{t('book.csv')}</a></li>
+        <li><a href={y.source_url} rel="external">{t('budget.sourceDoc')}</a></li>
+        <li><button type="button" class="print-btn" data-print hidden>{t('book.print')}</button></li>
+      </ul>
+      <p class="small muted">{t('budget.source')}: <a href={items.source.url} rel="external">{items.source.name}</a> ({items.source.licence}) · <a href={path('/talous/')}>{t('budget.title')} →</a></p>
+      <p class="small muted">{t('book.inspired')} <a href="https://ash.harvard.edu/resources/open-book-open-source-budget-transparency-for-municipalities/" rel="external">Open Book</a></p>
+    </section>
+  </div>
+  <script is:inline>
+    (() => {
+      const b = document.querySelector('[data-print]');
+      if (!b) return;
+      b.hidden = false;
+      b.addEventListener('click', () => {
+        // Open every explanation so the printout carries them.
+        document.querySelectorAll('.budget-book details').forEach((d) => { d.open = true; });
+        window.print();
+      });
+    })();
+  </script>
+</Base>

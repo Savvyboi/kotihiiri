@@ -782,3 +782,28 @@ taloustietopalvelu; avoindata.tutkihallintoa.fi, CC BY 4.0).
 - **Site.** `/talous/` compares municipalities for a chosen year, per resident or in total (millions of euros), sortable by any column;
   `/{city}/talous/` shows the latest budget in full, the trend over the years and the notes. Both
   linked from the nav and the city tabs.
+
+### 19.1 Budgets as an open book (added 2026-11-10)
+
+At Savvas's request, `/{city}/talous/` follows the Harvard Ash Center's open-source Open Book
+budget portal (Allen Lab for Democracy Renovation, MIT): big picture first, then drill down, in
+plain language, downloadable. Built from the same KTAS data (§19); no new fetches.
+
+- **Overview.** "Is the budget balanced?": a verdict (surplus / covers depreciation / short of
+  depreciation / negative annual margin) and the chain income − running costs = annual margin,
+  − depreciation = result; annual margin − net investments = what borrowing or cash must cover.
+  Running costs are operating expenses less own work on investments, so the chain adds up to the
+  reported annual margin. Then "out of every €100": where income comes from and where costs go.
+- **Income, spending, investments, debt.** One row per KTAS line (net financial items as income or
+  cost by sign), with amount, share, per resident, change from the previous year's amended budget,
+  and rank per resident among all municipalities with a budget that year (and the median).
+  Every line has a plain-language explanation (`site/src/lib/budgetGlossary.ts`, fi/sv/en).
+- **Over time.** Small bar charts (one series each, city colour; plan years lighter) of six main
+  lines over every reported year plus the latest plan years.
+- **All figures, questions, download.** The full table (with explanations), the municipality's
+  notes, a short FAQ, `/{city}/talous.csv` (every year, line and column, long format, Finnish
+  labels) and a print/PDF button.
+- **Not done, on purpose.** KTAS has no split by service or department, so there is no Open Book
+  style function drill-down; the FAQ says so and points to the municipality's own budget book.
+  Earlier years have no pages of their own (they would add ~105 MB, §13); they are in the charts
+  and the CSV.
