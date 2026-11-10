@@ -18,3 +18,48 @@ robots_exceptions:
     reason: >-
       The Ministry of Justice publishes /api/v1/ as the service's Open Data API; robots.txt ends in
       "User-agent: * / Disallow: /" with no Allow for it. Only the API is read, at 1 request/second.
+# Municipalities crawled although their robots.txt disallows us (PLAN.md §2.1 rule 1b). OFF until
+# a human sets `enabled: true`. Only Disallow rules in a robots.txt the host served are set aside: a
+# host that answers robots.txt with 401/403/5xx, or not at all, stays blocked, and a 401/403 (or a
+# 429 that outlasts the retries) during a run stops all requests to that host for the run. Same
+# User-Agent with our contact address; at most one request every `min_interval_s` seconds per host
+# (or the host's Crawl-delay, if longer). Listed: the 26 registry municipalities whose robots.txt
+# disallowed our paths in the 2026-10-15 audit (data/state/robots.json). Not listed: Oulu and Turku
+# (§2.1 rule 2, written permission pending) and the five whose host did not answer the audit
+# (Vaasa, Äänekoski, Kalajoki, Maarianhamina, Pedersöre).
+robots_override:
+  enabled: false
+  approved_by: Savvas
+  approved_on: "2026-11-10"
+  min_interval_s: 5
+  municipalities:
+    # Tweb on *.tweb.fi
+    - hameenlinna
+    - rauma
+    - kerava
+    - nokia
+    - kangasala
+    - pirkkala
+    - valkeakoski
+    - varkaus
+    - akaa
+    - janakkala
+    - kuusamo
+    - ilmajoki
+    - muurame
+    # Tweb on *.triplancloud.fi
+    - raasepori
+    - lieto
+    - hamina
+    - kauhajoki
+    # Tweb, self-hosted
+    - seinajoki
+    - kaarina
+    - riihimaki
+    - iisalmi
+    - pietarsaari
+    - pieksamaki
+    # Dynasty, self-hosted
+    - lohja
+    - ylivieska
+    - nivala

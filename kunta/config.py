@@ -31,6 +31,26 @@ class CityConfig:
 
 
 @dataclass(frozen=True)
+class RobotsOverride:
+    """Municipalities crawled although their robots.txt disallows us (PLAN.md §2.1 rule 1b).
+
+    Off unless `enabled` is true in config/project.yaml. It only overrides Allow/Disallow rules in
+    a robots.txt the host served: a host that answers 401/403, errors on robots.txt or refuses us
+    during the run is never crawled. Hosts under it get `min_interval_s` between requests (or the
+    host's Crawl-delay, if longer) instead of the usual 1 second.
+    """
+
+    enabled: bool = False
+    municipalities: tuple[str, ...] = ()
+    min_interval_s: float = 5.0
+    approved_by: str | None = None
+    approved_on: str | None = None
+
+    def applies_to(self, slug: str) -> bool:
+        return self.enabled and slug in self.municipalities
+
+
+@dataclass(frozen=True)
 class ProjectConfig:
     site_name: str
     site_domain: str | None
@@ -42,6 +62,7 @@ class ProjectConfig:
     # entry in config/project.yaml names who approved it and when. Only commands that pass these
     # to the client use them.
     robots_exceptions: dict[str, tuple[str, ...]] = field(default_factory=dict)
+    robots_override: RobotsOverride = field(default_factory=RobotsOverride)
 
     @property
     def user_agent(self) -> str:
@@ -77,6 +98,33 @@ def load_project(config_dir: Path = CONFIG_DIR) -> ProjectConfig:
         since=str(raw.get("since", "2025-01-01")),
         features=dict(raw.get("features") or {}),
         robots_exceptions=_robots_exceptions(raw.get("robots_exceptions") or []),
+        robots_override=_robots_override(raw.get("robots_override") or {}),
+    )
+
+
+def _robots_override(raw: dict[str, Any]) -> RobotsOverride:
+    if not raw:
+        return RobotsOverride()
+    enabled = raw.get("enabled", False)
+    if not isinstance(enabled, bool):
+        raise ConfigError("config/project.yaml robots_override.enabled must be true or false")
+    slugs = tuple(str(s) for s in raw.get("municipalities") or [])
+    if len(set(slugs)) != len(slugs):
+        raise ConfigError("config/project.yaml robots_override.municipalities lists a slug twice")
+    interval = float(raw.get("min_interval_s", 5.0))
+    if interval < 1.0:
+        # Never faster than the normal crawl (§2.1 rule 4).
+        raise ConfigError("config/project.yaml robots_override.min_interval_s must be at least 1")
+    if enabled and not (raw.get("approved_by") and raw.get("approved_on")):
+        raise ConfigError(
+            "config/project.yaml robots_override needs approved_by and approved_on to be enabled"
+        )
+    return RobotsOverride(
+        enabled=enabled,
+        municipalities=slugs,
+        min_interval_s=interval,
+        approved_by=raw.get("approved_by"),
+        approved_on=str(raw["approved_on"]) if raw.get("approved_on") else None,
     )
 
 

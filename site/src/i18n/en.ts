@@ -412,6 +412,7 @@ export const en: Dict = {
   'about.lead': 'Kotihiiri brings the decision-making of Finland’s six largest cities together in an easy-to-read form.',
   'about.methodTitle': 'Method',
   'about.method': 'Once a week a program collects the agendas and minutes the cities publish. It follows each site’s robots.txt, makes at most one request per second and stores only structured text. Attachments are not copied; we link to them.',
+  'about.methodOverride': 'Once a week a program collects the agendas and minutes that cities and municipalities publish, and stores only structured text. It follows each site’s robots.txt, except for the municipalities whose robots.txt disallows fetching their public minutes: there it fetches at most one page every five seconds and stops at once if the server refuses a request. Elsewhere it makes at most one request per second. Attachments are not copied; we link to them. If you represent a municipality and want us to stop, contact us at the address below.',
   'about.sourcesTitle': 'Sources',
   'about.privacyTitle': 'Privacy',
   'about.privacy': 'This site uses no cookies and no analytics. We remove e-mail addresses and phone numbers from the text we store. When a city removes personal data from minutes after the appeal period, it disappears from here at the next monthly check.',

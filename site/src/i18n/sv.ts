@@ -412,6 +412,7 @@ export const sv: Dict = {
   'about.lead': 'Kotihiiri samlar beslutsfattandet i Finlands sex största städer i en lättläst form.',
   'about.methodTitle': 'Metod',
   'about.method': 'Ett program hämtar en gång i veckan de föredragningslistor och protokoll som städerna publicerar. Det följer varje webbplats robots.txt, gör högst en förfrågan per sekund och sparar bara strukturerad text. Bilagor kopieras inte, utan vi länkar till dem.',
+  'about.methodOverride': 'Ett program hämtar en gång i veckan de föredragningslistor och protokoll som städer och kommuner publicerar och sparar bara strukturerad text. Det följer webbplatsernas robots.txt, utom för de kommuner vars robots.txt förbjuder hämtning av de offentliga protokollen: där hämtar det högst en sida var femte sekund och slutar genast om servern avvisar förfrågan. Annars gör det högst en förfrågan per sekund. Bilagor kopieras inte, utan vi länkar till dem. Om du företräder en kommun och vill att vi slutar, kontakta oss på adressen nedan.',
   'about.sourcesTitle': 'Källor',
   'about.privacyTitle': 'Dataskydd',
   'about.privacy': 'Webbplatsen använder varken kakor eller analysverktyg. Vi tar bort e-postadresser och telefonnummer ur texten vi sparar. När staden tar bort personuppgifter ur ett protokoll efter besvärstiden försvinner de också härifrån vid nästa månatliga kontroll.',

@@ -410,6 +410,7 @@ export const fi = {
   'about.lead': 'Kotihiiri kokoaa Suomen kuuden suurimman kaupungin päätöksenteon yhteen helposti luettavaan muotoon.',
   'about.methodTitle': 'Menetelmä',
   'about.method': 'Ohjelma hakee kerran viikossa kaupunkien julkaisemat esityslistat ja pöytäkirjat. Se noudattaa jokaisen sivuston robots.txt-tiedostoa, tekee enintään yhden pyynnön sekunnissa ja tallentaa vain jäsennellyn tekstin. Liitteitä ei kopioida, vaan niihin linkitetään.',
+  'about.methodOverride': 'Ohjelma hakee kerran viikossa kaupunkien ja kuntien julkaisemat esityslistat ja pöytäkirjat ja tallentaa vain jäsennellyn tekstin. Se noudattaa sivustojen robots.txt-tiedostoja, paitsi niiden kuntien kohdalla, joiden julkiset pöytäkirjat robots.txt kieltää hakemasta: niistä se hakee enintään yhden sivun viiden sekunnin välein ja lopettaa heti, jos palvelin torjuu pyynnön. Muualla se tekee enintään yhden pyynnön sekunnissa. Liitteitä ei kopioida, vaan niihin linkitetään. Jos edustat kuntaa ja haluat meidän lopettavan, ota yhteyttä alla olevaan osoitteeseen.',
   'about.sourcesTitle': 'Lähteet',
   'about.privacyTitle': 'Tietosuoja',
   'about.privacy': 'Sivusto ei käytä evästeitä eikä analytiikkaa. Poistamme tallentamastamme tekstistä sähköpostiosoitteet ja puhelinnumerot. Kun kaupunki poistaa henkilötietoja pöytäkirjasta valitusajan jälkeen, poistuvat ne myös täältä seuraavassa kuukausittaisessa tarkistuksessa.',
