@@ -2,7 +2,7 @@
   "items": [
     {
       "attachments": [],
-      "content_sha256": "7d9a98f5247c76c708fb031eb610304d8c20b1b4e6637b4131c462253ec15802",
+      "content_sha256": "4d4c84d2aaaa4444f63fcf81cb278e8e4fffab2bd5d48b3451eedd5b4339aaf7",
       "disqualified": [],
       "id": "helsinki/kaupunginhallitus/2026-11-05/1",
       "meeting_id": "helsinki/kaupunginhallitus/2026-11-05",
@@ -10,7 +10,18 @@
       "ordinal": 1,
       "preparers": [],
       "presenter": "Daniel Sazonov",
+      "pykala": 792,
       "sections": [
+        {
+          "heading": "Päätös",
+          "text": "Kaupunginhallitus päätti todeta kokouksen laillisesti koolle kutsutuksi ja päätösvaltaiseksi.\n\nSamalla kaupunginhallitus valitsi pöytäkirjantarkastajiksi Suvi Pulkkisen ja Silvia Modigin sekä varatarkastajiksi Ville Jalovaaran ja Jenni Pajusen.",
+          "type": "decision"
+        },
+        {
+          "heading": "Käsittely",
+          "text": "Kaupunginhallitus valitsi puheenjohtajan ehdotuksesta yksimielisesti pöytäkirjan varatarkastajaksi Otto Meren sijasta Jenni Pajusen.",
+          "type": "deliberation"
+        },
         {
           "heading": "Päätösehdotus",
           "text": "Kaupunginhallitus päättää todeta kokouksen laillisesti koolle kutsutuksi ja päätösvaltaiseksi.\n\nSamalla kaupunginhallitus valitsee pöytäkirjantarkastajiksi Suvi Pulkkisen ja Silvia Modigin sekä varatarkastajiksi Ville Jalovaaran ja Otto Meren.",
@@ -18,9 +29,9 @@
         }
       ],
       "source_ids": {
-        "case": "9eb8aa9a-0d33-4078-84ee-bf9453023caf"
+        "case": "83fb100d-c2f9-4a67-a6d6-df069d5b4aef"
       },
-      "source_url": "https://paatokset.hel.fi/fi/asia/9eb8aa9a-0d33-4078-84ee-bf9453023caf",
+      "source_url": "https://paatokset.hel.fi/fi/asia/83fb100d-c2f9-4a67-a6d6-df069d5b4aef",
       "statements": [],
       "status": "active",
       "title": "Kokouksen laillisuuden ja päätösvaltaisuuden toteaminen sekä pöytäkirjan tarkastajien valinta",
@@ -28,7 +39,7 @@
     },
     {
       "attachments": [],
-      "content_sha256": "2e595a95d7914e7eefea8227b693c48ca4507d1903488c96ee2a9faef3fa19c2",
+      "content_sha256": "d5fbbb701cee4fb9ca93a3ac9ff55ed4941dee65ab316270d61d0051baf33be0",
       "disqualified": [],
       "id": "helsinki/kaupunginhallitus/2026-11-05/2",
       "meeting_id": "helsinki/kaupunginhallitus/2026-11-05",
@@ -36,10 +47,21 @@
       "ordinal": 2,
       "preparers": [],
       "presenter": "Daniel Sazonov",
+      "pykala": 793,
       "sections": [
         {
+          "heading": "Päätös",
+          "text": "Kaupunginhallitus päätti merkitä saadun selvityksen tiedoksi.",
+          "type": "decision"
+        },
+        {
+          "heading": "Käsittely",
+          "text": "Asian aikana kuultavina olivat asunto-ohjelmajohtaja Hanna Dhalmann, lakiasiainpäällikkö Tanja Mansikka ja johtava juristi Jonna Törnroos.\n\nAsiantuntijat poistuivat kuulemisen jälkeen kokouksesta.",
+          "type": "deliberation"
+        },
+        {
           "heading": "Päätösehdotus",
-          "text": "Kaupunginhallitus päättää merkitä saadun selvityksen tiedoksi.",
+          "text": "Päätös on ehdotuksen mukainen.",
           "type": "proposal"
         },
         {
@@ -50,9 +72,9 @@
       ],
       "source_ids": {
         "case": "hel-2026-017886",
-        "decision": "b525577b-1ac5-4376-879a-fd11a0ab33a5"
+        "decision": "8bb395ec-5ac9-48b7-b0e1-aca1f3e8b874"
       },
-      "source_url": "https://paatokset.hel.fi/fi/asia/hel-2026-017886?paatos=b525577b-1ac5-4376-879a-fd11a0ab33a5",
+      "source_url": "https://paatokset.hel.fi/fi/asia/hel-2026-017886?paatos=8bb395ec-5ac9-48b7-b0e1-aca1f3e8b874",
       "statements": [],
       "status": "active",
       "title": "Aamukouluasia: Katsaus asumisen välimallin valmisteluun",
@@ -69,13 +91,14 @@
       "helsinki/kaupunginhallitus/2026-11-05/2"
     ],
     "location": "Kaupunginhallituksen istuntosali/sähköinen kokous",
+    "minutes_pdf_url": "https://ahjojulkaisu.hel.fi/2371D7B1-CD58-CD93-ABB9-A1C07B200000.pdf",
     "source_ids": {
       "meeting_code": "00400202646",
       "number": "39/2026",
-      "print_pdf": "https://ahjojulkaisu.hel.fi/28EF9155-B93C-C84F-9495-A18BE7000004.pdf"
+      "print_pdf": "https://ahjojulkaisu.hel.fi/2371D7B1-CD58-CD93-ABB9-A1C07B200000.pdf"
     },
     "source_url": "https://paatokset.hel.fi/fi/paattajat/kaupunginhallitus/asiakirjat/00400202646",
-    "stage": "decisions",
+    "stage": "minutes",
     "start_time": "08:00"
   }
 }
