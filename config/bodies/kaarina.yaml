@@ -1,0 +1,82 @@
+# Written by `kunta discover` / `kunta crawl`. Add `included: true|false` to a body to override the
+# default exclude rules (kunta/bodies.py); manual keys survive re-discovery. `excluded_by_rule`
+# is informational.
+bodies:
+  ansiomerkkitoimikunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Ansiomerkkitoimikunta
+  elinvoimalautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Elinvoimalautakunta
+  henkilostolautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Henkilöstölautakunta
+  hyvinvointijaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Hyvinvointijaosto
+  hyvinvointilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Hyvinvointilautakunta
+  kaupunginhallitus:
+    kind: board
+    name_fi: Kaupunginhallitus
+  kaupunginvaltuusto:
+    kind: council
+    name_fi: Kaupunginvaltuusto
+  kaupunkikehityslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kaupunkikehityslautakunta
+  keskusvaalilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Keskusvaalilautakunta
+  ryhmapuheenjohtajien-toimikunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Ryhmäpuheenjohtajien toimikunta
+  sivistyslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Sivistyslautakunta
+  sosiaali-ja-terveyslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Sosiaali- ja terveyslautakunta
+  tarkastuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tarkastuslautakunta
+  tekninen-lautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tekninen lautakunta
+  tyollisyystoimikunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Työllisyystoimikunta
+  vammaisneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vammaisneuvosto
+  vanhusneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vanhusneuvosto
+  vapaa-ajan-lautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vapaa-ajan lautakunta
+  yksiloasioiden-jaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Yksilöasioiden jaosto
+  ymparistolautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Ympäristölautakunta
