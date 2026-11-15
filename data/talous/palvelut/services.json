@@ -1,0 +1,705 @@
+{
+  "report": "KKTPP",
+  "services": {
+    "1100": {
+      "en": "General administration and elections",
+      "fi": "Yleishallinto ja vaalit",
+      "sv": "Allmänna förvaltning och ordnande av val"
+    },
+    "1101": {
+      "en": "General administrative services",
+      "fi": "Yleishallintopalvelut",
+      "sv": "Allmänna förvaltningstjänster"
+    },
+    "1102": {
+      "en": "Organisation of elections",
+      "fi": "Vaalien järjestäminen",
+      "sv": "Ordnande av val"
+    },
+    "1120": {
+      "en": "Expert services and support for the promotion of wellbeing and health",
+      "fi": "Hyvinvoinnin ja terveyden edistämisen asiantuntijapalvelut ja tuki",
+      "sv": "Sakkunnigtjänster och stöd för främjande av välfärd och hälsa"
+    },
+    "2100": {
+      "en": "Lastensuojelu, lapsiperheiden ja perheoikeudelliset palvelut",
+      "fi": "Lastensuojelu, lapsiperheiden ja perheoikeudelliset palvelut",
+      "sv": "Barnskydd, barnfamiljer och familjerättslig service"
+    },
+    "2200": {
+      "en": "Ikäihmisten palvelut",
+      "fi": "Ikäihmisten palvelut",
+      "sv": "Service för äldre"
+    },
+    "2250": {
+      "en": "Vammaisten palvelut",
+      "fi": "Vammaisten palvelut",
+      "sv": "Service för personer med funktionsnedsättning"
+    },
+    "2400": {
+      "en": "Päihde- ja mielenterveyspalvelut",
+      "fi": "Päihde- ja mielenterveyspalvelut",
+      "sv": "Service för personer med missbruksproblem eller psykisk ohälsa"
+    },
+    "2530": {
+      "en": "Erittelemätön perusterveydenhuollon avohoito",
+      "fi": "Erittelemätön perusterveydenhuollon avohoito",
+      "sv": "Öppenvård inom primärvården, ospecificerad"
+    },
+    "2531": {
+      "en": "Kotisairaalahoito",
+      "fi": "Kotisairaalahoito",
+      "sv": "Hemsjukhusvård"
+    },
+    "2532": {
+      "en": "Kouluterveydenhuollon palvelut",
+      "fi": "Kouluterveydenhuollon palvelut",
+      "sv": "Tjänster inom skolhälsovården"
+    },
+    "2534": {
+      "en": "Opiskeluterveydenhuollon palvelut",
+      "fi": "Opiskeluterveydenhuollon palvelut",
+      "sv": "Tjänster inom studerandehälsovården"
+    },
+    "2535": {
+      "en": "Perustason lääkinnällinen avokuntoutus",
+      "fi": "Perustason lääkinnällinen avokuntoutus",
+      "sv": "Medicinsk öppen rehabilitering på basnivå"
+    },
+    "2536": {
+      "en": "Perustason vastaanottopalvelut",
+      "fi": "Perustason vastaanottopalvelut",
+      "sv": "Mottagningstjänster på basnivå"
+    },
+    "2537": {
+      "en": "Työterveyshuolto",
+      "fi": "Työterveyshuolto",
+      "sv": "Företagshälsovård"
+    },
+    "2538": {
+      "en": "Äitiys- ja lastenneuvolapalvelut",
+      "fi": "Äitiys- ja lastenneuvolapalvelut",
+      "sv": "Mödra- och barnrådgivningstjänster"
+    },
+    "2540": {
+      "en": "Erittelemätön suun terveydenhuolto",
+      "fi": "Erittelemätön suun terveydenhuolto",
+      "sv": "Mun- och tandvård, ospecificerad"
+    },
+    "2541": {
+      "en": "Suun terveydenhuollon erityistason palvelut",
+      "fi": "Suun terveydenhuollon erityistason palvelut",
+      "sv": "Tjänster på specialnivå inom mun- och tandvård"
+    },
+    "2542": {
+      "en": "Suun terveydenhuollon perustason palvelut",
+      "fi": "Suun terveydenhuollon perustason palvelut",
+      "sv": "Mun- och tandvårdstjänster på basnivå"
+    },
+    "2545": {
+      "en": "Suun terveydenhuollon palvelut",
+      "fi": "Suun terveydenhuollon palvelut",
+      "sv": "Mun- och tandvård"
+    },
+    "2561": {
+      "en": "Perustason vuodeosastohoito",
+      "fi": "Perustason vuodeosastohoito",
+      "sv": "Vård på vårdavdelning på basnivå"
+    },
+    "2600": {
+      "en": "Erittelemätön erikoissairaanhoito",
+      "fi": "Erittelemätön erikoissairaanhoito",
+      "sv": "Specialiserad sjukvård, ospecificerad"
+    },
+    "2602": {
+      "en": "Somaattinen erikoissairaanhoito",
+      "fi": "Somaattinen erikoissairaanhoito",
+      "sv": "Specialiserad somatisk sjukvård"
+    },
+    "2603": {
+      "en": "Ensihoitokeskus",
+      "fi": "Ensihoitokeskus",
+      "sv": "Central för prehospital akutsjukvård"
+    },
+    "2604": {
+      "en": "Ensihoitopalvelu",
+      "fi": "Ensihoitopalvelu",
+      "sv": "Prehospital akutsjukvård"
+    },
+    "2605": {
+      "en": "Lastentautien yksikössä annettu somaattinen erikoissairaanhoito",
+      "fi": "Lastentautien yksikössä annettu somaattinen erikoissairaanhoito",
+      "sv": "Specialiserad somatisk vård som getts vid en enhet för barnsjukdomar"
+    },
+    "2607": {
+      "en": "Ympärivuorokautiset päivystyspalvelut",
+      "fi": "Ympärivuorokautiset päivystyspalvelut",
+      "sv": "Jourtjänster dygnet runt"
+    },
+    "2610": {
+      "en": "Psykiatrinen erikoissairaanhoito",
+      "fi": "Psykiatrinen erikoissairaanhoito",
+      "sv": "Psykiatrisk specialiserad sjukvård"
+    },
+    "2612": {
+      "en": "Somaattinen erikoissairaanhoito",
+      "fi": "Somaattinen erikoissairaanhoito",
+      "sv": "Specialiserad somatisk sjukvård"
+    },
+    "2700": {
+      "en": "Erittelemätön ympäristöterveydenhuolto",
+      "fi": "Erittelemätön ympäristöterveydenhuolto",
+      "sv": "Miljö- och hälsoskydd, ospecificerat"
+    },
+    "2701": {
+      "en": "Food inspection and counselling",
+      "fi": "Elintarvikevalvonta ja -neuvonta",
+      "sv": "Livsmedelstillsyn och rådgivning om livsmedel"
+    },
+    "2702": {
+      "en": "Veterinary services",
+      "fi": "Eläinlääkäripalvelut",
+      "sv": "Veterinärtjänster"
+    },
+    "2703": {
+      "en": "Animal health and welfare control",
+      "fi": "Eläinten terveyden ja hyvinvoinnin valvonta",
+      "sv": "Tillsyn över djurens hälsa och välbefinnande"
+    },
+    "2705": {
+      "en": "Promoting and supervising health protection",
+      "fi": "Terveydensuojelun edistäminen ja valvonta",
+      "sv": "Främjande och tillsyn av hälsoskyddet"
+    },
+    "2706": {
+      "en": "Supervision of the Tobacco Act",
+      "fi": "Tupakkalain valvonta",
+      "sv": "Tillsyn över efterlevnaden av tobakslagen"
+    },
+    "2710": {
+      "en": "Environmental health, total",
+      "fi": "Ympäristöterveydenhuolto yhteensä",
+      "sv": "Miljö- och hälsoskydd totalt"
+    },
+    "2715": {
+      "en": "Other environmental health, total",
+      "fi": "Muu ympäristöterveydenhuolto yhteensä",
+      "sv": "Övrig miljö- och hälsoskydd totalt"
+    },
+    "2901": {
+      "en": "Hyvinvoinnin ja terveyden edistämisen asiantuntijapalvelut ja tuki",
+      "fi": "Hyvinvoinnin ja terveyden edistämisen asiantuntijapalvelut ja tuki",
+      "sv": "Sakkunnigtjänster och stöd för främjande av välfärd och hälsa"
+    },
+    "2902": {
+      "en": "Sosiaalipäivystys",
+      "fi": "Sosiaalipäivystys",
+      "sv": "Socialjour"
+    },
+    "2903": {
+      "en": "Työikäisten sosiaalityö ja -ohjaus",
+      "fi": "Työikäisten sosiaalityö ja -ohjaus",
+      "sv": "Socialt arbete och social handledning för personer i arbetsför ålder"
+    },
+    "2907": {
+      "en": "Työelämäosallisuutta tukevat palvelut",
+      "fi": "Työelämäosallisuutta tukevat palvelut",
+      "sv": "Tjänster som stöder delaktigheten i arbetslivet"
+    },
+    "2910": {
+      "en": "Muu sosiaali- ja terveystoiminta",
+      "fi": "Muu sosiaali- ja terveystoiminta",
+      "sv": "Övrig social- och hälsovård"
+    },
+    "3020": {
+      "en": "Early childhood education and care, total",
+      "fi": "Varhaiskasvatus yhteensä",
+      "sv": "Småbarnspedagogik totalt"
+    },
+    "3021": {
+      "en": "Daycare centre activities",
+      "fi": "Päiväkotitoiminta",
+      "sv": "Daghemsverksamhet"
+    },
+    "3022": {
+      "en": "Family daycare",
+      "fi": "Perhepäivähoito",
+      "sv": "Familjedagvård"
+    },
+    "3023": {
+      "en": "Other early childhood education and care",
+      "fi": "Muu varhaiskasvatus",
+      "sv": "Övrig småbarnspedagogik"
+    },
+    "3040": {
+      "en": "Basic education, total",
+      "fi": "Perusopetus yhteensä",
+      "sv": "Grundläggande utbildning totalt"
+    },
+    "3041": {
+      "en": "Pre-primary education",
+      "fi": "Esiopetus",
+      "sv": "Förskoleundervisning"
+    },
+    "3051": {
+      "en": "Basic education",
+      "fi": "Perusopetus",
+      "sv": "Grundläggande utbildning"
+    },
+    "3052": {
+      "en": "Morning and afternoon activities",
+      "fi": "Aamu-ja iltapäivätoiminta",
+      "sv": "Morgon- och eftermiddagsverksamhet"
+    },
+    "3101": {
+      "en": "General upper secondary education",
+      "fi": "Lukiokoulutus",
+      "sv": "Gymnasieutbildning"
+    },
+    "3151": {
+      "en": "Vocational training, funding from central government transfers",
+      "fi": "Ammatillinen koulutus, valtionosuusrahoitus",
+      "sv": "Yrkesutbildning, statsandelsfinansiering"
+    },
+    "3152": {
+      "en": "Vocational training, other activities",
+      "fi": "Ammatillinen koulutus, muu toiminta",
+      "sv": "Yrkesutbildning, övrig verksamhet"
+    },
+    "3250": {
+      "en": "Education provided by community colleges, total",
+      "fi": "Kansalaisopistokoulutus yhteensä",
+      "sv": "Medborgarinstitutsutbildning, totalt"
+    },
+    "3251": {
+      "en": "Community colleges",
+      "fi": "Kansalaisopistokoulutus",
+      "sv": "Medborgarinstitutsutbildning"
+    },
+    "3252": {
+      "en": "Paid service activities at community colleges",
+      "fi": "Kansalaisopistokoulutuksen maksullinen palvelutoiminta",
+      "sv": "Medborgarinstitutsutbildningens avgiftsbelagda service"
+    },
+    "3253": {
+      "en": "Kansalaisopiston kotoutumissuunnitelmakoulutus",
+      "fi": "Kansalaisopiston kotoutumissuunnitelmakoulutus",
+      "sv": "Medborgarinstitutens utbildning enligt en integrationsplan"
+    },
+    "3350": {
+      "en": "Other teaching and education activities, total",
+      "fi": "Muu opetus- ja kasvatustoiminta yhteensä",
+      "sv": "Övrig undervisning och fostran totalt"
+    },
+    "3351": {
+      "en": "Basic education in the arts",
+      "fi": "Taiteen perusopetus",
+      "sv": "Grundläggande konstundervisning"
+    },
+    "3352": {
+      "en": "Activities supporting basic arts education",
+      "fi": "Taiteen perusopetusta tukeva toiminta",
+      "sv": "Verksamhet som stöder grundläggande konstundervisning"
+    },
+    "3451": {
+      "en": "Folk high school education",
+      "fi": "Kansanopistokoulutus",
+      "sv": "Folkhögskoleutbildning"
+    },
+    "3452": {
+      "en": "Summer university education",
+      "fi": "Kesäyliopistokoulutus",
+      "sv": "Sommaruniversitetens utbildning"
+    },
+    "3453": {
+      "en": "Training provided by a physical education training centre",
+      "fi": "Liikunnan koulutuskeskuksen antama koulutus",
+      "sv": "Utbildning som ges av idrottsutbildningscenter"
+    },
+    "3454": {
+      "en": "Kotoutumiskoulutus",
+      "fi": "Kotoutumiskoulutus",
+      "sv": "Integrationsutbildning"
+    },
+    "3455": {
+      "en": "Other teaching and education activities",
+      "fi": "Muu opetus- ja kasvatustoiminta",
+      "sv": "Övrig undervisning och fostran"
+    },
+    "3456": {
+      "en": "Oppilas- ja opiskelijahuollon kuraattori- ja psykologipalvelut",
+      "fi": "Oppilas- ja opiskelijahuollon kuraattori- ja psykologipalvelut",
+      "sv": "Kurators- och psykologtjänster inom elev- och studerandevården"
+    },
+    "3500": {
+      "en": "Library services, total",
+      "fi": "Kirjastopalvelut yhteensä",
+      "sv": "Biblioteksservice totalt"
+    },
+    "3501": {
+      "en": "Library services",
+      "fi": "Kirjastopalvelut",
+      "sv": "Biblioteksservice"
+    },
+    "3502": {
+      "en": "Regional development task of libraries",
+      "fi": "Kirjaston alueellinen kehittämistehtävä",
+      "sv": "Bibliotekens regionala utvecklingsuppdrag"
+    },
+    "3503": {
+      "en": "National development task of libraries",
+      "fi": "Kirjaston valtakunnallinen kehittämistehtävä",
+      "sv": "Bibliotekens riksomfattande utvecklingsuppdrag"
+    },
+    "3551": {
+      "en": "Sports and outdoor activity services",
+      "fi": "Liikunta- ja ulkoilupalvelut",
+      "sv": "Idrotts- och friluftstjänster"
+    },
+    "3601": {
+      "en": "Youth services",
+      "fi": "Nuorisopalvelut",
+      "sv": "Ungdomstjänster"
+    },
+    "3700": {
+      "en": "Cultural services, total",
+      "fi": "Kulttuuripalvelut yhteensä",
+      "sv": "Kulturtjänster totalt"
+    },
+    "3701": {
+      "en": "Museum services",
+      "fi": "Museopalvelut",
+      "sv": "Museitjänster"
+    },
+    "3702": {
+      "en": "Visual arts services",
+      "fi": "Visuaalisen taiteen palvelut",
+      "sv": "Tjänster inom visuell konst"
+    },
+    "3751": {
+      "en": "Theatre, dance and circus services",
+      "fi": "Teatteri-, tanssi- ja sirkuspalvelut",
+      "sv": "Teater-, dans- och cirkustjänster"
+    },
+    "3851": {
+      "en": "Music services",
+      "fi": "Musiikkipalvelut",
+      "sv": "Musiktjänster"
+    },
+    "3901": {
+      "en": "General cultural services",
+      "fi": "Yleisen kulttuuritoiminnan palvelut",
+      "sv": "Tjänster inom den allmänna kulturverksamheten"
+    },
+    "4100": {
+      "en": "Land use planning, total",
+      "fi": "Kaavoitus yhteensä",
+      "sv": "Planering totalt"
+    },
+    "4101": {
+      "en": "Local detailed planning",
+      "fi": "Asemakaavoitus",
+      "sv": "Detaljplanering"
+    },
+    "4102": {
+      "en": "General planning",
+      "fi": "Yleiskaavoitus",
+      "sv": "Generalplanering"
+    },
+    "4104": {
+      "en": "Spatial data services",
+      "fi": "Paikkatietopalvelut",
+      "sv": "Geodatatjänster"
+    },
+    "4105": {
+      "en": "Property formation",
+      "fi": "Kiinteistön muodostaminen",
+      "sv": "Fastighetsbildning"
+    },
+    "4201": {
+      "en": "Building supervision",
+      "fi": "Rakennusvalvonta",
+      "sv": "Byggnadstillsyn"
+    },
+    "4300": {
+      "en": "Housing services, total",
+      "fi": "Asumisen palvelut yhteensä",
+      "sv": "Boendeservice totalt"
+    },
+    "4301": {
+      "en": "Official housing services",
+      "fi": "Asumisen viranomaispalvelut",
+      "sv": "Myndighetsservice för boende"
+    },
+    "4302": {
+      "en": "Coordination of housing development",
+      "fi": "Asumisen kehittämisen koordinointi",
+      "sv": "Samordning av utvecklingen av boende"
+    },
+    "4400": {
+      "en": "Environmental protection, total",
+      "fi": "Ympäristönsuojelu yhteensä",
+      "sv": "Miljöskydd totalt"
+    },
+    "4401": {
+      "en": "Development and promotion tasks in environmental protection",
+      "fi": "Ympäristönsuojelun kehittämis- ja edistämistehtävät",
+      "sv": "Miljöskyddets utvecklingsuppgifter och främjande uppgifter"
+    },
+    "4402": {
+      "en": "Permit and supervisory tasks in environmental protection",
+      "fi": "Ympäristönsuojelun lupa- ja valvontatehtävät",
+      "sv": "Miljöskyddets tillstånds- och tillsynsuppgifter"
+    },
+    "4601": {
+      "en": "Streets and common areas",
+      "fi": "Kadut ja yleiset alueet",
+      "sv": "Gator och allmänna områden"
+    },
+    "4602": {
+      "en": "Parking organisation and control",
+      "fi": "Pysäköinnin järjestäminen ja valvonta",
+      "sv": "Ordnande och övervakning av parkering"
+    },
+    "4701": {
+      "en": "Parks and green areas",
+      "fi": "Puistot ja viheralueet",
+      "sv": "Parker och grönområden"
+    },
+    "4800": {
+      "en": "Erittelemätön pelastustoimi",
+      "fi": "Erittelemätön pelastustoimi",
+      "sv": "Räddningsväsende, ospecificerat"
+    },
+    "4801": {
+      "en": "Pelastustoiminta ja muu pelastustoimen valmius",
+      "fi": "Pelastustoiminta ja muu pelastustoimen valmius",
+      "sv": "Räddningsverksamhet och övrig räddningsberedskap"
+    },
+    "4802": {
+      "en": "Tulipalojen ja onnettomuuksien ehkäiseminen",
+      "fi": "Tulipalojen ja onnettomuuksien ehkäiseminen",
+      "sv": "Förebyggande av eldsvådor och olyckor"
+    },
+    "4803": {
+      "en": "Vaarallisten kemikaalien ja räjähteiden valvonta",
+      "fi": "Vaarallisten kemikaalien ja räjähteiden valvonta",
+      "sv": "Övervakning av farliga kemikalier och explosiva varor"
+    },
+    "4804": {
+      "en": "Öljy- ja aluskemikaalivahinkojen torjunta",
+      "fi": "Öljy- ja aluskemikaalivahinkojen torjunta",
+      "sv": "Bekämpning av olje- och fartygskemikalieskador"
+    },
+    "5350": {
+      "en": "Rental services",
+      "fi": "Vuokrauspalvelut",
+      "sv": "Uthyrningstjänster"
+    },
+    "5351": {
+      "en": "Municipal property development",
+      "fi": "Kunnallinen rakennuttaminen",
+      "sv": "Kommunalt byggande"
+    },
+    "5352": {
+      "en": "Facility rental services",
+      "fi": "Tilavuokrauspalvelut",
+      "sv": "Lokaluthyrningstjänster"
+    },
+    "5353": {
+      "en": "Rental services of dwellings",
+      "fi": "Asuntojen vuokrauspalvelut",
+      "sv": "Bostadsuthyrningstjänster"
+    },
+    "5361": {
+      "en": "Land property management",
+      "fi": "Maaomaisuuden hallinta",
+      "sv": "Förvaltning av jordegendom"
+    },
+    "5501": {
+      "en": "Support service",
+      "fi": "Tukipalvelu",
+      "sv": "Stödtjänst"
+    },
+    "5551": {
+      "en": "Promotion of economic activities",
+      "fi": "Elinkeinojen edistäminen",
+      "sv": "Främjande av näringar"
+    },
+    "5552": {
+      "en": "Työllisyyspalvelut",
+      "fi": "Työllisyyspalvelut",
+      "sv": "Sysselsättningsservice"
+    },
+    "5553": {
+      "en": "Työllisyyden edistämisen rahoituspalvelut",
+      "fi": "Työllisyyden edistämisen rahoituspalvelut",
+      "sv": "Finansiella tjänster för främjande av sysselsättningen"
+    },
+    "5554": {
+      "en": "Kuntouttava työtoiminta",
+      "fi": "Kuntouttava työtoiminta",
+      "sv": "Arbetsverksamhet i rehabiliteringssyfte"
+    },
+    "5555": {
+      "en": "Työllisyyspalvelut yhteensä",
+      "fi": "Työllisyyspalvelut yhteensä",
+      "sv": "Sysselsättningsservice totalt"
+    },
+    "5556": {
+      "en": "Rural services",
+      "fi": "Maaseutupalvelut",
+      "sv": "Landsbygdstjänster"
+    },
+    "5560": {
+      "en": "Farmers’ holiday and stand-in services and rural services, total",
+      "fi": "Lomitus- ja maaseutupalvelut yhteensä",
+      "sv": "Avbytarservice och landsbygdstjänster totalt"
+    },
+    "5565": {
+      "en": "Työllisyyspalvelut (lakisääteiset)",
+      "fi": "Työllisyyspalvelut (lakisääteiset)",
+      "sv": "Sysselsättningstjänster (lagstadgade)"
+    },
+    "5566": {
+      "en": "Työllisyyspalvelut (ei-lakisääteiset)",
+      "fi": "Työllisyyspalvelut (ei-lakisääteiset)",
+      "sv": "Sysselsättningstjänster (icke-lagstadgade)"
+    },
+    "5569": {
+      "en": "Employment and integration services, total",
+      "fi": "Työllisyyspalvelut ja kotoutumisen palvelut yhteensä",
+      "sv": "Sysselsättningsservice och integrationsfrämjande tjänster totalt"
+    },
+    "5570": {
+      "en": "Employment, total",
+      "fi": "Työllisyyspalvelut yhteensä",
+      "sv": "Sysselsättningsservice totalt"
+    },
+    "5572": {
+      "en": "Employment services",
+      "fi": "Työllistämispalvelut",
+      "sv": "Sysselsättningstjänster"
+    },
+    "5574": {
+      "en": "Employment support services and educational services",
+      "fi": "Työllistymistä tukevat palvelut ja koulutuspalvelut",
+      "sv": "Sysselsättningsfrämjande tjänster och utbildningstjänster"
+    },
+    "5576": {
+      "en": "Services provided for employer customers",
+      "fi": "Työnantaja-asiakkaiden palvelut",
+      "sv": "Tjänster för arbetsgivare"
+    },
+    "5578": {
+      "en": "Statutory customer service",
+      "fi": "Lakisääteinen henkilöasiakkaan palvelu",
+      "sv": "Lagstadgade tjänster för personkunder"
+    },
+    "5580": {
+      "en": "Other employment services of the municipality",
+      "fi": "Kunnan muut työllisyyspalvelut",
+      "sv": "Kommunens övriga sysselsättningstjänster"
+    },
+    "5610": {
+      "en": "Integration services, total",
+      "fi": "Kotoutumisen palvelut yhteensä",
+      "sv": "Integrationsfrämjande tjänster totalt"
+    },
+    "6100": {
+      "en": "Water services, total",
+      "fi": "Vesihuolto yhteensä",
+      "sv": "Vattenförsörjningen totalt"
+    },
+    "6101": {
+      "en": "Organisation and development of water services",
+      "fi": "Vesihuollon järjestäminen ja kehittäminen",
+      "sv": "Ordnande och utveckling av vattenförsörjningen"
+    },
+    "6102": {
+      "en": "Production of water services, water for household use",
+      "fi": "Vesihuoltopalvelun tuottaminen, talousvesi",
+      "sv": "Tillhandahållande av vattentjänster, hushållsvatten"
+    },
+    "6103": {
+      "en": "Production of water services, wastewater",
+      "fi": "Vesihuoltopalvelun tuottaminen, jätevesi",
+      "sv": "Tillhandahållande av vattentjänster, avloppsvatten"
+    },
+    "6104": {
+      "en": "Runoff water management",
+      "fi": "Hulevesijärjestelmän hallinta",
+      "sv": "Hantering av dagvattensystem"
+    },
+    "6105": {
+      "en": "Production of water services, sewerage for runoff water",
+      "fi": "Vesihuollon järjestäminen, hulevesiviemäröinti",
+      "sv": "Ordnande av vattenförsörjning, avloppssystem för dagvatten"
+    },
+    "6201": {
+      "en": "Energy supply services",
+      "fi": "Energiahuoltopalvelut",
+      "sv": "Energiförsörjningstjänster"
+    },
+    "6250": {
+      "en": "Waste management, total",
+      "fi": "Jätehuolto yhteensä",
+      "sv": "Avfallshantering totalt"
+    },
+    "6251": {
+      "en": "Waste management services",
+      "fi": "Jätehuollon palvelutehtävät",
+      "sv": "Avfallshanteringens serviceuppgifter"
+    },
+    "6252": {
+      "en": "Waste management authority services",
+      "fi": "Jätehuollon viranomaispalvelut",
+      "sv": "Avfallshanteringens myndighetsservice"
+    },
+    "6301": {
+      "en": "Public transport and other transport services",
+      "fi": "Joukkoliikenne ja muut liikkumisen palvelut",
+      "sv": "Kollektivtrafik och andra mobilitetstjänster"
+    },
+    "6601": {
+      "en": "Agricultural and forestry products",
+      "fi": "Maa- ja metsätaloustuotteet",
+      "sv": "Jord- och skogsbruksprodukter"
+    },
+    "6901": {
+      "en": "Lost and found animals",
+      "fi": "Löytöeläimet",
+      "sv": "Herrelösa djur"
+    },
+    "7101": {
+      "en": "Regional development",
+      "fi": "Alueiden kehittäminen",
+      "sv": "Regionutveckling"
+    },
+    "7200": {
+      "en": "Muut palvelut",
+      "fi": "Muut palvelut",
+      "sv": "Övriga tjänster"
+    },
+    "7202": {
+      "en": "Revenue and expenditure of rescue services starting from the financial year 2023",
+      "fi": "Pelastustoimen tulot ja menot tilikaudelta 2023 alkaen",
+      "sv": "Räddningsväsendets inkomster och utgifter från och med räkenskapsperioden 2023"
+    },
+    "7220": {
+      "en": "Social welfare and healthcare revenue and expenditure starting from the financial year 2023",
+      "fi": "Sosiaali- ja terveystoimen tulot ja menot tilikaudelta 2023 alkaen",
+      "sv": "Social- och hälsovårdsväsendets inkomster och utgifter från och med räkenskapsperioden 2023"
+    },
+    "ALL": {
+      "en": "All service and task categories",
+      "fi": "Kaikki palvelu- ja tehtäväluokat",
+      "sv": "Alla service- och uppgiftsklasser"
+    }
+  },
+  "source": {
+    "licence": "CC BY 4.0",
+    "name": "Valtiokonttori, Kuntien ja hyvinvointialueiden taloustietopalvelu",
+    "url": "https://www.tutkihallintoa.fi/kuntien-ja-kuntayhtymien-talous/"
+  }
+}
