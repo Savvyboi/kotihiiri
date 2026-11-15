@@ -70,13 +70,11 @@ municipalities:
     rank: 6
     name_fi: Turku
     name_sv: Åbo
-    enabled: false
-    reason: no_adapter
+    enabled: true
     adapter: turku
     base_urls:
     - https://paatokset.turku.fi
-    - https://ah.turku.fi
-    source_name: Turun kaupungin päätökset
+    source_name: Turun kaupungin päätökset (paatokset.turku.fi)
     video_url: https://www.kepit.tv
     statfin_candidates_table: 14uy
     provider: paatokset.turku.fi

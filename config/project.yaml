@@ -33,7 +33,7 @@ robots_override:
   approved_on: "2026-11-15"
   min_interval_s: 5
   municipalities:
-    # Two of the six cities: Oulu on Tweb, Turku on its own portal (adapter not written yet)
+    # Two of the six cities: Oulu on Tweb, Turku on its own portal (JSON API, kunta/adapters/turku.py)
     - oulu
     - turku
     # Tweb on *.tweb.fi

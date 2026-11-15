@@ -1,0 +1,351 @@
+{
+ "kaupunginvaltuusto": {
+  "nimi": "Kaupunginvaltuusto",
+  "nimi_se": "Stadsfullmäktige",
+  "lyhenne": "Kv",
+  "loppuPvm": "4000-12-31T00:00:00.000Z",
+  "tyyppi": "kv",
+  "linkki": "https://www.turku.fi/hallinto-ja-paatoksenteko/kaupunginvaltuusto",
+  "kieli": "fi",
+  "vast_osapuoli": "Sfm",
+  "linkki_se": "https://www.turku.fi/hallinto-ja-paatoksenteko/kaupunginvaltuusto"
+ },
+ "stadsfullmaktige": {
+  "nimi": "Stadsfullmäktige",
+  "nimi_se": null,
+  "lyhenne": "Sfm",
+  "loppuPvm": "4000-12-31T00:00:00.000Z",
+  "tyyppi": "kv",
+  "linkki": "https://www.turku.fi/sv/forvaltning-och-beslutsfattande/stadsfullmaktige",
+  "kieli": "sv",
+  "vast_osapuoli": "Kv",
+  "linkki_se": "https://www.turku.fi/sv/forvaltning-och-beslutsfattande/stadsfullmaktige"
+ },
+ "kaupunginhallitus": {
+  "nimi": "Kaupunginhallitus",
+  "nimi_se": "Stadsstyrelsen",
+  "lyhenne": "Kh",
+  "loppuPvm": "4000-12-31T00:00:00.000Z",
+  "tyyppi": "kh",
+  "linkki": "https://www.turku.fi/hallinto-ja-paatoksenteko/kaupunginhallitus",
+  "kieli": "fi",
+  "vast_osapuoli": null,
+  "linkki_se": "https://www.turku.fi/sv/forvaltning-och-beslutsfattande/stadsstyrelsen"
+ },
+ "lautakunnat": [
+  {
+   "nimi": "Kaupunginhallituksen konsernijaosto",
+   "nimi_se": "Stadsstyrelsens koncernsektion",
+   "lyhenne": "Khkon",
+   "loppuPvm": "4000-12-31T00:00:00.000Z",
+   "tyyppi": "kh",
+   "linkki": "https://www.turku.fi/hallinto-ja-paatoksenteko/konsernijaosto",
+   "kieli": "fi",
+   "vast_osapuoli": null,
+   "linkki_se": "https://www.turku.fi/sv/forvaltning-och-beslutsfattande/koncernsektionen"
+  },
+  {
+   "nimi": "Hyvinvoinnin yhteisvaikuttava toimikunta",
+   "nimi_se": "Samverkande kommitté för välfärd",
+   "lyhenne": "Hyvytmk",
+   "loppuPvm": "4000-12-31T00:00:00.000Z",
+   "tyyppi": "lk",
+   "linkki": "https://www.turku.fi/luottamuselin/hyvinvoinnin-yhteisvaikuttava-toimikunta",
+   "kieli": "fi",
+   "vast_osapuoli": null,
+   "linkki_se": "https://www.turku.fi/sv/fortroendeorgan/hyvinvoinnin-yhteisvaikuttava-toimikunta"
+  },
+  {
+   "nimi": "Kaupunginhallituksen rakentamis- ja tilajaosto",
+   "nimi_se": "Stadsstyrelsens sektion för byggande och lokaler",
+   "lyhenne": "Khrtj",
+   "loppuPvm": "4000-12-31T00:00:00.000Z",
+   "tyyppi": "lk",
+   "linkki": "https://www.turku.fi/hallinto-ja-paatoksenteko/rakentamis-ja-tilajaosto",
+   "kieli": "fi",
+   "vast_osapuoli": null,
+   "linkki_se": "https://www.turku.fi/sv/forvaltning-och-beslutsfattande/sektionen-byggande-och-lokaler"
+  },
+  {
+   "nimi": "Kaupunkiympäristölautakunta",
+   "nimi_se": "Stadsmiljönämnden",
+   "lyhenne": "Kylk",
+   "loppuPvm": "4000-12-31T00:00:00.000Z",
+   "tyyppi": "lk",
+   "linkki": "https://www.turku.fi/hallinto-ja-paatoksenteko/kaupunkiymparistolautakunta",
+   "kieli": "fi",
+   "vast_osapuoli": null,
+   "linkki_se": "https://www.turku.fi/sv/forvaltning-och-beslutsfattande/stadsmiljonamnden"
+  },
+  {
+   "nimi": "Keskusvaalilautakunta",
+   "nimi_se": "Centralvalnämnden",
+   "lyhenne": "Kevaalk",
+   "loppuPvm": "4000-12-31T00:00:00.000Z",
+   "tyyppi": "lk",
+   "linkki": "https://www.turku.fi/hallinto-ja-paatoksenteko/keskusvaalilautakunta",
+   "kieli": "fi",
+   "vast_osapuoli": null,
+   "linkki_se": "https://www.turku.fi/sv/forvaltning-och-beslutsfattande/centralvalnamnden"
+  },
+  {
+   "nimi": "Kulttuurilautakunta",
+   "nimi_se": "Kulturnämnden",
+   "lyhenne": "Kulttulk",
+   "loppuPvm": "4000-12-31T00:00:00.000Z",
+   "tyyppi": "lk",
+   "linkki": "https://www.turku.fi/hallinto-ja-paatoksenteko/kulttuurilautakunta",
+   "kieli": "fi",
+   "vast_osapuoli": null,
+   "linkki_se": "https://www.turku.fi/sv/forvaltning-och-beslutsfattande/kulturnamnden"
+  },
+  {
+   "nimi": "Liikuntalautakunta",
+   "nimi_se": "Idrottsnämnden",
+   "lyhenne": "Liiklk",
+   "loppuPvm": "4000-12-31T00:00:00.000Z",
+   "tyyppi": "lk",
+   "linkki": "https://www.turku.fi/hallinto-ja-paatoksenteko/liikuntalautakunta",
+   "kieli": "fi",
+   "vast_osapuoli": null,
+   "linkki_se": "https://www.turku.fi/sv/forvaltning-och-beslutsfattande/idrottsnamnden"
+  },
+  {
+   "nimi": "Rakennus- ja lupalautakunta",
+   "nimi_se": "Byggnads- och tillståndsnämnd",
+   "lyhenne": "Rlupalk",
+   "loppuPvm": "4000-12-31T00:00:00.000Z",
+   "tyyppi": "lk",
+   "linkki": "https://www.turku.fi/hallinto-ja-paatoksenteko/rakennus-ja-lupalautakunta",
+   "kieli": "fi",
+   "vast_osapuoli": null,
+   "linkki_se": "https://www.turku.fi/sv/forvaltning-och-beslutsfattande/byggnads-och-tillstandsnamnden"
+  },
+  {
+   "nimi": "Ruotsinkielinen lasten ja nuorten palveluiden lautakunta",
+   "nimi_se": "Svenskspråkiga nämnden för tjänster för barn och unga",
+   "lyhenne": "Sntbu",
+   "loppuPvm": "4000-12-31T00:00:00.000Z",
+   "tyyppi": "lk",
+   "linkki": "https://www.turku.fi/hallinto-ja-paatoksenteko/ruotsinkielinen-lasten-ja-nuorten-palveluiden-lautakunta",
+   "kieli": "sv",
+   "vast_osapuoli": null,
+   "linkki_se": "https://www.turku.fi/sv/forvaltning-och-beslutsfattande/svensksprakiga-namnden-tjanster-barn-och-unga"
+  },
+  {
+   "nimi": "Suomenkielinen lasten ja nuorten palveluiden lautakunta",
+   "nimi_se": "Finskspråkiga nämnden för tjänster för barn und unga",
+   "lyhenne": "Sulanulk",
+   "loppuPvm": "4000-12-31T00:00:00.000Z",
+   "tyyppi": "lk",
+   "linkki": "https://www.turku.fi/hallinto-ja-paatoksenteko/suomenkielinen-lasten-ja-nuorten-palveluiden-lautakunta",
+   "kieli": "fi",
+   "vast_osapuoli": null,
+   "linkki_se": "https://www.turku.fi/sv/forvaltning-och-beslutsfattande/finsksprakiga-namnden-tjanster-barn-och-unga"
+  },
+  {
+   "nimi": "Tarkastuslautakunta",
+   "nimi_se": "Revisionsnämnden",
+   "lyhenne": "Tarklk",
+   "loppuPvm": "4000-12-31T00:00:00.000Z",
+   "tyyppi": "lk",
+   "linkki": "https://www.turku.fi/hallinto-ja-paatoksenteko/tarkastuslautakunta",
+   "kieli": "fi",
+   "vast_osapuoli": null,
+   "linkki_se": "https://www.turku.fi/sv/forvaltning-och-beslutsfattande/revisionsnamnden"
+  }
+ ],
+ "seudullisetLautakunnat": [
+  {
+   "nimi": "Avfallshanteringsnämnden i Sydvästra Finland",
+   "nimi_se": null,
+   "lyhenne": "Sfan",
+   "loppuPvm": "4000-12-31T00:00:00.000Z",
+   "tyyppi": "sl",
+   "linkki": "https://www.turku.fi/sv/forvaltning-och-beslutsfattande/avfallshanteringsnamnden-i-sydvastra-finland",
+   "kieli": "sv",
+   "vast_osapuoli": "Lsjhlk",
+   "linkki_se": "https://www.turku.fi/sv/forvaltning-och-beslutsfattande/avfallshanteringsnamnden-i-sydvastra-finland"
+  },
+  {
+   "nimi": "Kollektivtrafiknämnden för Åbo stadsregion",
+   "nimi_se": null,
+   "lyhenne": "Kotn",
+   "loppuPvm": "4000-12-31T00:00:00.000Z",
+   "tyyppi": "sl",
+   "linkki": "https://www.turku.fi/sv/forvaltning-och-beslutsfattande/kollektivtrafiknamnden-abo-stadsregion",
+   "kieli": "sv",
+   "vast_osapuoli": "Tksjlk",
+   "linkki_se": "https://www.turku.fi/sv/forvaltning-och-beslutsfattande/kollektivtrafiknamnden-abo-stadsregion"
+  },
+  {
+   "nimi": "Lounais-Suomen jätehuoltolautakunta",
+   "nimi_se": "Avfallshanteringsnämnden i Sydvästra Finland",
+   "lyhenne": "Lsjhlk",
+   "loppuPvm": "4000-12-31T00:00:00.000Z",
+   "tyyppi": "sl",
+   "linkki": "https://www.turku.fi/hallinto-ja-paatoksenteko/lounais-suomen-jatehuoltolautakunta",
+   "kieli": "fi",
+   "vast_osapuoli": "Sfan",
+   "linkki_se": "https://www.turku.fi/hallinto-ja-paatoksenteko/lounais-suomen-jatehuoltolautakunta"
+  },
+  {
+   "nimi": "Nämnden för sysselsättningsområde",
+   "nimi_se": null,
+   "lyhenne": "Sysom",
+   "loppuPvm": "4000-12-31T00:00:00.000Z",
+   "tyyppi": "sl",
+   "linkki": "https://www.turku.fi/sv/forvaltning-och-beslutsfattande/namnden-abo-sysselsattningsomrade",
+   "kieli": "sv",
+   "vast_osapuoli": "Tyoalulk",
+   "linkki_se": "https://www.turku.fi/sv/forvaltning-och-beslutsfattande/namnden-abo-sysselsattningsomrade"
+  },
+  {
+   "nimi": "Turun kaupunkiseudun joukkoliikennelautakunta",
+   "nimi_se": "Kollektivtrafiknämnden för Åbo stadsregion",
+   "lyhenne": "Tksjlk",
+   "loppuPvm": "4000-12-31T00:00:00.000Z",
+   "tyyppi": "sl",
+   "linkki": "https://www.turku.fi/hallinto-ja-paatoksenteko/turun-kaupunkiseudun-joukkoliikennelautakunta",
+   "kieli": "fi",
+   "vast_osapuoli": "Kotn",
+   "linkki_se": "https://www.turku.fi/hallinto-ja-paatoksenteko/turun-kaupunkiseudun-joukkoliikennelautakunta"
+  },
+  {
+   "nimi": "Työllisyysaluelautakunta",
+   "nimi_se": "Nämnden för sysselsättningsområde",
+   "lyhenne": "Tyoalulk",
+   "loppuPvm": "4000-12-31T00:00:00.000Z",
+   "tyyppi": "sl",
+   "linkki": "https://www.turku.fi/hallinto-ja-paatoksenteko/tyollisyysaluelautakunta",
+   "kieli": "fi",
+   "vast_osapuoli": "Sysom",
+   "linkki_se": "https://www.turku.fi/hallinto-ja-paatoksenteko/tyollisyysaluelautakunta"
+  }
+ ],
+ "vaikuttajaRyhmat": [
+  {
+   "nimi": "Lasten parlamentti",
+   "nimi_se": "Barnens parlament",
+   "lyhenne": "Lasp",
+   "loppuPvm": "4000-12-31T00:00:00.000Z",
+   "tyyppi": "vr",
+   "linkki": "https://www.turku.fi/osallistu-ja-vaikuta/lasten-parlamentti",
+   "kieli": "fi",
+   "vast_osapuoli": null,
+   "linkki_se": "https://www.turku.fi/sv/delta-och-paverka/barnparlamentet"
+  },
+  {
+   "nimi": "Monikulttuurisuusneuvosto",
+   "nimi_se": "Rådet för kulturell mångfald",
+   "lyhenne": "Monikune",
+   "loppuPvm": "4000-12-31T00:00:00.000Z",
+   "tyyppi": "vr",
+   "linkki": "https://www.turku.fi/osallistu-ja-vaikuta/monikulttuurisuusneuvosto",
+   "kieli": "fi",
+   "vast_osapuoli": null,
+   "linkki_se": "https://www.turku.fi/sv/delta-och-paverka/mangkulturella-radet"
+  },
+  {
+   "nimi": "Nuorisovaltuusto",
+   "nimi_se": "Ungdomsfullmäktige",
+   "lyhenne": "Nuorv",
+   "loppuPvm": "4000-12-31T00:00:00.000Z",
+   "tyyppi": "vr",
+   "linkki": "https://www.turku.fi/osallistu-ja-vaikuta/nuorisovaltuusto",
+   "kieli": "fi",
+   "vast_osapuoli": null,
+   "linkki_se": "https://www.turku.fi/sv/delta-och-paverka/ungdomsfullmaktige"
+  },
+  {
+   "nimi": "Turun kaupungin vanhusneuvosto",
+   "nimi_se": "Äldrerådet",
+   "lyhenne": "Vanhusne",
+   "loppuPvm": "4000-12-31T00:00:00.000Z",
+   "tyyppi": "vr",
+   "linkki": "https://www.turku.fi/osallistu-ja-vaikuta/vanhusneuvosto",
+   "kieli": "fi",
+   "vast_osapuoli": null,
+   "linkki_se": "https://www.turku.fi/sv/delta-och-paverka/aldreradet"
+  },
+  {
+   "nimi": "Vammaisneuvosto",
+   "nimi_se": "Rådet för personer med funktionsnedsättning",
+   "lyhenne": "Vammais",
+   "loppuPvm": "4000-12-31T00:00:00.000Z",
+   "tyyppi": "vr",
+   "linkki": "https://www.turku.fi/osallistu-ja-vaikuta/vammaisneuvosto",
+   "kieli": "fi",
+   "vast_osapuoli": null,
+   "linkki_se": "https://www.turku.fi/sv/delta-och-paverka/handikappradet"
+  }
+ ],
+ "lakkautetutToimielimet": [
+  {
+   "nimi": "Hyvinvoinnin ja terveyden edistämisen lautakunta",
+   "nimi_se": "Nämnden för främjande av hälsa och välfärd",
+   "lyhenne": "Hyteedla",
+   "loppuPvm": "2025-06-08T00:00:00.000Z",
+   "tyyppi": "lk",
+   "linkki": null,
+   "kieli": "fi",
+   "vast_osapuoli": null,
+   "linkki_se": null
+  },
+  {
+   "nimi": "Kasvatus- ja opetuslautakunnan ruotsinkielinen jaosto",
+   "nimi_se": "Svenska sektionen vid nämnden för fostran och undervisning",
+   "lyhenne": "Ssnfu",
+   "loppuPvm": "2025-06-08T00:00:00.000Z",
+   "tyyppi": "lk",
+   "linkki": null,
+   "kieli": "sv",
+   "vast_osapuoli": null,
+   "linkki_se": null
+  },
+  {
+   "nimi": "Kasvatus- ja opetuslautakunnan suomenkielinen jaosto",
+   "nimi_se": "Finska sektionen vid nämnden för fostran och undervisning",
+   "lyhenne": "Kaoplksj",
+   "loppuPvm": "2025-06-08T00:00:00.000Z",
+   "tyyppi": "lk",
+   "linkki": null,
+   "kieli": "fi",
+   "vast_osapuoli": null,
+   "linkki_se": null
+  },
+  {
+   "nimi": "Kasvatus- ja opetuslautakunta",
+   "nimi_se": "Nämnden för fostran och undervisning",
+   "lyhenne": "Kasopelk",
+   "loppuPvm": "2025-05-31T00:00:00.000Z",
+   "tyyppi": "lk",
+   "linkki": null,
+   "kieli": "fi",
+   "vast_osapuoli": null,
+   "linkki_se": null
+  },
+  {
+   "nimi": "Kulttuuri- ja nuorisolautakunta",
+   "nimi_se": "Kultur- och ungdomsnämnden",
+   "lyhenne": "Kulnuolk",
+   "loppuPvm": "2025-06-08T00:00:00.000Z",
+   "tyyppi": "lk",
+   "linkki": null,
+   "kieli": "fi",
+   "vast_osapuoli": null,
+   "linkki_se": null
+  },
+  {
+   "nimi": "Sosiaali- ja terveyslautakunta",
+   "nimi_se": "Social- och hälsovårdsnämnden",
+   "lyhenne": "Sosterla",
+   "loppuPvm": "2022-12-31T00:00:00.000Z",
+   "tyyppi": "lk",
+   "linkki": null,
+   "kieli": "fi",
+   "vast_osapuoli": null,
+   "linkki_se": null
+  }
+ ]
+}

@@ -54,7 +54,7 @@ A static website on GitHub Pages showing what city councils and committees in Fi
 
 **Decided by the team:**
 
-- **Cities:** Helsinki, Espoo, Tampere, Vantaa, Oulu, Turku. Oulu and Turku shipped disabled; since 2026-11-15 they are crawled under the robots override (§2.1 rules 1b and 2), Turku once its adapter exists.
+- **Cities:** Helsinki, Espoo, Tampere, Vantaa, Oulu, Turku. Oulu and Turku shipped disabled; since 2026-11-15 they are crawled under the robots override (§2.1 rules 1b and 2).
 - **Bodies:** council **and** committees. Interpreted as all *decision-making* bodies (päättävät toimielimet):
   - include: council, city board and its sections, committees and their sections, audit committee, municipal-enterprise boards;
   - exclude by default: officeholder decisions (viranhaltijapäätökset), advisory/influence bodies (youth council, elderly council, disability council, multicultural council, area committees, "kehittämistoimikunta", "seurantaryhmä"), election committees (keskusvaalilautakunta, aluevaalilautakunta), test bodies (any name containing "testi", "Testitoimielin", "Versiopäivitystoimielin"), and **bodies that decide individual welfare, student or permit cases** (any "yksilöasioiden jaosto", "lupajaosto", "rakennuslupajaosto", "ympäristö- ja lupajaosto", "oikeusturvatoimielin", "näyttöjen toimielin") because their items are mostly about private individuals.
@@ -73,7 +73,7 @@ A static website on GitHub Pages showing what city councils and committees in Fi
 ### 2.1 Access and politeness
 1. **robots.txt is law.** Every adapter checks robots.txt for each host at the start of each run with `urllib.robotparser`, using our User-Agent. If a URL is disallowed, the adapter must not fetch it and must log `skipped_robots`. A unit test enforces this with a fake robots file.
 1b. **Robots override (on since 2026-11-15).** Savvas decided on 2026-11-10 that the municipalities whose robots.txt disallows us may be crawled, because their minutes are public documents and the crawl is slow. `robots_override` in `config/project.yaml` lists them (the 26 registry municipalities the M10 audit found `disallowed` or `partial`) plus Oulu and Turku (added 2026-11-15), and was switched on by Savvas on 2026-11-15 (`enabled: true`); the M10 audit and `data/state/robots.json` keep reporting robots.txt as it is. When on, for listed municipalities only: Disallow rules in a robots.txt the host served are not applied; a host that answers robots.txt with 401/403/5xx or not at all stays blocked; requests to each host are at least `min_interval_s` (5 s) apart, or the host's Crawl-delay if longer; a 401/403, or a 429 that outlasts the retries, stops all requests to that host for the run; the User-Agent is unchanged (it names the site and the contact address); and `/tietoa` says the robots.txt of these municipalities is not followed and how to ask us to stop. A municipality that asks us to stop is removed from the list. The five hosts that did not answer the audit (Vaasa, Äänekoski, Kalajoki, Maarianhamina, Pedersöre) are not listed.
-2. **Oulu and Turku.** Both `paatokset.ouka.fi` / `asiakirjat.ouka.fi` and `paatokset.turku.fi` refused automated access on 2026-10-11, and until 2026-11-15 both stayed disabled pending the cities' written permission. On 2026-11-15 Savvas dropped that wait: both are in `robots_override` (rule 1b) and get exactly its limits. Oulu is enabled on the Tweb adapter (same product as Vantaa). Turku stays `enabled: false, reason: no_adapter` until `turku.py` is written; its hosts did not answer the M10 audit from GitHub Actions, and a host that does not answer stays blocked under rule 1b.
+2. **Oulu and Turku.** Both `paatokset.ouka.fi` / `asiakirjat.ouka.fi` and `paatokset.turku.fi` refused automated access on 2026-10-11, and until 2026-11-15 both stayed disabled pending the cities' written permission. On 2026-11-15 Savvas dropped that wait: both are in `robots_override` (rule 1b) and get exactly its limits. Oulu is enabled on the Tweb adapter (same product as Vantaa). Turku is enabled on its own adapter (§7.6, 2026-11-15). Its hosts did not answer the M10 audit from GitHub Actions; a host that does not answer stays blocked under rule 1b, so if Actions still cannot reach `paatokset.turku.fi` the crawl logs it and writes nothing.
 3. User-Agent: `KuntaDataBot/0.1 (+https://<site-domain>/tietoa; <contact-email>)`. Both placeholders come from `config/project.yaml`; refuse to run if they're unset.
 4. Max **1 request/second per host**, concurrency 1 per host (different hosts may run in parallel). Exponential backoff on 429/5xx, honour `Retry-After`, give up after 4 attempts and record the failure.
 5. Use conditional requests (`If-None-Match` / `If-Modified-Since`) whenever the server returned ETag / Last-Modified.
@@ -139,7 +139,7 @@ From M11 the site and canonical data move to Cloudflare R2 and the crawl stays o
 │   │   ├── dynasty.py          # Espoo
 │   │   ├── tweb.py             # Vantaa, Oulu and the registry Tweb municipalities
 │   │   ├── casem.py            # Tampere (CloudNC)
-│   │   └── turku.py            # stub, not written yet
+│   │   └── turku.py            # paatokset.turku.fi JSON API
 │   ├── parsers/
 │   │   ├── votes_helsinki.py
 │   │   ├── votes_cloudmeeting.py   # Espoo "Äänestystulosraportti" PDFs
@@ -178,7 +178,7 @@ From M11 the site and canonical data move to Cloudflare R2 and the crawl stays o
 | Tampere | CaseM / CloudNC, `tampere.cloudnc.fi` | `casem` | enabled |
 | Vantaa | Tweb (Triplan), `paatokset.vantaa.fi` | `tweb` | enabled |
 | Oulu | Tweb, `asiakirjat.ouka.fi` | `tweb` | robots override (§2.1 rule 1b) |
-| Turku | new portal `paatokset.turku.fi` (old archive `ah.turku.fi`) | `turku` | no adapter yet; robots override once it exists |
+| Turku | `paatokset.turku.fi` JSON API (`ah.turku.fi` now redirects there) | `turku` | robots override |
 
 Video (link only, v1): Helsinki-kanava (meeting pages embed an `events.icareus.com` player with an `eventId`), Espoo YouTube channel, Vantaa `vantaa.fi/live`, Tampere-kanava, Oulu `ouka.fi/live`, Turku `kepit.tv`.
 
@@ -372,8 +372,8 @@ Quirks:
 ### 7.5 Oulu
 Tweb adapter. Council agendas `/ktwebscr/epj_kokl_tweb.htm?+kirjaamo=695`, minutes `/ktwebscr/pk_kokl_tweb.htm?+kirjaamo=695` on `asiakirjat.ouka.fi`. Enabled 2026-11-15 under the robots override (§2.1 rule 1b).
 
-### 7.6 Turku — no adapter yet
-Stub adapter raising `NotEnabled`; in the robots override since 2026-11-15. To write: council documents at `paatokset.turku.fi/kaupunginvaltuusto`; Turku replaced its case-management system around 2025, so early-2025 minutes may sit in the old archive `ah.turku.fi`. Council initiatives are published as structured pages on `www.turku.fi` (initiator + supporters with party) — a good roster source even while the portal is disabled, **if** www.turku.fi robots allow it (check).
+### 7.6 Turku
+`paatokset.turku.fi` is a single-page app over a public JSON API at `/api` (probed 2026-11-15 from a home connection: robots.txt is answered by the app's HTML shell, so it has no rules; `ah.turku.fi` redirects every path to the new portal, which holds 2020 onward). The adapter reads `toimielimet` (bodies; Swedish twins such as Stadsfullmäktige skipped), `toimielin/{lyhenne}/paatosvuodet` and `toimielin/{lyhenne}?vuosi=` (meetings: `pk` minutes, `el` agenda), `poytakirja/{id}` (the whole meeting with every item's HTML in one call), `lasnaolotiedot/{id}` (attendance; the occupation field is not kept) and `liitteet/{item}` (attachments, only when the item text lists any). An item's HTML carries the case history as `<p>Kh § 315</p>` markers: the last marker of the meeting's own body is this handling, earlier ones become history sections, and the presenter's background is the text at the top of the first handling. Council votes: totals in the prose ("56 valtuutettua kannatti … ja 11 valtuutettua kannatti …") and the per-member list with party in the attachment "Äänestyslistat" (one page per vote, two columns of `Name PARTY J/E/T/P`, "Asia" = agenda number); other bodies fall back to `votes_prose`. Links point at the app's routes (`/{body}/{meeting}/{item}`, body slug as the app makes it). Fixtures: `tests/fixtures/turku/` (recorded JSON and one vote list). Council initiatives are published as structured pages on `www.turku.fi` (initiator + supporters with party) — a good roster source even while the portal is disabled, **if** www.turku.fi robots allow it (check).
 
 ### 7.7 Votes from the minutes text — `parsers/votes_prose.py`
 Most registry municipalities (Dynasty and CloudNC) attach no vote list, or one we cannot read, and write the vote only in the Käsittely or decision text, each in its own words. `votes_prose` reads those sentences: counts with the voters in brackets ("9 JAA-ääntä (…)"), named sides ("pohjaesitys sai 7 ääntä", "palautuksen puolesta 10 jäsentä", "motförslaget fick 6 röster"), table rows ("JAA 7"), bare results ("äänin 35–15", "tulokseksi 9–2", "tasan 5-5", "8 äänellä 5 vastaan"), blanks and absentees, and the voting proposal that says what Jaa and Ei meant. Number words become digits. Named sides must look like a proposal (esitys, ehdotus, palautus, pöydälle …), so a person election is never read as a vote. A restated result is not a second vote. A vote is `needs_review` when its names do not add up to its counts, when a name is on two sides (ballots dropped), or when only a bare result is printed and nothing says which count was Jaa. Dynasty uses it where no vote list gave ballots; CloudNC uses it where the page has no vote table and to confirm table counts. `scripts/votes_audit.py` (and `votes-audit.yml`, which reads R2) prints per municipality how many items mention a vote and how many have one, with sample sentences, so a gap can be read from the workflow log.
@@ -558,7 +558,7 @@ Each milestone: open a PR, include `kunta stats` output in the description.
 - **Accept:** a simulated layout change (fixture swap) opens an issue; a takedown entry removes text from the built site; heartbeat commits even when no data changed.
 
 ### M9 — Oulu and Turku
-- 2026-11-15: Savvas dropped the wait for written permission; both are in `robots_override` (§2.1 rule 1b). Oulu enabled on the Tweb adapter. Turku waits for its adapter (§7.6), and its hosts did not answer from GitHub Actions in the M10 audit.
+- 2026-11-15: Savvas dropped the wait for written permission; both are in `robots_override` (§2.1 rule 1b). Oulu enabled on the Tweb adapter. Turku enabled the same day on its new adapter (§7.6); its hosts did not answer from GitHub Actions in the M10 audit, so the first Actions run doubles as that check.
 
 ### M10 — Registry and robots audit (96 municipalities)
 - `config/municipalities.yaml` generated from the registry CSV plus the six cities (§18.1): slug, names (fi/sv), population, platform, adapter, base URLs, council organ id, councillor source, `enabled`, `reason`.
@@ -661,7 +661,7 @@ Fill in "Result" as you resolve each one.
 | Licence for our normalized data | CC BY 4.0, attributing the cities as source |
 | Body exclude list (§1) | as written |
 | Per-person speech collections | on since 2026-10-14: Savvas confirmed the legal check (§2.2 rule 9) |
-| Oulu / Turku | crawled under the robots override since 2026-11-15 (Savvas); Turku needs its adapter first |
+| Oulu / Turku | crawled under the robots override since 2026-11-15 (Savvas) |
 | Municipal initiatives (kuntalaisaloite.fi) | robots.txt disallows every path for our agent (S16); Savvas allowed reading `/api/v1/` anyway on 2026-10-18. The Cloudflare check blocks GitHub's servers, so `kunta initiatives` is run by hand from his computer and the data committed; a weekly refresh needs the operator to let our bot through |
 | Bodies for municipalities 7–96 | council and municipal board first; committees switched on per municipality after M11, once storage is off GitHub |
 | Hosts that disallow robots (the 26 of the M10 audit) | crawled under the robots override (§2.1 rule 1b), switched on by Savvas on 2026-11-15 |

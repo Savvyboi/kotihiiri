@@ -1,7 +1,7 @@
 # One entry per city. Order is the display order on the site (by population).
 # Oulu and Turku are crawled under the robots override in config/project.yaml (PLAN.md §2.1 rule 1b);
-# the earlier wait for their written permission was dropped by Savvas on 2026-11-15. Turku stays off
-# until its adapter exists (§7.6).
+# the earlier wait for their written permission was dropped by Savvas on 2026-11-15. Turku is read
+# through the JSON API behind paatokset.turku.fi (§7.6); ah.turku.fi now only redirects there.
 cities:
   helsinki:
     name_fi: Helsinki
@@ -58,11 +58,9 @@ cities:
   turku:
     name_fi: Turku
     name_sv: Åbo
-    enabled: false
-    reason: no_adapter
+    enabled: true
     adapter: turku
     base_urls:
       - https://paatokset.turku.fi
-      - https://ah.turku.fi
-    source_name: Turun kaupungin päätökset
+    source_name: Turun kaupungin päätökset (paatokset.turku.fi)
     video_url: https://www.kepit.tv
