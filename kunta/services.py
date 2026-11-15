@@ -15,9 +15,13 @@ the non-zero value of each cell. Figures are aggregates with no personal data; n
 
 from __future__ import annotations
 
+import io
 import logging
+from collections.abc import Iterable, Iterator
 from pathlib import Path
 from typing import Any
+
+import ijson
 
 from . import jsonio
 from .budget import DATASETS_URL, FIRST_YEAR, SOURCE, TAXONOMY_URL, _amount, _json, latest_reports
@@ -32,49 +36,60 @@ OUT_DIR = DATA_DIR / "talous" / "palvelut"
 SKIP_FIELDS = {"solutunniste"}
 
 
-def parse_taxonomy(rows: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
-    """The KKTPP taxonomy file → cell id → its labels (every scalar field the Treasury gives)."""
+def _labels(r: dict[str, Any]) -> dict[str, Any]:
+    out = {}
+    for k, v in sorted(r.items()):
+        if k in SKIP_FIELDS or v is None or isinstance(v, (dict, list)):
+            continue
+        out[k] = collapse_ws(nfc(v)) if isinstance(v, str) else v
+    return out
+
+
+def parse_taxonomy(rows: Iterable[dict[str, Any]], keep: set[str] | None = None) -> dict[str, dict[str, Any]]:
+    """KKTPP taxonomy rows → cell id → its labels (every scalar field the Treasury gives).
+
+    The taxonomy file is very large (every service class × line × column), so rows can come from a
+    stream, and `keep` limits the result to the cells some municipality actually reported.
+    """
     cells: dict[str, dict[str, Any]] = {}
     for r in rows:
         cell = r.get("solutunniste")
         if cell is None or r.get("osakokonaisuus") == "t00":
             continue  # report metadata (business ID, period dates), not figures
-        labels = {}
-        for k, v in sorted(r.items()):
-            if k in SKIP_FIELDS or v is None or isinstance(v, (dict, list)):
-                continue
-            labels[k] = collapse_ws(nfc(v)) if isinstance(v, str) else v
-        cells[str(cell)] = labels
+        if keep is not None and str(cell) not in keep:
+            continue
+        cells[str(cell)] = _labels(r)
     return cells
 
 
-def parse_document(rows: list[dict[str, Any]], cells: dict[str, Any]) -> dict[str, float]:
-    """One report's rows → cell id → value, for known cells with a non-zero value."""
+def stream_rows(content: bytes) -> Iterator[dict[str, Any]]:
+    """The objects of a top-level JSON array, one at a time (the file may start with a BOM)."""
+    if content.startswith(b"\xef\xbb\xbf"):
+        content = content[3:]
+    yield from ijson.items(io.BytesIO(content), "item", use_float=True)
+
+
+def parse_document(rows: list[dict[str, Any]]) -> dict[str, float]:
+    """One report's rows → cell id → value, for cells with a non-zero value."""
     out: dict[str, float] = {}
     for r in rows:
-        cell = str(r.get("tunnusluku"))
-        if cell not in cells:
+        if r.get("tunnusluku") is None:
             continue
         v = _amount(r.get("arvo"))
         if v:
-            out[cell] = v
+            out[str(r["tunnusluku"])] = v
     return dict(sorted(out.items(), key=lambda kv: (len(kv[0]), kv[0])))
 
 
 def fetch_services(client, wanted: dict[str, str], out_dir: Path = OUT_DIR) -> dict[str, int]:
     """Write data/talous/palvelut/{city}.json for each city → business ID. Returns years per city.
 
-    A year whose report has the same approval time and URL as the stored one is kept without a fetch.
+    Reports first, then the taxonomy for the cells they use. A year whose report has the same
+    approval time and URL as the stored one is kept without a fetch.
     """
-    links = _json(client.get(TAXONOMY_URL))
-    tax_url = next(u for u in links if u.rsplit("/", 1)[-1].upper() == f"{REPORT}.JSON")
-    cells = parse_taxonomy(_json(client.get(tax_url)))
-    jsonio.write(
-        out_dir / "items.json", {"report": REPORT, "source": SOURCE, "taxonomy": tax_url, "cells": cells}
-    )
     datasets = _json(client.get(DATASETS_URL))["aineistot"]
     reports = latest_reports(datasets, set(wanted.values()), report=REPORT)
-    summary: dict[str, int] = {}
+    files: dict[str, dict] = {}
     for city, bid in sorted(wanted.items()):
         path = out_dir / f"{city}.json"
         old = {y["year"]: y for y in (jsonio.read(path)["years"] if path.exists() else [])}
@@ -100,19 +115,28 @@ def fetch_services(client, wanted: dict[str, str], out_dir: Path = OUT_DIR) -> d
                     "stage": rep.get("hyvaksymisvaihe"),
                     "approved": approved,
                     "source_url": rep["tunnusluvut"],
-                    "values": parse_document(rows, cells),
+                    "values": parse_document(rows),
                 }
             )
         if not years:
             log.warning("%s (%s): no %s reports", city, bid, REPORT)
-        jsonio.write(
-            path,
-            {
-                "city": city,
-                "business_id": bid,
-                "report": REPORT,
-                "years": sorted(years, key=lambda y: -y["year"]),
-            },
-        )
-        summary[city] = len(years)
-    return summary
+        files[city] = {
+            "city": city,
+            "business_id": bid,
+            "report": REPORT,
+            "years": sorted(years, key=lambda y: -y["year"]),
+        }
+    used = {cell for f in files.values() for y in f["years"] for cell in y["values"]}
+    links = _json(client.get(TAXONOMY_URL))
+    tax_url = next(u for u in links if u.rsplit("/", 1)[-1].upper() == f"{REPORT}.JSON")
+    cells = parse_taxonomy(stream_rows(client.get(tax_url).content), keep=used)
+    # Merge with the stored labels, so a run for a few cities keeps the others' cells.
+    items_path = out_dir / "items.json"
+    if items_path.exists():
+        cells = {**jsonio.read(items_path).get("cells", {}), **cells}
+    cells = dict(sorted(cells.items(), key=lambda kv: (len(kv[0]), kv[0])))
+    jsonio.write(items_path, {"report": REPORT, "source": SOURCE, "taxonomy": tax_url, "cells": cells})
+    for city, data in files.items():
+        jsonio.write(out_dir / f"{city}.json", data)
+    log.info("%d cells in use; %d named by the taxonomy", len(used), len(set(used) & set(cells)))
+    return {city: len(f["years"]) for city, f in files.items()}

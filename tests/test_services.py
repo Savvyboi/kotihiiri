@@ -7,7 +7,7 @@ import httpx
 from kunta import jsonio
 from kunta.budget import DATASETS_URL, TAXONOMY_URL
 from kunta.http import PoliteClient
-from kunta.services import fetch_services, parse_document, parse_taxonomy
+from kunta.services import fetch_services, parse_document, parse_taxonomy, stream_rows
 
 TAX_FILE = "https://tkdpprodjrpstacc02.blob.core.windows.net/kuntataloudentaksonomia/KKTPP.json"
 DOC = "https://prodkuntarest.westeurope.cloudapp.azure.com/rest/v1/json/dokumentti/lopullinen/KKTPP/0201256-6/2024"
@@ -42,14 +42,19 @@ def test_taxonomy_keeps_labels():
     assert cells["2102827"]["tunnusluku"] == "Toimintatuotot" and "taso" not in cells["2102827"]
 
 
-def test_document_keeps_known_nonzero_cells():
-    cells = parse_taxonomy(TAXONOMY)
+def test_stream_rows_skips_bom():
+    content = b"\xef\xbb\xbf" + json.dumps(TAXONOMY).encode()
+    assert [r["solutunniste"] for r in stream_rows(content)] == ["3499809", "2102827", "62"]
+
+
+def test_document_keeps_nonzero_cells():
     rows = [
         {"tunnusluku": "3499809", "arvo": "2112093.86"},
         {"tunnusluku": "2102827", "arvo": "0.00"},
         {"tunnusluku": "999", "arvo": "5.00"},
     ]
-    assert parse_document(rows, cells) == {"3499809": 2112093.86}
+    assert parse_document(rows) == {"3499809": 2112093.86, "999": 5.0}
+    assert set(parse_taxonomy(TAXONOMY, keep={"999", "3499809"})) == {"3499809"}
 
 
 def test_fetch_writes_and_skips_unchanged(tmp_path):
