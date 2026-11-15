@@ -116,11 +116,13 @@ def parse_taxonomy(rows: list[dict[str, Any]]) -> tuple[list[Line], dict[str, Ce
     return sorted(lines.values(), key=lambda x: x.order), cells
 
 
-def latest_reports(datasets: list[dict[str, Any]], business_ids: set[str]) -> dict[tuple[str, int], dict]:
-    """(business ID, year) → the newest published KTAS report of that year."""
+def latest_reports(
+    datasets: list[dict[str, Any]], business_ids: set[str], report: str = REPORT
+) -> dict[tuple[str, int], dict]:
+    """(business ID, year) → the newest published report (KTAS by default) of that year."""
     best: dict[tuple[str, int], dict] = {}
     for r in datasets:
-        if r.get("raportointikokonaisuus") != REPORT or r.get("ytunnus") not in business_ids:
+        if r.get("raportointikokonaisuus") != report or r.get("ytunnus") not in business_ids:
             continue
         period = str(r.get("raportointikausi", ""))
         if not period.isdigit() or int(period) < FIRST_YEAR:
