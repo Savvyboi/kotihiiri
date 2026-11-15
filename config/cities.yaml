@@ -60,6 +60,9 @@ cities:
     name_sv: Åbo
     enabled: true
     adapter: turku
+    # Turku's hosts do not answer GitHub's servers (robots audit 2026-10-15 and 2026-11-15), so the
+    # weekly Actions crawl skips it and `scripts/crawl_local.py turku` runs it from Savvas's computer.
+    crawl_from: local
     base_urls:
       - https://paatokset.turku.fi
     source_name: Turun kaupungin päätökset (paatokset.turku.fi)

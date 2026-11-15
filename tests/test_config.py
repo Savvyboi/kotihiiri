@@ -35,3 +35,11 @@ def test_speeches_by_person_flag():
 
     # On since the legal check in PLAN.md §2.2 rule 9 (2026-10-14); the site reads the same flag.
     assert load_project().features["SPEECHES_BY_PERSON"] is True
+
+
+def test_local_crawl_cities_stay_out_of_the_actions_matrix():
+    from kunta.registry import crawl_groups
+
+    assert load_cities()["turku"].extra.get("crawl_from") == "local"
+    assert not any("turku" in g["cities"].split(",") for g in crawl_groups())
+    assert crawl_groups(["turku"]) == [{"name": "turku", "cities": "turku", "storage": "git"}]
