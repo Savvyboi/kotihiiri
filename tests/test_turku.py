@@ -181,3 +181,22 @@ def test_older_vote_list_layouts():
     assert ev.needs_review and "poissa" in ev.review_reason
     _drop_unlisted_absentees(ev)
     assert not ev.needs_review, ev.review_reason
+
+
+def test_prose_short_blank_form():
+    s = (
+        "Suoritetussa koneäänestyksessä 45 valtuutettua kannatti kaupunginhallituksen ehdotusta ja 20 "
+        "valtuutettua kannatti Koirasen muutosehdotusta, 1 tyhjä ja 1 poissa, joten ehdotus hyväksyttiin."
+    )
+    assert [(p.a, p.b, p.tyhja) for p in tp.parse_prose([s])] == [(45, 20, 1)]
+
+
+def test_validate_accepts_unnamed_absentees(tmp_path):
+    report, _ = run(tmp_path)
+    path = tmp_path / "data" / "turku" / "meetings" / "2026" / "kaupunginvaltuusto--2026-10-26.json"
+    mf = jsonio.read(path)
+    vote = mf["items"][2]["votes"][0]
+    vote["counts"]["poissa"] = 1  # counted, but nobody named absent
+    jsonio.write(path, mf)
+    r = validate_city("turku", tmp_path / "data")
+    assert r.warnings == [], r.warnings

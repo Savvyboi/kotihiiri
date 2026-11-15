@@ -57,9 +57,12 @@ def validate_meeting_file(path: Path, report: Report, has_attendance: bool = Tru
             report.errors.append(f"{item.id}: empty title")
         for v in item.votes:
             got = Counter(b.choice for b in v.ballots)
+            # Some lists (Turku) count absent members without naming them: with no absentee named,
+            # the absent count is not compared.
+            compared = ("jaa", "ei", "tyhja", "poissa") if got.get("poissa") else ("jaa", "ei", "tyhja")
             if (
                 v.ballots
-                and any(got.get(c, 0) != getattr(v.counts, c) for c in ("jaa", "ei", "tyhja", "poissa"))
+                and any(got.get(c, 0) != getattr(v.counts, c) for c in compared)
                 and not v.needs_review
             ):
                 report.warnings.append(f"{item.id} vote {v.ordinal}: ballots ≠ counts, needs_review not set")

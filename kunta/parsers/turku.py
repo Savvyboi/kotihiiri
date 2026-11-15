@@ -418,8 +418,9 @@ PROSE = re.compile(
     rf"(?P<a>\d+)\s+{_COUNT_WORD}\s+kannatti\s+[^.]+?\s+ja\s+(?P<b>\d+)\s+{_COUNT_WORD}\s+kannatti\b",
     re.IGNORECASE,
 )
-# "… ja 1 valtuutettu äänesti tyhjää", "yksi valtuutettu äänesti tyhjää" in the same sentence.
-BLANK = re.compile(rf"\b{_N}\s+{_COUNT_WORD}\s+äänesti\s+tyhjää", re.IGNORECASE)
+# "… ja 1 valtuutettu äänesti tyhjää", "yksi valtuutettu äänesti tyhjää", or the short form
+# "…muutosehdotusta, 1 tyhjä ja 1 poissa, joten …" in the same sentence.
+BLANK = re.compile(rf"\b{_N}\s+(?:{_COUNT_WORD}\s+äänesti\s+tyhjää|tyhjä(?:ä)?\b(?!\s+ääni))", re.IGNORECASE)
 
 
 def parse_prose(lines: list[str]) -> list[ProseVote]:
