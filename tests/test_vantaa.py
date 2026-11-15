@@ -71,6 +71,21 @@ def test_meeting_list_merges_minutes_and_upcoming_agendas():
     assert len(a.list_meetings(body, dt.date(2014, 1, 1), None)) == 5
 
 
+def test_minutes_list_falls_back_to_the_plain_path_once():
+    # Oulu answers 404 for the minutes list under /ktwebbin/dbisa.dll/ (crawl of 2026-11-15).
+    site = FakeVantaa()
+    site.status["/ktwebbin/dbisa.dll/ktwebscr/pk_kokl_tweb.htm?+kirjaamo=55038"] = 404
+    site.status["/ktwebbin/dbisa.dll/ktwebscr/pk_kokl_tweb.htm?+kirjaamo=55015"] = 404
+    a = adapter(site)
+    bodies = {b.id: b for b in a.discover_bodies()}
+    refs = a.list_meetings(bodies[COUNCIL], dt.date(2025, 1, 1), None)
+    assert [r.source_ids["bid"] for r in refs] == ["160586", "161950", "161954"]
+    a.list_meetings(bodies["vantaa/kaupunginhallitus"], dt.date(2025, 1, 1), None)
+    dll = [k for k in site.requests if k.startswith("/ktwebbin/dbisa.dll/ktwebscr/pk_kokl")]
+    assert dll == ["/ktwebbin/dbisa.dll/ktwebscr/pk_kokl_tweb.htm?+kirjaamo=55038"]
+    assert "/ktwebscr/pk_kokl_tweb.htm?+kirjaamo=55015" in site.requests
+
+
 def test_meeting_rows_without_pykala_are_not_items():
     page = tp.parse_meeting(html("meeting-161913.html"))
     assert page.compiled_pdf == f"{SITE}/ktwebscr/fileshow?doctype=3&docid=3466466"
