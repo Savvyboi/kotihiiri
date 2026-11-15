@@ -255,10 +255,11 @@ class TurkuAdapter:
             pdf_problem=problem,
         )
         # Party per voter, as the list prints it.
-        by_order = [v for v in pdf_votes]
+        by_order = list(pdf_votes)
         for ev in events:
             if ev.source != VoteSource.pdf:
                 continue
+            _drop_unlisted_absentees(ev)
             src = next((v for v in by_order if _same(v, ev)), None)
             if src is None:
                 continue
@@ -274,6 +275,16 @@ class TurkuAdapter:
 
     def fetch_speeches(self, meeting: Meeting) -> list[Speech]:
         return []  # Turku publishes no transcripts (meetings are on video at kepit.tv)
+
+
+def _drop_unlisted_absentees(ev: VoteEvent) -> None:
+    """Turku's lists count absent members ("Poissa / Frånvarande 1") but do not name them, so a
+    missing absentee name is not a problem with the list."""
+    if not ev.review_reason or any(b.choice == "poissa" for b in ev.ballots):
+        return
+    reasons = [r for r in ev.review_reason.split("; ") if not r.startswith("poissa: 0 names vs")]
+    ev.review_reason = "; ".join(reasons) or None
+    ev.needs_review = bool(reasons)
 
 
 def _same(v: tp.TurkuPdfVote, ev: VoteEvent) -> bool:

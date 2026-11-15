@@ -46,7 +46,7 @@ from dataclasses import dataclass, field
 from ..htmlblocks import all_links, blocks, clean
 from ..models import Attachment, AttachmentKind, Choice, Section, SectionType, Stage
 from ..text import collapse_ws, strip_pii
-from .votes_cloudmeeting import PdfVote, ProseVote
+from .votes_cloudmeeting import NUMBER_WORDS, PdfVote, ProseVote
 
 BASE = "https://paatokset.turku.fi"
 API = "/api"
@@ -411,23 +411,32 @@ def parse_attendance(data: list) -> list[Participant]:
 # -- votes ----------------------------------------------------------------------------------
 
 VOTE_LIST_TITLE = re.compile(r"^\s*äänestyslist", re.IGNORECASE)
-_COUNT_WORD = r"(?:valtuutettua|jäsentä|ääntä)"
+_COUNT_WORD = r"(?:valtuutettu[a]?|jäsen(?:tä)?|ääni|ääntä)"
+_N = r"(\d+|" + "|".join(sorted(NUMBER_WORDS, key=len, reverse=True)) + ")"
 # "56 valtuutettua kannatti asian käsittelyn jatkamista ja 11 valtuutettua kannatti Diopin …"
 PROSE = re.compile(
-    rf"(?P<a>\d+)\s+{_COUNT_WORD}\s+kannatti\s+.+?\s+ja\s+(?P<b>\d+)\s+{_COUNT_WORD}\s+kannatti\b"
-    rf"(?:[^.]*?(?P<t>\d+)\s+{_COUNT_WORD}\s+äänesti\s+tyhjää)?",
-    re.IGNORECASE | re.DOTALL,
+    rf"(?P<a>\d+)\s+{_COUNT_WORD}\s+kannatti\s+[^.]+?\s+ja\s+(?P<b>\d+)\s+{_COUNT_WORD}\s+kannatti\b",
+    re.IGNORECASE,
 )
+# "… ja 1 valtuutettu äänesti tyhjää", "yksi valtuutettu äänesti tyhjää" in the same sentence.
+BLANK = re.compile(rf"\b{_N}\s+{_COUNT_WORD}\s+äänesti\s+tyhjää", re.IGNORECASE)
 
 
 def parse_prose(lines: list[str]) -> list[ProseVote]:
     text = re.sub(r"\s+", " ", " ".join(lines))
     out = []
     for m in PROSE.finditer(text):
-        s = max(text.rfind(". ", 0, m.start()) + 2, 0)
+        s = text.rfind(". ", 0, m.start())
+        s = 0 if s < 0 else s + 2
         e = text.find(". ", m.end())
         sentence = text[s : (len(text) if e < 0 else e + 1)].strip()
-        out.append(ProseVote(int(m.group("a")), int(m.group("b")), int(m.group("t") or 0), sentence))
+        t = BLANK.search(sentence)
+        blank = (
+            0
+            if t is None
+            else (int(t.group(1)) if t.group(1).isdigit() else NUMBER_WORDS[t.group(1).lower()])
+        )
+        out.append(ProseVote(int(m.group("a")), int(m.group("b")), blank, sentence))
     return out
 
 
@@ -436,9 +445,10 @@ PDF_VOTE = re.compile(r"^Äänestys\s*/\s*Omröstning\s+(\d+)")
 PDF_SIDE = re.compile(r"^(Jaa|Ei)\s*/\s*(?:Ja|Nej)\s+(.*\D.*)$")
 PDF_COUNT = re.compile(r"^(Jaa|Ei|Tyhjää|Poissa)\s*/\s*(?:Ja|Nej|Blankt|Frånvarande)\s+(\d+)$")
 # "Aalto-Setälä Matti KOK J Lindén Aki SDP J": name, party (capitals), J/E/T/P.
-VOTER = re.compile(
-    r"(?P<name>[A-ZÅÄÖÉ][^\s]*(?:\s+[^\s]+?)*?)\s+(?P<party>[A-ZÅÄÖ]{1,6})\s+(?P<c>[JETP])(?=\s|$)"
-)
+# A name can start in lower case ("el-Khatib Amro VAS J").
+VOTER = re.compile(r"(?P<name>\S+(?:\s+\S+?)*?)\s+(?P<party>[A-ZÅÄÖ]{1,6})\s+(?P<c>[JETP])(?=\s|$)")
+# The rest of a long name wrapped onto its own line ("Epse Samfoga Doh VIHR J …" / "Theresia").
+NAME_TAIL = re.compile(r"^[A-ZÅÄÖ][\w'’-]*(?:\s+[A-ZÅÄÖ][\w'’-]*)?$")
 LETTER = {"J": Choice.jaa, "E": Choice.ei, "T": Choice.tyhja, "P": Choice.poissa}
 COUNT_WORD = {"jaa": Choice.jaa, "ei": Choice.ei, "tyhjää": Choice.tyhja, "poissa": Choice.poissa}
 
@@ -461,14 +471,19 @@ def parse_vote_pdf_lines(lines: list[str]) -> list[TurkuPdfVote]:
     votes: list[TurkuPdfVote] = []
     asia: str | None = None
     cur: TurkuPdfVote | None = None
+    prev_first: tuple[int, str] | None = None  # the left-column voter of the line before
     for raw in lines:
         line = re.sub(r"\s+", " ", raw).strip()
-        if not line or line.startswith("Äänestyslista"):
+        if not line:
+            continue
+        if line.startswith("Äänestyslista"):
+            cur = None  # page header: a wrapped item title may follow before the next vote
             continue
         if m := PDF_ASIA.match(line):
-            asia = m.group(1)
+            asia, cur = m.group(1), None
             continue
         if PDF_VOTE.match(line):
+            prev_first = None
             cur = TurkuPdfVote(agenda_no=asia)
             votes.append(cur)
             continue
@@ -486,8 +501,16 @@ def parse_vote_pdf_lines(lines: list[str]) -> list[TurkuPdfVote]:
             continue
         found = list(VOTER.finditer(line))
         if not found:
-            cur.leftover.append(line)
+            if prev_first is not None and NAME_TAIL.match(line):
+                i, old = prev_first
+                full = f"{old} {line}"
+                cur.ballots[i] = (full, cur.ballots[i][1])
+                cur.groups[full] = cur.groups.pop(old)
+                prev_first = None
+            else:
+                cur.leftover.append(line)
             continue
+        prev_first = (len(cur.ballots), found[0].group("name").strip())
         for v in found:
             name = v.group("name").strip()
             cur.ballots.append((name, LETTER[v.group("c")]))

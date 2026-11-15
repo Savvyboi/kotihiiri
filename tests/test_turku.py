@@ -138,3 +138,46 @@ def test_second_run_produces_no_diff(tmp_path):
     report, _ = run(tmp_path)
     assert report.files_changed == 0
     assert {p: p.read_bytes() for p in sorted(tmp_path.rglob("*")) if p.is_file()} == before
+
+
+# Layouts from the 2025 council vote lists (live crawl 2026-11-15): a name in lower case, a long name
+# wrapped onto its own line, a wrapped item title on every page, and an absentee counted but unnamed.
+OLDER_LIST = """Äänestyslista / Omröstningsförteckning — Kaupunginvaltuusto 17.3.2025 klo 18:00
+Asia / Ärende 4 Asuinrakennusten tontin (II) myyminen tontinluovutuskilpailun
+voittajalle, os. Luostarinkatu 5b
+Äänestys / Omröstning 1
+Jaa / Ja Ehdotus / Förslag Kh
+Ei / Nej Muutos / Ändring Perho Anu (Anttila Juha)
+Jaa / Ja 3
+Ei / Nej 1
+Tyhjää / Blankt 1
+Poissa / Frånvarande 1
+el-Khatib Amro VAS E Rantanen Elina VIHR J
+Epse Samfoga Doh VIHR J Rosenlöf Jarmo SDP J
+Theresia
+Kossila Pauli JÄ T
+Äänestyslista / Omröstningsförteckning — Kaupunginvaltuusto 17.3.2025 klo 18:00
+Asia / Ärende 4 Asuinrakennusten tontin (II) myyminen tontinluovutuskilpailun
+voittajalle, os. Luostarinkatu 5b
+""".splitlines()
+
+
+def test_older_vote_list_layouts():
+    (v,) = tp.parse_vote_pdf_lines(OLDER_LIST)
+    assert v.leftover == []
+    assert [n for n, _ in v.ballots] == [
+        "el-Khatib Amro", "Rantanen Elina", "Epse Samfoga Doh Theresia", "Rosenlöf Jarmo", "Kossila Pauli"
+    ]  # fmt: skip
+    assert v.groups["Epse Samfoga Doh Theresia"] == "VIHR" and v.groups["Kossila Pauli"] == "JÄ"
+    prose = tp.parse_prose([
+        "Suoritetussa koneäänestyksessä 3 valtuutettua kannatti kaupunginhallituksen ehdotusta ja 1 "
+        "valtuutettu kannatti Perhon muutosehdotusta ja 1 valtuutettu äänesti tyhjää."
+    ])  # fmt: skip
+    assert [(p.a, p.b, p.tyhja) for p in prose] == [(3, 1, 1)]
+    from kunta.adapters.turku import _drop_unlisted_absentees
+    from kunta.parsers import votes_cloudmeeting as vc
+
+    (ev,) = vc.build_votes(prose, [v], item_url="u", pdf_url="p")
+    assert ev.needs_review and "poissa" in ev.review_reason
+    _drop_unlisted_absentees(ev)
+    assert not ev.needs_review, ev.review_reason

@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import argparse
 import datetime as dt
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -26,9 +27,13 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 
 
+# The CLI's help text has non-ASCII characters that a Windows console code page cannot print.
+ENV = {**os.environ, "PYTHONUTF8": "1"}
+
+
 def sh(*args: str, check: bool = True) -> int:
     print("+", " ".join(args), flush=True)
-    return subprocess.run(args, cwd=ROOT, check=check).returncode
+    return subprocess.run(args, cwd=ROOT, check=check, env=ENV).returncode
 
 
 def kunta(*args: str) -> int:
