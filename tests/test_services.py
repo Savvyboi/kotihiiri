@@ -1,5 +1,6 @@
 """Finances by service class from the State Treasury (kunta/services.py)."""
 
+import io
 import json
 
 import httpx
@@ -43,8 +44,9 @@ def test_taxonomy_keeps_labels():
 
 
 def test_stream_rows_skips_bom():
-    content = b"\xef\xbb\xbf" + json.dumps(TAXONOMY).encode()
-    assert [r["solutunniste"] for r in stream_rows(content)] == ["3499809", "2102827", "62"]
+    for prefix in (b"\xef\xbb\xbf", b""):
+        f = io.BytesIO(prefix + json.dumps(TAXONOMY).encode())
+        assert [r["solutunniste"] for r in stream_rows(f)] == ["3499809", "2102827", "62"]
 
 
 def test_document_keeps_nonzero_cells():

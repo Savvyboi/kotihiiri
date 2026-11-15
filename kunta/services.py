@@ -15,11 +15,11 @@ the non-zero value of each cell. Figures are aggregates with no personal data; n
 
 from __future__ import annotations
 
-import io
 import logging
+import tempfile
 from collections.abc import Iterable, Iterator
 from pathlib import Path
-from typing import Any
+from typing import Any, BinaryIO
 
 import ijson
 
@@ -62,11 +62,11 @@ def parse_taxonomy(rows: Iterable[dict[str, Any]], keep: set[str] | None = None)
     return cells
 
 
-def stream_rows(content: bytes) -> Iterator[dict[str, Any]]:
-    """The objects of a top-level JSON array, one at a time (the file may start with a BOM)."""
-    if content.startswith(b"\xef\xbb\xbf"):
-        content = content[3:]
-    yield from ijson.items(io.BytesIO(content), "item", use_float=True)
+def stream_rows(f: BinaryIO) -> Iterator[dict[str, Any]]:
+    """The objects of a top-level JSON array in a file, one at a time (it may start with a BOM)."""
+    if f.read(3) != b"\xef\xbb\xbf":
+        f.seek(0)
+    yield from ijson.items(f, "item", use_float=True)
 
 
 def parse_document(rows: list[dict[str, Any]]) -> dict[str, float]:
@@ -129,7 +129,13 @@ def fetch_services(client, wanted: dict[str, str], out_dir: Path = OUT_DIR) -> d
     used = {cell for f in files.values() for y in f["years"] for cell in y["values"]}
     links = _json(client.get(TAXONOMY_URL))
     tax_url = next(u for u in links if u.rsplit("/", 1)[-1].upper() == f"{REPORT}.JSON")
-    cells = parse_taxonomy(stream_rows(client.get(tax_url).content), keep=used)
+    # The file is gigabytes: download it to disk and read it as a stream.
+    with tempfile.TemporaryDirectory() as tmp:
+        tax_file = Path(tmp) / f"{REPORT}.json"
+        size = client.download(tax_url, tax_file)
+        log.info("%s taxonomy: %.0f MB", REPORT, size / 1e6)
+        with tax_file.open("rb") as f:
+            cells = parse_taxonomy(stream_rows(f), keep=used)
     # Merge with the stored labels, so a run for a few cities keeps the others' cells.
     items_path = out_dir / "items.json"
     if items_path.exists():
