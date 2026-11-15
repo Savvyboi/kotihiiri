@@ -481,7 +481,7 @@ def parse_motions(lines: list[str]) -> list[Motion]:
         low = line.lower()
         if "toivomu" in low or "ponsi" in low:
             kind = MotionKind.resolution
-        elif "palaute" in low or "palautta" in low:
+        elif "palaute" in low or "palautta" in low or "palautus" in low:
             kind = MotionKind.send_back
         elif "pöydälle" in low:
             kind = MotionKind.table

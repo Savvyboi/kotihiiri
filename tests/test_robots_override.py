@@ -37,7 +37,7 @@ def test_override_in_the_committed_config():
     # The five hosts that did not answer the audit stay out.
     assert not {"vaasa", "aanekoski", "kalajoki", "maarianhamina", "pedersore"} & set(ro.municipalities)
     cities = load_cities()
-    for slug in set(ro.municipalities) - {"turku"}:
+    for slug in ro.municipalities:
         assert cities[slug].enabled is True, slug
 
 

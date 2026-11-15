@@ -265,7 +265,13 @@ def crawl_groups(selected: list[str] | None = None) -> list[dict[str, str]]:
     from .config import load_cities
 
     cities = load_cities()
-    chosen = [s for s, c in cities.items() if c.enabled and (not selected or s in selected)]
+    # `crawl_from: local` municipalities (Turku) block GitHub's servers and are crawled from a home
+    # connection with scripts/crawl_local.py; Actions only tries them when named explicitly.
+    chosen = [
+        s
+        for s, c in cities.items()
+        if c.enabled and (s in selected if selected else c.extra.get("crawl_from") != "local")
+    ]
     groups: list[dict[str, str]] = []
     shared: dict[str, list[str]] = {}
     own: list[str] = []

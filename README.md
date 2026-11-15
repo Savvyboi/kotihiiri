@@ -19,7 +19,7 @@ councils (kaupunginvaltuusto), boards and committees.
 | M3 Tampere adapter (CaseM pages, inline votes) | live since 2026-10-13 |
 | M4 Vantaa … M8 operations | not started |
 
-Oulu and the robots-blocked registry municipalities are crawled under the robots override in `config/project.yaml` (PLAN.md §2.1 rule 1b). Turku is in the override too but has no adapter yet.
+Oulu and the robots-blocked registry municipalities are crawled under the robots override in `config/project.yaml` (PLAN.md §2.1 rule 1b). Turku is in the override too and is read through the public JSON API behind paatokset.turku.fi. Its hosts do not answer GitHub's servers, so the weekly workflow skips it and `python scripts/crawl_local.py turku` crawls it from a home connection and pushes the data.
 
 ## Layout
 
