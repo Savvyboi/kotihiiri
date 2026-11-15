@@ -2,7 +2,7 @@ import datetime as dt
 from collections import Counter
 
 from kunta import jsonio
-from kunta.adapters import NotEnabled, adapter_for
+from kunta.adapters import adapter_for
 from kunta.adapters.tweb import TwebAdapter
 from kunta.crawl import crawl
 from kunta.models import Choice, ItemRef, Stage
@@ -397,13 +397,10 @@ def test_missing_attachment_page_does_not_fail_the_item():
     assert item.attachments == [] and item.votes[0].needs_review
 
 
-def test_oulu_shares_the_adapter_but_stays_disabled():
-    try:
-        adapter_for("oulu", client(FakeVantaa()))
-    except NotEnabled:
-        pass
-    else:
-        raise AssertionError("Oulu must stay disabled (§2)")
+def test_oulu_shares_the_adapter():
+    a = adapter_for("oulu", client(FakeVantaa()))
+    assert isinstance(a, TwebAdapter) and a.city == "oulu"
+    assert a.base_url == "https://asiakirjat.ouka.fi"
 
 
 # -- crawl ----------------------------------------------------------------------------------

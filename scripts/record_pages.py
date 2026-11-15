@@ -33,7 +33,7 @@ def compact(html: str) -> str:
 
 
 def main(city: str, out: str, urls: list[str]) -> None:
-    # "enabled" allows the hosts of every enabled city; Oulu and Turku stay out either way.
+    # "enabled" allows the hosts of every enabled city; disabled ones (e.g. Turku) stay out.
     cfgs = [c for c in load_cities().values() if c.enabled] if city == "enabled" else [require_enabled(city)]
     hosts = {u.split("://", 1)[1].split("/", 1)[0] for c in cfgs for u in c.base_urls}
     out_dir = Path(out)

@@ -1,5 +1,5 @@
-"""Triplan Tweb at paatokset.vantaa.fi, PLAN.md §7.4. Oulu runs the same software but stays
-disabled (§2); `adapter_for` refuses it before any fetch."""
+"""Triplan Tweb at paatokset.vantaa.fi, PLAN.md §7.4. Also Oulu (§7.5) and the registry Tweb
+municipalities (M14)."""
 
 from __future__ import annotations
 

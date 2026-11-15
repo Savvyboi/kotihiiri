@@ -25,18 +25,20 @@ def make(handler, hosts=("blocked.example",), interval=5.0):
     return client, clock
 
 
-def test_override_is_off_in_the_committed_config():
+def test_override_in_the_committed_config():
     ro = load_project().robots_override
-    assert ro.enabled is False
+    # Switched on by Savvas on 2026-11-15, with Oulu and Turku added.
+    assert ro.enabled is True
     assert ro.approved_by and ro.approved_on
     assert ro.min_interval_s >= 5
-    # The 26 municipalities the audit found disallowed or partial; none of the six cities.
-    assert len(ro.municipalities) == 26
-    assert not {"oulu", "turku"} & set(ro.municipalities)
+    # The 26 municipalities the audit found disallowed or partial, plus Oulu and Turku.
+    assert len(ro.municipalities) == 28
+    assert {"oulu", "turku"} <= set(ro.municipalities)
+    # The five hosts that did not answer the audit stay out.
+    assert not {"vaasa", "aanekoski", "kalajoki", "maarianhamina", "pedersore"} & set(ro.municipalities)
     cities = load_cities()
-    for slug in ro.municipalities:
-        assert cities[slug].enabled is False, slug
-        assert cities[slug].reason == "robots_disallow_pending_permission", slug
+    for slug in set(ro.municipalities) - {"turku"}:
+        assert cities[slug].enabled is True, slug
 
 
 def test_off_means_robots_still_blocks():
