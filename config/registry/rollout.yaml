@@ -58,6 +58,35 @@ enabled:
   - liminka
   - kauniainen
   - sotkamo
+  # Batch 3 (2026-11-10, Savvas): the 26 municipalities whose robots.txt disallows us. They stay
+  # disabled (robots_disallow_pending_permission) until `robots_override.enabled` is set to true in
+  # config/project.yaml (PLAN.md §2.1 rule 1b) and `kunta registry` is run.
+  - hameenlinna
+  - rauma
+  - kerava
+  - nokia
+  - kangasala
+  - pirkkala
+  - valkeakoski
+  - varkaus
+  - akaa
+  - janakkala
+  - kuusamo
+  - ilmajoki
+  - muurame
+  - raasepori
+  - lieto
+  - hamina
+  - kauhajoki
+  - seinajoki
+  - kaarina
+  - riihimaki
+  - iisalmi
+  - pietarsaari
+  - pieksamaki
+  - lohja
+  - ylivieska
+  - nivala
 
 # Per-municipality corrections found by the audit, merged over the registry row
 # (e.g. a council_source_id the registry lacked, or a moved base URL).

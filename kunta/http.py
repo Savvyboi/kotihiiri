@@ -9,6 +9,12 @@ Adapters never talk to the network directly; they go through `PoliteClient`
 - 429/5xx → exponential backoff honouring Retry-After, give up after 4 attempts.
 - ETag / Last-Modified are remembered and sent back as conditional headers.
 - Raw bodies go to `.cache/raw/` (git-ignored), never to data/.
+
+Robots override (§2.1 rule 1b, off by default): for hosts a human listed, Disallow rules in the
+robots.txt the host served are not applied. Everything else still is: the host must have answered
+robots.txt with 2xx (a 401/403/5xx or no answer still blocks it), requests are spaced by the
+override interval or the host's Crawl-delay, whichever is longer, and a 401/403, or a 429 that
+outlasts the retries, stops all further requests to that host for the run.
 """
 
 from __future__ import annotations
@@ -46,6 +52,11 @@ class FetchFailed(Exception):
     pass
 
 
+class HostRefused(FetchFailed):
+    """A robots-override host told us to stop (401/403, or 429 after the retries). Nothing more is
+    fetched from it this run."""
+
+
 class NotFound(FetchFailed):
     """404 or 410: the source removed the document."""
 
@@ -80,6 +91,8 @@ class Stats:
     requests: int = 0
     not_modified: int = 0
     skipped_robots: list[str] = field(default_factory=list)
+    # URLs fetched under the robots override (§2.1 rule 1b), i.e. ones robots.txt disallows.
+    robots_overridden: int = 0
     failures: list[dict[str, str]] = field(default_factory=list)
 
 
@@ -107,9 +120,18 @@ class RateLimiter:
         self._clock = clock
         self._sleep = sleep
         self._last: dict[str, float] = {}
+        self._host_interval: dict[str, float] = {}
         self._last_provider: dict[str, float] = {}
         self._locks: dict[str, threading.Lock] = {}
         self._guard = threading.Lock()
+
+    def set_interval(self, host: str, interval_s: float) -> None:
+        """A longer minimum interval for one host (robots override, Crawl-delay). Never shorter
+        than the default."""
+        self._host_interval[host] = max(self.interval_s, interval_s)
+
+    def interval_for(self, host: str) -> float:
+        return self._host_interval.get(host, self.interval_s)
 
     def lock(self, host: str) -> threading.Lock:
         # One lock per provider: hosts sharing a provider take turns, so the shared cap holds
@@ -122,7 +144,7 @@ class RateLimiter:
         provider = self._provider_of(host)
         waits = []
         if (last := self._last.get(host)) is not None:
-            waits.append(self.interval_s - (self._clock() - last))
+            waits.append(self.interval_for(host) - (self._clock() - last))
         if provider != host and (last := self._last_provider.get(provider)) is not None:
             waits.append(self.provider_interval_s - (self._clock() - last))
         remaining = max(waits, default=0.0)
@@ -145,6 +167,8 @@ class PoliteClient:
         sleep: Callable[[float], None] = time.sleep,
         allowed_hosts: set[str] | None = None,
         robots_exceptions: dict[str, tuple[str, ...]] | None = None,
+        robots_override_hosts: set[str] | None = None,
+        robots_override_interval_s: float = 5.0,
     ) -> None:
         if not user_agent:
             raise ValueError("user_agent is required")
@@ -154,6 +178,11 @@ class PoliteClient:
         self.allowed_hosts = allowed_hosts
         # Paths a human allowed despite robots.txt (ProjectConfig.robots_exceptions); empty by default.
         self.robots_exceptions = robots_exceptions or {}
+        # Hosts of municipalities under the robots override (config RobotsOverride); empty unless a
+        # human switched it on.
+        self.robots_override_hosts = set(robots_override_hosts or ())
+        self.robots_override_interval_s = max(MIN_INTERVAL_S, robots_override_interval_s)
+        self._refused: set[str] = set()
         self.rate = rate_limiter or RateLimiter(sleep=sleep)
         self._sleep = sleep
         self._client = httpx.Client(
@@ -200,14 +229,26 @@ class PoliteClient:
                 log.warning("robots.txt unreachable for %s: %s", host, exc)
                 rp.disallow_all = True
                 self.robots_status[host] = "unreachable"
+            if host in self.robots_override_hosts:
+                delay = rp.crawl_delay(self.user_agent) or 0.0
+                self.rate.set_interval(host, max(self.robots_override_interval_s, delay))
             self._robots[host] = rp
         return self._robots[host]
 
     def allowed(self, url: str) -> bool:
         parts = urlsplit(url)
-        if any(parts.path.startswith(p) for p in self.robots_exceptions.get(parts.netloc, ())):
+        host = parts.netloc
+        if any(parts.path.startswith(p) for p in self.robots_exceptions.get(host, ())):
             return True
-        return self._robots_for(parts.scheme, parts.netloc).can_fetch(self.user_agent, url)
+        if self._robots_for(parts.scheme, host).can_fetch(self.user_agent, url):
+            return True
+        # Override only rules from a robots.txt the host served; a 401/403/5xx or no answer on
+        # robots.txt still blocks the host.
+        if host in self.robots_override_hosts and self.robots_status.get(host) == "ok":
+            self.stats.robots_overridden += 1
+            log.debug("robots_override %s", url)
+            return True
+        return False
 
     # -- fetching -------------------------------------------------------------
 
@@ -229,6 +270,8 @@ class PoliteClient:
         host = parts.netloc
         if self.allowed_hosts is not None and host not in self.allowed_hosts:
             raise FetchFailed(f"host {host} is not configured for this run")
+        if host in self._refused:
+            raise HostRefused(f"{url}: {host} refused us earlier in this run")
         if not self.allowed(url):
             log.info("skipped_robots %s", url)
             self.stats.skipped_robots.append(url)
@@ -260,6 +303,8 @@ class PoliteClient:
                     url, 200, cache_path.read_bytes(), dict(known.get("headers", {})), from_cache=True
                 )
             if resp is not None and resp.status_code not in RETRY_STATUSES:
+                if resp.status_code in (401, 403) and host in self.robots_override_hosts:
+                    self._refuse(host, url, f"HTTP {resp.status_code}")
                 return self._finish(url, resp, cache_path)
 
             if resp is not None:
@@ -268,7 +313,17 @@ class PoliteClient:
                 self._sleep(self._backoff(attempt, resp))
 
         self.stats.failures.append({"url": url, "error": last_error})
+        if last_error == "HTTP 429" and host in self.robots_override_hosts:
+            self._refuse(host, url, last_error)
+            raise HostRefused(f"{url}: {last_error} after {MAX_ATTEMPTS} attempts; stopping {host}")
         raise FetchFailed(f"{url}: {last_error} after {MAX_ATTEMPTS} attempts")
+
+    def _refuse(self, host: str, url: str, why: str) -> None:
+        if host not in self._refused:
+            log.warning(
+                "robots override: %s answered %s for %s; no more requests to it this run", host, why, url
+            )
+            self._refused.add(host)
 
     @staticmethod
     def _backoff(attempt: int, resp: httpx.Response | None) -> float:

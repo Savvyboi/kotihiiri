@@ -8,6 +8,7 @@ on a tie, Allow wins.
 
 from __future__ import annotations
 
+import contextlib
 import re
 from dataclasses import dataclass, field
 from urllib.parse import unquote, urlsplit
@@ -17,6 +18,7 @@ from urllib.parse import unquote, urlsplit
 class _Group:
     agents: list[str] = field(default_factory=list)
     rules: list[tuple[bool, str]] = field(default_factory=list)  # (allow, pattern)
+    crawl_delay: float | None = None
 
 
 def _compile(pattern: str) -> re.Pattern[str]:
@@ -58,15 +60,27 @@ class RobotsRules:
                 last_was_agent = False
                 if value:
                     current.rules.append((key == "allow", value))
+            elif key == "crawl-delay" and current is not None:
+                last_was_agent = False
+                with contextlib.suppress(ValueError):
+                    current.crawl_delay = max(0.0, float(value))
             else:
                 last_was_agent = False
         return groups
 
-    def _rules_for(self, user_agent: str) -> list[tuple[bool, str]]:
+    def _groups_for(self, user_agent: str) -> list[_Group]:
         token = user_agent.split("/", 1)[0].strip().lower()
         named = [g for g in self.groups if any(a != "*" and a in token for a in g.agents)]
-        chosen = named or [g for g in self.groups if "*" in g.agents]
-        return [r for g in chosen for r in g.rules]
+        return named or [g for g in self.groups if "*" in g.agents]
+
+    def _rules_for(self, user_agent: str) -> list[tuple[bool, str]]:
+        return [r for g in self._groups_for(user_agent) for r in g.rules]
+
+    def crawl_delay(self, user_agent: str) -> float | None:
+        """The Crawl-delay (seconds) of our group, if it sets one. Not part of RFC 9309, but some
+        hosts use it; the robots override (PLAN.md §2.1 rule 1b) honours it."""
+        delays = [g.crawl_delay for g in self._groups_for(user_agent) if g.crawl_delay is not None]
+        return max(delays) if delays else None
 
     def can_fetch(self, user_agent: str, url: str) -> bool:
         if self.disallow_all:

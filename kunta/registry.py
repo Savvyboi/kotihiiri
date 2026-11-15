@@ -11,7 +11,10 @@ Inputs, all committed:
 
 The output lists all 96 in rank order. A municipality from the registry is `enabled` only when its
 adapter exists, every host passed the robots audit, and it is in the rollout; otherwise `reason`
-says which of those failed. `kunta registry --check` fails when the committed file is stale.
+says which of those failed. A municipality under the robots override (config/project.yaml
+`robots_override`, PLAN.md §2.1 rule 1b, off by default) passes the robots gate when its hosts'
+robots.txt disallows us, but not when a host is unreachable or refused robots.txt.
+`kunta registry --check` fails when the committed file is stale.
 """
 
 from __future__ import annotations
@@ -25,7 +28,7 @@ from urllib.parse import parse_qs, urlsplit
 import yaml
 
 from . import jsonio
-from .config import CONFIG_DIR, DATA_DIR
+from .config import CONFIG_DIR, DATA_DIR, load_project
 from .ids import slugify
 
 REGISTRY_CSV = CONFIG_DIR / "registry" / "municipalities_rank7-96.csv"
@@ -147,13 +150,20 @@ def _hosts(entry: dict[str, Any]) -> list[str]:
 
 
 def _gate(
-    entry: dict[str, Any], robots: dict[str, dict], rollout: set[str], slug: str
+    entry: dict[str, Any],
+    robots: dict[str, dict],
+    rollout: set[str],
+    slug: str,
+    override: frozenset[str] = frozenset(),
 ) -> tuple[bool, str | None]:
     if entry["adapter"] == "none":
         return False, "no_adapter"
     statuses = [robots.get(h, {}).get("status") for h in _hosts(entry)]
     if any(s is None for s in statuses):
         return False, "robots_audit_pending"
+    if slug in override:
+        # The host served a robots.txt that disallows us; a human chose to crawl it anyway.
+        statuses = ["allowed" if s in ("disallowed", "partial") else s for s in statuses]
     if any(s in ("disallowed", "partial") for s in statuses):
         return False, "robots_disallow_pending_permission"
     if any(s not in ROBOTS_OK for s in statuses):
@@ -185,6 +195,8 @@ def build(
     overrides: dict[str, dict] = rollout_raw.get("overrides") or {}
     robots = jsonio.read(robots_path).get("hosts", {}) if robots_path.exists() else {}
     tables = candidate_tables(config_dir)
+    ro = load_project(config_dir).robots_override
+    override = frozenset(ro.municipalities) if ro.enabled else frozenset()
 
     out: dict[str, dict[str, Any]] = {}
     for rank, (slug, c) in enumerate(six.items(), start=1):
@@ -203,7 +215,7 @@ def build(
         if entry["name_fi"] in tables:
             entry["statfin_candidates_table"] = tables[entry["name_fi"]]
         entry.update(overrides.get(slug, {}))
-        enabled, reason = _gate(entry, robots, rollout, slug)
+        enabled, reason = _gate(entry, robots, rollout, slug, override)
         entry["enabled"] = enabled
         if reason:
             entry["reason"] = reason
@@ -213,9 +225,9 @@ def build(
         raise ValueError(
             f"electoral_districts.yaml names unknown municipalities: {sorted(set(tables) - names)}"
         )
-    unknown = (rollout | set(overrides)) - set(out)
+    unknown = (rollout | set(overrides) | set(ro.municipalities)) - set(out)
     if unknown:
-        raise ValueError(f"rollout.yaml names unknown municipalities: {sorted(unknown)}")
+        raise ValueError(f"rollout.yaml or robots_override names unknown municipalities: {sorted(unknown)}")
     return out
 
 

@@ -14,6 +14,8 @@ const { locale } = Astro.props;
 const { t } = useI18n(locale);
 const project = YAML.parse(fs.readFileSync(new URL('../../../../config/project.yaml', import.meta.url), 'utf8'));
 const contact: string | null = project.contact_email;
+// PLAN.md §2.1 rule 1b: while the robots override is on, say so instead of claiming we follow robots.txt.
+const robotsOverride: boolean = project.robots_override?.enabled === true;
 const credited = cities().map((c) => ({ c, img: cityImages(c.id) })).filter(({ img }) => img.arms || img.photo);
 const credit = (x: ImageCredit) => [x.author, x.licence_name].filter(Boolean).join(', ');
 ---
@@ -21,7 +23,7 @@ const credit = (x: ImageCredit) => [x.author, x.licence_name].filter(Boolean).jo
   <section class="hero"><div class="wrap"><h1>{t('about.title')}</h1><p class="lead">{t('about.lead')}</p></div></section>
   <div class="wrap" style="max-width:52rem">
     <h2>{t('about.methodTitle')}</h2>
-    <p>{t('about.method')}</p>
+    <p>{t(robotsOverride ? 'about.methodOverride' : 'about.method')}</p>
     <p>{t('about.inspiration')}</p>
     <h2>{t('about.sourcesTitle')}</h2>
     <ul>
