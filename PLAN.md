@@ -587,6 +587,7 @@ Each milestone: open a PR, include `kunta stats` output in the description.
 - Needs M4 (Vantaa) first. Hosts the M10 audit allowed, and since 2026-11-15 those in `robots_override` (§2.1 rule 1b); self-hosted paths under `/ktwebbin/dbisa.dll/` and non-standard ports (Jakobstad `:8443`). Swedish-language minutes for Raseborg, Jakobstad, Pedersöre and Mariehamn (§18.5).
 - **Accept:** as M4 per municipality.
 
+- 2026-11-15 (Savvas): first robots-override crawl (run 43741312063). robots.txt timed out from GitHub Actions for the 13 `*.tweb.fi` hosts, the 4 `*.triplancloud.fi` hosts, Ylivieska and Nivala, so rule 1b kept them blocked; Pieksämäki crawled, and the other self-hosted ones answered. Savvas chose to crawl the 19 from his computer: they carry `crawl_from: local` (rollout.yaml overrides), the weekly matrix skips them, and `scripts/crawl_local.py` (no arguments) crawls every `crawl_from: local` municipality in one run with the same limits, fetching from and syncing to R2 for registry ones (rclone `r2` remote needed) and committing git data for Turku.
 ### M15 — Councillors for all municipalities
 - Seed council rosters with party for every municipality from Statistics Finland's 2025 municipal-election data (PxWeb API, S8), then attendance lists and Tweb `lumu_organ.htm` registries (§8 sources 2–3) for replacements and committees. Mariehamn needs a separate source (Åland elections).
 - **Accept:** every enabled municipality's council page lists its councillors with party; §8 resolution thresholds met per municipality.

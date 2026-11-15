@@ -135,3 +135,15 @@ def test_every_enabled_municipality_has_a_candidate_table():
         c for c, cfg in load_cities().items() if cfg.enabled and not cfg.extra.get("statfin_candidates_table")
     ]
     assert missing == []
+
+
+def test_hosts_that_ignore_github_are_crawled_locally():
+    # robots.txt timed out from Actions for these on 2026-11-15; scripts/crawl_local.py runs them.
+    local = {"hameenlinna", "rauma", "kerava", "nokia", "kangasala", "pirkkala", "valkeakoski",
+             "varkaus", "akaa", "janakkala", "kuusamo", "ilmajoki", "muurame", "raasepori", "lieto",
+             "hamina", "kauhajoki", "ylivieska", "nivala", "turku"}  # fmt: skip
+    cities = load_cities()
+    assert {s for s, c in cities.items() if c.extra.get("crawl_from") == "local"} == local
+    in_matrix = {s for g in registry.crawl_groups() for s in g["cities"].split(",")}
+    assert not local & in_matrix
+    assert {"seinajoki", "pieksamaki", "lohja", "oulu"} <= in_matrix

@@ -1,18 +1,32 @@
-"""Weekly crawl of a `crawl_from: local` municipality from a home connection (Turku, PLAN.md §7.6).
+"""Weekly crawl of the `crawl_from: local` municipalities from a home connection (PLAN.md §7.6, M14).
 
-Turku's hosts do not answer GitHub's servers, so this does on Savvas's computer what the weekly
-workflow's crawl and commit jobs do for the other six cities: crawl, roster, validate, then commit
-data/{city}, its crawl state and body config, and push. Nothing is committed if the crawl raised a
-layout alarm or validation failed. The site picks the data up on the next deploy.
+Their hosts do not answer GitHub's servers (Turku since the M10 audit; the 13 *.tweb.fi hosts, the
+4 *.triplancloud.fi hosts, Ylivieska and Nivala since the 2026-11-15 robots-override crawl), so this
+does on Savvas's computer what the weekly workflow's crawl and commit jobs do. Same polite client,
+same robots-override limits (one request per 5 s per host, stop a host on its first refusal), same
+User-Agent. For each municipality: crawl, roster, validate, then
 
-    python scripts/crawl_local.py turku                 # weekly: last 10 weeks, then push to main
-    python scripts/crawl_local.py turku --window all    # first run / full refresh
-    python scripts/crawl_local.py turku --no-push       # crawl and validate only
+- six-city municipalities (Turku): commit data/{city}, its crawl state and body config, and push;
+- registry municipalities: fetch last week's JSON and crawl state from R2 first, sync them back to
+  R2 afterwards (as weekly.yml does), and commit only the body config.
 
-Run it from a clean checkout of main (it pulls first). Windows Task Scheduler, Saturdays 08:00:
+A municipality whose crawl raised a layout alarm or failed validation is left out of the upload and
+the commit; the others still go through. All municipalities share one time budget (`--max-minutes`),
+and one that does not fit continues next run. The site picks the data up on the next deploy.
 
-    schtasks /Create /SC WEEKLY /D SAT /ST 08:00 /TN "Kotihiiri Turku" ^
-      /TR "C:\\path\\to\\venv\\Scripts\\python.exe C:\\path\\to\\kotihiiri\\scripts\\crawl_local.py turku"
+    python scripts/crawl_local.py                      # weekly: every crawl_from: local municipality
+    python scripts/crawl_local.py turku nokia          # only these
+    python scripts/crawl_local.py --window all         # first run / full refresh
+    python scripts/crawl_local.py --no-push            # crawl and validate only; no R2, no git
+
+Registry municipalities need rclone with an `r2` remote for the kotihiiri-data bucket, e.g. the same
+RCLONE_CONFIG_R2_* environment variables weekly.yml sets (PLAN.md §18.4), or `rclone config`.
+
+Run it from a clean checkout of main (it pulls first). Windows Task Scheduler, Saturdays 08:00, one
+task for all of them:
+
+    schtasks /Create /SC WEEKLY /D SAT /ST 08:00 /TN "Kotihiiri local crawl" ^
+      /TR "C:\\path\\to\\venv\\Scripts\\python.exe C:\\path\\to\\kotihiiri\\scripts\\crawl_local.py"
 """
 
 from __future__ import annotations
@@ -20,12 +34,14 @@ from __future__ import annotations
 import argparse
 import datetime as dt
 import os
+import shutil
 import subprocess
 import sys
+import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-
+BUCKET = "r2:kotihiiri-data"
 
 # The CLI's help text has non-ASCII characters that a Windows console code page cannot print.
 ENV = {**os.environ, "PYTHONUTF8": "1"}
@@ -40,12 +56,48 @@ def kunta(*args: str) -> int:
     return sh(sys.executable, "-m", "kunta.cli", *args, check=False)
 
 
+def local_municipalities() -> dict[str, bool]:
+    """{slug: stored in git} for every enabled `crawl_from: local` municipality, in rank order."""
+    sys.path.insert(0, str(ROOT))
+    from kunta.config import load_cities
+
+    return {
+        slug: int(c.extra.get("rank", 99)) <= 6
+        for slug, c in load_cities().items()
+        if c.enabled and c.extra.get("crawl_from") == "local"
+    }
+
+
+def r2_ready() -> bool:
+    if not shutil.which("rclone"):
+        return False
+    out = subprocess.run(["rclone", "listremotes"], capture_output=True, text=True, env=ENV).stdout
+    return "r2:" in out.split()
+
+
+def ignore_locally(city: str) -> None:
+    """Registry data lives in R2, never in git (§18.4): keep it out of `git status` on this machine."""
+    exclude = ROOT / ".git" / "info" / "exclude"
+    if not exclude.parent.exists():
+        return
+    lines = exclude.read_text(encoding="utf-8").splitlines() if exclude.exists() else []
+    want = [f"/data/{city}/", f"/data/state/{city}.json"]
+    missing = [w for w in want if w not in lines]
+    if missing:
+        with exclude.open("a", encoding="utf-8") as f:
+            f.write("".join(m + "\n" for m in missing))
+
+
+def r2(*args: str) -> int:
+    return sh("rclone", *args, "--s3-no-check-bucket", check=False)
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("city")
+    ap.add_argument("cities", nargs="*", help="slugs; default: every crawl_from: local municipality")
     ap.add_argument("--since", default="2025-01-01")
     ap.add_argument("--window", default="10", help="weeks to refetch, or `all`")
-    ap.add_argument("--max-minutes", default="300")
+    ap.add_argument("--max-minutes", type=int, default=300, help="shared by all municipalities")
     ap.add_argument("--branch", default="main")
     ap.add_argument("--no-push", action="store_true")
     a = ap.parse_args()
@@ -54,30 +106,80 @@ def main() -> int:
         sh("git", "checkout", a.branch)
         sh("git", "pull", "--ff-only", "origin", a.branch)
 
-    args = ["crawl", "--city", a.city, "--since", a.since, "--max-minutes", a.max_minutes]
-    if a.window != "all":
-        args += ["--window-weeks", a.window]
-    code = kunta(*args)
-    if code != 0:
-        print(f"crawl exited with {code} (2 = layout-change alarm); nothing committed", file=sys.stderr)
-        return code
-    kunta("people", "--city", a.city)
-    if kunta("validate", "--city", a.city) != 0:
-        print("validation failed; nothing committed", file=sys.stderr)
-        return 1
-    if a.no_push:
-        return 0
+    known = local_municipalities()
+    unknown = [c for c in a.cities if c not in known]
+    if unknown:
+        print(f"not enabled with crawl_from: local: {', '.join(unknown)}", file=sys.stderr)
+        return 2
+    cities = {c: known[c] for c in a.cities} if a.cities else known
 
-    paths = [f"data/{a.city}", f"data/state/{a.city}.json", f"config/bodies/{a.city}.yaml"]
+    use_r2 = not a.no_push and any(not in_git for in_git in cities.values())
+    if use_r2 and not r2_ready():
+        print("registry municipalities need rclone with an `r2` remote; skipping them", file=sys.stderr)
+        cities = {c: g for c, g in cities.items() if g}
+        use_r2 = False
+
+    start = time.monotonic()
+    ok: list[str] = []
+    failed: list[str] = []
+    for city, in_git in cities.items():
+        left = a.max_minutes - int((time.monotonic() - start) / 60)
+        if left < 10:
+            print(f"out of time before {city}; it continues next run", file=sys.stderr)
+            break
+        if use_r2 and not in_git:
+            ignore_locally(city)
+            r2("copy", f"{BUCKET}/data/{city}", f"data/{city}", "--checksum", "--fast-list")
+            r2("copy", f"{BUCKET}/data/state/{city}.json", "data/state/")
+        args = ["crawl", "--city", city, "--since", a.since, "--max-minutes", str(left)]
+        if a.window != "all":
+            args += ["--window-weeks", a.window]
+        code = kunta(*args)
+        if code != 0:
+            print(f"{city}: crawl exited with {code} (2 = layout-change alarm); left out", file=sys.stderr)
+            failed.append(city)
+            continue
+        kunta("people", "--city", city)
+        if kunta("validate", "--city", city) != 0:
+            print(f"{city}: validation failed; left out", file=sys.stderr)
+            failed.append(city)
+            continue
+        if use_r2 and not in_git:
+            state = f"data/state/{city}.json"
+            sync = [
+                "sync",
+                f"data/{city}",
+                f"{BUCKET}/data/{city}",
+                "--checksum",
+                "--fast-list",
+                "--max-delete",
+                "500",
+            ]
+            synced = r2(*sync) == 0 and r2("copy", state, f"{BUCKET}/data/state/", "--checksum") == 0
+            if not synced:
+                print(f"{city}: upload to R2 failed; left out", file=sys.stderr)
+                failed.append(city)
+                continue
+        ok.append(city)
+
+    print(f"ok: {' '.join(ok) or '-'}; failed: {' '.join(failed) or '-'}")
+    if a.no_push or not ok:
+        return 1 if failed else 0
+
+    paths: list[str] = []
+    for city in ok:
+        paths.append(f"config/bodies/{city}.yaml")
+        if cities[city]:
+            paths += [f"data/{city}", f"data/state/{city}.json"]
     sh("git", "add", "--", *[p for p in paths if (ROOT / p).exists()])
     if sh("git", "diff", "--cached", "--quiet", check=False) == 0:
-        print("no changes")
-        return 0
-    sh("git", "commit", "-m", f"data: {a.city} crawl from local {dt.date.today().isoformat()}")
+        print("no changes to commit")
+        return 1 if failed else 0
+    sh("git", "commit", "-m", f"data: local crawl {dt.date.today().isoformat()} ({', '.join(ok)})")
     for _ in range(3):
         pulled = sh("git", "pull", "--rebase", "-X", "theirs", "origin", a.branch, check=False) == 0
         if pulled and sh("git", "push", "origin", a.branch, check=False) == 0:
-            return 0
+            return 1 if failed else 0
         sh("git", "rebase", "--abort", check=False)
     return 1
 
