@@ -2,7 +2,7 @@ import datetime as dt
 from collections import Counter
 
 from kunta import jsonio
-from kunta.adapters import NotEnabled, adapter_for
+from kunta.adapters import adapter_for
 from kunta.adapters.tweb import TwebAdapter
 from kunta.crawl import crawl
 from kunta.models import Choice, ItemRef, Stage
@@ -69,6 +69,21 @@ def test_meeting_list_merges_minutes_and_upcoming_agendas():
     assert refs[2].source_url == f"{SITE}/ktwebscr/epj_asil_tweb.htm?bid=161954"
     # older rows are listed back to 2014 but filtered by `since`
     assert len(a.list_meetings(body, dt.date(2014, 1, 1), None)) == 5
+
+
+def test_minutes_list_falls_back_to_the_plain_path_once():
+    # Oulu answers 404 for the minutes list under /ktwebbin/dbisa.dll/ (crawl of 2026-11-15).
+    site = FakeVantaa()
+    site.status["/ktwebbin/dbisa.dll/ktwebscr/pk_kokl_tweb.htm?+kirjaamo=55038"] = 404
+    site.status["/ktwebbin/dbisa.dll/ktwebscr/pk_kokl_tweb.htm?+kirjaamo=55015"] = 404
+    a = adapter(site)
+    bodies = {b.id: b for b in a.discover_bodies()}
+    refs = a.list_meetings(bodies[COUNCIL], dt.date(2025, 1, 1), None)
+    assert [r.source_ids["bid"] for r in refs] == ["160586", "161950", "161954"]
+    a.list_meetings(bodies["vantaa/kaupunginhallitus"], dt.date(2025, 1, 1), None)
+    dll = [k for k in site.requests if k.startswith("/ktwebbin/dbisa.dll/ktwebscr/pk_kokl")]
+    assert dll == ["/ktwebbin/dbisa.dll/ktwebscr/pk_kokl_tweb.htm?+kirjaamo=55038"]
+    assert "/ktwebscr/pk_kokl_tweb.htm?+kirjaamo=55015" in site.requests
 
 
 def test_meeting_rows_without_pykala_are_not_items():
@@ -397,13 +412,10 @@ def test_missing_attachment_page_does_not_fail_the_item():
     assert item.attachments == [] and item.votes[0].needs_review
 
 
-def test_oulu_shares_the_adapter_but_stays_disabled():
-    try:
-        adapter_for("oulu", client(FakeVantaa()))
-    except NotEnabled:
-        pass
-    else:
-        raise AssertionError("Oulu must stay disabled (§2)")
+def test_oulu_shares_the_adapter():
+    a = adapter_for("oulu", client(FakeVantaa()))
+    assert isinstance(a, TwebAdapter) and a.city == "oulu"
+    assert a.base_url == "https://asiakirjat.ouka.fi"
 
 
 # -- crawl ----------------------------------------------------------------------------------

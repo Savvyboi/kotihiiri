@@ -1,5 +1,5 @@
-"""Triplan Tweb at paatokset.vantaa.fi, PLAN.md §7.4. Oulu runs the same software but stays
-disabled (§2); `adapter_for` refuses it before any fetch."""
+"""Triplan Tweb at paatokset.vantaa.fi, PLAN.md §7.4. Also Oulu (§7.5) and the registry Tweb
+municipalities (M14)."""
 
 from __future__ import annotations
 
@@ -32,6 +32,8 @@ from .base import TransientItemError
 log = logging.getLogger(__name__)
 
 MINUTES_LIST = "/ktwebbin/dbisa.dll/ktwebscr/pk_kokl_tweb.htm?+kirjaamo={id}"
+# Some installs (Oulu) answer 404 under /ktwebbin/dbisa.dll/ and serve the minutes list here.
+MINUTES_LIST_PLAIN = "/ktwebscr/pk_kokl_tweb.htm?+kirjaamo={id}"
 AGENDA_LIST = "/ktwebscr/epj_kokl_tweb.htm?+kirjaamo={id}"
 BODY_LIST = "/ktwebscr/pk_tek_tweb.htm"
 DLL = "/ktwebbin/dbisa.dll"
@@ -49,6 +51,7 @@ class TwebAdapter:
         self._dates: dict[str, dt.date] = {}
         self._att: dict[str, dict[int, str]] = {}  # meeting → ordinal → attachments page
         self._dll_only = False
+        self._minutes_list = MINUTES_LIST  # switched to MINUTES_LIST_PLAIN after the first 404
 
     def configure(self, extra: dict) -> None:
         # Some self-hosted installs serve every script under /ktwebbin/dbisa.dll/ (§18.1).
@@ -105,9 +108,20 @@ class TwebAdapter:
 
     # -- meetings -------------------------------------------------------------------------------
 
+    def _minutes_page(self, kirjaamo: str) -> str:
+        try:
+            return self._get(self._minutes_list.format(id=kirjaamo))
+        except NotFound:
+            if self._minutes_list == MINUTES_LIST_PLAIN or self._dll_only:
+                raise
+            # Remember the other path for the rest of the run: one 404, not one per body.
+            log.info("%s: minutes list not under %s; using %s", self.city, DLL, MINUTES_LIST_PLAIN)
+            self._minutes_list = MINUTES_LIST_PLAIN
+            return self._get(self._minutes_list.format(id=kirjaamo))
+
     def list_meetings(self, body: Body, since: dt.date, until: dt.date | None) -> list[MeetingRef]:
         kirjaamo = body.source_ids["kirjaamo"]
-        minutes = tp.parse_meeting_list(self._get(MINUTES_LIST.format(id=kirjaamo)), self._link_base)
+        minutes = tp.parse_meeting_list(self._minutes_page(kirjaamo), self._link_base)
         agendas = tp.parse_meeting_list(self._get(AGENDA_LIST.format(id=kirjaamo)), self._link_base)
         # A meeting moves from the agenda list to the minutes list once the minutes are out.
         published = {(r.date, r.start_time) for r in minutes}

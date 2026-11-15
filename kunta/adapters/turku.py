@@ -1,4 +1,4 @@
-"""Turku: disabled until the city grants permission (PLAN.md §2.1 rule 2, §7.6)."""
+"""Turku: not written yet (PLAN.md §7.6). Covered by the robots override once it exists."""
 
 from __future__ import annotations
 
@@ -10,4 +10,4 @@ class TurkuAdapter:
     city = "turku"
 
     def __init__(self, client: PoliteClient, base_url: str) -> None:
-        raise NotEnabled("turku: robots_disallow_pending_permission")
+        raise NotEnabled("turku: no_adapter")

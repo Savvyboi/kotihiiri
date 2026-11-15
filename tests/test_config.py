@@ -5,21 +5,19 @@ from kunta.config import ConfigError, ProjectConfig, load_cities
 from kunta.http import PoliteClient
 
 
-def test_oulu_and_turku_disabled_with_reason():
+def test_oulu_on_turku_waits_for_its_adapter():
     cities = load_cities()
     assert list(cities)[:6] == ["helsinki", "espoo", "tampere", "vantaa", "oulu", "turku"]
     assert len(cities) == 96
-    for c in ("oulu", "turku"):
-        assert cities[c].enabled is False
-        assert cities[c].reason == "robots_disallow_pending_permission"
+    assert cities["oulu"].enabled is True
     assert cities["oulu"].adapter == "tweb"
+    assert cities["turku"].enabled is False
+    assert cities["turku"].reason == "no_adapter"
 
 
 def test_disabled_city_adapter_refuses():
-    client = PoliteClient("ua")
-    for c in ("oulu", "turku"):
-        with pytest.raises(NotEnabled):
-            adapter_for(c, client)
+    with pytest.raises(NotEnabled):
+        adapter_for("turku", PoliteClient("ua"))
 
 
 def test_user_agent_requires_domain_and_email():

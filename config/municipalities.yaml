@@ -56,9 +56,7 @@ municipalities:
     rank: 5
     name_fi: Oulu
     name_sv: Uleåborg
-    enabled: false
-    reason: robots_disallow_pending_permission
-    permission_url: null
+    enabled: true
     adapter: tweb
     base_urls:
     - https://asiakirjat.ouka.fi
@@ -73,8 +71,7 @@ municipalities:
     name_fi: Turku
     name_sv: Åbo
     enabled: false
-    reason: robots_disallow_pending_permission
-    permission_url: null
+    reason: no_adapter
     adapter: turku
     base_urls:
     - https://paatokset.turku.fi
@@ -228,8 +225,7 @@ municipalities:
     councillors_url: https://hameenlinna.tweb.fi/ktwebscr/lumu_organ.htm
     registry_verification: linked-from-official-site
     statfin_candidates_table: 14v1
-    enabled: false
-    reason: robots_disallow_pending_permission
+    enabled: true
   seinajoki:
     name_fi: Seinäjoki
     rank: 16
@@ -246,8 +242,7 @@ municipalities:
     video_url: https://www.youtube.com/user/Seinajoenkaupunki
     registry_verification: linked-from-official-site
     statfin_candidates_table: 14v5
-    enabled: false
-    reason: robots_disallow_pending_permission
+    enabled: true
   rovaniemi:
     name_fi: Rovaniemi
     rank: 17
@@ -391,8 +386,7 @@ municipalities:
     portal_url: https://dynasty.lohja.fi/d10julkaisu/cgi/DREQUEST.PHP?page=meeting_frames
     registry_verification: linked-from-official-site
     statfin_candidates_table: 14ux
-    enabled: false
-    reason: robots_disallow_pending_permission
+    enabled: true
   nurmijarvi:
     name_fi: Nurmijärvi
     rank: 26
@@ -459,8 +453,7 @@ municipalities:
     councillors_url: https://rauma-julkaisu.tweb.fi/ktwebscr/lumu_organ.htm
     registry_verification: linked-from-official-site
     statfin_candidates_table: 14uz
-    enabled: false
-    reason: robots_disallow_pending_permission
+    enabled: true
   kerava:
     name_fi: Kerava
     name_sv: Kervo
@@ -477,8 +470,7 @@ municipalities:
     councillors_url: https://kerava-julkaisu.tweb.fi/ktwebscr/lumu_organ.htm
     registry_verification: linked-from-official-site
     statfin_candidates_table: 14ux
-    enabled: false
-    reason: robots_disallow_pending_permission
+    enabled: true
   kaarina:
     name_fi: Kaarina
     name_sv: S:t Karins
@@ -495,8 +487,7 @@ municipalities:
     councillors_url: https://tweb.kaarina.fi/ktwebscr/lumu_organ.htm
     registry_verification: linked-from-official-site
     statfin_candidates_table: 14uy
-    enabled: false
-    reason: robots_disallow_pending_permission
+    enabled: true
   kajaani:
     name_fi: Kajaani
     rank: 32
@@ -529,8 +520,7 @@ municipalities:
     councillors_url: https://nokia.tweb.fi/ktwebscr/lumu_organ.htm
     registry_verification: linked-from-official-site
     statfin_candidates_table: 14v2
-    enabled: false
-    reason: robots_disallow_pending_permission
+    enabled: true
   kangasala:
     name_fi: Kangasala
     rank: 34
@@ -546,8 +536,7 @@ municipalities:
     councillors_url: https://kangasala.tweb.fi/ktwebscr/lumu_organ.htm
     registry_verification: linked-from-official-site
     statfin_candidates_table: 14v2
-    enabled: false
-    reason: robots_disallow_pending_permission
+    enabled: true
   ylojarvi:
     name_fi: Ylöjärvi
     rank: 35
@@ -612,8 +601,7 @@ municipalities:
     councillors_url: https://kunta2.riihimaki.fi/ktwebscr/lumu_organ.htm
     registry_verification: linked-from-official-site
     statfin_candidates_table: 14v1
-    enabled: false
-    reason: robots_disallow_pending_permission
+    enabled: true
   raasepori:
     name_fi: Raasepori
     name_sv: Raseborg
@@ -632,8 +620,7 @@ municipalities:
     video_url: https://www.kextv.fi/sv/programarkiv
     registry_verification: linked-from-official-site
     statfin_candidates_table: 14ux
-    enabled: false
-    reason: robots_disallow_pending_permission
+    enabled: true
   raisio:
     name_fi: Raisio
     name_sv: Reso
@@ -788,8 +775,7 @@ municipalities:
     councillors_url: https://pirkkala.tweb.fi/ktwebscr/lumu_organ.htm
     registry_verification: linked-from-official-site
     statfin_candidates_table: 14v2
-    enabled: false
-    reason: robots_disallow_pending_permission
+    enabled: true
   mantsala:
     name_fi: Mäntsälä
     rank: 49
@@ -837,8 +823,7 @@ municipalities:
     councillors_url: https://valkeakoski.tweb.fi/ktwebscr/lumu_organ.htm
     registry_verification: linked-from-official-site
     statfin_candidates_table: 14v2
-    enabled: false
-    reason: robots_disallow_pending_permission
+    enabled: true
   lieto:
     name_fi: Lieto
     name_sv: Lundo
@@ -855,8 +840,7 @@ municipalities:
     councillors_url: https://lieto-julkaisu.triplancloud.fi/ktwebscr/lumu_organ.htm
     registry_verification: linked-from-official-site
     statfin_candidates_table: 14uy
-    enabled: false
-    reason: robots_disallow_pending_permission
+    enabled: true
   iisalmi:
     name_fi: Iisalmi
     rank: 53
@@ -872,8 +856,7 @@ municipalities:
     councillors_url: https://julkaisu.iisalmi.fi/ktwebscr/lumu_organ.htm
     registry_verification: linked-from-official-site
     statfin_candidates_table: 14v4
-    enabled: false
-    reason: robots_disallow_pending_permission
+    enabled: true
   naantali:
     name_fi: Naantali
     name_sv: Nådendal
@@ -940,8 +923,7 @@ municipalities:
     registry_verification: linked-from-official-site
     tweb_dll_paths: true
     statfin_candidates_table: 14v5
-    enabled: false
-    reason: robots_disallow_pending_permission
+    enabled: true
   varkaus:
     name_fi: Varkaus
     rank: 58
@@ -957,8 +939,7 @@ municipalities:
     councillors_url: https://varkaus.tweb.fi/ktwebscr/lumu_organ.htm
     registry_verification: linked-from-official-site
     statfin_candidates_table: 14v4
-    enabled: false
-    reason: robots_disallow_pending_permission
+    enabled: true
   kurikka:
     name_fi: Kurikka
     rank: 59
@@ -1007,8 +988,7 @@ municipalities:
     councillors_url: https://hamina-julkaisu.triplancloud.fi/ktwebscr/lumu_organ.htm
     registry_verification: linked-from-official-site
     statfin_candidates_table: 14v3
-    enabled: false
-    reason: robots_disallow_pending_permission
+    enabled: true
   jamsa:
     name_fi: Jämsä
     rank: 62
@@ -1092,8 +1072,7 @@ municipalities:
     registry_verification: linked-from-official-site
     tweb_dll_paths: true
     statfin_candidates_table: 14v3
-    enabled: false
-    reason: robots_disallow_pending_permission
+    enabled: true
   forssa:
     name_fi: Forssa
     rank: 67
@@ -1125,8 +1104,7 @@ municipalities:
     councillors_url: https://akaa.tweb.fi/ktwebscr/lumu_organ.htm
     registry_verification: linked-from-official-site
     statfin_candidates_table: 14v2
-    enabled: false
-    reason: robots_disallow_pending_permission
+    enabled: true
   janakkala:
     name_fi: Janakkala
     rank: 69
@@ -1142,8 +1120,7 @@ municipalities:
     councillors_url: https://janakkala.tweb.fi/ktwebscr/lumu_organ.htm
     registry_verification: linked-from-official-site
     statfin_candidates_table: 14v1
-    enabled: false
-    reason: robots_disallow_pending_permission
+    enabled: true
   orimattila:
     name_fi: Orimattila
     rank: 70
@@ -1175,8 +1152,7 @@ municipalities:
     portal_url: https://poytakirjat.ylivieska.fi/cgi/DREQUEST.PHP?page=meeting_frames
     registry_verification: live-verified
     statfin_candidates_table: 14v7
-    enabled: false
-    reason: robots_disallow_pending_permission
+    enabled: true
   loimaa:
     name_fi: Loimaa
     rank: 72
@@ -1240,8 +1216,7 @@ municipalities:
     councillors_url: https://kuusamo.tweb.fi/ktwebscr/lumu_organ.htm
     registry_verification: linked-from-official-site
     statfin_candidates_table: 14v7
-    enabled: false
-    reason: robots_disallow_pending_permission
+    enabled: true
   parainen:
     name_fi: Parainen
     name_sv: Pargas
@@ -1344,8 +1319,7 @@ municipalities:
     video_url: https://kauhajoki.fi/kaupunki-ja-hallinto/hallinto/valtuuston-kokousvideot/
     registry_verification: linked-from-official-site
     statfin_candidates_table: 14v5
-    enabled: false
-    reason: robots_disallow_pending_permission
+    enabled: true
   ilmajoki:
     name_fi: Ilmajoki
     rank: 82
@@ -1361,8 +1335,7 @@ municipalities:
     councillors_url: https://ilmajoki-julkaisu.tweb.fi/ktwebscr/lumu_organ.htm
     registry_verification: linked-from-official-site
     statfin_candidates_table: 14v5
-    enabled: false
-    reason: robots_disallow_pending_permission
+    enabled: true
   ulvila:
     name_fi: Ulvila
     rank: 83
@@ -1513,8 +1486,7 @@ municipalities:
     councillors_url: https://muurame.tweb.fi/ktwebscr/lumu_organ.htm
     registry_verification: linked-from-official-site
     statfin_candidates_table: 14v6
-    enabled: false
-    reason: robots_disallow_pending_permission
+    enabled: true
   nivala:
     name_fi: Nivala
     rank: 92
@@ -1529,8 +1501,7 @@ municipalities:
     portal_url: https://poytakirjat.nivala.fi/cgi/DREQUEST.PHP?page=meeting_frames
     registry_verification: search-index
     statfin_candidates_table: 14v7
-    enabled: false
-    reason: robots_disallow_pending_permission
+    enabled: true
   hameenkyro:
     name_fi: Hämeenkyrö
     rank: 93
