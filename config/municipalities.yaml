@@ -224,6 +224,7 @@ municipalities:
     councillors_url: https://hameenlinna.tweb.fi/ktwebscr/lumu_organ.htm
     registry_verification: linked-from-official-site
     statfin_candidates_table: 14v1
+    crawl_from: local
     enabled: true
   seinajoki:
     name_fi: Seinäjoki
@@ -452,6 +453,7 @@ municipalities:
     councillors_url: https://rauma-julkaisu.tweb.fi/ktwebscr/lumu_organ.htm
     registry_verification: linked-from-official-site
     statfin_candidates_table: 14uz
+    crawl_from: local
     enabled: true
   kerava:
     name_fi: Kerava
@@ -469,6 +471,7 @@ municipalities:
     councillors_url: https://kerava-julkaisu.tweb.fi/ktwebscr/lumu_organ.htm
     registry_verification: linked-from-official-site
     statfin_candidates_table: 14ux
+    crawl_from: local
     enabled: true
   kaarina:
     name_fi: Kaarina
@@ -519,6 +522,7 @@ municipalities:
     councillors_url: https://nokia.tweb.fi/ktwebscr/lumu_organ.htm
     registry_verification: linked-from-official-site
     statfin_candidates_table: 14v2
+    crawl_from: local
     enabled: true
   kangasala:
     name_fi: Kangasala
@@ -535,6 +539,7 @@ municipalities:
     councillors_url: https://kangasala.tweb.fi/ktwebscr/lumu_organ.htm
     registry_verification: linked-from-official-site
     statfin_candidates_table: 14v2
+    crawl_from: local
     enabled: true
   ylojarvi:
     name_fi: Ylöjärvi
@@ -619,6 +624,7 @@ municipalities:
     video_url: https://www.kextv.fi/sv/programarkiv
     registry_verification: linked-from-official-site
     statfin_candidates_table: 14ux
+    crawl_from: local
     enabled: true
   raisio:
     name_fi: Raisio
@@ -774,6 +780,7 @@ municipalities:
     councillors_url: https://pirkkala.tweb.fi/ktwebscr/lumu_organ.htm
     registry_verification: linked-from-official-site
     statfin_candidates_table: 14v2
+    crawl_from: local
     enabled: true
   mantsala:
     name_fi: Mäntsälä
@@ -822,6 +829,7 @@ municipalities:
     councillors_url: https://valkeakoski.tweb.fi/ktwebscr/lumu_organ.htm
     registry_verification: linked-from-official-site
     statfin_candidates_table: 14v2
+    crawl_from: local
     enabled: true
   lieto:
     name_fi: Lieto
@@ -839,6 +847,7 @@ municipalities:
     councillors_url: https://lieto-julkaisu.triplancloud.fi/ktwebscr/lumu_organ.htm
     registry_verification: linked-from-official-site
     statfin_candidates_table: 14uy
+    crawl_from: local
     enabled: true
   iisalmi:
     name_fi: Iisalmi
@@ -938,6 +947,7 @@ municipalities:
     councillors_url: https://varkaus.tweb.fi/ktwebscr/lumu_organ.htm
     registry_verification: linked-from-official-site
     statfin_candidates_table: 14v4
+    crawl_from: local
     enabled: true
   kurikka:
     name_fi: Kurikka
@@ -987,6 +997,7 @@ municipalities:
     councillors_url: https://hamina-julkaisu.triplancloud.fi/ktwebscr/lumu_organ.htm
     registry_verification: linked-from-official-site
     statfin_candidates_table: 14v3
+    crawl_from: local
     enabled: true
   jamsa:
     name_fi: Jämsä
@@ -1103,6 +1114,7 @@ municipalities:
     councillors_url: https://akaa.tweb.fi/ktwebscr/lumu_organ.htm
     registry_verification: linked-from-official-site
     statfin_candidates_table: 14v2
+    crawl_from: local
     enabled: true
   janakkala:
     name_fi: Janakkala
@@ -1119,6 +1131,7 @@ municipalities:
     councillors_url: https://janakkala.tweb.fi/ktwebscr/lumu_organ.htm
     registry_verification: linked-from-official-site
     statfin_candidates_table: 14v1
+    crawl_from: local
     enabled: true
   orimattila:
     name_fi: Orimattila
@@ -1151,6 +1164,7 @@ municipalities:
     portal_url: https://poytakirjat.ylivieska.fi/cgi/DREQUEST.PHP?page=meeting_frames
     registry_verification: live-verified
     statfin_candidates_table: 14v7
+    crawl_from: local
     enabled: true
   loimaa:
     name_fi: Loimaa
@@ -1215,6 +1229,7 @@ municipalities:
     councillors_url: https://kuusamo.tweb.fi/ktwebscr/lumu_organ.htm
     registry_verification: linked-from-official-site
     statfin_candidates_table: 14v7
+    crawl_from: local
     enabled: true
   parainen:
     name_fi: Parainen
@@ -1318,6 +1333,7 @@ municipalities:
     video_url: https://kauhajoki.fi/kaupunki-ja-hallinto/hallinto/valtuuston-kokousvideot/
     registry_verification: linked-from-official-site
     statfin_candidates_table: 14v5
+    crawl_from: local
     enabled: true
   ilmajoki:
     name_fi: Ilmajoki
@@ -1334,6 +1350,7 @@ municipalities:
     councillors_url: https://ilmajoki-julkaisu.tweb.fi/ktwebscr/lumu_organ.htm
     registry_verification: linked-from-official-site
     statfin_candidates_table: 14v5
+    crawl_from: local
     enabled: true
   ulvila:
     name_fi: Ulvila
@@ -1485,6 +1502,7 @@ municipalities:
     councillors_url: https://muurame.tweb.fi/ktwebscr/lumu_organ.htm
     registry_verification: linked-from-official-site
     statfin_candidates_table: 14v6
+    crawl_from: local
     enabled: true
   nivala:
     name_fi: Nivala
@@ -1500,6 +1518,7 @@ municipalities:
     portal_url: https://poytakirjat.nivala.fi/cgi/DREQUEST.PHP?page=meeting_frames
     registry_verification: search-index
     statfin_candidates_table: 14v7
+    crawl_from: local
     enabled: true
   hameenkyro:
     name_fi: Hämeenkyrö

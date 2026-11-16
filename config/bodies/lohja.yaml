@@ -1,0 +1,114 @@
+# Written by `kunta discover` / `kunta crawl`. Add `included: true|false` to a body to override the
+# default exclude rules (kunta/bodies.py); manual keys survive re-discovery. `excluded_by_rule`
+# is informational.
+bodies:
+  alueiden-johtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Alueiden johtokunta
+  hiiden-opiston-johtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Hiiden Opiston johtokunta
+  kaupunginhallituksen-henkilostojaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Kaupunginhallituksen henkilöstöjaosto
+  kaupunginhallituksen-hyvinvoinnin-ja-terveyden-edistamisen-jaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Kaupunginhallituksen hyvinvoinnin ja terveyden edistämisen jaosto
+  kaupunginhallituksen-konserni-ja-omaisuusjaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Kaupunginhallituksen konserni- ja omaisuusjaosto
+  kaupunginhallitus:
+    kind: board
+    name_fi: Kaupunginhallitus
+  kaupunginvaltuusto:
+    kind: council
+    name_fi: Kaupunginvaltuusto
+  kaupunkikehityslautakunnan-lupajaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Kaupunkikehityslautakunnan lupajaosto
+  kaupunkikehityslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kaupunkikehityslautakunta
+  kaupunkisuunnittelulautakunnan-lupajaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Kaupunkisuunnittelulautakunnan lupajaosto
+  kaupunkisuunnittelulautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kaupunkisuunnittelulautakunta
+  keskusvaalilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Keskusvaalilautakunta
+  kulttuuri-ja-vapaa-ajan-lautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kulttuuri- ja vapaa-ajan lautakunta
+  lasten-nuorten-ja-perheiden-lautakunnan-suomenkielinen-jaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Lasten, nuorten ja perheiden lautakunnan suomenkielinen jaosto
+  lasten-nuorten-ja-perheiden-lautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Lasten, nuorten ja perheiden lautakunta
+  nuorisovaltuusto:
+    excluded_by_rule: true
+    kind: council
+    name_fi: Nuorisovaltuusto
+  sivistyslautakunnan-suomenkielinen-jaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Sivistyslautakunnan suomenkielinen jaosto
+  sivistyslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Sivistyslautakunta
+  sosiaali-ja-terveyslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Sosiaali- ja terveyslautakunta
+  stadsfullmaktige:
+    excluded_by_rule: true
+    kind: council
+    name_fi: Stadsfullmäktige
+  svenska-sektionen-vid-bildningsnamnden:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Svenska sektionen vid bildningsnämnden
+  svenska-sektionen-vid-namnden-for-barn-unga-och-familjer:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Svenska sektionen vid nämnden för barn unga och familjer
+  tarkastuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tarkastuslautakunta
+  tekninen-lautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tekninen lautakunta
+  tyollisyys-ja-elinkeinolautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Työllisyys- ja elinkeinolautakunta
+  vammaisneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vammaisneuvosto
+  vanhusneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vanhusneuvosto
+  ymparistoterveyslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Ympäristöterveyslautakunta

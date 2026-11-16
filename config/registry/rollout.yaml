@@ -90,4 +90,26 @@ enabled:
 
 # Per-municipality corrections found by the audit, merged over the registry row
 # (e.g. a council_source_id the registry lacked, or a moved base URL).
-overrides: {}
+# `crawl_from: local` (2026-11-15, Savvas): robots.txt on these hosts timed out from GitHub Actions in
+# the first robots-override crawl (run 43741312063), so the weekly matrix skips them and
+# scripts/crawl_local.py crawls them from Savvas's computer, same limits, data to R2.
+overrides:
+  hameenlinna: {crawl_from: local}
+  rauma: {crawl_from: local}
+  kerava: {crawl_from: local}
+  nokia: {crawl_from: local}
+  kangasala: {crawl_from: local}
+  pirkkala: {crawl_from: local}
+  valkeakoski: {crawl_from: local}
+  varkaus: {crawl_from: local}
+  akaa: {crawl_from: local}
+  janakkala: {crawl_from: local}
+  kuusamo: {crawl_from: local}
+  ilmajoki: {crawl_from: local}
+  muurame: {crawl_from: local}
+  raasepori: {crawl_from: local}
+  lieto: {crawl_from: local}
+  hamina: {crawl_from: local}
+  kauhajoki: {crawl_from: local}
+  ylivieska: {crawl_from: local}
+  nivala: {crawl_from: local}
