@@ -1,3 +1,128 @@
-# Filled by `kunta discover --city oulu`. Set `included: true|false` on a body to
-# override the default exclude rules (kunta/bodies.py). Manual flags survive re-discovery.
-bodies: {}
+# Written by `kunta discover` / `kunta crawl`. Add `included: true|false` to a body to override the
+# default exclude rules (kunta/bodies.py); manual keys survive re-discovery. `excluded_by_rule`
+# is informational.
+bodies:
+  business-oulu-liikelaitoksen-johtokunta:
+    kind: enterprise_board
+    name_fi: Business Oulu -liikelaitoksen johtokunta
+  business-oulu-liikelaitoksen-tyollisyysjaosto:
+    kind: section
+    name_fi: Business Oulu -liikelaitoksen työllisyysjaosto
+  businessoulu-liikelaitoksen-johtokunta-31-5-2017:
+    kind: enterprise_board
+    name_fi: BusinessOulu liikelaitoksen johtokunta ( - 31.5.2017)
+  hyvinvointi-kulttuuri-ja-liikuntalautakunta:
+    kind: committee
+    name_fi: Hyvinvointi-, kulttuuri- ja liikuntalautakunta
+  hyvinvointilautakunta:
+    kind: committee
+    name_fi: Hyvinvointilautakunta
+  hyvinvointipalvelujen-johtokunta:
+    kind: enterprise_board
+    name_fi: Hyvinvointipalvelujen johtokunta
+  hyvinvointitoimikunta:
+    kind: committee
+    name_fi: Hyvinvointitoimikunta
+  kaupunginhallituksen-henkilostojaosto:
+    kind: section
+    name_fi: Kaupunginhallituksen henkilöstöjaosto
+  kaupunginhallituksen-kehittamisjaosto:
+    kind: section
+    name_fi: Kaupunginhallituksen kehittämisjaosto
+  kaupunginhallituksen-konsernijaosto:
+    kind: section
+    name_fi: Kaupunginhallituksen konsernijaosto
+  kaupunginhallituksen-tarkastustoimikunta:
+    kind: committee
+    name_fi: Kaupunginhallituksen tarkastustoimikunta
+  kaupunginhallitus:
+    kind: board
+    name_fi: Kaupunginhallitus
+  kaupunginvaltuusto:
+    kind: council
+    name_fi: Kaupunginvaltuusto
+  keskusvaalilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Keskusvaalilautakunta
+  lahidemokratiatoimikunta:
+    kind: committee
+    name_fi: Lähidemokratiatoimikunta
+  liikelaitos-oulun-serviisin-johtokunta:
+    kind: enterprise_board
+    name_fi: Liikelaitos Oulun Serviisin johtokunta
+  liikelaitos-oulun-tilakeskuksen-johtokunta:
+    kind: enterprise_board
+    name_fi: Liikelaitos Oulun Tilakeskuksen johtokunta
+  liikelaitosten-johtokunta:
+    kind: enterprise_board
+    name_fi: Liikelaitosten johtokunta
+  liikelaitosten-johtokunta-1-6-2017:
+    kind: enterprise_board
+    name_fi: Liikelaitosten johtokunta (1.6.2017 - )
+  nimistotoimikunta:
+    kind: committee
+    name_fi: Nimistötoimikunta
+  oulu-koillismaan-pelastusliikelaitoksen-johtokunta:
+    kind: enterprise_board
+    name_fi: Oulu-Koillismaan pelastusliikelaitoksen johtokunta
+  oulun-digi-liikelaitoksen-johtokunta:
+    kind: enterprise_board
+    name_fi: Oulun Digi -liikelaitoksen johtokunta
+  oulun-energia-liikelaitoksen-johtokunta:
+    kind: enterprise_board
+    name_fi: Oulun Energia liikelaitoksen johtokunta
+  oulun-konttori-liikelaitoksen-johtokunta:
+    kind: enterprise_board
+    name_fi: Oulun Konttori liikelaitoksen johtokunta
+  oulun-seudun-ymparistotoimi-liikelaitoksen-johtokunta:
+    kind: enterprise_board
+    name_fi: Oulun seudun ympäristötoimi -liikelaitoksen johtokunta
+  oulun-teknisen-liikelaitoksen-johtokunta:
+    kind: enterprise_board
+    name_fi: Oulun teknisen liikelaitoksen johtokunta
+  oulun-tietotekniikka-liikelaitoksen-johtokunta:
+    kind: enterprise_board
+    name_fi: Oulun Tietotekniikka liikelaitoksen johtokunta
+  oulun-tilapalvelut-liikelaitoksen-johtokunta:
+    kind: enterprise_board
+    name_fi: Oulun Tilapalvelut -liikelaitoksen johtokunta
+  oulun-tyoterveys-liikelaitoksen-johtokunta:
+    kind: enterprise_board
+    name_fi: Oulun Työterveys liikelaitoksen johtokunta
+  oulun-vesi-liikelaitoksen-johtokunta:
+    kind: enterprise_board
+    name_fi: Oulun Vesi -liikelaitoksen johtokunta
+  oulunsalon-kulttuuri-instituutti-liikelaitoksen-johtokunta:
+    kind: enterprise_board
+    name_fi: Oulunsalon Kulttuuri-Instituutti liikelaitoksen johtokunta
+  rakennuslautakunta:
+    kind: committee
+    name_fi: Rakennuslautakunta
+  seudullinen-jatehuoltojaosto:
+    kind: section
+    name_fi: Seudullinen jätehuoltojaosto
+  seudullinen-joukkoliikennejaosto:
+    kind: section
+    name_fi: Seudullinen joukkoliikennejaosto
+  sivistys-ja-kulttuurilautakunta:
+    kind: committee
+    name_fi: Sivistys- ja kulttuurilautakunta
+  sivistyslautakunta:
+    kind: committee
+    name_fi: Sivistyslautakunta
+  tarkastuslautakunta:
+    kind: committee
+    name_fi: Tarkastuslautakunta
+  tasa-arvo-ja-yhdenvertaisuustoimikunta:
+    kind: committee
+    name_fi: Tasa-arvo- ja yhdenvertaisuustoimikunta
+  teknisten-liikelaitosten-johtokunta:
+    kind: enterprise_board
+    name_fi: Teknisten liikelaitosten johtokunta
+  yhdyskuntajaosto:
+    kind: section
+    name_fi: Yhdyskuntajaosto
+  yhdyskuntalautakunta:
+    kind: committee
+    name_fi: Yhdyskuntalautakunta
