@@ -87,6 +87,18 @@ class TwebAdapter:
             return [ln for page in pdf_pages(resp.content, max_pages) for ln in page]
         return tp.html_lines(tp.decode(resp.content))
 
+    def _cover(self, url: str, max_pages: int | None) -> tp.Cover:
+        """The cover page: a PDF, or (Hämeenlinna's "Läsnäolijat") an HTML page of <h2> sections."""
+        resp = self._fetch(url)
+        if resp.content[:5] == b"%PDF-" or "pdf" in resp.content_type.lower():
+            return tp.parse_cover([ln for page in pdf_pages(resp.content, max_pages) for ln in page])
+        html = tp.decode(resp.content)
+        return (
+            tp.parse_cover_sections(html)
+            if tp.is_section_cover(html)
+            else tp.parse_cover(tp.html_lines(html))
+        )
+
     # -- bodies -------------------------------------------------------------------------------
 
     def discover_bodies(self) -> list[Body]:
@@ -169,7 +181,7 @@ class TwebAdapter:
         cover_url, pages = (page.cover_pdf, None) if page.cover_pdf else (page.compiled_pdf, COVER_PAGES)
         if stage == Stage.minutes and cover_url:
             try:
-                cover = tp.parse_cover(self._doc_lines(cover_url, pages))
+                cover = self._cover(cover_url, pages)
             except (NotFound, RobotsDisallowed) as exc:
                 log.warning("%s: cover page: %s", mid, exc)
         if cover.date and cover.date != ref.date:

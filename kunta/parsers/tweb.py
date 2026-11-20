@@ -150,7 +150,7 @@ def parse_meeting(html: str, base: str = BASE) -> MeetingPage:
         url = urljoin(base + "/ktwebscr/", doc_href) if doc_href else None
         if not re.fullmatch(r"\d+", first):
             # Rows without § are the cover page and the appeal instructions; not items (§7.4).
-            if url and re.search(r"kansilehti|försättsblad", title, re.IGNORECASE):
+            if url and re.search(r"kansilehti|försättsblad|läsnäolijat|närvarande", title, re.IGNORECASE):
                 page.cover_pdf = url
             continue
         ordinal += 1
@@ -309,6 +309,66 @@ def parse_cover(lines: list[str]) -> Cover:
             cover.participants.append(p)
             if not second and re.search(r"(?:^[IV]+|,)$", raw_role):
                 wrapped = p, ", " if raw_role.endswith(",") else " "
+    return cover
+
+
+# Some installs (Hämeenlinna) have no cover PDF: a "Läsnäolijat" row links an HTML page with one
+# <h2> heading per field and the values in the next <p>, one per <br>: "Aika" "9.6.2025 18:00 -
+# 20:27", "Paikka", "Päätöksentekijät" (present, no x/- mark: "Surname First[, 1.
+# varapuheenjohtaja]", deputies "Name (kokoomuksen 1. varavaltuutettu)", a bare note "§ 72-86 klo
+# 18.00-19.02"), "Muut osallistujat" ("Name, kaupunginjohtaja"), "Poissa" (absent members), then
+# Puheenjohtaja, Pöytäkirjanpitäjä and so on, which are not attendance.
+SECTION_GROUPS = {
+    "päätöksentekijät": ("jäsen", True),
+    "beslutsfattare": ("jäsen", True),
+    "muut osallistujat": ("muu osallistuja", True),
+    "övriga deltagare": ("muu osallistuja", True),
+    "poissa": ("jäsen", False),
+    "frånvarande": ("jäsen", False),
+}
+SECTION_ENTRY = re.compile(
+    r"^(?P<name>[^,(§]+?)(?:,\s*(?P<role>[^(§]+?))?\s*(?:\((?P<bracket>[^)]*)\))?"
+    r"\s*(?P<note>(?:§|klo\b|kl\.).*)?$"
+)
+SECTION_TIME = re.compile(
+    r"(\d{1,2}\.\d{1,2}\.\d{4})(?:,?\s*(?:klo|kl\.)?\s*(\d{1,2})[.:](\d{2}))?"
+    r"(?:\s*[–-]\s*(?:\d{1,2}\.\d{1,2}\.\d{4}\s*)?(?:klo\s*)?(\d{1,2})[.:](\d{2}))?"
+)
+
+
+def is_section_cover(html: str) -> bool:
+    return bool(re.search(r"<h2[^>]*>\s*(?:Päätöksentekijät|Beslutsfattare)\s*</h2>", html, re.IGNORECASE))
+
+
+def parse_cover_sections(html: str) -> Cover:
+    cover = Cover()
+    for h2 in HTMLParser(html).css("h2"):
+        heading = clean(h2.text(deep=True)).lower()
+        node = h2.next
+        while node is not None and node.tag == "-text":
+            node = node.next
+        if node is None or node.tag == "h2":
+            continue
+        values = [clean(v) for v in node.text(deep=True, separator="\n").splitlines() if clean(v)]
+        if heading in ("aika", "tid") and values and (m := SECTION_TIME.search(values[0])):
+            cover.date = parse_date(m.group(1))
+            cover.start_time = _hhmm(m.group(2), m.group(3)) if m.group(2) else None
+            cover.end_time = _hhmm(m.group(4), m.group(5)) if m.group(4) else None
+        elif heading in ("paikka", "plats") and values:
+            cover.location = values[0]
+        elif heading in SECTION_GROUPS:
+            group, present = SECTION_GROUPS[heading]
+            for value in values:
+                if not (m := SECTION_ENTRY.match(value)):
+                    continue
+                name = m.group("name").strip()
+                if not re.match(r"^[A-ZÅÄÖ]", name):
+                    continue
+                role = (m.group("role") or m.group("bracket") or "").strip(" ,") or group
+                note = (m.group("note") or "").strip() or None
+                if m.group("role") and m.group("bracket"):
+                    note = " ".join(filter(None, [m.group("bracket").strip(), note]))
+                cover.participants.append(Participant(name=name, role=role, present=present, note=note))
     return cover
 
 

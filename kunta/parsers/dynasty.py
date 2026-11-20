@@ -57,10 +57,24 @@ TIME_RANGE = re.compile(r"klo\s+(\d{1,2})[.:](\d{2})(?:\s*-\s*(?:(\d{1,2})[.:](\
 STAGE_WORDS = {"esityslista": Stage.agenda, "pöytäkirja": Stage.minutes}
 
 
+def _utf16(content: bytes) -> str | None:
+    if content[:2] in (b"\xff\xfe", b"\xfe\xff"):
+        return "utf-16"
+    head = content[:200]
+    if len(head) >= 4 and head.count(b"\x00") * 3 >= len(head):  # mostly NUL: ASCII as UTF-16
+        return "utf-16-le" if head[0] != 0 and head[1] == 0 else "utf-16-be"
+    return None
+
+
 def decode(content: bytes, declared: str | None = None) -> str:
     """Dynasty serves listing pages as ISO-8859-1 and item pages as UTF-8, and the declared charset
     is not always right. Valid UTF-8 with non-ASCII bytes is UTF-8; otherwise use the declared
-    charset (header or meta tag), falling back to Windows-1252 (a superset of ISO-8859-1)."""
+    charset (header or meta tag), falling back to Windows-1252 (a superset of ISO-8859-1).
+
+    Some Tweb installs (Hämeenlinna, Kerava, Raasepori) serve documents as UTF-16LE without a BOM,
+    which also passes as UTF-8 (every other byte NUL), so UTF-16 is checked first."""
+    if utf16 := _utf16(content):
+        return content.decode(utf16, errors="replace")
     try:
         return content.decode("utf-8")
     except UnicodeDecodeError:
