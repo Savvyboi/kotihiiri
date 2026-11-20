@@ -1,6 +1,11 @@
 """Tweb installs that serve UTF-16 HTML and an HTML "Läsnäolijat" cover (Hämeenlinna, 2026-11-20)."""
 
+import datetime as dt
+from pathlib import Path
+
+from kunta.models import Outcome, SectionType
 from kunta.parsers import tweb as tp
+from kunta.parsers.votes_cloudmeeting import VOTE_LIST_TITLE
 
 COVER = """<html><body><h1>Kaupunginvaltuusto</h1>
 <h2>Aika</h2><p>9.6.2025 18:00 - 20:27</p>
@@ -61,3 +66,91 @@ def test_section_cover():
     assert got["Lehto Kirsi"] == ("1. varapuheenjohtaja", True, None)
     assert got["Oksa Jussi"] == ("talousjohtaja", True, "§ 86-92 klo 13.07-13.32")
     assert got["Silpola Veli-Antti"] == ("jäsen", False, None)
+
+
+# -- items served as HTML (<header> + <h2> parts) -------------------------------------------
+
+FIXTURES = Path(__file__).parent / "fixtures" / "tweb_html"
+
+
+def item(name: str) -> tp.ItemDoc:
+    raw = (FIXTURES / name).read_text(encoding="utf-8").encode("utf-16-le")  # as served
+    html = tp.decode(raw)
+    assert tp.is_html_item(html)
+    return tp.parse_item_html(html)
+
+
+def kinds(doc: tp.ItemDoc) -> list[tuple[SectionType, str | None]]:
+    return [(s.type, s.heading) for s in tp.item_sections(doc)[0]]
+
+
+def test_hameenlinna_item_own_handling_first_earlier_after():
+    doc = item("hml_kv_2025-02-17_11.html")
+    assert doc.case_number == "HML/550/00.01.01/2025"
+    assert [b.header for b in doc.blocks] == [
+        "Kaupunginhallitus 3.2.2025 § 32",
+        "Kaupunginvaltuusto 17.2.2025 § 11",
+    ]
+    tp.end_at_meeting(doc, dt.date(2025, 2, 17), 11)
+    assert kinds(doc) == [
+        (SectionType.history, "Kaupunginhallitus 3.2.2025 § 32"),
+        (SectionType.decision, "Päätös"),
+        (SectionType.proposal, "Päätösehdotus"),
+        (SectionType.deliberation, "Käsittely"),
+    ]
+    assert doc.attachment_titles[0] == "Äänestykset 11 § 17.2.2025 KV"
+    assert VOTE_LIST_TITLE.search(doc.attachment_titles[0])
+
+
+def test_hameenlinna_votes_and_motions():
+    doc = item("hml_kv_2025-02-17_11.html")
+    motions, prose = tp.parse_case(tp.item_sections(doc)[2])
+    assert [(p.a, p.b, p.tyhja) for p in prose] == [(36, 13, 2), (41, 10, 0), (44, 7, 0), (37, 12, 2)]
+    assert [p.ei_label for p in prose] == [
+        "Laitisen muutosehdotus",
+        "Frankin muutosehdotus",
+        "Frankin muutosehdotus",
+        "Reiman muutosehdotus",
+    ]
+    assert [m.proposer_ref.raw for m in motions] == [
+        "Tiera Laitinen",
+        "Karoliina Frank",
+        "Karoliina Frank",
+        "Aapo Reima",
+    ]
+    assert all(m.outcome == Outcome.rejected for m in motions)
+
+
+def test_hameenlinna_short_item():
+    doc = item("hml_kv_2025-06-09_72.html")
+    assert kinds(doc) == [
+        (SectionType.background, None),
+        (SectionType.decision, "Päätös"),
+        (SectionType.proposal, "Päätösehdotus"),
+    ]
+
+
+def test_kerava_item_list_stays_in_its_part():
+    doc = item("kerava_kh_2025-01-13_2.html")
+    assert [b.header for b in doc.blocks] == [
+        "Kaupunginhallitus 13.1.2025 § 2"
+    ]  # the repeated line is skipped
+    sections = tp.item_sections(doc)[0]
+    assert [s.type for s in sections] == [SectionType.background, SectionType.proposal, SectionType.decision]
+    assert sections[2].text.endswith("strategiapäällikkö Emmi Kolis")
+
+
+def test_raasepori_swedish_item():
+    doc = item("raasepori_fullmaktige_2025-01-20_5.html")
+    assert doc.case_number == "RBG/1303/01.01.01.01/2024"
+    assert [b.header for b in doc.blocks] == ["Stadsstyrelsen 13.1.2025 § 6", "Fullmäktige 20.1.2025 § 5"]
+    assert [t for t, _ in kinds(doc)] == [
+        SectionType.background,
+        SectionType.history,
+        SectionType.proposal,
+        SectionType.deliberation,
+        SectionType.decision,
+    ]
+    empty = item("raasepori_fm_2025-01-20_1.html")  # "{Ärendenummer}:" with nothing under it
+    assert empty.case_number is None
+    assert [t for t, _ in kinds(empty)] == [SectionType.proposal, SectionType.decision]

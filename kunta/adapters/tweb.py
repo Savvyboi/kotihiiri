@@ -87,6 +87,17 @@ class TwebAdapter:
             return [ln for page in pdf_pages(resp.content, max_pages) for ln in page]
         return tp.html_lines(tp.decode(resp.content))
 
+    def _item_doc(self, ref: ItemRef) -> tp.ItemDoc:
+        """The item document: a PDF, or an HTML page (<header> + <h2> parts, or plain lines)."""
+        resp = self._fetch(ref.source_url)
+        if resp.content[:5] == b"%PDF-" or "pdf" in resp.content_type.lower():
+            lines = [ln for page in pdf_pages(resp.content, None) for ln in page]
+            return tp.parse_item_lines(lines, ref.title)
+        html = tp.decode(resp.content)
+        if tp.is_html_item(html):
+            return tp.parse_item_html(html)
+        return tp.parse_item_lines(tp.html_lines(html), ref.title)
+
     def _cover(self, url: str, max_pages: int | None) -> tp.Cover:
         """The cover page: a PDF, or (Hämeenlinna's "Läsnäolijat") an HTML page of <h2> sections."""
         resp = self._fetch(url)
@@ -215,8 +226,7 @@ class TwebAdapter:
     def fetch_item(self, ref: ItemRef) -> AgendaItem:
         if "docid" not in ref.source_ids:  # no document published (confidential)
             return build_item(ref, tp.ItemDoc(), [])
-        lines = self._doc_lines(ref.source_url)
-        doc = tp.parse_item_lines(lines, ref.title)
+        doc = self._item_doc(ref)
         tp.end_at_meeting(doc, self._meeting_date(ref), ref.pykala)
         attachments = []
         att_url = self._att.get(ref.meeting_id, {}).get(ref.ordinal)
