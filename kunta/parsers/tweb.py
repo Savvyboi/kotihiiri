@@ -150,7 +150,7 @@ def parse_meeting(html: str, base: str = BASE) -> MeetingPage:
         url = urljoin(base + "/ktwebscr/", doc_href) if doc_href else None
         if not re.fullmatch(r"\d+", first):
             # Rows without § are the cover page and the appeal instructions; not items (§7.4).
-            if url and re.search(r"kansilehti|försättsblad", title, re.IGNORECASE):
+            if url and re.search(r"kansilehti|försättsblad|läsnäolijat|närvarande", title, re.IGNORECASE):
                 page.cover_pdf = url
             continue
         ordinal += 1
@@ -312,6 +312,66 @@ def parse_cover(lines: list[str]) -> Cover:
     return cover
 
 
+# Some installs (Hämeenlinna) have no cover PDF: a "Läsnäolijat" row links an HTML page with one
+# <h2> heading per field and the values in the next <p>, one per <br>: "Aika" "9.6.2025 18:00 -
+# 20:27", "Paikka", "Päätöksentekijät" (present, no x/- mark: "Surname First[, 1.
+# varapuheenjohtaja]", deputies "Name (kokoomuksen 1. varavaltuutettu)", a bare note "§ 72-86 klo
+# 18.00-19.02"), "Muut osallistujat" ("Name, kaupunginjohtaja"), "Poissa" (absent members), then
+# Puheenjohtaja, Pöytäkirjanpitäjä and so on, which are not attendance.
+SECTION_GROUPS = {
+    "päätöksentekijät": ("jäsen", True),
+    "beslutsfattare": ("jäsen", True),
+    "muut osallistujat": ("muu osallistuja", True),
+    "övriga deltagare": ("muu osallistuja", True),
+    "poissa": ("jäsen", False),
+    "frånvarande": ("jäsen", False),
+}
+SECTION_ENTRY = re.compile(
+    r"^(?P<name>[^,(§]+?)(?:,\s*(?P<role>[^(§]+?))?\s*(?:\((?P<bracket>[^)]*)\))?"
+    r"\s*(?P<note>(?:§|klo\b|kl\.).*)?$"
+)
+SECTION_TIME = re.compile(
+    r"(\d{1,2}\.\d{1,2}\.\d{4})(?:,?\s*(?:klo|kl\.)?\s*(\d{1,2})[.:](\d{2}))?"
+    r"(?:\s*[–-]\s*(?:\d{1,2}\.\d{1,2}\.\d{4}\s*)?(?:klo\s*)?(\d{1,2})[.:](\d{2}))?"
+)
+
+
+def is_section_cover(html: str) -> bool:
+    return bool(re.search(r"<h2[^>]*>\s*(?:Päätöksentekijät|Beslutsfattare)\s*</h2>", html, re.IGNORECASE))
+
+
+def parse_cover_sections(html: str) -> Cover:
+    cover = Cover()
+    for h2 in HTMLParser(html).css("h2"):
+        heading = clean(h2.text(deep=True)).lower()
+        node = h2.next
+        while node is not None and node.tag == "-text":
+            node = node.next
+        if node is None or node.tag == "h2":
+            continue
+        values = [clean(v) for v in node.text(deep=True, separator="\n").splitlines() if clean(v)]
+        if heading in ("aika", "tid") and values and (m := SECTION_TIME.search(values[0])):
+            cover.date = parse_date(m.group(1))
+            cover.start_time = _hhmm(m.group(2), m.group(3)) if m.group(2) else None
+            cover.end_time = _hhmm(m.group(4), m.group(5)) if m.group(4) else None
+        elif heading in ("paikka", "plats") and values:
+            cover.location = values[0]
+        elif heading in SECTION_GROUPS:
+            group, present = SECTION_GROUPS[heading]
+            for value in values:
+                if not (m := SECTION_ENTRY.match(value)):
+                    continue
+                name = m.group("name").strip()
+                if not re.match(r"^[A-ZÅÄÖ]", name):
+                    continue
+                role = (m.group("role") or m.group("bracket") or "").strip(" ,") or group
+                note = (m.group("note") or "").strip() or None
+                if m.group("role") and m.group("bracket"):
+                    note = " ".join(filter(None, [m.group("bracket").strip(), note]))
+                cover.participants.append(Participant(name=name, role=role, present=present, note=note))
+    return cover
+
+
 # -- item document ------------------------------------------------------------------------
 
 DIARY = re.compile(r"^[A-ZÅÄÖ]{1,4}/\d+/[\d.]+/\d{4}$")
@@ -397,6 +457,121 @@ def parse_item_lines(lines: list[str], title: str | None = None) -> ItemDoc:
                 doc.attachment_titles[-1] += " " + s
             continue
         cur.append(ln)
+    return doc
+
+
+# Items some installs (Hämeenlinna, Kerava, Raasepori) serve as HTML: a <header> with "{Body}<br>
+# d.m.yyyy § n[<br>diary number]", an <h1> title, then one <h2> per part with the text in the next
+# <p>. The meeting's own handling comes first; earlier handlings follow, each opened by a <p>
+# "{Body} d.m.yyyy § n" (Raasepori puts "Beslutshistorik" before them). Swedish installs use
+# Förslag / Beslutets behandling / Beslut and leave template headings such as "{Ärendenummer}:".
+HTML_PARTS = {
+    "päätös": SectionType.decision,
+    "beslut": SectionType.decision,
+    "päätösehdotus": SectionType.proposal,
+    "ehdotus": SectionType.proposal,
+    "förslag": SectionType.proposal,
+    "beslutsförslag": SectionType.proposal,
+    "kokouskäsittely": SectionType.deliberation,
+    "käsittely": SectionType.deliberation,
+    "behandling": SectionType.deliberation,
+    "beslutets behandling": SectionType.deliberation,
+    "selostus": SectionType.background,
+    "asiateksti": SectionType.background,
+    "perustelut": SectionType.background,
+    "beredningstext": SectionType.background,
+    "beredning": SectionType.background,
+}
+HTML_ATTACHMENTS = {"liitteet", "liite", "bilagor", "bilaga"}
+HTML_HEADINGS = {
+    SectionType.decision: "Päätös:",
+    SectionType.proposal: "Päätösehdotus:",
+    SectionType.deliberation: "Käsittely:",
+}
+HTML_BLOCK = re.compile(r"^(?P<body>[A-ZÅÄÖ][^§]*?)\s+(?P<date>\d{1,2}\.\d{1,2}\.\d{4})\s*§\s*(?P<n>\d+)$")
+
+
+def is_html_item(html: str) -> bool:
+    """An item page of the <header> + <h2> layout (not a plain page of lines)."""
+    return bool(re.search(r"<header\b", html, re.IGNORECASE)) and "<h2" in html.lower()
+
+
+def _html_part(heading: str) -> SectionType | None:
+    key = heading.rstrip(":").strip().lower()
+    if key in HTML_PARTS:
+        return HTML_PARTS[key]
+    if re.search(r"(?:esitys|förslag)$", key):  # "Kaupunginjohtajan esitys", "Stadsdirektörens förslag"
+        return SectionType.proposal
+    return None
+
+
+def parse_item_html(html: str) -> ItemDoc:
+    tree = HTMLParser(html)
+    doc = ItemDoc()
+    root = tree.css_first("main") or tree.body
+    if root is None:
+        return doc
+    header = root.css_first("header p") or tree.css_first("header p")
+    head = (
+        [clean(v) for v in header.text(deep=True, separator="\n").splitlines() if clean(v)] if header else []
+    )
+    own: Block | None = None
+    if len(head) >= 2 and (m := HTML_BLOCK.match(f"{head[0]} {head[1]}")):
+        date = parse_date(m.group("date"))
+        assert date is not None
+        own = Block(body=m.group("body"), date=date, pykala=int(m.group("n")))
+        if len(head) > 2 and DIARY.match(head[2]):
+            doc.case_number = head[2]
+    earlier: list[Block] = []
+    cur = own
+    part: SectionType | str | None = None  # a SectionType, "attachments", "diary" or None (skipped)
+    emitted: SectionType | str | None = None  # the part whose heading line was emitted last
+    for node in root.iter():
+        if node.tag in ("header", "h1", "div", "br", "-text", "script", "style"):
+            continue
+        text_lines = [clean(v) for v in node.text(deep=True, separator="\n").splitlines() if clean(v)]
+        if node.tag == "h2":
+            heading = " ".join(text_lines)
+            if "ärendenummer" in heading.lower() or "asianumero" in heading.lower():
+                part = "diary"
+            elif heading.rstrip(":").strip().lower() in HTML_ATTACHMENTS:
+                part = "attachments"
+            else:
+                part = _html_part(heading)
+            emitted = None
+            continue
+        if not text_lines or all(RULE.match(t) for t in text_lines):
+            continue
+        whole = " ".join(text_lines)
+        if (m := HTML_BLOCK.match(whole)) and len(text_lines) == 1:
+            date = parse_date(m.group("date"))
+            assert date is not None
+            if own and date == own.date and int(m.group("n")) == own.pykala:
+                continue  # Kerava repeats the header line
+            cur = Block(body=m.group("body"), date=date, pykala=int(m.group("n")))
+            earlier.append(cur)
+            part = None
+            continue
+        if part == "diary":
+            if DIARY.match(whole) and doc.case_number is None:
+                doc.case_number = whole
+            continue
+        if part == "attachments":
+            if cur is own:
+                doc.attachment_titles += text_lines
+            continue
+        if part is None or cur is None:
+            continue
+        if cur is not own:  # an earlier handling: kept as one history text
+            cur.lines += text_lines
+        elif part == SectionType.background:
+            doc.background += text_lines
+        else:
+            if emitted != part:  # a <ul> inside a <p> comes out as the next node, same part
+                cur.lines.append(HTML_HEADINGS[part])
+                emitted = part
+            cur.lines += text_lines
+    doc.blocks = sorted(earlier, key=lambda b: b.date) + ([own] if own else [])
     return doc
 
 
@@ -525,8 +700,8 @@ PERSON = rf"(?:{NAMEWORD})(?:\s+(?:{NAMEWORD})){{0,3}}"
 MOTION = re.compile(
     rf"(?P<prop>{PERSON})\s+(?P<verb>teki|esitti|ehdotti)\s+"
     rf"(?:(?P<sec>(?:[a-zåäö]+\s+){{0,3}}{PERSON})\s+kannattamana\s*,?\s*)?"
-    r"(?P<rest>.*?)(?=(?:Puheenjohtaja|Asian käsittelyn aikana|Käsittelyn aikana|Valtuutettu|"
-    r"Kaupunginhallituksen jäsen|_{3,})|$)",
+    r"(?P<rest>.*?)(?=(?:Puheenjohtaja|Asian käsittelyn aikana|Käsittelyn aikana|Käsittelyn kuluessa|"
+    r"Valtuutettu|Kaupunginhallituksen jäsen|_{3,})|$)",
     re.DOTALL,
 )
 # "… seuraavan muutosesityksen[, joka raukesi kannattamattomana]:" introduces the motion's text
@@ -538,6 +713,13 @@ UNSECONDED = re.compile(r"raukesi\s+kannattamattomana", re.IGNORECASE)
 PROPOSITION = re.compile(
     r"he,?\s+jotka\s+kannattavat\s+(?P<jaa>.+?),?\s+äänestävät\s+jaa,?\s+ja\s+he,?\s+(?:jotka|ketkä)\s+"
     r"kannattavat\s+(?P<ei>.+?),?\s+äänestävät\s+ei",
+    re.IGNORECASE | re.DOTALL,
+)
+# Hämeenlinna: "… äänestys siten, että kaupunginhallituksen pohjaehdotusta kannattavat äänestävät JAA
+# ja Laitisen muutosehdotusta kannattavat äänestävät EI", boards "… ja Reiman muutosehdotusta EI".
+PROPOSITION_THAT = re.compile(
+    r"siten,?\s+että\s+(?P<jaa>[^.]+?)\s+kannattavat\s+äänestävät\s+jaa,?\s+ja\s+"
+    r"(?P<ei>[^.]+?)(?:\s+kannattavat\s+äänestävät)?\s+ei\b",
     re.IGNORECASE | re.DOTALL,
 )
 RESULT = re.compile(r"Äänestyksessä\s+annettiin\b", re.IGNORECASE)
@@ -658,7 +840,7 @@ def _result_end(text: str, start: int) -> re.Match | None:
 def parse_prose(lines: list[str]) -> list[TwebProse]:
     text = _flat(lines)
     out = []
-    props = list(PROPOSITION.finditer(text))
+    props = sorted([*PROPOSITION.finditer(text), *PROPOSITION_THAT.finditer(text)], key=lambda p: p.start())
     for m in RESULT.finditer(text):
         end = _result_end(text, m.end())
         window = text[m.end() : end.start() if end else len(text)]

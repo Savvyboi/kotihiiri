@@ -80,7 +80,8 @@ PROSE = re.compile(
 )
 # Attachment titles of the vote lists: "Äänestyslista(t) § n", "Äänestystiedot …",
 # "Äänestystulosraportti §53_2026", "Äänestysraportti § n".
-VOTE_LIST_TITLE = re.compile(r"äänestys(?:lista|tiedot|tulosraportti|raportti)", re.IGNORECASE)
+# Hämeenlinna: "Äänestykset 11 § 17.2.2025 KV"
+VOTE_LIST_TITLE = re.compile(r"äänestys(?:lista|tiedot|tulosraportti|raportti)|^äänestykset\b", re.IGNORECASE)
 VOTE_LIST_MENTION = re.compile(r"äänestyslista", re.IGNORECASE)
 
 
