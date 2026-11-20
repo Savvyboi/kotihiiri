@@ -882,6 +882,8 @@ def parse_case(lines: list[str]) -> tuple[list[Motion], list[TwebProse]]:
     """Motions and votes of one Käsittely. A vote decides the latest motion before it whose
     proposer the Ei side names in the genitive ("valtuutettu Eerolan … muutosesitystä")."""
     text = _flat(lines)
+    if SWEDISH_CASE.search(text):
+        return parse_case_sv(text)
     placed = _motions_at(text)
     prose = parse_prose(lines)
     for pv in prose:
@@ -967,3 +969,119 @@ def parse_vote_report(lines: list[str]) -> list[ReportVote]:
         if party:
             cur.groups[name] = party
     return votes
+
+
+# -- Swedish Beslutets behandling (Raasepori) ----------------------------------------------
+# "Werner Orre föreslog att ärendet remitteras …", "Sven Holmberg och Roger Hafström understödde
+# Orres förslag", the proposition "Stadsstyrelsens förslag = Ja / Orres förslag = Nej" and the
+# result "I omröstningen avgavs 34 ja-röster, sex (6) nej samt tre (3) nedlagda röster".
+
+SWEDISH_CASE = re.compile(r"\b(?:föreslog|omröstningen)\b")
+SV_NUMBERS = {
+    "noll": 0, "en": 1, "ett": 1, "två": 2, "tre": 3, "fyra": 4, "fem": 5, "sex": 6, "sju": 7, "åtta": 8,
+    "nio": 9, "tio": 10, "elva": 11, "tolv": 12, "tretton": 13, "fjorton": 14, "femton": 15,
+    "sexton": 16, "sjutton": 17, "arton": 18, "nitton": 19, "tjugo": 20,
+}  # fmt: skip
+MOTION_SV = re.compile(rf"(?P<prop>{PERSON})\s+föreslog\s+(?:att\s+)?(?P<rest>[^.]*?)\.(?=\s|$)")
+SECONDED_SV = re.compile(
+    rf"(?P<secs>{PERSON}(?:\s*(?:,|och)\s*{PERSON})*)\s+understödde\s+(?P<gen>{NAMEWORD})\s+(?:förslag|motförslag)"
+)
+UNSECONDED_SV = re.compile(r"förföll\s+(?:i\s+brist\s+på|utan)\s+understöd", re.IGNORECASE)
+PROPOSITION_SV = re.compile(
+    r"(?P<jaa>[A-ZÅÄÖ][^.:=]*?)\s*=\s*Ja\b[\s,;]*(?P<ei>[A-ZÅÄÖ][^.:=]*?)\s*=\s*Nej\b"
+)
+RESULT_SV = re.compile(r"(?:I|Vid)\s+omröstningen\s+avgavs\b", re.IGNORECASE)
+COUNT_SV = re.compile(
+    r"(?:(?:[a-zåäö]+\s+)?\((?P<p>\d+)\)|(?P<d>\d+)|(?P<w>[a-zåäö]+))\s+"
+    r"(?P<side>ja|nej|nedlagd\w*|blank\w*)\b",
+    re.IGNORECASE,
+)
+SV_SIDE = {"ja": Choice.jaa, "nej": Choice.ei}
+
+
+def _sv_kind(text: str) -> MotionKind:
+    low = text.lower()
+    if "remitt" in low or "återremitt" in low:
+        return MotionKind.send_back
+    if "bordl" in low:
+        return MotionKind.table
+    return MotionKind.counter_proposal
+
+
+def _sv_genitive(gen: str, surname: str) -> bool:
+    g, s = gen.lower(), surname.lower()
+    return g in (s + "s", s, s + "'s") or (s.endswith(("s", "x", "z")) and g == s)
+
+
+def parse_case_sv(text: str) -> tuple[list[Motion], list[TwebProse]]:
+    placed: list[tuple[int, Motion]] = []
+    for m in MOTION_SV.finditer(text):
+        prop = _person(m.group("prop"))
+        if not prop or prop.split()[0].lower() in ("ordförande", "stadsdirektören"):
+            continue
+        surname = prop.split()[-1]
+        after = text[m.end() :]
+        sec = next((x for x in SECONDED_SV.finditer(after) if _sv_genitive(x.group("gen"), surname)), None)
+        unseconded = bool(UNSECONDED_SV.search(after[:200]))
+        if not sec and not unseconded:
+            continue
+        seconders = [_person(n) for n in re.split(r",|\s+och\s+", sec.group("secs"))] if sec else []
+        rest = m.group("rest").strip()
+        placed.append(
+            (
+                m.start(),
+                Motion(
+                    kind=_sv_kind(rest),
+                    proposer_ref=PersonRef(raw=prop),
+                    seconder_refs=[PersonRef(raw=n) for n in seconders if n],
+                    text=strip_pii(rest),
+                    outcome=Outcome.rejected if unseconded else None,
+                ),
+            )
+        )
+    props = list(PROPOSITION_SV.finditer(text))
+    prose: list[TwebProse] = []
+    for r in RESULT_SV.finditer(text):
+        e = re.search(r"\.(?=\s|$)", text[r.end() :])
+        end = r.end() + (e.start() if e else len(text) - r.end())
+        counts: dict[Choice, int] = {}
+        for c in COUNT_SV.finditer(text[r.end() : end]):
+            raw = c.group("p") or c.group("d") or (c.group("w") or "").lower()
+            n = int(raw) if raw.isdigit() else SV_NUMBERS.get(raw)
+            if n is None:
+                continue
+            choice = SV_SIDE.get(c.group("side").lower(), Choice.tyhja)
+            counts.setdefault(choice, n)
+        if Choice.jaa not in counts or Choice.ei not in counts:
+            continue
+        prop = next((p for p in reversed(props) if p.end() <= r.start()), None)
+        jaa = re.sub(r"\s+", " ", prop.group("jaa")).strip() if prop else ""
+        ei = re.sub(r"\s+", " ", prop.group("ei")).strip() if prop else ""
+        prose.append(
+            TwebProse(
+                a=counts[Choice.jaa],
+                b=counts[Choice.ei],
+                tyhja=counts.get(Choice.tyhja, 0),
+                sentence=text[r.start() : end + 1].strip(),
+                jaa_label=jaa,
+                ei_label=ei,
+                prop_end=prop.end() if prop else -1,
+                start=r.start(),
+            )
+        )
+        before = [mo for pos, mo in placed if pos < r.start() and mo.outcome is None]
+        # "Remittering = Ja": the send-back is the Ja side; otherwise the motion is the Nej side
+        if re.match(r"(?:åter)?remitt|bordl", jaa, re.IGNORECASE):
+            mo = next(
+                (x for x in reversed(before) if x.kind in (MotionKind.send_back, MotionKind.table)), None
+            )
+            if mo:
+                mo.outcome = Outcome.adopted if counts[Choice.jaa] > counts[Choice.ei] else Outcome.rejected
+        elif ei:
+            gen = ei.split()[0]
+            mo = next(
+                (x for x in reversed(before) if _sv_genitive(gen, x.proposer_ref.raw.split()[-1])), None
+            )
+            if mo:
+                mo.outcome = Outcome.adopted if counts[Choice.ei] > counts[Choice.jaa] else Outcome.rejected
+    return [mo for _, mo in placed], prose

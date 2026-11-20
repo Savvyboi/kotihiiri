@@ -3,7 +3,7 @@
 import datetime as dt
 from pathlib import Path
 
-from kunta.models import Outcome, SectionType
+from kunta.models import MotionKind, Outcome, SectionType
 from kunta.parsers import tweb as tp
 from kunta.parsers.votes_cloudmeeting import VOTE_LIST_TITLE
 
@@ -154,3 +154,17 @@ def test_raasepori_swedish_item():
     empty = item("raasepori_fm_2025-01-20_1.html")  # "{Ärendenummer}:" with nothing under it
     assert empty.case_number is None
     assert [t for t, _ in kinds(empty)] == [SectionType.proposal, SectionType.decision]
+
+
+def test_raasepori_swedish_motions_and_votes():
+    doc = item("raasepori_fullmaktige_2025-01-20_5.html")
+    motions, prose = tp.parse_case(tp.item_sections(doc)[2])
+    assert [(p.a, p.b, p.tyhja, p.jaa_label, p.ei_label) for p in prose] == [
+        (9, 34, 0, "Remittering", "Fortsatt behandling"),
+        (34, 6, 3, "Stadsstyrelsens förslag", "Orres förslag"),
+    ]
+    got = [(m.kind, m.proposer_ref.raw, [s.raw for s in m.seconder_refs], m.outcome) for m in motions]
+    assert got == [
+        (MotionKind.send_back, "Werner Orre", ["Mikael Borgman"], Outcome.rejected),
+        (MotionKind.counter_proposal, "Werner Orre", ["Sven Holmberg", "Roger Hafström"], Outcome.rejected),
+    ]
