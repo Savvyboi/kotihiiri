@@ -510,3 +510,9 @@ details.explain-row p { margin: .3rem 0 0; font-size: .92rem; max-width: 44rem; 
   a { color: inherit; text-decoration: none; }
   details > summary { list-style: none; }
 }
+/* Net cost by service (PLAN.md §19.2) */
+.svc-list { list-style: none; margin: .4rem 0 0; padding: 0; max-width: 40rem; }
+.svc-list li { display: flex; justify-content: space-between; gap: 1rem; padding: .15rem 0; border-bottom: 1px dotted var(--c-border); }
+.svc-list li span:last-child { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.svc-total { display: flex; flex-wrap: wrap; gap: .3rem 1rem; max-width: 52rem; padding: .6rem 0; border-top: 2px solid var(--c-rule); margin: .2rem 0 0; }
+.svc-total b:nth-child(2) { margin-left: auto; font-family: var(--font-head); }

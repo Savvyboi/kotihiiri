@@ -237,11 +237,11 @@ export const FAQ: { q: Text; a: Text }[] = [
     },
   },
   {
-    q: { fi: 'Miksi menoja ei näytetä toimialoittain?', sv: 'Varför visas inte utgifterna per sektor?', en: 'Why is spending not shown by department?' },
+    q: { fi: 'Miksi palvelukohtaiset luvut ovat edelliseltä vuodelta?', sv: 'Varför är siffrorna per tjänst från ett tidigare år?', en: 'Why are the figures by service from an earlier year?' },
     a: {
-      fi: 'Kunnat ilmoittavat talousarvionsa Valtiokonttorille yhtenäisellä lomakkeella, jossa menot jaetaan lajeittain (palkat, ostot, avustukset) mutta ei toimialoittain. Toimialoittaiset määrärahat, kuten opetus tai kulttuuri, löytyvät kunnan omasta talousarviokirjasta, johon pääset kunnan sivuilta.',
-      sv: 'Kommunerna rapporterar sin budget till Statskontoret på ett enhetligt formulär där utgifterna delas upp efter slag (löner, köp, bidrag) men inte per sektor. Anslagen per sektor, som undervisning eller kultur, finns i kommunens egen budgetbok på kommunens webbplats.',
-      en: 'Municipalities report their budgets to the State Treasury on a common form that splits spending by type (wages, purchases, grants) but not by department. Allocations by department, such as education or culture, are in the municipality’s own budget book on its website.',
+      fi: 'Kunnat ilmoittavat talousarvionsa Valtiokonttorille lajeittain (palkat, ostot, avustukset), mutta eivät palveluittain. Palveluittain ilmoitetaan vain toteutunut tilinpäätös, joka valmistuu seuraavana keväänä. Siksi "Palvelut"-osio kertoo, mihin rahat viimeksi päättyneenä vuonna todella käytettiin. Talousarvion määrärahat palveluittain löytyvät kunnan omasta talousarviokirjasta.',
+      sv: 'Kommunerna rapporterar sin budget till Statskontoret efter slag (löner, köp, bidrag), inte per tjänst. Per tjänst rapporteras bara bokslutet, som blir klart följande vår. Avsnittet "Tjänster" visar därför vad pengarna faktiskt användes till under det senast avslutade året. Budgetanslagen per tjänst finns i kommunens egen budgetbok.',
+      en: 'Municipalities report their budgets to the State Treasury by type (wages, purchases, grants), not by service. Only the financial statements, ready the following spring, are reported by service. So the "Services" section shows what the money was actually spent on in the last closed year. Budget allocations by service are in the municipality’s own budget book.',
     },
   },
   {
