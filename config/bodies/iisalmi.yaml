@@ -1,0 +1,70 @@
+# Written by `kunta discover` / `kunta crawl`. Add `included: true|false` to a body to override the
+# default exclude rules (kunta/bodies.py); manual keys survive re-discovery. `excluded_by_rule`
+# is informational.
+bodies:
+  hyvinvointijaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Hyvinvointijaosto
+  iisalmen-vesi-liikelaitoksen-johtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Iisalmen Vesi -liikelaitoksen johtokunta
+  ikaihmisten-neuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Ikäihmisten neuvosto
+  kaupunginhallitus:
+    kind: board
+    name_fi: Kaupunginhallitus
+  kaupunginvaltuusto:
+    kind: council
+    name_fi: Kaupunginvaltuusto
+  keskusvaalilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Keskusvaalilautakunta
+  maaseutuhallinnon-yhteislautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Maaseutuhallinnon yhteislautakunta
+  musiikkiopiston-johtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Musiikkiopiston johtokunta
+  nuorisovaltuusto:
+    excluded_by_rule: true
+    kind: council
+    name_fi: Nuorisovaltuusto
+  sivistys-ja-hyvinvointilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Sivistys- ja hyvinvointilautakunta
+  tarkastuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tarkastuslautakunta
+  tekninen-jaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Tekninen jaosto
+  tekninen-lautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tekninen lautakunta
+  vammaisneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vammaisneuvosto
+  yla-savon-jatehuoltolautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Ylä-Savon jätehuoltolautakunta
+  yla-savon-tyollisyys-ja-yrityspalvelulautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Ylä-Savon työllisyys- ja yrityspalvelulautakunta
+  yla-savon-ymparistolautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Ylä-Savon ympäristölautakunta

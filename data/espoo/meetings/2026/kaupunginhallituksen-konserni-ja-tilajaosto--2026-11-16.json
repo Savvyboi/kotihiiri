@@ -2,18 +2,19 @@
   "items": [
     {
       "attachments": [],
-      "content_sha256": "ec385e9a80f4e67a7f081b1a09d0a7d26959308feed6778ac8f77490a5f67c1e",
+      "content_sha256": "558d8d20f90609807041af59d101259e72a16f7bebfc5bfb49d6784a8c546fa1",
       "disqualified": [],
       "id": "espoo/kaupunginhallituksen-konserni-ja-tilajaosto/2026-11-16/1",
       "meeting_id": "espoo/kaupunginhallituksen-konserni-ja-tilajaosto/2026-11-16",
       "motions": [],
       "ordinal": 1,
       "preparers": [],
+      "pykala": 145,
       "sections": [
         {
-          "heading": "Päätösehdotus",
-          "text": "Puheenjohtaja toteaa kokouksen laillisesti koolle kutsutuksi ja päätösvaltaiseksi.",
-          "type": "proposal"
+          "heading": "Päätös",
+          "text": "Puheenjohtaja totesi kokouksen laillisesti koolle kutsutuksi ja päätösvaltaiseksi.",
+          "type": "decision"
         },
         {
           "heading": "Selostus",
@@ -33,18 +34,19 @@
     },
     {
       "attachments": [],
-      "content_sha256": "25f403c0ba84bf3bc760c170b0914ff20b8b980679584dec7fe0cca77e19a306",
+      "content_sha256": "ebd487871e98401b614c1a24ec7c71d9568786bdd443ab168ede04857b85c508",
       "disqualified": [],
       "id": "espoo/kaupunginhallituksen-konserni-ja-tilajaosto/2026-11-16/2",
       "meeting_id": "espoo/kaupunginhallituksen-konserni-ja-tilajaosto/2026-11-16",
       "motions": [],
       "ordinal": 2,
       "preparers": [],
+      "pykala": 146,
       "sections": [
         {
-          "heading": "Päätösehdotus",
-          "text": "Pöytäkirjan tarkastajiksi valitaan Ari Schauman ja Nina af Hällström.\n\n.",
-          "type": "proposal"
+          "heading": "Päätös",
+          "text": "Pöytäkirjan tarkastajiksi valittiin Helena Marttila ja Nina af Hällström.",
+          "type": "decision"
         }
       ],
       "source_ids": {
@@ -67,7 +69,7 @@
         {
           "kind": "attachment",
           "title": "Liite 2 Helsingin seudun liikenne -kuntayhtymä omistajalinjaukset konserni- ja tilajaosto 16.11.2026",
-          "url": "https://espoo.oncloudos.com/kokous/20261765-3-384624.PDF"
+          "url": "https://espoo.oncloudos.com/kokous/20261765-3-386227.PDF"
         },
         {
           "kind": "attachment",
@@ -76,22 +78,47 @@
         }
       ],
       "case_number": "4173/00.01.02/2026",
-      "content_sha256": "f70f5d3e4e11b57bb84ac1c6d372f34b11f94f50f0f222922e06f174ab1a7aeb",
+      "content_sha256": "6ac1694a74fc20d7c9d7d221d446faf7ac6d1257a39b95fce60c2b13ebab9b2a",
       "disqualified": [],
       "id": "espoo/kaupunginhallituksen-konserni-ja-tilajaosto/2026-11-16/3",
       "meeting_id": "espoo/kaupunginhallituksen-konserni-ja-tilajaosto/2026-11-16",
-      "motions": [],
+      "motions": [
+        {
+          "kind": "counter_proposal",
+          "outcome": "adopted",
+          "proposer_ref": {
+            "raw": "Marttila"
+          },
+          "seconder_refs": [
+            {
+              "raw": "Partasen"
+            }
+          ],
+          "text": "4.4. Paras opiskelukaupunki – Espoossa opiskelija voi elää Suomen parasta opiskelijaelämää."
+        }
+      ],
       "ordinal": 3,
       "preparers": [
         "Rinne Tuulia",
         "Silvan Katja Nieppola Tommi Heino Waltteri"
       ],
       "presenter": "Kaupunginjohtaja Mykkänen Kai",
+      "pykala": 147,
       "sections": [
         {
           "heading": "Päätösehdotus",
           "text": "Kaupunginhallituksen konserni- ja tilajaosto esittää, että kaupunginhallitus hyväksyy liitteenä olevat HSY Helsingin seudun ympäristöpalvelut -kuntayhtymän ja Helsingin seudun liikenne -kuntayhtymän omistajalinjaukset.\n\nOmistajalinjaukset päivitetään ja hyväksytään valtuustokausittain.",
           "type": "proposal"
+        },
+        {
+          "heading": "Käsittely",
+          "text": "Esittelijän kokouksessa tekemät muutokset on huomioitu pöytäkirjassa.\n\nMarttila Partasen kannattamana teki seuraavan lisäysesityksen:\n\n4.4. Paras opiskelukaupunki – Espoossa opiskelija voi elää Suomen parasta opiskelijaelämää.\n\nKeskustelun päätyttyä puheenjohtaja tiedusteli, voidaanko Marttilan ehdotus yksimielisesti hyväksyä. Koska ehdotusta ei vastustettu, puheenjohtaja totesi kaupunginhallituksen konserni- ja tilajaoston hyväksyneen sen.",
+          "type": "deliberation"
+        },
+        {
+          "heading": "Päätös",
+          "text": "Kaupunginhallituksen konserni- ja tilajaosto:\n\nEsittelijän kokouksessa tarkistama ehdotus hyväksyttiin yksimielisesti lisäyksin.",
+          "type": "decision"
         },
         {
           "heading": "Selostus",
@@ -158,7 +185,7 @@
         }
       ],
       "case_number": "1723/00.04.00/2026",
-      "content_sha256": "32a84642ec233fa9e04e54e0a5a9a7dfa2b21ee67f25a23108cf73c30f81ed3f",
+      "content_sha256": "8f160ee89a71a31be6ca8f206a63b8b09d348506b03c566bcaf963cd9a46333f",
       "disqualified": [],
       "id": "espoo/kaupunginhallituksen-konserni-ja-tilajaosto/2026-11-16/4",
       "meeting_id": "espoo/kaupunginhallituksen-konserni-ja-tilajaosto/2026-11-16",
@@ -169,11 +196,17 @@
         "Heino Waltteri"
       ],
       "presenter": "Kaupunginjohtaja Mykkänen Kai",
+      "pykala": 148,
       "sections": [
         {
           "heading": "Päätösehdotus",
           "text": "Kaupunginhallituksen konserni- ja tilajaosto nimeää Espoon kaupungin edustajaksi HSL:n yhtymäkokoukseen 24.11.2026 kaupunkiympäristön toimialajohtaja Olli Isotalon tai hänen määräämänsä ja antaa yhtymäkokousedustajalle toimiohjeeksi kokouksessa:\n\n1\n\nesittää, että ennen toiminta- ja taloussuunnitelman 2027–2029 hyväksymistä yhtymäkokouksessa käsitellään omana asianaan strategian 2026–2029 päivittäminen puuttuvien ja muutettavien tavoitearvojen 2029 osalta ja että toiminta- ja taloussuunnitelmassa 2027–2029 vuoden 2029 tavoitearvojen tulee vastata yhtymäkokouksen strategian yhteydessä päättämiä tavoitearvoja.\n\n2\n\nesittää, että strategian 2026–2029 päivittämisen yhteydessä subventioasteita koskevat tavoitteet asetetaan vuodelle 2029 PKS-omistajaohjaustavoitteiden mukaisesti: 40 % (ilman infrakustannuksia) ja 55 % (infrakustannusten kanssa).\n\n3\n\nesittää talousarvion 2027 muuttamista siten, että Espoon kertynyt 7,1 miljoonan euron ylijäämä käytetään kokonaisuudessaan vuoden 2027 laskutettavan kuntaosuuden alentamiseen ja että kuntaosuuksien sitovaa määrärahaa alennetaan tätä vastaavasti.\n\n4\n\nkannattaa Vantaan kaupungin mahdollista muutosesitystä Vantaan kertyneen ylijäämän vahvemmasta käytöstä vuoden 2027 laskutettavan kuntaosuuden alentamiseen.\n\n5\n\nkannattaa sitovien määrärahojen ja tuloarvioiden hyväksymistä vuodelle 2027 seuraavasti: toimintamenot 1 [poistettu] euroa ja investointimenot 24 000 000 euroa ja esittää, että kuntaosuuksien sitovaa määrärahaa, 618 460 000 euroa, vähennetään Espoon ja mahdollisesti Vantaan esittämän kertyneiden ylijäämien käytön verran.\n\n6\n\nkannattaa muilta osin talousarvion 2027 ja toiminta- ja taloussuunnitelman 2027–2029 hyväksymistä liitteen mukaisena\n\n7\n\nesittää, että HSL maksaa jäsenkunnille 1,5 % korkoa peruspääomasta PKS-omistajaohjauksen linjauksen mukaisesti talousarviovuodelta 2027 ja että korko maksetaan jäsenkunnille viimeistään kesäkuussa 2028\n\n8\n\nkannattaa HSL:n hallintosäännön päivittämistä liitteen mukaisesti siten, että hallintosääntö tulee voimaan 1.1.2027.\n\n9\n\nkannattaa muita esityslistan päätösesityksiä koskien tarkastuslautakunnan vuoden 2025 arviointikertomuksen johdosta annetun hallituksen lausunnon, osavuosikatsauksen 3/2026 ja sidonnaisuusilmoituksen tiedoksi merkitsemistä.\n\n10\n\nvarmistaa muissa mahdollisesti kantaa edellyttävissä asioissa harkintansa mukaan, että Espoon kaupunkikonsernin kokonaisetu toteutuu.",
           "type": "proposal"
+        },
+        {
+          "heading": "Päätös",
+          "text": "Kaupunginhallituksen konserni- ja tilajaosto:\n\nEsittelijän ehdotus hyväksyttiin yksimielisesti.",
+          "type": "decision"
         },
         {
           "heading": "Selostus",
@@ -225,7 +258,7 @@
         },
         {
           "kind": "attachment",
-          "title": "Liite 6 Toiminta- ja taloussuunnitelma 2027-2029",
+          "title": "Liite 6 Toiminta- ja taloussuunnitelma 2027-2029 (HSY)",
           "url": "https://espoo.oncloudos.com/kokous/20261765-5-380529.PDF"
         },
         {
@@ -240,7 +273,7 @@
         }
       ],
       "case_number": "1847/00.04.00/2026",
-      "content_sha256": "fb92829ef0af65fd4397652cb30fbe01d123a9de9783dd22b3c572774047b244",
+      "content_sha256": "7c25222159a5dec3ee2b5cb925d21846b7540c42c43cc995156b809c359649bd",
       "disqualified": [],
       "id": "espoo/kaupunginhallituksen-konserni-ja-tilajaosto/2026-11-16/5",
       "meeting_id": "espoo/kaupunginhallituksen-konserni-ja-tilajaosto/2026-11-16",
@@ -251,11 +284,17 @@
         "Heino Waltteri"
       ],
       "presenter": "Kaupunginjohtaja Mykkänen Kai",
+      "pykala": 149,
       "sections": [
         {
           "heading": "Päätösehdotus",
           "text": "Kaupunginhallituksen konserni- ja tilajaosto nimeää Espoon kaupungin edustajaksi HSY:n vuoden 2026 syysyhtymäkokoukseen 20.11.2026 kaupunkiympäristön toimialajohtaja Olli Isotalon tai hänen määräämänsä ja antaa yhtymäkokousedustajalle toimiohjeeksi kokouksessa:\n\n1\n\nkannattaa vesihuollon investointiohjelman 2027–2046 hyväksymistä liitteen mukaisesti\n\n2\n\nkannattaa jätehuollon investointiohjelman 2027–2046 hyväksymistä liitteen mukaisesti\n\n3\n\nesittää, että HSY:n strategia 2035 käsitellään ennen HSY:n toiminta- ja taloussuunnitelmaa 2027–2029, ja että strategiassa omavaraisuusasteen tavoitetasoksi vuodelle 2028 asetetaan 33,2 % ja vuodelle 2029 35,6 % ja että toiminta- ja taloussuunnitelmassa 2027–2029 näiden tavoitearvojen tulee vastata strategian yhteydessä päätettyjä tavoitearvoja.\n\n4\n\nkannattaa muilta osin hallituksen esitystä hyväksyä HSY:n strategian missio, visio ja arvot vuoteen 2035 sekä strategiset painopisteet, niiden kehitysteemat ja keinot vuoteen 2035 sekä strategiset KPI-mittarit ja niiden tavoitetasot vuosille 2027–2030 ja 2035.\n\n5\n\nkannattaa toiminta- ja taloussuunnitelman hyväksymistä vuosille 2027–2029 liitteen mukaisena\n\n6\n\nkannattaa hallituksen esitystä valtuuttaa hallitus ottamaan uutta pitkäaikaista lainaa vuoden 2027 talousarvion puitteissa enintään 115 000 000 euroa\n\n7\n\nkannattaa hallituksen esitystä talousarviovuoden sitovista määrärahoista (vesihuollon toimintamenot: 134 980 000 euroa, vesihuollon investointimenot (netto): 196 877 000 euroa, jätehuollon toimintamenot: 95 944 000 euroa ja jätehuollon investointimenot (netto): 17 535 000 euroa)\n\n8\n\nkannattaa muita esityslistan mukaisia hallituksen esityksiä koskien tarkastuslautakunnan vuoden 2025 arviointikertomuksen johdosta annetun hallituksen lausunnon ja sidonnaisuusilmoituksen tiedoksi merkitsemistä.\n\n9\n\nvarmistaa muissa mahdollisesti kantaa edellyttävissä asioissa harkintansa mukaan, että Espoon kaupunkikonsernin kokonaisetu toteutuu.",
           "type": "proposal"
+        },
+        {
+          "heading": "Päätös",
+          "text": "Kaupunginhallituksen konserni- ja tilajaosto:\n\nEsittelijän ehdotus hyväksyttiin yksimielisesti.",
+          "type": "decision"
         },
         {
           "heading": "Selostus",
@@ -280,9 +319,144 @@
     }
   ],
   "meeting": {
-    "attendance": [],
+    "attendance": [
+      {
+        "person_ref": {
+          "raw": "Partanen Henna"
+        },
+        "present": true,
+        "role_text": "puheenjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Fagerström Noora"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Hagerlund Tony"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Holma Jussi"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "af Hällström Nina"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Kilpijoki Kerttu-Liisa"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Marttila Helena"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Sammallahti Tere"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Caesar Aatos"
+        },
+        "present": true,
+        "role_text": "nuorisovaltuuston edustaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Heinaro Mervi"
+        },
+        "present": true,
+        "role_text": "elinvoimajohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Heino Waltteri"
+        },
+        "present": true,
+        "role_text": "konserniohjauksen johtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Isotalo Olli"
+        },
+        "present": true,
+        "role_text": "kaupunkiympäristön toimialajohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Katainen Mervi"
+        },
+        "present": true,
+        "role_text": "kaupunginhallituksen puheenjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Kivinen Harri"
+        },
+        "present": true,
+        "role_text": "hallinto- ja kehittämisjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Konttas Ari"
+        },
+        "present": true,
+        "role_text": "rahoitusjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Mykkänen Kai"
+        },
+        "present": true,
+        "role_text": "kaupunginjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Pajakoski Johanna"
+        },
+        "present": true,
+        "role_text": "viestintäjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Sistonen Markku"
+        },
+        "present": true,
+        "role_text": "kaupunginhallituksen II varapuheenjohtaja"
+      },
+      {
+        "person_ref": {
+          "raw": "Aaltonen Matti"
+        },
+        "present": true,
+        "role_text": "juristi, sihteeri"
+      }
+    ],
     "body_id": "espoo/kaupunginhallituksen-konserni-ja-tilajaosto",
     "date": "2026-11-16",
+    "end_time": "09:25",
     "id": "espoo/kaupunginhallituksen-konserni-ja-tilajaosto/2026-11-16",
     "items": [
       "espoo/kaupunginhallituksen-konserni-ja-tilajaosto/2026-11-16/1",
@@ -292,12 +466,13 @@
       "espoo/kaupunginhallituksen-konserni-ja-tilajaosto/2026-11-16/5"
     ],
     "location": "Kaupunginhallituksen kokoushuone, Virastopiha 2C, 1. krs",
+    "minutes_pdf_url": "https://espoo.oncloudos.com/kokous/20261765.PDF",
     "source_ids": {
       "meeting_id": "20261765",
       "pdf": "https://espoo.oncloudos.com/kokous/20261765.PDF"
     },
     "source_url": "https://espoo.oncloudos.com/cgi/DREQUEST.PHP?page=meeting&id=20261765",
-    "stage": "agenda",
-    "start_time": "09:00"
+    "stage": "minutes",
+    "start_time": "09:01"
   }
 }

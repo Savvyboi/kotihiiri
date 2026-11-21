@@ -1,0 +1,78 @@
+# Written by `kunta discover` / `kunta crawl`. Add `included: true|false` to a body to override the
+# default exclude rules (kunta/bodies.py); manual keys survive re-discovery. `excluded_by_rule`
+# is informational.
+bodies:
+  centralvalnamnden:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Centralvalnämnden
+  direktionen-for-affarsverket-jakobstads-vatten:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Direktionen för Affärsverket Jakobstads Vatten
+  direktionen-for-jakobstads-svenska-arbetarinstitut:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Direktionen för Jakobstads svenska arbetarinstitut
+  direktionen-for-jakobstadsregionens-sysselsattnings-och-naringstjanster:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Direktionen för Jakobstadsregionens sysselsättnings- och näringstjänster
+  direktionen-for-wava-institutet:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Direktionen för Wava-institutet
+  ekonomi-utvecklings-och-koncernsektionen:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Ekonomi-, utvecklings- och koncernsektionen
+  institutens-gemensamma-direktion:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Institutens gemensamma direktion
+  kommunala-samarbetsnamnden-i-pedersorenejden:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kommunala samarbetsnämnden i Pedersörenejden
+  kultur-och-fritidssektionen:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Kultur- och fritidssektionen
+  miljo-och-byggnadsnamnden:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Miljö- och byggnadsnämnden
+  namnden-for-bildning-och-valfard:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Nämnden för bildning och välfärd
+  osterbottens-avfallsnamnd:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Österbottens avfallsnämnd
+  personalsektionen:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Personalsektionen
+  revisionsnamnden:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Revisionsnämnden
+  sektionen-for-smabarnspedagogik:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Sektionen för småbarnspedagogik
+  stadsfullmaktige:
+    kind: council
+    name_fi: Stadsfullmäktige
+  stadsstyrelsen:
+    kind: board
+    name_fi: Stadsstyrelsen
+  svenska-skolsektionen:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Svenska skolsektionen
+  tekniska-namnden:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tekniska nämnden

@@ -61,7 +61,7 @@
     },
     {
       "attachments": [],
-      "content_sha256": "15733051865a68836d147d64494bc264ead367e994ee69eff4708383450bc306",
+      "content_sha256": "315c67e8c0c8ad64515abd8293f55060bc4c4f8e4a357a9dbaf44b7f4bbfdd5c",
       "disqualified": [],
       "id": "espoo/kaupunkisuunnittelulautakunta/2026-11-11/3",
       "meeting_id": "espoo/kaupunkisuunnittelulautakunta/2026-11-11",
@@ -77,7 +77,7 @@
         },
         {
           "heading": "Päätös",
-          "text": "Kaupunkisuunnittelulautakunta:\n\nEsittelijän ehdotus hyväksyttiin yksimielisesti.",
+          "text": "Kaupunkisuunnittelulautakunta\n\nmerkitsi tiedoksi kokouksessa annetut selostukset.",
           "type": "decision"
         }
       ],
@@ -130,7 +130,7 @@
         }
       ],
       "case_number": "2650/10.02.03/2023",
-      "content_sha256": "d44d839b752829fb0d312813af5e01e235a80f74ac24c2709f519ee8f2603315",
+      "content_sha256": "8da11db8b834b9a78a1ec3f9cb00cc0a7858f3f385847d6a6f1698f5f559af94",
       "disqualified": [],
       "id": "espoo/kaupunkisuunnittelulautakunta/2026-11-11/4",
       "meeting_id": "espoo/kaupunkisuunnittelulautakunta/2026-11-11",
@@ -150,7 +150,7 @@
         },
         {
           "heading": "Päätös",
-          "text": "Esittelijän ehdotus hyväksyttiin yksimielisesti.",
+          "text": "Kaupunkisuunnittelulautakunta\n\nEsittelijän ehdotus hyväksyttiin yksimielisesti.",
           "type": "decision"
         },
         {
@@ -213,11 +213,24 @@
         }
       ],
       "case_number": "3159/10.02.03/2023",
-      "content_sha256": "19b08d9f66937771177b15ad15b171d2ccc995ca7618f6311f63c78e64a4c5d8",
+      "content_sha256": "e201bdb84589480ad5e0f13b2dc3347f1a8065285289f7a8fd2d3120c58531ca",
       "disqualified": [],
       "id": "espoo/kaupunkisuunnittelulautakunta/2026-11-11/5",
       "meeting_id": "espoo/kaupunkisuunnittelulautakunta/2026-11-11",
-      "motions": [],
+      "motions": [
+        {
+          "kind": "counter_proposal",
+          "proposer_ref": {
+            "raw": "Keskustelun"
+          },
+          "seconder_refs": [
+            {
+              "raw": "Puntila Aarnion"
+            }
+          ],
+          "text": "seuraavan muutosehdotuksen: ”Lautakunta edellyttää, että rakennuksen kattomuotoa ja kattolinjaa sekä julkisivua tutkitaan jatkosuunnittelussa monimuotoisemmaksi ja vivahteikkaammaksi”."
+        }
+      ],
       "ordinal": 5,
       "preparers": [
         "Hokkanen Mervi",
@@ -232,8 +245,13 @@
           "type": "proposal"
         },
         {
+          "heading": "Käsittely",
+          "text": "Keskustelun aikana Puntila Aarnion kannattamana teki seuraavan muutosehdotuksen: ”Lautakunta edellyttää, että rakennuksen kattomuotoa ja kattolinjaa sekä julkisivua tutkitaan jatkosuunnittelussa monimuotoisemmaksi ja vivahteikkaammaksi”.\n\nKeskustelun päätyttyä puheenjohtaja tiedusteli, voidaanko kannatettu muutosehdotus yksimielisesti hyväksyä. Koska ehdotusta ei vastustettu, puheenjohtaja totesi kaupunkisuunnittelulautakunnan hyväksyneen muutosehdotuksen yksimielisesti.",
+          "type": "deliberation"
+        },
+        {
           "heading": "Päätös",
-          "text": "Esittelijän ehdotus hyväksyttiin yksimielisesti muutoksin.",
+          "text": "Esittelijän ehdotus lautakunnan kokouksessa tekemällä lisäyksellä hyväksyttiin yksimielisesti seuraavasti:\n\nKaupunkisuunnittelulautakunta\n\n1\n\nyhtyy vastineisiin, jotka ilmenevät asian liitteistä. Mielipiteet sekä kannanotot ja lausunnot on annettu Laurinlahden koulun osallistumis- ja arviointisuunnitelmasta ja kaavan valmisteluaineistosta, alue 411808,\n\n2\n\nhyväksyy MRA 27 §:n mukaisesti nähtäville 11.11.2026 päivätyn Laurinlahden koulu asemakaavan muutosehdotuksen piirustusnumero 7592, 34. kaupunginosassa Espoonlahti, alue 411808,\n\n3\n\npyytää asemakaavan muutosehdotuksesta tarvittavat lausunnot sekä toimialojen kannanotot,\n\n4\n\nedellyttää, että rakennuksen kattomuotoa ja kattolinjaa sekä julkisivua tutkitaan jatkosuunnittelussa monimuotoisemmaksi ja vivahteikkaammaksi.",
           "type": "decision"
         },
         {
@@ -291,7 +309,7 @@
         }
       ],
       "case_number": "1898/10.02.03/2026",
-      "content_sha256": "94eb6b56f330fedf833574b4a8fcf44066158bb249288aeabcd8e015a2f89893",
+      "content_sha256": "d2d9d43c5b21b6ddfcc303e35236d3fa254bcfd005c7b5ed506d44222688cc16",
       "disqualified": [],
       "id": "espoo/kaupunkisuunnittelulautakunta/2026-11-11/6",
       "meeting_id": "espoo/kaupunkisuunnittelulautakunta/2026-11-11",
@@ -311,7 +329,7 @@
         },
         {
           "heading": "Päätös",
-          "text": "Esittelijän ehdotus hyväksyttiin yksimielisesti.",
+          "text": "Kaupunkisuunnittelulautakunta\n\nEsittelijän ehdotus hyväksyttiin yksimielisesti.",
           "type": "decision"
         },
         {
@@ -344,7 +362,7 @@
         }
       ],
       "case_number": "10853/10.02.03/2021",
-      "content_sha256": "bc04ac094e165aced80f5c909cac272cd6a8cb3d431e44e5b6fa5d784ab93f68",
+      "content_sha256": "e4102804ee9300900e23e13508b63e6839d2ea770246a1f11d731f1a336cc3f3",
       "disqualified": [],
       "id": "espoo/kaupunkisuunnittelulautakunta/2026-11-11/7",
       "meeting_id": "espoo/kaupunkisuunnittelulautakunta/2026-11-11",
@@ -363,7 +381,7 @@
         },
         {
           "heading": "Päätös",
-          "text": "Esittelijän ehdotus hyväksyttiin yksimielisesti.",
+          "text": "Kaupunkisuunnittelulautakunta\n\nEsittelijän ehdotus hyväksyttiin yksimielisesti.",
           "type": "decision"
         },
         {
@@ -500,17 +518,17 @@
       },
       {
         "person_ref": {
-          "raw": "Kerola Hannele"
+          "raw": "Waysi Haedeh"
         },
         "present": true,
-        "role_text": "jäsen"
+        "role_text": "varajäsen"
       },
       {
         "person_ref": {
-          "raw": "Laakso Mikko"
+          "raw": "Ojanen Sari"
         },
         "present": true,
-        "role_text": "jäsen"
+        "role_text": "varajäsen"
       },
       {
         "person_ref": {
@@ -549,10 +567,10 @@
       },
       {
         "person_ref": {
-          "raw": "Karppinen Thomas"
+          "raw": "Tiihonen Olli"
         },
         "present": true,
-        "role_text": "nuorisovaltuuston edustaja"
+        "role_text": "nuorisovaltuuston varaedustaja"
       },
       {
         "person_ref": {
@@ -591,14 +609,64 @@
       },
       {
         "person_ref": {
-          "raw": "Kare Aleksi"
+          "raw": "Pennanen Tarja"
         },
         "present": true,
-        "role_text": "juristi"
+        "role_text": ""
+      },
+      {
+        "person_ref": {
+          "raw": "Hänninen Salla"
+        },
+        "present": true,
+        "role_text": ""
+      },
+      {
+        "person_ref": {
+          "raw": "Autio Paula"
+        },
+        "present": true,
+        "role_text": ""
+      },
+      {
+        "person_ref": {
+          "raw": "Gruzdaitis Leena"
+        },
+        "present": true,
+        "role_text": ""
+      },
+      {
+        "person_ref": {
+          "raw": "Kinnunen Paula"
+        },
+        "present": true,
+        "role_text": ""
+      },
+      {
+        "person_ref": {
+          "raw": "Kallio Matias"
+        },
+        "present": true,
+        "role_text": ""
+      },
+      {
+        "person_ref": {
+          "raw": "Ehrnrooth Essi"
+        },
+        "present": true,
+        "role_text": ""
+      },
+      {
+        "person_ref": {
+          "raw": "Vuorinen Kati"
+        },
+        "present": true,
+        "role_text": ""
       }
     ],
     "body_id": "espoo/kaupunkisuunnittelulautakunta",
     "date": "2026-11-11",
+    "end_time": "20:17",
     "id": "espoo/kaupunkisuunnittelulautakunta/2026-11-11",
     "items": [
       "espoo/kaupunkisuunnittelulautakunta/2026-11-11/1",
@@ -611,7 +679,7 @@
       "espoo/kaupunkisuunnittelulautakunta/2026-11-11/8",
       "espoo/kaupunkisuunnittelulautakunta/2026-11-11/9"
     ],
-    "location": "Ei tarkastettu Tekniikantie 15 Otaniemi, neuvotteluhuone Loojärvi",
+    "location": "Tekniikantie 15 Otaniemi, neuvotteluhuone Loojärvi",
     "minutes_pdf_url": "https://espoo.oncloudos.com/kokous/20261760.PDF",
     "source_ids": {
       "meeting_id": "20261760",

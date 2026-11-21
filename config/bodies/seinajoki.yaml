@@ -1,0 +1,82 @@
+# Written by `kunta discover` / `kunta crawl`. Add `included: true|false` to a body to override the
+# default exclude rules (kunta/bodies.py); manual keys survive re-discovery. `excluded_by_rule`
+# is informational.
+bodies:
+  elinvoimalautakunnan-tyollisyysjaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Elinvoimalautakunnan työllisyysjaosto
+  elinvoimalautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Elinvoimalautakunta
+  etela-pohjanmaan-pelastuslaitos-liikelaitos-johtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Etelä-Pohjanmaan pelastuslaitos -liikelaitos, johtokunta
+  henkilostojaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Henkilöstöjaosto
+  hyvinvointilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Hyvinvointilautakunta
+  kasvatus-ja-opetuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kasvatus- ja opetuslautakunta
+  kaupunginhallitus:
+    kind: board
+    name_fi: Kaupunginhallitus
+  kaupunginvaltuusto:
+    kind: council
+    name_fi: Kaupunginvaltuusto
+  kaupunkiymparistolautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kaupunkiympäristölautakunta
+  keskusvaalilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Keskusvaalilautakunta
+  lupa-asiainlautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Lupa-asiainlautakunta
+  nimistotyoryhma:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Nimistötyöryhmä
+  nuorisovaltuusto:
+    excluded_by_rule: true
+    kind: council
+    name_fi: Nuorisovaltuusto
+  sosiaali-ja-terveyslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Sosiaali- ja terveyslautakunta
+  tarkastuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tarkastuslautakunta
+  vammaisneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vammaisneuvosto
+  vanhusneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vanhusneuvosto
+  yhteistoimintaryhma:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Yhteistoimintaryhmä
+  yksityistiejaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Yksityistiejaosto
+  ymparistoterveydenhuollon-yhteistoimintajaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Ympäristöterveydenhuollon yhteistoimintajaosto
