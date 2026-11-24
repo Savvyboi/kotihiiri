@@ -112,3 +112,9 @@ def test_post_numbers_and_title_ids_are_not_phone_numbers():
     assert contains_pii(title) and not contains_pii(title, title=True)
     assert contains_pii("Sopimus, puh. 040 123 4567", title=True)
     assert contains_pii("Lisätiedot: puhelinnumero 0401234567")
+
+
+def test_period_in_title_is_not_a_phone_number():
+    assert not contains_pii("Osavuosikatsaus 01-03 2026 (PDF)", title=True)
+    assert not contains_pii("Osavuosikatsaus 01-06 2026")
+    assert contains_pii("puh. 040 123 4567")

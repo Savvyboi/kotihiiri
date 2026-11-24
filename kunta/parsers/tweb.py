@@ -129,6 +129,9 @@ def clean_title(title: str) -> str:
     return INITIALS_TAIL.sub("", clean(title)).strip()
 
 
+COVER_ROW = re.compile(r"kansilehti|försättsblad|läsnäolijat|närvarande|^osallistujat\b", re.IGNORECASE)
+
+
 def parse_meeting(html: str, base: str = BASE) -> MeetingPage:
     page = MeetingPage()
     ordinal = 0
@@ -150,7 +153,9 @@ def parse_meeting(html: str, base: str = BASE) -> MeetingPage:
         url = urljoin(base + "/ktwebscr/", doc_href) if doc_href else None
         if not re.fullmatch(r"\d+", first):
             # Rows without § are the cover page and the appeal instructions; not items (§7.4).
-            if url and re.search(r"kansilehti|försättsblad|läsnäolijat|närvarande", title, re.IGNORECASE):
+            if url and re.search(
+                r"kansilehti|försättsblad|läsnäolijat|närvarande|^osallistujat\b", title, re.IGNORECASE
+            ):
                 page.cover_pdf = url
             continue
         ordinal += 1
@@ -260,7 +265,180 @@ def _note(note: str | None) -> str | None:
     return note.strip("() ") or None
 
 
+# Rauma's cover PDF: "KOKOUSAIKA 20.1.2025 klo 15.30-17.18, 17.24-19.23", "KOKOUSPAIKKA ...", then
+# "OSALLISTUJAT" with one person a line, "Firstname Lastname, role[, poissa][, 3)]", no x/- marks:
+# everyone is present unless "poissa". Footnotes "1) paikalla kokouksessa klo 15.30-18.48" are a
+# second column that the text layer runs onto the same lines. The list ends at ALLEKIRJOITUKSET.
+OSALLISTUJAT = re.compile(r"^OSALLISTUJAT\b\s*")
+KOKOUSAIKA = re.compile(
+    r"^KOKOUSAIKA\s+(\d{1,2}\.\d{1,2}\.\d{4})\s+(?:klo\s+)?(\d{1,2})[.:](\d{2})(?:.*[–-]\s*(\d{1,2})[.:](\d{2}))?"
+)
+KOKOUSPAIKKA = re.compile(r"^KOKOUSPAIKKA\s+(.+)$")
+FOOTNOTE_TEXT = re.compile(r"(?:^|\s)(\d{1,2})\)\s+((?:paikalla|saapui|poistui|oli|läsnä)\b.*)$")
+FOOTNOTE_MARKS = re.compile(r"(?:,?\s*\d{1,2}\))+\s*$")
+OSALLISTUJA = re.compile(r"^(?P<name>[A-ZÅÄÖ][^,\d]*?)\s*,\s*(?P<role>[^,]+?)(?:\s*,\s*(?P<absent>poissa))?$")
+
+
+def is_osallistujat_cover(lines: list[str]) -> bool:
+    return any(OSALLISTUJAT.match(ln.strip()) for ln in lines)
+
+
+def parse_cover_osallistujat(lines: list[str]) -> Cover:
+    cover = Cover()
+    notes: dict[str, str] = {}
+    people: list[tuple[Participant, list[str]]] = []
+    inside = False
+    for raw in lines:
+        line = re.sub(r"\s+", " ", raw).strip()
+        if m := KOKOUSAIKA.match(line):
+            cover.date = parse_date(m.group(1))
+            cover.start_time = _hhmm(m.group(2), m.group(3))
+            cover.end_time = _hhmm(m.group(4), m.group(5)) if m.group(4) else None
+            continue
+        if (m := KOKOUSPAIKKA.match(line)) and cover.location is None:
+            cover.location = m.group(1)
+            continue
+        if m := OSALLISTUJAT.match(line):
+            inside, line = True, line[m.end() :]
+        elif not inside:
+            continue
+        if re.match(r"^(?:ALLEKIRJOITUKSET|KÄSITELTÄVÄT ASIAT|PÖYTÄKIRJAN)\b", line):
+            break
+        if m := FOOTNOTE_TEXT.search(line):
+            notes[m.group(1)] = m.group(2).strip()
+            line = line[: m.start()].strip()
+        marks = []
+        if m := FOOTNOTE_MARKS.search(line):
+            marks = re.findall(r"\d{1,2}", m.group(0))
+            line = line[: m.start()].strip(" ,")
+        if not (m := OSALLISTUJA.match(line)):
+            continue
+        # printed "Firstname Lastname": turn it round to "Lastname Firstname" as on other covers
+        tokens = m.group("name").split()
+        name = " ".join([tokens[-1], *tokens[:-1]])
+        p = Participant(name=name, role=m.group("role").strip(), present=not m.group("absent"))
+        people.append((p, marks))
+    for p, marks in people:
+        p.note = "; ".join(notes[k] for k in marks if k in notes) or None
+        cover.participants.append(p)
+    return cover
+
+
+# Akaa and Valkeakoski cover PDFs: unmarked blocks labelled at the left, "Päätöksentekijät",
+# "Muut osallistujat", "Poissa [olleet]". An entry is "Surname First role [times]" with no comma
+# (Akaa; a role left alone on a line belongs to the bare name on the next), "Puheenjohtaja Surname
+# First", or a comma list after "Jäsenet:" / "Varavaltuutetut:" that wraps names across lines
+# (Valkeakoski).
+BLOCK_LABELS = [
+    (re.compile(r"^Päätöksentekijät\b\s*"), "jäsen", True),
+    (re.compile(r"^Muut osallistujat\b\s*"), "muu osallistuja", True),
+    (re.compile(r"^Poissa(?: olleet)?\b\s*"), "jäsen", False),
+]
+BLOCK_END = re.compile(r"^(?:Laillisuus|Pöytäkirjan|Allekirjoitukset|Käsitellyt asiat|Asiat\b)")
+BLOCK_LIST = re.compile(r"^(?P<label>Jäsenet|Varavaltuutetut|Varajäsenet):\s*")
+BLOCK_TIME = re.compile(
+    r"^Kokousaika\s+(?:[a-zåäö]{2}\s+)?(\d{1,2}\.\d{1,2}\.\d{4}),?\s+(?:klo\s+)?(\d{1,2})[.:](\d{2})"
+    r"(?:.*[–-]\s*(\d{1,2})[.:](\d{2}))?"
+)
+_SURNAME_FIRST = r"(?:[A-ZÅÄÖ][\wÅÄÖåäö'’-]*\s+){1,2}?[A-ZÅÄÖ][\wÅÄÖåäö'’-]*"
+BLOCK_ENTRY = re.compile(
+    rf"^(?P<name>{_SURNAME_FIRST})(?:\s+(?P<role>(?:[IV]+\s+)?[a-zåäö][^\d]*?))?"
+    r"(?:\s+(?P<note>\(?(?:klo\.?\s*)?\d{1,2}[.:]\d{2}.*))?,?$"
+)
+BLOCK_ROLE_FIRST = re.compile(
+    rf"^(?P<role>(?:[IV]+\s+)?(?:Vara)?[Pp]uheenjohtaja)\s+(?P<name>{_SURNAME_FIRST})$"
+)
+BLOCK_BARE_ROLE = re.compile(r"^(?:[IV]+\s+)?[a-zåäö][a-zåäö -]*$")
+
+
+def is_block_cover(lines: list[str]) -> bool:
+    return any(re.match(r"^Päätöksentekijät\s+\S", ln.strip()) for ln in lines)
+
+
+def _list_entries(text: str, role: str, present: bool) -> list[Participant]:
+    out = []
+    for part in text.split(","):
+        part = part.strip()
+        note = None
+        if b := re.search(r"\s*\(([^)]*)\)\s*$", part):
+            part, note = part[: b.start()], b.group(1).strip()
+        if re.fullmatch(_SURNAME_FIRST, part):
+            out.append(Participant(name=part, role=role, present=present, note=note))
+    return out
+
+
+def parse_cover_blocks(lines: list[str]) -> Cover:
+    cover = Cover()
+    group, present = None, True
+    listing: tuple[str, list[str]] | None = None  # a comma list being gathered: role, lines
+    pending_role: str | None = None
+
+    def flush() -> None:
+        nonlocal listing
+        if listing:
+            cover.participants.extend(_list_entries(" ".join(listing[1]), listing[0], present))
+            listing = None
+
+    for raw in lines:
+        line = re.sub(r"\s+", " ", raw).strip()
+        if not line:
+            continue
+        if m := BLOCK_TIME.match(line):
+            cover.date = parse_date(m.group(1))
+            cover.start_time = _hhmm(m.group(2), m.group(3))
+            cover.end_time = _hhmm(m.group(4), m.group(5)) if m.group(4) else None
+            continue
+        if (m := re.match(r"^Kokouspaikka\s+(.+)$", line)) and cover.location is None:
+            cover.location = m.group(1)
+            continue
+        if BLOCK_END.match(line):
+            if cover.participants or listing:
+                break
+            continue
+        for rx, g, p in BLOCK_LABELS:
+            if m := rx.match(line):
+                flush()
+                group, present, line = g, p, line[m.end() :]
+                break
+        if group is None or not line:
+            continue
+        if m := BLOCK_LIST.match(line):
+            flush()
+            listing = ("jäsen" if m.group("label") == "Jäsenet" else "varajäsen", [line[m.end() :]])
+            continue
+        if listing:
+            listing[1].append(line)
+            continue
+        if not present:  # "Fuss Jouni," one a line
+            line = line.rstrip(",")
+        if BLOCK_BARE_ROLE.match(line):
+            pending_role = line
+            continue
+        if m := BLOCK_ROLE_FIRST.match(line):
+            role = m.group("role")
+            role = role if re.match(r"[IV]+\s", role) else role.lower()
+            cover.participants.append(Participant(name=m.group("name"), role=role, present=present))
+            continue
+        if re.match(r"^\(?(?:klo\.?\s*)?\d", line):  # "18.00-21.22, 21.23-21.37": the note of the last one
+            if cover.participants and cover.participants[-1].note is None:
+                cover.participants[-1].note = line.strip("() ")
+            continue
+        if not (m := BLOCK_ENTRY.match(line)):
+            continue
+        role, _, said = (m.group("role") or "").partition(", ")  # "varaedustaja, saapui klo. 11.33"
+        role = role.strip(" ,") or pending_role or group
+        pending_role = None
+        note = " ".join(filter(None, [said.strip(), (m.group("note") or "").strip("() ,")])) or None
+        cover.participants.append(Participant(name=m.group("name"), role=role, present=present, note=note))
+    flush()
+    return cover
+
+
 def parse_cover(lines: list[str]) -> Cover:
+    if is_osallistujat_cover(lines):
+        return parse_cover_osallistujat(lines)
+    if is_block_cover(lines):
+        return parse_cover_blocks(lines)
     cover = Cover()
     group: str | None = None
     deputies = False
@@ -325,50 +503,129 @@ SECTION_GROUPS = {
     "övriga deltagare": ("muu osallistuja", True),
     "poissa": ("jäsen", False),
     "frånvarande": ("jäsen", False),
+    # Raasepori: "Närvarande" with Ordinarie / Ersättare / Frånvarande / Övriga närvarande
+    "ordinarie": ("jäsen", True),
+    "ersättare": ("varajäsen", True),
+    "övriga närvarande": ("muu osallistuja", True),
+    # other installs: Kerava "Osallistujat", Nokia "Jäsenet", Pirkkala "Läsnäolijat", Kauhajoki
+    # "Saapuvilla olleet jäsenet" / "Varavaltuutetut" / "Poissa olleet", Muurame "Muut läsnäolijat"
+    "osallistujat": ("jäsen", True),
+    "jäsenet": ("jäsen", True),
+    "läsnäolijat": ("jäsen", True),
+    "saapuvilla olleet jäsenet": ("jäsen", True),
+    "saapuvilla olleet": ("jäsen", True),
+    "varajäsenet": ("varajäsen", True),
+    "varavaltuutetut": ("varajäsen", True),
+    "poissa olleet": ("jäsen", False),
+    "poissaolleet": ("jäsen", False),
+    "muut läsnäolijat": ("muu osallistuja", True),
 }
+SECTION_TIME_HEADINGS = ("aika", "tid", "kokousaika", "sammanträdestid")
+SECTION_PLACE_HEADINGS = ("paikka", "plats", "kokouspaikka", "sammanträdesplats")
 SECTION_ENTRY = re.compile(
     r"^(?P<name>[^,(§]+?)(?:,\s*(?P<role>[^(§]+?))?\s*(?:\((?P<bracket>[^)]*)\))?"
     r"\s*(?P<note>(?:§|klo\b|kl\.).*)?$"
 )
 SECTION_TIME = re.compile(
-    r"(\d{1,2}\.\d{1,2}\.\d{4})(?:,?\s*(?:klo|kl\.)?\s*(\d{1,2})[.:](\d{2}))?"
+    r"(\d{1,2}\.\d{1,2}\.\d{4})(?:,?\s*(?:klo|kello|kl\.)?\s*(\d{1,2})[.:](\d{2}))?"
     r"(?:\s*[–-]\s*(?:\d{1,2}\.\d{1,2}\.\d{4}\s*)?(?:klo\s*)?(\d{1,2})[.:](\d{2}))?"
 )
 
 
 def is_section_cover(html: str) -> bool:
-    return bool(re.search(r"<h2[^>]*>\s*(?:Päätöksentekijät|Beslutsfattare)\s*</h2>", html, re.IGNORECASE))
+    """An HTML attendance page: an <h2> that names a group of attendees."""
+    for m in re.finditer(r"<h2[^>]*>(.*?)</h2>", html, re.IGNORECASE | re.DOTALL):
+        if clean(re.sub(r"<[^>]+>", "", m.group(1))).strip("{} ").lower() in SECTION_GROUPS:
+            return True
+    return False
+
+
+# "(KOK) Enjala Terhi, puheenjohtaja" (Kerava prints the party first)
+SECTION_PARTY = re.compile(r"^\([A-ZÅÄÖ][A-ZÅÄÖa-zåäö.]{0,7}\)\s*")
+# "Puheenjohtaja, Hautala Lasse", "Valtuutettu, Björkman Petri" (Kauhajoki prints the role first)
+SECTION_ROLE_FIRST = re.compile(
+    r"^(?P<role>(?:(?:[IV]+|\d\.)\s+)?(?:vara)?puheenjohtaja|(?:vara)?valtuutettu|(?:vara)?jäsen)\s*,\s*"
+    r"(?P<name>[A-ZÅÄÖ].*)$",
+    re.IGNORECASE,
+)
+# a trailing ", poissa" (absent) or ", varajäsen" (a deputy): Muurame, Pirkkala's table cells
+SECTION_TAIL = re.compile(r"\s*,\s*(?P<tail>poissa|varajäsen|varavaltuutettu)\s*$", re.IGNORECASE)
+_LIST_NAME = re.compile(r"^[A-ZÅÄÖ][\wÅÄÖåäö'’-]+(?:\s+[A-ZÅÄÖ][\wÅÄÖåäö'’-]+){1,2}$")
+
+
+def _section_entries(value: str) -> list[str]:
+    """A comma list of names, "Kiukkonen Olli, Mäki Erkki, Soini Pekka", is one entry a name."""
+    parts = [p.strip() for p in value.split(",")]
+    if len(parts) > 1 and all(_LIST_NAME.match(p) for p in parts):
+        return parts
+    return [value]
+
+
+def _section_values(node) -> list[str]:
+    """One value per <br> line, or per table row: Ilmajoki puts a "name | role" table in the <p>,
+    one row a person, which reads as "name, role"."""
+    rows = node.css("tr")
+    if rows:
+        out = []
+        for tr in rows:
+            cells = [clean(td.text(deep=True)) for td in tr.css("td, th")]
+            cells = [c for c in cells if c]
+            if cells:
+                out.append(", ".join(cells))
+        return out
+    # Muurame: "Jarkko Määttänen\t\tkunnanjohtaja" in "Muut läsnäolijat"
+    lines = [re.sub(r"\s*\t+\s*", ", ", v.strip()) for v in node.text(deep=True, separator="\n").splitlines()]
+    return [clean(v) for v in lines if clean(v)]
 
 
 def parse_cover_sections(html: str) -> Cover:
     cover = Cover()
     for h2 in HTMLParser(html).css("h2"):
-        heading = clean(h2.text(deep=True)).lower()
+        heading = clean(h2.text(deep=True)).strip("{} ").lower()  # "{Sammanträdesplats}"
+        # the <p> under the heading; a table in it closes the <p>, so read up to the next <h2>
+        values: list[str] = []
         node = h2.next
-        while node is not None and node.tag == "-text":
+        while node is not None and node.tag not in ("h2", "h1"):
+            if node.tag != "-text":
+                values += _section_values(node)
+                if values and node.tag == "p" and not node.css("table"):
+                    break
             node = node.next
-        if node is None or node.tag == "h2":
-            continue
-        values = [clean(v) for v in node.text(deep=True, separator="\n").splitlines() if clean(v)]
-        if heading in ("aika", "tid") and values and (m := SECTION_TIME.search(values[0])):
+        if heading in SECTION_TIME_HEADINGS and values and (m := SECTION_TIME.search(values[0])):
             cover.date = parse_date(m.group(1))
             cover.start_time = _hhmm(m.group(2), m.group(3)) if m.group(2) else None
             cover.end_time = _hhmm(m.group(4), m.group(5)) if m.group(4) else None
-        elif heading in ("paikka", "plats") and values:
+        elif heading in SECTION_PLACE_HEADINGS and values:
             cover.location = values[0]
         elif heading in SECTION_GROUPS:
             group, present = SECTION_GROUPS[heading]
-            for value in values:
-                if not (m := SECTION_ENTRY.match(value)):
+            for value in (e for v in values for e in _section_entries(SECTION_PARTY.sub("", v))):
+                here, role_first = present, None
+                while t := SECTION_TAIL.search(value):
+                    value = value[: t.start()]
+                    if t.group("tail").lower() == "poissa":
+                        here = False
+                    else:
+                        role_first = t.group("tail").lower()
+                if f := SECTION_ROLE_FIRST.match(value):
+                    value, role_first = f.group("name"), f.group("role")
+                    role_first = role_first if re.match(r"[IV]+\s", role_first) else role_first.lower()
+                if ":" in value or not (m := SECTION_ENTRY.match(value)):  # "Liite: Nimenhuutoluettelo"
                     continue
                 name = m.group("name").strip()
-                if not re.match(r"^[A-ZÅÄÖ]", name):
+                if not re.match(r"^[A-ZÅÄÖ]", name) or name.lower() == "poissa":
                     continue
-                role = (m.group("role") or m.group("bracket") or "").strip(" ,") or group
+                printed_role, bracket = m.group("role"), m.group("bracket")
                 note = (m.group("note") or "").strip() or None
-                if m.group("role") and m.group("bracket"):
-                    note = " ".join(filter(None, [m.group("bracket").strip(), note]))
-                cover.participants.append(Participant(name=name, role=role, present=present, note=note))
+                if printed_role and re.match(r"\d{1,2}[.:]\d{2}\b", printed_role):  # "17.12 alkaen (§ 117)"
+                    note = " ".join(
+                        filter(None, [printed_role.strip(), f"({bracket})" if bracket else None, note])
+                    )
+                    printed_role = bracket = None
+                role = (printed_role or bracket or "").strip(" ,") or role_first or group
+                if printed_role and bracket:
+                    note = " ".join(filter(None, [bracket.strip(), note]))
+                cover.participants.append(Participant(name=name, role=role, present=here, note=note))
     return cover
 
 

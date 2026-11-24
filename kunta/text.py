@@ -51,6 +51,7 @@ _PHONE = re.compile(
     r"""
     (?<![\w-])              # not inside a code like KASKO-01-1029-25
     (?!0\d\d-(?:19|20)\d\d-\d)  # nor a permit number like 049-2019-881 (municipality-year-n)
+    (?!0[1-9]-(?:0[1-9]|1[0-2])\s(?:19|20)\d\d(?!\d))  # nor a period "01-03 2026" (Jan–Mar)
     (?:\+358|0)              # international prefix or trunk 0
     [\s-]?\(?\d{1,3}\)?      # area / operator code
     (?:[\s-]?\d){5,9}        # subscriber number with optional separators

@@ -168,3 +168,174 @@ def test_raasepori_swedish_motions_and_votes():
         (MotionKind.send_back, "Werner Orre", ["Mikael Borgman"], Outcome.rejected),
         (MotionKind.counter_proposal, "Werner Orre", ["Sven Holmberg", "Roger Hafström"], Outcome.rejected),
     ]
+
+
+# -- covers in other layouts (2026-11-24) ---------------------------------------------------
+
+
+def test_raasepori_swedish_section_cover():
+    html = (FIXTURES / "raasepori_fm_2025-01-20_cover.html").read_text(encoding="utf-8")
+    assert tp.is_section_cover(html)
+    cover = tp.parse_cover_sections(html)
+    assert (cover.date.isoformat(), cover.start_time, cover.end_time) == ("2025-01-20", "18:08", "19:27")
+    assert cover.location == "Karjaan yhteiskoulu, Ekenäsvägen 62"  # under "{Sammanträdesplats}"
+    got = {p.name: (p.role, p.present) for p in cover.participants}
+    assert len(got) == 53
+    assert got["Walls Anders"] == ("ordförande", True)
+    assert got["Kajander Petri"] == ("I viceordförande", True)
+    assert got["Ahomaa Petteri"] == ("jäsen", True)
+    assert got["Hellén Roy"] == ("varajäsen", True)
+    assert got["Alén Bella"] == ("jäsen", False)
+    assert got["Theman Petra"] == ("stadsdirektör", True)
+    assert sum(1 for p in cover.participants if p.present and p.role != "varajäsen") == 43
+
+
+def test_ilmajoki_table_in_section():
+    html = """<h1>Läsnäolijat</h1><h2>Aika</h2><p>12.12.2025 klo 18.00 - 19.30</p>
+<h2>Päätöksentekijät</h2><p><table border="0"><tbody>
+<tr><td>Niemistö Esa</td><td>puheenjohtaja</td></tr>
+<tr><td>Pöytälaakso Niclas</td><td>I varapuheenjohtaja</td></tr>
+<tr><td>Koski Matti</td><td></td></tr></tbody></table></p>
+<h2>Poissa</h2><p>Aho Ville</p>"""
+    cover = tp.parse_cover_sections(html)
+    got = [(p.name, p.role, p.present) for p in cover.participants]
+    assert got == [
+        ("Niemistö Esa", "puheenjohtaja", True),
+        ("Pöytälaakso Niclas", "I varapuheenjohtaja", True),
+        ("Koski Matti", "jäsen", True),
+        ("Aho Ville", "jäsen", False),
+    ]
+
+
+def test_rauma_osallistujat_pdf_cover():
+    lines = (FIXTURES.parent / "tweb_pdf" / "rauma_kh_2025-01-20_cover.txt").read_text(encoding="utf-8")
+    cover = tp.parse_cover(lines.splitlines())
+    assert (cover.date.isoformat(), cover.start_time, cover.end_time) == ("2025-01-20", "15:30", "19:23")
+    assert cover.location == "KH:n kokoushuone"
+    got = {p.name: (p.role, p.present, p.note) for p in cover.participants}
+    assert len(got) == 30
+    assert got["Leppikorpi Kalle"] == ("puheenjohtaja", True, None)
+    assert got["Vahteristo Samu"] == (
+        "I varapuheenjohtaja",
+        True,
+        "poistui esteellisenä §:n 9 käsittelyn ajaksi",
+    )
+    assert got["Hiljanen Heidi"] == ("jäsen", True, None)  # the footnote column is not hers
+    assert got["Kallio Reijo"] == ("KV:n I vpj", True, None)
+    assert got["Hyvärinen Atte"] == ("teknisen toimialan vs. toimialajohtaja", False, None)
+    assert got["Kumpula Olli-Pekka"] == ("tilapalvelujohtaja", True, "paikalla kokouksessa klo 17.24-17.45")
+
+
+def _cover(body: str) -> list[tuple[str, str, bool, str | None]]:
+    html = "<html><body><h1>Läsnäolijat</h1>" + body + "</body></html>"
+    assert tp.is_section_cover(html)
+    return [(p.name, p.role, p.present, p.note) for p in tp.parse_cover_sections(html).participants]
+
+
+def test_kerava_party_first():
+    got = _cover(
+        "<h2>Aika</h2><p>9.11.2026 klo 18:00 - 20:00</p><h2>Osallistujat</h2>"
+        "<p>(KOK) Enjala Terhi, puheenjohtaja<br>(KESK) Laaninen Timo, 2. varapuheenjohtaja<br>"
+        "(VAS) Alam Shamsul, jäsen</p>"
+    )
+    assert got == [
+        ("Enjala Terhi", "puheenjohtaja", True, None),
+        ("Laaninen Timo", "2. varapuheenjohtaja", True, None),
+        ("Alam Shamsul", "jäsen", True, None),
+    ]
+
+
+def test_nokia_bare_names_and_kuusamo_attachment():
+    assert _cover("<h2>Jäsenet</h2><p>Aarne Jukka-Pekka<br>Ahvenvaara Johanna</p>") == [
+        ("Aarne Jukka-Pekka", "jäsen", True, None),
+        ("Ahvenvaara Johanna", "jäsen", True, None),
+    ]
+    assert _cover("<h2>Jäsenet</h2><p>Liite: Nimenhuutoluettelo</p>") == []
+
+
+def test_muurame_brackets_tails_and_tabs():
+    html = (
+        "<html><body><h2>Kokousaika</h2><p>16.11.2026 kello 17:01</p>"
+        "<h2>Osallistujat</h2><p>Lauri Leskinen (pj.)<br>Ville Väyrynen (2. vpj), poissa<br>"
+        "Jani Kokko, poissa<br>Mikko Holmberg, varajäsen</p>"
+        "<h2>Muut läsnäolijat</h2><p>Jarkko Määttänen\t\tkunnanjohtaja<br>"
+        "Jukka Kaistinen\t\t\ttalousjohtaja, kello 17.19-18.34 § 97-98</p></body></html>"
+    )
+    cover = tp.parse_cover_sections(html)
+    assert (cover.date.isoformat(), cover.start_time) == ("2026-11-16", "17:01")
+    got = [(p.name, p.role, p.present) for p in cover.participants]
+    assert got[:4] == [
+        ("Lauri Leskinen", "pj.", True),
+        ("Ville Väyrynen", "2. vpj", False),
+        ("Jani Kokko", "jäsen", False),
+        ("Mikko Holmberg", "varajäsen", True),
+    ]
+    assert got[4] == ("Jarkko Määttänen", "kunnanjohtaja", True)
+    assert got[5][0] == "Jukka Kaistinen"
+
+
+def test_kauhajoki_role_first_and_lists():
+    got = _cover(
+        "<h2>Saapuvilla olleet jäsenet</h2><p>Puheenjohtaja, Hautala Lasse<br>"
+        "I varapuheenjohtaja, Kuusisto Jaana<br>Valtuutettu, Björkman Petri</p>"
+        "<h2>Varavaltuutetut</h2><p>Kiukkonen Olli, Mäki Erkki, Soini Pekka</p>"
+        "<h2>Poissa olleet</h2><p>Aho Ville</p>"
+    )
+    assert got == [
+        ("Hautala Lasse", "puheenjohtaja", True, None),
+        ("Kuusisto Jaana", "I varapuheenjohtaja", True, None),
+        ("Björkman Petri", "valtuutettu", True, None),
+        ("Kiukkonen Olli", "varajäsen", True, None),
+        ("Mäki Erkki", "varajäsen", True, None),
+        ("Soini Pekka", "varajäsen", True, None),
+        ("Aho Ville", "jäsen", False, None),
+    ]
+
+
+def test_pirkkala_table_cells():
+    got = _cover(
+        "<h2>Läsnäolijat</h2><p><table><tr><td>Tolvanen Taru</td><td>puheenjohtaja</td><td>Poissa</td></tr>"
+        "<tr><td>Ahtiainen Veli-Matti</td><td>17.12 alkaen (§ 117)</td></tr>"
+        "<tr><td>Alanne Noora</td><td></td></tr></table></p>"
+    )
+    assert got == [
+        ("Tolvanen Taru", "puheenjohtaja", False, None),
+        ("Ahtiainen Veli-Matti", "jäsen", True, "17.12 alkaen (§ 117)"),
+        ("Alanne Noora", "jäsen", True, None),
+    ]
+
+
+def test_lieto_osallistujat_row_is_the_cover():
+    page = tp.parse_meeting(
+        MEETING.replace(">Läsnäolijat<", ">Osallistujat -<"), "https://lieto-julkaisu.triplancloud.fi"
+    )
+    assert page.cover_pdf.endswith("docid=999307")
+
+
+def _pdf_cover(name: str) -> tp.Cover:
+    text = (FIXTURES.parent / "tweb_pdf" / f"{name}_cover.txt").read_text(encoding="utf-8")
+    return tp.parse_cover(text.splitlines())
+
+
+def test_akaa_block_cover():
+    got = {p.name: (p.role, p.present, p.note) for p in _pdf_cover("akaa_kh_2026-11-17").participants}
+    assert len(got) == 17
+    assert got["Einola-Virtanen Heli"] == ("I varapuheenjohtaja", True, None)
+    assert got["Piirainen Heli"] == ("varajäsen", True, "18.07-20.41")
+    assert got["Ahola Sami"] == ("valtuuston I varapuheenjohtaja", True, "18.00-21.22, 21.23-21.37")
+    assert got["Pulkkinen Mervi"] == ("II varapuheenjohtaja", False, None)
+    assert got["Lohi Mika"] == ("jäsen", False, None)  # its role sits on the line above
+
+
+def test_valkeakoski_block_cover_with_lists():
+    cover = _pdf_cover("valkeakoski_kv_2026-11-16")
+    assert (cover.date.isoformat(), cover.start_time, cover.end_time) == ("2026-11-16", "10:00", "12:21")
+    got = {p.name: (p.role, p.present, p.note) for p in cover.participants}
+    assert len(got) == 50
+    assert got["Franssila Mikko"] == ("puheenjohtaja", True, None)
+    assert got["Eerola-Nieminen Riikka-Leena"] == ("jäsen", True, None)  # wrapped across lines
+    assert got["Järvinen Pekka"] == ("jäsen", True, "saapui klo. 11.48")
+    assert got["Rautanen Ramona"] == ("varajäsen", True, "klo 10.00 – 11.48")
+    assert got["Nyrhilä Aapeli"] == ("nuorisovaltuuston varaedustaja", True, "saapui klo. 11.33")
+    assert got["Salminen Kari"] == ("jäsen", False, None)
+    assert sum(1 for r, p, _ in got.values() if p and r in ("jäsen", "puheenjohtaja")) == 40
