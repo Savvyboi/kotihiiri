@@ -1,3 +1,91 @@
-# Filled by `kunta discover --city turku`. Set `included: true|false` on a body to
-# override the default exclude rules (kunta/bodies.py). Manual flags survive re-discovery.
-bodies: {}
+# Written by `kunta discover` / `kunta crawl`. Add `included: true|false` to a body to override the
+# default exclude rules (kunta/bodies.py); manual keys survive re-discovery. `excluded_by_rule`
+# is informational.
+bodies:
+  hyvinvoinnin-ja-terveyden-edistamisen-lautakunta:
+    kind: committee
+    name_fi: Hyvinvoinnin ja terveyden edistämisen lautakunta
+  hyvinvoinnin-yhteisvaikuttava-toimikunta:
+    kind: committee
+    name_fi: Hyvinvoinnin yhteisvaikuttava toimikunta
+  kasvatus-ja-opetuslautakunnan-ruotsinkielinen-jaosto:
+    kind: section
+    name_fi: Kasvatus- ja opetuslautakunnan ruotsinkielinen jaosto
+  kasvatus-ja-opetuslautakunnan-suomenkielinen-jaosto:
+    kind: section
+    name_fi: Kasvatus- ja opetuslautakunnan suomenkielinen jaosto
+  kasvatus-ja-opetuslautakunta:
+    kind: committee
+    name_fi: Kasvatus- ja opetuslautakunta
+  kaupunginhallituksen-konsernijaosto:
+    kind: section
+    name_fi: Kaupunginhallituksen konsernijaosto
+  kaupunginhallituksen-rakentamis-ja-tilajaosto:
+    kind: section
+    name_fi: Kaupunginhallituksen rakentamis- ja tilajaosto
+  kaupunginhallitus:
+    kind: board
+    name_fi: Kaupunginhallitus
+  kaupunginvaltuusto:
+    kind: council
+    name_fi: Kaupunginvaltuusto
+  kaupunkiymparistolautakunta:
+    kind: committee
+    name_fi: Kaupunkiympäristölautakunta
+  keskusvaalilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Keskusvaalilautakunta
+  kulttuuri-ja-nuorisolautakunta:
+    kind: committee
+    name_fi: Kulttuuri- ja nuorisolautakunta
+  kulttuurilautakunta:
+    kind: committee
+    name_fi: Kulttuurilautakunta
+  lasten-parlamentti:
+    kind: committee
+    name_fi: Lasten parlamentti
+  liikuntalautakunta:
+    kind: committee
+    name_fi: Liikuntalautakunta
+  lounais-suomen-jatehuoltolautakunta:
+    kind: committee
+    name_fi: Lounais-Suomen jätehuoltolautakunta
+  monikulttuurisuusneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Monikulttuurisuusneuvosto
+  nuorisovaltuusto:
+    excluded_by_rule: true
+    kind: council
+    name_fi: Nuorisovaltuusto
+  rakennus-ja-lupalautakunta:
+    kind: committee
+    name_fi: Rakennus- ja lupalautakunta
+  ruotsinkielinen-lasten-ja-nuorten-palveluiden-lautakunta:
+    kind: committee
+    name_fi: Ruotsinkielinen lasten ja nuorten palveluiden lautakunta
+  sosiaali-ja-terveyslautakunta:
+    kind: committee
+    name_fi: Sosiaali- ja terveyslautakunta
+  suomenkielinen-lasten-ja-nuorten-palveluiden-lautakunta:
+    kind: committee
+    name_fi: Suomenkielinen lasten ja nuorten palveluiden lautakunta
+  tarkastuslautakunta:
+    kind: committee
+    name_fi: Tarkastuslautakunta
+  turun-kaupungin-vanhusneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Turun kaupungin vanhusneuvosto
+  turun-kaupunkiseudun-joukkoliikennelautakunta:
+    kind: committee
+    name_fi: Turun kaupunkiseudun joukkoliikennelautakunta
+  tyollisyysaluelautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Työllisyysaluelautakunta
+  vammaisneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vammaisneuvosto
