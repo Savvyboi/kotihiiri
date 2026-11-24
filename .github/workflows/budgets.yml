@@ -1,5 +1,6 @@
 # Municipal budgets and financial plans from the State Treasury's open API (PLAN.md §19):
-# `kunta budgets` writes data/talous/{city}.json and data/talous/items.json, which are small and
+# `kunta budgets` writes data/talous/{city}.json and data/talous/items.json, and `kunta services` the
+# actuals by service class in data/talous/palvelut/ (§19.2); both are small and
 # committed to git for every municipality. Monthly, because budgets are approved once a year
 # (December) and corrected now and then; also runs on a working branch when the fetcher changes.
 name: budgets
@@ -11,6 +12,7 @@ on:
     branches: ["claude/**"]
     paths:
       - kunta/budget.py
+      - kunta/services.py
       - config/registry/business_ids.yaml
       - .github/workflows/budgets.yml
   workflow_dispatch:
@@ -25,7 +27,9 @@ permissions:
   id-token: write
 
 concurrency:
-  group: data-writer
+  # Runs on main share the data-writer queue with the crawls; a working branch commits only to
+  # itself, so it gets its own queue and does not wait behind (or bump) a long crawl.
+  group: ${{ github.ref == 'refs/heads/main' && 'data-writer' || format('budgets-{0}', github.ref) }}
   cancel-in-progress: false
 
 jobs:
@@ -45,6 +49,10 @@ jobs:
         env:
           CITIES: ${{ inputs.cities || 'all' }}
         run: kunta budgets --cities "$CITIES"
+      - name: Fetch finances by service class
+        env:
+          CITIES: ${{ inputs.cities || 'all' }}
+        run: kunta services --cities "$CITIES"
       - name: Commit data/talous
         id: commit
         run: |

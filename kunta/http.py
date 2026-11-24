@@ -261,6 +261,29 @@ class PoliteClient:
     def get(self, url: str) -> Response:
         return self._request("GET", url)
 
+    def download(self, url: str, dest: Path) -> int:
+        """GET a large file straight to `dest` without holding it in memory. Same host, robots and
+        rate rules as `get`; one attempt, never cached. Returns the number of bytes written."""
+        host = urlsplit(url).netloc
+        if self.allowed_hosts is not None and host not in self.allowed_hosts:
+            raise FetchFailed(f"host {host} is not configured for this run")
+        if not self.allowed(url):
+            self.stats.skipped_robots.append(url)
+            raise RobotsDisallowed(url)
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        size = 0
+        with self.rate.lock(host):
+            self.rate.wait(host)
+            with self._client.stream("GET", url) as resp:
+                self.stats.requests += 1
+                if resp.status_code != 200:
+                    raise FetchFailed(f"{url}: HTTP {resp.status_code}")
+                with dest.open("wb") as f:
+                    for chunk in resp.iter_bytes(1 << 20):
+                        f.write(chunk)
+                        size += len(chunk)
+        return size
+
     def post_json(self, url: str, body: object) -> Response:
         """POST a JSON query (PxWeb APIs). Same robots, rate and retry rules as `get`; never cached."""
         return self._request("POST", url, body)

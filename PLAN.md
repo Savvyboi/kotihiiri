@@ -809,3 +809,29 @@ plain language, downloadable. Built from the same KTAS data (§19); no new fetch
   style function drill-down; the FAQ says so and points to the municipality's own budget book.
   Earlier years have no pages of their own (they would add ~105 MB, §13); they are in the charts
   and the CSV.
+
+### 19.2 Net cost by service (added 2026-11-15)
+
+At Savvas's request ("break it down by service, at least for the major cities"). Budgets (KTAS) are
+not reported by service, so this uses the State Treasury's financial statements by service class,
+KKTPP ("kunnan ja kuntayhtymän tilinpäätöstiedot palveluluokittain"), from the same open API as §19.
+That means actual figures for the last closed year (2025 as of November 2026), for all 95
+municipalities, 2021 onward.
+
+- **Fetch.** `kunta services` (run by `budgets.yml` after `kunta budgets`) reads the report list,
+  fetches each new KKTPP report, then streams the KKTPP taxonomy (gigabytes; downloaded to disk with
+  `PoliteClient.download`, read with ijson) to name the cells. A cell is service class × account ×
+  counterparty sector; we keep, per class, operating costs, allocated costs (vyörytyskulut),
+  operating income and allocated income, summed over the top sectors only (external, internal,
+  not applicable). Stored as `data/talous/palvelut/{city}.json` (code → four numbers per year) and
+  `services.json` (code → fi/sv/en name): about 2 MB in all. Years with an unchanged approval time
+  are not re-fetched; when nothing is new the taxonomy is not downloaded.
+- **Net cost** = costs + allocated costs − income − allocated income, as the Treasury's
+  "nettokäyttökustannus". Internal rents count as a cost of the service using the premises, so
+  "Premises and land" usually shows a surplus. Totals ("… yhteensä", 1100, 5350) are left out of
+  sums. The groups' sum can differ from the reported total by a few per cent because the Treasury
+  publishes some figures at a coarser level.
+- **Site.** A "Services" section on `/{city}/talous/`: about fifteen groups a resident recognises
+  (`site/src/lib/services.ts`), largest net cost first, with share, per resident, change from the
+  year before, rank per resident among municipalities, spending and income, and the service classes
+  inside each group.
