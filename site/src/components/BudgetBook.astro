@@ -13,6 +13,7 @@ import { cityName, type City } from '../lib/data';
 import { COLUMNS, budgetItems, isAmount, isTotal, lineLabel, population, value, type BudgetFile, type BudgetYear } from '../lib/budget';
 import { balance, change, costGroup, incomeGroup, investGroup, line, ownUse, peers, rank, trend, type Group, type Part } from '../lib/budgetBook';
 import { EXPLAIN, FAQ, FIN_LABEL } from '../lib/budgetGlossary';
+import { groupAbout, groupName, groupPeers, grouped, serviceData, serviceName } from '../lib/services';
 interface Props { city: City; data: BudgetFile; y: BudgetYear; locale: Locale }
 const { city, data, y, locale } = Astro.props;
 const { t, path, num, date } = useI18n(locale);
@@ -57,8 +58,23 @@ const W = 320, H = 150, PAD = 18, BASE = 22;
 const verdictAmount = bal.result === undefined ? undefined : bal.verdict === 'short' ? Math.abs(bal.result) : bal.result;
 const verdictValue = verdictAmount !== undefined ? `${mil(verdictAmount)}${pop ? ` (${per(verdictAmount)} ${t('budget.perResident')})` : ''}` : '';
 const afterInvest = bal.margin !== undefined ? bal.margin - bal.investNet : undefined;
+// Actual net costs by service, from the latest financial statements (PLAN.md §19.2).
+const svcFile = serviceData(city.id);
+const svcYear = svcFile?.years.find((x) => Object.keys(x.services).length > 1);
+const svcPrev = svcYear && svcFile!.years.find((x) => x.year === svcYear.year - 1);
+const svc = svcYear ? grouped(svcYear) : undefined;
+const svcPrevNet = new Map((svcPrev ? grouped(svcPrev).rows : []).map((r) => [r.id, r.net]));
+const svcMax = Math.max(1, ...(svc?.rows.map((r) => r.net) ?? []));
+const svcPositive = svc ? svc.rows.reduce((s, r) => s + Math.max(r.net, 0), 0) : 0;
+const svcRank = (id: string, v: number) => {
+  const peersList = groupPeers(svcYear!.year, id);
+  if (peersList.length < 5 || !pop) return undefined;
+  const n = peersList.length;
+  const median = n % 2 ? peersList[(n - 1) / 2] : (peersList[n / 2 - 1] + peersList[n / 2]) / 2;
+  return { r: peersList.filter((x) => x > v / pop + 1e-9).length + 1, n, m: median };
+};
 const sections = [
-  ['overview', 'book.s.overview'], ['income', 'book.s.income'], ['costs', 'book.s.costs'], ['invest', 'book.s.invest'],
+  ['overview', 'book.s.overview'], ['income', 'book.s.income'], ['costs', 'book.s.costs'], ...(svc ? [['services', 'book.s.services']] as const : []), ['invest', 'book.s.invest'],
   ['debt', 'book.s.debt'], ['trend', 'book.s.trend'], ['all', 'book.s.all'], ['faq', 'book.s.faq'], ['data', 'book.s.data'],
 ] as const;
 ---
@@ -149,6 +165,46 @@ const sections = [
         </ul>
       </section>
     ))}
+
+    {svc && svcYear && (
+      <section id="services">
+        <h2>{t('svc.title', { year: svcYear.year })}</h2>
+        <p>{t('svc.lead', { year: svcYear.year })}</p>
+        <ul class="book-parts">
+          {svc.rows.map((r) => {
+            const share = svcPositive ? (Math.max(r.net, 0) / svcPositive) * 100 : 0;
+            const d = change(r.net, svcPrevNet.get(r.id));
+            const rk = svcRank(r.id, r.net);
+            const about = groupAbout(r.id, locale);
+            return (
+              <li>
+                <div class="part-head">
+                  <span class="part-name">{groupName(r.id, locale)}</span>
+                  <span class="part-v">{mil(r.net)}</span>
+                </div>
+                <div class="part-bar" role="img" aria-label={`${groupName(r.id, locale)}: ${num(Math.round(share))} %`}><span style={`width:${Math.max((Math.max(r.net, 0) / svcMax) * 100, 0.4)}%`}></span></div>
+                <p class="part-facts small">
+                  {r.net >= 0 ? <span>{num(Math.round(share))} % {t('book.share')}</span> : <span>{t('svc.surplus')}</span>}
+                  {pop && <span>{per(r.net)} {t('budget.perResident')}</span>}
+                  {d !== undefined && <span>{t('book.vsPrev', { d: `${signed.format(d)} %`, year: svcYear.year - 1 })}</span>}
+                  {rk && r.net > 0 && <span>{t('book.vsPeers', { r: rk.r, n: rk.n, m: eur(rk.m) })}</span>}
+                  <span>{t('svc.costsIncome', { c: mil(r.costs), i: mil(r.income) })}</span>
+                </p>
+                <details class="explain-row">
+                  <summary>{t('svc.inside')}</summary>
+                  {about && <p>{about}</p>}
+                  <ul class="svc-list small">
+                    {r.services.filter((x) => Math.abs(x.net) >= 500 || x.costs >= 500).map((x) => <li><span>{serviceName(x.code, locale)}</span><span>{mil(x.net)}</span></li>)}
+                  </ul>
+                </details>
+              </li>
+            );
+          })}
+        </ul>
+        {svc.total !== undefined && <p class="svc-total"><b>{t('svc.total')}</b> <b>{mil(svc.total)}</b>{pop && <span class="muted"> · {per(svc.total)} {t('budget.perResident')}</span>}</p>}
+        <p class="small muted">{t('svc.note')} <a href={svcYear.source_url} rel="external">{t('svc.sourceDoc')}</a></p>
+      </section>
+    )}
 
     {loans.length > 0 && (
       <section id="debt">
