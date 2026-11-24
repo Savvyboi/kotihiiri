@@ -260,7 +260,68 @@ def _note(note: str | None) -> str | None:
     return note.strip("() ") or None
 
 
+# Rauma's cover PDF: "KOKOUSAIKA 20.1.2025 klo 15.30-17.18, 17.24-19.23", "KOKOUSPAIKKA ...", then
+# "OSALLISTUJAT" with one person a line, "Firstname Lastname, role[, poissa][, 3)]", no x/- marks:
+# everyone is present unless "poissa". Footnotes "1) paikalla kokouksessa klo 15.30-18.48" are a
+# second column that the text layer runs onto the same lines. The list ends at ALLEKIRJOITUKSET.
+OSALLISTUJAT = re.compile(r"^OSALLISTUJAT\b\s*")
+KOKOUSAIKA = re.compile(
+    r"^KOKOUSAIKA\s+(\d{1,2}\.\d{1,2}\.\d{4})\s+(?:klo\s+)?(\d{1,2})[.:](\d{2})(?:.*[–-]\s*(\d{1,2})[.:](\d{2}))?"
+)
+KOKOUSPAIKKA = re.compile(r"^KOKOUSPAIKKA\s+(.+)$")
+FOOTNOTE_TEXT = re.compile(r"(?:^|\s)(\d{1,2})\)\s+((?:paikalla|saapui|poistui|oli|läsnä)\b.*)$")
+FOOTNOTE_MARKS = re.compile(r"(?:,?\s*\d{1,2}\))+\s*$")
+OSALLISTUJA = re.compile(r"^(?P<name>[A-ZÅÄÖ][^,\d]*?)\s*,\s*(?P<role>[^,]+?)(?:\s*,\s*(?P<absent>poissa))?$")
+
+
+def is_osallistujat_cover(lines: list[str]) -> bool:
+    return any(OSALLISTUJAT.match(ln.strip()) for ln in lines)
+
+
+def parse_cover_osallistujat(lines: list[str]) -> Cover:
+    cover = Cover()
+    notes: dict[str, str] = {}
+    people: list[tuple[Participant, list[str]]] = []
+    inside = False
+    for raw in lines:
+        line = re.sub(r"\s+", " ", raw).strip()
+        if m := KOKOUSAIKA.match(line):
+            cover.date = parse_date(m.group(1))
+            cover.start_time = _hhmm(m.group(2), m.group(3))
+            cover.end_time = _hhmm(m.group(4), m.group(5)) if m.group(4) else None
+            continue
+        if (m := KOKOUSPAIKKA.match(line)) and cover.location is None:
+            cover.location = m.group(1)
+            continue
+        if m := OSALLISTUJAT.match(line):
+            inside, line = True, line[m.end() :]
+        elif not inside:
+            continue
+        if re.match(r"^(?:ALLEKIRJOITUKSET|KÄSITELTÄVÄT ASIAT|PÖYTÄKIRJAN)\b", line):
+            break
+        if m := FOOTNOTE_TEXT.search(line):
+            notes[m.group(1)] = m.group(2).strip()
+            line = line[: m.start()].strip()
+        marks = []
+        if m := FOOTNOTE_MARKS.search(line):
+            marks = re.findall(r"\d{1,2}", m.group(0))
+            line = line[: m.start()].strip(" ,")
+        if not (m := OSALLISTUJA.match(line)):
+            continue
+        # printed "Firstname Lastname": turn it round to "Lastname Firstname" as on other covers
+        tokens = m.group("name").split()
+        name = " ".join([tokens[-1], *tokens[:-1]])
+        p = Participant(name=name, role=m.group("role").strip(), present=not m.group("absent"))
+        people.append((p, marks))
+    for p, marks in people:
+        p.note = "; ".join(notes[k] for k in marks if k in notes) or None
+        cover.participants.append(p)
+    return cover
+
+
 def parse_cover(lines: list[str]) -> Cover:
+    if is_osallistujat_cover(lines):
+        return parse_cover_osallistujat(lines)
     cover = Cover()
     group: str | None = None
     deputies = False
@@ -325,7 +386,13 @@ SECTION_GROUPS = {
     "övriga deltagare": ("muu osallistuja", True),
     "poissa": ("jäsen", False),
     "frånvarande": ("jäsen", False),
+    # Raasepori: "Närvarande" with Ordinarie / Ersättare / Frånvarande / Övriga närvarande
+    "ordinarie": ("jäsen", True),
+    "ersättare": ("varajäsen", True),
+    "övriga närvarande": ("muu osallistuja", True),
 }
+SECTION_TIME_HEADINGS = ("aika", "tid", "kokousaika", "sammanträdestid")
+SECTION_PLACE_HEADINGS = ("paikka", "plats", "kokouspaikka", "sammanträdesplats")
 SECTION_ENTRY = re.compile(
     r"^(?P<name>[^,(§]+?)(?:,\s*(?P<role>[^(§]+?))?\s*(?:\((?P<bracket>[^)]*)\))?"
     r"\s*(?P<note>(?:§|klo\b|kl\.).*)?$"
@@ -337,24 +404,44 @@ SECTION_TIME = re.compile(
 
 
 def is_section_cover(html: str) -> bool:
-    return bool(re.search(r"<h2[^>]*>\s*(?:Päätöksentekijät|Beslutsfattare)\s*</h2>", html, re.IGNORECASE))
+    return bool(
+        re.search(r"<h2[^>]*>\s*(?:Päätöksentekijät|Beslutsfattare|Ordinarie)\s*</h2>", html, re.IGNORECASE)
+    )
+
+
+def _section_values(node) -> list[str]:
+    """One value per <br> line, or per table row: Ilmajoki puts a "name | role" table in the <p>,
+    one row a person, which reads as "name, role"."""
+    rows = node.css("tr")
+    if rows:
+        out = []
+        for tr in rows:
+            cells = [clean(td.text(deep=True)) for td in tr.css("td, th")]
+            cells = [c for c in cells if c]
+            if cells:
+                out.append(", ".join(cells))
+        return out
+    return [clean(v) for v in node.text(deep=True, separator="\n").splitlines() if clean(v)]
 
 
 def parse_cover_sections(html: str) -> Cover:
     cover = Cover()
     for h2 in HTMLParser(html).css("h2"):
-        heading = clean(h2.text(deep=True)).lower()
+        heading = clean(h2.text(deep=True)).strip("{} ").lower()  # "{Sammanträdesplats}"
+        # the <p> under the heading; a table in it closes the <p>, so read up to the next <h2>
+        values: list[str] = []
         node = h2.next
-        while node is not None and node.tag == "-text":
+        while node is not None and node.tag not in ("h2", "h1"):
+            if node.tag != "-text":
+                values += _section_values(node)
+                if values and node.tag == "p" and not node.css("table"):
+                    break
             node = node.next
-        if node is None or node.tag == "h2":
-            continue
-        values = [clean(v) for v in node.text(deep=True, separator="\n").splitlines() if clean(v)]
-        if heading in ("aika", "tid") and values and (m := SECTION_TIME.search(values[0])):
+        if heading in SECTION_TIME_HEADINGS and values and (m := SECTION_TIME.search(values[0])):
             cover.date = parse_date(m.group(1))
             cover.start_time = _hhmm(m.group(2), m.group(3)) if m.group(2) else None
             cover.end_time = _hhmm(m.group(4), m.group(5)) if m.group(4) else None
-        elif heading in ("paikka", "plats") and values:
+        elif heading in SECTION_PLACE_HEADINGS and values:
             cover.location = values[0]
         elif heading in SECTION_GROUPS:
             group, present = SECTION_GROUPS[heading]
