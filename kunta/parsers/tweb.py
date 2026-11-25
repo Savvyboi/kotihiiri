@@ -1745,6 +1745,9 @@ def parse_prose(lines: list[str]) -> list[TwebProse]:
 def _kannalla_label(text: str) -> str:
     """ "Jäsen Sari Seimelän ehdotuksen" → "Sari Seimelän ehdotus"."""
     t = re.sub(r"^(?:jäsen|valtuutettu)\s+", "", text.strip(), flags=re.IGNORECASE)
+    # only the proposal's own words: "Puheenjohtaja Hiljasen ja jäsen Seimelän lisäksi Hiljasen ehdotuksen"
+    if m := re.search(r"(?:[A-ZÅÄÖ][\wÅÄÖåäö-]+\s+){0,2}\w*ehdotuksen$", t):
+        t = m.group(0)
     return re.sub(r"ehdotuksen$", "ehdotus", t)
 
 

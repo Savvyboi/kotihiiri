@@ -295,10 +295,15 @@ class TwebAdapter:
             pdf_url=used[0] if len(used) == 1 else None,
             pdf_problem=problem,
         )
-        by_sentence = {p.sentence: p for p in prose}
+        # Same-count votes print the same sentence ("annettiin 28 JAA-ääntä ja 7 EI-ääntä"): take them
+        # in order, so each event gets its own vote's labels and voters
+        by_sentence: dict[str, list[tp.TwebProse]] = {}
+        for p in prose:
+            by_sentence.setdefault(p.sentence, []).append(p)
         groups = {name: g for v in report_votes for name, g in v.groups.items()}
         for ev in events:
-            pv = by_sentence.get(ev.result_text or "")
+            same = by_sentence.get(ev.result_text or "")
+            pv = same.pop(0) if same else None
             for b in ev.ballots:
                 b.group_text = groups.get(b.person_ref.raw)
             if pv is None:
