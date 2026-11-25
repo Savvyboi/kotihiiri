@@ -129,7 +129,9 @@ def clean_title(title: str) -> str:
     return INITIALS_TAIL.sub("", clean(title)).strip()
 
 
-COVER_ROW = re.compile(r"kansilehti|försättsblad|läsnäolijat|närvarande|^osallistujat\b", re.IGNORECASE)
+COVER_ROW = re.compile(
+    r"kansilehti|försättsblad|läsnäolijat|läsnäolevat|närvarande|^osallistujat\b", re.IGNORECASE
+)
 
 
 def parse_meeting(html: str, base: str = BASE) -> MeetingPage:
@@ -434,9 +436,72 @@ def parse_cover_blocks(lines: list[str]) -> Cover:
     return cover
 
 
+# Lieto: a "Surname First Role" table under "Jäsenet Tehtävä", "Varajäsenet" and "Muut osallistujat
+# Tehtävä"; roles are capitalised ("Jäsen", "I varapuheenjohtaja"), the page header repeats.
+TABLE_HEAD = re.compile(
+    r"^(?P<label>Jäsenet|Varajäsenet|Muut osallistujat|Poissa(?:olleet| olleet)?)(?:\s+Tehtävä)?$"
+)
+TABLE_GROUPS = {
+    "jäsenet": ("jäsen", True),
+    "varajäsenet": ("varajäsen", True),
+    "muut osallistujat": ("muu osallistuja", True),
+}
+TABLE_ROW = re.compile(
+    r"^(?P<name>[A-ZÅÄÖ][\wÅÄÖåäö'’-]+\s+[A-ZÅÄÖ][\wÅÄÖåäö'’-]+)"
+    r"(?:\s+(?P<role>(?:[IV]+\s+)?[A-ZÅÄÖa-zåäö][^\d]*?))?(?:\s+(?P<note>\d.*))?$"
+)
+
+
+def is_table_cover(lines: list[str]) -> bool:
+    return any(re.fullmatch(r"Jäsenet\s+Tehtävä", ln.strip()) for ln in lines)
+
+
+def parse_cover_table(lines: list[str]) -> Cover:
+    cover = Cover()
+    group: tuple[str, bool] | None = None
+    for raw in lines:
+        line = re.sub(r"\s+", " ", raw).strip()
+        if not line or PAGE_HEADER.match(line) or re.fullmatch(r"[A-ZÅÄÖ ]+(?:KAUPUNKI|KUNTA)", line):
+            continue
+        if m := re.match(
+            r"^Aika\s+(?:(\d{1,2}\.\d{1,2}\.\d{4})\s+)?(?:klo\s+)?(\d{1,2})[.:](\d{2})"
+            r"(?:\s*[–-]\s*(\d{1,2})[.:](\d{2}))?",
+            line,
+        ):
+            cover.date = parse_date(m.group(1)) if m.group(1) else None
+            cover.start_time = _hhmm(m.group(2), m.group(3))
+            cover.end_time = _hhmm(m.group(4), m.group(5)) if m.group(4) else None
+            continue
+        if (m := PLACE.match(line)) and cover.location is None:
+            cover.location = m.group(1)
+            continue
+        if m := TABLE_HEAD.match(line):
+            label = m.group("label").lower()
+            group = TABLE_GROUPS.get(label, ("jäsen", False))
+            continue
+        if BLOCK_END.match(line) or COVER_END.match(line):
+            if cover.participants:
+                break
+            continue
+        if group is None or not (m := TABLE_ROW.match(line)):
+            continue
+        role = (m.group("role") or "").strip()
+        if role and not re.match(r"[IV]+\s", role):
+            role = role[0].lower() + role[1:]
+        present = group[1] and role.lower() != "poissa"
+        if role.lower() == "poissa":
+            role = ""
+        cover.participants.append(
+            Participant(name=m.group("name"), role=role or group[0], present=present, note=m.group("note"))
+        )
+    return cover
+
+
 def parse_cover(lines: list[str]) -> Cover:
     if is_osallistujat_cover(lines):
         return parse_cover_osallistujat(lines)
+    if is_table_cover(lines):
+        return parse_cover_table(lines)
     if is_block_cover(lines):
         return parse_cover_blocks(lines)
     cover = Cover()
@@ -634,10 +699,14 @@ def parse_cover_sections(html: str) -> Cover:
 DIARY = re.compile(r"^[A-ZÅÄÖ]{1,4}/\d+/[\d.]+/\d{4}$")
 INITIALS = re.compile(r"^[A-ZÅÄÖ][A-Za-zÅÄÖåäö]{0,3}(?:/[A-ZÅÄÖ][A-Za-zÅÄÖåäö]{0,3})*$")
 BODY_WORD = r"(?:valtuusto|hallitus|lautakun\w*|jaosto|johtokunta|toimikunta|neuvosto)"
+_BLOCK_BODY = (
+    rf"(?P<body>(?=[A-ZÅÄÖ])(?:[\wÅÄÖåäö-]+\s+){{0,5}}?[\wÅÄÖåäö-]*?(?i:{BODY_WORD})"
+    r"[\wåäö]*(?:\s+[\wåäö-]+)?)"
+)
+# "Kaupunginhallitus 9.6.2025 § 209", "Valtuusto 19.5.2025 § 55"; Rauma: "Kaupunginhallitus 273 § 22.6.2026"
 BLOCK = re.compile(
-    rf"^(?P<body>[A-ZÅÄÖ][\wÅÄÖåäö-]*(?:\s+[\wÅÄÖåäö-]+){{0,5}}?\s*{BODY_WORD}[\wåäö]*(?:\s+[\wåäö-]+)?)"
-    r"\s+(?P<date>\d{1,2}\.\d{1,2}\.\d{4})\s+§\s*(?P<n>\d+)$",
-    re.IGNORECASE,
+    rf"^{_BLOCK_BODY}\s+(?:(?P<date>\d{{1,2}}\.\d{{1,2}}\.\d{{4}})\s+§\s*(?P<n>\d+)"
+    rf"|(?P<n2>\d+)\s*§\s+(?P<date2>\d{{1,2}}\.\d{{1,2}}\.\d{{4}}))$"
 )
 PROPOSAL = re.compile(r"^(?:[\wÅÄÖåäö.-]+\s+){0,5}esitys\s*:$|^Esitys\s*:$", re.IGNORECASE)
 HEADINGS = {
@@ -647,7 +716,13 @@ HEADINGS = {
 }
 ATTACHMENTS = re.compile(r"^(Liite|Liitteet|Oheismateriaali)\s*:", re.IGNORECASE)
 END = re.compile(r"^(Muutoksenhakuohje|Lisätiedot|Lisätietoja|Tiedoksi)\b", re.IGNORECASE)
-RULE = re.compile(r"^_{3,}$")
+RULE = re.compile(r"^[_-]{3,}$")
+# a running page header in the middle of an item: "RAUMAN KAUPUNKI Kokouspäivä" and then
+# "Kaupunginvaltuusto 31.8.2026"
+PAGE_HEADER = re.compile(r"^[A-ZÅÄÖ]{3,}(?:\s+[A-ZÅÄÖ]{3,})*\s+(?:KAUPUNKI|KUNTA)\b")
+# Kangasala: "Kangasalan kaupunki" alone on a line at each page top
+PAGE_HEADER_TOWN = re.compile(r"^[A-ZÅÄÖ][a-zåäö-]+n\s+(?:kaupunki|kunta)$")
+PAGE_HEADER_DATE = re.compile(r"^[A-ZÅÄÖ][\wåäö -]*\s+\d{1,2}\.\d{1,2}\.\d{4}$")
 STATEMENT = re.compile(r"^Merkittiin,?\s+että\b.*(pöytäkirjalausum|eriävän mielipiteen)", re.IGNORECASE)
 
 
@@ -674,6 +749,14 @@ class ItemDoc:
 def parse_item_lines(lines: list[str], title: str | None = None) -> ItemDoc:
     lines = [ln.rstrip() for ln in lines if not ln.startswith("--- page ")]
     lines = [ln for ln in lines if ln.strip()]
+    kept: list[str] = []
+    for i, ln in enumerate(lines):
+        if i > 0 and (PAGE_HEADER.match(ln.strip()) or PAGE_HEADER_TOWN.match(ln.strip())):
+            continue
+        if kept and i > 0 and PAGE_HEADER.match(lines[i - 1].strip()) and PAGE_HEADER_DATE.match(ln.strip()):
+            continue
+        kept.append(ln)
+    lines = kept
     doc = ItemDoc()
     # title, then the diary number and the preparers' initials
     start = 0
@@ -693,9 +776,10 @@ def parse_item_lines(lines: list[str], title: str | None = None) -> ItemDoc:
         if END.match(s):
             break
         if m := BLOCK.match(s):
-            date = parse_date(m.group("date"))
+            date = parse_date(m.group("date") or m.group("date2"))
             assert date is not None
-            doc.blocks.append(Block(body=m.group("body"), date=date, pykala=int(m.group("n"))))
+            n = int(m.group("n") or m.group("n2"))
+            doc.blocks.append(Block(body=m.group("body"), date=date, pykala=n))
             cur = doc.blocks[-1].lines
             in_attachments = False
             continue
@@ -861,6 +945,24 @@ def end_at_meeting(doc: ItemDoc, date: dt.date, pykala: int | None) -> None:
             return
 
 
+# Rauma prints the heading in a left column, on the same line as the text: "Kokouskäsittely Yleis-
+# keskustelun aikana …", "Päätös Päätös: Hyväksyttiin.", "Päätösehdotus Kaupunginhallitus:".
+INLINE_HEADING = re.compile(r"^(?P<h>Kokouskäsittely|Päätösehdotus|Päätös)\s+(?P<rest>[A-ZÅÄÖ].*)$")
+
+
+def _inline_heading(line: str) -> tuple[SectionType, str, str] | None:
+    m = INLINE_HEADING.match(line.strip())
+    if not m:
+        return None
+    kind = {
+        "kokouskäsittely": SectionType.deliberation,
+        "päätösehdotus": SectionType.proposal,
+        "päätös": SectionType.decision,
+    }[m.group("h").lower()]
+    rest = re.sub(r"^Päätös\s*:\s*", "", m.group("rest")) if kind == SectionType.decision else m.group("rest")
+    return kind, m.group("h"), rest
+
+
 def _heading(line: str) -> tuple[SectionType, str] | None:
     s = line.strip()
     if PROPOSAL.match(s):
@@ -882,6 +984,8 @@ def block_parts(block: Block) -> list[tuple[SectionType, str, list[str]]]:
         h = _heading(ln)
         if h:
             parts.append((h[0], h[1], []))
+        elif inline := _inline_heading(ln):
+            parts.append((inline[0], inline[1], [inline[2]]))
         elif parts:
             parts[-1][2].append(ln)
         else:
@@ -946,7 +1050,16 @@ def item_sections(doc: ItemDoc) -> tuple[list[Section], list[Section], list[str]
                         statements.append(Section(type=skind, text=text))
             if text := _text(lines):
                 sections.append(Section(type=kind, heading=heading or None, text=text))
+    if not deliberation and doc.blocks:
+        last = doc.blocks[-1]
+        if not any(k == SectionType.deliberation for k, _, _ in block_parts(last)) and VOTE_HINT.search(
+            _flat(last.lines)
+        ):
+            deliberation = list(last.lines)
     return sections, statements, deliberation
+
+
+VOTE_HINT = re.compile(r"äänesty|kannattamana", re.IGNORECASE)
 
 
 # -- motions and votes in the Käsittely prose ---------------------------------------------
@@ -961,6 +1074,22 @@ MOTION = re.compile(
     r"Valtuutettu|Kaupunginhallituksen jäsen|_{3,})|$)",
     re.DOTALL,
 )
+# "valtuutettu Leppikorpi valtuutettu Virtasen kannattamana ehdotti, että …" (Rauma)
+MOTION_SEC_FIRST = re.compile(
+    rf"(?P<prop>{PERSON})\s+(?P<sec>(?:[a-zåäö]+\s+){{0,3}}{PERSON})\s+kannattamana\s*,?\s+"
+    r"(?P<verb>teki|esitti|ehdotti)\s*,?\s*"
+    r"(?P<rest>.*?)(?=(?:Puheenjohtaja|Asian käsittelyn aikana|Käsittelyn aikana|Käsittelyn kuluessa|"
+    r"Yleiskeskustelun aikana|Valtuutettu|_{3,})|$)",
+    re.DOTALL,
+)
+# "Henna Palinin ehdotus valtuutettu Mikko Hietalahden kannattamana: "…"" (Pirkkala); the proposer
+# is in the genitive, the text runs to the voting method or the next vote.
+MOTION_NOUN = re.compile(
+    rf"(?P<prop>{PERSON})\s+(?:muutos|palautus|pöydällepano)?(?:ehdotus|esitys)\s+"
+    rf"(?P<sec>(?:[a-zåäö]+\s+){{0,3}}{PERSON})\s+kannattamana\s*:\s*"
+    r"(?P<rest>.*?)(?=Äänestystapa|Äänestys\s+\d|Jaa\s*\(|$)",
+    re.DOTALL,
+)
 # "… seuraavan muutosesityksen[, joka raukesi kannattamattomana]:" introduces the motion's text
 INTRO = re.compile(
     r"^.*?(?:muutosesityksen|esityksen|ehdotuksen|lisäyksen)\s*"
@@ -968,7 +1097,7 @@ INTRO = re.compile(
 )
 UNSECONDED = re.compile(r"raukesi\s+kannattamattomana", re.IGNORECASE)
 PROPOSITION = re.compile(
-    r"he,?\s+jotka\s+kannattavat\s+(?P<jaa>.+?),?\s+äänestävät\s+jaa,?\s+ja\s+he,?\s+(?:jotka|ketkä)\s+"
+    r"(?:he|ne),?\s+jotka\s+kannattavat\s+(?P<jaa>.+?),?\s+äänestävät\s+jaa,?\s+ja\s+(?:he|ne),?\s+(?:jotka|ketkä)\s+"
     r"kannattavat\s+(?P<ei>.+?),?\s+äänestävät\s+ei",
     re.IGNORECASE | re.DOTALL,
 )
@@ -979,7 +1108,24 @@ PROPOSITION_THAT = re.compile(
     r"(?P<ei>[^.]+?)(?:\s+kannattavat\s+äänestävät)?\s+ei\b",
     re.IGNORECASE | re.DOTALL,
 )
-RESULT = re.compile(r"Äänestyksessä\s+annettiin\b", re.IGNORECASE)
+RESULT = re.compile(r"Äänestyksessä\s+annettiin\b|Äänestyksen\s+tulos\s*:?", re.IGNORECASE)
+# Rauma names the sides: "Suoritetussa äänestyksessä asian … jatkaminen sai 25 ääntä ja valtuutettu
+# Leppikorven ym. ehdottama … sai 18 ääntä", or "… välillä, sai asian käsittelyn jatkaminen 37 ääntä
+# ja Toivosen ym. ehdottama … 6 ääntä".
+_CLAUSE = r"(?:\bym\.|\bmm\.|[^.])+?"  # a clause; "Leppikorven ym. ehdottama" keeps its dot
+SAI_RESULT = re.compile(
+    rf"äänestyksessä\s+(?:(?P<la1>{_CLAUSE})\s+sai\s+(?P<a1>{_NUM})\s+ääntä,?\s+ja\s+(?P<lb1>{_CLAUSE})\s+sai\s+"
+    rf"(?P<b1>{_NUM})\s+ääntä|{_CLAUSE[:-1]}?\bsai\s+(?P<la2>{_CLAUSE})\s+(?P<a2>{_NUM})\s+ääntä,?\s+ja\s+"
+    rf"(?P<lb2>{_CLAUSE})\s+(?P<b2>{_NUM})\s+ääntä)",
+    re.IGNORECASE,
+)
+# Pirkkala: "Äänestystapa äänestyskone Jaa (Kh - pohjaehdotus) 34 ääntä Ei (Palinin ehdotus) 9 ääntä
+# [Tyhjä 0 ääntä]"
+JAA_EI_RESULT = re.compile(
+    rf"\bJaa\s*\((?P<jaa>[^)]*)\)\s*:?\s*(?P<a>{_NUM})\s+ään\w*[,.]?\s+Ei\s*\((?P<ei>[^)]*)\)\s*:?\s*"
+    rf"(?P<b>{_NUM})\s+ään\w*(?:[,.]?\s+Tyhj\w*(?:\s*\([^)]*\))?\s*:?\s*(?P<t>{_NUM}))?"
+)
+TYHJA_NONE = re.compile(r"^\W*Tyhjiä\s+ääniä\s+ei\s+annettu", re.IGNORECASE)
 # One side of the result, either order: "61 jaa-ääntä", "55 jaa ääntä", "45 jaaääntä",
 # "yksi tyhjä-ääni", "Jaa-ääniä 6", each with the voters' surnames in brackets on boards.
 _SIDE = r"(?P<w>jaa|ei|tyhjä)[- ]?ään\w*|tyhjää"
@@ -999,7 +1145,8 @@ def _n(word: str) -> int:
 
 
 def _flat(lines: list[str]) -> str:
-    return re.sub(r"\s+", " ", join_lines(lines)).strip()
+    text = join_lines([ln for ln in lines if not RULE.match(ln.strip())])
+    return re.sub(r"\s+", " ", re.sub(r"_{3,}", " ", text)).strip()
 
 
 TITLE_WORDS = {"valtuutettu", "varavaltuutettu", "jäsen", "puheenjohtaja", "varapuheenjohtaja"}
@@ -1031,10 +1178,29 @@ def _kind(text: str) -> MotionKind:
     return MotionKind.counter_proposal
 
 
+def _nominative(name: str) -> str:
+    """ "Raili Naskalin" → "Raili Naskali", "Veli-Matti Ahtiaisen" → "Veli-Matti Ahtiainen": a guess at
+    the surname's nominative for a proposer printed in the genitive (resolution matches fuzzily)."""
+    words = name.split()
+    if not words:
+        return name
+    w = words[-1]
+    if w.endswith("sen"):
+        w = w[:-3] + "nen"
+    elif w.endswith("n"):  # "Naskalin" → "Naskali"; "Palinin" → "Palini" is near enough to match
+        w = w[:-1]
+    return " ".join([*words[:-1], w])
+
+
 def _motions_at(text: str) -> list[tuple[int, Motion]]:
     out = []
-    for m in MOTION.finditer(text):
+    taken: list[tuple[int, int]] = []
+    for m in [*MOTION_SEC_FIRST.finditer(text), *MOTION_NOUN.finditer(text), *MOTION.finditer(text)]:
+        if any(a <= m.start() < b for a, b in taken):
+            continue
         prop = _person(m.group("prop"))
+        if m.re is MOTION_NOUN:
+            prop = _nominative(prop)
         if not prop or prop.lower().startswith(("puheenjohtaja", "kaupunginjohtaja")):
             continue
         rest = m.group("rest").strip()
@@ -1051,7 +1217,8 @@ def _motions_at(text: str) -> list[tuple[int, Motion]]:
             outcome=Outcome.rejected if unseconded else None,
         )
         out.append((m.start(), motion))
-    return out
+        taken.append((m.start(), m.end()))
+    return sorted(out, key=lambda x: x[0])
 
 
 def parse_motions(lines: list[str]) -> list[Motion]:
@@ -1132,7 +1299,42 @@ def parse_prose(lines: list[str]) -> list[TwebProse]:
                 start=m.start(),
             )
         )
-    return out
+    for m in SAI_RESULT.finditer(text):
+        i = "1" if m.group("a1") else "2"
+        tail = text[m.end() : m.end() + 40]
+        out.append(
+            TwebProse(
+                a=_n(m.group("a" + i)),
+                b=_n(m.group("b" + i)),
+                tyhja=0,
+                sentence=text[m.start() : m.end()]
+                + (" " + tail.split(".")[0] + "." if TYHJA_NONE.match(tail) else ""),
+                jaa_label=_side_label(m.group("la" + i)),
+                ei_label=_side_label(m.group("lb" + i)),
+                start=m.start(),
+            )
+        )
+    for m in JAA_EI_RESULT.finditer(text):
+        out.append(
+            TwebProse(
+                a=_n(m.group("a")),
+                b=_n(m.group("b")),
+                tyhja=_n(m.group("t")) if m.group("t") else 0,
+                sentence=m.group(0),
+                jaa_label=m.group("jaa").strip(),
+                ei_label=m.group("ei").strip(),
+                start=m.start(),
+            )
+        )
+    return sorted(out, key=lambda o: o.start)
+
+
+def _side_label(text: str) -> str:
+    """ "valtuutettu Leppikorven ym. ehdottama asian palauttaminen uudelleen valmisteluun" →
+    "Leppikorven ym. ehdottama asian palauttaminen uudelleen valmisteluun"."""
+    t = re.sub(r"\s+", " ", text).strip(" ,")
+    t = re.sub(r"^(?:asian\s+käsittelyn\s+jatkamisen\s+ja\s+.*?välillä,?\s*)", "", t)
+    return re.sub(r"^(?:valtuutettu|varavaltuutettu|jäsen)\s+", "", t)
 
 
 def parse_case(lines: list[str]) -> tuple[list[Motion], list[TwebProse]]:
@@ -1144,13 +1346,25 @@ def parse_case(lines: list[str]) -> tuple[list[Motion], list[TwebProse]]:
     placed = _motions_at(text)
     prose = parse_prose(lines)
     for pv in prose:
-        gen = pv.ei_label.split()[0] if pv.ei_label else ""
+        ei_words = [w.strip(".,()") for w in pv.ei_label.split()[:3]]
+        jaa_words = [w.strip(".,()") for w in pv.jaa_label.split()[:3]]
         before = [mo for pos, mo in placed if pos < pv.start]
         for mo in reversed(before):
             surname = mo.proposer_ref.raw.split()[-1]
-            if gen and _is_genitive(gen, surname):
+            if any(w and (_is_genitive(w, surname) or w == surname) for w in ei_words):
                 mo.outcome = Outcome.adopted if pv.b > pv.a else Outcome.rejected
                 break
+            if any(w and (_is_genitive(w, surname) or w == surname) for w in jaa_words):
+                mo.outcome = Outcome.adopted if pv.a > pv.b else Outcome.rejected
+                break
+        else:
+            # no name to go by ("Leppikorven" for Leppikorpi, "Ei (palautetaan)"): the motion just
+            # before the vote, when the Ei side is that kind of motion or the vote is a Jaa/Ei block
+            prev = max((o.start for o in prose if o.start < pv.start), default=-1)
+            open_ = [mo for pos, mo in placed if prev < pos < pv.start and mo.outcome is None]
+            kind = _kind(pv.ei_label) if re.search(r"palaut|pöydälle", pv.ei_label, re.I) else None
+            if open_ and (kind == open_[-1].kind or JAA_EI_RESULT.match(pv.sentence)):
+                open_[-1].outcome = Outcome.adopted if pv.b > pv.a else Outcome.rejected
     return [mo for _, mo in placed], prose
 
 
