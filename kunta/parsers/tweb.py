@@ -720,6 +720,8 @@ RULE = re.compile(r"^[_-]{3,}$")
 # a running page header in the middle of an item: "RAUMAN KAUPUNKI Kokouspäivä" and then
 # "Kaupunginvaltuusto 31.8.2026"
 PAGE_HEADER = re.compile(r"^[A-ZÅÄÖ]{3,}(?:\s+[A-ZÅÄÖ]{3,})*\s+(?:KAUPUNKI|KUNTA)\b")
+# Kangasala: "Kangasalan kaupunki" alone on a line at each page top
+PAGE_HEADER_TOWN = re.compile(r"^[A-ZÅÄÖ][a-zåäö-]+n\s+(?:kaupunki|kunta)$")
 PAGE_HEADER_DATE = re.compile(r"^[A-ZÅÄÖ][\wåäö -]*\s+\d{1,2}\.\d{1,2}\.\d{4}$")
 STATEMENT = re.compile(r"^Merkittiin,?\s+että\b.*(pöytäkirjalausum|eriävän mielipiteen)", re.IGNORECASE)
 
@@ -749,7 +751,7 @@ def parse_item_lines(lines: list[str], title: str | None = None) -> ItemDoc:
     lines = [ln for ln in lines if ln.strip()]
     kept: list[str] = []
     for i, ln in enumerate(lines):
-        if i > 0 and PAGE_HEADER.match(ln.strip()):
+        if i > 0 and (PAGE_HEADER.match(ln.strip()) or PAGE_HEADER_TOWN.match(ln.strip())):
             continue
         if kept and i > 0 and PAGE_HEADER.match(lines[i - 1].strip()) and PAGE_HEADER_DATE.match(ln.strip()):
             continue
@@ -1143,7 +1145,8 @@ def _n(word: str) -> int:
 
 
 def _flat(lines: list[str]) -> str:
-    return re.sub(r"\s+", " ", join_lines(lines)).strip()
+    text = join_lines([ln for ln in lines if not RULE.match(ln.strip())])
+    return re.sub(r"\s+", " ", re.sub(r"_{3,}", " ", text)).strip()
 
 
 TITLE_WORDS = {"valtuutettu", "varavaltuutettu", "jäsen", "puheenjohtaja", "varapuheenjohtaja"}
@@ -1176,7 +1179,7 @@ def _kind(text: str) -> MotionKind:
 
 
 def _nominative(name: str) -> str:
-    """ "Henna Palinin" → "Henna Palin", "Veli-Matti Ahtiaisen" → "Veli-Matti Ahtiainen": a guess at
+    """ "Raili Naskalin" → "Raili Naskali", "Veli-Matti Ahtiaisen" → "Veli-Matti Ahtiainen": a guess at
     the surname's nominative for a proposer printed in the genitive (resolution matches fuzzily)."""
     words = name.split()
     if not words:
@@ -1184,9 +1187,7 @@ def _nominative(name: str) -> str:
     w = words[-1]
     if w.endswith("sen"):
         w = w[:-3] + "nen"
-    elif re.search(r"[^aeiouyäö]in$", w):
-        w = w[:-2]
-    elif w.endswith("n"):
+    elif w.endswith("n"):  # "Naskalin" → "Naskali"; "Palinin" → "Palini" is near enough to match
         w = w[:-1]
     return " ".join([*words[:-1], w])
 

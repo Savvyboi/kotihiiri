@@ -414,6 +414,23 @@ def test_pirkkala_jaa_ei_blocks():
         (29, 14, "asian käsittelyä jatketaan", "palautetaan"),
     ]
     assert [(m.kind, m.proposer_ref.raw, m.outcome) for m in motions] == [
-        (MotionKind.counter_proposal, "Henna Palin", Outcome.rejected),
+        (MotionKind.counter_proposal, "Henna Palini", Outcome.rejected),
         (MotionKind.send_back, "Hietalahde", Outcome.rejected),
     ]
+
+
+def test_nominative_and_page_header():
+    assert tp._nominative("Raili Naskalin") == "Raili Naskali"
+    assert tp._nominative("Veli-Matti Ahtiaisen") == "Veli-Matti Ahtiainen"
+    doc = tp.parse_item_lines(
+        [
+            "Asia",
+            "Valtuusto 11.5.2026 § 33",
+            "Ne, jotka kannattavat asian",
+            "Kangasalan kaupunki",
+            "______________",
+            "palauttamista, äänestävät ei.",
+        ],
+        "Asia",
+    )
+    assert tp._flat(doc.blocks[0].lines) == "Ne, jotka kannattavat asian palauttamista, äänestävät ei."
