@@ -134,3 +134,159 @@ def test_doc_noise_dropped():
         "Käsittely",
         "Päätös",
     ]
+
+
+def test_kangasala_whole_grid_over_two_pages():
+    ps = tp.parse_cover_columns(words("kangasala")).participants
+    members = [p for p in ps if p.role == "jäsen" and p.present]
+    assert len(members) == 50
+    assert members[-1].name == "Kouhia Raimo"
+    got = {p.name: (p.role, p.note) for p in ps}
+    assert got["Jussila Heidi"] == ("jäsen", "saapui §:n 75 aikana klo 15.10")
+    assert got["Holma Elina"] == ("hallinnon sihteeri", None)
+    assert got["Toivonen Sonja"] == ("nuorisovaltuuston edustaja", None)
+    assert "Asiat" not in str(got)
+
+
+# -- round 5: the #56 dry run's misreads ------------------------------------------------------
+
+
+def prose_case(name: str):
+    return tp.parse_case((FIXTURES / f"{name}.txt").read_text(encoding="utf-8").splitlines())
+
+
+def summary(motions):
+    return [(m.proposer_ref.raw, [s.raw for s in m.seconder_refs], m.outcome) for m in motions]
+
+
+def test_akaa_same_counts_are_separate_votes_with_their_own_labels():
+    motions, prose = prose_case("akaa_kv75")
+    assert [(p.a, p.b, p.ei_label) for p in prose] == [
+        (21, 14, "Jaakko Leinosen ehdotus"),
+        (24, 11, "Anton Murolan ehdotus"),
+        (9, 26, "Jouni Vaittisen ehdotus"),
+        (4, 31, "Jouni Vaittisen ehdotus"),
+        (28, 7, "Saija Roinisen ehdotus"),
+        (28, 7, "Majka Nurmisen ehdotus"),  # "Maj-/ka", and no "Akaan kaupunki" page header
+    ]
+    assert prose[4].jaa_label == "kaupunginhallituksen ehdotus"
+    got = dict((n, o) for n, _, o in summary(motions))
+    # the first vote is Väisänen (Jaa) against Vaittinen (Ei); Vaittinen then beats the base
+    assert got["Laura Väisänen"] == Outcome.rejected
+    assert got["Jouni Vaittinen"] == Outcome.adopted
+
+
+def test_hameenlinna_several_seconders_in_the_genitive():
+    motions, prose = prose_case("hml49")
+    assert [(p.a, p.b, p.tyhja) for p in prose] == [(28, 18, 5), (28, 18, 5), (28, 23, 0)]
+    assert summary(motions) == [
+        ("Anne Laatikainen", ["Timo Viitanen", "Tiia Nurminen", "Kylli Kylliäinen"], Outcome.rejected),
+        ("Anne Laatikainen", ["Timo Viitanen", "Tiia Nurminen", "Kylli Kylliäinen"], Outcome.rejected),
+        ("Timo Viitanen", ["Tiia Nurminen"], Outcome.rejected),
+    ]
+
+
+def test_raasepori_both_sides_name_a_motion():
+    motions, prose = prose_case("raasepori_142")
+    assert [(p.jaa_label, p.ei_label) for p in prose] == [
+        ("Vilanders förslag", "Barmans förslag"),
+        ("Stadsstyrelsens förslag", "Barmans förslag"),
+    ]
+    assert summary(motions) == [
+        ("Dennis Barman", ["Linnéa Henriksson"], Outcome.adopted),
+        ("Isak Vilander", ["Alexandra Lundmark"], Outcome.rejected),
+    ]
+
+
+def test_muurame_option_result():
+    motions, [pv] = prose_case("muurame98")
+    assert (pv.a, pv.b, pv.jaa_label, pv.ei_label) == (23, 3, "Pohjaesitys", "vastaesitys")
+    assert summary(motions) == [("Viivi Marjamäki", ["Tuomo Leinonen"], Outcome.rejected)]
+
+
+def test_nokia_named_lists_and_unpunctuated_seconder():
+    motions, [pv] = prose_case("nokia69")
+    assert (pv.a, pv.b) == (6, 3)
+    assert pv.names[tp.Choice.ei] == ["Teresa Kvick", "Anneli Lehtonen", "Kaisa Räsänen"]
+    assert len(pv.names[tp.Choice.jaa]) == 6
+    assert summary(motions) == [("Kaisa Räsänen", ["Anneli Lehtonen"], Outcome.rejected)]
+
+
+def test_rauma_roll_call_by_names_and_comma_before_seconder():
+    motions, [pv] = prose_case("rauma_kh37")
+    assert (pv.a, pv.b) == (5, 4)
+    assert pv.names[tp.Choice.ei] == ["Sari Seimelä", "Kalle Leppikorpi", "Heidi Hiljanen", "Jari Laihonen"]
+    assert pv.ei_label == "Sari Seimelän ehdotus"
+    assert summary(motions) == [("Sari Seimelä", ["Heidi Hiljanen"], Outcome.rejected)]
+
+
+def test_pirkkala_heading_line_and_stem_change():
+    motions, [pv] = prose_case("pirkkala3")
+    assert (pv.a, pv.b) == (32, 11)
+    assert summary(motions) == [("Heikki Riihimäki", ["Veli-Matti Ahtiainen"], Outcome.rejected)]
+
+
+def test_valkeakoski_unanimous_adoption():
+    motions, prose = prose_case("valkeakoski_kh14")
+    assert prose == []
+    assert summary(motions) == [("Takku", ["Selkee"], Outcome.adopted)]
+
+
+PDF = Path(__file__).parent / "fixtures" / "tweb_pdf"
+
+
+def pdf_doc(name: str):
+    return tp.parse_item_lines((PDF / f"{name}.txt").read_text(encoding="utf-8").splitlines())
+
+
+def test_valkeakoski_handling_after_tiedoksi_is_the_meetings_own():
+    doc = pdf_doc("valkeakoski_kh_2025-04-14_80")
+    assert [b.header for b in doc.blocks] == ["KH 20.6.2022 § 192", "KV 27.6.2022 § 67", "KH 14.4.2025 § 80"]
+    sections, _, deliberation = tp.item_sections(doc)
+    assert deliberation == []  # the 2022 council votes stay in their history block
+    assert [(s.type, s.heading) for s in sections][-2:] == [
+        (tp.SectionType.proposal, "Ehdotus"),
+        (tp.SectionType.decision, "Päätös"),
+    ]
+    [pv] = tp.parse_prose(doc.blocks[1].lines)
+    assert pv.jaa_label == "KH:n ehdotus"
+
+
+def test_varkaus_list_of_handlings_at_the_top():
+    import datetime as dt
+
+    doc = pdf_doc("varkaus_kv_2026-09-28_68")
+    tp.end_at_meeting(doc, dt.date(2026, 9, 28), 68)
+    assert [b.header for b in doc.blocks][-1] == "Kaupunginvaltuusto 28.9.2026 § 68"
+    _, _, deliberation = tp.item_sections(doc)
+    motions, [pv] = tp.parse_case(deliberation)
+    assert (pv.a, pv.b) == (31, 4)
+    assert summary(motions) == [("Hilkka Koponen", ["Kirsti Lumiala"], Outcome.rejected)]
+
+
+def test_hamina_html_with_a_bogus_heading_and_no_header_for_the_council():
+    html = (Path(__file__).parent / "fixtures" / "tweb_html" / "hamina_kv_2026-04-20_15.html").read_text(
+        encoding="utf-8"
+    )
+    doc = tp.parse_item_html(html)
+    assert doc.case_number == "Hamina/172/2026"
+    assert [b.header for b in doc.blocks] == [
+        "Kasvatus ja koulutus -valiokunta 7.4.2026 § 18",
+        "Kaupunginhallitus 13.4.2026 § 68",
+        "Kaupunginvaltuusto 20.4.2026 § 15",
+    ]
+    sections, _, deliberation = tp.item_sections(doc)
+    assert [s.type for s in sections][-3:] == [
+        tp.SectionType.proposal,
+        tp.SectionType.deliberation,
+        tp.SectionType.decision,
+    ]
+    motions, [pv] = tp.parse_case(deliberation)
+    assert (pv.a, pv.b, pv.ei_label) == (31, 6, "Pakkasen vastaehdotus")  # not the board's 7–2
+    assert summary(motions) == [
+        (
+            "Antti Pakkanen",
+            ["Peter Muurman", "Anu Oikkonen", "Janne Nyholm", "Jani Jaakkola"],
+            Outcome.rejected,
+        )
+    ]

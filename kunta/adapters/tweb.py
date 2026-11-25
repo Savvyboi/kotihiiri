@@ -107,8 +107,13 @@ class TwebAdapter:
         if resp.content[:5] == b"%PDF-" or "pdf" in resp.content_type.lower():
             cover = tp.parse_cover([ln for page in pdf_pages(resp.content, max_pages) for ln in page])
             if not cover.participants:  # names in columns (Kangasala, Varkaus): read by position
+                # each page's rows apart: "Asiat" at the top of page 2 must not end page 1's grid
                 columns = tp.parse_cover_columns(
-                    [w for page in pdf_words(resp.content, max_pages) for w in page]
+                    [
+                        (top + 1000 * i, x0, x1, text)
+                        for i, page in enumerate(pdf_words(resp.content, max_pages))
+                        for top, x0, x1, text in page
+                    ]
                 )
                 cover.participants = columns.participants
             return cover

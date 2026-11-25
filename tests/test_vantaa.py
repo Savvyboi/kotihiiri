@@ -262,11 +262,11 @@ def test_motions_with_seconders_unseconded_and_outcomes_from_the_votes():
     motions, prose = tp.parse_case(tp.item_sections(d)[2])
     assert [(m.kind, m.proposer_ref.raw, [s.raw for s in m.seconder_refs], m.outcome) for m in motions] == [
         ("send_back", "Petri Roininen", ["Janne Hartikainen"], "rejected"),
-        ("counter_proposal", "Loviisa Kaartokallio", ["Tiina Tuomelan"], "rejected"),
-        ("counter_proposal", "Chau Nguyen", ["Minttu Sillanpään"], "rejected"),
-        ("counter_proposal", "Loviisa Kaartokallio", ["Tiina Tuomelan"], "rejected"),
-        ("counter_proposal", "Chau Nguyen", ["Minttu Sillanpään"], "rejected"),
-        ("counter_proposal", "Heli Hakala", ["Kaartokallion"], "rejected"),
+        ("counter_proposal", "Loviisa Kaartokallio", ["Tiina Tuomela"], "rejected"),
+        ("counter_proposal", "Chau Nguyen", ["Minttu Sillanpää"], "rejected"),
+        ("counter_proposal", "Loviisa Kaartokallio", ["Tiina Tuomela"], "rejected"),
+        ("counter_proposal", "Chau Nguyen", ["Minttu Sillanpää"], "rejected"),
+        ("counter_proposal", "Heli Hakala", ["Kaartokallio"], "rejected"),
     ]
     assert motions[0].text == "asian palautusta valmisteluun."
     assert [(p.a, p.b, p.tyhja) for p in prose] == [(55, 12, 0), (55, 12, 0), (59, 8, 0), (53, 12, 1),

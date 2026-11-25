@@ -793,7 +793,7 @@ def parse_cover_sections(html: str) -> Cover:
 
 DIARY = re.compile(r"^[A-ZÅÄÖ]{1,4}/\d+/[\d.]+/\d{4}$")
 INITIALS = re.compile(r"^[A-ZÅÄÖ][A-Za-zÅÄÖåäö]{0,3}(?:/[A-ZÅÄÖ][A-Za-zÅÄÖåäö]{0,3})*$")
-BODY_WORD = r"(?:valtuusto|hallitus|lautakun\w*|jaosto|johtokunta|toimikunta|neuvosto)"
+BODY_WORD = r"(?:valtuusto|hallitus|lautakun\w*|jaosto|johtokunta|toimikunta|neuvosto|valiokunta)"
 _BLOCK_BODY = (
     rf"(?P<body>(?=[A-ZÅÄÖ])(?:[\wÅÄÖåäö-]+\s+){{0,5}}?[\wÅÄÖåäö-]*?(?i:{BODY_WORD})"
     r"[\wåäö]*(?:\s+[\wåäö-]+)?)"
@@ -874,10 +874,15 @@ def parse_item_lines(lines: list[str], title: str | None = None) -> ItemDoc:
     cur: list[str] = doc.background
     in_attachments = False
     skip_next, pending_rest = False, ""
+    ended = False
+    last_header = -2
     for idx, ln in enumerate(lines[start:]):
         s = ln.strip()
         if END.match(s):
-            break
+            # the end of a handling; a later handling may still follow ("Tiedoksi/toimenpiteitä
+            # varten: …" closes Valkeakoski's KV 2022 block before the KH 2025 one)
+            ended = True
+            continue
         if skip_next:
             skip_next = False
             if pending_rest:
@@ -887,9 +892,14 @@ def parse_item_lines(lines: list[str], title: str | None = None) -> ItemDoc:
             date = parse_date(m.group("date") or m.group("date2") or m.group("date3"))
             assert date is not None
             n = int(m.group("n") or m.group("n2") or m.group("n3"))
+            if doc.blocks and not doc.blocks[-1].lines and last_header == idx - 1:
+                # Varkaus lists every handling at the top ("Kaupunginvaltuusto 28.9.2026 § 68" /
+                # "Kaupunginhallitus 21.9.2026 § 210" / …): only the last line opens a block
+                doc.blocks.pop()
             doc.blocks.append(Block(body=m.group("body"), date=date, pykala=n))
+            last_header = idx
             cur = doc.blocks[-1].lines
-            in_attachments = False
+            in_attachments = ended = False
             continue
         nxt = lines[start + idx + 1].strip() if start + idx + 1 < len(lines) else ""
         if (m := ABBR_BLOCK.match(s)) and (p := ABBR_PYKALA.match(nxt)):
@@ -897,8 +907,10 @@ def parse_item_lines(lines: list[str], title: str | None = None) -> ItemDoc:
             assert date is not None
             doc.blocks.append(Block(body=m.group("body"), date=date, pykala=int(p.group("n"))))
             cur = doc.blocks[-1].lines
-            in_attachments = False
+            in_attachments = ended = False
             skip_next, pending_rest = True, p.group("rest").strip()
+            continue
+        if ended:
             continue
         if ATTACHMENTS.match(s):
             in_attachments = True
@@ -906,7 +918,7 @@ def parse_item_lines(lines: list[str], title: str | None = None) -> ItemDoc:
             if rest:
                 doc.attachment_titles.append(rest)
             continue
-        if in_attachments and _heading(s):
+        if in_attachments and (_heading(s) or _inline_heading(s) or EHDOTUS.match(s)):
             in_attachments = False
         if in_attachments:
             if s.startswith("-") or not doc.attachment_titles:
@@ -932,6 +944,8 @@ HTML_PARTS = {
     "beslutsförslag": SectionType.proposal,
     "kokouskäsittely": SectionType.deliberation,
     "käsittely": SectionType.deliberation,
+    "asian käsittely": SectionType.deliberation,
+    "valmisteluteksti": SectionType.background,
     "behandling": SectionType.deliberation,
     "beslutets behandling": SectionType.deliberation,
     "selostus": SectionType.background,
@@ -958,12 +972,34 @@ def _html_part(heading: str) -> SectionType | None:
     key = heading.rstrip(":").strip().lower()
     if key in HTML_PARTS:
         return HTML_PARTS[key]
+    if key.endswith(" päätös"):  # Hamina: "Kaupunginvaltuuston päätös", "Kaupunginhallituksen päätös"
+        return SectionType.decision
     if re.search(r"(?:esitys|förslag)$", key):  # "Kaupunginjohtajan esitys", "Stadsdirektörens förslag"
         return SectionType.proposal
     return None
 
 
+# Hamina: a bogus "<h>Asianumero</h2><br>Hamina/172/2026</p>" right after the <h1> nests the rest
+# of the page inside the <h>
+HTML_DIARY = re.compile(r"^[A-ZÅÄÖ][\wÅÄÖåäö-]*/\d+/(?:[\d.]+/)?\d{4}$")  # "Hamina/172/2026"
+BOGUS_H = re.compile(r"<h>(.*?)</h2>", re.IGNORECASE | re.DOTALL)
+
+
+def _proposal_of(heading: str, body: str) -> bool:
+    """ "Kaupunginhallituksen ehdotus" after the Kaupunginhallitus block: the proposal that opens the
+    meeting's own handling (Hamina prints no header line for it)."""
+    words = heading.split()
+    first = body.split()[0] if body.split() else ""
+    return (
+        len(words) == 2
+        and words[1].lower() == "ehdotus"
+        and len(first) > 4
+        and words[0].lower().startswith(first[:-2].lower())
+    )
+
+
 def parse_item_html(html: str) -> ItemDoc:
+    html = BOGUS_H.sub(r"<h2>\1</h2><p>", html)
     tree = HTMLParser(html)
     doc = ItemDoc()
     root = tree.css_first("main") or tree.body
@@ -990,6 +1026,9 @@ def parse_item_html(html: str) -> ItemDoc:
         text_lines = [clean(v) for v in node.text(deep=True, separator="\n").splitlines() if clean(v)]
         if node.tag == "h2":
             heading = " ".join(text_lines)
+            if own is not None and cur is not None and cur is not own and _proposal_of(heading, cur.body):
+                cur, part, emitted = own, SectionType.proposal, None
+                continue
             if "ärendenummer" in heading.lower() or "asianumero" in heading.lower():
                 part = "diary"
             elif heading.rstrip(":").strip().lower() in HTML_ATTACHMENTS:
@@ -1011,7 +1050,7 @@ def parse_item_html(html: str) -> ItemDoc:
             part = None
             continue
         if part == "diary":
-            if DIARY.match(whole) and doc.case_number is None:
+            if (DIARY.match(whole) or HTML_DIARY.match(whole)) and doc.case_number is None:
                 doc.case_number = whole
             continue
         if part == "attachments":
@@ -1066,11 +1105,18 @@ def end_at_meeting(doc: ItemDoc, date: dt.date, pykala: int | None) -> None:
 # keskustelun aikana …", "Päätös Päätös: Hyväksyttiin.", "Päätösehdotus Kaupunginhallitus:".
 # Lieto, Valkeakoski: "Käsittely: Talousarvion …"; Akaa: "Käsittely Keskustelun aikana …".
 INLINE_HEADING = re.compile(
-    r"^(?P<h>Kokouskäsittely|Asian käsittely|Käsittely|Päätösehdotus|Päätös)\s*:?\s+(?P<rest>[A-ZÅÄÖ].*)$"
+    r"^(?P<h>Kokouskäsittely|Asian käsittely|Käsittely|Päätösehdotus|Päätösesitys|Päästöesitys|Päätös)"
+    r"\s*:?\s+(?P<rest>[A-ZÅÄÖ].*)$"
 )
 
 
+# Akaa, Valkeakoski: "Ehdotus: Kaupunginhallitus käynnistää …" is the proposal
+EHDOTUS = re.compile(r"^Ehdotus\s*:\s+(?P<rest>[A-ZÅÄÖ].*)$")
+
+
 def _inline_heading(line: str) -> tuple[SectionType, str, str] | None:
+    if e := EHDOTUS.match(line.strip()):
+        return SectionType.proposal, "Ehdotus", e.group("rest")
     m = INLINE_HEADING.match(line.strip())
     if not m:
         return None
@@ -1079,6 +1125,8 @@ def _inline_heading(line: str) -> tuple[SectionType, str, str] | None:
         "asian käsittely": SectionType.deliberation,
         "käsittely": SectionType.deliberation,
         "päätösehdotus": SectionType.proposal,
+        "päätösesitys": SectionType.proposal,
+        "päästöesitys": SectionType.proposal,  # Varkaus' typo
         "päätös": SectionType.decision,
     }[m.group("h").lower()]
     rest = re.sub(r"^Päätös\s*:\s*", "", m.group("rest")) if kind == SectionType.decision else m.group("rest")
@@ -1194,16 +1242,18 @@ VOTE_HINT = re.compile(r"äänesty|kannattamana", re.IGNORECASE)
 _NUM = r"(\d+|" + "|".join(sorted(NUMBER_WORDS, key=len, reverse=True)) + ")"
 NAMEWORD = r"(?:el|af|von|de|van)\s+[A-ZÅÄÖ][\w'’-]+|[A-ZÅÄÖ][\w'’-]+"
 PERSON = rf"(?:{NAMEWORD})(?:\s+(?:{NAMEWORD})){{0,3}}"
+# one seconder or several in the genitive: "Timo Viitasen, Tiia Nurmisen ja Kylli Kylliäisen kannattamana"
+_SECS = rf"(?:[a-zåäö]+\s+){{0,3}}{PERSON}(?:\s*,\s*{PERSON})*(?:\s+ja\s+(?:[a-zåäö]+\s+)?{PERSON})?"
 MOTION = re.compile(
     rf"(?P<prop>{PERSON})\s+(?P<verb>teki|esitti|ehdotti)\s*,?\s*"
-    rf"(?:(?P<sec>(?:[a-zåäö]+\s+){{0,3}}{PERSON})\s+kannattamana\s*,?\s*)?"
+    rf"(?:(?P<sec>{_SECS})\s+kannattamana\s*,?\s*)?"
     r"(?P<rest>.*?)(?=(?:Puheenjohtaja|Asian käsittelyn aikana|Käsittelyn aikana|Käsittelyn kuluessa|"
-    r"Valtuutettu|Kaupunginhallituksen jäsen|_{3,})|$)",
+    r"Keskustelun aikana|Keskustelun kuluessa|Valtuutettu|Kaupunginhallituksen jäsen|_{3,})|$)",
     re.DOTALL,
 )
 # "valtuutettu Leppikorpi valtuutettu Virtasen kannattamana ehdotti, että …" (Rauma)
 MOTION_SEC_FIRST = re.compile(
-    rf"(?P<prop>{PERSON})\s+(?P<sec>(?:[a-zåäö]+\s+){{0,3}}{PERSON})\s+kannattamana\s*,?\s+"
+    rf"(?P<prop>{PERSON})\s*,?\s+(?P<sec>{_SECS})\s+kannattamana\s*,?\s+"
     r"(?P<verb>teki|esitti|ehdotti)\s*,?\s*"
     r"(?P<rest>.*?)(?=(?:Puheenjohtaja|Asian käsittelyn aikana|Käsittelyn aikana|Käsittelyn kuluessa|"
     r"Yleiskeskustelun aikana|Valtuutettu|_{3,})|$)",
@@ -1241,10 +1291,17 @@ INTRO = re.compile(
     r"(?:,\s*joka\s+raukesi\s+kannattamattomana)?\s*:\s*"
 )
 UNSECONDED = re.compile(r"raukesi\s+kannattamattomana", re.IGNORECASE)
+_SIDE_TEXT = r"(?:(?!äänestävät|annettiin|jotka\s+kannattavat).)+?"  # never past the next vote
 PROPOSITION = re.compile(
-    r"(?:he|ne),?\s+jotka\s+kannattavat\s+(?P<jaa>.+?),?\s+äänestävät\s+jaa,?\s+ja\s+(?:he|ne),?\s+(?:jotka|ketkä)\s+"
-    r"kannattavat\s+(?P<ei>.+?),?\s+äänestävät\s+ei",
+    rf"(?:he|ne),?\s+jotka\s+kannattavat\s+(?P<jaa>{_SIDE_TEXT}),?\s+äänestävät\s+jaa,?\s+ja\s+(?:he|ne),?\s+"
+    rf"(?:jotka|ketkä)\s+kannattavat\s+(?P<ei>{_SIDE_TEXT}),?\s+äänestävät\s+ei",
     re.IGNORECASE | re.DOTALL,
+)
+# Muurame: "Pohjaesitystä kannattavat äänestivät JAA ja vastaesitystä kannattavat äänestivät EI."
+PROPOSITION_PAST = re.compile(
+    r"(?P<jaa>[A-ZÅÄÖ][^.]*?)\s+kannattavat\s+äänestivät\s+JAA,?\s+ja\s+(?P<ei>[^.]+?)\s+kannattavat\s+"
+    r"äänestivät\s+EI\b",
+    re.IGNORECASE,
 )
 # Hämeenlinna: "… äänestys siten, että kaupunginhallituksen pohjaehdotusta kannattavat äänestävät JAA
 # ja Laitisen muutosehdotusta kannattavat äänestävät EI", boards "… ja Reiman muutosehdotusta EI".
@@ -1252,6 +1309,10 @@ PROPOSITION_THAT = re.compile(
     r"siten,?\s+että\s+(?P<jaa>[^.]+?)\s+kannattavat\s+äänestävät\s+jaa,?\s+ja\s+"
     r"(?P<ei>[^.]+?)(?:\s+kannattavat\s+äänestävät)?\s+ei\b",
     re.IGNORECASE | re.DOTALL,
+)
+# Hamina: "JAA tarkoittaa kaupunginhallituksen ehdotusta ja EI Pakkasen vastaehdotusta"
+PROPOSITION_MEANS = re.compile(
+    r"\bJAA\s+tarkoittaa\s+(?P<jaa>[^.]+?)\s+ja\s+EI\s+(?:tarkoittaa\s+)?(?P<ei>[^.]+?)\.",
 )
 RESULT = re.compile(r"Äänestyksessä\s+annettiin\b|Äänestyksen\s+tulos\s*:?", re.IGNORECASE)
 # Rauma names the sides: "Suoritetussa äänestyksessä asian … jatkaminen sai 25 ääntä ja valtuutettu
@@ -1274,13 +1335,33 @@ AANIN_RESULT = re.compile(
     r"(?P<win>[^.]{0,160}?)\s+(?:hyväksyttiin|voitti|tuli\s+hyväksytyksi)\s+äänin\s+(?P<x>\d+)\s*[-–]\s*(?P<y>\d+)"
 )
 # Nokia: "Kaupunginhallituksen pohjaehdotus = JAA, Niina Melkon muutosehdotus = EI."
-EQ_LABELS = re.compile(r"(?P<jaa>[^.,=:]+?)\s*=\s*jaa\s*[,.]?\s*(?P<ei>[^.,=:]+?)\s*=\s*ei\b", re.IGNORECASE)
+_EQ_SIDE = r"(?:[^.,=:]|:(?=n\b))+?"  # "KH:n ehdotus = jaa" keeps its "KH:n"
+EQ_LABELS = re.compile(
+    rf"(?P<jaa>{_EQ_SIDE})\s*=\s*jaa\s*[,.]?\s*(?P<ei>{_EQ_SIDE})\s*=\s*ei\b", re.IGNORECASE
+)
 _JAA_WORDS = re.compile(r"pohja|kaupunginhallituksen|\bkh\b|esittelijän|jatka", re.IGNORECASE)
 # Pirkkala: "Äänestystapa äänestyskone Jaa (Kh - pohjaehdotus) 34 ääntä Ei (Palinin ehdotus) 9 ääntä
 # [Tyhjä 0 ääntä]"
 JAA_EI_RESULT = re.compile(
     rf"\bJaa\s*\((?P<jaa>[^)]*)\)\s*:?\s*(?P<a>{_NUM})\s+ään\w*[,.]?\s+Ei\s*\((?P<ei>[^)]*)\)\s*:?\s*"
     rf"(?P<b>{_NUM})\s+ään\w*(?:[,.]?\s+Tyhj\w*(?:\s*\([^)]*\))?\s*:?\s*(?P<t>{_NUM}))?"
+)
+# Muurame: "JAA-vaihtoehto sai 23 ääntä ja EI-vaihtoehto 3 ääntä"
+OPTION_RESULT = re.compile(
+    rf"JAA-vaihtoehto\s+sai\s+(?P<a>{_NUM})\s+ään\w*,?\s+(?:ja\s+)?EI-vaihtoehto\s+(?:sai\s+)?(?P<b>{_NUM})\s+ään\w*"
+    rf"(?:,?\s+(?:ja\s+)?(?:tyhjää\s+(?:äänesti\s+)?(?P<t>{_NUM})|(?P<t2>{_NUM})\s+(?:äänesti\s+)?tyhjää))?",
+    re.IGNORECASE,
+)
+# Nokia: "Äänestyksen tulos: JAA Marko Asell, …, ja Jari Tuominen. EI Teresa Kvick, … ja Kaisa Räsänen."
+LIST_RESULT = re.compile(
+    r"Äänestyksen\s+tulos\s*:?\s*JAA\s+(?P<jaa>[^.]+)\.\s*EI\s+(?P<ei>[^.]+)\."
+    r"(?:\s*(?:TYHJÄ|TYHJÄÄ)\s+(?P<t>[^.]+)\.)?"
+)
+# Rauma roll calls with names only: "Jäsen Sari Seimelän ehdotuksen kannalla olivat hänen lisäkseen
+# puheenjohtaja Kalle Leppikorpi sekä jäsenet Heidi Hiljanen ja Jari Laihonen. Kaupunginjohtajan
+# pohjaehdotuksen kannalla olivat jäsenet …"
+KANNALLA = re.compile(
+    r"(?P<label>[A-ZÅÄÖ][^.]{0,80}?)\s+kannalla\s+olivat\s+(?P<self>hänen\s+lisäkseen\s+)?(?P<names>[^.]+)\."
 )
 TYHJA_NONE = re.compile(r"^\W*Tyhjiä\s+ääniä\s+ei\s+annettu", re.IGNORECASE)
 # One side of the result, either order: "61 jaa-ääntä", "55 jaa ääntä", "45 jaaääntä",
@@ -1306,7 +1387,9 @@ _PARTY_TAG = re.compile(r"\s*\((?:[a-zåäö]{1,6}\.?|[A-ZÅÄÖ]{2,5})\)")  # "
 
 
 def _flat(lines: list[str]) -> str:
-    text = join_lines([ln for ln in lines if not RULE.match(ln.strip())])
+    # rules, and a page header inside a sentence ("… ne, jotka kannattavat" / "Akaan kaupunki" / …)
+    lines = [ln for ln in lines if not (RULE.match(ln.strip()) or PAGE_HEADER_TOWN.match(ln.strip()))]
+    text = join_lines(lines)
     text = re.sub(r"[”“\"»«]", "", re.sub(r"_{3,}", " ", text))
     text = re.sub(r"\s*[–-]\s*(ään)", r"-\1", text)  # "EI –ääntä", "Jaa –ääntä"
     text = _WORD_DIGITS.sub(r"\1", text)
@@ -1325,6 +1408,9 @@ TITLE_WORDS = {
     "pj",
     "pj.",
 }
+STOP_WORDS = {"Koska", "Puheenjohtaja", "Asiasta", "Äänestys", "Keskustelun", "Päätettiin", "Hyväksyttiin"}
+# a heading that runs into the name in a flattened text: "Kokouskäsittely Niina Melkko teki …"
+LEAD_WORDS = {"käsittely", "kokouskäsittely", "äänestys", "päätös", "keskustelu", "kannatus"}
 
 
 def _person(raw: str) -> str:
@@ -1332,9 +1418,15 @@ def _person(raw: str) -> str:
     I varapuheenjohtaja Mika Kasonen": everything after the last title word, heading word in
     capitals or lowercase word."""
     words = normalize_name(raw).split()
+    for i, w in enumerate(words):
+        if i > 0 and w in STOP_WORDS:  # "Kannatus: Anneli Lehtonen" with no period: "… Lehtonen Koska oli …"
+            words = words[:i]
+            break
     cut = 0
     for i, w in enumerate(words):
-        if w.lower() in TITLE_WORDS or w.islower() or (w.isupper() and len(w) > 1) or w in ("I", "II"):
+        low = w.lower()
+        heading = low in TITLE_WORDS or low.strip(":") in LEAD_WORDS or w in ("I", "II")
+        if heading or w.islower() or (w.isupper() and len(w) > 1):
             cut = i + 1
     # keep a lowercase particle that starts a surname ("el Issaoui")
     if cut and words[cut - 1] in ("el", "af", "von", "de", "van"):
@@ -1353,6 +1445,25 @@ def _kind(text: str) -> MotionKind:
     return MotionKind.counter_proposal
 
 
+# common surname endings whose stem changes: "Hietalahden" → "Hietalahti", "Mäenrannan" → "Mäenranta"
+_GENITIVE_STEMS = (
+    ("mäen", "mäki"),
+    ("lahden", "lahti"),
+    ("rannan", "ranta"),
+    ("korven", "korpi"),
+    ("joen", "joki"),
+    ("niemen", "niemi"),
+    ("pellon", "pelto"),
+    ("hongan", "honka"),
+    ("kankaan", "kangas"),
+    ("rinteen", "rinne"),
+    ("vuoren", "vuori"),
+    ("järven", "järvi"),
+    ("saaren", "saari"),
+    ("veden", "vesi"),
+)
+
+
 def _nominative(name: str) -> str:
     """ "Raili Naskalin" → "Raili Naskali", "Veli-Matti Ahtiaisen" → "Veli-Matti Ahtiainen": a guess at
     the surname's nominative for a proposer printed in the genitive (resolution matches fuzzily)."""
@@ -1360,6 +1471,11 @@ def _nominative(name: str) -> str:
     if not words:
         return name
     w = words[-1]
+    if w.endswith("nen") or not w.endswith("n"):
+        return name  # already nominative ("Hartikainen"; a genitive would be "Hartikaisen")
+    for gen, nom in _GENITIVE_STEMS:
+        if w.endswith(gen) and len(w) > len(gen):
+            return " ".join([*words[:-1], w[: -len(gen)] + nom])
     if w.endswith("sen"):
         w = w[:-3] + "nen"
     elif w.endswith("n"):  # "Naskalin" → "Naskali"; "Palinin" → "Palini" is near enough to match
@@ -1385,7 +1501,9 @@ def _motions_at(text: str) -> list[tuple[int, Motion]]:
         if not prop or prop.lower().startswith(("puheenjohtaja", "kaupunginjohtaja")):
             continue
         rest = m.group("rest").strip()
-        seconders = [_person(m.group("sec"))] if m.group("sec") else []
+        # "valtuutettu Virtasen kannattamana": the seconders are in the genitive
+        seconders = [_nominative(_person(n)) for n in _names(m.group("sec"))] if m.group("sec") else []
+        seconders = [n for n in seconders if n]
         unseconded = bool(UNSECONDED.search(rest[:120]))
         if not seconders and not unseconded:
             # the seconders, or their absence, in the next sentences
@@ -1440,6 +1558,8 @@ def _short_label(text: str) -> str:
     """ "valtuutettu Eerolan esittämää ja valtuutettu Bibani kannattamaa muutosesitystä" →
     "Eerolan muutosesitys"; "kaupunginhallituksen pohjaesitystä" → "pohjaesitys"."""
     t = re.sub(r"\s+", " ", text).strip()
+    t = re.sub(r"^(?:siten,?\s+)?että\s+", "", t)  # "siten, että KH:n ehdotus = jaa"
+    t = re.sub(r"\s+tekemää\s+", " ", t)  # Akaa: "Jaakko Leinosen tekemää ehdotusta"
     m = re.search(rf"({NAMEWORD})\s+esittämää.*?(\w*(?:esitys|ehdotus)\w*)$", t)
     if m:
         return f"{m.group(1)} {re.sub(r'(tä|ta)$', '', m.group(2))}"
@@ -1461,7 +1581,13 @@ def parse_prose(lines: list[str]) -> list[TwebProse]:
     text = _flat(lines)
     out = []
     props = sorted(
-        [*PROPOSITION.finditer(text), *PROPOSITION_THAT.finditer(text), *EQ_LABELS.finditer(text)],
+        [
+            *PROPOSITION.finditer(text),
+            *PROPOSITION_THAT.finditer(text),
+            *EQ_LABELS.finditer(text),
+            *PROPOSITION_MEANS.finditer(text),
+            *PROPOSITION_PAST.finditer(text),
+        ],
         key=lambda p: p.start(),
     )
     for m in RESULT.finditer(text):
@@ -1530,6 +1656,65 @@ def parse_prose(lines: list[str]) -> list[TwebProse]:
                 start=m.start(),
             )
         )
+    for m in OPTION_RESULT.finditer(text):
+        prop = next((p for p in reversed(props) if p.end() <= m.start()), None)
+        t = m.group("t") or m.group("t2")
+        out.append(
+            TwebProse(
+                a=_n(m.group("a")),
+                b=_n(m.group("b")),
+                tyhja=_n(t) if t else 0,
+                sentence=m.group(0) + ".",
+                jaa_label=_short_label(prop.group("jaa")) if prop else "",
+                ei_label=_short_label(prop.group("ei")) if prop else "",
+                prop_end=prop.end() if prop else -1,
+                start=m.start(),
+            )
+        )
+    for m in LIST_RESULT.finditer(text):
+        if any(o.start == m.start() for o in out):
+            continue
+        names = {Choice.jaa: _voters(m.group("jaa")), Choice.ei: _voters(m.group("ei"))}
+        if m.group("t"):
+            names[Choice.tyhja] = _voters(m.group("t"))
+        prop = next((p for p in reversed(props) if p.end() <= m.start()), None)
+        out.append(
+            TwebProse(
+                a=len(names[Choice.jaa]),
+                b=len(names[Choice.ei]),
+                tyhja=len(names.get(Choice.tyhja, [])),
+                sentence=m.group(0),
+                jaa_label=_short_label(prop.group("jaa")) if prop else "",
+                ei_label=_short_label(prop.group("ei")) if prop else "",
+                names=names,
+                prop_end=prop.end() if prop else -1,
+                start=m.start(),
+            )
+        )
+    sides = list(KANNALLA.finditer(text))
+    for k1, k2 in zip(sides, sides[1:], strict=False):
+        if k2.start() - k1.end() > 5 or any(k1.start() <= o.start <= k2.end() for o in out):
+            continue
+        # the base proposal is Jaa; the motion's side counts its proposer ("hänen lisäkseen")
+        if re.search(r"pohja", k1.group("label"), re.I):
+            k1, k2 = k2, k1
+        jaa, ei = k2, k1
+        jn, en = _voters(jaa.group("names")), _voters(ei.group("names"))
+        jaa_label, ei_label = _kannalla_label(jaa.group("label")), _kannalla_label(ei.group("label"))
+        if ei.group("self") and (who := re.search(rf"({PERSON})\s+\w*ehdotuksen$", ei.group("label"))):
+            en = [_nominative(_person(who.group(1))), *en]
+        out.append(
+            TwebProse(
+                a=len(jn),
+                b=len(en),
+                tyhja=0,
+                sentence=text[min(k1.start(), k2.start()) : max(k1.end(), k2.end())],
+                jaa_label=jaa_label,
+                ei_label=ei_label,
+                names={Choice.jaa: jn, Choice.ei: en},
+                start=min(k1.start(), k2.start()),
+            )
+        )
     for m in AANIN_RESULT.finditer(text):
         if any(m.start() - 800 <= o.start <= m.end() for o in out):
             continue  # the result sentence of a vote already read
@@ -1557,6 +1742,18 @@ def parse_prose(lines: list[str]) -> list[TwebProse]:
     return sorted(out, key=lambda o: o.start)
 
 
+def _kannalla_label(text: str) -> str:
+    """ "Jäsen Sari Seimelän ehdotuksen" → "Sari Seimelän ehdotus"."""
+    t = re.sub(r"^(?:jäsen|valtuutettu)\s+", "", text.strip(), flags=re.IGNORECASE)
+    return re.sub(r"ehdotuksen$", "ehdotus", t)
+
+
+def _voters(text: str) -> list[str]:
+    """ "puheenjohtaja Kalle Leppikorpi sekä jäsenet Heidi Hiljanen ja Jari Laihonen" → the names."""
+    parts = re.split(r",|\s+ja\s+|\s+sekä\s+", text)
+    return [p for p in (_person(x.strip()) for x in parts) if p]
+
+
 def _overlap(a: str, b: str) -> int:
     words = lambda t: {w.lower()[:6] for w in re.findall(r"[\wÅÄÖåäö-]{4,}", t)}  # noqa: E731
     return len(words(a) & words(b))
@@ -1582,15 +1779,21 @@ def parse_case(lines: list[str]) -> tuple[list[Motion], list[TwebProse]]:
         ei_words = [w.strip(".,()") for w in pv.ei_label.split()[:3]]
         jaa_words = [w.strip(".,()") for w in pv.jaa_label.split()[:3]]
         before = [mo for pos, mo in placed if pos < pv.start]
-        for mo in reversed(before):
-            surname = mo.proposer_ref.raw.split()[-1]
-            if any(w and (_is_genitive(w, surname) or w == surname) for w in ei_words):
-                mo.outcome = Outcome.adopted if pv.b > pv.a else Outcome.rejected
-                break
-            if any(w and (_is_genitive(w, surname) or w == surname) for w in jaa_words):
-                mo.outcome = Outcome.adopted if pv.a > pv.b else Outcome.rejected
-                break
-        else:
+
+        def named(words: list[str], before: list[Motion] = before) -> Motion | None:
+            for mo in reversed(before):
+                surname = mo.proposer_ref.raw.split()[-1]
+                if any(w and (_is_genitive(w, surname) or w == surname) for w in words):
+                    return mo
+            return None
+
+        # either side may name a motion: "Väisäsen ehdotus = jaa, Vaittisen ehdotus = ei"
+        ei_mo, jaa_mo = named(ei_words), named(jaa_words)
+        if ei_mo is not None:
+            ei_mo.outcome = Outcome.adopted if pv.b > pv.a else Outcome.rejected
+        if jaa_mo is not None and jaa_mo is not ei_mo:
+            jaa_mo.outcome = Outcome.adopted if pv.a > pv.b else Outcome.rejected
+        if ei_mo is None and jaa_mo is None:
             # no name to go by ("Leppikorven" for Leppikorpi, "Ei (palautetaan)"): the motion just
             # before the vote, when the Ei side is that kind of motion or the vote is a Jaa/Ei block
             prev = max((o.start for o in prose if o.start < pv.start), default=-1)
@@ -1599,7 +1802,26 @@ def parse_case(lines: list[str]) -> tuple[list[Motion], list[TwebProse]]:
             # (the motion is the Ei side by convention: "pohjaehdotus = jaa, muutosesitys = ei")
             if open_ and (kind is None or kind == open_[-1].kind):
                 open_[-1].outcome = Outcome.adopted if pv.b > pv.a else Outcome.rejected
+    # "Hyväksyttiin Takun ehdotus yksimielisesti", "Valtuusto hyväksyi yksimielisesti Takun ehdotuksen"
+    for pos, mo in placed:
+        if mo.outcome is not None:
+            continue
+        surname = mo.proposer_ref.raw.split()[-1]
+        for u in UNANIMOUS.finditer(text, pos):
+            gen = u.group("gen") or u.group("gen2")
+            k = max(3, len(surname) - 2)  # "Takun" for Takku: the stem may change
+            if gen == surname or _is_genitive(gen, surname) or (gen.endswith("n") and gen[:k] == surname[:k]):
+                mo.outcome = Outcome.adopted
+                break
     return [mo for _, mo in placed], prose
+
+
+UNANIMOUS = re.compile(
+    r"[Hh]yväksy(?:i|ttiin)\s+(?:yksimielisesti\s+)?(?:valtuutettu\s+|jäsen\s+)?(?:[A-ZÅÄÖ][\w-]+\s+)?"
+    r"(?P<gen>[A-ZÅÄÖ][\w-]+)\s+(?:muutos|vasta|lisäys)?(?:ehdotu|esity)\w*(?=[^.]{0,40}yksimielisesti)"
+    r"|[Hh]yväksy(?:i|ttiin)\s+yksimielisesti\s+(?:valtuutettu\s+|jäsen\s+)?(?:[A-ZÅÄÖ][\w-]+\s+)?"
+    r"(?P<gen2>[A-ZÅÄÖ][\w-]+)\s+(?:muutos|vasta|lisäys)?(?:ehdotu|esity)",
+)
 
 
 # -- vote report PDF ----------------------------------------------------------------------
@@ -1782,11 +2004,16 @@ def parse_case_sv(text: str) -> tuple[list[Motion], list[TwebProse]]:
             )
             if mo:
                 mo.outcome = Outcome.adopted if counts[Choice.jaa] > counts[Choice.ei] else Outcome.rejected
-        elif ei:
-            gen = ei.split()[0]
-            mo = next(
-                (x for x in reversed(before) if _sv_genitive(gen, x.proposer_ref.raw.split()[-1])), None
-            )
-            if mo:
-                mo.outcome = Outcome.adopted if counts[Choice.ei] > counts[Choice.jaa] else Outcome.rejected
+        else:
+            # "Vilanders förslag = Ja, Barmans förslag = Nej": each side may name a motion
+            ei_won = counts[Choice.ei] > counts[Choice.jaa]
+            for side, won in ((ei, ei_won), (jaa, counts[Choice.jaa] > counts[Choice.ei])):
+                if not side:
+                    continue
+                gen = side.split()[0]
+                mo = next(
+                    (x for x in reversed(before) if _sv_genitive(gen, x.proposer_ref.raw.split()[-1])), None
+                )
+                if mo:
+                    mo.outcome = Outcome.adopted if won else Outcome.rejected
     return [mo for _, mo in placed], prose
