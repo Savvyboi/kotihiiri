@@ -339,3 +339,81 @@ def test_valkeakoski_block_cover_with_lists():
     assert got["Nyrhilä Aapeli"] == ("nuorisovaltuuston varaedustaja", True, "saapui klo. 11.33")
     assert got["Salminen Kari"] == ("jäsen", False, None)
     assert sum(1 for r, p, _ in got.values() if p and r in ("jäsen", "puheenjohtaja")) == 40
+
+
+def test_lieto_table_cover():
+    cover = _pdf_cover("lieto_kv_2026-11-16")
+    assert (cover.start_time, cover.end_time) == ("17:30", "19:02")
+    got = {p.name: (p.role, p.present) for p in cover.participants}
+    assert got["Kolkkala Riina"] == ("puheenjohtaja", True)
+    assert got["Kuokkanen Jukka-Pekka"] == ("III varapuheenjohtaja", True)
+    assert got["Ala-Nissilä Simo"] == ("jäsen", True)
+    assert got["Ruuskanen Päivi"] == ("varajäsen", True)
+    assert got["Esimerkki Erkki"] == ("kaupunginjohtaja", True)
+    assert len(got) == 9  # the repeated page header is not a person
+
+
+# -- votes and motions in other layouts (2026-11-25) ----------------------------------------
+
+
+def _case(name: str) -> tuple[list[tp.ItemDoc], list, list]:
+    lines = (FIXTURES.parent / "tweb_pdf" / f"{name}.txt").read_text(encoding="utf-8").splitlines()
+    doc = tp.parse_item_lines(lines, lines[0])
+    sections, _, deliberation = tp.item_sections(doc)
+    motions, prose = tp.parse_case(deliberation)
+    return sections, motions, prose
+
+
+def test_rauma_inline_headings_and_named_sides():
+    sections, motions, prose = _case("rauma_kv_2026-10-26_74")
+    assert [(s.type, s.heading) for s in sections][1:] == [
+        (SectionType.proposal, "Päätösehdotus"),
+        (SectionType.deliberation, "Kokouskäsittely"),
+        (SectionType.decision, "Päätös"),
+    ]
+    assert sections[0].heading == "Kaupunginhallitus 5.10.2026 § 290"  # "273 § 22.6.2026" order
+    assert sections[-1].text == "Hyväksyttiin."
+    assert "RAUMAN KAUPUNKI" not in sections[2].text  # the running page header is dropped
+    [mo] = motions
+    assert (mo.kind, mo.proposer_ref.raw, mo.outcome) == (
+        MotionKind.send_back,
+        "Leppikorpi",
+        Outcome.rejected,
+    )
+    assert [s.raw for s in mo.seconder_refs] == ["Virtasen"]
+    [pv] = prose
+    assert (pv.a, pv.b, pv.tyhja) == (25, 18, 0)
+    assert pv.jaa_label == "asian asiallisen käsittelyn jatkaminen"
+
+
+def test_rauma_sai_first_and_dash_rule():
+    sections, motions, prose = _case("rauma_kv_2026-08-31_46")
+    assert sections[0].type == SectionType.history
+    [mo] = motions
+    assert (mo.proposer_ref.raw, mo.outcome) == ("Toivonen", Outcome.rejected)
+    [pv] = prose
+    assert (pv.a, pv.b) == (37, 6)
+    assert pv.ei_label.startswith("Toivosen ym. ehdottama")
+
+
+def test_kangasala_prose_without_kasittely_heading():
+    sections, motions, prose = _case("kangasala_kv_2026-11-09_75")
+    assert sections[0].heading == "Kaupunginhallitus 2.11.2026 § 300"  # "Valtuusto …" is its own block
+    [mo] = motions
+    assert (mo.proposer_ref.raw, mo.outcome) == ("Marika Uusi-Illikainen", Outcome.rejected)
+    [pv] = prose
+    assert (pv.a, pv.b) == (36, 15)
+    assert pv.jaa_label == "kaupunginhallituksen esitys"
+
+
+def test_pirkkala_jaa_ei_blocks():
+    lines = (FIXTURES.parent / "tweb_pdf" / "pirkkala_kv_2026-11-16_120.txt").read_text(encoding="utf-8")
+    motions, prose = tp.parse_case(lines.splitlines())
+    assert [(p.a, p.b, p.jaa_label, p.ei_label) for p in prose] == [
+        (34, 9, "Kh - pohjaehdotus", "Palinin ehdotus"),
+        (29, 14, "asian käsittelyä jatketaan", "palautetaan"),
+    ]
+    assert [(m.kind, m.proposer_ref.raw, m.outcome) for m in motions] == [
+        (MotionKind.counter_proposal, "Henna Palin", Outcome.rejected),
+        (MotionKind.send_back, "Hietalahde", Outcome.rejected),
+    ]
