@@ -19,3 +19,12 @@ already shows. Five decisions, made once; change them here first, then in `src/s
    between photo and name.
 5. **Tone.** Square corners (`--radius: 3px`), 1 px rules instead of shadows, a 2 px ink rule under
    table headings and above the footer, no hover lift, no all-caps labels. Quiet and exact.
+
+**Long text (added 2026-11-26).** Minutes text is never shown as one pre-formatted block:
+`src/lib/structure.ts` splits it into headings, paragraphs, lists, label rows and quotes, and
+`Prose.astro` renders them. On item pages the decision and the votes come first; the paperwork
+follows as folded sections (`details.fold`, a one-line excerpt when closed), earlier stages as a
+timeline. Meeting pages list items as cards with a decision badge and a two-line preview; opening
+formalities fold into one row. `public/enhance.js` (one file, cached) adds agenda search, sortable
+tables (`data-sortable`), table search boxes (`data-filterable`) and open/close-all; every page
+works without it.

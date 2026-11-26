@@ -1,0 +1,48 @@
+---
+// Minutes text as structured blocks (src/lib/structure.ts). With `fold`, blocks past that many
+// characters go behind a "read the rest" disclosure, so long reasoning doesn't fill the page.
+import { structure, blockLength, blockText, wordCount, type Block } from '../lib/structure';
+import T from './T.astro';
+import type { Locale } from '../i18n';
+interface Props { text: string; fold?: number; locale: Locale; lang?: string; level?: 3 | 4 }
+const { text, fold = 0, locale, lang = 'fi', level = 4 } = Astro.props;
+const blocks = structure(text);
+let cut = blocks.length;
+if (fold) {
+  let n = 0;
+  for (let i = 0; i < blocks.length; i++) {
+    n += blockLength(blocks[i]);
+    if (n > fold && i < blocks.length - 1) { cut = i + 1; break; }
+  }
+  // Not worth folding a short tail.
+  if (blocks.slice(cut).reduce((s, b) => s + blockLength(b), 0) < 300) cut = blocks.length;
+}
+const head = blocks.slice(0, cut);
+const tail = blocks.slice(cut);
+const tailWords = tail.reduce((s, b) => s + wordCount(blockText(b)), 0);
+const H = `h${level}`;
+// Links and removed-personal-data markers inside a run of text.
+const parts = (s: string) => s.split(/(https?:\/\/[^\s)\]]+|\[poistettu\])/g).filter(Boolean);
+const isUrl = (s: string) => /^https?:\/\//.test(s);
+---
+{(() => {
+  const inline = (s: string) => parts(s).map((x) => isUrl(x) ? <a href={x.replace(/[.,;:]$/, '')} rel="external noopener">{x.replace(/^https?:\/\/(www\.)?/, '').replace(/[.,;:]$/, '')}</a> : x === '[poistettu]' ? <span class="redacted" title="Henkilötieto poistettu">[poistettu]</span> : x);
+  const render = (b: Block) => {
+    switch (b.kind) {
+      case 'h': return <H class="prose-h">{b.text}</H>;
+      case 'meta': return <p class="prose-meta">{b.text}</p>;
+      case 'quote': return <blockquote>{inline(b.text)}</blockquote>;
+      case 'ul': return <ul>{b.items.map((x) => <li>{inline(x)}</li>)}</ul>;
+      case 'ol': return <ol class="marked">{b.items.map((x) => <li><span class="mark">{/^\d+$/.test(x.n) ? `${x.n}.` : `${x.n})`}</span> {inline(x.text)}</li>)}</ol>;
+      case 'dl': return <dl class="kv">{b.rows.map(([k, v]) => <><dt>{k}</dt><dd>{inline(v)}</dd></>)}</dl>;
+      default: return <p>{inline(b.text)}</p>;
+    }
+  };
+  return <div class="prose-s" lang={lang}>
+    {head.map(render)}
+    {tail.length > 0 && <details class="more">
+      <summary><span class="more-open"><T k="prose.more" vars={{ n: tailWords }} locale={locale} /></span><span class="more-close"><T k="prose.less" locale={locale} /></span></summary>
+      {tail.map(render)}
+    </details>}
+  </div>;
+})()}

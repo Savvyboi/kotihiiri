@@ -43,7 +43,7 @@ const name = (p: Party) => t(partyKey(p));
   <div class="wrap">
     <h2>{t('parties.table.title')}</h2>
     <div class="table-scroll">
-      <table class="party-table">
+      <table class="party-table" data-sortable={t('table.sort')}>
         <thead><tr>
           <th>{t('parties.col.party')}</th>
           <th class="num">{t('parties.col.seats')}</th>

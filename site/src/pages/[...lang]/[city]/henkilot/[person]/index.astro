@@ -7,7 +7,7 @@ import Base from '../../../../../layouts/Base.astro';
 import Breadcrumb from '../../../../../components/Breadcrumb.astro';
 import PartyChip from '../../../../../components/PartyChip.astro';
 import T from '../../../../../components/T.astro';
-import { formatDate, localePath, sharedPath, type Locale } from '../../../../../i18n';
+import { formatDate, localePath, sharedPath, t, type Locale } from '../../../../../i18n';
 import { bodyName, bodySlug, cities, councilBody, feature, itemUrl, speechExcerpt, meetingUrl, peopleFile, type City, type Person } from '../../../../../lib/data';
 import { councilRoster, personGroup, personRecords, personSlug, personUrl } from '../../../../../lib/people';
 import { partyKey, partyOf } from '../../../../../lib/parties';
@@ -70,7 +70,7 @@ const itemHref = (i: Parameters<typeof itemUrl>[0]) => sharedPath(itemUrl(i));
             {' '}<T k="vote.summary" vars={totals} locale={locale} />.
             {against > 0 && <> <T k="person.against" vars={{ n: against }} locale={locale} /></>}</p>
           <div class="table-scroll">
-            <table class="person-votes">
+            <table class="person-votes" data-sortable={t('table.sort', {}, locale)} data-filterable={t('allVotes.q', {}, locale)}>
               <thead><tr><th><T k="person.date" locale={locale} /></th><th><T k="person.item" locale={locale} /></th><th><T k="vote.choice" locale={locale} /></th></tr></thead>
               <tbody>
                 {votes.map((v) => (

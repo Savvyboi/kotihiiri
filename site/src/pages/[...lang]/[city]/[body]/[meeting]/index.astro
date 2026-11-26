@@ -3,7 +3,8 @@ import Base from '../../../../../layouts/Base.astro';
 import Breadcrumb from '../../../../../components/Breadcrumb.astro';
 import SourceLink from '../../../../../components/SourceLink.astro';
 import { localized, useI18n, type Locale } from '../../../../../i18n';
-import { cities, meetingFiles, bodyName, bodySlug, meetingSegment, itemUrl, cityName, type City, type MeetingFile } from '../../../../../lib/data';
+import { cities, meetingFiles, bodyName, bodySlug, meetingSegment, itemUrl, cityName, decisionText, type AgendaItem, type City, type MeetingFile } from '../../../../../lib/data';
+import { decisionOutcome, leadText, isProcedural } from '../../../../../lib/structure';
 import { displayName, findPerson, personUrl } from '../../../../../lib/people';
 
 export function getStaticPaths() {
@@ -23,6 +24,19 @@ const present = meeting.attendance.filter((a) => a.present);
 const who = (raw: string) => { const p = findPerson(city.id, raw); return { name: p?.name ?? displayName(raw), href: p && shared(personUrl(p)) }; };
 const absent = meeting.attendance.filter((a) => !a.present);
 const name = cityName(city, locale);
+// Agenda cards: what was decided, in a line or two; the formalities every meeting opens with fold away.
+const card = (item: AgendaItem) => {
+  const decision = decisionText(item);
+  const proposal = item.sections.find((s) => s.type === 'proposal')?.text;
+  // `preview` is the AI brief's one-liner when there is one (lib/briefs.ts), else the decision,
+  // else (agendas) the proposal.
+  const preview = decision ? leadText(decision, 260) : proposal ? leadText(proposal, 260) : undefined;
+  return { item, outcome: decisionOutcome(decision), preview, proposed: !decision && !!proposal, href: shared(itemUrl(item)) };
+};
+const formal = items.filter((i) => isProcedural(i.title) && !i.votes.length).map(card);
+const rest = items.filter((i) => !isProcedural(i.title) || i.votes.length).map(card);
+const nVotes = items.reduce((n, i) => n + i.votes.length, 0);
+const nDecided = items.filter((i) => decisionText(i)).length;
 ---
 <Base title={`${body} ${date} · ${name}`} city={city.id} locale={locale}>
   <section class="hero">
@@ -44,15 +58,45 @@ const name = cityName(city, locale);
   <div class="wrap two-col">
     <section>
       {meeting.stage === 'agenda' && <p class="empty" style="margin-top:1.5rem">{t('meeting.agendaNotice')}</p>}
+      <ul class="stats-row" aria-label={t('meeting.items')}>
+        <li><b>{items.length}</b> {t('meeting.statItems')}</li>
+        {nDecided > 0 && <li><b>{nDecided}</b> {t('meeting.statDecided')}</li>}
+        {nVotes > 0 && <li><b>{nVotes}</b> {t('meeting.statVotes')}</li>}
+      </ul>
+
+      {/* AI brief: <AiBrief> goes here, above the agenda. */}
+
       <h2>{t('meeting.items')}</h2>
       {locale !== 'fi' && <p class="small muted">{t('lang.docsNote')}</p>}
-      <ul class="list">
-        {items.map((item) => (
-          <li><span class="pykala">{item.pykala ? `${item.pykala} §` : `${item.ordinal}.`}</span>
-            <span><a href={shared(itemUrl(item))} data-shared>{item.title}</a>
-            {item.votes.length > 0 && <span class="small muted"> · {item.votes.length} {t('city.stats.votes')}</span>}</span></li>
+      <div class="agenda-tools" data-agenda-tools hidden>
+        <input type="search" data-agenda-q placeholder={t('meeting.search')} aria-label={t('meeting.search')} />
+        {nVotes > 0 && <label class="check"><input type="checkbox" data-agenda-votes /> {t('meeting.onlyVotes')}</label>}
+        <p class="small muted" role="status" data-agenda-status data-tpl={t('meeting.shown')} data-none={t('meeting.noMatch')}></p>
+      </div>
+      {formal.length > 0 && (
+        <details class="formal">
+          <summary>{t('meeting.procedural', { n: formal.length })}</summary>
+          <ul class="list">{formal.map(({ item, href }) => (
+            <li><span class="pykala">{item.pykala ? `${item.pykala} §` : `${item.ordinal}.`}</span><a href={href} data-shared>{item.title}</a></li>
+          ))}</ul>
+        </details>
+      )}
+      <ol class="agenda" data-agenda>
+        {rest.map(({ item, outcome, preview, proposed, href }) => (
+          <li class="agenda-item" data-votes={item.votes.length || undefined}>
+            <span class="pykala">{item.pykala ? `${item.pykala} §` : `${item.ordinal}.`}</span>
+            <div class="agenda-body">
+              <h3><a href={href} data-shared>{item.title}</a></h3>
+              <p class="agenda-tags">
+                {outcome && outcome !== 'other' && <span class={`badge dec dec-${outcome}`}>{t(`dec.${outcome}` as 'dec.other')}</span>}
+                {item.votes.length > 0 && <span class="badge vote-n">{t('item.votes')} {item.votes.length}</span>}
+                {item.motions.length > 0 && <span class="badge">{t('item.motions')} {item.motions.length}</span>}
+              </p>
+              {preview && <p class="agenda-preview" lang="fi">{proposed && <b>{t('section.proposal')}: </b>}{preview}</p>}
+            </div>
+          </li>
         ))}
-      </ul>
+      </ol>
     </section>
     <aside>
       {(meeting.video_url || meeting.minutes_pdf_url) && <h2>{t('city.source')}</h2>}
@@ -60,11 +104,11 @@ const name = cityName(city, locale);
       {meeting.minutes_pdf_url && <p><a href={meeting.minutes_pdf_url} rel="external noopener">{t('meeting.minutesPdf')}</a></p>}
       {meeting.stage === 'minutes' && meeting.attendance.length > 0 && <>
         <h2>{t('meeting.attendance')}</h2>
-        <details open><summary>{t('meeting.present')} ({present.length})</summary>
-          <ul class="small" style="padding-left:1.1rem">{present.map((a) => <li>{(({ name, href }) => href ? <a href={href} data-shared>{name}</a> : name)(who(a.person_ref.raw))} <span class="muted">{a.role_text}</span>{a.note && <span class="muted"> · {a.note}</span>}</li>)}</ul>
+        <details open={present.length <= 15}><summary>{t('meeting.present')} ({present.length})</summary>
+          <ul class="small attendees">{present.map((a) => <li>{(({ name, href }) => href ? <a href={href} data-shared>{name}</a> : name)(who(a.person_ref.raw))} <span class="muted">{a.role_text}</span>{a.note && <span class="muted"> · {a.note}</span>}</li>)}</ul>
         </details>
         {absent.length > 0 && <details><summary>{t('meeting.absent')} ({absent.length})</summary>
-          <ul class="small" style="padding-left:1.1rem">{absent.map((a) => <li>{(({ name, href }) => href ? <a href={href} data-shared>{name}</a> : name)(who(a.person_ref.raw))} <span class="muted">{a.role_text}</span></li>)}</ul>
+          <ul class="small attendees">{absent.map((a) => <li>{(({ name, href }) => href ? <a href={href} data-shared>{name}</a> : name)(who(a.person_ref.raw))} <span class="muted">{a.role_text}</span></li>)}</ul>
         </details>}
       </>}
       <SourceLink href={meeting.source_url} system={city.source_name} locale={locale} />
