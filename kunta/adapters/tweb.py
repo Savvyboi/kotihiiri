@@ -336,7 +336,7 @@ class TwebAdapter:
 
 def build_item(ref: ItemRef, doc: tp.ItemDoc, attachments) -> AgendaItem:
     final = ref.stage == Stage.minutes  # motions and votes only count once minutes are out (§6)
-    sections, statements, deliberation = tp.item_sections(doc)
+    sections, statements, deliberation = tp.item_sections(doc, agenda=not final)
     motions = tp.parse_motions(deliberation) if final else []
     for m in motions:
         m.text = strip_pii(m.text)

@@ -63,6 +63,8 @@ class ProjectConfig:
     # to the client use them.
     robots_exceptions: dict[str, tuple[str, ...]] = field(default_factory=dict)
     robots_override: RobotsOverride = field(default_factory=RobotsOverride)
+    # OpenRouter models for `kunta briefs`, tried in order (PLAN.md §20)
+    briefs_models: tuple[str, ...] = ()
 
     @property
     def user_agent(self) -> str:
@@ -99,6 +101,7 @@ def load_project(config_dir: Path = CONFIG_DIR) -> ProjectConfig:
         features=dict(raw.get("features") or {}),
         robots_exceptions=_robots_exceptions(raw.get("robots_exceptions") or []),
         robots_override=_robots_override(raw.get("robots_override") or {}),
+        briefs_models=tuple(str(m) for m in raw.get("briefs_models") or ()),
     )
 
 

@@ -18,6 +18,12 @@ and one that does not fit continues next run. The site picks the data up on the 
     python scripts/crawl_local.py turku nokia          # only these
     python scripts/crawl_local.py --window all         # first run / full refresh
     python scripts/crawl_local.py --no-push            # crawl and validate only; no R2, no git
+    python scripts/crawl_local.py --briefs-only        # no crawl: AI briefs of new meetings, then push
+
+AI briefs (PLAN.md §20): when OPENROUTER_API_KEY is set, every run ends with `kunta briefs` for the
+six cities and the registry municipalities crawled here, at most `--briefs-requests` requests (free
+models allow 50 a day). Briefs of the six cities are committed with the data; those of registry
+municipalities go to R2 next to their meetings. Without the key the step is skipped.
 
 Registry municipalities need rclone with an `r2` remote for the kotihiiri-data bucket, e.g. the same
 RCLONE_CONFIG_R2_* environment variables weekly.yml sets (PLAN.md §18.4), or `rclone config`.
@@ -27,6 +33,11 @@ task for all of them:
 
     schtasks /Create /SC WEEKLY /D SAT /ST 08:00 /TN "Kotihiiri local crawl" ^
       /TR "C:\\path\\to\\venv\\Scripts\\python.exe C:\\path\\to\\kotihiiri\\scripts\\crawl_local.py"
+
+and, to work through the briefs backlog on the free daily quota, a daily task at 06:00 with the
+same /TR plus `--briefs-only`:
+
+    schtasks /Create /SC DAILY /ST 06:00 /TN "Kotihiiri briefs" /TR "... crawl_local.py --briefs-only"
 """
 
 from __future__ import annotations
@@ -92,6 +103,26 @@ def r2(*args: str) -> int:
     return sh("rclone", *args, "--s3-no-check-bucket", check=False)
 
 
+SIX = {"helsinki", "espoo", "tampere", "vantaa", "oulu", "turku"}
+
+
+def briefs(ok: list[str], cities: dict[str, bool], max_requests: int, use_r2: bool) -> list[str]:
+    """AI briefs of new meetings (PLAN.md §20) for the six cities in git and the registry
+    municipalities crawled in this run. Returns the municipalities whose briefs should be stored."""
+    if not os.environ.get("OPENROUTER_API_KEY"):
+        print("OPENROUTER_API_KEY not set; skipping AI briefs", file=sys.stderr)
+        return []
+    targets = sorted(c for c in SIX if (ROOT / "data" / c / "meetings").is_dir())
+    targets += [c for c in ok if not cities[c] and use_r2]
+    if not targets:
+        return []
+    kunta("briefs", "--city", ",".join(targets), "--max-requests", str(max_requests))
+    for c in targets:
+        if c not in SIX and (ROOT / "data" / c / "briefs").is_dir():
+            r2("sync", f"data/{c}/briefs", f"{BUCKET}/data/{c}/briefs", "--checksum", "--fast-list")
+    return targets
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("cities", nargs="*", help="slugs; default: every crawl_from: local municipality")
@@ -100,6 +131,9 @@ def main() -> int:
     ap.add_argument("--max-minutes", type=int, default=300, help="shared by all municipalities")
     ap.add_argument("--branch", default="main")
     ap.add_argument("--no-push", action="store_true")
+    ap.add_argument("--briefs-only", action="store_true", help="skip the crawl; write AI briefs and push")
+    ap.add_argument("--no-briefs", action="store_true", help="skip the AI briefs step")
+    ap.add_argument("--briefs-requests", type=int, default=40, help="OpenRouter requests for briefs")
     a = ap.parse_args()
 
     if not a.no_push:
@@ -122,7 +156,7 @@ def main() -> int:
     start = time.monotonic()
     ok: list[str] = []
     failed: list[str] = []
-    for city, in_git in cities.items():
+    for city, in_git in ({} if a.briefs_only else cities).items():
         left = a.max_minutes - int((time.monotonic() - start) / 60)
         if left < 10:
             print(f"out of time before {city}; it continues next run", file=sys.stderr)
@@ -163,10 +197,12 @@ def main() -> int:
         ok.append(city)
 
     print(f"ok: {' '.join(ok) or '-'}; failed: {' '.join(failed) or '-'}")
-    if a.no_push or not ok:
+
+    briefed = [] if a.no_briefs else briefs(ok, cities, a.briefs_requests, use_r2)
+    if a.no_push or not (ok or briefed):
         return 1 if failed else 0
 
-    paths: list[str] = []
+    paths: list[str] = [f"data/{c}/briefs" for c in briefed if c in SIX]
     for city in ok:
         paths.append(f"config/bodies/{city}.yaml")
         if cities[city]:
@@ -175,7 +211,8 @@ def main() -> int:
     if sh("git", "diff", "--cached", "--quiet", check=False) == 0:
         print("no changes to commit")
         return 1 if failed else 0
-    sh("git", "commit", "-m", f"data: local crawl {dt.date.today().isoformat()} ({', '.join(ok)})")
+    what = f"local crawl {dt.date.today().isoformat()} ({', '.join(ok)})" if ok else "AI briefs"
+    sh("git", "commit", "-m", f"data: {what}")
     for _ in range(3):
         pulled = sh("git", "pull", "--rebase", "-X", "theirs", "origin", a.branch, check=False) == 0
         if pulled and sh("git", "push", "origin", a.branch, check=False) == 0:

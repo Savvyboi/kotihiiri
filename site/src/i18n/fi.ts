@@ -264,6 +264,9 @@ export const fi = {
   'home.stats.votes': 'äänestystä',
   'home.topics': 'Selaa aiheittain',
 
+  'brief.tag': 'AI',
+  'brief.title': 'Tiivistelmä',
+  'brief.disclaimer': 'Tekoälyn ({model}) kirjoittama tiivistelmä pöytäkirjasta. Se voi sisältää virheitä: tarkista päätös alkuperäisestä tekstistä.',
   'meeting.title': 'Kokous {date}',
   'meeting.stage.agenda': 'Esityslista',
   'meeting.stage.decisions': 'Päätöstiedote',

@@ -6,6 +6,7 @@ import { bodyName, bodySlug, city as cityRec, cityName, itemUrl, voteOutcome, ty
 import { groupMajorities } from '../lib/people';
 import { PARTY_ABBR, PARTY_COLOURS, partyKey } from '../lib/parties';
 import VoteBar from './VoteBar.astro';
+import { voteBrief } from '../lib/briefs';
 interface Props { row: VoteRow; showCity?: string; locale: Locale }
 const { row, showCity, locale } = Astro.props;
 const { t: tr, date, shared } = useI18n(locale);
@@ -14,6 +15,7 @@ const winner = outcome === 'jaa' ? row.vote.jaa_label : outcome === 'ei' ? row.v
 const clip = (s: string, n = 110) => (s.length > n ? `${s.slice(0, n - 1).trimEnd()}…` : s);
 const groups = groupMajorities(row);
 const c = showCity ? cityRec(showCity) : undefined;
+const aiLine = voteBrief(row.item, row.vote.ordinal);
 const choiceLabel = (ch: string) => (ch === 'split' ? tr('vote.split') : t(`vote.${ch}` as never, {}, locale));
 ---
 <article class="card linked vote-card" data-body={bodySlug(row.meeting.body_id)} data-outcome={outcome} data-city={showCity}>
@@ -29,6 +31,7 @@ const choiceLabel = (ch: string) => (ch === 'split' ? tr('vote.split') : t(`vote
       {row.vote.counts.tyhja > 0 && <span class="muted"> · {row.vote.counts.tyhja} {tr('vote.tyhja').toLowerCase()}</span>}
     </span>
   </div>
+  {aiLine && <p class="vc-brief small"><span class="ai-tag">AI</span> <span lang="fi">{aiLine}</span></p>}
   {winner && <p class="vc-winner small">{clip(winner)}</p>}
   <VoteBar counts={row.vote.counts} legend={false} locale={locale} />
   {(row.vote.jaa_label || row.vote.ei_label) && <dl class="vc-labels small">

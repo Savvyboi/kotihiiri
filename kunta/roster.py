@@ -219,6 +219,24 @@ class Roster:
             ]
             if len(close) == 1:
                 near[key] = by_key[close[0]][0]
+        # A printed form an override joins to a candidate is that candidate's person, also when
+        # the minutes print the candidate's own form elsewhere ("Korhola-Dunderfelt Eija-Riitta"
+        # and "Korhola Eija-Riitta", a typo like "Sillapää Minttu"): one person, not two. Forms
+        # joined only by the rules above stay apart ("Laitinen Pekka J." may be a namesake).
+        by_row: dict[int, list[str]] = {}
+        for key, row in exact.items():
+            by_row.setdefault(id(row), []).append(key)
+        for keys in by_row.values():
+            if len(keys) < 2 or not any(k in forced for k in keys):
+                continue
+            row = exact[keys[0]]
+            keep = max(
+                keys, key=lambda k: (_fold(name_key(row.name)) == k, sum(self.people[k].names.values()), k)
+            )
+            for k in keys:
+                if k != keep and (k in forced or keep in forced):
+                    self._merge(keep, k)
+                    del exact[k]
         matched = 0
         for key, row in [*exact.items(), *near.items()]:
             p = self.people[key]
@@ -244,6 +262,17 @@ class Roster:
             )
         )
         return matched, missing
+
+    def _merge(self, keep: str, drop: str) -> None:
+        p, q = self.people[keep], self.people.pop(drop)
+        p.names.update(q.names)
+        p.printed |= q.printed
+        for k, s in q.seen.items():
+            mine = p.seen.get(k)
+            if mine is None:
+                p.seen[k] = s
+            else:
+                mine.first, mine.last = min(mine.first, s.first), max(mine.last, s.last)
 
     def to_json(self) -> dict:
         persons, memberships = [], []

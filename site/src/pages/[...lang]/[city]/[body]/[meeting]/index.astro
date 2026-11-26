@@ -2,6 +2,8 @@
 import Base from '../../../../../layouts/Base.astro';
 import Breadcrumb from '../../../../../components/Breadcrumb.astro';
 import SourceLink from '../../../../../components/SourceLink.astro';
+import AiBrief from '../../../../../components/AiBrief.astro';
+import { itemBrief, meetingBrief } from '../../../../../lib/briefs';
 import { localized, useI18n, type Locale } from '../../../../../i18n';
 import { cities, meetingFiles, bodyName, bodySlug, meetingSegment, itemUrl, cityName, decisionText, type AgendaItem, type City, type MeetingFile } from '../../../../../lib/data';
 import { decisionOutcome, leadText, isProcedural } from '../../../../../lib/structure';
@@ -24,14 +26,16 @@ const present = meeting.attendance.filter((a) => a.present);
 const who = (raw: string) => { const p = findPerson(city.id, raw); return { name: p?.name ?? displayName(raw), href: p && shared(personUrl(p)) }; };
 const absent = meeting.attendance.filter((a) => !a.present);
 const name = cityName(city, locale);
+const brief = meetingBrief(meeting.id, meeting.stage);
 // Agenda cards: what was decided, in a line or two; the formalities every meeting opens with fold away.
 const card = (item: AgendaItem) => {
   const decision = decisionText(item);
   const proposal = item.sections.find((s) => s.type === 'proposal')?.text;
   // `preview` is the AI brief's one-liner when there is one (lib/briefs.ts), else the decision,
   // else (agendas) the proposal.
-  const preview = decision ? leadText(decision, 260) : proposal ? leadText(proposal, 260) : undefined;
-  return { item, outcome: decisionOutcome(decision), preview, proposed: !decision && !!proposal, href: shared(itemUrl(item)) };
+  const ai = itemBrief(item)?.brief;
+  const preview = ai ?? (decision ? leadText(decision, 260) : proposal ? leadText(proposal, 260) : undefined);
+  return { item, outcome: decisionOutcome(decision), preview, ai: !!ai, proposed: !ai && !decision && !!proposal, href: shared(itemUrl(item)) };
 };
 const formal = items.filter((i) => isProcedural(i.title) && !i.votes.length).map(card);
 const rest = items.filter((i) => !isProcedural(i.title) || i.votes.length).map(card);
@@ -64,7 +68,7 @@ const nDecided = items.filter((i) => decisionText(i)).length;
         {nVotes > 0 && <li><b>{nVotes}</b> {t('meeting.statVotes')}</li>}
       </ul>
 
-      {/* AI brief: <AiBrief> goes here, above the agenda. */}
+      {brief?.summary && <AiBrief text={brief.summary} highlights={brief.highlights} model={brief.model} lang={brief.lang} locale={locale} />}
 
       <h2>{t('meeting.items')}</h2>
       {locale !== 'fi' && <p class="small muted">{t('lang.docsNote')}</p>}
@@ -82,7 +86,7 @@ const nDecided = items.filter((i) => decisionText(i)).length;
         </details>
       )}
       <ol class="agenda" data-agenda>
-        {rest.map(({ item, outcome, preview, proposed, href }) => (
+        {rest.map(({ item, outcome, preview, ai, proposed, href }) => (
           <li class="agenda-item" data-votes={item.votes.length || undefined}>
             <span class="pykala">{item.pykala ? `${item.pykala} §` : `${item.ordinal}.`}</span>
             <div class="agenda-body">
@@ -92,7 +96,7 @@ const nDecided = items.filter((i) => decisionText(i)).length;
                 {item.votes.length > 0 && <span class="badge vote-n">{t('item.votes')} {item.votes.length}</span>}
                 {item.motions.length > 0 && <span class="badge">{t('item.motions')} {item.motions.length}</span>}
               </p>
-              {preview && <p class="agenda-preview" lang="fi">{proposed && <b>{t('section.proposal')}: </b>}{preview}</p>}
+              {preview && <p class="agenda-preview" lang={ai ? brief?.lang ?? 'fi' : 'fi'}>{ai && <span class="ai-tag">{t('brief.tag')}</span>} {proposed && <b>{t('section.proposal')}: </b>}{preview}</p>}
             </div>
           </li>
         ))}

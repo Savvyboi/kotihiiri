@@ -24,7 +24,9 @@ const { title, city, locale, shared = false, feed } = Astro.props;
 const description = Astro.props.description ?? t('site.tagline', {}, locale);
 const cityRec = city ? cities().find((c) => c.id === city) : undefined;
 const fullTitle = title ? `${title} · ${t('site.name', {}, locale)}` : `${t('site.name', {}, locale)} · ${t('home.title', {}, locale)}`;
-const { rest } = splitLocale(Astro.url.pathname);
+const { rest: pageRest } = splitLocale(Astro.url.pathname);
+// The 404 page has no /sv/404/ or /en/404/ twin: its language links go to each home page.
+const rest = /\/404(?:\.html|\/)?$/.test(pageRest) ? '/' : pageRest;
 const nav = [
   { href: '/kokoukset/', key: 'nav.meetings' },
   { href: '/aanestykset/', key: 'nav.votes' },

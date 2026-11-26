@@ -313,3 +313,26 @@ def test_second_run_produces_no_diff(tmp_path):
     report, _ = run(tmp_path)
     assert report.files_changed == 0
     assert snapshot(tmp_path) == before
+
+
+def test_side_labels_on_one_line():
+    from kunta.parsers.votes_casem import split_sides
+
+    assert split_sides("Esittelijän päätösehdotus = JAA, Suomen muutosehdotus = EI") == (
+        "Esittelijän päätösehdotus",
+        "Suomen muutosehdotus",
+    )
+    assert split_sides("Esittelijän päätösehdotus JAA, Olga Haapa-ahon muutosehdotus EI.") == (
+        "Esittelijän päätösehdotus",
+        "Olga Haapa-ahon muutosehdotus",
+    )
+    assert split_sides("Äänestys 2 Kaupunginhallituksen ehdotus JAA Anne-Mari Jussilan muutosehdotus EI") == (
+        "Kaupunginhallituksen ehdotus",
+        "Anne-Mari Jussilan muutosehdotus",
+    )
+    # the header runs into the Jaa side
+    assert split_sides(
+        "Juho Hirvelä palautusehdotus Palautusehdotuksen hyväksyminen JAA Asian käsittelyn jatkaminen EI"
+    ) == ("Palautusehdotuksen hyväksyminen", "Asian käsittelyn jatkaminen")
+    assert split_sides("Kaupunginhallituksen ehdotus JAA") is None
+    assert split_sides("Muutosehdotuksen hyväksyminen EI") is None

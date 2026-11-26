@@ -111,6 +111,15 @@ export function bodies(cityId: string): Body[] {
   });
 }
 
+/** Bodies with at least one meeting on file. Listings use these: a dissolved body kept in
+ *  bodies.json (Oulu's 2017 enterprise boards, Vantaa's pre-2023 committees) has an empty page. */
+export function activeBodies(cityId: string): Body[] {
+  return memo(`activeBodies:${cityId}`, () => {
+    const held = new Set(meetingFiles(cityId).map((f) => f.meeting.body_id));
+    return bodies(cityId).filter((b) => held.has(b.id));
+  });
+}
+
 export function bodySlug(bodyId: string): string {
   return bodyId.split('/')[1];
 }
@@ -245,7 +254,7 @@ export function cityStats(cityId: string) {
   const files = meetingFiles(cityId);
   const items = files.reduce((n, f) => n + f.items.length, 0);
   const votes = files.reduce((n, f) => n + f.items.reduce((k, i) => k + i.votes.length, 0), 0);
-  return { meetings: files.length, items, votes, bodies: bodies(cityId).length };
+  return { meetings: files.length, items, votes, bodies: activeBodies(cityId).length };
 }
 
 /** Decision text for cards: the stored summary, else the first decision section. */

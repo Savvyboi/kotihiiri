@@ -10,9 +10,10 @@ import { ballotGroup, displayName, findPerson, personUrl } from '../lib/people';
 import VoteBar from './VoteBar.astro';
 import PartyChip from './PartyChip.astro';
 import T from './T.astro';
-interface Props { vote: VoteEvent; city: string; locale: Locale; compact?: boolean }
+import AiBrief from './AiBrief.astro';
+interface Props { vote: VoteEvent; city: string; locale: Locale; compact?: boolean; brief?: string; model?: string }
 // compact: one of several votes on the page, so the group table starts folded.
-const { vote, city, locale, compact = false } = Astro.props;
+const { vote, city, locale, compact = false, brief, model } = Astro.props;
 
 type B = VoteEvent['ballots'][number];
 const resolved = new Map<B, { group?: string; name: string; href?: string }>();
@@ -56,7 +57,7 @@ const anyAgainst = ballots.some((b) => against(b));
 <section class="card vote" id={`aanestys-${vote.ordinal}`}>
   <h3><T k="vote.title" vars={{ n: vote.ordinal }} locale={locale} /></h3>
   {vote.result_text && <p class="vote-result"><b><T k="vote.result" locale={locale} />:</b> <span lang="fi">{vote.result_text}</span></p>}
-  {/* AI brief: the vote's one-line <AiBrief> goes here (what Jaa/Ei meant). */}
+  {brief && model && <AiBrief text={brief} model={model} locale={locale} compact />}
   <div class="vote-sides">
     {sides.map((sd) => (
       <div class:list={['vs-side', `vs-${sd.choice}`, { won: sd.won }]}>

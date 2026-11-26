@@ -434,3 +434,74 @@ def test_nominative_and_page_header():
         "Asia",
     )
     assert tp._flat(doc.blocks[0].lines) == "Ne, jotka kannattavat asian palauttamista, äänestävät ei."
+
+
+OULU_ITEM = """Päivämäärä
+Tuloveroprosentin ja kiinteistöveroprosenttien vahvistaminen
+vuodelle 2027
+Dno OUKA/13079/02.03.02/2026
+Tiivistelmä Kuntien tulee ilmoittaa veroprosenttinsa verohallitukselle.
+Kaupunginhallituksen
+päätösehdotus Kaupunginvaltuusto vahvistaa vuoden 2027 veroprosenteiksi:
+Tuloveroprosentti 8,10
+Päätös Keskustelun aikana valtuutettu Jukka Huotari esitti valtuutettu
+Pekka Aittakummun kannattamana, että Kaupunginvaltuusto vahvistaa
+tuloveroprosentiksi 8,00 %.
+Puheenjohtaja totesi, että on tehty kannatettu muutosesitys, joten
+on suoritettava äänestys: KH JAA, muutosesitys EI, tyhjääkin saa
+äänestää.
+Suoritetussa äänestyksessä äänet jakautuivat seuraavasti: JAA 61,
+EI 5, tyhjää 1.
+Kaupunginhallituksen päätösehdotus hyväksyttiin.
+Päivämäärä
+Esittelyteksti
+Kaupunginhallituksen käsittely:
+Verotusmenettelystä annetun lain mukaan kunnan tulee ilmoittaa veroprosentit."""
+
+
+def test_oulu_label_column_is_split_into_proposal_and_decision():
+    doc = tp.parse_item_lines(
+        OULU_ITEM.split("\n"), "Tuloveroprosentin ja kiinteistöveroprosenttien vahvistaminen vuodelle 2027"
+    )
+    sections, _, deliberation = tp.item_sections(doc)
+    assert doc.case_number == "OUKA/13079/02.03.02/2026"
+    assert [(s.type, s.heading) for s in sections] == [
+        ("background", "Tiivistelmä"),
+        ("background", None),
+        ("proposal", "Päätösehdotus"),
+        ("decision", "Päätös"),
+    ]
+    assert sections[1].text.startswith("Kaupunginhallituksen käsittely:")
+    assert sections[2].text.startswith("Kaupunginvaltuusto vahvistaa")
+    motions, prose = tp.parse_case(deliberation)
+    assert [(m.proposer_ref.raw, m.outcome) for m in motions] == [("Jukka Huotari", "rejected")]
+    assert [(p.a, p.b, p.tyhja, p.jaa_label, p.ei_label) for p in prose] == [(61, 5, 1, "KH", "muutosesitys")]
+
+
+def test_items_without_the_label_column_keep_their_background():
+    doc = tp.parse_item_lines(["Otsikko", "Tekstiä ilman päätöstä.", "Esittelyteksti", "Lisää."], "Otsikko")
+    assert doc.blocks == [] and "Esittelyteksti" in doc.background
+
+
+def test_agenda_moves_the_earlier_bodys_decision_to_history():
+    lines = [
+        "Asemakaavamuutos 002565",
+        "VD/1234/10.02.03/2026",
+        "Kaupunginhallitus 2.11.2026 § 300",
+        "Kaupunkiympäristön toimialan apulaiskaupunginjohtajan esitys:",
+        "Kaupunginhallitus esittää kaupunginvaltuustolle asemakaavamuutoksen hyväksymistä.",
+        "Päätös:",
+        "Hyväksyttiin esitys.",
+        "Kaupunginvaltuusto 16.11.2026",
+        "Kaupunginhallituksen esitys:",
+        "Päätetään hyväksyä asemakaavamuutosehdotus 002565.",
+    ]
+    doc = tp.parse_item_lines(lines, "Asemakaavamuutos 002565")
+    minutes, _, _ = tp.item_sections(doc)
+    assert [s.type for s in minutes] == ["proposal", "decision", "proposal"]
+    agenda, _, _ = tp.item_sections(doc, agenda=True)
+    assert [(s.type, s.heading) for s in agenda] == [
+        ("history", "Kaupunginhallitus 2.11.2026 § 300"),
+        ("proposal", "Kaupunginhallituksen esitys"),
+    ]
+    assert "Hyväksyttiin esitys." in agenda[0].text and "16.11.2026" not in agenda[0].text

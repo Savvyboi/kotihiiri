@@ -266,6 +266,9 @@ export const en: Dict = {
   'home.stats.votes': 'votes',
   'home.topics': 'Browse by topic',
 
+  'brief.tag': 'AI',
+  'brief.title': 'Summary',
+  'brief.disclaimer': 'Summary of the minutes written by AI ({model}). It may contain mistakes: check the decision in the original text.',
   'meeting.title': 'Meeting {date}',
   'meeting.stage.agenda': 'Agenda',
   'meeting.stage.decisions': 'Decision bulletin',
