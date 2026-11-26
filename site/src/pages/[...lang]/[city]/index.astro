@@ -84,6 +84,7 @@ const inits = initiatives(city.id);
                 <span class="small muted">{items.length} {t('city.stats.items')}</span></span></li>
             ))}
           </ul>
+          <p class="small"><a href={path(`/${city.id}/kokoukset/`)}>{t('city.allMeetings', { n: num(meetingFiles(city.id).length) })}</a></p>
         </>}
       </section>
       <aside>

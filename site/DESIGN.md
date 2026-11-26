@@ -17,7 +17,7 @@ already shows. Five decisions, made once; change them here first, then in `src/s
    page, not pills. Pages open with a tinted header that ends in a fir-tree-top line
    (`--koro`, the *kuusikoro* partition Finnish heraldry invented); city cards use the same line
    between photo and name.
-5. **Tone.** Square corners (`--radius: 3px`), 1 px rules instead of shadows, a 2 px ink rule under
+5. **Tone.** Square corners (`--radius: 0`, no pills or rounded boxes; since 2026-11-26), 1 px rules instead of shadows, a 2 px ink rule under
    table headings and above the footer, no hover lift, no all-caps labels. Quiet and exact.
 
 **Long text (added 2026-11-26).** Minutes text is never shown as one pre-formatted block:
@@ -28,3 +28,8 @@ timeline. Meeting pages list items as cards with a decision badge and a two-line
 formalities fold into one row. `public/enhance.js` (one file, cached) adds agenda search, sortable
 tables (`data-sortable`), table search boxes (`data-filterable`) and open/close-all; every page
 works without it.
+
+**Disclosures and lists (added 2026-11-26).** A `<details>` is a row of a register, not a boxed
+widget: rules above and below, the label, and a plus that becomes a minus. Section heads that
+introduce a list carry its count on the right over a 2 px ink rule (`.section-head`). Whole city
+cards are links. Filter bars (`form[data-row-filter]`) sit between two 1 px rules.
