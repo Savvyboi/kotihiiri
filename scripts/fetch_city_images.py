@@ -1,7 +1,8 @@
 """Fetch each city's coat of arms and a public-domain hero photo from Wikimedia Commons.
 
 Reads config/images.yaml, writes site/public/images/cities/{city}-arms.svg,
-{city}-photo-{1920,960}.jpg and site/src/data/city-images.json (source, author, licence per file).
+{city}-photo-{1920,960}.jpg, {city}-band-960.jpg (the strip on city cards) and
+site/src/data/city-images.json (source, author, licence per file).
 Every other municipality in config/municipalities.yaml gets its coat of arms only (`other_arms`).
 Run by .github/workflows/city-images.yml; the build environment has no route to Wikimedia.
 
@@ -32,6 +33,9 @@ WIKIDATA = "https://www.wikidata.org/w/api.php"
 # Structured-data filter: licence CC0 or copyright status public domain.
 FREE_FILTER = "haswbstatement:P275=Q6938433|P6216=Q19652 -map -kartta -karta"
 PHOTO_WIDTHS = (1920, 960)
+# City cards show the photo as a 114 px strip over a card at least 260 px wide (object-fit: cover), so
+# they never display more than a 960 x 420 centre crop of the 960 px file; the crop is a quarter lighter.
+BAND_SIZE = (960, 420)
 MIN_WIDTH = 1920
 
 
@@ -294,6 +298,19 @@ def save_photo(api: Api, city: str, info: dict) -> None:
         if img.width > width:
             img = img.resize((width, round(img.height * width / img.width)), Image.LANCZOS)
         img.save(OUT_DIR / f"{city}-photo-{width}.jpg", "JPEG", quality=78, optimize=True, progressive=True)
+        if width == BAND_SIZE[0]:
+            band = band_crop(img)
+            out = OUT_DIR / f"{city}-band-{width}.jpg"
+            band.save(out, "JPEG", quality=78, optimize=True, progressive=True)
+
+
+def band_crop(img: Image.Image) -> Image.Image:
+    """Centre crop to BAND_SIZE, as the card's object-fit: cover shows it."""
+    w, h = BAND_SIZE
+    if img.width != w:
+        img = img.resize((w, round(img.height * w / img.width)), Image.LANCZOS)
+    top = max(0, (img.height - h) // 2)
+    return img.crop((0, top, w, top + min(h, img.height)))
 
 
 def save_arms(api: Api, city: str, info: dict) -> None:
@@ -350,7 +367,9 @@ def main() -> None:
         save_photo(api, city, photo)
         credits[city] = {
             "arms": credit(arms, [f"{city}-arms.svg"]),
-            "photo": credit(photo, [f"{city}-photo-{w}.jpg" for w in PHOTO_WIDTHS])
+            "photo": credit(
+                photo, [f"{city}-photo-{w}.jpg" for w in PHOTO_WIDTHS] + [f"{city}-band-{BAND_SIZE[0]}.jpg"]
+            )
             | {"description": photo["description"]},
         }
 

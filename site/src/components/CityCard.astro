@@ -10,7 +10,7 @@ const name = cityName(city, locale);
 ---
 <article class:list={['card', 'linked', 'city-card', { off: !city.enabled }]} data-city={city.id}>
   <div class="band">
-    {img.photo && <img class="band-photo" src={assetPath(`/images/cities/${img.photo.files[1]}`)} alt="" loading="lazy" decoding="async" />}
+    {img.photo && <img class="band-photo" src={assetPath(`/images/cities/${img.photo.files[2] ?? img.photo.files[1]}`)} alt="" loading="lazy" decoding="async" />}
     {img.arms && <img class="arms" src={assetPath(`/images/cities/${img.arms.files[0]}`)} alt={t('city.arms', { city: name }, locale)} width="44" height="52" loading="lazy" />}
     <h3><a class="stretch" href={localePath(`/${city.id}/`, locale)}>{name}</a></h3>
   </div>

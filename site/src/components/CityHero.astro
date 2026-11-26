@@ -11,10 +11,15 @@ const name = cityName(city, locale);
 ---
 <section class:list={['hero', 'city-hero', { 'has-photo': photo }]}>
   {photo && (
-    <img class="hero-photo" alt="" decoding="async" fetchpriority="high"
-      src={assetPath(`/images/cities/${photo.files[0]}`)}
-      srcset={`${assetPath(`/images/cities/${photo.files[1]}`)} 960w, ${assetPath(`/images/cities/${photo.files[0]}`)} 1920w`}
-      sizes="100vw" />
+    <picture>
+      {/* Phones get the 960 px file whatever their pixel density: the photo sits under a dark shade,
+          and the 1920 px one is up to four times heavier. */}
+      <source media="(max-width: 700px)" srcset={assetPath(`/images/cities/${photo.files[1]}`)} />
+      <img class="hero-photo" alt="" decoding="async" fetchpriority="high"
+        src={assetPath(`/images/cities/${photo.files[0]}`)}
+        srcset={`${assetPath(`/images/cities/${photo.files[1]}`)} 960w, ${assetPath(`/images/cities/${photo.files[0]}`)} 1920w`}
+        sizes="100vw" />
+    </picture>
   )}
   <div class="wrap">
     <slot name="crumbs" />
