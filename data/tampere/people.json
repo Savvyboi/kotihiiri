@@ -5010,7 +5010,7 @@
     },
     {
       "body_id": "tampere/kaupunginvaltuusto",
-      "end": "2026-09-14",
+      "end": "2026-11-16",
       "person_id": "tampere/pursiainen-hautala-sirpa",
       "role": "member",
       "source": "attendance",
@@ -5023,14 +5023,6 @@
       "role": "member",
       "source": "attendance",
       "start": "2025-01-27"
-    },
-    {
-      "body_id": "tampere/kaupunginvaltuusto",
-      "end": "2026-11-16",
-      "person_id": "tampere/pursiainen-hautala-sirpa-2",
-      "role": "member",
-      "source": "attendance",
-      "start": "2026-08-24"
     },
     {
       "body_id": "tampere/elinvoima-ja-osaamislautakunnan-tyollisyysjaosto",
@@ -6818,16 +6810,8 @@
     },
     {
       "body_id": "tampere/kaupunginvaltuusto",
-      "end": "2026-09-14",
-      "person_id": "tampere/vikman-sofia",
-      "role": "member",
-      "source": "attendance",
-      "start": "2026-09-14"
-    },
-    {
-      "body_id": "tampere/kaupunginvaltuusto",
       "end": "2026-11-16",
-      "person_id": "tampere/vikman-sofia-2",
+      "person_id": "tampere/vikman-sofia",
       "role": "member",
       "source": "attendance",
       "start": "2025-01-27"
@@ -6835,7 +6819,7 @@
     {
       "body_id": "tampere/kaupunginvaltuuston-kyselytunti",
       "end": "2026-10-19",
-      "person_id": "tampere/vikman-sofia-2",
+      "person_id": "tampere/vikman-sofia",
       "role": "member",
       "source": "attendance",
       "start": "2025-01-27"
@@ -8589,8 +8573,16 @@
         "Jokinen Ilkka Antero"
       ],
       "city": "tampere",
+      "election": {
+        "party": "SDP",
+        "result": "deputy",
+        "source": "statfin-kvaa-2025",
+        "votes": 343,
+        "year": 2025
+      },
       "id": "tampere/jokinen-ilkka-antero",
       "name": "Ilkka Antero Jokinen",
+      "party": "SDP",
       "sort_name": "Jokinen Ilkka Antero"
     },
     {
@@ -10892,23 +10884,7 @@
     },
     {
       "aliases": [
-        "Pursiainen-Hautala Sirpa"
-      ],
-      "city": "tampere",
-      "election": {
-        "party": "KD",
-        "result": "elected",
-        "source": "statfin-kvaa-2025",
-        "votes": 613,
-        "year": 2025
-      },
-      "id": "tampere/pursiainen-hautala-sirpa",
-      "name": "Sirpa Pursiainen-Hautala",
-      "party": "KD",
-      "sort_name": "Pursiainen-Hautala Sirpa"
-    },
-    {
-      "aliases": [
+        "Pursiainen-Hautala Sirpa",
         "Pursianen-Hautala Sirpa",
         "Sirpa Pursianen-Hautala"
       ],
@@ -10920,7 +10896,7 @@
         "votes": 613,
         "year": 2025
       },
-      "id": "tampere/pursiainen-hautala-sirpa-2",
+      "id": "tampere/pursiainen-hautala-sirpa",
       "name": "Sirpa Pursiainen-Hautala",
       "party": "KD",
       "sort_name": "Pursiainen-Hautala Sirpa"
@@ -12454,23 +12430,7 @@
     },
     {
       "aliases": [
-        "Vikman Maria"
-      ],
-      "city": "tampere",
-      "election": {
-        "party": "KOK",
-        "result": "elected",
-        "source": "statfin-kvaa-2025",
-        "votes": 1745,
-        "year": 2025
-      },
-      "id": "tampere/vikman-sofia",
-      "name": "Sofia Vikman",
-      "party": "KOK",
-      "sort_name": "Vikman Sofia"
-    },
-    {
-      "aliases": [
+        "Vikman Maria",
         "Vikman Sofia"
       ],
       "city": "tampere",
@@ -12481,7 +12441,7 @@
         "votes": 1745,
         "year": 2025
       },
-      "id": "tampere/vikman-sofia-2",
+      "id": "tampere/vikman-sofia",
       "name": "Sofia Vikman",
       "party": "KOK",
       "sort_name": "Vikman Sofia"
