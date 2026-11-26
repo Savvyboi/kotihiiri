@@ -277,11 +277,11 @@ tr.against td { background: color-mix(in srgb, var(--c-accent) 18%, transparent)
 /* Disclosures read as rows of a register: a rule above, the label, a plus that turns into a minus.
    Boxed variants (.fold, .more, .explain) set their own look further down. */
 details { border-top: 1px solid var(--c-border); border-bottom: 1px solid var(--c-border); padding: 0; margin: .6rem 0; }
-details + details { margin-top: -.6rem; border-top: 0; }
+details + details { margin-top: calc(-.6rem - 1px); }
 details summary { cursor: pointer; font-weight: 650; }
 details:not(.more, .explain, .explain-row, .fold) > summary { list-style: none; display: flex; align-items: baseline; gap: .6rem; padding: .65rem 0; }
 details:not(.more, .explain, .explain-row, .fold) > summary::-webkit-details-marker { display: none; }
-details:not(.more, .explain, .explain-row, .fold) > summary::after { content: "+"; margin-left: auto; font-family: var(--font-head); font-weight: 700; font-size: 1.15rem; line-height: 1; color: var(--c-primary); }
+details:not(.more, .explain, .explain-row, .fold) > summary::after { content: "+"; margin-left: auto; font-family: var(--font-head); font-weight: 700; font-size: 1.15rem; line-height: 1; color: var(--c-link); }
 details:not(.more, .explain, .explain-row, .fold)[open] > summary::after { content: "−"; }
 details:not(.more, .explain, .explain-row, .fold)[open] > summary { border-bottom: 1px solid var(--c-border); margin-bottom: .6rem; }
 details:not(.more, .explain, .explain-row, .fold)[open] { padding-bottom: .6rem; }
@@ -579,7 +579,7 @@ details.fold { padding: 0; margin: .5rem 0; background: var(--c-surface); border
 details.fold + details.fold { margin-top: .5rem; border-top: 1px solid var(--c-border); }
 details.fold > summary { list-style: none; }
 details.fold > summary::-webkit-details-marker { display: none; }
-details.fold > summary .fold-h::before { content: "+"; display: inline-block; width: 1.1rem; color: var(--c-primary); }
+details.fold > summary .fold-h::before { content: "+"; display: inline-block; width: 1.1rem; color: var(--c-link); }
 details.fold[open] > summary .fold-h::before { content: "−"; }
 details.fold > summary { padding: .75rem 1.1rem; display: grid; grid-template-columns: 1fr auto; gap: .1rem 1rem; align-items: baseline; }
 details.fold > summary::before { content: none; }
