@@ -300,7 +300,8 @@ def save_photo(api: Api, city: str, info: dict) -> None:
         img.save(OUT_DIR / f"{city}-photo-{width}.jpg", "JPEG", quality=78, optimize=True, progressive=True)
         if width == BAND_SIZE[0]:
             band = band_crop(img)
-            band.save(OUT_DIR / f"{city}-band-{width}.jpg", "JPEG", quality=78, optimize=True, progressive=True)
+            out = OUT_DIR / f"{city}-band-{width}.jpg"
+            band.save(out, "JPEG", quality=78, optimize=True, progressive=True)
 
 
 def band_crop(img: Image.Image) -> Image.Image:
