@@ -458,6 +458,64 @@ def facts() -> None:
 
 
 @app.command()
+def briefs(
+    city: str | None = typer.Option(None, "--city", help="comma-separated; default: every city in data/"),
+    max_requests: int = typer.Option(
+        40, "--max-requests", help="free models allow 50 a day (1,000 with $10 of credits bought)"
+    ),
+    model: str | None = typer.Option(None, "--model", help="comma-separated, tried in order"),
+    since: str = typer.Option("2025-01-01", "--since"),
+    agendas: bool = typer.Option(False, "--agendas", help="also brief agendas (redone with the minutes)"),
+    max_minutes: float | None = typer.Option(None, "--max-minutes"),
+    dry_run: bool = typer.Option(False, "--dry-run", help="list what would be sent; no API calls"),
+    list_models: bool = typer.Option(False, "--list-models", help="print OpenRouter's free models and exit"),
+) -> None:
+    """Write AI briefs of new meetings to data/{city}/briefs/ with a free OpenRouter model (PLAN.md §20).
+
+    Needs OPENROUTER_API_KEY in the environment."""
+    from . import briefs as b
+
+    if list_models:
+        for mid, ctx in b.free_models():
+            typer.echo(f"{mid}  context={ctx}")
+        return
+    cities = (
+        [c.strip() for c in city.split(",") if c.strip()]
+        if city
+        else sorted(p.parent.name for p in DATA_DIR.glob("*/meetings") if p.is_dir())
+    )
+    if dry_run:
+        pending = b.find_pending(cities, since=since, agendas=agendas)
+        total = 0
+        for p in pending:
+            n = b.requests_needed(jsonio.read(p.path))
+            total += n
+            typer.echo(f"{p.meeting_id}  requests={n}")
+        typer.echo(f"{len(pending)} meetings, {total} requests")
+        return
+    key = b.api_key()
+    if not key:
+        _fail("set OPENROUTER_API_KEY (https://openrouter.ai/settings/keys) to write briefs")
+    models = (
+        tuple(m.strip() for m in (model or "").split(",") if m.strip())
+        or tuple(load_project().briefs_models)
+        or b.DEFAULT_MODELS
+    )
+    client = b.OpenRouter(key, models=models)
+    try:
+        report = b.run(
+            cities, client, max_requests=max_requests, since=since, agendas=agendas, max_minutes=max_minutes
+        )
+    except b.ModelError as exc:
+        _fail(str(exc))
+    finally:
+        client.close()
+    typer.echo(report.summary())
+    for mid in report.failed:
+        typer.echo(f"  failed: {mid}")
+
+
+@app.command()
 def heartbeat() -> None:
     """Write data/state/heartbeat.json so scheduled workflows always commit (PLAN.md §2.3)."""
     jsonio.write(

@@ -835,3 +835,14 @@ municipalities, 2021 onward.
   (`site/src/lib/services.ts`), largest net cost first, with share, per resident, change from the
   year before, rank per resident among municipalities, spending and income, and the service classes
   inside each group.
+
+## 20. AI briefs (added 2026-11-26)
+
+Savvas asked for short AI briefs of meetings and votes, like vahtikissa.fi, because minutes read as a wall of text, using free OpenRouter models (Nemotron) and without adding files to the site.
+
+- **What.** Per meeting: a 2–3 sentence summary and up to 4 highlights. Per substantive item: a 1–2 sentence brief. Per vote: one sentence on what Jaa and Ei meant and who won. In the language of the minutes (Finnish, or Swedish where `lang: sv`). Procedural items (opening, quorum, minute checkers, notices) and confidential items are never sent.
+- **Where.** `data/{city}/briefs/{yyyy}.json`, keyed by meeting id: `{model, lang, stage, input_sha256, summary?, highlights?, items: {ordinal: {brief, sha, votes?: {ordinal: text}}}}`. A few files per city; the site renders them into existing pages, so the build gains no files. Registry municipalities keep theirs in R2 next to their meetings.
+- **Incremental.** `input_sha256` covers the stage and each substantive item's `content_sha256`; a meeting is only sent again when it changes. Agendas are skipped by default (they would be redone when the minutes arrive). An item brief whose item has changed since (`sha`) is hidden; a meeting brief written for another stage is hidden. Briefs of meetings that no longer exist are pruned. Model output is never regenerated for unchanged input, so a no-change run writes nothing (§2.2 rule 10).
+- **Rate limits.** One request per meeting (items batched up to 45k characters / 25 items; longer meetings take extra requests plus one for the summary). OpenRouter free models: 20 requests/minute (we space them 3.5 s) and 50/day, or 1,000/day once $10 of credits has been bought. `kunta briefs --max-requests` (default 40) caps a run, and the first daily-limit answer ends it; the rest wait for the next run, newest meetings of the six cities first. The six cities' backlog since 2025-01-01 was about 2,800 requests on 2026-11-26.
+- **Safety.** The model is told to state only what the source says and to name nobody but a vote's proposer; output is cut to length, PII-stripped (`strip_pii`), and any item or vote number not sent is dropped. Every brief is labelled "AI" with the model's name and a note to check the original text.
+- **Where it runs.** Savvas's computer, as the last step of `scripts/crawl_local.py` when `OPENROUTER_API_KEY` is set (`--briefs-only` for a daily backlog run). Models come from `briefs_models` in `config/project.yaml`; `kunta briefs --list-models` prints the current free ones.

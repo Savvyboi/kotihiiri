@@ -2,6 +2,8 @@
 import Base from '../../../../../layouts/Base.astro';
 import Breadcrumb from '../../../../../components/Breadcrumb.astro';
 import SourceLink from '../../../../../components/SourceLink.astro';
+import AiBrief from '../../../../../components/AiBrief.astro';
+import { itemBrief, meetingBrief } from '../../../../../lib/briefs';
 import { localized, useI18n, type Locale } from '../../../../../i18n';
 import { cities, meetingFiles, bodyName, bodySlug, meetingSegment, itemUrl, cityName, type City, type MeetingFile } from '../../../../../lib/data';
 import { displayName, findPerson, personUrl } from '../../../../../lib/people';
@@ -23,6 +25,7 @@ const present = meeting.attendance.filter((a) => a.present);
 const who = (raw: string) => { const p = findPerson(city.id, raw); return { name: p?.name ?? displayName(raw), href: p && shared(personUrl(p)) }; };
 const absent = meeting.attendance.filter((a) => !a.present);
 const name = cityName(city, locale);
+const brief = meetingBrief(meeting.id, meeting.stage);
 ---
 <Base title={`${body} ${date} · ${name}`} city={city.id} locale={locale}>
   <section class="hero">
@@ -44,13 +47,15 @@ const name = cityName(city, locale);
   <div class="wrap two-col">
     <section>
       {meeting.stage === 'agenda' && <p class="empty" style="margin-top:1.5rem">{t('meeting.agendaNotice')}</p>}
+      {brief?.summary && <AiBrief text={brief.summary} highlights={brief.highlights} model={brief.model} lang={brief.lang} locale={locale} />}
       <h2>{t('meeting.items')}</h2>
       {locale !== 'fi' && <p class="small muted">{t('lang.docsNote')}</p>}
       <ul class="list">
         {items.map((item) => (
           <li><span class="pykala">{item.pykala ? `${item.pykala} §` : `${item.ordinal}.`}</span>
             <span><a href={shared(itemUrl(item))} data-shared>{item.title}</a>
-            {item.votes.length > 0 && <span class="small muted"> · {item.votes.length} {t('city.stats.votes')}</span>}</span></li>
+            {item.votes.length > 0 && <span class="small muted"> · {item.votes.length} {t('city.stats.votes')}</span>}
+            {itemBrief(item) && <span class="item-brief small muted" lang={brief?.lang}>{itemBrief(item)!.brief}</span>}</span></li>
         ))}
       </ul>
     </section>

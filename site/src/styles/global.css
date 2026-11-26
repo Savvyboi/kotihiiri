@@ -516,3 +516,16 @@ details.explain-row p { margin: .3rem 0 0; font-size: .92rem; max-width: 44rem; 
 .svc-list li span:last-child { font-variant-numeric: tabular-nums; white-space: nowrap; }
 .svc-total { display: flex; flex-wrap: wrap; gap: .3rem 1rem; max-width: 52rem; padding: .6rem 0; border-top: 2px solid var(--c-rule); margin: .2rem 0 0; }
 .svc-total b:nth-child(2) { margin-left: auto; font-family: var(--font-head); }
+
+/* AI briefs (PLAN.md §20) */
+.ai-brief { border: 1px solid var(--c-border); border-top: 3px solid var(--c-primary); border-radius: var(--radius); padding: .9rem 1.1rem; margin: 1rem 0 1.4rem; background: var(--c-surface); }
+.ai-brief .ai-head { margin: 0 0 .4rem; display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; }
+.ai-brief .ai-text { margin: 0 0 .4rem; font-size: 1.05rem; line-height: 1.55; }
+.ai-brief .ai-points { margin: .2rem 0 .5rem; padding-left: 1.2rem; }
+.ai-brief .ai-points li { margin: .15rem 0; }
+.ai-brief .ai-note { margin: .3rem 0 0; }
+.ai-tag { display: inline-block; font-size: .72rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; padding: .1rem .45rem; border-radius: 999px; background: var(--c-primary); color: var(--c-on-primary); white-space: nowrap; }
+.ai-brief.compact { border: 0; padding: 0; margin: .3rem 0 .6rem; background: none; display: flex; gap: .5rem; align-items: baseline; }
+.ai-brief.compact .ai-tag { flex: none; }
+.item-brief { display: block; margin-top: .15rem; }
+.vc-brief { margin: .2rem 0 .4rem; position: relative; z-index: 1; }
