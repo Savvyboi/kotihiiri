@@ -628,3 +628,5 @@ input.table-filter { display: block; width: min(100%, 24rem); font: inherit; pad
 .list > li { content-visibility: auto; contain-intrinsic-size: auto 3rem; overflow-clip-margin: 4px; }
 .vote-card { content-visibility: auto; contain-intrinsic-size: auto 16rem; overflow-clip-margin: 12px; }
 .agenda-tools[hidden] { display: none; }
+.city-digest { margin-top: 1.5rem; }
+.city-digest .ai-head .muted { margin-left: auto; }
