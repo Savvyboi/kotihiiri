@@ -18,6 +18,7 @@ councils (kaupunginvaltuusto), boards and committees.
 | M2 Espoo adapter (Dynasty pages, Cloudmeeting vote PDFs) | live since 2026-10-13 |
 | M3 Tampere adapter (CaseM pages, inline votes) | live since 2026-10-13 |
 | M4 Vantaa … M8 operations | not started |
+| AI briefs of meetings, items and votes (PLAN.md §20) | `kunta briefs`, run from `scripts/crawl_local.py` |
 
 Oulu and the robots-blocked registry municipalities are crawled under the robots override in `config/project.yaml` (PLAN.md §2.1 rule 1b). Turku is in the override too and is read through the public JSON API behind paatokset.turku.fi. Its hosts do not answer GitHub's servers, so the weekly workflow skips it and `python scripts/crawl_local.py turku` crawls it from a home connection and pushes the data.
 

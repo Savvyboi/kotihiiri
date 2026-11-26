@@ -378,4 +378,47 @@ def make_initiatives(city, mid, n, start):
 
 make_initiatives("helsinki", 91, 12, 9000)
 make_initiatives("espoo", 49, 5, 8000)
+
+
+def make_briefs(city):
+    """Fictional AI briefs (PLAN.md §20) for the city's minutes, in the shape `kunta briefs` writes."""
+    from kunta.briefs import input_sha256, substantive_items
+
+    out = {}
+    for path in sorted((OUT / city / "meetings").glob("*/*.json")):
+        f = jsonio.read(path)
+        if f["meeting"]["stage"] != "minutes":
+            continue
+        items = {}
+        for it in substantive_items(f):
+            rec = {
+                "brief": f"Esimerkkitiivistelmä: {it['title']} hyväksyttiin esityksen mukaisesti.",
+                "sha": it["content_sha256"],
+            }
+            if it["votes"]:
+                rec["votes"] = {
+                    str(v["ordinal"]): f"Äänestettiin esityksestä ja vastaehdotuksesta; "
+                    f"{'Jaa' if v['counts']['jaa'] >= v['counts']['ei'] else 'Ei'} voitti äänin "
+                    f"{v['counts']['jaa']}–{v['counts']['ei']}."
+                    for v in it["votes"]
+                }
+            items[str(it["ordinal"])] = rec
+        titles = [it["title"] for it in substantive_items(f)]
+        out[f["meeting"]["id"]] = {
+            "model": "demo/esimerkki:free",
+            "lang": "fi",
+            "stage": "minutes",
+            "input_sha256": input_sha256(f),
+            "summary": f"Esimerkkikokous käsitteli {len(titles)} asiaa. Tämä tiivistelmä on keksitty esikatselua varten.",
+            "highlights": titles[:3],
+            "items": items,
+        }
+    for year in sorted({k.rsplit("/", 1)[1][:4] for k in out}):
+        jsonio.write(
+            OUT / city / "briefs" / f"{year}.json",
+            {k: v for k, v in out.items() if k.rsplit("/", 1)[1].startswith(year)},
+        )
+
+
+make_briefs("helsinki")
 print("ok")

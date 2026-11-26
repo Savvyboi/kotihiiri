@@ -5,6 +5,8 @@ import Base from '../../../../../../layouts/Base.astro';
 import Breadcrumb from '../../../../../../components/Breadcrumb.astro';
 import SourceLink from '../../../../../../components/SourceLink.astro';
 import VoteDetail from '../../../../../../components/VoteDetail.astro';
+import AiBrief from '../../../../../../components/AiBrief.astro';
+import { itemBrief, meetingBrief } from '../../../../../../lib/briefs';
 import T from '../../../../../../components/T.astro';
 import { formatDate, sharedPath, type Locale } from '../../../../../../i18n';
 import { cities, meetingFiles, bodyName, bodySlug, meetingSegment, decisionText, speechExcerpt, speechesByItem, type AgendaItem, type City, type Meeting } from '../../../../../../lib/data';
@@ -24,6 +26,8 @@ const date = formatDate(meeting.date);
 const decision = decisionText(item);
 const main = item.sections.filter((s) => s.type !== 'history' && s.type !== 'decision');
 const history = item.sections.filter((s) => s.type === 'history');
+const brief = itemBrief(item);
+const briefMeta = brief && meetingBrief(meeting.id);
 // printed name → link to the person's page, when the roster knows them
 const who = (raw: string) => { const p = findPerson(city.id, raw); return { name: p?.name ?? displayName(raw), href: p && sharedPath(personUrl(p)) }; };
 // Speeches from the council's debate transcript (M6), each collapsed; #puhe-N opens one.
@@ -54,6 +58,7 @@ const talk = (speechesByItem(city.id).get(item.id) ?? []).map((s) => {
     <span hidden data-pagefind-filter="city">{city.name_fi}</span>
     <span hidden data-pagefind-filter="body">{body}</span>
     <span hidden data-pagefind-filter="year">{meeting.date.slice(0, 4)}</span>
+    {brief && briefMeta && <AiBrief text={brief.brief} model={briefMeta.model} lang={briefMeta.lang} locale={locale} />}
     {decision && <div class="decision"><h2 style="margin-top:0"><T k="item.decision" locale={locale} /></h2><p class="prose" lang="fi">{decision}</p></div>}
 
     {item.motions.length > 0 && <>
@@ -71,7 +76,7 @@ const talk = (speechesByItem(city.id).get(item.id) ?? []).map((s) => {
 
     {item.votes.length > 0 && <>
       <h2><T k="item.votes" locale={locale} /></h2>
-      {item.votes.map((v) => <VoteDetail vote={v} city={city.id} locale={locale} />)}
+      {item.votes.map((v) => <VoteDetail vote={v} city={city.id} locale={locale} brief={brief?.votes?.[String(v.ordinal)]} model={briefMeta?.model} />)}
     </>}
 
     {talk.length > 0 && <>

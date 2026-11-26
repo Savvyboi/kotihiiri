@@ -266,6 +266,9 @@ export const sv: Dict = {
   'home.stats.votes': 'omröstningar',
   'home.topics': 'Bläddra efter ämne',
 
+  'brief.tag': 'AI',
+  'brief.title': 'Sammanfattning',
+  'brief.disclaimer': 'Sammanfattning av protokollet skriven av AI ({model}). Den kan innehålla fel: kontrollera beslutet i originaltexten.',
   'meeting.title': 'Möte {date}',
   'meeting.stage.agenda': 'Föredragningslista',
   'meeting.stage.decisions': 'Beslutsmeddelande',
