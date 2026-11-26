@@ -183,6 +183,14 @@ export function feature(name: string): boolean {
   });
 }
 
+/** config/project.yaml `contact_email`: the address shown in /.well-known/security.txt. */
+export function contactEmail(): string {
+  return memo('contact_email', () => {
+    const raw = YAML.parse(fs.readFileSync(path.join(ROOT, 'config/project.yaml'), 'utf8'));
+    return String(raw?.contact_email ?? '').trim();
+  });
+}
+
 /** URL segment for a meeting: the date, plus -2 for a second same-day meeting (PLAN.md §5.1). */
 export function meetingSegment(meetingId: string): string {
   return meetingId.split('/')[2];

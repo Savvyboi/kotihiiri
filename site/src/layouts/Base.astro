@@ -3,6 +3,10 @@ import '@fontsource-variable/bitter';
 import '@fontsource-variable/source-sans-3';
 import '../styles/global.css';
 import '../styles/themes.css';
+// The Latin faces every page uses: preloaded so the browser fetches them with the stylesheet
+// instead of after it (same hashed files the @font-face rules point to).
+import bitterLatin from '@fontsource-variable/bitter/files/bitter-latin-wght-normal.woff2?url';
+import sourceSansLatin from '@fontsource-variable/source-sans-3/files/source-sans-3-latin-wght-normal.woff2?url';
 import { t, localePath, assetPath, splitLocale, LOCALES, type Locale } from '../i18n';
 import { cities, majorCities, cityName, IS_DEMO } from '../lib/data';
 import Logo from '../components/Logo.astro';
@@ -45,6 +49,8 @@ const site = Astro.site ? new URL(import.meta.env.BASE_URL, Astro.site).origin :
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href={assetPath('/favicon.svg')} />
+    <link rel="preload" href={sourceSansLatin} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={bitterLatin} as="font" type="font/woff2" crossorigin />
     {!shared && (LOCALES as Locale[]).map((l) => <link rel="alternate" hreflang={l} href={`${site}${localePath(rest, l)}`} />)}
     {feed && <link rel="alternate" type="application/rss+xml" title={fullTitle} href={assetPath(feed)} />}
     <slot name="head" />
