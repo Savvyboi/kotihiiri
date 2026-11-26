@@ -7,7 +7,7 @@ import Hemicycle from '../../../components/Hemicycle.astro';
 import PartyLegend from '../../../components/PartyLegend.astro';
 import MunicipalityFacts from '../../../components/MunicipalityFacts.astro';
 import { localized, useI18n, assetPath } from '../../../i18n';
-import { cities, bodies, meetingFiles, recentVotes, cityStats, bodyName, meetingUrl, bodySlug, cityName, disabledKey, type City } from '../../../lib/data';
+import { cities, activeBodies, meetingFiles, recentVotes, cityStats, bodyName, meetingUrl, bodySlug, cityName, disabledKey, type City } from '../../../lib/data';
 import { councilRoster } from '../../../lib/people';
 import { initiatives, initiativeUrl } from '../../../lib/initiatives';
 
@@ -19,7 +19,7 @@ const { city, locale } = Astro.props;
 const { t, path, date, num } = useI18n(locale);
 const s = cityStats(city.id);
 const kinds = ['council', 'board', 'section', 'committee', 'enterprise_board'];
-const sortedBodies = [...bodies(city.id)].sort((a, b) =>
+const sortedBodies = [...activeBodies(city.id)].sort((a, b) =>
   kinds.indexOf(a.kind) - kinds.indexOf(b.kind) || a.name_fi.localeCompare(b.name_fi, 'fi'));
 const recent = meetingFiles(city.id).slice(0, 10);
 const votes = recentVotes(city.id, 6);

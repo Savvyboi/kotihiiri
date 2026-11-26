@@ -112,6 +112,13 @@ def council_source_id(adapter: str | None, council_url: str) -> str | None:
     return None  # Tweb: the council's kirjaamo id comes from the body list (M14)
 
 
+def _first_url(text: str) -> str | None:
+    """The first link in a registry note ("https://… (list on page) + https://…"), or None for a
+    note with no link ("Teams live link posted per meeting on council page")."""
+    m = re.search(r"https?://[^\s,;)]+", text or "")
+    return m.group(0) if m else None
+
+
 def _registry_entry(row: dict[str, str]) -> tuple[str, dict[str, Any]]:
     name = row["municipality"]
     other = row["other_name"] or None
@@ -136,8 +143,8 @@ def _registry_entry(row: dict[str, str]) -> tuple[str, dict[str, Any]]:
         "council_source_id": council_source_id(adapter, row["council_meetings_url"]),
         "bodies_scope": "council_board",  # §17: committees after M11
         "portal_url": row["portal_url"] or None,
-        "councillors_url": row["councillors_url"] or None,
-        "video_url": row["video_url"] or None,
+        "councillors_url": _first_url(row["councillors_url"]),
+        "video_url": _first_url(row["video_url"]),
         "registry_verification": row["verification"],
     }
     if adapter == "tweb" and "/ktwebbin/dbisa.dll/" in row["portal_url"]:

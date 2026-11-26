@@ -619,8 +619,7 @@ municipalities:
     - https://raseborg-publicering.triplancloud.fi
     bodies_scope: council_board
     portal_url: https://raseborg-publicering.triplancloud.fi/ktwebscr/epj_tek_tweb.htm
-    councillors_url: https://www.raseborg.fi/staden-och-beslutsfattande/beslutsfattande/fullmaktige/ (list on page)
-      + https://raseborg-publicering.triplancloud.fi/ktwebscr/lumu_organ.htm
+    councillors_url: https://www.raseborg.fi/staden-och-beslutsfattande/beslutsfattande/fullmaktige/
     video_url: https://www.kextv.fi/sv/programarkiv
     registry_verification: linked-from-official-site
     statfin_candidates_table: 14ux
@@ -759,9 +758,7 @@ municipalities:
     council_source_id: '8'
     bodies_scope: council_board
     portal_url: https://siilinjarvi10.oncloudos.com/cgi/DREQUEST.PHP?page=meeting_frames
-    councillors_url: https://siilinjarvi.fi/siilinjarven-kunta/paatoksenteko/kunnanvaltuusto/ (list + party on page);
-      contacts via Aimoa https://aimoa.fi/reports/unit-membership?organization=34&unit=599
-    video_url: Teams live link posted per meeting on council page
+    councillors_url: https://siilinjarvi.fi/siilinjarven-kunta/paatoksenteko/kunnanvaltuusto/
     registry_verification: live-verified
     statfin_candidates_table: 14v4
     enabled: true

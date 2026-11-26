@@ -228,6 +228,32 @@ def _outcomes(line: str, drafts: list[_Draft]) -> bool:
 # -- votes --------------------------------------------------------------------------------
 
 
+# "Esittelijän päätösehdotus = JAA, Suomen muutosehdotus = EI", on one line or in a header.
+SIDES = re.compile(r"^(?P<j>.*?\S)\s*=?\s*\bJAA\b\s*[,;]?\s*(?P<e>\S.*?)\s*=?\s*\bEI\b\s*[.:]?$")
+VOTE_NO = re.compile(r"^Äänestys\s+\d+\s*:?\s*")
+# "Marika Puolimatkan toivomusponsiehdotus Toivomusponsiehdotuksen hyväksyminen": the header
+# runs into the Jaa side; keep what follows the motion's name.
+LEAD = re.compile(r"^.+?(?:ehdotus|pon(?:si|net))\s*:?\s+(?P<side>[A-ZÅÄÖ].*)$")
+
+
+def _side(text: str) -> str:
+    text = VOTE_NO.sub("", text.strip(" :"))
+    return text[:1].upper() + text[1:]
+
+
+def split_sides(text: str) -> tuple[str, str] | None:
+    """(Jaa label, Ei label) from a line naming both sides, or None."""
+    m = SIDES.match(text.strip())
+    if not m:
+        return None
+    jaa = _side(m.group("j"))
+    lead = LEAD.match(jaa)
+    if lead:
+        jaa = lead.group("side")
+    ei = _side(m.group("e"))
+    return (jaa, ei) if jaa and ei else None
+
+
 @dataclass
 class VoteBlock:
     header: str
@@ -248,10 +274,17 @@ def parse_vote_blocks(html: str) -> list[VoteBlock]:
         title = parts[0] if parts else ""
         jaa_label = ei_label = ""
         for p in parts[1:]:
-            if p.upper().endswith(" JAA"):
+            both = split_sides(p)
+            if both:
+                jaa_label, ei_label = both
+            elif p.upper().endswith(" JAA"):
                 jaa_label = p[:-4].strip()
             elif p.upper().endswith(" EI"):
                 ei_label = p[:-3].strip()
+        if not (jaa_label and ei_label) and parts:
+            both = split_sides(" ".join(parts))
+            if both:
+                jaa_label, ei_label = both
         body = head.next
         while body is not None and body.tag != "div":
             body = body.next
