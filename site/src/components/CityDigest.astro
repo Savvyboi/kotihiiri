@@ -2,12 +2,14 @@
 // The city page's AI brief of recent decisions (PLAN.md §20): what the city's bodies decided in the
 // last weeks, each point linking to the meeting it came from. Renders nothing without a digest.
 import { useI18n, type Locale } from '../i18n';
-import { bodyName, meetingSegment } from '../lib/data';
+import { bodyName, meetingFiles, meetingSegment } from '../lib/data';
 import { cityDigest, modelName } from '../lib/briefs';
 interface Props { city: string; locale: Locale }
 const { city, locale } = Astro.props;
 const { t, path, date } = useI18n(locale);
 const d = cityDigest(city);
+// Link only meetings the site still has (a meeting removed at the source loses its page).
+const live = new Set(d ? meetingFiles(city).map((f) => f.meeting.id) : []);
 const href = (id: string) => { const [c, b] = id.split('/'); return path(`/${c}/${b}/${meetingSegment(id)}/`); };
 const source = (id: string) => `${bodyName(id.split('/').slice(0, 2).join('/'))} ${date(meetingSegment(id).slice(0, 10))}`;
 ---
@@ -19,7 +21,7 @@ const source = (id: string) => `${bodyName(id.split('/').slice(0, 2).join('/'))}
     {d.points.length > 0 && (
       <ul class="ai-points" lang={d.lang}>
         {d.points.map((p) => (
-          <li>{p.text}{p.meeting_id && <>{' — '}<a class="small" href={href(p.meeting_id)}>{source(p.meeting_id)} →</a></>}</li>
+          <li>{p.text}{p.meeting_id && live.has(p.meeting_id) && <>{' — '}<a class="small" href={href(p.meeting_id)}>{source(p.meeting_id)} →</a></>}</li>
         ))}
       </ul>
     )}
