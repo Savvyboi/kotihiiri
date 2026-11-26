@@ -43,6 +43,17 @@ def pdf_pages(data: bytes, max_pages: int | None = None) -> list[list[str]]:
         return [(page.extract_text() or "").splitlines() for page in pdf.pages[:max_pages]]
 
 
+def pdf_words(data: bytes, max_pages: int | None = None) -> list[list[tuple[float, float, float, str]]]:
+    """Per page, the words as (top, x0, x1, text): for layouts in columns that the text lines merge."""
+    import pdfplumber
+
+    with pdfplumber.open(io.BytesIO(data)) as pdf:
+        return [
+            [(w["top"], w["x0"], w["x1"], w["text"]) for w in page.extract_words()]
+            for page in pdf.pages[:max_pages]
+        ]
+
+
 def pdf_text(data: bytes) -> str:
     pages = drop_repeated_lines(pdf_pages(data))
     return "\n\n".join(join_lines(p) for p in pages).strip()

@@ -25,7 +25,7 @@ from ..models import (
 )
 from ..parsers import tweb as tp
 from ..parsers import votes_cloudmeeting as votes
-from ..pdf import pdf_pages
+from ..pdf import pdf_pages, pdf_words
 from ..text import content_sha256, strip_pii
 from .base import TransientItemError
 
@@ -96,13 +96,27 @@ class TwebAdapter:
         html = tp.decode(resp.content)
         if tp.is_html_item(html):
             return tp.parse_item_html(html)
-        return tp.parse_item_lines(tp.html_lines(html), ref.title)
+        lines = tp.html_lines(html)
+        if resp.content[:4] == b"\xd0\xcf\x11\xe0":  # a Word .doc (Akaa): keep the readable lines
+            lines = tp.readable_lines(lines)
+        return tp.parse_item_lines(lines, ref.title)
 
     def _cover(self, url: str, max_pages: int | None) -> tp.Cover:
         """The cover page: a PDF, or (Hämeenlinna's "Läsnäolijat") an HTML page of <h2> sections."""
         resp = self._fetch(url)
         if resp.content[:5] == b"%PDF-" or "pdf" in resp.content_type.lower():
-            return tp.parse_cover([ln for page in pdf_pages(resp.content, max_pages) for ln in page])
+            cover = tp.parse_cover([ln for page in pdf_pages(resp.content, max_pages) for ln in page])
+            if not cover.participants:  # names in columns (Kangasala, Varkaus): read by position
+                # each page's rows apart: "Asiat" at the top of page 2 must not end page 1's grid
+                columns = tp.parse_cover_columns(
+                    [
+                        (top + 1000 * i, x0, x1, text)
+                        for i, page in enumerate(pdf_words(resp.content, max_pages))
+                        for top, x0, x1, text in page
+                    ]
+                )
+                cover.participants = columns.participants
+            return cover
         html = tp.decode(resp.content)
         return (
             tp.parse_cover_sections(html)
@@ -281,10 +295,15 @@ class TwebAdapter:
             pdf_url=used[0] if len(used) == 1 else None,
             pdf_problem=problem,
         )
-        by_sentence = {p.sentence: p for p in prose}
+        # Same-count votes print the same sentence ("annettiin 28 JAA-ääntä ja 7 EI-ääntä"): take them
+        # in order, so each event gets its own vote's labels and voters
+        by_sentence: dict[str, list[tp.TwebProse]] = {}
+        for p in prose:
+            by_sentence.setdefault(p.sentence, []).append(p)
         groups = {name: g for v in report_votes for name, g in v.groups.items()}
         for ev in events:
-            pv = by_sentence.get(ev.result_text or "")
+            same = by_sentence.get(ev.result_text or "")
+            pv = same.pop(0) if same else None
             for b in ev.ballots:
                 b.group_text = groups.get(b.person_ref.raw)
             if pv is None:

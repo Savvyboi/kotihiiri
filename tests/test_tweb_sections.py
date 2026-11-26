@@ -380,7 +380,7 @@ def test_rauma_inline_headings_and_named_sides():
         "Leppikorpi",
         Outcome.rejected,
     )
-    assert [s.raw for s in mo.seconder_refs] == ["Virtasen"]
+    assert [s.raw for s in mo.seconder_refs] == ["Virtanen"]
     [pv] = prose
     assert (pv.a, pv.b, pv.tyhja) == (25, 18, 0)
     assert pv.jaa_label == "asian asiallisen käsittelyn jatkaminen"
@@ -415,7 +415,7 @@ def test_pirkkala_jaa_ei_blocks():
     ]
     assert [(m.kind, m.proposer_ref.raw, m.outcome) for m in motions] == [
         (MotionKind.counter_proposal, "Henna Palini", Outcome.rejected),
-        (MotionKind.send_back, "Hietalahde", Outcome.rejected),
+        (MotionKind.send_back, "Hietalahti", Outcome.rejected),
     ]
 
 
