@@ -2,18 +2,24 @@
   "items": [
     {
       "attachments": [],
-      "content_sha256": "81844a80b316f34277153d8143f82d6ec23b9fe2003830756424f36d606eeb87",
+      "content_sha256": "0c940857d886dff48d93a9ff9b89cc7acca9288441003e509b36451d38a642c1",
       "disqualified": [],
       "id": "turku/tarkastuslautakunta/2026-11-17/1",
       "meeting_id": "turku/tarkastuslautakunta/2026-11-17",
       "motions": [],
       "ordinal": 1,
       "preparers": [],
+      "pykala": 80,
       "sections": [
         {
           "heading": "Ehdotus",
           "text": "Tarkastuslautakunnan puheenjohtaja toteaa kokouksen laillisesti kokoon kutsutuksi ja päätösvaltaiseksi.",
           "type": "proposal"
+        },
+        {
+          "heading": "Päätös",
+          "text": "Ehdotus hyväksyttiin.",
+          "type": "decision"
         }
       ],
       "source_ids": {
@@ -29,18 +35,24 @@
     },
     {
       "attachments": [],
-      "content_sha256": "5732f06d0243270fdc05a94b00f14297c1b54538a978a369321eca91ec593249",
+      "content_sha256": "93cfcf5d5d8593703a9d795d1f59a685d2696bb9411eded9aef969af35c56d28",
       "disqualified": [],
       "id": "turku/tarkastuslautakunta/2026-11-17/2",
       "meeting_id": "turku/tarkastuslautakunta/2026-11-17",
       "motions": [],
       "ordinal": 2,
       "preparers": [],
+      "pykala": 81,
       "sections": [
         {
           "heading": "Ehdotus",
           "text": "Tarkastuslautakunta valitsee pöytäkirjantarkastajiksi Heikki Laaksosen ja Noora Salosen (varalla Jäntti)",
           "type": "proposal"
+        },
+        {
+          "heading": "Päätös",
+          "text": "Tarkastuslautakunta valitsi pöytäkirjantarkastajiksi Heikki Laaksosen ja Noora Salosen.",
+          "type": "decision"
         }
       ],
       "source_ids": {
@@ -57,13 +69,14 @@
     {
       "attachments": [],
       "case_number": "1248/2026",
-      "content_sha256": "3b9a722be1b5b2724d590ff3b33e91131a03e4a57607bb5142c67c8b0f1d97d2",
+      "content_sha256": "4d4e48edd7b18c8db860db04408cf4515b357d53f13bc32fce582458f4e2f91c",
       "disqualified": [],
       "id": "turku/tarkastuslautakunta/2026-11-17/3",
       "meeting_id": "turku/tarkastuslautakunta/2026-11-17",
       "motions": [],
       "ordinal": 3,
       "preparers": [],
+      "pykala": 82,
       "sections": [
         {
           "text": "Revisiotoimisto 13.11.2026:\n\nTarkastuslautakunnalle ilmoitetaan tiedoksi seuraavat päätökset:\n\nKh 19.10.2026 § 340 Kaupunginhallituksen kokousaikataulu kevätkaudella 2027\n\nKv 26.10.2026 §193 Kaupunginvaltuuston kokoukset ja seminaarit kevätkaudella 2027\n\nKh 2.11.2026 § 347 Turun kaupungin hankintaperiaatteiden hyväksyminen\n\nKaupunginreviisori Kari Koivuluhta:",
@@ -73,6 +86,11 @@
           "heading": "Ehdotus",
           "text": "Tarkastuslautakunta merkitsee päätökset tiedoksi.",
           "type": "proposal"
+        },
+        {
+          "heading": "Päätös",
+          "text": "Ehdotus hyväksyttiin.",
+          "type": "decision"
         }
       ],
       "source_ids": {
@@ -87,21 +105,16 @@
       "votes": []
     },
     {
-      "attachments": [
-        {
-          "kind": "attachment",
-          "title": "Kh selvitys tilintarkastajan raporttiin 19.10.2026",
-          "url": "https://paatokset.turku.fi/doc/2537086/Asia%204%20selvitys%20tilintarkastajan%20raporttiin.pdf"
-        }
-      ],
+      "attachments": [],
       "case_number": "7931/2025",
-      "content_sha256": "b594bac5bb0dddb3eb501730065a9bf2f0f515a664668f53a63d92e41fa21bde",
+      "content_sha256": "8468d9eed672b20b2fdfb9f94392a2b7059c3ecaae33ca14bf41376936dfc4d2",
       "disqualified": [],
       "id": "turku/tarkastuslautakunta/2026-11-17/4",
       "meeting_id": "turku/tarkastuslautakunta/2026-11-17",
       "motions": [],
       "ordinal": 4,
       "preparers": [],
+      "pykala": 83,
       "sections": [
         {
           "text": "Revisiotoimisto 13.11.2026:\n\nKPMG Oy Ab, vastuunalaisena tilintarkastajana JHT, KHT Mari Säynätjoki on antanut tarkastuslautakunnalle 28.4.2026 päivätyn raportin tilinpäätöksen 2025 tilintarkastuksesta ja se on käsitelty tarkastuslautakunnassa 28.4.2026 § 30. Tarkastuslautakunta on päättänyt lähettää tilintarkastusta koskevan raportin kaupunginhallitukselle tiedoksi ja toimenpiteitä varten 26.5.2026 § 44. Kaupunginhallituksen selvitys raportin aiheuttamista toimenpiteistä on tullut antaa tarkastuslautakunnalle 31.10.2026 mennessä.\n\nKaupunginhallitus on käsitellyt selvitystä toimenpiteistä kokouksessaan 19.10.2026 § 337. Konsernihallinnon talouspalveluiden vastuualueen laatiman selvitystekstin esittelyssä todetaan, että selvitykset annetaan ainoastaan kohtiin, joihin sisältyy tilintarkastajan suositus tai joihin tilintarkastaja edellyttää toimenpiteitä. Kaupunginhallitus on hyväksynyt selvityksen toimenpiteistä ehdotuksen mukaisena.\n\nKaupunginreviisori Kari Koivuluhta:",
@@ -111,6 +124,11 @@
           "heading": "Ehdotus",
           "text": "Tarkastuslautakunta päättää merkitä kaupunginhallituksen 19.10.2026 päätöksen ja hyväksymän konsernihallinnon talouspalvelujen vastuualueen laatiman selvityksen tiedokseen.",
           "type": "proposal"
+        },
+        {
+          "heading": "Päätös",
+          "text": "Tarkastuslautakunta päätti merkitä kaupunginhallituksen 19.10.2026 päätöksen ja hyväksymän konsernihallinnon talouspalvelujen vastuualueen laatiman selvityksen tiedokseen.",
+          "type": "decision"
         }
       ],
       "source_ids": {
@@ -125,21 +143,16 @@
       "votes": []
     },
     {
-      "attachments": [
-        {
-          "kind": "attachment",
-          "title": "Kh lausunto vuoden 2025 arviointikertomukseen",
-          "url": "https://paatokset.turku.fi/doc/2536968/ASia5%20Kh%20lausunto%20vuoden%202025%20arviointikertomukseen.pdf"
-        }
-      ],
+      "attachments": [],
       "case_number": "1246/2026",
-      "content_sha256": "bfaeaebfe6449aebbef60b18224e362676347fc790a98e7ff1ed7782a7caaae7",
+      "content_sha256": "47269c0541946fc0a3264763e32c9aab6bc8615ffcbd99afb47a7a9263ee8d37",
       "disqualified": [],
       "id": "turku/tarkastuslautakunta/2026-11-17/5",
       "meeting_id": "turku/tarkastuslautakunta/2026-11-17",
       "motions": [],
       "ordinal": 5,
       "preparers": [],
+      "pykala": 84,
       "sections": [
         {
           "text": "Revisiotoimisto 13.11.2026:\n\nKaupunginvaltuusto päätti 15.6.2026 § 98 merkitä vuoden 2025 arviointikertomuksen tiedoksi ja lähettää sen kaupunginhallitukselle tarvittavia toimenpiteitä varten. Kaupunginhallituksen tuli antaa 31.10.2026 mennessä kaupunginvaltuustolle lausunto toimenpiteistä, joihin vuoden 2025 arviointikertomus antaa aihetta.\n\nKaupunginhallitus on käsitellyt vuoden 2025 arviointikertomukseen annettavaa lausuntoa 19.10.2026 § 336 kansliapäällikkö Tuomas Heikkisen ja talousjohtaja Valtteri Mikkolan esittelystä.\n\nKaupunginvaltuusto päätti 26.10.2026 § 192 merkitä tiedoksi kaupunginhallituksen lausunnon vuoden 2025 arviointikertomuksesta ja todeta kaupunginhallituksen ehdotuksen mukaisesti samalla, että arviointikertomus ei anna aihetta erillisiin toimenpiteisiin jo käynnissä olevien tai käynnistyvien toimenpiteiden lisäksi.\n\nKaupunginreviisori Kari Koivuluhta:",
@@ -149,6 +162,11 @@
           "heading": "Ehdotus",
           "text": "Tarkastuslautakunta päättää merkitä tiedokseen kaupunginhallituksen lausunnon vuoden 2025 arviointikertomuksen aiheuttamista toimenpiteistä sekä kaupunginvaltuuston lausunnon perusteella tekemän päätöksen.",
           "type": "proposal"
+        },
+        {
+          "heading": "Päätös",
+          "text": "Tarkastuslautakunta päätti merkitä tiedokseen kaupunginhallituksen lausunnon vuoden 2025 arviointikertomuksen aiheuttamista toimenpiteistä sekä kaupunginvaltuuston lausunnon perusteella tekemän päätöksen.",
+          "type": "decision"
         }
       ],
       "source_ids": {
@@ -165,13 +183,14 @@
     {
       "attachments": [],
       "case_number": "1246/2026",
-      "content_sha256": "6823e4157263e64d50aab3de6f1d0ae51b09d122b2140d92275380e334652514",
+      "content_sha256": "8834df6344d6133a7e342ed22a6ceb56f42e385f200355d635d18bf6cda0c3cd",
       "disqualified": [],
       "id": "turku/tarkastuslautakunta/2026-11-17/6",
       "meeting_id": "turku/tarkastuslautakunta/2026-11-17",
       "motions": [],
       "ordinal": 6,
       "preparers": [],
+      "pykala": 85,
       "sections": [
         {
           "text": "Revisiotoimisto 13.11.2026:\n\nKuntalain 121 §:n mukaan valtuusto asettaa tarkastuslautakunnan hallinnon ja talouden tarkastuksen järjestämistä varten. Tarkastuslautakunnan tehtävänä on kuntalain mukaan muun muassa arvioida, ovatko valtuuston asettamat toiminnan ja talouden tavoitteet kunnassa ja kuntakonsernissa toteutuneet ja onko toiminta järjestetty tuloksellisella ja tarkoituksenmukaisella tavalla sekä arvioida talouden tasapainotuksen toteutumista. Tarkastuslautakunta antaa valtuustolle kultakin vuodelta arviointikertomuksen, jossa esitetään arvioinnin tulokset. Lautakunta voi antaa valtuustolle muitakin tarpeellisena pitämiään selvityksiä arvioinnin tuloksista.\n\nTurun kaupungin hallintosäännön (kv 15.6.2026) 7 §:n mukaan\n\ntarkastuslautakunta on suoraan kaupunginvaltuuston alainen, kaupunginhallituksesta ja sen alaisesta organisaatiosta riippumattomasti toimiva lakisääteinen toimielin, joka huolehtii kaupunkikonsernin hallinnon ja talouden tarkastuksen järjestämisestä, kaupungin toimintaan kohdistuvasta kuntalain mukaisesta tavoite-, tuloksellisuus- ja tarkoituksenmukaisuus-arvioinnista sekä valvoo sidonnaisuuksien ilmoittamisvelvollisuuksien noudattamista.\n\nTarkastuslautakunta valmistelee kaupunginvaltuuston päätettävät hallinnon ja talouden tarkastusta koskevat asiat, seuraa yleisesti kaupunkikonsernin hallintoa ja taloutta sekä niissä ja kaupungin toiminnassa tapahtuvia muutoksia. Lisäksi tarkastuslautakunta seuraa, että tilivelvolliset ja muut toiminnasta vastaavat henkilöt ovat ryhtyneet tarpeellisiin toimenpiteisiin niiden suositusten ja muistutusten johdosta, joihin arvioinnit ja tilintarkastus on antanut aihetta.\n\nKokouksessa revisiotoimisto selostaa arviointien valmistelun etenemistä.\n\nKaupunginreviisori Kari Koivuluhta:",
@@ -181,6 +200,11 @@
           "heading": "Ehdotus",
           "text": "Tarkastuslautakunta päättää merkitä tiedokseen revisiotoimiston selostuksen arviointien valmistelutilanteesta.",
           "type": "proposal"
+        },
+        {
+          "heading": "Päätös",
+          "text": "Ehdotus hyväksyttiin.",
+          "type": "decision"
         }
       ],
       "source_ids": {
@@ -197,13 +221,14 @@
     {
       "attachments": [],
       "case_number": "10971/2021",
-      "content_sha256": "3f9b997cde680832482b141fb2be96a68a5267cc40be3a93140816fc3013672d",
+      "content_sha256": "feac52859ba0b62e496ea69c1d0ce99247a4ae7b20076fea752873d6ecb6fd00",
       "disqualified": [],
       "id": "turku/tarkastuslautakunta/2026-11-17/7",
       "meeting_id": "turku/tarkastuslautakunta/2026-11-17",
       "motions": [],
       "ordinal": 7,
       "preparers": [],
+      "pykala": 86,
       "sections": [
         {
           "text": "Revisiotoimisto 13.11.2026:\n\nHallintosäännön (Kv 15.6.2026)) 124 §:n mukaan toimielimen kokoukset pidetään toimielimen päättäminä aikoina.\n\nKokous pidetään myös, milloin puheenjohtaja tai hänen estyneenä ollessaan varapuheenjohtaja katsoo kokouksen tarpeelliseksi. Lisäksi kokous on pidettävä, mikäli enemmistö toimielimen jäsenistä tai esittelijä sitä puheenjohtajalta pyytää ilmoittamansa asian käsittelemistä varten.\n\nToimielimen kokoukset pidetään toimielimen päättämässä paikassa. Toimielimen puheenjohtaja voi kuitenkin erityisestä syystä määrätä muunkin kokouspaikan ja -ajan.\n\nLäsnäolokokoukset esitetään pidettäväksi pääsääntöisesti Turun kaupungin tiloissa osoitteessa Yliopistonkatu 27 a. Kokouksia voidaan järjestää tarvittaessa myös muina ajankohtina, muissa tiloissa tai sähköisessä toimintaympäristössä.\n\nHallintosäännön 124 §:n mukaan toimielin voi käsitellä asian varsinaisessa kokouksessaan, jossa kokouksen osallistujat ovat läsnä kokouspaikalla. Vaihtoehtoisesti kokous voidaan pitää sähköisessä toimintaympäristössä, johon osallistutaan sähköisen yhteyden avulla (sähköinen kokous).\n\nHallintosäännön 125 § mukaan toimielin voi pitää kokouksen sähköisesti. Suljettuun sähköiseen kokoukseen voi osallistua vain sellaisesta paikasta, jossa salassa pidettävät tiedot ja kokouksessa käydyt keskustelut eivät ole ulkopuolisen kuultavissa tai nähtävissä.\n\nKaupunginreviisori Kari Koivuluhta:",
@@ -213,6 +238,11 @@
           "heading": "Ehdotus",
           "text": "Toimikauden 2025–2029 tarkastuslautakunta päättää pitää kokoukset seuraavina kokousajankohtina:\n\ntiistai 16.2.2027 kello 17\n\ntiistai 16.3.2027 kello 17\n\ntiistai 6.4.2027 kello 17\n\ntiistai 27.4.2027 kello 17\n\ntiistai 11.5.2027 kello 17\n\ntiistai 25.5.2027 kello 17\n\ntiistai 15.6.2027 kello 17\n\nLäsnäolokokoukset pidetään pääsääntöisesti Turun kaupunginhallituksen neuvottelutilassa tai 2. krs. neuvotteluhuoneessa, osoitteessa Yliopistonkatu 27 a.",
           "type": "proposal"
+        },
+        {
+          "heading": "Päätös",
+          "text": "Ehdotus hyväksyttiin.",
+          "type": "decision"
         }
       ],
       "source_ids": {
@@ -229,13 +259,14 @@
     {
       "attachments": [],
       "case_number": "1245/2026",
-      "content_sha256": "9527252eae4e0f84b3ee4ef68e9cdbd06c81a58e5248476d4c3a0ea75a9f7a45",
+      "content_sha256": "b3c41b14efe6d8b6149f5646684b14f449eaed0f2a8b26734249fe43f53e4f8c",
       "disqualified": [],
       "id": "turku/tarkastuslautakunta/2026-11-17/8",
       "meeting_id": "turku/tarkastuslautakunta/2026-11-17",
       "motions": [],
       "ordinal": 8,
       "preparers": [],
+      "pykala": 87,
       "sections": [
         {
           "text": "Revisiotoimisto 13.11.2026:\n\nTarkastuslautakunta käy keskustelun muista ajankohtaisista asioista.\n\nKaupunginreviisori Kari Koivuluhta:",
@@ -245,6 +276,11 @@
           "heading": "Ehdotus",
           "text": "Tarkastuslautakunta päättää merkitä keskustelun käydyksi.",
           "type": "proposal"
+        },
+        {
+          "heading": "Päätös",
+          "text": "Tarkastuslautakunta päätti merkitä keskustelun käydyksi.",
+          "type": "decision"
         }
       ],
       "source_ids": {
@@ -263,6 +299,7 @@
     "attendance": [],
     "body_id": "turku/tarkastuslautakunta",
     "date": "2026-11-17",
+    "end_time": "18:39",
     "id": "turku/tarkastuslautakunta/2026-11-17",
     "items": [
       "turku/tarkastuslautakunta/2026-11-17/1",
@@ -282,7 +319,7 @@
       "route": "tarkastuslautakunta"
     },
     "source_url": "https://paatokset.turku.fi/tarkastuslautakunta/5493482",
-    "stage": "agenda",
+    "stage": "minutes",
     "start_time": "17:00"
   }
 }
