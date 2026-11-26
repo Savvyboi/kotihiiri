@@ -143,7 +143,7 @@ def speeches(
 def people(city: str = typer.Option(..., "--city")) -> None:
     """Write data/{city}/people.json: persons and memberships from attendance lists and Helsinki's
     vote tables, with party and result from the 2025 election (PLAN.md §8)."""
-    from .http import FetchFailed
+    from .http import FetchFailed, RobotsDisallowed
     from .people import name_key
     from .people_sources import statfin
     from .roster import PartyRow, build, council_body_id, load_overrides
@@ -163,7 +163,7 @@ def people(city: str = typer.Option(..., "--city")) -> None:
         try:
             with PoliteClient(ua, allowed_hosts={statfin.HOST}) as client:
                 rows = statfin.fetch(client, str(table), cfg.name_fi)
-        except (FetchFailed, ValueError, KeyError) as exc:
+        except (FetchFailed, RobotsDisallowed, ValueError, KeyError) as exc:
             # Keep last week's parties rather than dropping them when Statistics Finland is down.
             log.warning("statfin unavailable (%s); reusing the parties in %s", exc, out)
             rows = statfin.rows_from_people(jsonio.read(out)) if out.exists() else []

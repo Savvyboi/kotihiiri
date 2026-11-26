@@ -846,6 +846,7 @@ class ItemDoc:
     background: list[str] = field(default_factory=list)
     blocks: list[Block] = field(default_factory=list)
     attachment_titles: list[str] = field(default_factory=list)
+    summary: list[str] = field(default_factory=list)  # Oulu's "Tiivistelmä"
 
 
 def parse_item_lines(lines: list[str], title: str | None = None) -> ItemDoc:
@@ -927,7 +928,82 @@ def parse_item_lines(lines: list[str], title: str | None = None) -> ItemDoc:
                 doc.attachment_titles[-1] += " " + s
             continue
         cur.append(ln)
+    if not doc.blocks:
+        split_label_column(doc)
     return doc
+
+
+# Oulu prints the meeting's own handling in a label column above the presentation text:
+#   Päivämäärä                                   ← running page header, on every page
+#   {title} / Dno OUKA/14728/02.02.00/2026
+#   Tiivistelmä -                                ← or a summary
+#   Kaupunginhallituksen / päätösehdotus {text}  ← or "Päätösesitys {text}", "Lautakunnan päätösesitys …"
+#   Päätös {text}                                ← what was decided, with the deliberation
+#   Esittelyteksti                               ← the presentation (and earlier bodies' handling)
+# With no handling header, all of it used to land in the background as one wall of text.
+LABEL_PAGE = re.compile(r"^Päivämäärä$")
+LABEL_DNO = re.compile(r"^Dno\s+(?P<dno>\S+)")
+LABEL_SUMMARY = re.compile(r"^Tiivistelmä\b\s*(?P<rest>.*)$")
+LABEL_PROPOSAL = re.compile(
+    r"^(?:[A-ZÅÄÖ][\wåäö-]*n\s+)?(?P<h>[Pp]äätös(?:ehdotus|esitys)|[Ee]hdotus)\b\s*:?\s*(?P<rest>.*)$"
+)
+LABEL_OWNER = re.compile(r"^[A-ZÅÄÖ][\wåäö-]*n$")  # "Kaupunginhallituksen" on its own line
+LABEL_DECISION = re.compile(r"^Päätös\b\s*:?\s*(?P<rest>.*)$")
+LABEL_PRESENTATION = re.compile(r"^Esittelyteksti\b\s*:?\s*(?P<rest>.*)$")  # "Esittelyteksti Oulun …"
+
+
+def split_label_column(doc: ItemDoc) -> None:
+    """Oulu's layout (above): summary, proposal and decision out of the background."""
+    lines = [ln for ln in doc.background if not LABEL_PAGE.match(ln.strip())]
+    at = next((i for i, ln in enumerate(lines) if LABEL_PRESENTATION.match(ln.strip())), None)
+    if at is None:
+        return
+    first = LABEL_PRESENTATION.match(lines[at].strip())
+    assert first is not None
+    head, rest = lines[:at], ([first.group("rest")] if first.group("rest") else []) + lines[at + 1 :]
+    proposal: list[str] | None = None
+    decision: list[str] | None = None
+    summary: list[str] | None = None
+    owner = ""
+    cur: list[str] | None = None
+    for ln in head:
+        s = ln.strip()
+        if decision is None and (m := LABEL_DNO.match(s)):
+            doc.case_number = doc.case_number or m.group("dno")
+            cur = None
+            continue
+        if summary is None and proposal is None and (m := LABEL_SUMMARY.match(s)):
+            summary = cur = []
+            if m.group("rest").strip(" -"):
+                cur.append(m.group("rest"))
+            continue
+        if proposal is None and decision is None and LABEL_OWNER.match(s):
+            owner = s
+            continue
+        if proposal is None and decision is None and (m := LABEL_PROPOSAL.match(s)):
+            proposal = cur = []
+            if m.group("rest"):
+                cur.append(m.group("rest"))
+            continue
+        if decision is None and (m := LABEL_DECISION.match(s)):
+            decision = cur = []
+            if m.group("rest"):
+                cur.append(m.group("rest"))
+            continue
+        if owner and cur is not None and cur is summary:
+            cur.append(owner)  # a summary line that only looked like a label
+        owner = ""
+        if cur is not None:
+            cur.append(ln)
+    if decision is None:
+        return
+    block = Block(body="", date=dt.date.min, pykala=0)
+    if proposal:
+        block.lines += ["Päätösehdotus:", *proposal]
+    block.lines += ["Päätös:", *decision]
+    doc.summary = summary or []
+    doc.background = rest
+    doc.blocks = [block]
 
 
 # Items some installs (Hämeenlinna, Kerava, Raasepori) serve as HTML: a <header> with "{Body}<br>
@@ -1189,10 +1265,39 @@ def _split_statements(lines: list[str]) -> tuple[list[str], list[tuple[SectionTy
     return head, out
 
 
-def item_sections(doc: ItemDoc) -> tuple[list[Section], list[Section], list[str]]:
-    """Sections, statements and the meeting's own Käsittely lines (for motions and votes)."""
+# An agenda prints the coming meeting as "Kaupunginvaltuusto 16.11.2026" with no § yet, so it is
+# not read as a block header and stays at the end of the earlier body's decision.
+NEXT_HANDLING = re.compile(rf"^{_BLOCK_BODY}\s+\d{{1,2}}\.\d{{1,2}}\.\d{{4}}$")
+
+
+def _agenda_history(block: Block) -> tuple[list[str], Block]:
+    """On an agenda the last block is an earlier body's handling (Vantaa: the board's "Päätös:
+    Hyväksyttiin esitys.") followed by its proposal to the coming meeting: (history lines, the
+    rest as a block). Parts are counted as `block_parts` counts them."""
+    starts: list[tuple[int, SectionType]] = []  # (first line, kind) of each part
+    for i, ln in enumerate(block.lines):
+        h = _heading(ln)
+        inline = None if h else _inline_heading(ln)
+        if h or inline:
+            starts.append((i, (h or inline)[0]))
+        elif not starts:
+            starts.append((i, SectionType.other))
+    last = max((n for n, (_, k) in enumerate(starts) if k == SectionType.decision), default=None)
+    if last is None:
+        return [], block
+    cut = starts[last + 1][0] if last + 1 < len(starts) else len(block.lines)
+    history = [ln for ln in block.lines[:cut] if not NEXT_HANDLING.match(ln.strip())]
+    rest = Block(body=block.body, date=block.date, pykala=block.pykala, lines=block.lines[cut:])
+    return history, rest
+
+
+def item_sections(doc: ItemDoc, agenda: bool = False) -> tuple[list[Section], list[Section], list[str]]:
+    """Sections, statements and the meeting's own Käsittely lines (for motions and votes). On an
+    agenda (`agenda`), a decision in the last block is an earlier body's and becomes history."""
     sections: list[Section] = []
     statements: list[Section] = []
+    if text := _text(doc.summary):
+        sections.append(Section(type=SectionType.background, heading="Tiivistelmä", text=text))
     if text := _text(doc.background):
         sections.append(Section(type=SectionType.background, text=text))
     deliberation: list[str] = []
@@ -1202,6 +1307,10 @@ def item_sections(doc: ItemDoc) -> tuple[list[Section], list[Section], list[str]
             if text := _text(block.lines):
                 sections.append(Section(type=SectionType.history, heading=block.header, text=text))
             continue
+        if agenda:
+            history, block = _agenda_history(block)
+            if text := _text(history):
+                sections.append(Section(type=SectionType.history, heading=block.header, text=text))
         in_case = decided = False
         for kind, heading, lines in block_parts(block):
             # The Käsittely runs to the decision; a changed proposal inside it ("Kaupunginjohtajan
@@ -1350,6 +1459,14 @@ JAA_EI_RESULT = re.compile(
 OPTION_RESULT = re.compile(
     rf"JAA-vaihtoehto\s+sai\s+(?P<a>{_NUM})\s+ään\w*,?\s+(?:ja\s+)?EI-vaihtoehto\s+(?:sai\s+)?(?P<b>{_NUM})\s+ään\w*"
     rf"(?:,?\s+(?:ja\s+)?(?:tyhjää\s+(?:äänesti\s+)?(?P<t>{_NUM})|(?P<t2>{_NUM})\s+(?:äänesti\s+)?tyhjää))?",
+    re.IGNORECASE,
+)
+# Oulu's council: "… on suoritettava äänestys: KH JAA, muutosesitys EI, tyhjääkin saa äänestää." and
+# "Suoritetussa äänestyksessä äänet jakautuivat seuraavasti: JAA 61, EI 5, tyhjää 1, poissa 0."
+COLON_PROPOSITION = re.compile(r"äänestys\s*:\s*(?P<jaa>[^.:,]+?)\s+JAA\s*,\s*(?P<ei>[^.:,]+?)\s+EI\b")
+SPLIT_RESULT = re.compile(
+    rf"äänet\s+jakautuivat\s+(?:seuraavasti\s*)?:?\s*JAA\s+(?P<a>{_NUM})\s*,\s*EI\s+(?P<b>{_NUM})"
+    rf"(?:\s*,\s*tyhjää\s+(?P<t>{_NUM}))?(?:\s*,\s*poissa\s+(?P<p>{_NUM}))?",
     re.IGNORECASE,
 )
 # Nokia: "Äänestyksen tulos: JAA Marko Asell, …, ja Jari Tuominen. EI Teresa Kvick, … ja Kaisa Räsänen."
@@ -1587,6 +1704,7 @@ def parse_prose(lines: list[str]) -> list[TwebProse]:
             *EQ_LABELS.finditer(text),
             *PROPOSITION_MEANS.finditer(text),
             *PROPOSITION_PAST.finditer(text),
+            *COLON_PROPOSITION.finditer(text),
         ],
         key=lambda p: p.start(),
     )
@@ -1664,6 +1782,22 @@ def parse_prose(lines: list[str]) -> list[TwebProse]:
                 a=_n(m.group("a")),
                 b=_n(m.group("b")),
                 tyhja=_n(t) if t else 0,
+                sentence=m.group(0) + ".",
+                jaa_label=_short_label(prop.group("jaa")) if prop else "",
+                ei_label=_short_label(prop.group("ei")) if prop else "",
+                prop_end=prop.end() if prop else -1,
+                start=m.start(),
+            )
+        )
+    for m in SPLIT_RESULT.finditer(text):
+        prop = next((p for p in reversed(props) if p.end() <= m.start()), None)
+        if prop is not None and any(o.prop_end == prop.end() for o in out):
+            prop = None
+        out.append(
+            TwebProse(
+                a=_n(m.group("a")),
+                b=_n(m.group("b")),
+                tyhja=_n(m.group("t")) if m.group("t") else 0,
                 sentence=m.group(0) + ".",
                 jaa_label=_short_label(prop.group("jaa")) if prop else "",
                 ei_label=_short_label(prop.group("ei")) if prop else "",

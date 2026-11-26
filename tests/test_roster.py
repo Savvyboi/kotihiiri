@@ -304,3 +304,24 @@ def test_override_picks_one_of_two_namesakes_by_party():
     assert r.add_parties(rows, {"Hannu Kemppainen": "Kemppainen Hannu / KESK"}) == (1, [])
     (p,) = r.to_json()["persons"]
     assert (p["id"], p["name"], p["party"]) == ("x/kemppainen-hannu", "Hannu Kemppainen", "KESK")
+
+
+def test_override_merges_a_printed_form_into_its_candidate():
+    r = Roster("x", "x/valtuusto")
+    r.add_meeting(_meeting("x/valtuusto", "2025-09-01", [("Korhola Eija-Riitta", "valtuutettu", True)]))
+    r.add_meeting(
+        _meeting("x/valtuusto", "2026-02-04", [("Korhola-Dunderfelt Eija-Riitta", "valtuutettu", True)])
+    )
+    rows = [
+        PartyRow("Korhola Eija-Riitta", "KD", "elected", "t", 1158, surname="Korhola", first="Eija-Riitta")
+    ]
+    assert r.add_parties(rows, {"Korhola-Dunderfelt Eija-Riitta": "Korhola Eija-Riitta"}) == (1, [])
+    out = r.to_json()
+    (p,) = out["persons"]
+    assert (p["id"], p["party"], p["aliases"]) == (
+        "x/korhola-eija-riitta",
+        "KD",
+        ["Korhola Eija-Riitta", "Korhola-Dunderfelt Eija-Riitta"],
+    )
+    (m,) = out["memberships"]
+    assert (m["start"], m["end"]) == ("2025-09-01", "2026-02-04")

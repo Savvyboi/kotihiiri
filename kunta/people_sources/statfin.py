@@ -107,9 +107,12 @@ def fetch(client: PoliteClient, table: str, municipality: str) -> list[PartyRow]
 def rows_from_people(people: dict) -> list[PartyRow]:
     """The candidacies already stored in a people.json, for a run where the API is unreachable."""
     rows = []
+    seen: set[tuple] = set()
     for p in people.get("persons", []):
         e = p.get("election")
-        if e:
+        # two printed forms of one candidate were once stored as two persons: one candidacy
+        if e and (p["sort_name"], e["party"], e.get("votes")) not in seen:
+            seen.add((p["sort_name"], e["party"], e.get("votes")))
             surname, _, first = p["sort_name"].partition(" ")
             rows.append(
                 PartyRow(
