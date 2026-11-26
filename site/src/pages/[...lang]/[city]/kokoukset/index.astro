@@ -1,0 +1,82 @@
+---
+// Every meeting of one municipality, with or without votes: one table per year (the newest open),
+// filterable by body, stage and text and sortable by any column (public/enhance.js). Works
+// without JavaScript as plain tables.
+import Base from '../../../../layouts/Base.astro';
+import CityHero from '../../../../components/CityHero.astro';
+import CityTabs from '../../../../components/CityTabs.astro';
+import { localized, useI18n, type Key, type Locale } from '../../../../i18n';
+import { cities, cityName, type City } from '../../../../lib/data';
+import { allMeetingRows } from '../../../../lib/national';
+
+export function getStaticPaths() {
+  const withMeetings = new Set(allMeetingRows().map((r) => r.c));
+  return localized(cities().filter((c) => withMeetings.has(c.id)).map((city) => ({ params: { city: city.id }, props: { city } })));
+}
+interface Props { city: City; locale: Locale }
+const { city, locale } = Astro.props;
+const { t, path, date, num } = useI18n(locale);
+const name = cityName(city, locale);
+const rows = allMeetingRows().filter((r) => r.c === city.id);
+const withVotes = rows.filter((r) => r.v > 0).length;
+const years = [...new Set(rows.map((r) => r.d.slice(0, 4)))].sort().reverse();
+const bodies = [...new Set(rows.map((r) => r.b))].sort((a, b) => a.localeCompare(b, 'fi'));
+const stages = (['agenda', 'decisions', 'minutes'] as const).filter((s) => rows.some((r) => r.s === s));
+---
+<Base title={`${t('city.tab.meetings')}: ${name}`} city={city.id} locale={locale}>
+  <CityHero city={city} locale={locale}>
+    <ul class="stats">
+      <li><b>{num(rows.length)}</b>{t('city.stats.meetings')}</li>
+      <li><b>{num(rows.length - withVotes)}</b>{t('cityMeetings.noVotes')}</li>
+      <li><b>{num(withVotes)}</b>{t('cityMeetings.withVotes')}</li>
+    </ul>
+  </CityHero>
+  <div class="wrap">
+    <CityTabs city={city} locale={locale} current="meetings" />
+    <div class="section-head">
+      <h2>{t('cityMeetings.title')}</h2>
+      <span class="count">{num(rows.length)}</span>
+    </div>
+    <p class="lead">{t('cityMeetings.lead')}</p>
+    <form class="row-filter" data-row-filter="[data-meeting-rows] tbody tr" hidden>
+      <label>{t('votes.body')}
+        <select name="body"><option value="">{t('votes.all')}</option>{bodies.map((b) => <option value={b}>{b}</option>)}</select>
+      </label>
+      <label>{t('meetings.stage')}
+        <select name="stage"><option value="">{t('votes.all')}</option>{stages.map((s) => <option value={s}>{t(`meeting.stage.${s}` as Key)}</option>)}</select>
+      </label>
+      <label class="check"><input type="checkbox" name="votes" /> {t('meeting.onlyVotes')}</label>
+      <label class="grow">{t('cityMeetings.q')}<input type="search" name="q" autocomplete="off" /></label>
+      <p class="small muted" role="status" data-status data-tpl={t('meetings.shown', { n: '{n}' })}></p>
+    </form>
+    <div data-meeting-rows>
+      {years.map((y, i) => {
+        const list = rows.filter((r) => r.d.startsWith(y));
+        return (
+          <details class="year" open={i === 0}>
+            <summary><span class="year-h">{y}</span> <span class="muted small">{t('meetings.shown', { n: num(list.length) })}</span></summary>
+            <div class="table-scroll">
+              <table class="all-votes" data-sortable={t('table.sort')}>
+                <thead><tr>
+                  <th>{t('allVotes.col.date')}</th><th>{t('votes.body')}</th><th>{t('meetings.stage')}</th>
+                  <th class="num">{t('meetings.col.items')}</th><th class="num">{t('meetings.col.votes')}</th>
+                </tr></thead>
+                <tbody>
+                  {list.map((r) => (
+                    <tr data-body={r.b} data-stage={r.s} data-votes={r.v > 0 ? '1' : undefined}>
+                      <td class="nowrap" data-sort={r.d.replaceAll('-', '')}>{date(r.d)}</td>
+                      <td><a href={path(r.u)}>{r.b}</a></td>
+                      <td>{t(`meeting.stage.${r.s}` as Key)}</td>
+                      <td class="num">{r.n}</td><td class="num">{r.v || ''}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </details>
+        );
+      })}
+    </div>
+    <p class="small muted"><a href={path(`/kokoukset/`)}>{t('cityMeetings.allNational')}</a></p>
+  </div>
+</Base>

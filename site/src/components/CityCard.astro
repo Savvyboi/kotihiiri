@@ -8,15 +8,15 @@ const s = cityStats(city.id);
 const img = cityImages(city.id);
 const name = cityName(city, locale);
 ---
-<article class:list={['card', 'linked', 'city-card', { off: !city.enabled }]} data-city={city.id}>
+<a class:list={['card', 'city-card', { off: !city.enabled }]} data-city={city.id} href={localePath(`/${city.id}/`, locale)} aria-labelledby={`cc-${city.id}`}>
   <div class="band">
     {img.photo && <img class="band-photo" src={assetPath(`/images/cities/${img.photo.files[2] ?? img.photo.files[1]}`)} alt="" loading="lazy" decoding="async" />}
     {img.arms && <img class="arms" src={assetPath(`/images/cities/${img.arms.files[0]}`)} alt={t('city.arms', { city: name }, locale)} width="44" height="52" loading="lazy" />}
-    <h3><a class="stretch" href={localePath(`/${city.id}/`, locale)}>{name}</a></h3>
+    <h3 id={`cc-${city.id}`}>{name}</h3>
   </div>
   <div class="body">
     {city.enabled
       ? <p class="card-stats"><span><b>{formatNumber(s.meetings, locale)}</b> {t('city.stats.meetings', {}, locale)}</span><span><b>{formatNumber(s.votes, locale)}</b> {t('city.stats.votes', {}, locale)}</span></p>
       : <p class="small" style="margin:0"><span class="badge">{t(disabledKey(city), {}, locale)}</span></p>}
   </div>
-</article>
+</a>

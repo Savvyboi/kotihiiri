@@ -144,7 +144,7 @@ const topics = TOPICS.map((tp) => ({ id: tp.id, n: byTopic.get(tp.id)?.length ??
     .muni-layout { grid-template-columns: 1fr; }
     .muni-col .muni-list { max-height: none; overflow: visible; }
   }
-  .filter input { width: 100%; max-width: 24rem; padding: .5rem .75rem; font: inherit; border: 1px solid var(--c-border, #ccc); border-radius: .4rem; background: var(--c-bg, transparent); color: inherit; }
+  .filter input { width: 100%; max-width: 24rem; padding: .5rem .75rem; font: inherit; border: 1px solid var(--c-border, #ccc); border-radius: 0; background: var(--c-bg, transparent); color: inherit; }
   .muni-list { list-style: none; padding: 0; margin: 1rem 0 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); gap: 0 1.5rem; }
   .muni-list li { display: grid; grid-template-columns: 1.75rem minmax(0, 1fr) auto; align-items: center; gap: .7rem; padding: .45rem 0; border-bottom: 1px solid var(--c-border, #e5e5e5); min-height: 3.3rem; }
   .muni-list li[hidden] { display: none; }

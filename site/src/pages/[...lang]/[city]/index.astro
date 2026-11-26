@@ -42,6 +42,7 @@ const inits = initiatives(city.id);
   </CityHero>
   <div class="wrap">
     <CityTabs city={city} locale={locale} current="overview" />
+    {/* AI brief: <CityDigest city={city.id} locale={locale} /> goes here (recent decisions and changes). */}
     {city.enabled && s.meetings === 0 && <p class="empty" style="margin-top:2rem">{t('city.empty')}</p>}
 
     {votes.length > 0 && (
@@ -82,6 +83,7 @@ const inits = initiatives(city.id);
                 <span class="small muted">{items.length} {t('city.stats.items')}</span></span></li>
             ))}
           </ul>
+          <p class="small"><a href={path(`/${city.id}/kokoukset/`)}>{t('city.allMeetings', { n: num(meetingFiles(city.id).length) })}</a></p>
         </>}
       </section>
       <aside>

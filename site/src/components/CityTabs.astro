@@ -1,15 +1,16 @@
 ---
 import { useI18n, type Locale } from '../i18n';
-import { bodySlug, councilBody, peopleFile, type City } from '../lib/data';
+import { bodySlug, councilBody, meetingFiles, peopleFile, type City } from '../lib/data';
 import { initiatives } from '../lib/initiatives';
 import { budget } from '../lib/budget';
-interface Props { city: City; locale: Locale; current: 'overview' | 'votes' | 'council' | 'people' | 'initiatives' | 'budget' }
+interface Props { city: City; locale: Locale; current: 'overview' | 'meetings' | 'votes' | 'council' | 'people' | 'initiatives' | 'budget' }
 const { city, locale, current } = Astro.props;
 const { t, path } = useI18n(locale);
 const council = councilBody(city.id);
 const hasBudget = !!budget(city.id);
 const tabs = [
   { id: 'overview', href: `/${city.id}/`, label: t('city.tab.overview') },
+  ...(meetingFiles(city.id).length ? [{ id: 'meetings', href: `/${city.id}/kokoukset/`, label: t('city.tab.meetings') }] : []),
   ...(city.enabled ? [{ id: 'votes', href: `/${city.id}/aanestykset/`, label: t('city.tab.votes') }] : []),
   ...(council ? [{ id: 'council', href: `/${city.id}/${bodySlug(council.id)}/`, label: t('city.tab.council') }] : []),
   ...(peopleFile(city.id).persons.length ? [{ id: 'people', href: `/${city.id}/henkilot/`, label: t('city.tab.people') }] : []),

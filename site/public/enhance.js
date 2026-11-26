@@ -115,5 +115,52 @@
     });
   }
 
+  // form[data-row-filter="<row selector>"]: selects match the row's data-<name>, a checkbox keeps
+  // rows whose data-<name> is set, a search box matches the row's text. Groups with no visible
+  // rows (a year's <details>) are hidden too.
+  for (const form of $$('form[data-row-filter]')) {
+    const rows = $$(form.dataset.rowFilter);
+    if (rows.length < 8) continue;
+    const text = rows.map((r) => r.textContent.toLocaleLowerCase('fi'));
+    const status = form.querySelector('[data-status]');
+    const run = () => {
+      const words = (form.elements.q ? form.elements.q.value : '').toLocaleLowerCase('fi').split(/\s+/).filter(Boolean);
+      const selects = [...form.querySelectorAll('select')].filter((s) => s.value);
+      const checks = [...form.querySelectorAll('input[type="checkbox"]')].filter((c) => c.checked);
+      let n = 0;
+      rows.forEach((r, i) => {
+        const show = selects.every((s) => r.dataset[s.name] === s.value)
+          && checks.every((c) => r.dataset[c.name])
+          && words.every((w) => text[i].includes(w));
+        r.hidden = !show;
+        if (show) n++;
+      });
+      const filtered = words.length || selects.length || checks.length;
+      for (const d of $$('details', form.nextElementSibling || document)) {
+        const any = $$(form.dataset.rowFilter, d).some((r) => !r.hidden);
+        d.hidden = !any;
+        if (filtered && any) d.open = true;
+      }
+      if (status) status.textContent = filtered ? status.dataset.tpl.replace('{n}', n) : '';
+    };
+    form.hidden = false;
+    form.addEventListener('input', run);
+    form.addEventListener('submit', (e) => e.preventDefault());
+  }
+
+  // Back to top, after two screens of scrolling.
+  if (document.documentElement.scrollHeight > innerHeight * 3) {
+    const top = document.createElement('a');
+    top.href = '#';
+    top.className = 'to-top';
+    top.textContent = '↑';
+    top.setAttribute('aria-label', document.documentElement.lang === 'en' ? 'Back to top' : document.documentElement.lang === 'sv' ? 'Till början' : 'Takaisin ylös');
+    top.addEventListener('click', (e) => { e.preventDefault(); scrollTo({ top: 0 }); document.querySelector('#main, main, h1')?.focus?.(); });
+    document.body.append(top);
+    const sync = () => top.classList.toggle('on', scrollY > innerHeight * 2);
+    addEventListener('scroll', sync, { passive: true });
+    sync();
+  }
+
   openHash();
 })();
