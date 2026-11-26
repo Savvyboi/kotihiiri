@@ -1,0 +1,62 @@
+# Written by `kunta discover` / `kunta crawl`. Add `included: true|false` to a body to override the
+# default exclude rules (kunta/bodies.py); manual keys survive re-discovery. `excluded_by_rule`
+# is informational.
+bodies:
+  hyvinvoinnin-terveyden-ja-turvallisuuden-hytetu-ohjausryhma:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Hyvinvoinnin, terveyden ja turvallisuuden (HYTETU) ohjausryhmä
+  kaupunginhallitus:
+    kind: board
+    name_fi: Kaupunginhallitus
+  kaupunginvaltuusto:
+    kind: council
+    name_fi: Kaupunginvaltuusto
+  keskusvaalilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Keskusvaalilautakunta
+  kh-n-kaavoitusjaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: KH:n kaavoitusjaosto
+  kh-n-konserni-ja-elinvoimajaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: KH:n konserni- ja elinvoimajaosto
+  rauman-kaupungin-etela-satakunnan-tyollisyysaluelautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Rauman kaupungin Etelä-Satakunnan työllisyysaluelautakunta
+  rauman-seudun-jatehuoltolautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Rauman seudun jätehuoltolautakunta
+  rauman-seudun-jatehuoltoliikelaitoksen-johtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Rauman seudun jätehuoltoliikelaitoksen johtokunta
+  rauman-vesi-ja-viemariliikelaitoksen-johtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Rauman vesi- ja viemäriliikelaitoksen johtokunta
+  sivistysvaliokunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Sivistysvaliokunta
+  sosiaali-ja-terveysvaliokunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Sosiaali- ja terveysvaliokunta
+  tarkastuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tarkastuslautakunta
+  tekninen-valiokunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tekninen valiokunta
+  ymparisto-ja-lupalautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Ympäristö- ja lupalautakunta

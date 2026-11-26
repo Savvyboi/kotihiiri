@@ -1,0 +1,66 @@
+# Written by `kunta discover` / `kunta crawl`. Add `included: true|false` to a body to override the
+# default exclude rules (kunta/bodies.py); manual keys survive re-discovery. `excluded_by_rule`
+# is informational.
+bodies:
+  hyvinvointilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Hyvinvointilautakunta
+  jokilaaksojen-jatelautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Jokilaaksojen jätelautakunta
+  kaupunginhallitus:
+    kind: board
+    name_fi: Kaupunginhallitus
+  kaupunginvaltuusto:
+    kind: council
+    name_fi: Kaupunginvaltuusto
+  keskusvaalilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Keskusvaalilautakunta
+  kuntien-yhteinen-tyollisyyslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kuntien yhteinen työllisyyslautakunta
+  kuntien-yhteinen-ymparistoterveyslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kuntien yhteinen ympäristöterveyslautakunta
+  nuorisovaltuusto:
+    excluded_by_rule: true
+    kind: council
+    name_fi: Nuorisovaltuusto
+  rakennus-ja-ymparistolautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Rakennus- ja ympäristölautakunta
+  sivistyslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Sivistyslautakunta
+  tarkastuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tarkastuslautakunta
+  teknisten-palveluiden-lautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Teknisten palveluiden lautakunta
+  vammaisneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vammaisneuvosto
+  vanhusneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vanhusneuvosto
+  ylivieskan-seudun-kansalaisopiston-johtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Ylivieskan seudun kansalaisopiston johtokunta
+  ylivieskan-seudun-musiikkiopiston-johtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Ylivieskan seudun musiikkiopiston johtokunta

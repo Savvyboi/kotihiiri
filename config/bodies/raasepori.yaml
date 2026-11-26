@@ -1,0 +1,176 @@
+# Written by `kunta discover` / `kunta crawl`. Add `included: true|false` to a body to override the
+# default exclude rules (kunta/bodies.py); manual keys survive re-discovery. `excluded_by_rule`
+# is informational.
+bodies:
+  arbets-och-naringsnamnden:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Arbets- och näringsnämnden
+  bildningsnamnden:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Bildningsnämnden
+  bildningsnamndens-svensksprakiga-sektion:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Bildningsnämndens svenskspråkiga sektion
+  centralvalnamnden:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Centralvalnämnden
+  direktion-for-affarsverket-raseborgs-vatten:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Direktion för affärsverket Raseborgs Vatten
+  elinkeinoelaman-lautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Elinkeinoelämän lautakunta
+  fritidsnamnden:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Fritidsnämnden
+  fullmaktige:
+    kind: council
+    name_fi: Fullmäktige
+  gatunamnskommitten:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Gatunamnskommittén
+  hankintajohtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Hankintajohtokunta
+  henkilostojaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Henkilöstöjaosto
+  kaavoituslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kaavoituslautakunta
+  kadunnimitoimikunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kadunnimitoimikunta
+  kaupunginhallitus:
+    included: false
+    kind: board
+    name_fi: Kaupunginhallitus
+  kaupunginvaltuusto:
+    kind: council
+    name_fi: Kaupunginvaltuusto
+  kaupunkikehitysjaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Kaupunkikehitysjaosto
+  keskusvaalilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Keskusvaalilautakunta
+  koncernsektionen:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Koncernsektionen
+  konsernijaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Konsernijaosto
+  kulttuuri-ja-vapaa-aikalautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kulttuuri- ja vapaa-aikalautakunta
+  kultur-och-fritidsnamnden:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kultur- och fritidsnämnden
+  miljo-och-byggnadsnamnden:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Miljö- och byggnadsnämnden
+  naringslivsnamnden:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Näringslivsnämnden
+  personalsektion:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Personalsektion
+  planlaggningsnamnden:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Planläggningsnämnden
+  raaseporin-vesi-liikelaitoksen-johtokunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Raaseporin Vesi - liikelaitoksen johtokunta
+  revisionsnamnden:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Revisionsnämnden
+  sivistyslautakunnan-suomenkielinen-jaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Sivistyslautakunnan suomenkielinen jaosto
+  sivistyslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Sivistyslautakunta
+  social-och-halsovardsnamnden:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Social- och hälsovårdsnämnden
+  sosiaali-ja-terveyslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Sosiaali- ja terveyslautakunta
+  stadsfullmaktige:
+    kind: council
+    name_fi: Stadsfullmäktige
+  stadsstyrelsen:
+    kind: board
+    name_fi: Stadsstyrelsen
+  stadsutvecklingssektion:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Stadsutvecklingssektion
+  tarkastuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tarkastuslautakunta
+  tekninen-lautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tekninen lautakunta
+  teknisen-lautakunnan-tiejaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Teknisen lautakunnan tiejaosto
+  tekniska-namnden:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tekniska nämnden
+  tekniska-namndens-vagsektion:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Tekniska nämndens vägsektion
+  tyo-ja-elinkeinolautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Työ- ja elinkeinolautakunta
+  upphandlingsdirektionen:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Upphandlingsdirektionen
+  valtuusto:
+    included: false
+    kind: council
+    name_fi: Valtuusto
+  vapaa-aikalautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vapaa-aikalautakunta
+  ymparisto-ja-rakennuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Ympäristö- ja rakennuslautakunta

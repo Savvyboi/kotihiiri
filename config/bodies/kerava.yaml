@@ -1,0 +1,106 @@
+# Written by `kunta discover` / `kunta crawl`. Add `included: true|false` to a body to override the
+# default exclude rules (kunta/bodies.py); manual keys survive re-discovery. `excluded_by_rule`
+# is informational.
+bodies:
+  elinkeino-ja-tyollisyysjaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Elinkeino- ja työllisyysjaosto
+  elinvoimalautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Elinvoimalautakunta
+  kasvatus-ja-opetuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kasvatus- ja opetuslautakunta
+  kaupunginhallituksen-henkilosto-ja-tyollisyysjaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Kaupunginhallituksen henkilöstö- ja työllisyysjaosto
+  kaupunginhallituksen-kaupunkikehitysjaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Kaupunginhallituksen kaupunkikehitysjaosto
+  kaupunginhallituksen-tyollisyysjaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Kaupunginhallituksen työllisyysjaosto
+  kaupunginhallitus:
+    kind: board
+    name_fi: Kaupunginhallitus
+  kaupunginvaltuusto:
+    kind: council
+    name_fi: Kaupunginvaltuusto
+  kaupunkiymparistolautakunnan-lupajaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Kaupunkiympäristölautakunnan lupajaosto
+  kaupunkiymparistolautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kaupunkiympäristölautakunta
+  keskusvaalilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Keskusvaalilautakunta
+  kulttuurijaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Kulttuurijaosto
+  kuuma-seutu-liikelaitoksen-johtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: KUUMA-seutu liikelaitoksen johtokunta
+  lasten-ja-nuorten-palveluiden-lautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Lasten ja nuorten palveluiden lautakunta
+  liikuntajaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Liikuntajaosto
+  monikulttuurisuusasiain-neuvottelukunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Monikulttuurisuusasiain neuvottelukunta
+  nimistotoimikunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Nimistötoimikunta
+  nuorisojaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Nuorisojaosto
+  nuorisovaltuusto:
+    excluded_by_rule: true
+    kind: council
+    name_fi: Nuorisovaltuusto
+  tarkastuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tarkastuslautakunta
+  tekninen-lautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tekninen lautakunta
+  teknisen-lautakunnan-lupajaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Teknisen lautakunnan lupajaosto
+  valtuustoasiain-neuvottelukunta:
+    excluded_by_rule: true
+    kind: council
+    name_fi: Valtuustoasiain neuvottelukunta
+  vammaisneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vammaisneuvosto
+  vanhusneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vanhusneuvosto
+  vapaa-aika-ja-hyvinvointilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vapaa-aika- ja hyvinvointilautakunta

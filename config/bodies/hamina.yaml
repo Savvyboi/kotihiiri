@@ -1,0 +1,46 @@
+# Written by `kunta discover` / `kunta crawl`. Add `included: true|false` to a body to override the
+# default exclude rules (kunta/bodies.py); manual keys survive re-discovery. `excluded_by_rule`
+# is informational.
+bodies:
+  elinvoima-ja-hyvinvointi-valiokunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Elinvoima ja hyvinvointi -valiokunta
+  hyvinvointivaliokunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Hyvinvointivaliokunta
+  kasvatus-ja-koulutus-valiokunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kasvatus ja koulutus -valiokunta
+  kaupunginhallitus:
+    kind: board
+    name_fi: Kaupunginhallitus
+  kaupunginvaltuusto:
+    kind: council
+    name_fi: Kaupunginvaltuusto
+  kaupunkikehitysvaliokunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kaupunkikehitysvaliokunta
+  keskusvaalilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Keskusvaalilautakunta
+  kilpailukykyvaliokunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kilpailukykyvaliokunta
+  lupavaliokunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Lupavaliokunta
+  tarkastuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tarkastuslautakunta
+  vesiliikelaitoksen-johtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Vesiliikelaitoksen johtokunta

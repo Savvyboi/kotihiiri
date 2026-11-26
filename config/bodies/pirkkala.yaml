@@ -1,0 +1,73 @@
+# Written by `kunta discover` / `kunta crawl`. Add `included: true|false` to a body to override the
+# default exclude rules (kunta/bodies.py); manual keys survive re-discovery. `excluded_by_rule`
+# is informational.
+bodies:
+  keskusvaalilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Keskusvaalilautakunta
+  kunnanhallitus:
+    kind: board
+    name_fi: Kunnanhallitus
+  lasten-parlamentti:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Lasten parlamentti
+  nuorisovaltuusto:
+    excluded_by_rule: true
+    kind: council
+    name_fi: Nuorisovaltuusto
+  nuorten-neuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Nuorten neuvosto
+  poliittisen-yhteistyon-toimikunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Poliittisen yhteistyön toimikunta
+  seuraparlamentti:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Seuraparlamentti
+  sivistyslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Sivistyslautakunta
+  tarkastuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tarkastuslautakunta
+  valtuusto:
+    kind: council
+    name_fi: Valtuusto
+  valtuuston-kyselytunti:
+    kind: council
+    name_fi: Valtuuston kyselytunti
+  valtuuston-vaalilautakunta:
+    excluded_by_rule: true
+    kind: council
+    name_fi: Valtuuston vaalilautakunta
+  vammaisneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vammaisneuvosto
+  vanhusneuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vanhusneuvosto
+  yhdyskuntalautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Yhdyskuntalautakunta
+  yksiloasioiden-jaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Yksilöasioiden jaosto
+  ymparistoterveyslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Ympäristöterveyslautakunta
+  ymparistotoimikunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Ympäristötoimikunta

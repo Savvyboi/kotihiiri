@@ -1,0 +1,70 @@
+# Written by `kunta discover` / `kunta crawl`. Add `included: true|false` to a body to override the
+# default exclude rules (kunta/bodies.py); manual keys survive re-discovery. `excluded_by_rule`
+# is informational.
+bodies:
+  elinkeinojaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Elinkeinojaosto
+  henkilostojaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Henkilöstöjaosto
+  hyvinvointijohtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Hyvinvointijohtokunta
+  hyvinvointilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Hyvinvointilautakunta
+  kasvatus-ja-opetuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kasvatus- ja opetuslautakunta
+  kaupunginhallitus:
+    kind: board
+    name_fi: Kaupunginhallitus
+  kaupunginvaltuusto:
+    kind: council
+    name_fi: Kaupunginvaltuusto
+  keskusvaalilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Keskusvaalilautakunta
+  rakennuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Rakennuslautakunta
+  sivistyslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Sivistyslautakunta
+  tarkastuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tarkastuslautakunta
+  tekninen-lautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tekninen lautakunta
+  vapaa-aikajohtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Vapaa-aikajohtokunta
+  varhaiskasvatusjohtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Varhaiskasvatusjohtokunta
+  yhteistoimintalautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Yhteistoimintalautakunta
+  yhteistyotoimikunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Yhteistyötoimikunta
+  ymparistolautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Ympäristölautakunta

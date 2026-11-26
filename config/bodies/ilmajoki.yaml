@@ -1,0 +1,66 @@
+# Written by `kunta discover` / `kunta crawl`. Add `included: true|false` to a body to override the
+# default exclude rules (kunta/bodies.py); manual keys survive re-discovery. `excluded_by_rule`
+# is informational.
+bodies:
+  henkilostojaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Henkilöstöjaosto
+  hyvinvointilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Hyvinvointilautakunta
+  kasvatus-ja-opetuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Kasvatus- ja opetuslautakunta
+  keskusvaalilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Keskusvaalilautakunta
+  kunnanhallitus:
+    kind: board
+    name_fi: Kunnanhallitus
+  kunnanvaltuusto:
+    kind: council
+    name_fi: Kunnanvaltuusto
+  lakeuden-jatelautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Lakeuden jätelautakunta
+  lukion-ja-ilmajoki-opiston-johtokunta:
+    excluded_by_rule: true
+    kind: enterprise_board
+    name_fi: Lukion ja Ilmajoki-opiston johtokunta
+  nuoriso-ja-vapaa-aikalautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Nuoriso- ja vapaa-aikalautakunta
+  perusturvalautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Perusturvalautakunta
+  sivistys-ja-hyvinvointilautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Sivistys- ja hyvinvointilautakunta
+  tarkastuslautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tarkastuslautakunta
+  tekninen-lautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Tekninen lautakunta
+  vammais-ja-ikaihmisten-neuvosto:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Vammais- ja ikäihmisten neuvosto
+  yhteistyotoimikunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Yhteistyötoimikunta
+  ymparistolautakunta:
+    excluded_by_rule: true
+    kind: committee
+    name_fi: Ympäristölautakunta
