@@ -1,7 +1,8 @@
 """Fetch each city's coat of arms and a public-domain hero photo from Wikimedia Commons.
 
 Reads config/images.yaml, writes site/public/images/cities/{city}-arms.svg,
-{city}-photo-{1920,960}.jpg, {city}-band-960.jpg (the strip on city cards) and site/src/data/city-images.json (source, author, licence per file).
+{city}-photo-{1920,960}.jpg, {city}-band-960.jpg (the strip on city cards) and
+site/src/data/city-images.json (source, author, licence per file).
 Every other municipality in config/municipalities.yaml gets its coat of arms only (`other_arms`).
 Run by .github/workflows/city-images.yml; the build environment has no route to Wikimedia.
 
@@ -298,7 +299,8 @@ def save_photo(api: Api, city: str, info: dict) -> None:
             img = img.resize((width, round(img.height * width / img.width)), Image.LANCZOS)
         img.save(OUT_DIR / f"{city}-photo-{width}.jpg", "JPEG", quality=78, optimize=True, progressive=True)
         if width == BAND_SIZE[0]:
-            band_crop(img).save(OUT_DIR / f"{city}-band-{width}.jpg", "JPEG", quality=78, optimize=True, progressive=True)
+            band = band_crop(img)
+            band.save(OUT_DIR / f"{city}-band-{width}.jpg", "JPEG", quality=78, optimize=True, progressive=True)
 
 
 def band_crop(img: Image.Image) -> Image.Image:
@@ -364,7 +366,9 @@ def main() -> None:
         save_photo(api, city, photo)
         credits[city] = {
             "arms": credit(arms, [f"{city}-arms.svg"]),
-            "photo": credit(photo, [f"{city}-photo-{w}.jpg" for w in PHOTO_WIDTHS] + [f"{city}-band-{BAND_SIZE[0]}.jpg"])
+            "photo": credit(
+                photo, [f"{city}-photo-{w}.jpg" for w in PHOTO_WIDTHS] + [f"{city}-band-{BAND_SIZE[0]}.jpg"]
+            )
             | {"description": photo["description"]},
         }
 
