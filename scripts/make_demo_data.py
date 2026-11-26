@@ -421,4 +421,30 @@ def make_briefs(city):
 
 
 make_briefs("helsinki")
+
+
+def make_digest(city):
+    """A fictional city digest (PLAN.md §20) over the demo meeting briefs."""
+    from kunta.briefs import digest_input, digest_path, digest_sha
+
+    rows, start, end = digest_input(city, OUT)
+    jsonio.write(
+        digest_path(city, OUT),
+        {
+            "model": "demo/esimerkki:free",
+            "lang": "fi",
+            "period_start": start,
+            "period_end": end,
+            "summary": "Esimerkkikatsaus: valtuusto ja hallitus käsittelivät liikennettä, kouluja ja kaavoitusta. "
+            "Tämä teksti on keksitty esikatselua varten.",
+            "points": [{"text": h, "meeting_id": r["meeting_id"]} for r in rows for h in r["highlights"][:2]][
+                :5
+            ],
+            "meetings": [r["meeting_id"] for r in rows],
+            "input_sha256": digest_sha(rows),
+        },
+    )
+
+
+make_digest("helsinki")
 print("ok")

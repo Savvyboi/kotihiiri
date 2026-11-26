@@ -401,16 +401,17 @@ class Pending:
 @dataclass
 class Report:
     written: int = 0
-    skipped_budget: int = 0
     failed: list[str] = field(default_factory=list)
     stopped: str | None = None
     requests: int = 0
     pending: int = 0
+    digests: int = 0
+    digests_pending: int = 0
 
     def summary(self) -> str:
         s = (
             f"briefs: written={self.written} failed={len(self.failed)} requests={self.requests} "
-            f"still_pending={self.pending}"
+            f"still_pending={self.pending} digests={self.digests} digests_pending={self.digests_pending}"
         )
         return s + (f" stopped: {self.stopped}" if self.stopped else "")
 
@@ -421,7 +422,7 @@ def briefs_path(city: str, year: str, data_dir: Path = DATA_DIR) -> Path:
 
 def load_briefs(city: str, data_dir: Path = DATA_DIR) -> dict[str, dict[str, Any]]:
     out: dict[str, dict[str, Any]] = {}
-    for p in sorted((data_dir / city / "briefs").glob("*.json")):
+    for p in sorted((data_dir / city / "briefs").glob("[0-9][0-9][0-9][0-9].json")):
         out.update(jsonio.read(p))
     return out
 
@@ -522,7 +523,7 @@ def prune(city: str, data_dir: Path = DATA_DIR) -> int:
     """Drop briefs of meetings that no longer exist (removed at the source or renamed)."""
     live = {jsonio.read(p)["meeting"]["id"] for p in _meeting_files(city, data_dir)}
     dropped = 0
-    for path in sorted((data_dir / city / "briefs").glob("*.json")):
+    for path in sorted((data_dir / city / "briefs").glob("[0-9][0-9][0-9][0-9].json")):
         cur = jsonio.read(path)
         keep = {k: v for k, v in cur.items() if k in live}
         dropped += len(cur) - len(keep)
@@ -531,6 +532,127 @@ def prune(city: str, data_dir: Path = DATA_DIR) -> int:
         else:
             path.unlink()
     return dropped
+
+
+# --------------------------------------------------------------------------------------------- digest
+# The city page's "recent decisions" brief: one request per municipality, written from the meeting
+# briefs of the last DIGEST_DAYS days (counted back from the newest briefed meeting, so the window
+# moves only when new minutes arrive). Stored in data/{city}/briefs/digest.json.
+
+DIGEST_DAYS = 30
+DIGEST_MEETINGS = 25
+DIGEST_POINTS = 6
+DIGEST_SUMMARY_CHARS = 700
+DIGEST_POINT_CHARS = 260
+_KIND_ORDER = {"council": 0, "board": 1, "committee": 2, "section": 3, "enterprise_board": 4}
+
+
+def digest_path(city: str, data_dir: Path = DATA_DIR) -> Path:
+    return data_dir / city / "briefs" / "digest.json"
+
+
+def digest_input(city: str, data_dir: Path = DATA_DIR) -> tuple[list[dict[str, Any]], str, str] | None:
+    """(meetings to summarise, period start, period end), or None when there is too little."""
+    have = {
+        k: v
+        for k, v in load_briefs(city, data_dir).items()
+        if v.get("summary") and v.get("stage") != "agenda"
+    }
+    if not have:
+        return None
+    end = max(k.rsplit("/", 1)[1][:10] for k in have)
+    start = (dt.date.fromisoformat(end) - dt.timedelta(days=DIGEST_DAYS)).isoformat()
+    bodies_file = data_dir / city / "bodies.json"
+    bodies = {b["id"]: b for b in jsonio.read(bodies_file)} if bodies_file.exists() else {}
+    rows = []
+    for mid, b in have.items():
+        date = mid.rsplit("/", 1)[1][:10]
+        if date <= start:
+            continue
+        body_id = mid.rsplit("/", 1)[0]
+        body = bodies.get(body_id, {})
+        rows.append(
+            {
+                "meeting_id": mid,
+                "date": date,
+                "body": body.get("name_fi", body_id.split("/")[1]),
+                "kind": _KIND_ORDER.get(body.get("kind", ""), 9),
+                "summary": b["summary"],
+                "highlights": b.get("highlights", []),
+                "lang": b.get("lang", "fi"),
+            }
+        )
+    if len(rows) < 2:
+        return None
+    rows.sort(key=lambda r: (r["kind"], _neg_date(r["date"]), r["meeting_id"]))
+    rows = sorted(rows[:DIGEST_MEETINGS], key=lambda r: (r["date"], r["meeting_id"]))
+    return rows, start, end
+
+
+def digest_sha(rows: list[dict[str, Any]]) -> str:
+    h = hashlib.sha256(f"digest-v{PROMPT_VERSION}".encode())
+    for r in rows:
+        h.update(f"\x00{r['meeting_id']}\x00{r['summary']}\x00{'|'.join(r['highlights'])}".encode())
+    return h.hexdigest()
+
+
+def digest_messages(city_name: str, rows: list[dict[str, Any]], start: str, end: str, lang: str):
+    listing = "\n\n".join(
+        f"[{n}] {r['date']} {r['body']}: {r['summary']}" + "".join(f"\n  - {h}" for h in r["highlights"])
+        for n, r in enumerate(rows, 1)
+    )
+    user = (
+        f"{city_name}: kunnan toimielinten kokoukset {start}–{end} tiivistelminä. "
+        f"Kirjoita {_LANG.get(lang, 'suomeksi')} kuntalaiselle katsaus siitä, mitä kunnassa on viime "
+        "viikkoina päätetty ja mikä muuttuu: summary 2–4 virkettä ja enintään 6 nostoa tärkeimmistä "
+        "päätöksistä ja muutoksista (rahasummat, palvelut, rakentaminen, organisaatio). Merkitse jokaiseen "
+        "nostoon sen kokouksen numero, josta se on. Jätä rutiiniasiat pois.\n\n"
+        'Vastausmuoto:\n{"summary": "...", "points": [{"text": "...", "meeting": 3}]}\n\n' + listing
+    )
+    return [{"role": "system", "content": SYSTEM}, {"role": "user", "content": user}]
+
+
+def brief_digest(client: OpenRouter, city_name: str, rows, start: str, end: str, lang: str) -> dict[str, Any]:
+    content, model = client.chat(digest_messages(city_name, rows, start, end, lang))
+    answer = parse_json(content)
+    summary = clean(answer.get("summary"), DIGEST_SUMMARY_CHARS)
+    points = []
+    for p in answer.get("points") or []:
+        if not isinstance(p, dict):
+            continue
+        text = clean(p.get("text"), DIGEST_POINT_CHARS)
+        n = _int(p.get("meeting"))
+        if not text:
+            continue
+        point: dict[str, Any] = {"text": text}
+        if n and 1 <= n <= len(rows):
+            point["meeting_id"] = rows[n - 1]["meeting_id"]
+        points.append(point)
+    if not summary:
+        raise ModelError("empty digest")
+    return {
+        "model": model,
+        "lang": lang,
+        "period_start": start,
+        "period_end": end,
+        "summary": summary,
+        "points": points[:DIGEST_POINTS],
+        "meetings": [r["meeting_id"] for r in rows],
+    }
+
+
+def pending_digests(cities: list[str], data_dir: Path = DATA_DIR) -> list[tuple[str, tuple, str]]:
+    out = []
+    for city in cities:
+        inp = digest_input(city, data_dir)
+        if not inp:
+            continue
+        sha = digest_sha(inp[0])
+        path = digest_path(city, data_dir)
+        if path.exists() and jsonio.read(path).get("input_sha256") == sha:
+            continue
+        out.append((city, inp, sha))
+    return out
 
 
 def run(
@@ -543,22 +665,41 @@ def run(
     agendas: bool = False,
     max_minutes: float | None = None,
 ) -> Report:
+    """Meeting briefs newest first, then the city digests, then any meetings left over. A few
+    requests are held back for the six cities' digests so their pages stay current in a backlog."""
     report = Report()
     for city in cities:
         if any(_meeting_files(city, data_dir)):
             prune(city, data_dir)
     pending = find_pending(cities, data_dir, since=since, agendas=agendas)
     deadline = time.monotonic() + max_minutes * 60 if max_minutes else None
-    names = {c: _names(c, data_dir) for c in {p.city for p in pending}}
+    names = {c: _names(c, data_dir) for c in {p.city for p in pending} | set(cities)}
+    cfg = load_cities()
+    six = sum(1 for c in cities if c in cfg and int(cfg[c].extra.get("rank", 99)) <= 6)
+    reserve = min(six, max_requests // 4)
+
+    left = _meetings(pending, client, report, data_dir, names, max_requests - reserve, deadline)
+    if report.stopped is None:
+        digests(cities, client, report, data_dir, names, max_requests, deadline)
+    if report.stopped is None and left:
+        left = _meetings(left, client, report, data_dir, names, max_requests, deadline)
+    report.pending = len(left)
+    report.requests = client.requests
+    if report.stopped is None and left:
+        report.stopped = "request budget"
+    return report
+
+
+def _meetings(pending, client, report, data_dir, names, limit, deadline) -> list[Pending]:
+    """Brief what fits under `limit` requests; returns the meetings not done."""
+    left: list[Pending] = []
     for i, p in enumerate(pending):
-        if deadline and time.monotonic() > deadline:
-            report.stopped = "time"
-            report.pending = report.skipped_budget + len(pending) - i
-            break
+        if report.stopped or (deadline and time.monotonic() > deadline):
+            report.stopped = report.stopped or "time"
+            return left + pending[i:]
         file = jsonio.read(p.path)
-        need = requests_needed(file)
-        if client.requests + need > max_requests:
-            report.skipped_budget += 1
+        if client.requests + requests_needed(file) > limit:
+            left.append(p)
             continue
         bodies, city_name, lang = names[p.city]
         body = bodies.get(file["meeting"]["body_id"], file["meeting"]["body_id"].split("/")[1])
@@ -566,8 +707,7 @@ def run(
             entry = brief_meeting(client, file, body, city_name, lang)
         except DailyLimit as exc:
             report.stopped = f"daily limit ({exc})"
-            report.pending = report.skipped_budget + len(pending) - i
-            break
+            return left + pending[i:]
         except (ModelError, ValueError) as exc:
             log.warning("%s: %s", p.meeting_id, exc)
             report.failed.append(p.meeting_id)
@@ -576,12 +716,28 @@ def run(
         save(p.city, {p.meeting_id: entry}, data_dir)  # after every meeting, so a crash loses nothing
         report.written += 1
         log.info("%s: brief written (%d items)", p.meeting_id, len(entry["items"]))
-    else:
-        report.pending = report.skipped_budget
-    report.requests = client.requests
-    if report.stopped is None and report.skipped_budget:
-        report.stopped = "request budget"
-    return report
+    return left
+
+
+def digests(cities, client, report, data_dir, names, max_requests, deadline) -> None:
+    for city, (rows, start, end), sha in pending_digests(cities, data_dir):
+        if client.requests + 1 > max_requests or (deadline and time.monotonic() > deadline):
+            report.digests_pending += 1
+            continue
+        _, city_name, lang = names.get(city) or _names(city, data_dir)
+        try:
+            entry = brief_digest(client, city_name, rows, start, end, lang)
+        except DailyLimit as exc:
+            report.stopped = f"daily limit ({exc})"
+            return
+        except (ModelError, ValueError) as exc:
+            log.warning("%s digest: %s", city, exc)
+            report.failed.append(f"{city} (digest)")
+            continue
+        entry["input_sha256"] = sha
+        jsonio.write(digest_path(city, data_dir), entry)
+        report.digests += 1
+        log.info("%s: digest written (%s–%s, %d meetings)", city, start, end, len(rows))
 
 
 def api_key() -> str | None:

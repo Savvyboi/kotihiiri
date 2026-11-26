@@ -1,0 +1,28 @@
+---
+// The city page's AI brief of recent decisions (PLAN.md §20): what the city's bodies decided in the
+// last weeks, each point linking to the meeting it came from. Renders nothing without a digest.
+import { useI18n, type Locale } from '../i18n';
+import { bodyName, meetingSegment } from '../lib/data';
+import { cityDigest, modelName } from '../lib/briefs';
+interface Props { city: string; locale: Locale }
+const { city, locale } = Astro.props;
+const { t, path, date } = useI18n(locale);
+const d = cityDigest(city);
+const href = (id: string) => { const [c, b] = id.split('/'); return path(`/${c}/${b}/${meetingSegment(id)}/`); };
+const source = (id: string) => `${bodyName(id.split('/').slice(0, 2).join('/'))} ${date(meetingSegment(id).slice(0, 10))}`;
+---
+{d && (
+  <section class="ai-brief city-digest" aria-labelledby="digest-h">
+    <p class="ai-head"><span class="ai-tag">{t('brief.tag')}</span> <b id="digest-h">{t('digest.title')}</b>
+      <span class="small muted">{date(d.period_start)}–{date(d.period_end)}</span></p>
+    <p class="ai-text" lang={d.lang}>{d.summary}</p>
+    {d.points.length > 0 && (
+      <ul class="ai-points" lang={d.lang}>
+        {d.points.map((p) => (
+          <li>{p.text}{p.meeting_id && <>{' — '}<a class="small" href={href(p.meeting_id)}>{source(p.meeting_id)} →</a></>}</li>
+        ))}
+      </ul>
+    )}
+    <p class="ai-note small muted">{t('digest.disclaimer', { model: modelName(d.model), n: d.meetings.length })}</p>
+  </section>
+)}
