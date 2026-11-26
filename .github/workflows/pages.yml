@@ -9,6 +9,11 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      r2_reupload:
+        description: Upload every file to R2 again, even unchanged ones (once, to give existing objects their Cache-Control header)
+        type: boolean
+        default: false
   workflow_call:
 
 permissions:
@@ -151,14 +156,48 @@ jobs:
           n=$(find site/dist -type f | wc -l)
           echo "$n files"
           test "$n" -ge 1000
+      # Four passes instead of one sync, so that:
+      # - every object carries a Cache-Control header (R2 sends none of its own, and without one
+      #   Cloudflare's edge never caches pages, JSON or the search index and browsers guess);
+      # - files named by their content hash go up first, so a page uploaded later never points at a
+      #   stylesheet or search chunk that isn't there yet.
+      # Content-hashed files (Astro's CSS and fonts, Pagefind's chunks) never change under their name,
+      # so browsers and the edge may keep them for a year. Pages, feeds, JSON, downloads and Pagefind's
+      # entry files keep their names between builds, so they get five minutes: a deploy shows up within
+      # that, and repeat views and the back button inside it cost no request. Images rarely change.
+      # --header-upload only applies to files a pass uploads; an unchanged file keeps the header it was
+      # uploaded with. Run this workflow by hand with r2_reupload once to set them on every object
+      # (one Class A operation per file).
       - name: Upload to R2
+        env:
+          REUPLOAD: ${{ inputs.r2_reupload && '--ignore-times' || '' }}
         # --s3-no-check-bucket: the token has object rights only, not bucket rights.
         # --max-delete: a guard on top of the sanity check; raise it if a real cleanup needs more.
         run: |
-          rclone sync site/dist r2:kotihiiri-site \
-            --checksum --s3-no-check-bucket --fast-list \
-            --transfers 32 --checkers 64 --max-delete 5000 \
-            --stats-one-line --stats 60s --stats-log-level NOTICE
+          set -euo pipefail
+          common=(--checksum --s3-no-check-bucket --fast-list --transfers 32 --checkers 64
+                  --stats-one-line --stats 60s --stats-log-level NOTICE $REUPLOAD)
+          hashed=(--include "/_astro/**" --include "/pagefind/fragment/**" --include "/pagefind/index/**"
+                  --include "/pagefind/filter/**" --include "/pagefind/*.pf_meta")
+          images=(--include "/images/**" --include "/favicon.svg")
+          # 1. Content-hashed files, uploaded first and kept for a year.
+          rclone copy site/dist r2:kotihiiri-site "${common[@]}" "${hashed[@]}" \
+            --header-upload "Cache-Control: public, max-age=31536000, immutable"
+          # 2. City photos, coats of arms, favicon: fixed names that change only with config/images.yaml.
+          rclone copy site/dist r2:kotihiiri-site "${common[@]}" "${images[@]}" \
+            --header-upload "Cache-Control: public, max-age=86400"
+          # 3. Everything else, deleting pages gone from the build (excluded paths are left alone).
+          rclone sync site/dist r2:kotihiiri-site "${common[@]}" --max-delete 5000 \
+            --exclude "/_astro/**" --exclude "/pagefind/fragment/**" --exclude "/pagefind/index/**" \
+            --exclude "/pagefind/filter/**" --exclude "/pagefind/*.pf_meta" \
+            --exclude "/images/**" --exclude "/favicon.svg" \
+            --header-upload "Cache-Control: public, max-age=300"
+          # 4. Now that no new page refers to them, delete search chunks and images gone from the build.
+          #    Old /_astro/ files stay: they are small, and a page a browser or the edge still holds
+          #    keeps its styles.
+          rclone sync site/dist r2:kotihiiri-site --checksum --s3-no-check-bucket --fast-list --checkers 64 \
+            --max-delete 5000 --include "/pagefind/fragment/**" --include "/pagefind/index/**" \
+            --include "/pagefind/filter/**" --include "/pagefind/*.pf_meta" "${images[@]}"
       # rclone retries a failed sync and can report success on a later attempt; check the bucket
       # really holds every built file with the same MD5.
       - name: Verify R2

@@ -516,3 +516,10 @@ details.explain-row p { margin: .3rem 0 0; font-size: .92rem; max-width: 44rem; 
 .svc-list li span:last-child { font-variant-numeric: tabular-nums; white-space: nowrap; }
 .svc-total { display: flex; flex-wrap: wrap; gap: .3rem 1rem; max-width: 52rem; padding: .6rem 0; border-top: 2px solid var(--c-rule); margin: .2rem 0 0; }
 .svc-total b:nth-child(2) { margin-left: auto; font-family: var(--font-head); }
+
+/* Long pages (a city's votes, initiatives, meetings) hold hundreds of rows and cards. Let the
+   browser skip layout and paint for those off screen; `auto` keeps each one's last rendered size
+   so the scrollbar stays steady. Find in page and anchors still reach skipped rows.
+   overflow-clip-margin keeps the card shadow, which paint containment would otherwise clip. */
+.list > li { content-visibility: auto; contain-intrinsic-size: auto 3rem; overflow-clip-margin: 4px; }
+.vote-card { content-visibility: auto; contain-intrinsic-size: auto 16rem; overflow-clip-margin: 12px; }
