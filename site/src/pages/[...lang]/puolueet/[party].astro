@@ -111,7 +111,7 @@ const colour = PARTY_COLOURS[party];
         <h2>{t('pp.rebels.title')}</h2>
         <p class="muted">{t('pp.rebels.lead')}</p>
         <div class="table-scroll">
-          <table class="party-table councillors">
+          <table class="party-table councillors" data-sortable={t('table.sort')} data-filterable={t('cl.q')}>
             <thead><tr><th>{t('cl.col.name')}</th><th>{t('allVotes.muni')}</th><th class="num">{t('cl.col.votes')}</th><th class="num">{t('cl.col.against')}</th></tr></thead>
             <tbody>
               {rebels.map((r) => (

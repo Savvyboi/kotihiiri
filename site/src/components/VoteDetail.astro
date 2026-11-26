@@ -3,7 +3,7 @@
 // table and every member's vote with their party. Groups are as printed where the source prints
 // them (Helsinki), else the voter's 2025 party from data/{city}/people.json. Item pages are shared
 // across locales, so all interface text goes through <T>.
-import { sharedPath, type Locale } from '../i18n';
+import { sharedPath, t, type Locale } from '../i18n';
 import { voteOutcome, type VoteEvent, type Choice } from '../lib/data';
 import { partyColour, partyOf, PARTY_ORDER } from '../lib/parties';
 import { ballotGroup, displayName, findPerson, personUrl } from '../lib/people';
@@ -11,8 +11,9 @@ import VoteBar from './VoteBar.astro';
 import PartyChip from './PartyChip.astro';
 import T from './T.astro';
 import AiBrief from './AiBrief.astro';
-interface Props { vote: VoteEvent; city: string; locale: Locale; brief?: string; model?: string }
-const { vote, city, locale, brief, model } = Astro.props;
+interface Props { vote: VoteEvent; city: string; locale: Locale; compact?: boolean; brief?: string; model?: string }
+// compact: one of several votes on the page, so the group table starts folded.
+const { vote, city, locale, compact = false, brief, model } = Astro.props;
 
 type B = VoteEvent['ballots'][number];
 const resolved = new Map<B, { group?: string; name: string; href?: string }>();
@@ -53,8 +54,9 @@ const others = (['tyhja', 'poissa'] as const).map((c) => ({ choice: c, n: vote.c
   .filter((o) => o.n > 0 || o.voters.length);
 const anyAgainst = ballots.some((b) => against(b));
 ---
-<section class="card vote">
+<section class="card vote" id={`aanestys-${vote.ordinal}`}>
   <h3><T k="vote.title" vars={{ n: vote.ordinal }} locale={locale} /></h3>
+  {vote.result_text && <p class="vote-result"><b><T k="vote.result" locale={locale} />:</b> <span lang="fi">{vote.result_text}</span></p>}
   {brief && model && <AiBrief text={brief} model={model} locale={locale} compact />}
   <div class="vote-sides">
     {sides.map((sd) => (
@@ -62,13 +64,22 @@ const anyAgainst = ballots.some((b) => against(b));
         <p class="vs-head"><b><T k={`vote.${sd.choice}`} locale={locale} /></b><span class="vs-n">{sd.n}</span>
           {sd.won && <span class="vs-won"><T k="vote.wonBadge" locale={locale} /></span>}</p>
         <p class="vs-label">{sd.label || <span class="muted">–</span>}</p>
-        {sd.voters.length > 0 && (
-          <ul class="vs-names">
-            {sd.voters.map((b) => { const r = resolved.get(b)!; return (
-              <li class:list={{ against: against(b) }}>{r.href ? <a href={sharedPath(r.href, locale)} data-shared>{r.name}</a> : r.name}<PartyChip group={r.group} />{against(b) && <span class="visually-hidden"> (<T k="vote.againstGroup" locale={locale} />)</span>}</li>
-            ); })}
-          </ul>
-        )}
+        {sd.voters.length > 0 && (() => {
+          const names = (
+            <ul class="vs-names">
+              {sd.voters.map((b) => { const r = resolved.get(b)!; return (
+                <li class:list={{ against: against(b) }}>{r.href ? <a href={sharedPath(r.href, locale)} data-shared>{r.name}</a> : r.name}<PartyChip group={r.group} />{against(b) && <span class="visually-hidden"> (<T k="vote.againstGroup" locale={locale} />)</span>}</li>
+              ); })}
+            </ul>
+          );
+          // Long rolls fold; who broke from their group stays in view.
+          if (12 >= sd.voters.length) return names;
+          const rebels = sd.voters.filter((b) => against(b));
+          return <Fragment>
+            {rebels.length > 0 && <p class="vs-rebels small"><span class="vs-against-key" aria-hidden="true" /> {rebels.map((b, i) => { const r = resolved.get(b)!; return <>{i > 0 && ', '}{r.href ? <a href={sharedPath(r.href, locale)} data-shared>{r.name}</a> : r.name}<PartyChip group={r.group} /></>; })}</p>}
+            <details class="more plain vs-fold"><summary><span class="more-open"><T k="vote.showNames" vars={{ n: sd.voters.length }} locale={locale} /></span><span class="more-close"><T k="prose.less" locale={locale} /></span></summary>{names}</details>
+          </Fragment>;
+        })()}
       </div>
     ))}
   </div>
@@ -86,15 +97,14 @@ const anyAgainst = ballots.some((b) => against(b));
       ))}
     </div>
   )}
-  {vote.result_text && <p style="margin-top:.6rem"><b><T k="vote.result" locale={locale} />:</b> <span lang="fi">{vote.result_text}</span></p>}
   {vote.needs_review && <p class="small muted"><T k="vote.needsReview" locale={locale} /></p>}
   {vote.ballots.length === 0 && <p class="small muted"><T k="vote.countsOnly" locale={locale} /></p>}
 
   {hasGroups && (
-    <details open>
+    <details open={!compact}>
       <summary><T k="vote.byGroup" locale={locale} /></summary>
       <div class="table-scroll">
-        <table>
+        <table data-sortable={t('table.sort', {}, locale)}>
           <thead><tr><th><T k="vote.group" locale={locale} /></th><th class="num"><T k="vote.jaa" locale={locale} /></th><th class="num"><T k="vote.ei" locale={locale} /></th><th class="num"><T k="vote.tyhja" locale={locale} /></th><th class="num"><T k="vote.poissa" locale={locale} /></th></tr></thead>
           <tbody>
             {[...groups.entries()].sort((a, b) => rank(a[0]) - rank(b[0]) || a[0].localeCompare(b[0], 'fi')).map(([g, c]) => (

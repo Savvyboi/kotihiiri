@@ -517,6 +517,98 @@ details.explain-row p { margin: .3rem 0 0; font-size: .92rem; max-width: 44rem; 
 .svc-total { display: flex; flex-wrap: wrap; gap: .3rem 1rem; max-width: 52rem; padding: .6rem 0; border-top: 2px solid var(--c-rule); margin: .2rem 0 0; }
 .svc-total b:nth-child(2) { margin-left: auto; font-family: var(--font-head); }
 
+/* Readable minutes (src/lib/structure.ts, Prose.astro): the source text as headings, short
+   paragraphs, lists and label rows, not one pre-formatted block. */
+.prose-s { max-width: 46rem; overflow-wrap: anywhere; }
+.prose-s > :last-child, .prose-s details.more > :last-child { margin-bottom: 0; }
+.prose-s p, .prose-s ul, .prose-s ol, .prose-s dl, .prose-s blockquote { margin: 0 0 .8rem; }
+.prose-s .prose-h { font-family: var(--font-head); font-size: 1.02rem; font-weight: 700; margin: 1.2rem 0 .35rem; }
+.prose-s .prose-h:first-child { margin-top: .2rem; }
+.prose-s .prose-meta { font-size: .82rem; color: var(--c-muted); font-variant-numeric: tabular-nums; }
+.prose-s ul { padding-left: 1.2rem; }
+.prose-s li { margin: .2rem 0; }
+.prose-s ol.marked { list-style: none; padding-left: 0; }
+.prose-s ol.marked li { display: grid; grid-template-columns: 2rem 1fr; }
+.prose-s ol.marked .mark { color: var(--c-muted); font-variant-numeric: tabular-nums; font-weight: 650; }
+.prose-s blockquote { border-left: 3px solid var(--c-border); padding: .1rem 0 .1rem .9rem; margin-left: 0; font-style: italic; }
+.prose-s dl.kv { display: grid; grid-template-columns: max-content 1fr; gap: .25rem 1rem; }
+.prose-s dl.kv dt { color: var(--c-muted); }
+.prose-s dl.kv dd { margin: 0; }
+@media (max-width: 560px) { .prose-s dl.kv { grid-template-columns: 1fr; } .prose-s dl.kv dd { margin-bottom: .4rem; } }
+.redacted { color: var(--c-muted); font-size: .88em; }
+details.more { background: none; border: 0; padding: 0; margin: .2rem 0 0; }
+details.more > summary { display: inline-block; color: var(--c-link); font-weight: 600; font-size: .95rem; margin-bottom: .6rem; }
+details.more .more-close, details.more[open] .more-open { display: none; }
+details.more[open] .more-close { display: inline; }
+
+/* Item page: jump links, folded sections, a timeline of earlier stages. */
+.toc { display: flex; flex-wrap: wrap; align-items: baseline; gap: .3rem .9rem; margin: 1.2rem 0 .4rem; padding: .55rem 0; border-bottom: 1px solid var(--c-border); font-size: .92rem; }
+.toc-h { color: var(--c-muted); font-weight: 600; }
+.toc ul { display: flex; flex-wrap: wrap; gap: .2rem 1rem; list-style: none; margin: 0; padding: 0; }
+.toc a { font-weight: 600; text-decoration: none; }
+.toc a:hover { text-decoration: underline; }
+.toc .n { color: var(--c-muted); font-weight: 400; margin-left: .3em; font-variant-numeric: tabular-nums; }
+.item-page [id] { scroll-margin-top: 1rem; }
+.badge.dec-approved, .badge.dec-elected { background: var(--c-jaa); color: #fff; border-color: transparent; }
+.badge.dec-amended { background: color-mix(in srgb, var(--c-jaa) 18%, var(--c-surface)); border-color: var(--c-jaa); }
+.badge.dec-rejected { background: var(--c-ei); color: #fff; border-color: transparent; }
+.badge.dec-tabled, .badge.dec-returned { background: color-mix(in srgb, var(--c-or) 30%, var(--c-surface)); border-color: var(--c-or); }
+.badge.dec-noted { background: var(--c-surface); color: var(--c-muted); }
+.hero .badge.dec { font-size: .85rem; }
+.motion { margin-bottom: .8rem; }
+.folds-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; }
+.linkish { background: none; border: 0; padding: 0; color: var(--c-link); font: inherit; font-size: .92rem; font-weight: 600; cursor: pointer; }
+.linkish .when-open, .linkish[aria-pressed="true"] .when-closed { display: none; }
+.linkish[aria-pressed="true"] .when-open { display: inline; }
+details.fold { padding: 0; margin: .5rem 0; }
+details.fold > summary { padding: .75rem 1.1rem; display: grid; grid-template-columns: 1fr auto; gap: .1rem 1rem; align-items: baseline; }
+details.fold > summary::before { content: none; }
+details.fold .fold-h { font-family: var(--font-head); font-weight: 700; }
+details.fold .fold-x { grid-column: 1 / -1; font-weight: 400; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+details.fold[open] .fold-x { display: none; }
+details.fold > .prose-s { padding: 0 1.1rem 1rem; }
+details.fold[open] > summary { border-bottom: 1px solid var(--c-border); margin-bottom: .8rem; }
+.timeline { list-style: none; padding: 0 0 0 1.1rem; margin: 0; border-left: 2px solid var(--c-border); }
+.timeline > li { position: relative; }
+.timeline > li::before { content: ""; position: absolute; left: calc(-1.1rem - 6px); top: 1.15rem; width: 10px; height: 10px; border-radius: 50%; background: var(--c-surface); border: 2px solid var(--c-primary); }
+.attachments { padding-left: 1.6rem; margin: 0 0 .4rem; }
+.attachments li { margin: .2rem 0; }
+details.more.plain > summary { margin: 0 0 .3rem; }
+
+/* Meeting page: agenda as scannable cards. */
+.stats-row { display: flex; flex-wrap: wrap; gap: .3rem 1.6rem; list-style: none; padding: 0; margin: 1.4rem 0 0; color: var(--c-muted); }
+.stats-row b { font-family: var(--font-head); font-size: 1.5rem; font-weight: 800; color: var(--c-text); font-variant-numeric: lining-nums tabular-nums; margin-right: .2rem; }
+.agenda-tools { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1.2rem; margin: 0 0 .8rem; }
+.agenda-tools input[type="search"] { flex: 1 1 16rem; font: inherit; padding: .45rem .7rem; border: 1px solid var(--c-border); border-radius: var(--radius); background: var(--c-surface); color: var(--c-text); }
+.agenda-tools .check { display: inline-flex; gap: .4rem; align-items: center; font-size: .95rem; }
+.agenda-tools [role="status"] { flex-basis: 100%; margin: 0; }
+details.formal { margin: 0 0 .8rem; }
+details.formal .list > li { padding: .45rem 0; }
+.agenda { list-style: none; padding: 0; margin: 0; }
+.agenda-item { display: flex; gap: 1rem; padding: .9rem 0; border-bottom: 1px solid var(--c-border); }
+.agenda-item:last-child { border-bottom: 0; }
+.agenda-item[hidden] { display: none; }
+.agenda-item .pykala { flex: none; min-width: 3.5rem; color: var(--c-muted); font-variant-numeric: tabular-nums; padding-top: .1rem; }
+.agenda-body { min-width: 0; flex: 1; overflow-wrap: anywhere; }
+.agenda-body h3 { font-size: 1.05rem; margin: 0 0 .3rem; }
+.agenda-body h3 a { text-decoration: none; }
+.agenda-body h3 a:hover { text-decoration: underline; }
+.agenda-tags { display: flex; flex-wrap: wrap; gap: .3rem; margin: 0 0 .3rem; }
+.agenda-tags:empty { display: none; }
+.agenda-preview { margin: 0; font-size: .93rem; color: var(--c-muted); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; max-width: 46rem; }
+
+/* Sortable tables (public/enhance.js): header buttons. */
+th button.sort { all: unset; cursor: pointer; display: inline-flex; gap: .3em; align-items: baseline; }
+th button.sort:focus-visible { outline: 3px solid var(--c-accent); outline-offset: 2px; }
+th button.sort::after { content: "↕"; opacity: .35; font-size: .85em; }
+th[aria-sort="ascending"] button.sort::after { content: "↑"; opacity: 1; }
+th[aria-sort="descending"] button.sort::after { content: "↓"; opacity: 1; }
+input.table-filter { display: block; width: min(100%, 24rem); font: inherit; padding: .4rem .7rem; margin: 0 0 .6rem; border: 1px solid var(--c-border); border-radius: var(--radius); background: var(--c-surface); color: var(--c-text); }
+.attendees { padding-left: 1.1rem; margin: .5rem 0 0; }
+.attendees li { break-inside: avoid; }
+.vote-result { margin: .1rem 0 .7rem; max-width: 46rem; }
+.vs-rebels { margin: .4rem 0 .2rem; }
+.vs-fold > summary { font-size: .9rem; margin: .4rem 0 .2rem; }
 /* AI briefs (PLAN.md §20) */
 .ai-brief { border: 1px solid var(--c-border); border-top: 3px solid var(--c-primary); border-radius: var(--radius); padding: .9rem 1.1rem; margin: 1rem 0 1.4rem; background: var(--c-surface); }
 .ai-brief .ai-head { margin: 0 0 .4rem; display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; }
@@ -535,3 +627,4 @@ details.explain-row p { margin: .3rem 0 0; font-size: .92rem; max-width: 44rem; 
    overflow-clip-margin keeps the card shadow, which paint containment would otherwise clip. */
 .list > li { content-visibility: auto; contain-intrinsic-size: auto 3rem; overflow-clip-margin: 4px; }
 .vote-card { content-visibility: auto; contain-intrinsic-size: auto 16rem; overflow-clip-margin: 12px; }
+.agenda-tools[hidden] { display: none; }
