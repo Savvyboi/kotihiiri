@@ -609,3 +609,9 @@ input.table-filter { display: block; width: min(100%, 24rem); font: inherit; pad
 .vote-result { margin: .1rem 0 .7rem; max-width: 46rem; }
 .vs-rebels { margin: .4rem 0 .2rem; }
 .vs-fold > summary { font-size: .9rem; margin: .4rem 0 .2rem; }
+/* Long pages (a city's votes, initiatives, meetings) hold hundreds of rows and cards. Let the
+   browser skip layout and paint for those off screen; `auto` keeps each one's last rendered size
+   so the scrollbar stays steady. Find in page and anchors still reach skipped rows.
+   overflow-clip-margin keeps the card shadow, which paint containment would otherwise clip. */
+.list > li { content-visibility: auto; contain-intrinsic-size: auto 3rem; overflow-clip-margin: 4px; }
+.vote-card { content-visibility: auto; contain-intrinsic-size: auto 16rem; overflow-clip-margin: 12px; }
