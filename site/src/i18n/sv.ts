@@ -274,6 +274,8 @@ export const sv: Dict = {
   'home.stats.votes': 'omröstningar',
   'home.topics': 'Bläddra efter ämne',
 
+  'digest.title': 'Beslut de senaste veckorna',
+  'digest.disclaimer': 'Översikt skriven av AI ({model}) utifrån sammanfattningar av {n} möten. Den kan innehålla fel: kontrollera besluten på mötenas sidor.',
   'brief.tag': 'AI',
   'brief.title': 'Sammanfattning',
   'brief.disclaimer': 'Sammanfattning av protokollet skriven av AI ({model}). Den kan innehålla fel: kontrollera beslutet i originaltexten.',

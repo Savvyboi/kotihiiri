@@ -209,3 +209,60 @@ def test_briefs_of_removed_meetings_are_pruned(tmp_path):
     _meeting(tmp_path, [_item(3, "Muu asia")], date="2026-11-04")
     b.run(["helsinki"], _client(FakeAPI([ANSWER])), data_dir=tmp_path)
     assert list(b.load_briefs("helsinki", tmp_path)) == ["helsinki/kaupunginvaltuusto/2026-11-04"]
+
+
+def _digest_answer(n_meetings=2):
+    return {
+        "summary": "Valtuusto päätti hallintosäännöstä ja talousarviosta.",
+        "points": [
+            {"text": "Hallintosääntö muuttuu.", "meeting": 2},
+            {"text": "Ilman lähdettä."},
+            {"text": "Väärä numero.", "meeting": 99},
+            {"text": ""},
+        ],
+    }
+
+
+def test_city_digest_from_meeting_briefs(tmp_path):
+    _meeting(tmp_path, [_item(3, "Talousarvio 2027")], date="2026-11-04")
+    _meeting(tmp_path, [_item(3, "Hallintosäännön muuttaminen")], date="2026-11-18")
+    _meeting(tmp_path, [_item(3, "Vanha asia")], date="2026-09-01")  # outside the 30-day window
+    api = FakeAPI([ANSWER, ANSWER, ANSWER, _digest_answer()])
+    report = b.run(["helsinki"], _client(api), data_dir=tmp_path)
+    assert report.written == 3 and report.digests == 1 and report.requests == 4
+
+    prompt = api.sent[3]["messages"][1]["content"]
+    assert "2026-10-19–2026-11-18" in prompt and "2026-09-01" not in prompt
+    d = jsonio.read(b.digest_path("helsinki", tmp_path))
+    assert d["period_start"] == "2026-10-19" and d["period_end"] == "2026-11-18"
+    assert d["points"][0] == {
+        "text": "Hallintosääntö muuttuu.",
+        "meeting_id": "helsinki/kaupunginvaltuusto/2026-11-18",
+    }
+    assert d["points"][1:] == [{"text": "Ilman lähdettä."}, {"text": "Väärä numero."}]
+    assert d["meetings"] == [
+        "helsinki/kaupunginvaltuusto/2026-11-04",
+        "helsinki/kaupunginvaltuusto/2026-11-18",
+    ]
+    # digest.json is not mistaken for a year of meeting briefs
+    assert "input_sha256" not in b.load_briefs("helsinki", tmp_path)
+
+    # Nothing new: no requests. A new meeting in the window: the digest is redone.
+    assert b.run(["helsinki"], _client(FakeAPI([])), data_dir=tmp_path).requests == 0
+    _meeting(tmp_path, [_item(3, "Uusi asia")], date="2026-11-25")
+    api = FakeAPI([ANSWER, _digest_answer()])
+    assert b.run(["helsinki"], _client(api), data_dir=tmp_path).digests == 1
+
+
+def test_digest_needs_two_meetings_and_keeps_budget_for_it(tmp_path):
+    _meeting(tmp_path, [_item(3, "A")], date="2026-11-18")
+    api = FakeAPI([ANSWER])
+    assert b.run(["helsinki"], _client(api), data_dir=tmp_path).digests == 0
+    assert not b.digest_path("helsinki", tmp_path).exists()
+
+    # Backlog of 4 meetings, budget 4: one request is held back for the digest.
+    for d in ("2026-11-04", "2026-11-11", "2026-11-12", "2026-11-13"):
+        _meeting(tmp_path, [_item(3, "B")], date=d)
+    api = FakeAPI([ANSWER, ANSWER, ANSWER, _digest_answer()])
+    report = b.run(["helsinki"], _client(api), data_dir=tmp_path, max_requests=4)
+    assert report.written == 3 and report.digests == 1 and report.pending == 1

@@ -272,6 +272,8 @@ export const fi = {
   'home.stats.votes': 'äänestystä',
   'home.topics': 'Selaa aiheittain',
 
+  'digest.title': 'Viime viikkojen päätökset',
+  'digest.disclaimer': 'Tekoälyn ({model}) kirjoittama katsaus {n} kokouksen tiivistelmistä. Se voi sisältää virheitä: tarkista päätökset kokousten sivuilta.',
   'brief.tag': 'AI',
   'brief.title': 'Tiivistelmä',
   'brief.disclaimer': 'Tekoälyn ({model}) kirjoittama tiivistelmä pöytäkirjasta. Se voi sisältää virheitä: tarkista päätös alkuperäisestä tekstistä.',

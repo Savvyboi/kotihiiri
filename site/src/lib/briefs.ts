@@ -19,7 +19,7 @@ export function cityBriefs(cityId: string): Map<string, MeetingBrief> {
   m = new Map();
   const dir = path.join(DATA_DIR, cityId, 'briefs');
   if (fs.existsSync(dir)) {
-    for (const f of fs.readdirSync(dir).filter((n) => n.endsWith('.json')).sort()) {
+    for (const f of fs.readdirSync(dir).filter((n) => /^\d{4}\.json$/.test(n)).sort()) {
       const data = JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8')) as Record<string, MeetingBrief>;
       for (const [id, b] of Object.entries(data)) m.set(id, b);
     }
@@ -49,4 +49,16 @@ export function voteBrief(item: AgendaItem, voteOrdinal: number): string | undef
 /** "nvidia/nemotron-nano-9b-v2:free" → "nemotron-nano-9b-v2" */
 export function modelName(model: string): string {
   return model.split('/').pop()!.replace(/:free$/, '');
+}
+
+/** data/{city}/briefs/digest.json: recent decisions across the city's bodies (PLAN.md §20). */
+export interface DigestPoint { text: string; meeting_id?: string }
+export interface CityDigest {
+  model: string; lang: string; period_start: string; period_end: string;
+  summary: string; points: DigestPoint[]; meetings: string[]; input_sha256: string;
+}
+
+export function cityDigest(cityId: string): CityDigest | undefined {
+  const p = path.join(DATA_DIR, cityId, 'briefs', 'digest.json');
+  return fs.existsSync(p) ? (JSON.parse(fs.readFileSync(p, 'utf8')) as CityDigest) : undefined;
 }
