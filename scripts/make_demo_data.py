@@ -391,22 +391,33 @@ def make_briefs(city):
             continue
         items = {}
         for it in substantive_items(f):
-            rec = {"brief": f"Esimerkkitiivistelmä: {it['title']} hyväksyttiin esityksen mukaisesti.",
-                   "sha": it["content_sha256"]}
+            rec = {
+                "brief": f"Esimerkkitiivistelmä: {it['title']} hyväksyttiin esityksen mukaisesti.",
+                "sha": it["content_sha256"],
+            }
             if it["votes"]:
-                rec["votes"] = {str(v["ordinal"]): f"Äänestettiin esityksestä ja vastaehdotuksesta; "
-                                f"{'Jaa' if v['counts']['jaa'] >= v['counts']['ei'] else 'Ei'} voitti äänin "
-                                f"{v['counts']['jaa']}–{v['counts']['ei']}." for v in it["votes"]}
+                rec["votes"] = {
+                    str(v["ordinal"]): f"Äänestettiin esityksestä ja vastaehdotuksesta; "
+                    f"{'Jaa' if v['counts']['jaa'] >= v['counts']['ei'] else 'Ei'} voitti äänin "
+                    f"{v['counts']['jaa']}–{v['counts']['ei']}."
+                    for v in it["votes"]
+                }
             items[str(it["ordinal"])] = rec
         titles = [it["title"] for it in substantive_items(f)]
         out[f["meeting"]["id"]] = {
-            "model": "demo/esimerkki:free", "lang": "fi", "stage": "minutes", "input_sha256": input_sha256(f),
+            "model": "demo/esimerkki:free",
+            "lang": "fi",
+            "stage": "minutes",
+            "input_sha256": input_sha256(f),
             "summary": f"Esimerkkikokous käsitteli {len(titles)} asiaa. Tämä tiivistelmä on keksitty esikatselua varten.",
-            "highlights": titles[:3], "items": items,
+            "highlights": titles[:3],
+            "items": items,
         }
     for year in sorted({k.rsplit("/", 1)[1][:4] for k in out}):
-        jsonio.write(OUT / city / "briefs" / f"{year}.json",
-                     {k: v for k, v in out.items() if k.rsplit("/", 1)[1].startswith(year)})
+        jsonio.write(
+            OUT / city / "briefs" / f"{year}.json",
+            {k: v for k, v in out.items() if k.rsplit("/", 1)[1].startswith(year)},
+        )
 
 
 make_briefs("helsinki")
