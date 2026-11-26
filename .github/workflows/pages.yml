@@ -194,9 +194,11 @@ jobs:
             --header-upload "Cache-Control: public, max-age=300"
           # 4. Now that no new page refers to them, delete search chunks and images gone from the build.
           #    Old /_astro/ files stay: they are small, and a page a browser or the edge still holds
-          #    keeps its styles.
+          #    keeps its styles. A change to page text replaces most search chunks at once, so the
+          #    guard here allows one full index's worth of stale chunks on top of the usual 5000.
+          chunks=$(find site/dist/pagefind -type f | wc -l)
           rclone sync site/dist r2:kotihiiri-site --checksum --s3-no-check-bucket --fast-list --checkers 64 \
-            --max-delete 5000 --include "/pagefind/fragment/**" --include "/pagefind/index/**" \
+            --max-delete $((chunks + 5000)) --include "/pagefind/fragment/**" --include "/pagefind/index/**" \
             --include "/pagefind/filter/**" --include "/pagefind/*.pf_meta" "${images[@]}"
       # rclone retries a failed sync and can report success on a later attempt; check the bucket
       # really holds every built file with the same MD5.
