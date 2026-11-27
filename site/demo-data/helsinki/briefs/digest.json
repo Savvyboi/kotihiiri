@@ -1,5 +1,5 @@
 {
-  "input_sha256": "909cb3ed010c1867ac951c3b844861eecae517cd046078cf8a29eacbc5cd1c67",
+  "input_sha256": "f8b0fce087fc3a20c88bba730d5f3b8267cb56d038021c667d32beb7560d18a3",
   "lang": "fi",
   "meetings": [
     "helsinki/kaupunginhallitus/2026-09-01",
@@ -12,24 +12,48 @@
   "points": [
     {
       "meeting_id": "helsinki/kaupunginhallitus/2026-09-01",
-      "text": "Lausunto maakuntakaavaluonnoksesta"
+      "text": {
+        "en": "Lausunto maakuntakaavaluonnoksesta",
+        "fi": "Lausunto maakuntakaavaluonnoksesta",
+        "sv": "Lausunto maakuntakaavaluonnoksesta"
+      }
     },
     {
       "meeting_id": "helsinki/kaupunginvaltuusto/2026-09-09",
-      "text": "Kouluverkon uudistus ja kahden koulurakennuksen peruskorjaus"
+      "text": {
+        "en": "Kouluverkon uudistus ja kahden koulurakennuksen peruskorjaus",
+        "fi": "Kouluverkon uudistus ja kahden koulurakennuksen peruskorjaus",
+        "sv": "Kouluverkon uudistus ja kahden koulurakennuksen peruskorjaus"
+      }
     },
     {
       "meeting_id": "helsinki/kaupunginvaltuusto/2026-09-09",
-      "text": "Asemakaavan muutos rantakortteliin (kuvitteellinen alue)"
+      "text": {
+        "en": "Asemakaavan muutos rantakortteliin (kuvitteellinen alue)",
+        "fi": "Asemakaavan muutos rantakortteliin (kuvitteellinen alue)",
+        "sv": "Asemakaavan muutos rantakortteliin (kuvitteellinen alue)"
+      }
     },
     {
       "meeting_id": "helsinki/kaupunginvaltuusto/2026-09-23",
-      "text": "Raitiotien jatkaminen keskustasta uudelle asuinalueelle"
+      "text": {
+        "en": "Raitiotien jatkaminen keskustasta uudelle asuinalueelle",
+        "fi": "Raitiotien jatkaminen keskustasta uudelle asuinalueelle",
+        "sv": "Raitiotien jatkaminen keskustasta uudelle asuinalueelle"
+      }
     },
     {
       "meeting_id": "helsinki/kaupunginvaltuusto/2026-09-23",
-      "text": "Kouluverkon uudistus ja kahden koulurakennuksen peruskorjaus"
+      "text": {
+        "en": "Kouluverkon uudistus ja kahden koulurakennuksen peruskorjaus",
+        "fi": "Kouluverkon uudistus ja kahden koulurakennuksen peruskorjaus",
+        "sv": "Kouluverkon uudistus ja kahden koulurakennuksen peruskorjaus"
+      }
     }
   ],
-  "summary": "Esimerkkikatsaus: valtuusto ja hallitus käsittelivät liikennettä, kouluja ja kaavoitusta. Tämä teksti on keksitty esikatselua varten."
+  "summary": {
+    "en": "Example overview: the council and the board dealt with traffic, schools and zoning. This text is made up for previews.",
+    "fi": "Esimerkkikatsaus: valtuusto ja hallitus käsittelivät liikennettä, kouluja ja kaavoitusta. Tämä teksti on keksitty esikatselua varten.",
+    "sv": "Exempelöversikt: fullmäktige och styrelsen behandlade trafik, skolor och planläggning. Texten är påhittad för förhandsvisning."
+  }
 }

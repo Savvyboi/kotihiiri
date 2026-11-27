@@ -11,7 +11,8 @@ import VoteBar from './VoteBar.astro';
 import PartyChip from './PartyChip.astro';
 import T from './T.astro';
 import AiBrief from './AiBrief.astro';
-interface Props { vote: VoteEvent; city: string; locale: Locale; compact?: boolean; brief?: string; model?: string }
+import { type Variant } from '../lib/briefs';
+interface Props { vote: VoteEvent; city: string; locale: Locale; compact?: boolean; brief?: Variant[]; model?: string }
 // compact: one of several votes on the page, so the group table starts folded.
 const { vote, city, locale, compact = false, brief, model } = Astro.props;
 
@@ -57,7 +58,7 @@ const anyAgainst = ballots.some((b) => against(b));
 <section class="card vote" id={`aanestys-${vote.ordinal}`}>
   <h3><T k="vote.title" vars={{ n: vote.ordinal }} locale={locale} /></h3>
   {vote.result_text && <p class="vote-result"><b><T k="vote.result" locale={locale} />:</b> <span lang="fi">{vote.result_text}</span></p>}
-  {brief && model && <AiBrief text={brief} model={model} locale={locale} compact />}
+  {brief && brief.length > 0 && model && <AiBrief variants={brief} model={model} locale={locale} compact />}
   <div class="vote-sides">
     {sides.map((sd) => (
       <div class:list={['vs-side', `vs-${sd.choice}`, { won: sd.won }]}>

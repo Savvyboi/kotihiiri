@@ -461,7 +461,12 @@ def facts() -> None:
 def briefs(
     city: str | None = typer.Option(None, "--city", help="comma-separated; default: every city in data/"),
     max_requests: int = typer.Option(
-        40, "--max-requests", help="free models allow 50 a day (1,000 with $10 of credits bought)"
+        700,
+        "--max-requests",
+        help="free models allow 50 a day (1,000 with $10 of credits bought); Savvas's account runs 700",
+    ),
+    workers: int = typer.Option(
+        4, "--workers", help="meetings briefed at once (20 requests a minute in all)"
     ),
     model: str | None = typer.Option(None, "--model", help="comma-separated, tried in order"),
     since: str = typer.Option("2025-01-01", "--since"),
@@ -513,7 +518,13 @@ def briefs(
         _fail(str(exc))
     try:
         report = b.run(
-            cities, client, max_requests=max_requests, since=since, agendas=agendas, max_minutes=max_minutes
+            cities,
+            client,
+            max_requests=max_requests,
+            since=since,
+            agendas=agendas,
+            max_minutes=max_minutes,
+            workers=workers,
         )
     except b.ModelError as exc:
         _fail(str(exc))

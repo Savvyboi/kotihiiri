@@ -21,9 +21,10 @@ and one that does not fit continues next run. The site picks the data up on the 
     python scripts/crawl_local.py --briefs-only        # no crawl: AI briefs of new meetings, then push
 
 AI briefs (PLAN.md §20): when OPENROUTER_API_KEY is set, every run ends with `kunta briefs` for the
-six cities and the registry municipalities crawled here, at most `--briefs-requests` requests (free
-models allow 50 a day). Briefs of the six cities are committed with the data; those of registry
-municipalities go to R2 next to their meetings. Without the key the step is skipped.
+six cities and the registry municipalities crawled here, at most `--briefs-requests` requests (700,
+Savvas's daily allowance; four requests run at once, so 700 take a few hours). Briefs of the six
+cities are committed with the data; those of registry municipalities go to R2 next to their
+meetings. Without the key the step is skipped.
 
 Registry municipalities need rclone with an `r2` remote for the kotihiiri-data bucket, e.g. the same
 RCLONE_CONFIG_R2_* environment variables weekly.yml sets (PLAN.md §18.4), or `rclone config`.
@@ -133,7 +134,7 @@ def main() -> int:
     ap.add_argument("--no-push", action="store_true")
     ap.add_argument("--briefs-only", action="store_true", help="skip the crawl; write AI briefs and push")
     ap.add_argument("--no-briefs", action="store_true", help="skip the AI briefs step")
-    ap.add_argument("--briefs-requests", type=int, default=40, help="OpenRouter requests for briefs")
+    ap.add_argument("--briefs-requests", type=int, default=700, help="OpenRouter requests for briefs")
     a = ap.parse_args()
 
     if not a.no_push:

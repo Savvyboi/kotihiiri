@@ -1,87 +1,179 @@
 {
   "helsinki/kaupunginhallitus/2026-09-01": {
-    "highlights": [
-      "Lausunto maakuntakaavaluonnoksesta"
-    ],
-    "input_sha256": "4a0b5a4a8129beab02d2bddf3328b7c1d09c8beed283f3406ebf45829f0e812c",
+    "highlights": {
+      "en": [
+        "Lausunto maakuntakaavaluonnoksesta"
+      ],
+      "fi": [
+        "Lausunto maakuntakaavaluonnoksesta"
+      ],
+      "sv": [
+        "Lausunto maakuntakaavaluonnoksesta"
+      ]
+    },
+    "input_sha256": "460c9766a34e5c2184e96aa523424bd2ac1ec9c52707d428d55101378fa6442b",
     "items": {
       "1": {
-        "brief": "Esimerkkitiivistelmä: Lausunto maakuntakaavaluonnoksesta hyväksyttiin esityksen mukaisesti.",
+        "brief": {
+          "en": "Example brief: Lausunto maakuntakaavaluonnoksesta was approved as proposed.",
+          "fi": "Esimerkkitiivistelmä: Lausunto maakuntakaavaluonnoksesta hyväksyttiin esityksen mukaisesti.",
+          "sv": "Exempelsammandrag: Lausunto maakuntakaavaluonnoksesta godkändes enligt förslaget."
+        },
         "sha": "c72041b6434a22a98269272f1126babf8de03df14e5b9b1dfd030ba24f80f1f3"
       }
     },
     "lang": "fi",
     "model": "demo/esimerkki:free",
     "stage": "minutes",
-    "summary": "Esimerkkikokous käsitteli 1 asiaa. Tämä tiivistelmä on keksitty esikatselua varten."
+    "summary": {
+      "en": "The example meeting handled 1 items. This brief is made up for previews.",
+      "fi": "Esimerkkikokous käsitteli 1 asiaa. Tämä tiivistelmä on keksitty esikatselua varten.",
+      "sv": "Exempelmötet behandlade 1 ärenden. Sammandraget är påhittat för förhandsvisning."
+    }
   },
   "helsinki/kaupunginvaltuusto/2026-09-09": {
-    "highlights": [
-      "Kouluverkon uudistus ja kahden koulurakennuksen peruskorjaus",
-      "Asemakaavan muutos rantakortteliin (kuvitteellinen alue)",
-      "Valtuustoaloite kaupunkipyöräkauden pidentämisestä"
-    ],
-    "input_sha256": "1b8ccc731773e0c9174ec00dfae38daa223a18518158790c5d9d05c88d50138e",
+    "highlights": {
+      "en": [
+        "Kouluverkon uudistus ja kahden koulurakennuksen peruskorjaus",
+        "Asemakaavan muutos rantakortteliin (kuvitteellinen alue)",
+        "Valtuustoaloite kaupunkipyöräkauden pidentämisestä"
+      ],
+      "fi": [
+        "Kouluverkon uudistus ja kahden koulurakennuksen peruskorjaus",
+        "Asemakaavan muutos rantakortteliin (kuvitteellinen alue)",
+        "Valtuustoaloite kaupunkipyöräkauden pidentämisestä"
+      ],
+      "sv": [
+        "Kouluverkon uudistus ja kahden koulurakennuksen peruskorjaus",
+        "Asemakaavan muutos rantakortteliin (kuvitteellinen alue)",
+        "Valtuustoaloite kaupunkipyöräkauden pidentämisestä"
+      ]
+    },
+    "input_sha256": "9dfac56e5f5fcc41a8a4bf5a9cae1fe328993b281fa5c909c3724533581b0285",
     "items": {
       "1": {
-        "brief": "Esimerkkitiivistelmä: Kouluverkon uudistus ja kahden koulurakennuksen peruskorjaus hyväksyttiin esityksen mukaisesti.",
+        "brief": {
+          "en": "Example brief: Kouluverkon uudistus ja kahden koulurakennuksen peruskorjaus was approved as proposed.",
+          "fi": "Esimerkkitiivistelmä: Kouluverkon uudistus ja kahden koulurakennuksen peruskorjaus hyväksyttiin esityksen mukaisesti.",
+          "sv": "Exempelsammandrag: Kouluverkon uudistus ja kahden koulurakennuksen peruskorjaus godkändes enligt förslaget."
+        },
         "sha": "e05f48a95a264d261106925e8fee775e74fc53ce8638c1bf25bb2430c6378d6a",
         "votes": {
-          "1": "Äänestettiin esityksestä ja vastaehdotuksesta; Jaa voitti äänin 49–30."
+          "1": {
+            "en": "Vote on the proposal and the counter-proposal; Yes won 49–30.",
+            "fi": "Äänestettiin esityksestä ja vastaehdotuksesta; Jaa voitti äänin 49–30.",
+            "sv": "Omröstning om förslaget och motförslaget; Ja vann med 49–30."
+          }
         }
       },
       "2": {
-        "brief": "Esimerkkitiivistelmä: Asemakaavan muutos rantakortteliin (kuvitteellinen alue) hyväksyttiin esityksen mukaisesti.",
+        "brief": {
+          "en": "Example brief: Asemakaavan muutos rantakortteliin (kuvitteellinen alue) was approved as proposed.",
+          "fi": "Esimerkkitiivistelmä: Asemakaavan muutos rantakortteliin (kuvitteellinen alue) hyväksyttiin esityksen mukaisesti.",
+          "sv": "Exempelsammandrag: Asemakaavan muutos rantakortteliin (kuvitteellinen alue) godkändes enligt förslaget."
+        },
         "sha": "c0c5741a0074daf34e2f323718798b116ddea19e28a84e28adcaad6471ba816e"
       },
       "3": {
-        "brief": "Esimerkkitiivistelmä: Valtuustoaloite kaupunkipyöräkauden pidentämisestä hyväksyttiin esityksen mukaisesti.",
+        "brief": {
+          "en": "Example brief: Valtuustoaloite kaupunkipyöräkauden pidentämisestä was approved as proposed.",
+          "fi": "Esimerkkitiivistelmä: Valtuustoaloite kaupunkipyöräkauden pidentämisestä hyväksyttiin esityksen mukaisesti.",
+          "sv": "Exempelsammandrag: Valtuustoaloite kaupunkipyöräkauden pidentämisestä godkändes enligt förslaget."
+        },
         "sha": "f69c77a80d13c8268db4371b0facfc6a5d03d843c17371344569298b19860152"
       },
       "4": {
-        "brief": "Esimerkkitiivistelmä: Tilintarkastajan valinta vuosille 2026–2027 hyväksyttiin esityksen mukaisesti.",
+        "brief": {
+          "en": "Example brief: Tilintarkastajan valinta vuosille 2026–2027 was approved as proposed.",
+          "fi": "Esimerkkitiivistelmä: Tilintarkastajan valinta vuosille 2026–2027 hyväksyttiin esityksen mukaisesti.",
+          "sv": "Exempelsammandrag: Tilintarkastajan valinta vuosille 2026–2027 godkändes enligt förslaget."
+        },
         "sha": "233c99669baf3117248dc6e87f831b48317a8ca87ebd53dbe73af6e780da9870"
       }
     },
     "lang": "fi",
     "model": "demo/esimerkki:free",
     "stage": "minutes",
-    "summary": "Esimerkkikokous käsitteli 4 asiaa. Tämä tiivistelmä on keksitty esikatselua varten."
+    "summary": {
+      "en": "The example meeting handled 4 items. This brief is made up for previews.",
+      "fi": "Esimerkkikokous käsitteli 4 asiaa. Tämä tiivistelmä on keksitty esikatselua varten.",
+      "sv": "Exempelmötet behandlade 4 ärenden. Sammandraget är påhittat för förhandsvisning."
+    }
   },
   "helsinki/kaupunginvaltuusto/2026-09-23": {
-    "highlights": [
-      "Raitiotien jatkaminen keskustasta uudelle asuinalueelle",
-      "Kouluverkon uudistus ja kahden koulurakennuksen peruskorjaus",
-      "Asemakaavan muutos rantakortteliin (kuvitteellinen alue)"
-    ],
-    "input_sha256": "44768d5346a54c4546b55596555dca556ac3cf6c1444bf672989048764fd32c7",
+    "highlights": {
+      "en": [
+        "Raitiotien jatkaminen keskustasta uudelle asuinalueelle",
+        "Kouluverkon uudistus ja kahden koulurakennuksen peruskorjaus",
+        "Asemakaavan muutos rantakortteliin (kuvitteellinen alue)"
+      ],
+      "fi": [
+        "Raitiotien jatkaminen keskustasta uudelle asuinalueelle",
+        "Kouluverkon uudistus ja kahden koulurakennuksen peruskorjaus",
+        "Asemakaavan muutos rantakortteliin (kuvitteellinen alue)"
+      ],
+      "sv": [
+        "Raitiotien jatkaminen keskustasta uudelle asuinalueelle",
+        "Kouluverkon uudistus ja kahden koulurakennuksen peruskorjaus",
+        "Asemakaavan muutos rantakortteliin (kuvitteellinen alue)"
+      ]
+    },
+    "input_sha256": "563b2de929f9f8b731fe47c62b6f6fab51e4c91a8957bd48e2fe7c1ba6e13cc4",
     "items": {
       "1": {
-        "brief": "Esimerkkitiivistelmä: Raitiotien jatkaminen keskustasta uudelle asuinalueelle hyväksyttiin esityksen mukaisesti.",
+        "brief": {
+          "en": "Example brief: Raitiotien jatkaminen keskustasta uudelle asuinalueelle was approved as proposed.",
+          "fi": "Esimerkkitiivistelmä: Raitiotien jatkaminen keskustasta uudelle asuinalueelle hyväksyttiin esityksen mukaisesti.",
+          "sv": "Exempelsammandrag: Raitiotien jatkaminen keskustasta uudelle asuinalueelle godkändes enligt förslaget."
+        },
         "sha": "b9a21a0390cfb1f2070f68755665db6a206731259396b090af1c0200496577df",
         "votes": {
-          "1": "Äänestettiin esityksestä ja vastaehdotuksesta; Jaa voitti äänin 53–27."
+          "1": {
+            "en": "Vote on the proposal and the counter-proposal; Yes won 53–27.",
+            "fi": "Äänestettiin esityksestä ja vastaehdotuksesta; Jaa voitti äänin 53–27.",
+            "sv": "Omröstning om förslaget och motförslaget; Ja vann med 53–27."
+          }
         }
       },
       "2": {
-        "brief": "Esimerkkitiivistelmä: Kouluverkon uudistus ja kahden koulurakennuksen peruskorjaus hyväksyttiin esityksen mukaisesti.",
+        "brief": {
+          "en": "Example brief: Kouluverkon uudistus ja kahden koulurakennuksen peruskorjaus was approved as proposed.",
+          "fi": "Esimerkkitiivistelmä: Kouluverkon uudistus ja kahden koulurakennuksen peruskorjaus hyväksyttiin esityksen mukaisesti.",
+          "sv": "Exempelsammandrag: Kouluverkon uudistus ja kahden koulurakennuksen peruskorjaus godkändes enligt förslaget."
+        },
         "sha": "e05f48a95a264d261106925e8fee775e74fc53ce8638c1bf25bb2430c6378d6a",
         "votes": {
-          "1": "Äänestettiin esityksestä ja vastaehdotuksesta; Jaa voitti äänin 52–32."
+          "1": {
+            "en": "Vote on the proposal and the counter-proposal; Yes won 52–32.",
+            "fi": "Äänestettiin esityksestä ja vastaehdotuksesta; Jaa voitti äänin 52–32.",
+            "sv": "Omröstning om förslaget och motförslaget; Ja vann med 52–32."
+          }
         }
       },
       "3": {
-        "brief": "Esimerkkitiivistelmä: Asemakaavan muutos rantakortteliin (kuvitteellinen alue) hyväksyttiin esityksen mukaisesti.",
+        "brief": {
+          "en": "Example brief: Asemakaavan muutos rantakortteliin (kuvitteellinen alue) was approved as proposed.",
+          "fi": "Esimerkkitiivistelmä: Asemakaavan muutos rantakortteliin (kuvitteellinen alue) hyväksyttiin esityksen mukaisesti.",
+          "sv": "Exempelsammandrag: Asemakaavan muutos rantakortteliin (kuvitteellinen alue) godkändes enligt förslaget."
+        },
         "sha": "c0c5741a0074daf34e2f323718798b116ddea19e28a84e28adcaad6471ba816e"
       },
       "4": {
-        "brief": "Esimerkkitiivistelmä: Valtuustoaloite kaupunkipyöräkauden pidentämisestä hyväksyttiin esityksen mukaisesti.",
+        "brief": {
+          "en": "Example brief: Valtuustoaloite kaupunkipyöräkauden pidentämisestä was approved as proposed.",
+          "fi": "Esimerkkitiivistelmä: Valtuustoaloite kaupunkipyöräkauden pidentämisestä hyväksyttiin esityksen mukaisesti.",
+          "sv": "Exempelsammandrag: Valtuustoaloite kaupunkipyöräkauden pidentämisestä godkändes enligt förslaget."
+        },
         "sha": "f69c77a80d13c8268db4371b0facfc6a5d03d843c17371344569298b19860152"
       }
     },
     "lang": "fi",
     "model": "demo/esimerkki:free",
     "stage": "minutes",
-    "summary": "Esimerkkikokous käsitteli 4 asiaa. Tämä tiivistelmä on keksitty esikatselua varten."
+    "summary": {
+      "en": "The example meeting handled 4 items. This brief is made up for previews.",
+      "fi": "Esimerkkikokous käsitteli 4 asiaa. Tämä tiivistelmä on keksitty esikatselua varten.",
+      "sv": "Exempelmötet behandlade 4 ärenden. Sammandraget är påhittat för förhandsvisning."
+    }
   }
 }

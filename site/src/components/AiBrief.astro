@@ -2,23 +2,34 @@
 // An AI-written brief (PLAN.md §20), clearly labelled as such, with the model named and a pointer
 // to the source text. Used on meeting pages (summary + highlights), item pages (brief) and votes
 // (one line, `compact`). Labels go through <T> because item pages are translated client-side.
+// `variants` holds one version per language. With more than one (item pages, built once in Finnish)
+// all are rendered and public/shared-i18n.js shows the one for ?lang=; the rest stay hidden and out
+// of the search index.
 import { type Locale } from '../i18n';
-import { modelName } from '../lib/briefs';
+import { modelName, pickLang, type Variant } from '../lib/briefs';
 import T from './T.astro';
-interface Props { text?: string; highlights?: string[]; model: string; lang?: string; locale: Locale; compact?: boolean }
-const { text, highlights = [], model, lang = 'fi', locale, compact = false } = Astro.props;
-const paras = text ? text.split(/\n\n+/) : [];
+interface Props { variants: Variant[]; model: string; locale: Locale; compact?: boolean }
+const { variants, model, locale, compact = false } = Astro.props;
+const shown = pickLang(variants.map((v) => v.lang), locale, variants[0]?.lang ?? 'fi');
+const multi = variants.length > 1;
+const vs = variants.map((v) => ({ ...v, paras: v.text.split(/\n\n+/), hidden: v.lang !== shown }));
 ---
-{compact ? (
-  <p class="ai-brief compact" data-pagefind-ignore>
+{vs.length > 0 && (compact ? (
+  <p class="ai-brief compact" data-pagefind-ignore data-ai-group={multi ? '' : undefined}>
     <span class="ai-tag" title={modelName(model)}><T k="brief.tag" locale={locale} /></span>
-    <span lang={lang}>{text}</span>
+    {vs.map((v) => <span lang={v.lang} data-ai-lang={multi ? v.lang : undefined} hidden={v.hidden}>{v.text}</span>)}
   </p>
 ) : (
   <aside class="ai-brief" aria-labelledby="ai-brief-h">
     <p class="ai-head" id="ai-brief-h"><span class="ai-tag"><T k="brief.tag" locale={locale} /></span> <b><T k="brief.title" locale={locale} /></b></p>
-    {paras.map((para) => <p class="ai-text" lang={lang}>{para}</p>)}
-    {highlights.length > 0 && <ul class="ai-points" lang={lang}>{highlights.map((h) => <li>{h}</li>)}</ul>}
+    <div data-ai-group={multi ? '' : undefined}>
+      {vs.map((v) => (
+        <div lang={v.lang} data-ai-lang={multi ? v.lang : undefined} hidden={v.hidden} data-pagefind-ignore={v.hidden ? '' : undefined}>
+          {v.paras.map((para) => <p class="ai-text">{para}</p>)}
+          {v.highlights && v.highlights.length > 0 && <ul class="ai-points">{v.highlights.map((h) => <li>{h}</li>)}</ul>}
+        </div>
+      ))}
+    </div>
     <p class="ai-note small muted"><T k="brief.disclaimer" vars={{ model: modelName(model) }} locale={locale} /></p>
   </aside>
-)}
+))}
