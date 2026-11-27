@@ -7,6 +7,7 @@ import { modelName } from '../lib/briefs';
 import T from './T.astro';
 interface Props { text?: string; highlights?: string[]; model: string; lang?: string; locale: Locale; compact?: boolean }
 const { text, highlights = [], model, lang = 'fi', locale, compact = false } = Astro.props;
+const paras = text ? text.split(/\n\n+/) : [];
 ---
 {compact ? (
   <p class="ai-brief compact" data-pagefind-ignore>
@@ -16,7 +17,7 @@ const { text, highlights = [], model, lang = 'fi', locale, compact = false } = A
 ) : (
   <aside class="ai-brief" aria-labelledby="ai-brief-h">
     <p class="ai-head" id="ai-brief-h"><span class="ai-tag"><T k="brief.tag" locale={locale} /></span> <b><T k="brief.title" locale={locale} /></b></p>
-    {text && <p class="ai-text" lang={lang}>{text}</p>}
+    {paras.map((para) => <p class="ai-text" lang={lang}>{para}</p>)}
     {highlights.length > 0 && <ul class="ai-points" lang={lang}>{highlights.map((h) => <li>{h}</li>)}</ul>}
     <p class="ai-note small muted"><T k="brief.disclaimer" vars={{ model: modelName(model) }} locale={locale} /></p>
   </aside>

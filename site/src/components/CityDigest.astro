@@ -8,6 +8,7 @@ interface Props { city: string; locale: Locale }
 const { city, locale } = Astro.props;
 const { t, path, date } = useI18n(locale);
 const d = cityDigest(city);
+const paras = d ? d.summary.split(/\n\n+/) : [];
 // Link only meetings the site still has (a meeting removed at the source loses its page).
 const live = new Set(d ? meetingFiles(city).map((f) => f.meeting.id) : []);
 const href = (id: string) => { const [c, b] = id.split('/'); return path(`/${c}/${b}/${meetingSegment(id)}/`); };
@@ -17,7 +18,7 @@ const source = (id: string) => `${bodyName(id.split('/').slice(0, 2).join('/'))}
   <section class="ai-brief city-digest" aria-labelledby="digest-h">
     <p class="ai-head"><span class="ai-tag">{t('brief.tag')}</span> <b id="digest-h">{t('digest.title')}</b>
       <span class="small muted">{date(d.period_start)}–{date(d.period_end)}</span></p>
-    <p class="ai-text" lang={d.lang}>{d.summary}</p>
+    {paras.map((para) => <p class="ai-text" lang={d.lang}>{para}</p>)}
     {d.points.length > 0 && (
       <ul class="ai-points" lang={d.lang}>
         {d.points.map((p) => (

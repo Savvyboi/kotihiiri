@@ -266,3 +266,17 @@ def test_digest_needs_two_meetings_and_keeps_budget_for_it(tmp_path):
     api = FakeAPI([ANSWER, ANSWER, ANSWER, _digest_answer()])
     report = b.run(["helsinki"], _client(api), data_dir=tmp_path, max_requests=4)
     assert report.written == 3 and report.digests == 1 and report.pending == 1
+
+
+def test_only_free_models_are_accepted():
+    with pytest.raises(b.ModelError):
+        b.OpenRouter("key", models=("nvidia/nemotron-3.5-super-vl",))
+    with pytest.raises(b.ModelError):
+        b.OpenRouter("key", models=())
+    assert b.DEFAULT_MODELS == ("nvidia/nemotron-3.5-super-vl:free",)
+
+
+def test_summaries_keep_paragraphs_items_stay_one_line():
+    text = "Ensimmäinen kappale.\n\n\nToinen   kappale.\nSama kappale."
+    assert b.clean(text, 1000, paragraphs=True) == "Ensimmäinen kappale.\n\nToinen kappale. Sama kappale."
+    assert "\n" not in b.clean(text, 1000)

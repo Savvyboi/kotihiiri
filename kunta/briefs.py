@@ -47,12 +47,10 @@ log = logging.getLogger("kunta.briefs")
 API_URL = "https://openrouter.ai/api/v1/chat/completions"
 MODELS_URL = "https://openrouter.ai/api/v1/models"
 # Tried in order: OpenRouter falls through to the next one when a model is down or rate limited.
-# Free model ids change; `kunta briefs --list-models` prints the current free ones.
-DEFAULT_MODELS = (
-    "nvidia/nemotron-3-nano-30b-a3b:free",
-    "nvidia/nemotron-nano-9b-v2:free",
-)
-PROMPT_VERSION = 1
+# Free model ids change; `kunta briefs --list-models` prints the current free ones. Only `:free` models
+# are accepted, so a paid model is never billed by mistake (Savvas, 2026-11-27).
+DEFAULT_MODELS = ("nvidia/nemotron-3.5-super-vl:free",)
+PROMPT_VERSION = 2
 
 # Characters of source text per request and per part of an item. Finnish runs about 3 characters a
 # token, so a full request stays near 15k tokens: far inside free models' context, and few enough
@@ -62,7 +60,9 @@ CHUNK_ITEMS = 25  # more briefs than this in one answer and free models start dr
 ITEM_PART_CHARS = 1_800
 MOTION_CHARS = 400
 # Output limits; longer answers are cut at a sentence.
-SUMMARY_CHARS = 600
+# Meeting summaries and the city digest: about 70–200 words (Savvas, 2026-11-27), asked for in the
+# prompt; Finnish averages about 8 characters a word with spaces, so this cap only stops run-ons.
+SUMMARY_CHARS = 1_800
 HIGHLIGHT_CHARS = 220
 BRIEF_CHARS = 420
 VOTE_CHARS = 320
@@ -171,7 +171,7 @@ paikat ja päivämäärät, jos ne ovat olennaisia.
 - Vastaa pelkkänä JSON-objektina ilman muuta tekstiä."""
 
 SCHEMA = """{
-  "summary": "2–3 virkettä: mitä kokouksessa päätettiin tärkeimmistä asioista",
+  "summary": "70–200 sanaa, 1–3 kappaletta: mitä päätettiin, miksi ja mitä se tarkoittaa kuntalaiselle",
   "highlights": ["enintään 4 lyhyttä nostoa tärkeimmistä päätöksistä"],
   "items": [
     {"ordinal": 3, "brief": "1–2 virkettä: mitä asiassa päätettiin ja mitä se tarkoittaa",
@@ -217,7 +217,7 @@ def summary_messages(
     listing = "\n".join(f"- {title}: {brief}" for title, brief in item_briefs)
     user = (
         f"{city_name} – {body_name}, kokous {meeting['date']}. Alla on kokouksen asiat tiivistelminä. "
-        f"Kirjoita {_LANG.get(lang, 'suomeksi')} kokoukselle tiivistelmä (2–3 virkettä) "
+        f"Kirjoita {_LANG.get(lang, 'suomeksi')} kokoukselle tiivistelmä (70–200 sanaa) "
         "ja enintään 4 nostoa.\n\n"
         'Vastausmuoto:\n{"summary": "...", "highlights": ["..."]}\n\n' + listing
     )
@@ -242,10 +242,17 @@ def parse_json(text: str) -> dict[str, Any]:
     return obj
 
 
-def clean(text: Any, limit: int) -> str:
+def clean(text: Any, limit: int, paragraphs: bool = False) -> str:
+    """Model text cut to `limit` at a sentence, PII stripped; one line unless `paragraphs`, which
+    keeps blank-line paragraph breaks (meeting summaries and the city digest)."""
     if not isinstance(text, str):
         return ""
-    text = strip_pii(collapse_ws(_THINK.sub("", text))).replace("\n", " ").strip()
+    text = strip_pii(collapse_ws(_THINK.sub("", text)))
+    if paragraphs:
+        paras = [" ".join(p.split()) for p in re.split(r"\n\s*\n", text)]
+        text = "\n\n".join(p for p in paras if p)
+    else:
+        text = text.replace("\n", " ").strip()
     if len(text) <= limit:
         return text
     cut = text[:limit]
@@ -317,6 +324,13 @@ class OpenRouter:
     _last: float = field(default=0.0, repr=False)
     _http: httpx.Client | None = field(default=None, repr=False)
 
+    def __post_init__(self) -> None:
+        paid = [m for m in self.models if not m.endswith(":free")]
+        if not self.models or paid:
+            raise ModelError(
+                f"only free models (ending in :free) are allowed; got {', '.join(paid) or 'none'}"
+            )
+
     def _client(self) -> httpx.Client:
         if self._http is None:
             self._http = httpx.Client(timeout=self.timeout_s, transport=self.transport)
@@ -332,9 +346,10 @@ class OpenRouter:
             "model": self.models[0],
             "messages": msgs,
             "temperature": 0.2,
-            "max_tokens": 6000,
-            # Nemotron and other reasoning models: keep the thinking out of the answer.
-            "reasoning": {"exclude": True},
+            # Reasoning tokens count against max_tokens, so leave room for them.
+            "max_tokens": 12000,
+            # Nemotron reasons: keep it short and out of the answer.
+            "reasoning": {"effort": "low", "exclude": True},
         }
         if len(self.models) > 1:
             payload["models"] = list(self.models)
@@ -484,14 +499,14 @@ def brief_meeting(client: OpenRouter, file: dict[str, Any], body_name: str, city
             answer = parse_json(content)
         entries.update(item_entries(answer, part))
         if len(parts) == 1:
-            summary, hl = clean(answer.get("summary"), SUMMARY_CHARS), highlights(answer)
+            summary, hl = clean(answer.get("summary"), SUMMARY_CHARS, paragraphs=True), highlights(answer)
         log.debug("%s: part %d/%d done", meeting["id"], n + 1, len(parts))
     if len(parts) > 1 and entries:
         titles = {str(i["ordinal"]): i["title"] for i in file["items"]}
         listing = [(titles[k], v["brief"]) for k, v in sorted(entries.items(), key=lambda kv: int(kv[0]))]
         content, model = client.chat(summary_messages(meeting, body_name, city_name, listing, lang))
         answer = parse_json(content)
-        summary, hl = clean(answer.get("summary"), SUMMARY_CHARS), highlights(answer)
+        summary, hl = clean(answer.get("summary"), SUMMARY_CHARS, paragraphs=True), highlights(answer)
     if not summary and not entries:
         raise ModelError("empty answer")
     rec: dict[str, Any] = {"model": model, "lang": lang, "stage": meeting.get("stage", ""), "items": entries}
@@ -542,7 +557,7 @@ def prune(city: str, data_dir: Path = DATA_DIR) -> int:
 DIGEST_DAYS = 30
 DIGEST_MEETINGS = 25
 DIGEST_POINTS = 6
-DIGEST_SUMMARY_CHARS = 700
+DIGEST_SUMMARY_CHARS = 1_800
 DIGEST_POINT_CHARS = 260
 _KIND_ORDER = {"council": 0, "board": 1, "committee": 2, "section": 3, "enterprise_board": 4}
 
@@ -604,7 +619,7 @@ def digest_messages(city_name: str, rows: list[dict[str, Any]], start: str, end:
     user = (
         f"{city_name}: kunnan toimielinten kokoukset {start}–{end} tiivistelminä. "
         f"Kirjoita {_LANG.get(lang, 'suomeksi')} kuntalaiselle katsaus siitä, mitä kunnassa on viime "
-        "viikkoina päätetty ja mikä muuttuu: summary 2–4 virkettä ja enintään 6 nostoa tärkeimmistä "
+        "viikkoina päätetty ja mikä muuttuu: summary 70–200 sanaa ja enintään 6 nostoa tärkeimmistä "
         "päätöksistä ja muutoksista (rahasummat, palvelut, rakentaminen, organisaatio). Merkitse jokaiseen "
         "nostoon sen kokouksen numero, josta se on. Jätä rutiiniasiat pois.\n\n"
         'Vastausmuoto:\n{"summary": "...", "points": [{"text": "...", "meeting": 3}]}\n\n' + listing
@@ -615,7 +630,7 @@ def digest_messages(city_name: str, rows: list[dict[str, Any]], start: str, end:
 def brief_digest(client: OpenRouter, city_name: str, rows, start: str, end: str, lang: str) -> dict[str, Any]:
     content, model = client.chat(digest_messages(city_name, rows, start, end, lang))
     answer = parse_json(content)
-    summary = clean(answer.get("summary"), DIGEST_SUMMARY_CHARS)
+    summary = clean(answer.get("summary"), DIGEST_SUMMARY_CHARS, paragraphs=True)
     points = []
     for p in answer.get("points") or []:
         if not isinstance(p, dict):
