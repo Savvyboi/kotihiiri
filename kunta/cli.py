@@ -461,9 +461,9 @@ def facts() -> None:
 def briefs(
     city: str | None = typer.Option(None, "--city", help="comma-separated; default: every city in data/"),
     max_requests: int = typer.Option(
-        700,
+        475,
         "--max-requests",
-        help="free models allow 50 a day (1,000 with $10 of credits bought); Savvas's account runs 700",
+        help="free models allow 50 a day (1,000 with $10 of credits bought); Savvas's runs use 475",
     ),
     workers: int = typer.Option(
         4, "--workers", help="meetings briefed at once (20 requests a minute in all)"
