@@ -56,7 +56,9 @@ MODELS_URL = "https://openrouter.ai/api/v1/models"
 # Free model ids change; `kunta briefs --list-models` prints the current free ones. Only `:free` models
 # are accepted, so a paid model is never billed by mistake (Savvas, 2026-11-27).
 DEFAULT_MODELS = ("nvidia/nemotron-3.5-super-vl:free",)
-PROMPT_VERSION = 3  # 3: fi/sv/en in one answer, stricter rules on names and who decided (2026-11-27)
+# 3: fi/sv/en in one answer, stricter rules on names and who decided (2026-11-27)
+# 4: formalities left out, no "what it means" claims of the model's own, official place names (same day)
+PROMPT_VERSION = 4
 LANGS = ("fi", "sv", "en")
 DAILY_REQUESTS = 700  # Savvas's OpenRouter account, 2026-11-27
 WORKERS = 4
@@ -79,10 +81,13 @@ BRIEF_CHARS = 420
 VOTE_CHARS = 320
 MAX_HIGHLIGHTS = 4
 
+# Opening formalities. Case forms vary ("Kokouksen laillisuuden ja päätösvaltaisuuden toteaminen",
+# Helsinki and Espoo), and a body name can come first ("Konsernijaoston pöytäkirjan tarkastaminen").
 _PROCEDURAL = re.compile(
-    r"^\s*(?:kokouksen\s+(?:avaaminen|avaus|laillisuus|järjestäytyminen)|laillisuus\s+ja\s+päätösvaltaisuus|"
-    r"läsnäolo|nimenhuuto|pöytäkirjan\s+tarkast|pöytäkirjantarkast|työjärjestyksen|esityslistan\s+hyväksy|"
-    r"ilmoitusasiat|tiedoksi\s+merkittävät|tiedoksi\s+saatetut|kokouksen\s+päättäminen|"
+    r"^\s*(?:kokouksen\s+(?:avaaminen|avaus|laillisuu|päätösvaltaisuu|järjestäytyminen)|"
+    r"laillisuu(?:s|den)\s+ja\s+päätösvaltaisuu|läsnäolo|nimenhuuto|(?:[\w-]+\s+)?pöytäkirjan\s+tarkast|pöytäkirjantarkast|"
+    r"työjärjestyksen|esityslistan\s+hyväksy|asioiden\s+käsittelyjärjestys|ilmoitusasiat|tiedoksi\s+merkittävät|"
+    r"tiedoksi\s+saatetut|kokouksen\s+päättäminen|"
     r"mötets\s+(?:öppnande|laglighet)|laglighet\s+och\s+beslutförhet|protokolljusterar|val\s+av\s+protokolljusterare|"
     r"justering\s+av\s+protokoll|anmälningsärenden)",
     re.IGNORECASE,
@@ -184,6 +189,11 @@ lausunnon", älä "päätti", "nimitti" tai "hyväksyi". Jos asia palautettiin v
 jätettiin pöydälle tai merkittiin tiedoksi, kerro juuri se.
 - Rahasummat, määrät, prosentit ja päivämäärät täsmälleen kuten lähteessä. Älä pyöristä äläkä laske \
 uusia lukuja.
+- Älä kirjoita omia arvioitasi tai päätelmiä siitä, mitä päätös tarkoittaa asukkaille, ellei lähde \
+sano sitä. Ei lauseita kuten "Asukkaille tämä tarkoittaa…".
+- Jätä kokouksen muodollisuudet pois: avaus, laillisuus ja päätösvaltaisuus, pöytäkirjantarkastajat, \
+työjärjestys.
+- Kun luettelet asioita, tarkista että lukumäärä täsmää luetteloon.
 - Selkokieli: lyhyet lauseet, ei virkakieltä, ei lyhenteitä selittämättä.
 - Älä mainitse henkilöiden nimiä, paitsi ehdotuksen tekijä äänestyksen kuvauksessa ja \
 henkilövalinnassa valittu henkilö.
@@ -191,8 +201,12 @@ henkilövalinnassa valittu henkilö.
 
 Kielet: jokainen teksti kirjoitetaan kolmella kielellä (fi = suomi, sv = ruotsi, en = englanti). \
 Ruotsin- ja englanninkielinen teksti on saman sisällön tarkka käännös, ei uusi tiivistelmä: samat \
-nimet, luvut ja päätöksen sanamuoto (esitti/päätti). Käytä vakiintuneita nimiä, esimerkiksi \
-Helsingfors, stadsfullmäktige, City Council. Yritysten ja kaavojen nimet jäävät kääntämättä.
+nimet, luvut ja päätöksen sanamuoto (esitti/päätti). Käytä kunnan, toimielinten ja paikkojen \
+virallisia ruotsin- ja englanninkielisiä nimiä, kun ne ovat olemassa (Helsingfors, stadsfullmäktige, \
+Södra hamnen, Mellungsbacka; City Council, City Board, Group Division), älä suomen taivutusmuotoja \
+kuten "Eteläsataman saarten plan". Jos virallista nimeä ei ole, käytä suomenkielistä nimeä \
+perusmuodossa (Eteläsatama, Mellunmäki). Yritysten nimet jäävät kääntämättä. Kirjoita luvut kunkin \
+kielen tapaan (fi/sv 85 536 136 euroa, en EUR 85,536,136).
 
 Vastaa pelkkänä JSON-objektina ilman muuta tekstiä."""
 

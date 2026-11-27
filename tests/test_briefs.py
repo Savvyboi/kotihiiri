@@ -355,3 +355,22 @@ def test_meetings_run_in_parallel_within_the_budget(tmp_path):
     # nothing more.
     assert report.requests <= 5 and report.written == 4 and report.pending == 2
     assert len(b.load_briefs("helsinki", tmp_path)) == 4
+
+
+@pytest.mark.parametrize(
+    "title",
+    [
+        "Kokouksen laillisuuden ja päätösvaltaisuuden toteaminen sekä pöytäkirjan tarkastajien valinta",
+        "Laillisuuden ja päätösvaltaisuuden toteaminen",
+        "Konsernijaoston pöytäkirjan tarkastaminen",
+        "Asioiden käsittelyjärjestys",
+    ],
+)
+def test_opening_formalities_in_other_case_forms_are_procedural(title):
+    # Helsinki and Espoo (527 and 317 meetings) and Vantaa's konsernijaosto (2026-11-27 trial)
+    assert b.is_procedural(title)
+
+
+def test_substantive_titles_are_not_procedural():
+    for title in ("Valtuuston työjärjestyksen muuttaminen", "Helsinki Partners Oy:n omistajastrategia"):
+        assert not b.is_procedural(title)

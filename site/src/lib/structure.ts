@@ -142,7 +142,7 @@ export function decisionOutcome(decision: string | undefined): Outcome | undefin
 }
 
 // Opening formalities every meeting starts with; the meeting page folds them away.
-const PROCEDURAL = /^(kokouksen (avaus|avaaminen|laillisuus|päätösvaltaisuus|järjestäytyminen)|laillisuus ja päätösvaltaisuus|kokouksen laillisuuden ja päätösvaltaisuuden toteaminen|pöytäkirjan tarkast|pöytäkirjantarkast|työjärjestyksen|esityslistan hyväksyminen|asioiden käsittelyjärjestys|nimenhuuto|ilmoitusasiat|tiedoksi merkittävät|mötets (öppnande|laglighet)|val av protokolljusterare)/i;
+const PROCEDURAL = /^(kokouksen (avaus|avaaminen|laillisuus|päätösvaltaisuus|järjestäytyminen)|laillisuus ja päätösvaltaisuus|kokouksen laillisuuden ja päätösvaltaisuuden toteaminen|(\S+ )?pöytäkirjan tarkast|pöytäkirjantarkast|työjärjestyksen|esityslistan hyväksyminen|asioiden käsittelyjärjestys|nimenhuuto|ilmoitusasiat|tiedoksi merkittävät|mötets (öppnande|laglighet)|val av protokolljusterare)/i;
 export const isProcedural = (title: string): boolean => PROCEDURAL.test(title.trim());
 
 /** The first real sentence(s) of a section, skipping headings, the diary number and bare
