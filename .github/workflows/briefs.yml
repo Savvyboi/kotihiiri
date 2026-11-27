@@ -1,0 +1,93 @@
+# AI briefs of the six cities' meetings (kunta briefs, PLAN.md §20) on Actions instead of Savvas's PC.
+# OpenRouter is reachable from GitHub, and the six cities' data is in git, so the run writes
+# data/{city}/briefs, commits after every round of 175 requests (a cancelled run loses at most one
+# round) and deploys once at the end. The daily budget (700, Savvas's OpenRouter account) is shared
+# with any run on the PC, so only one of the two should be scheduled.
+# Needs the repository secret OPENROUTER_API_KEY; without it the job says so and stops.
+name: briefs
+
+on:
+  schedule:
+    - cron: "30 1 * * *" # 03:30/04:30 Helsinki, after OpenRouter's daily reset at 00:00 UTC
+  workflow_dispatch:
+    inputs:
+      max_requests:
+        description: OpenRouter requests for this run
+        default: "700"
+      workers:
+        description: Meetings briefed at once
+        default: "4"
+
+permissions:
+  contents: write
+  pages: write # the deploy job below runs pages.yml
+  id-token: write
+
+concurrency:
+  group: data-writer
+  cancel-in-progress: false
+
+jobs:
+  briefs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 345
+    outputs:
+      committed: ${{ steps.run.outputs.committed }}
+    env:
+      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+      MAX_REQUESTS: ${{ inputs.max_requests || '700' }}
+      WORKERS: ${{ inputs.workers || '4' }}
+    steps:
+      - name: Check the key
+        run: |
+          if [ -z "$OPENROUTER_API_KEY" ]; then
+            echo "::error::Add the repository secret OPENROUTER_API_KEY (Settings > Secrets and variables > Actions)."
+            exit 1
+          fi
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -e .
+      - name: Write briefs in rounds, committing after each
+        id: run
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          cities=$(for c in helsinki espoo tampere vantaa oulu turku; do [ -d "data/$c/meetings" ] && printf '%s,' "$c"; done)
+          cities=${cities%,}
+          left=$MAX_REQUESTS
+          start=$(date +%s)
+          committed=false
+          while [ "$left" -gt 0 ]; do
+            minutes=$(( 320 - ($(date +%s) - start) / 60 ))
+            [ "$minutes" -lt 15 ] && { echo "Out of time; the rest waits for the next run."; break; }
+            round=$(( left < 175 ? left : 175 ))
+            kunta briefs --city "$cities" --max-requests "$round" --workers "$WORKERS" \
+              --max-minutes "$minutes" | tee round.log || true
+            grep -q "^briefs:" round.log || { echo "::error::kunta briefs failed (see above)"; exit 1; }
+            used=$(grep -oP 'requests=\K[0-9]+' round.log | tail -1)
+            left=$(( left - ${used:-$round} ))
+            git add -A data/ # only briefs change here; a glob would fail before the first brief
+            if ! git diff --cached --quiet; then
+              git commit -q -m "data: AI briefs $(date -u +%F)"
+              for i in 1 2 3; do
+                git pull -q --rebase origin "$GITHUB_REF_NAME" && git push -q origin "HEAD:$GITHUB_REF_NAME" && break
+                git rebase --abort 2>/dev/null || true
+                sleep 10
+              done
+              committed=true
+            fi
+            grep -q "stopped: daily limit" round.log && { echo "OpenRouter's daily limit reached."; break; }
+            grep -q "still_pending=0 " round.log && grep -q "digests_pending=0" round.log && { echo "Backlog done."; break; }
+            [ "${used:-0}" -eq 0 ] && break
+          done
+          echo "committed=$committed" >> "$GITHUB_OUTPUT"
+
+  # A push made with GITHUB_TOKEN does not start pages.yml, so the new briefs are deployed here.
+  deploy:
+    needs: briefs
+    if: ${{ needs.briefs.outputs.committed == 'true' && github.ref == 'refs/heads/main' }}
+    uses: ./.github/workflows/pages.yml
+    secrets: inherit # R2 credentials for the kotihiiri-site upload
