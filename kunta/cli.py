@@ -476,8 +476,14 @@ def briefs(
     from . import briefs as b
 
     if list_models:
-        for mid, ctx in b.free_models():
+        free = b.free_models()
+        for mid, ctx in free:
             typer.echo(f"{mid}  context={ctx}")
+        ids = {m for m, _ in free}
+        for m in load_project().briefs_models or b.DEFAULT_MODELS:
+            typer.echo(
+                f"configured: {m} {'OK, listed as free' if m in ids else 'NOT LISTED: fix briefs_models'}"
+            )
         return
     cities = (
         [c.strip() for c in city.split(",") if c.strip()]
@@ -501,7 +507,10 @@ def briefs(
         or tuple(load_project().briefs_models)
         or b.DEFAULT_MODELS
     )
-    client = b.OpenRouter(key, models=models)
+    try:
+        client = b.OpenRouter(key, models=models)
+    except b.ModelError as exc:
+        _fail(str(exc))
     try:
         report = b.run(
             cities, client, max_requests=max_requests, since=since, agendas=agendas, max_minutes=max_minutes

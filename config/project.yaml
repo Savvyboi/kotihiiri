@@ -7,10 +7,10 @@ user_agent_template: "KuntaDataBot/0.1 (+https://{site_domain}/tietoa; {contact_
 data_licence: CC-BY-4.0
 since: "2025-01-01"
 # OpenRouter models for the AI briefs (`kunta briefs`, PLAN.md §20), tried in order. Free model ids
-# change now and then: `kunta briefs --list-models` prints the current ones.
+# change now and then: `kunta briefs --list-models` prints the current ones. Only `:free` ids are
+# accepted. Savvas chose Nemotron 3.5 Super VL alone on 2026-11-27 (no fallback).
 briefs_models:
-  - nvidia/nemotron-3-nano-30b-a3b:free
-  - nvidia/nemotron-nano-9b-v2:free
+  - nvidia/nemotron-3.5-super-vl:free
 features:
   SPEECHES_BY_PERSON: true   # legal check in PLAN.md §2.2 rule 9 confirmed by Savvas on 2026-10-14
 # Paths read despite robots.txt, each approved by a human (PLAN.md §2.1 rule 1, §17). Used only by
