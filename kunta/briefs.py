@@ -17,7 +17,7 @@ site hides an item brief whose item has changed since (`sha`). Model output is n
 for unchanged input, which keeps the data deterministic run to run (§2.2 rule 10).
 
 Free models are rate limited (OpenRouter: 20 requests a minute; 50 a day, or 1,000 a day once the
-account has bought at least $10 of credits; Savvas's account runs 700 a day), so one request covers a
+account has bought at least $10 of credits; Savvas's runs use 475 a day), so one request covers a
 whole meeting, procedural items (opening, quorum, minute checkers) are never sent, and a run stops at
 `max_requests` or at the first daily-limit answer and picks up where it left off next time. A request
 takes a minute or two, so a few run at once (`workers`), still spaced to the per-minute limit.
@@ -60,7 +60,7 @@ DEFAULT_MODELS = ("nvidia/nemotron-3.5-super-vl:free",)
 # 4: formalities left out, no "what it means" claims of the model's own, official place names (same day)
 PROMPT_VERSION = 4
 LANGS = ("fi", "sv", "en")
-DAILY_REQUESTS = 700  # Savvas's OpenRouter account, 2026-11-27
+DAILY_REQUESTS = 475  # Savvas, 2026-11-27 (was 700 earlier that day)
 WORKERS = 4
 
 # Characters of source text per request and per part of an item. Finnish runs about 3 characters a
