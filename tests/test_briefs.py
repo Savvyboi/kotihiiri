@@ -374,3 +374,17 @@ def test_opening_formalities_in_other_case_forms_are_procedural(title):
 def test_substantive_titles_are_not_procedural():
     for title in ("Valtuuston työjärjestyksen muuttaminen", "Helsinki Partners Oy:n omistajastrategia"):
         assert not b.is_procedural(title)
+
+
+def test_a_cut_answer_is_split_down_and_summarised_from_items(tmp_path):
+    _meeting(tmp_path, [_item(3, "A"), _item(4, "B")])
+    cut = '{"summary": {"fi": "Kesken'
+    a3 = {"items": [{"ordinal": 3, "brief": {"fi": "Kolmas.", "sv": "Tredje.", "en": "Third."}}]}
+    final = {"summary": {"fi": "Kaksi asiaa.", "en": "Two items."}, "highlights": {"fi": ["Kolmas"]}}
+    # both items cut short, then item 3 alone, item 4 alone (cut twice), then the summary
+    api = FakeAPI([cut, a3, "proosaa", "edelleen proosaa", final])
+    report = b.run(["helsinki"], _client(api), data_dir=tmp_path)
+    assert report.written == 1 and report.requests == 5
+    entry = b.load_briefs("helsinki", tmp_path)["helsinki/kaupunginvaltuusto/2026-11-18"]
+    assert set(entry["items"]) == {"3"} and entry["summary"]["en"] == "Two items."
+    assert "A: Kolmas." in api.sent[4]["messages"][1]["content"]

@@ -66,9 +66,9 @@ WORKERS = 4
 # Characters of source text per request and per part of an item. Finnish runs about 3 characters a
 # token, so a full request stays near 15k tokens: far inside free models' context, and few enough
 # requests that the six cities' backlog since 2025 is about 2,800 requests.
-CHUNK_CHARS = 45_000
+CHUNK_CHARS = 30_000
 # Three languages per item triple the answer, so fewer items per request than the source size allows.
-CHUNK_ITEMS = 15
+CHUNK_ITEMS = 10  # 15 cut answers short on the first Actions run (2026-11-27)
 ITEM_PART_CHARS = 1_800
 MOTION_CHARS = 400
 # Output limits; longer answers are cut at a sentence.
@@ -580,28 +580,47 @@ def _names(city: str, data_dir: Path) -> tuple[dict[str, str], str, str]:
     return bodies, (cfg.name_fi if cfg else city), lang
 
 
-def _ask(client: OpenRouter, msgs: list[dict[str, str]]) -> tuple[dict[str, Any], str]:
+def _ask(client: OpenRouter, msgs: list[dict[str, str]], retry: bool = True) -> tuple[dict[str, Any], str]:
     content, model = client.chat(msgs)
     try:
         return parse_json(content), model
     except ValueError:
+        if not retry:
+            raise
         # One retry: free models sometimes answer with prose or cut JSON.
         content, model = client.chat(msgs)
         return parse_json(content), model
 
 
 def brief_meeting(client: OpenRouter, file: dict[str, Any], body_name: str, city_name: str, lang: str):
-    """The brief entry for one meeting (without input_sha256). Raises ModelError/DailyLimit."""
+    """The brief entry for one meeting (without input_sha256). Raises ModelError/DailyLimit.
+
+    A part whose answer is not valid JSON (usually an answer cut short: three languages for many
+    long items) is split in two and sent again, down to single items; the meeting summary then
+    comes from the item briefs. An item that still fails alone is left without a brief."""
     meeting = file["meeting"]
     items = substantive_items(file)
-    parts = chunks(items)
+    queue = chunks(items)
+    split = len(queue) > 1
     entries: dict[str, dict[str, Any]] = {}
     summary: dict[str, str] = {}
     hl: dict[str, list[str]] = {}
     model = ""
-    for n, part in enumerate(parts):
-        single = len(parts) == 1
-        answer, model = _ask(client, messages(meeting, body_name, city_name, part, lang, with_summary=single))
+    while queue:
+        part = queue.pop(0)
+        single = not split
+        msgs = messages(meeting, body_name, city_name, part, lang, with_summary=single)
+        try:
+            answer, model = _ask(client, msgs, retry=len(part) == 1)
+        except ValueError as exc:
+            if len(part) == 1:
+                log.warning("%s §%s: %s; left without a brief", meeting["id"], part[0]["ordinal"], exc)
+                continue
+            log.info("%s: %d items in one answer failed (%s); splitting", meeting["id"], len(part), exc)
+            half = len(part) // 2
+            queue[:0] = [part[:half], part[half:]]
+            split = True
+            continue
         entries.update(item_entries(answer, part, lang))
         if single:
             summary, hl = summary_of(answer, lang), highlights(answer, lang)
@@ -617,8 +636,7 @@ def brief_meeting(client: OpenRouter, file: dict[str, Any], body_name: str, city
                     longer = summary_of(again, lang)
                     if words(longer.get(lang, "")) > short:
                         summary, hl, model = longer, highlights(again, lang) or hl, model2
-        log.debug("%s: part %d/%d done", meeting["id"], n + 1, len(parts))
-    if len(parts) > 1 and entries:
+    if split and entries:
         titles = {str(i["ordinal"]): i["title"] for i in file["items"]}
         listing = [
             (titles[k], v["brief"][lang]) for k, v in sorted(entries.items(), key=lambda kv: int(kv[0]))
