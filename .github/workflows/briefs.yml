@@ -69,11 +69,12 @@ jobs:
             grep -q "^briefs:" round.log || { echo "::error::kunta briefs failed (see above)"; exit 1; }
             used=$(grep -oP 'requests=\K[0-9]+' round.log | tail -1)
             left=$(( left - ${used:-$round} ))
-            git add data/*/briefs
+            git add -A data/ # only briefs change here; a glob would fail before the first brief
             if ! git diff --cached --quiet; then
               git commit -q -m "data: AI briefs $(date -u +%F)"
               for i in 1 2 3; do
                 git pull -q --rebase origin "$GITHUB_REF_NAME" && git push -q origin "HEAD:$GITHUB_REF_NAME" && break
+                git rebase --abort 2>/dev/null || true
                 sleep 10
               done
               committed=true
