@@ -33,5 +33,11 @@
       if (a.hreflang === lang) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
     }
     for (const el of document.querySelectorAll('[data-locale-only]')) el.hidden = false;
+    // AI briefs carry every language; show this one where it exists (else the Finnish stays).
+    for (const group of document.querySelectorAll('[data-ai-group]')) {
+      const versions = [...group.querySelectorAll('[data-ai-lang]')];
+      if (!versions.some((el) => el.dataset.aiLang === lang)) continue;
+      for (const el of versions) el.hidden = el.dataset.aiLang !== lang;
+    }
   })();
 })();

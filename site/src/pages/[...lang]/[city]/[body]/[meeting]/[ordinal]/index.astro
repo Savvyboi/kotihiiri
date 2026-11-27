@@ -8,7 +8,7 @@ import SourceLink from '../../../../../../components/SourceLink.astro';
 import VoteDetail from '../../../../../../components/VoteDetail.astro';
 import Prose from '../../../../../../components/Prose.astro';
 import AiBrief from '../../../../../../components/AiBrief.astro';
-import { itemBrief, meetingBrief } from '../../../../../../lib/briefs';
+import { itemVariants, meetingBrief, voteVariants } from '../../../../../../lib/briefs';
 import T from '../../../../../../components/T.astro';
 import { formatDate, sharedPath, type Key, type Locale } from '../../../../../../i18n';
 import { cities, meetingFiles, bodyName, bodySlug, meetingSegment, decisionText, speechExcerpt, speechesByItem, type AgendaItem, type City, type Meeting } from '../../../../../../lib/data';
@@ -35,8 +35,9 @@ const main = item.sections.filter((s) => s.type !== 'history' && s.type !== 'dec
 const history = item.sections.filter((s) => s.type === 'history');
 const words = item.sections.reduce((n, s) => n + wordCount(s.text), 0);
 const minutes = Math.max(1, Math.round(words / 200));
-const brief = itemBrief(item);
-const briefMeta = brief && meetingBrief(meeting.id);
+// Built once in Finnish, so every language goes in and the browser shows the one for ?lang=.
+const briefVariants = itemVariants(item);
+const briefMeta = briefVariants.length ? meetingBrief(meeting.id) : undefined;
 // printed name → link to the person's page, when the roster knows them
 const who = (raw: string) => { const p = findPerson(city.id, raw); return { name: p?.name ?? displayName(raw), href: p && sharedPath(personUrl(p)) }; };
 // Speeches from the council's debate transcript (M6), each collapsed; #puhe-N opens one.
@@ -88,7 +89,7 @@ const ATT = 8;
       </nav>
     )}
 
-    {brief && briefMeta && <AiBrief text={brief.brief} model={briefMeta.model} lang={briefMeta.lang} locale={locale} />}
+    {briefMeta && <AiBrief variants={briefVariants} model={briefMeta.model} locale={locale} />}
 
     {decision && (
       <section class="decision" id="paatos">
@@ -112,7 +113,7 @@ const ATT = 8;
 
     {item.votes.length > 0 && <>
       <h2 id="aanestykset"><T k="item.votes" locale={locale} /></h2>
-      {item.votes.map((v) => <VoteDetail vote={v} city={city.id} locale={locale} compact={item.votes.length > 1} brief={brief?.votes?.[String(v.ordinal)]} model={briefMeta?.model} />)}
+      {item.votes.map((v) => <VoteDetail vote={v} city={city.id} locale={locale} compact={item.votes.length > 1} brief={voteVariants(item, v.ordinal)} model={briefMeta?.model} />)}
     </>}
 
     {talk.length > 0 && <>

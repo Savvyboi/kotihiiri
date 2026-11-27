@@ -392,16 +392,26 @@ def make_briefs(city):
         items = {}
         for it in substantive_items(f):
             rec = {
-                "brief": f"Esimerkkitiivistelmä: {it['title']} hyväksyttiin esityksen mukaisesti.",
+                "brief": {
+                    "fi": f"Esimerkkitiivistelmä: {it['title']} hyväksyttiin esityksen mukaisesti.",
+                    "sv": f"Exempelsammandrag: {it['title']} godkändes enligt förslaget.",
+                    "en": f"Example brief: {it['title']} was approved as proposed.",
+                },
                 "sha": it["content_sha256"],
             }
             if it["votes"]:
-                rec["votes"] = {
-                    str(v["ordinal"]): f"Äänestettiin esityksestä ja vastaehdotuksesta; "
-                    f"{'Jaa' if v['counts']['jaa'] >= v['counts']['ei'] else 'Ei'} voitti äänin "
-                    f"{v['counts']['jaa']}–{v['counts']['ei']}."
-                    for v in it["votes"]
-                }
+                rec["votes"] = {}
+                for v in it["votes"]:
+                    c = v["counts"]
+                    won = c["jaa"] >= c["ei"]
+                    rec["votes"][str(v["ordinal"])] = {
+                        "fi": f"Äänestettiin esityksestä ja vastaehdotuksesta; "
+                        f"{'Jaa' if won else 'Ei'} voitti äänin {c['jaa']}–{c['ei']}.",
+                        "sv": f"Omröstning om förslaget och motförslaget; "
+                        f"{'Ja' if won else 'Nej'} vann med {c['jaa']}–{c['ei']}.",
+                        "en": f"Vote on the proposal and the counter-proposal; "
+                        f"{'Yes' if won else 'No'} won {c['jaa']}–{c['ei']}.",
+                    }
             items[str(it["ordinal"])] = rec
         titles = [it["title"] for it in substantive_items(f)]
         out[f["meeting"]["id"]] = {
@@ -409,8 +419,13 @@ def make_briefs(city):
             "lang": "fi",
             "stage": "minutes",
             "input_sha256": input_sha256(f),
-            "summary": f"Esimerkkikokous käsitteli {len(titles)} asiaa. Tämä tiivistelmä on keksitty esikatselua varten.",
-            "highlights": titles[:3],
+            "summary": {
+                "fi": f"Esimerkkikokous käsitteli {len(titles)} asiaa. "
+                "Tämä tiivistelmä on keksitty esikatselua varten.",
+                "sv": f"Exempelmötet behandlade {len(titles)} ärenden. Sammandraget är påhittat för förhandsvisning.",
+                "en": f"The example meeting handled {len(titles)} items. This brief is made up for previews.",
+            },
+            "highlights": {"fi": titles[:3], "sv": titles[:3], "en": titles[:3]},
             "items": items,
         }
     for year in sorted({k.rsplit("/", 1)[1][:4] for k in out}):
@@ -435,11 +450,19 @@ def make_digest(city):
             "lang": "fi",
             "period_start": start,
             "period_end": end,
-            "summary": "Esimerkkikatsaus: valtuusto ja hallitus käsittelivät liikennettä, kouluja ja kaavoitusta. "
-            "Tämä teksti on keksitty esikatselua varten.",
-            "points": [{"text": h, "meeting_id": r["meeting_id"]} for r in rows for h in r["highlights"][:2]][
-                :5
-            ],
+            "summary": {
+                "fi": "Esimerkkikatsaus: valtuusto ja hallitus käsittelivät liikennettä, kouluja ja kaavoitusta. "
+                "Tämä teksti on keksitty esikatselua varten.",
+                "sv": "Exempelöversikt: fullmäktige och styrelsen behandlade trafik, skolor och planläggning. "
+                "Texten är påhittad för förhandsvisning.",
+                "en": "Example overview: the council and the board dealt with traffic, schools and zoning. "
+                "This text is made up for previews.",
+            },
+            "points": [
+                {"text": {"fi": h, "sv": h, "en": h}, "meeting_id": r["meeting_id"]}
+                for r in rows
+                for h in r["highlights"][:2]
+            ][:5],
             "meetings": [r["meeting_id"] for r in rows],
             "input_sha256": digest_sha(rows),
         },

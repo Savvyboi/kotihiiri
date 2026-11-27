@@ -1,11 +1,14 @@
 """AI briefs of meetings, agenda items and votes (PLAN.md §20).
 
-A free language model on OpenRouter reads each meeting's minutes and writes, in the language of the
-minutes:
+A free language model on OpenRouter reads each meeting's minutes and writes, in Finnish, Swedish and
+English (one request returns all three, so the languages can't drift apart):
 
-- a two-to-three sentence summary of the meeting and up to four highlights;
+- a 70–200 word summary of the meeting and up to four highlights;
 - a one-to-two sentence brief per substantive agenda item;
 - one sentence per vote saying what Jaa and Ei meant and which side won.
+
+Every text is stored as {lang: text}; `lang` on the entry is the minutes' own language, which the site
+falls back to when a translation is missing.
 
 Storage keeps the site's file count flat: one file per municipality and year,
 `data/{city}/briefs/{yyyy}.json`, keyed by meeting id. Each entry records the hash of what the model
@@ -14,10 +17,11 @@ site hides an item brief whose item has changed since (`sha`). Model output is n
 for unchanged input, which keeps the data deterministic run to run (§2.2 rule 10).
 
 Free models are rate limited (OpenRouter: 20 requests a minute; 50 a day, or 1,000 a day once the
-account has bought at least $10 of credits), so one request covers a whole meeting, procedural
-items (opening, quorum, minute checkers) are never sent, and a run stops at `max_requests` or at
-the first daily-limit answer and picks up where it left off next time. Newest meetings of the six
-cities go first.
+account has bought at least $10 of credits; Savvas's account runs 700 a day), so one request covers a
+whole meeting, procedural items (opening, quorum, minute checkers) are never sent, and a run stops at
+`max_requests` or at the first daily-limit answer and picks up where it left off next time. A request
+takes a minute or two, so a few run at once (`workers`), still spaced to the per-minute limit.
+Newest meetings of the six cities go first.
 
 The key comes from the OPENROUTER_API_KEY environment variable and is never written anywhere.
 """
@@ -30,8 +34,10 @@ import json
 import logging
 import os
 import re
+import threading
 import time
 from collections.abc import Callable, Iterable
+from concurrent.futures import FIRST_COMPLETED, ThreadPoolExecutor, wait
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -50,19 +56,24 @@ MODELS_URL = "https://openrouter.ai/api/v1/models"
 # Free model ids change; `kunta briefs --list-models` prints the current free ones. Only `:free` models
 # are accepted, so a paid model is never billed by mistake (Savvas, 2026-11-27).
 DEFAULT_MODELS = ("nvidia/nemotron-3.5-super-vl:free",)
-PROMPT_VERSION = 2
+PROMPT_VERSION = 3  # 3: fi/sv/en in one answer, stricter rules on names and who decided (2026-11-27)
+LANGS = ("fi", "sv", "en")
+DAILY_REQUESTS = 700  # Savvas's OpenRouter account, 2026-11-27
+WORKERS = 4
 
 # Characters of source text per request and per part of an item. Finnish runs about 3 characters a
 # token, so a full request stays near 15k tokens: far inside free models' context, and few enough
 # requests that the six cities' backlog since 2025 is about 2,800 requests.
 CHUNK_CHARS = 45_000
-CHUNK_ITEMS = 25  # more briefs than this in one answer and free models start dropping some
+# Three languages per item triple the answer, so fewer items per request than the source size allows.
+CHUNK_ITEMS = 15
 ITEM_PART_CHARS = 1_800
 MOTION_CHARS = 400
 # Output limits; longer answers are cut at a sentence.
 # Meeting summaries and the city digest: about 70–200 words (Savvas, 2026-11-27), asked for in the
 # prompt; Finnish averages about 8 characters a word with spaces, so this cap only stops run-ons.
 SUMMARY_CHARS = 1_800
+MIN_WORDS = 70  # a shorter summary of a meeting with two or more items is asked for once more
 HIGHLIGHT_CHARS = 220
 BRIEF_CHARS = 420
 VOTE_CHARS = 320
@@ -157,27 +168,51 @@ def chunks(items: list[dict[str, Any]], limit: int | None = None) -> list[list[d
 
 # --------------------------------------------------------------------------------------------- prompt
 
-_LANG = {"fi": "suomeksi", "sv": "på svenska"}
-
 SYSTEM = """Olet kunnallispolitiikkaa seuraavan kansalaispalvelun toimittaja. Kirjoitat lyhyitä, \
 selkeitä ja puolueettomia tiivistelmiä kunnan toimielinten pöytäkirjoista tavalliselle lukijalle.
 
-Säännöt:
-- Kerro vain se, mikä lähteessä lukee. Älä arvaa, älä lisää taustatietoa äläkä arvioi päätöksiä.
-- Selkokieli: lyhyet lauseet, ei virkakieltä, ei lyhenteitä selittämättä. Mainitse rahasummat, \
-paikat ja päivämäärät, jos ne ovat olennaisia.
-- Älä mainitse henkilöiden nimiä, paitsi ehdotuksen tekijä äänestyksen kuvauksessa.
+Oikeellisuus ennen kaikkea:
+- Kerro vain se, mikä lähteessä lukee. Älä arvaa, älä lisää taustatietoa äläkä arvioi päätöksiä. \
+Jos jokin ei käy lähteestä ilmi, jätä se pois.
+- Nimeä asiat. Kirjoita yhtiöiden, yhdistysten, hankkeiden, paikkojen, katujen, alueiden ja \
+asemakaavojen nimet ja numerot sellaisina kuin ne lähteessä lukevat. Älä koskaan kirjoita \
+"yksi yhtiö", "eräs hanke" tai "tietty alue", jos lähteessä on nimi.
+- Erota päätös ja esitys. "Päätös"-rivi kertoo, mitä toimielin itse teki. Jos toimielin vain \
+esittää, ehdottaa tai antaa lausunnon toiselle toimielimelle (esimerkiksi jaosto tai lautakunta \
+kaupunginhallitukselle tai hallitus valtuustolle), kirjoita "esitti", "ehdotti" tai "antoi \
+lausunnon", älä "päätti", "nimitti" tai "hyväksyi". Jos asia palautettiin valmisteluun, \
+jätettiin pöydälle tai merkittiin tiedoksi, kerro juuri se.
+- Rahasummat, määrät, prosentit ja päivämäärät täsmälleen kuten lähteessä. Älä pyöristä äläkä laske \
+uusia lukuja.
+- Selkokieli: lyhyet lauseet, ei virkakieltä, ei lyhenteitä selittämättä.
+- Älä mainitse henkilöiden nimiä, paitsi ehdotuksen tekijä äänestyksen kuvauksessa ja \
+henkilövalinnassa valittu henkilö.
 - Äänestyksen kuvaus: mitä Jaa ja Ei tarkoittivat ja kumpi voitti äänin X–Y.
-- Vastaa pelkkänä JSON-objektina ilman muuta tekstiä."""
+
+Kielet: jokainen teksti kirjoitetaan kolmella kielellä (fi = suomi, sv = ruotsi, en = englanti). \
+Ruotsin- ja englanninkielinen teksti on saman sisällön tarkka käännös, ei uusi tiivistelmä: samat \
+nimet, luvut ja päätöksen sanamuoto (esitti/päätti). Käytä vakiintuneita nimiä, esimerkiksi \
+Helsingfors, stadsfullmäktige, City Council. Yritysten ja kaavojen nimet jäävät kääntämättä.
+
+Vastaa pelkkänä JSON-objektina ilman muuta tekstiä."""
 
 SCHEMA = """{
-  "summary": "70–200 sanaa, 1–3 kappaletta: mitä päätettiin, miksi ja mitä se tarkoittaa kuntalaiselle",
-  "highlights": ["enintään 4 lyhyttä nostoa tärkeimmistä päätöksistä"],
+  "summary": {"fi": "70–200 sanaa, 1–3 kappaletta: mitä päätettiin, miksi ja mitä se tarkoittaa \
+kuntalaiselle", "sv": "...", "en": "..."},
+  "highlights": {"fi": ["enintään 4 lyhyttä nostoa tärkeimmistä päätöksistä"], "sv": ["..."], "en": ["..."]},
   "items": [
-    {"ordinal": 3, "brief": "1–2 virkettä: mitä asiassa päätettiin ja mitä se tarkoittaa",
-     "votes": [{"ordinal": 1, "brief": "1 virke: mistä äänestettiin ja tulos"}]}
+    {"ordinal": 3,
+     "brief": {"fi": "1–2 virkettä: mitä asiassa päätettiin ja mitä se tarkoittaa", "sv": "...", "en": "..."},
+     "votes": [{"ordinal": 1,
+                "brief": {"fi": "1 virke: mistä äänestettiin ja tulos", "sv": "...", "en": "..."}}]}
   ]
 }"""
+
+_STAGE = {"minutes": "pöytäkirja", "decisions": "päätöstiedote", "agenda": "esityslista"}
+
+
+def _source_note(lang: str) -> str:
+    return " Lähdeteksti on ruotsiksi; kirjoita silti kaikki kolme kieltä." if lang == "sv" else ""
 
 
 def messages(
@@ -188,21 +223,27 @@ def messages(
     lang: str,
     *,
     with_summary: bool,
+    too_short: int | None = None,
 ) -> list[dict[str, str]]:
-    stage = {"minutes": "pöytäkirja", "decisions": "päätöstiedote", "agenda": "esityslista"}.get(
-        meeting.get("stage", ""), "pöytäkirja"
-    )
+    stage = _STAGE.get(meeting.get("stage", ""), "pöytäkirja")
     ask = (
-        "Kirjoita kokoukselle tiivistelmä ja nostot sekä jokaiselle alla olevalle asialle oma tiivistelmä."
+        "Kirjoita kokoukselle tiivistelmä (vähintään 70 ja enintään 200 sanaa) ja nostot sekä "
+        "jokaiselle alla olevalle asialle oma tiivistelmä."
         if with_summary
         else "Kirjoita jokaiselle alla olevalle asialle oma tiivistelmä. "
-        "Jätä summary tyhjäksi ja highlights tyhjäksi listaksi."
+        "Jätä summary pois ja highlights pois."
     )
     if stage == "esityslista":
         ask += " Tämä on esityslista: asioista ei ole vielä päätetty, joten kerro mitä ehdotetaan."
+    if too_short:
+        ask += (
+            f" Edellinen tiivistelmäsi oli vain {too_short} sanaa. Kirjoita nyt vähintään 70 sanaa: "
+            "kerro tärkeimmistä asioista tarkemmin, mitä päätettiin ja mitä se tarkoittaa, lisäämättä "
+            "mitään, mitä lähteessä ei ole."
+        )
     user = (
         f"{city_name} – {body_name}, kokous {meeting['date']} ({stage}).\n"
-        f"{ask} Kirjoita {_LANG.get(lang, 'suomeksi')}. Käytä asioiden ja äänestysten numeroita (ordinal) "
+        f"{ask}{_source_note(lang)} Käytä asioiden ja äänestysten numeroita (ordinal) "
         "täsmälleen sellaisina kuin ne on annettu. "
         "Jos asia on rutiininomainen, kirjoita yksi lyhyt virke.\n\n"
         f"Vastausmuoto:\n{SCHEMA}\n\n" + "\n\n".join(item_block(i) for i in items)
@@ -217,9 +258,10 @@ def summary_messages(
     listing = "\n".join(f"- {title}: {brief}" for title, brief in item_briefs)
     user = (
         f"{city_name} – {body_name}, kokous {meeting['date']}. Alla on kokouksen asiat tiivistelminä. "
-        f"Kirjoita {_LANG.get(lang, 'suomeksi')} kokoukselle tiivistelmä (70–200 sanaa) "
-        "ja enintään 4 nostoa.\n\n"
-        'Vastausmuoto:\n{"summary": "...", "highlights": ["..."]}\n\n' + listing
+        "Kirjoita kokoukselle tiivistelmä (vähintään 70 ja enintään 200 sanaa) ja enintään 4 nostoa, "
+        "kolmella kielellä. Säilytä nimet ja se, kuka päätti ja kuka vain esitti.\n\n"
+        'Vastausmuoto:\n{"summary": {"fi": "...", "sv": "...", "en": "..."}, '
+        '"highlights": {"fi": ["..."], "sv": ["..."], "en": ["..."]}}\n\n' + listing
     )
     return [{"role": "system", "content": SYSTEM}, {"role": "user", "content": user}]
 
@@ -267,8 +309,45 @@ def _int(v: Any) -> int | None:
         return None
 
 
-def item_entries(answer: dict[str, Any], items: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
-    """{ordinal: {brief, sha, votes?}} for the items that were sent; anything else is dropped."""
+def texts(value: Any, limit: int, lang: str, paragraphs: bool = False) -> dict[str, str]:
+    """{lang: text} from the model's {"fi": …, "sv": …, "en": …}, cleaned; a bare string is taken to
+    be in the source language `lang`. Unknown languages and empty texts are dropped."""
+    if isinstance(value, str):
+        value = {lang: value}
+    if not isinstance(value, dict):
+        return {}
+    out = {}
+    for code in LANGS:
+        text = clean(value.get(code), limit, paragraphs)
+        if text:
+            out[code] = text
+    return out
+
+
+def text_lists(value: Any, limit: int, lang: str, most: int) -> dict[str, list[str]]:
+    """{lang: [text, …]} from {"fi": [...], …} (or a bare list, in the source language)."""
+    if isinstance(value, list):
+        value = {lang: value}
+    if not isinstance(value, dict):
+        return {}
+    out = {}
+    for code in LANGS:
+        raw = value.get(code)
+        items = [clean(h, limit) for h in raw] if isinstance(raw, list) else []
+        if items := [h for h in items if h][:most]:
+            out[code] = items
+    return out
+
+
+def words(text: str) -> int:
+    return len(text.split())
+
+
+def item_entries(
+    answer: dict[str, Any], items: list[dict[str, Any]], lang: str = "fi"
+) -> dict[str, dict[str, Any]]:
+    """{ordinal: {brief: {lang: text}, sha, votes?: {n: {lang: text}}}} for the items that were sent;
+    anything else is dropped, and so is an item without a brief in the source language."""
     by_ordinal = {i["ordinal"]: i for i in items}
     out: dict[str, dict[str, Any]] = {}
     raw = answer.get("items")
@@ -278,16 +357,16 @@ def item_entries(answer: dict[str, Any], items: list[dict[str, Any]]) -> dict[st
         if not isinstance(entry, dict):
             continue
         item = by_ordinal.get(_int(entry.get("ordinal")))
-        brief = clean(entry.get("brief"), BRIEF_CHARS)
-        if not item or not brief:
+        brief = texts(entry.get("brief"), BRIEF_CHARS, lang)
+        if not item or lang not in brief:
             continue
         rec: dict[str, Any] = {"brief": brief, "sha": item.get("content_sha256", "")}
         known = {v["ordinal"] for v in item.get("votes", [])}
         votes = {}
         for v in entry.get("votes") or []:
             if isinstance(v, dict) and _int(v.get("ordinal")) in known:
-                text = clean(v.get("brief"), VOTE_CHARS)
-                if text:
+                text = texts(v.get("brief"), VOTE_CHARS, lang)
+                if lang in text:
                     votes[str(_int(v["ordinal"]))] = text
         if votes:
             rec["votes"] = votes
@@ -295,10 +374,12 @@ def item_entries(answer: dict[str, Any], items: list[dict[str, Any]]) -> dict[st
     return out
 
 
-def highlights(answer: dict[str, Any]) -> list[str]:
-    raw = answer.get("highlights")
-    items = [clean(h, HIGHLIGHT_CHARS) for h in raw] if isinstance(raw, list) else []
-    return [h for h in items if h][:MAX_HIGHLIGHTS]
+def highlights(answer: dict[str, Any], lang: str = "fi") -> dict[str, list[str]]:
+    return text_lists(answer.get("highlights"), HIGHLIGHT_CHARS, lang, MAX_HIGHLIGHTS)
+
+
+def summary_of(answer: dict[str, Any], lang: str) -> dict[str, str]:
+    return texts(answer.get("summary"), SUMMARY_CHARS, lang, paragraphs=True)
 
 
 # --------------------------------------------------------------------------------------------- client
@@ -316,12 +397,13 @@ class ModelError(RuntimeError):
 class OpenRouter:
     api_key: str
     models: tuple[str, ...] = DEFAULT_MODELS
-    min_interval_s: float = 3.5  # 20 requests a minute on free models
+    min_interval_s: float = 3.5  # 20 requests a minute on free models, whatever the number of workers
     timeout_s: float = 180.0
     sleep: Callable[[float], None] = time.sleep
     transport: httpx.BaseTransport | None = None
     requests: int = 0
     _last: float = field(default=0.0, repr=False)
+    _lock: threading.Lock = field(default_factory=threading.Lock, repr=False)
     _http: httpx.Client | None = field(default=None, repr=False)
 
     def __post_init__(self) -> None:
@@ -346,8 +428,8 @@ class OpenRouter:
             "model": self.models[0],
             "messages": msgs,
             "temperature": 0.2,
-            # Reasoning tokens count against max_tokens, so leave room for them.
-            "max_tokens": 12000,
+            # Reasoning tokens count against max_tokens, so leave room for them (and three languages).
+            "max_tokens": 16000,
             # Nemotron reasons: keep it short and out of the answer.
             "reasoning": {"effort": "low", "exclude": True},
         }
@@ -359,11 +441,13 @@ class OpenRouter:
             "X-Title": "Kotihiiri",
         }
         for attempt in range(4):
-            wait = self.min_interval_s - (time.monotonic() - self._last)
-            if wait > 0:
-                self.sleep(wait)
-            self._last = time.monotonic()
-            self.requests += 1
+            # Requests from several threads share one spacing, so the per-minute limit holds.
+            with self._lock:
+                pause = self.min_interval_s - (time.monotonic() - self._last)
+                if pause > 0:
+                    self.sleep(pause)
+                self._last = time.monotonic()
+                self.requests += 1
             try:
                 r = self._client().post(API_URL, json=payload, headers=headers)
             except httpx.HTTPError as exc:
@@ -482,31 +566,51 @@ def _names(city: str, data_dir: Path) -> tuple[dict[str, str], str, str]:
     return bodies, (cfg.name_fi if cfg else city), lang
 
 
+def _ask(client: OpenRouter, msgs: list[dict[str, str]]) -> tuple[dict[str, Any], str]:
+    content, model = client.chat(msgs)
+    try:
+        return parse_json(content), model
+    except ValueError:
+        # One retry: free models sometimes answer with prose or cut JSON.
+        content, model = client.chat(msgs)
+        return parse_json(content), model
+
+
 def brief_meeting(client: OpenRouter, file: dict[str, Any], body_name: str, city_name: str, lang: str):
     """The brief entry for one meeting (without input_sha256). Raises ModelError/DailyLimit."""
     meeting = file["meeting"]
-    parts = chunks(substantive_items(file))
+    items = substantive_items(file)
+    parts = chunks(items)
     entries: dict[str, dict[str, Any]] = {}
-    summary, hl, model = "", [], ""
+    summary: dict[str, str] = {}
+    hl: dict[str, list[str]] = {}
+    model = ""
     for n, part in enumerate(parts):
-        msgs = messages(meeting, body_name, city_name, part, lang, with_summary=len(parts) == 1)
-        content, model = client.chat(msgs)
-        try:
-            answer = parse_json(content)
-        except ValueError:
-            # One retry: free models sometimes answer with prose or cut JSON.
-            content, model = client.chat(msgs)
-            answer = parse_json(content)
-        entries.update(item_entries(answer, part))
-        if len(parts) == 1:
-            summary, hl = clean(answer.get("summary"), SUMMARY_CHARS, paragraphs=True), highlights(answer)
+        single = len(parts) == 1
+        answer, model = _ask(client, messages(meeting, body_name, city_name, part, lang, with_summary=single))
+        entries.update(item_entries(answer, part, lang))
+        if single:
+            summary, hl = summary_of(answer, lang), highlights(answer, lang)
+            short = words(summary.get(lang, ""))
+            if summary and short < MIN_WORDS and len(items) >= 2:
+                # Once more, asking for the 70-word minimum; the longer summary wins.
+                msgs = messages(meeting, body_name, city_name, part, lang, with_summary=True, too_short=short)
+                try:
+                    again, model2 = _ask(client, msgs)
+                except (ModelError, ValueError) as exc:
+                    log.info("%s: longer summary failed (%s); keeping %d words", meeting["id"], exc, short)
+                else:
+                    longer = summary_of(again, lang)
+                    if words(longer.get(lang, "")) > short:
+                        summary, hl, model = longer, highlights(again, lang) or hl, model2
         log.debug("%s: part %d/%d done", meeting["id"], n + 1, len(parts))
     if len(parts) > 1 and entries:
         titles = {str(i["ordinal"]): i["title"] for i in file["items"]}
-        listing = [(titles[k], v["brief"]) for k, v in sorted(entries.items(), key=lambda kv: int(kv[0]))]
-        content, model = client.chat(summary_messages(meeting, body_name, city_name, listing, lang))
-        answer = parse_json(content)
-        summary, hl = clean(answer.get("summary"), SUMMARY_CHARS, paragraphs=True), highlights(answer)
+        listing = [
+            (titles[k], v["brief"][lang]) for k, v in sorted(entries.items(), key=lambda kv: int(kv[0]))
+        ]
+        answer, model = _ask(client, summary_messages(meeting, body_name, city_name, listing, lang))
+        summary, hl = summary_of(answer, lang), highlights(answer, lang)
     if not summary and not entries:
         raise ModelError("empty answer")
     rec: dict[str, Any] = {"model": model, "lang": lang, "stage": meeting.get("stage", ""), "items": entries}
@@ -592,8 +696,8 @@ def digest_input(city: str, data_dir: Path = DATA_DIR) -> tuple[list[dict[str, A
                 "date": date,
                 "body": body.get("name_fi", body_id.split("/")[1]),
                 "kind": _KIND_ORDER.get(body.get("kind", ""), 9),
-                "summary": b["summary"],
-                "highlights": b.get("highlights", []),
+                "summary": _source(b["summary"], b.get("lang", "fi")),
+                "highlights": _source(b.get("highlights", {}), b.get("lang", "fi")) or [],
                 "lang": b.get("lang", "fi"),
             }
         )
@@ -602,6 +706,13 @@ def digest_input(city: str, data_dir: Path = DATA_DIR) -> tuple[list[dict[str, A
     rows.sort(key=lambda r: (r["kind"], _neg_date(r["date"]), r["meeting_id"]))
     rows = sorted(rows[:DIGEST_MEETINGS], key=lambda r: (r["date"], r["meeting_id"]))
     return rows, start, end
+
+
+def _source(value: Any, lang: str) -> Any:
+    """The source-language text of a {lang: text} field (older entries hold a bare text)."""
+    if isinstance(value, dict):
+        return value.get(lang) or next(iter(value.values()), None)
+    return value
 
 
 def digest_sha(rows: list[dict[str, Any]]) -> str:
@@ -618,32 +729,34 @@ def digest_messages(city_name: str, rows: list[dict[str, Any]], start: str, end:
     )
     user = (
         f"{city_name}: kunnan toimielinten kokoukset {start}–{end} tiivistelminä. "
-        f"Kirjoita {_LANG.get(lang, 'suomeksi')} kuntalaiselle katsaus siitä, mitä kunnassa on viime "
-        "viikkoina päätetty ja mikä muuttuu: summary 70–200 sanaa ja enintään 6 nostoa tärkeimmistä "
-        "päätöksistä ja muutoksista (rahasummat, palvelut, rakentaminen, organisaatio). Merkitse jokaiseen "
-        "nostoon sen kokouksen numero, josta se on. Jätä rutiiniasiat pois.\n\n"
-        'Vastausmuoto:\n{"summary": "...", "points": [{"text": "...", "meeting": 3}]}\n\n' + listing
+        "Kirjoita kuntalaiselle katsaus siitä, mitä kunnassa on viime viikkoina päätetty ja mikä muuttuu: "
+        "summary vähintään 70 ja enintään 200 sanaa ja enintään 6 nostoa tärkeimmistä päätöksistä ja "
+        "muutoksista (rahasummat, palvelut, rakentaminen, organisaatio). Merkitse jokaiseen nostoon sen "
+        "kokouksen numero, josta se on. Jätä rutiiniasiat pois. Säilytä tiivistelmien nimet ja se, mikä "
+        "toimielin päätti ja mikä vain esitti asiaa toiselle toimielimelle. Kirjoita kaikki tekstit "
+        f"kolmella kielellä (fi, sv, en).{_source_note(lang)}\n\n"
+        'Vastausmuoto:\n{"summary": {"fi": "...", "sv": "...", "en": "..."}, '
+        '"points": [{"text": {"fi": "...", "sv": "...", "en": "..."}, "meeting": 3}]}\n\n' + listing
     )
     return [{"role": "system", "content": SYSTEM}, {"role": "user", "content": user}]
 
 
 def brief_digest(client: OpenRouter, city_name: str, rows, start: str, end: str, lang: str) -> dict[str, Any]:
-    content, model = client.chat(digest_messages(city_name, rows, start, end, lang))
-    answer = parse_json(content)
-    summary = clean(answer.get("summary"), DIGEST_SUMMARY_CHARS, paragraphs=True)
+    answer, model = _ask(client, digest_messages(city_name, rows, start, end, lang))
+    summary = texts(answer.get("summary"), DIGEST_SUMMARY_CHARS, lang, paragraphs=True)
     points = []
     for p in answer.get("points") or []:
         if not isinstance(p, dict):
             continue
-        text = clean(p.get("text"), DIGEST_POINT_CHARS)
+        text = texts(p.get("text"), DIGEST_POINT_CHARS, lang)
         n = _int(p.get("meeting"))
-        if not text:
+        if lang not in text:
             continue
         point: dict[str, Any] = {"text": text}
         if n and 1 <= n <= len(rows):
             point["meeting_id"] = rows[n - 1]["meeting_id"]
         points.append(point)
-    if not summary:
+    if lang not in summary:
         raise ModelError("empty digest")
     return {
         "model": model,
@@ -679,6 +792,7 @@ def run(
     since: str = "2025-01-01",
     agendas: bool = False,
     max_minutes: float | None = None,
+    workers: int = WORKERS,
 ) -> Report:
     """Meeting briefs newest first, then the city digests, then any meetings left over. A few
     requests are held back for the six cities' digests so their pages stay current in a backlog."""
@@ -693,11 +807,11 @@ def run(
     six = sum(1 for c in cities if c in cfg and int(cfg[c].extra.get("rank", 99)) <= 6)
     reserve = min(six, max_requests // 4)
 
-    left = _meetings(pending, client, report, data_dir, names, max_requests - reserve, deadline)
+    left = _meetings(pending, client, report, data_dir, names, max_requests - reserve, deadline, workers)
     if report.stopped is None:
         digests(cities, client, report, data_dir, names, max_requests, deadline)
     if report.stopped is None and left:
-        left = _meetings(left, client, report, data_dir, names, max_requests, deadline)
+        left = _meetings(left, client, report, data_dir, names, max_requests, deadline, workers)
     report.pending = len(left)
     report.requests = client.requests
     if report.stopped is None and left:
@@ -705,33 +819,57 @@ def run(
     return report
 
 
-def _meetings(pending, client, report, data_dir, names, limit, deadline) -> list[Pending]:
-    """Brief what fits under `limit` requests; returns the meetings not done."""
+def _meetings(pending, client, report, data_dir, names, limit, deadline, workers=WORKERS) -> list[Pending]:
+    """Brief what fits under `limit` requests, `workers` meetings at a time; returns the meetings
+    not done. Files are written here, on the calling thread, one meeting at a time."""
     left: list[Pending] = []
-    for i, p in enumerate(pending):
-        if report.stopped or (deadline and time.monotonic() > deadline):
-            report.stopped = report.stopped or "time"
-            return left + pending[i:]
-        file = jsonio.read(p.path)
-        if client.requests + requests_needed(file) > limit:
-            left.append(p)
-            continue
-        bodies, city_name, lang = names[p.city]
-        body = bodies.get(file["meeting"]["body_id"], file["meeting"]["body_id"].split("/")[1])
+    queue = list(pending)
+    planned = client.requests
+    running: dict = {}
+
+    def finish(fut, p: Pending) -> None:
         try:
-            entry = brief_meeting(client, file, body, city_name, lang)
+            entry = fut.result()
         except DailyLimit as exc:
-            report.stopped = f"daily limit ({exc})"
-            return left + pending[i:]
+            report.stopped = report.stopped or f"daily limit ({exc})"
+            left.append(p)
+            return
         except (ModelError, ValueError) as exc:
             log.warning("%s: %s", p.meeting_id, exc)
             report.failed.append(p.meeting_id)
-            continue
+            return
         entry["input_sha256"] = p.sha
         save(p.city, {p.meeting_id: entry}, data_dir)  # after every meeting, so a crash loses nothing
         report.written += 1
         log.info("%s: brief written (%d items)", p.meeting_id, len(entry["items"]))
-    return left
+
+    with ThreadPoolExecutor(max_workers=max(1, workers)) as pool:
+        while queue or running:
+            while queue and len(running) < max(1, workers) and not report.stopped:
+                if deadline and time.monotonic() > deadline:
+                    report.stopped = "time"
+                    break
+                p = queue.pop(0)
+                file = jsonio.read(p.path)
+                need = requests_needed(file)
+                # Budget by plan, not by requests sent so far, since several meetings run at once.
+                if max(planned, client.requests) + need > limit:
+                    left.append(p)
+                    continue
+                planned = max(planned, client.requests) + need
+                bodies, city_name, lang = names[p.city]
+                body = bodies.get(file["meeting"]["body_id"], file["meeting"]["body_id"].split("/")[1])
+                running[pool.submit(brief_meeting, client, file, body, city_name, lang)] = p
+            if report.stopped:
+                left.extend(queue)
+                queue = []
+            if not running:
+                break
+            done, _ = wait(running, return_when=FIRST_COMPLETED)
+            for fut in done:
+                finish(fut, running.pop(fut))
+    order = {p.meeting_id: n for n, p in enumerate(pending)}
+    return sorted(left, key=lambda p: order[p.meeting_id])
 
 
 def digests(cities, client, report, data_dir, names, max_requests, deadline) -> None:
