@@ -1,0 +1,81 @@
+{
+  "input_sha256": "0eb640117020d4f811c3b20c162e6a0b218e82e34dbcac03d0172ca75b036481",
+  "lang": "fi",
+  "meetings": [
+    "espoo/tekninen-lautakunta/2026-10-21",
+    "espoo/liikunta-ja-hyvinvointilautakunta/2026-10-22",
+    "espoo/kaupunginhallituksen-konserni-ja-tilajaosto/2026-10-26",
+    "espoo/kaupunginhallitus/2026-10-26",
+    "espoo/kasvun-ja-oppimisen-lautakunta/2026-10-28",
+    "espoo/kaupunkisuunnittelulautakunta/2026-10-28",
+    "espoo/namnden-svenska-rum/2026-10-29",
+    "espoo/ymparisto-ja-rakennuslautakunta/2026-10-29",
+    "espoo/kaupunginhallituksen-elinkeino-ja-kilpailukykyjaosto/2026-11-02",
+    "espoo/tarkastuslautakunta/2026-11-04",
+    "espoo/kaupunginhallituksen-tyollisyys-ja-kotoutumisjaosto/2026-11-09",
+    "espoo/kaupunginhallitus/2026-11-09",
+    "espoo/kasvun-ja-oppimisen-lautakunta/2026-11-11",
+    "espoo/kaupunkisuunnittelulautakunta/2026-11-11",
+    "espoo/kaupunginhallituksen-konserni-ja-tilajaosto/2026-11-16",
+    "espoo/valtuusto/2026-11-16",
+    "espoo/ymparisto-ja-rakennuslautakunta/2026-11-19"
+  ],
+  "model": "nvidia/nemotron-3.5-super-vl:free",
+  "period_end": "2026-11-19",
+  "period_start": "2026-10-20",
+  "points": [
+    {
+      "meeting_id": "espoo/valtuusto/2026-11-16",
+      "text": {
+        "en": "The City Council appointed Mervi Heinaro as Director of Vitality starting 1.1.2027 without a public recruitment process. The monthly salary is EUR 11,735.93.",
+        "fi": "Valtuusto nimitti Mervi Heinaron elinvoiman toimialajohtajaksi 1.1.2027 alkaen ilman julkista hakumenettelyä. Tehtäväkohtainen palkka on 11 735,93 euroa kuukaudessa.",
+        "sv": "Stadsfullmäktige utsåg Mervi Heinaro till näringslivsdirektör från och med 1.1.2027 utan offentlig ansökningsprocess. Månadslönen är 11 735,93 euro."
+      }
+    },
+    {
+      "meeting_id": "espoo/kasvun-ja-oppimisen-lautakunta/2026-10-28",
+      "text": {
+        "en": "The Education and Learning Committee decided that Lahnus School's operations will end on 31.7.2027. Pupils will transfer mainly to Kalajärvi School on 1.8.2027.",
+        "fi": "Kasvun ja oppimisen lautakunta päätti, että Lahnuksen koulun toiminta päättyy 31.7.2027. Oppilaat siirtyvät pääosin Kalajärven kouluun 1.8.2027.",
+        "sv": "Utbildnings- och lärandenämnden beslutade att Lahnus skolas verksamhet upphör 31.7.2027. Eleverna flyttar i huvudsak till Kalajärvi skola 1.8.2027."
+      }
+    },
+    {
+      "meeting_id": "espoo/tekninen-lautakunta/2026-10-21",
+      "text": {
+        "en": "The Technical Committee approved the property delivery fee rate. It enters into force on 1.1.2027.",
+        "fi": "Tekninen lautakunta hyväksyi kiinteistötoimitusmaksutaksan. Se tulee voimaan 1.1.2027.",
+        "sv": "Tekniska nämnden godkände fastighetsleveransavgiftstaxan. Den träder i kraft 1.1.2027."
+      }
+    },
+    {
+      "meeting_id": "espoo/kaupunginhallitus/2026-11-09",
+      "text": {
+        "en": "The City Board proposed that the City Council approve the plan for a new lower secondary school, daycare centre and youth facilities in Kera (PRH9682, Kukkavaasinkatu 5). The target price is EUR 43 million.",
+        "fi": "Kaupunginhallitus esitti valtuustolle Keran uuden yläkoulun, päiväkodin ja nuorisotilojen hankesuunnitelman (PRH9682, Kukkavaasinkatu 5) hyväksymistä. Tavoitehinta on 43 miljoonaa euroa.",
+        "sv": "Stadsstyrelsen föreslog att stadsfullmäktige godkänner förslaget till ny högstadieskola, daghem och ungdomslokaler i Kera (PRH9682, Kukkavaasinkatu 5). Målpriset är 43 miljoner euro."
+      }
+    },
+    {
+      "meeting_id": "espoo/ymparisto-ja-rakennuslautakunta/2026-10-29",
+      "text": {
+        "en": "The Environment and Building Committee approved the building regulation proposal and proposes that the City Council approve the updated building regulation. It enters into force on 1.1.2027.",
+        "fi": "Ympäristö- ja rakennuslautakunta hyväksyi rakennusjärjestysehdotuksen ja esittää, että valtuusto hyväksyy uusitun rakennusjärjestyksen. Se tulee voimaan 1.1.2027.",
+        "sv": "Miljö- och byggnadsnämnden godkände förslaget till byggnadsordning och föreslår att stadsfullmäktige godkänner den uppdaterade byggnadsordningen. Den träder i kraft 1.1.2027."
+      }
+    },
+    {
+      "meeting_id": "espoo/kaupunginhallituksen-elinkeino-ja-kilpailukykyjaosto/2026-11-02",
+      "text": {
+        "en": "The Business and Competitiveness Committee decided to sell four detached-house plots and rent out several plots for 60 years. For example, a plot in Otaniemi is rented for student housing for EUR 154,000 per year.",
+        "fi": "Elinkeino- ja kilpailukykyjaosto päätti myydä neljä omakotitonttia ja vuokrata useita tontteja 60 vuodeksi. Esimerkiksi Otaniemessä vuokrataan tontti opiskelija-asuntoja varten 154 000 eurolla vuodessa.",
+        "sv": "Näringslivs- och konkurrenskraftsnämnden beslutade att sälja fyra tomter för egnahem och hyra ut flera tomter i 60 år. Till exempel hyrs en tomt i Otaniemi ut för studentbostäder för 154 000 euro om året."
+      }
+    }
+  ],
+  "summary": {
+    "en": "The Espoo municipality has made several decisions concerning construction, services and organization over the past weeks. The City Council appointed Mervi Heinaro as Director of Vitality starting 1.1.2027. The monthly salary is EUR 11,735.93. The administrative regulations were revised, and primary school boards will be abolished on 1.8.2027. Lahnus School's operations will end on 31.7.2027, and pupils will transfer to Kalajärvi School on 1.8.2027. The property delivery fee rate and the new building regulations will enter into force on 1.1.2027. The plan for a new lower secondary school, daycare centre and youth facilities in Kera proceeds to the City Council, target price EUR 43 million. An addition of EUR 21 million is proposed for the City Rail project.",
+    "fi": "Espoon kunnassa päätettiin viime viikoilla useista rakentamiseen, palveluihin ja organisaatioon liittyvästä asiasta. Valtuusto nimitti Mervi Heinaron elinvoiman toimialajohtajaksi 1.1.2027 alkaen. Palkka on 11 735,93 euroa kuukaudessa. Hallintosääntöä tarkistettiin, ja peruskoulujen johtokunnat poistetaan 1.8.2027. Lahnuksen koulun toiminta päättyy 31.7.2027, ja oppilaat siirtyvät Kalajärven kouluun 1.8.2027. Kiinteistötoimitusmaksutaksa ja uusi rakennusjärjestys tulevat voimaan 1.1.2027. Keran uuden yläkoulun, päiväkodin ja nuorisotilojen hankesuunnitelma etenee valtuustoon, tavoitehinta 43 miljoonaa euroa. Kaupunkirata-hankkeelle esitetään 21 milj. euroa.",
+    "sv": "Esbo kommun har under de senaste veckorna fattat flera beslut som gäller byggande, service och organisation. Stadsfullmäktige utsåg Mervi Heinaro till näringslivsdirektör från och med 1.1.2027. Månadslönen är 11 735,93 euro. Förvaltningsstadgan reviderades, och grundskolornas styrelser avskaffas 1.8.2027. Lahnus skolas verksamhet upphör 31.7.2027, och eleverna flyttar till Kalajärvi skola 1.8.2027. Fastighetsleveransavgiftstaxan och den nya byggnadsordningen träder i kraft 1.1.2027. Förslaget till ny högstadieskola, daghem och ungdomslokaler i Kera går vidare till fullmäktige, målpriset är 43 miljoner euro. Till stadsbanan föreslås ett tillskott på 21 milj. euro."
+  }
+}

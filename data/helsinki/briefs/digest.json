@@ -1,0 +1,89 @@
+{
+  "input_sha256": "21182fa3dd697748e985c279a7cc7a03f81d8a50ee6d5031b360a3b1928dfd60",
+  "lang": "fi",
+  "meetings": [
+    "helsinki/kasvatus-ja-koulutuslautakunta/2026-10-20",
+    "helsinki/kaupunkiymparistolautakunta/2026-10-20",
+    "helsinki/kulttuuri-ja-vapaa-aikalautakunta/2026-10-20",
+    "helsinki/sosiaali-terveys-ja-pelastuslautakunta/2026-10-20",
+    "helsinki/tarkastuslautakunta/2026-10-20",
+    "helsinki/kaupunginvaltuusto/2026-10-21",
+    "helsinki/kaupunginhallitus/2026-10-26",
+    "helsinki/kaupunkiymparistolautakunta/2026-10-27",
+    "helsinki/kaupunginhallitus/2026-11-02",
+    "helsinki/kaupunkiymparistolautakunta/2026-11-03",
+    "helsinki/kulttuuri-ja-vapaa-aikalautakunta/2026-11-03",
+    "helsinki/sosiaali-terveys-ja-pelastuslautakunta/2026-11-03",
+    "helsinki/kaupunginvaltuusto/2026-11-04",
+    "helsinki/kaupunginhallitus/2026-11-05",
+    "helsinki/kaupunginhallituksen-konsernijaosto/2026-11-09",
+    "helsinki/kaupunginhallitus/2026-11-09",
+    "helsinki/kasvatus-ja-koulutuslautakunta/2026-11-10",
+    "helsinki/kaupunkiymparistolautakunta/2026-11-10",
+    "helsinki/kulttuuri-ja-vapaa-aikalautakunnan-kulttuuri-ja-kirjastojaosto/2026-11-10",
+    "helsinki/kaupunkiymparistolautakunnan-rakennusten-ja-yleisten-alueiden-jaosto/2026-11-12",
+    "helsinki/sosiaali-terveys-ja-pelastuslautakunnan-pelastusjaosto/2026-11-12",
+    "helsinki/kaupunginhallituksen-konsernijaosto/2026-11-16",
+    "helsinki/kaupunginhallitus/2026-11-16",
+    "helsinki/kulttuuri-ja-vapaa-aikalautakunta/2026-11-17",
+    "helsinki/kaupunginvaltuusto/2026-11-18"
+  ],
+  "model": "nvidia/nemotron-3.5-super-vl:free",
+  "period_end": "2026-11-18",
+  "period_start": "2026-10-19",
+  "points": [
+    {
+      "meeting_id": "helsinki/kaupunginvaltuusto/2026-11-04",
+      "text": {
+        "en": "The City Council decided on 4 November 2026 that the municipal tax rate for 2027 is 5.30 percent and the property tax rates: land 1.30, buildings 0.93, permanent residential buildings 0.41, other residential buildings 0.93, unbuilt plot 4.30 and power plants 3…",
+        "fi": "Helsingin kaupunginvaltuusto päätti 4.11.2026 vuoden 2027 tuloveroprosentiksi 5,30 ja kiinteistöveroprosentit: maapohja 1,30, rakennukset 0,93, vakituiset asuinrakennukset 0,41, muut asuinrakennukset 0,93, rakentamaton rakennuspaikka 4,30 ja voimalaitokset 3,1…",
+        "sv": "Helsingfors stadsfullmäktige beslöt 4.11.2026 att kommunalskattesatsen för 2027 är 5,30 procent och fastighetsskattesatserna: tomtmark 1,30, byggnader 0,93, permanenta bostadshus 0,41, andra bostadshus 0,93, obebyggd tomt 4,30 och kraftverk 3,10."
+      }
+    },
+    {
+      "meeting_id": "helsinki/kasvatus-ja-koulutuslautakunta/2026-10-20",
+      "text": {
+        "en": "The Education Committee decided on 20 October 2026 to close the group family daycare Kipinä and daycare Miilu. The Committee approved the needs assessment for the space project of Paloheinän ala-asteen koulu and daycare Valkea at Ylipalontie 1.",
+        "fi": "Kasvatus- ja koulutuslautakunta päätti 20.10.2026 lakkauttaa ryhmäperhepäiväkoti Kipinän ja päiväkoti Miilun. Lautakunta hyväksyi Paloheinän ala-asteen koulun ja päiväkoti Valkean tilahankkeen tarveselvityksen osoitteeseen Ylipalontie 1.",
+        "sv": "Utbildningsnämnden beslöt 20.10.2026 att lägga ner gruppfamiljedaghemmet Kipinä och daghemmet Miilu. Nämnden godkände behovsutredningen för utrymmesprojektet för Paloheinän ala-asteen koulu och daghemmet Valkea vid Ylipalontie 1."
+      }
+    },
+    {
+      "meeting_id": "helsinki/sosiaali-terveys-ja-pelastuslautakunta/2026-11-03",
+      "text": {
+        "en": "The Social, Health and Rescue Committee confirmed on 3 November 2026 the maximum fees for long-term services from 1 January 2027.",
+        "fi": "Sosiaali-, terveys- ja pelastuslautakunta vahvisti 3.11.2026 pitkäaikaisista palveluista perittävät enimmäismaksut 1.1.2027 alkaen.",
+        "sv": "Social-, hälso- och räddningsnämnden fastställde 3.11.2026 högsta avgifterna för långvariga tjänster från 1.1.2027."
+      }
+    },
+    {
+      "meeting_id": "helsinki/kaupunginhallitus/2026-11-09",
+      "text": {
+        "en": "The City Board proposed on 9 November 2026 that the City Council approve the zoning plan for the South Harbour islands no 12996 and the zoning change for Kontulankuja in Mellunkylä no 12981.",
+        "fi": "Kaupunginhallitus esitti 9.11.2026 kaupunginvaltuustolle Eteläsataman saarten asemakaavan nro 12996 ja Mellunkylän Kontulankujan asemakaavan muutoksen nro 12981 hyväksyttäväksi.",
+        "sv": "Stadsstyrelsen föreslog 9.11.2026 att stadsfullmäktige godkänner detaljplanen för Södra hamnens öar nr 12996 och detaljplaneändringen för Kontulankuja i Mellunkylä nr 12981."
+      }
+    },
+    {
+      "meeting_id": "helsinki/kaupunkiymparistolautakunnan-rakennusten-ja-yleisten-alueiden-jaosto/2026-11-12",
+      "text": {
+        "en": "The Construction and Public Areas Committee selected on 12 November 2026 Fira Rakennus Oy as the implementer of the renovation of Töölö Kisahalli. The project's total estimate is 80 million euros (VAT 0%).",
+        "fi": "Rakennusten ja yleisten alueiden jaosto valitsi 12.11.2026 Fira Rakennus Oy:n Töölön Kisahallin perusparannuksen toteuttajaksi. Hankkeen kokonaisarvio on 80 miljoonaa euroa (alv 0 %).",
+        "sv": "Byggnads- och allmänna områdesnämnden valde 12.11.2026 Fira Rakennus Oy till genomförare av renoveringen av Töölö Kisahalli. Projektets totala uppskattade kostnad är 80 miljoner euro (moms 0 %)."
+      }
+    },
+    {
+      "meeting_id": "helsinki/kulttuuri-ja-vapaa-aikalautakunnan-kulttuuri-ja-kirjastojaosto/2026-11-10",
+      "text": {
+        "en": "The Culture and Library Subcommittee granted on 10 November 2026 539,000 euros to 28 operators for the Helsinki cultural children activity separate grant for 2027.",
+        "fi": "Kulttuuri- ja kirjastojaosto myönsi 10.11.2026 539 000 euroa 28 toimijalle Helsingin kulttuurilapset -toiminnan erillisavustukseen vuodelle 2027.",
+        "sv": "Kultur- och biblioteksutskottet beviljade 10.11.2026 539 000 euro till 28 aktörer för Helsingfors kulturbarns särskilda bidrag för 2027."
+      }
+    }
+  ],
+  "summary": {
+    "en": "The City Council decided on 4 November 2026 that the municipal tax rate for 2027 is 5.30 percent and the property tax rates: land 1.30, buildings 0.93, permanent residential buildings 0.41, other residential buildings 0.93, unbuilt plot 4.30 and power plants 3.10. The Council approved the rescue service level decision 2027–2030 and the Kaivokatu first construction phase plan, with maximum cost 13 million euros. The Education Committee decided on 20 October 2026 to close the group family daycare Kipinä and daycare Miilu. Daycare Kivikko's operations end on 1 August 2027. The Social, Health and Rescue Committee confirmed on 3 November 2026 the maximum fees for long-term services from 1 January 2027 and decided to transfer the internal medicine outpatient clinic to HUS from 1 February 2027. The City Board proposed on 9 November 2026 that the Council approve the zoning plan for the South Harbour islands no 12996 and the Kontulankuja zoning change no 12981. The Construction and Public Areas Committee selected on 12 November 2026 Fira Rakennus Oy as the implementer of the renovation of Töölö Kisahalli. The project's total estimate is 80 million euros.",
+    "fi": "Kaupunginvaltuusto päätti 4.11.2026 vuoden 2027 tuloveroprosentiksi 5,30 ja kiinteistöveroprosentit: maapohja 1,30, rakennukset 0,93, vakituiset asuinrakennukset 0,41, muut asuinrakennukset 0,93, rakentamaton rakennuspaikka 4,30 ja voimalaitokset 3,10. Valtuusto hyväksyi Helsingin alueen pelastustoimen palvelutasopäätöksen 2027–2030 sekä Kaivokadun ensimmäisen rakentamisvaiheen hankesuunnitelman, jonka enimmäiskustannus on 13 miljoonaa euroa. Kasvatus- ja koulutuslautakunta päätti 20.10.2026 lakkauttaa ryhmäperhepäiväkoti Kipinän ja päiväkoti Miilun. Päiväkoti Kivikon toiminta päättyy 1.8.2027. Sosiaali-, terveys- ja pelastuslautakunta vahvisti 3.11.2026 pitkäaikaisista palveluista perittävät enimmäismaksut 1.1.2027 alkaen ja päätti sisätautien poliklinikan siirtämisestä HUS-yhtymälle 1.2.2027 alkaen. Kaupunginhallitus esitti 9.11.2026 Eteläsataman saarten asemakaavan nro 12996 ja Kontulankujan kaavamuutoksen nro 12981 hyväksyttäväksi valtuustolle. Rakennusten ja yleisten alueiden jaosto valitsi 12.11.2026 Fira Rakennus Oy:n Töölön Kisahallin perusparannuksen toteuttajaksi. Hankkeen kokonaisarvio on 80 miljoonaa euroa.",
+    "sv": "Helsingfors stadsfullmäktige beslöt 4.11.2026 att kommunalskattesatsen för 2027 är 5,30 procent och fastighetsskattesatserna: tomtmark 1,30, byggnader 0,93, permanenta bostadshus 0,41, andra bostadshus 0,93, obebyggd tomt 4,30 och kraftverk 3,10. Fullmäktige godkände räddningsvårdens servicenivåbeslut 2027–2030 samt Kaivokadus första byggskede, med högsta kostnad 13 miljoner euro. Utbildningsnämnden beslöt 20.10.2026 att lägga ner gruppfamiljedaghemmet Kipinä och daghemmet Miilu. Daghemmet Kivikos verksamhet upphör 1.8.2027. Social-, hälso- och räddningsnämnden fastställde 3.11.2026 högsta avgifterna för långvariga tjänster från 1.1.2027 och beslöt att flytta den interna medicinens poliklinik till HUS-samkommunen från 1.2.2027. Stadsstyrelsen föreslog 9.11.2026 att fullmäktige godkänner detaljplanen för Södra hamnens öar nr 12996 och detaljplaneändringen för Kontulankuja nr 12981. Byggnads- och allmänna områdesnämnden valde 12.11.2026 Fira Rakennus Oy till genomförare av renoveringen av Töölö Kisahalli. Projektets totala uppskattade kostnad är 80 miljoner euro."
+  }
+}
