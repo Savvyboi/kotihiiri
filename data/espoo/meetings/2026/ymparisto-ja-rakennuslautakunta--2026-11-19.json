@@ -62,7 +62,7 @@
     {
       "attachments": [],
       "case_number": "4407/00.01.02/2025",
-      "content_sha256": "5a08214bf264e00c0afde50b63ad98af16606bc7fbf83ae4f832786fea3c7c01",
+      "content_sha256": "6bb71f943675b556f1b4072222a18ffd39dcab2f937ff49a254570d7f21e0963",
       "disqualified": [],
       "id": "espoo/ymparisto-ja-rakennuslautakunta/2026-11-19/3",
       "meeting_id": "espoo/ymparisto-ja-rakennuslautakunta/2026-11-19",
@@ -76,6 +76,11 @@
           "heading": "Päätösehdotus",
           "text": "Ympäristö- ja rakennuslautakunta merkitsee tiedokseen selostusosassa mainitut lausunnot, päätökset ja kirjelmät.",
           "type": "proposal"
+        },
+        {
+          "heading": "Käsittely",
+          "text": "Ari Ampuja saapui kokoukseen asian käsittelyn aikana klo 17.08.",
+          "type": "deliberation"
         },
         {
           "heading": "Päätös",
@@ -233,8 +238,24 @@
       "votes": []
     },
     {
-      "attachments": [],
-      "content_sha256": "abb2a87233126ecf296ab76d065a4f3324265251f2dcfc9e5ea1699f24a9ec5c",
+      "attachments": [
+        {
+          "kind": "attachment",
+          "title": "Liite 1 Äänestystulosraportti § 146: Esittelijän päätösehdotus vs. Lehtosen vastaesitys",
+          "url": "https://espoo.oncloudos.com/kokous/20261769-7-387224.PDF"
+        },
+        {
+          "kind": "attachment",
+          "title": "Liite 2 Eriävä mielipide, Paldanius § 146",
+          "url": "https://espoo.oncloudos.com/kokous/20261769-7-387284.PDF"
+        },
+        {
+          "kind": "attachment",
+          "title": "Liite 3 Eriävä mielipide, Malkamäki § 146",
+          "url": "https://espoo.oncloudos.com/kokous/20261769-7-387343.PDF"
+        }
+      ],
+      "content_sha256": "ade3ed809a1d5ad1b56eccae6a78eb45a8d6c7646aa23a82ff032d0cf81b7173",
       "disqualified": [],
       "id": "espoo/ymparisto-ja-rakennuslautakunta/2026-11-19/7",
       "meeting_id": "espoo/ymparisto-ja-rakennuslautakunta/2026-11-19",
@@ -244,8 +265,13 @@
       "pykala": 146,
       "sections": [
         {
+          "heading": "Käsittely",
+          "text": "Olli Lehtonen teki Sofia Yli-Pelkosen kannattamana seuraavan vastaesityksen: ”Lautakunta päättää, että oikaisuvaatimus hyväksytään ja toimenpidelupa laiturin rakentamiselle myönnetään.”\n\nKeskustelun aikana Lehtosen vastaesitystä oli vastustettu, joten puheenjohtaja totesi, että asiasta on äänestettävä.\n\nÄänestyksessä ne, jotka kannattivat esittelijän päätösehdotusta äänestivät ”JAA” ja ne, jotka kannattivat Lehtosen vastaesitystä äänestivät ”EI”.\n\nÄänestyksessä ”JAA” ääniä tuli 2 ja ”EI” ääniä 11. Tarkempi äänestystulos ilmenee liitteenä olevasta äänestystulosraportista. Äänestyksen jälkeen puheenjohtaja totesi ympäristö- ja rakennuslautakunnan 11 äänellä 2 ääntä vastaan päättäneen hyväksyä Lehtosen vastaesityksen.\n\nYmpäristö- ja rakennusvalvontakeskuksen johtaja Pasi Timo poistui kokouksesta asian käsittelyn aikana klo 18.07.",
+          "type": "deliberation"
+        },
+        {
           "heading": "Päätös",
-          "text": "Kokouksessa tehty muutosesitys hyväksyttiin äänestyksen jälkeen.",
+          "text": "Lautakunta päättää, että oikaisuvaatimus hyväksytään ja toimenpidelupa laiturin rakentamiselle myönnetään.\n\nRakennusvalvonnan päällikkö Jari Saajo sekä jäsenet Martti Paldanius ja Marianna Malkamäki jättivät asiasta eriävän mielipiteen. Paldaniuksen ja Malkamäen eriävän mielipiteen perustelut ovat pöytäkirjan liitteinä.",
           "type": "decision"
         }
       ],
@@ -257,7 +283,25 @@
       "statements": [],
       "status": "active",
       "title": "Oikaisuvaatimus, toimenpidelupa 2024-343, Pieni Lehtisaari 126",
-      "votes": []
+      "votes": [
+        {
+          "ballots": [],
+          "counts": {
+            "ei": 2,
+            "jaa": 11,
+            "poissa": 0,
+            "tyhja": 0
+          },
+          "ei_label": "",
+          "jaa_label": "",
+          "needs_review": true,
+          "ordinal": 1,
+          "result_text": "Äänestyksen jälkeen puheenjohtaja totesi ympäristö- ja rakennuslautakunnan 11 äänellä 2 ääntä vastaan päättäneen hyväksyä Lehtosen vastaesityksen.\nYmpäristö- ja rakennusvalvontakeskuksen johtaja Pasi Timo poistui kokouksesta asian käsittelyn aikana klo 18.07.",
+          "review_reason": "no vote list in the PDF for this vote; counts from the minutes text",
+          "source": "html",
+          "source_url": "https://espoo.oncloudos.com/cgi/DREQUEST.PHP?page=meetingitem&id=20261769-7"
+        }
+      ]
     },
     {
       "attachments": [
@@ -351,10 +395,10 @@
       },
       {
         "person_ref": {
-          "raw": "Rummukainen Mari"
+          "raw": "Helle Anu"
         },
         "present": true,
-        "role_text": "jäsen"
+        "role_text": "varajäsen"
       },
       {
         "person_ref": {
@@ -393,13 +437,6 @@
       },
       {
         "person_ref": {
-          "raw": "Salminen Kaarlo"
-        },
-        "present": true,
-        "role_text": "nuorisovaltuuston edustaja"
-      },
-      {
-        "person_ref": {
           "raw": "Vehmanen Emma-Stina"
         },
         "present": true,
@@ -414,13 +451,6 @@
       },
       {
         "person_ref": {
-          "raw": "Söderman Tarja"
-        },
-        "present": true,
-        "role_text": "ympäristöjohtaja"
-      },
-      {
-        "person_ref": {
           "raw": "Saajo Jari"
         },
         "present": true,
@@ -428,31 +458,10 @@
       },
       {
         "person_ref": {
-          "raw": "Nevas Mari"
-        },
-        "present": true,
-        "role_text": "johtava kaupungineläinlääkäri"
-      },
-      {
-        "person_ref": {
           "raw": "Jokilehto Jesper"
         },
         "present": true,
         "role_text": "rakennuslupapäällikkö"
-      },
-      {
-        "person_ref": {
-          "raw": "Myllynen Maria"
-        },
-        "present": true,
-        "role_text": "valvontapäällikkö"
-      },
-      {
-        "person_ref": {
-          "raw": "Soini Mira"
-        },
-        "present": true,
-        "role_text": "ympäristötietopäällikkö"
       },
       {
         "person_ref": {
@@ -467,13 +476,6 @@
         },
         "present": true,
         "role_text": "juristi"
-      },
-      {
-        "person_ref": {
-          "raw": "Tiihonen Erja"
-        },
-        "present": true,
-        "role_text": "hallintojuristi"
       },
       {
         "person_ref": {
@@ -497,7 +499,7 @@
       "espoo/ymparisto-ja-rakennuslautakunta/2026-11-19/7",
       "espoo/ymparisto-ja-rakennuslautakunta/2026-11-19/8"
     ],
-    "location": "Ei tarkastettu Neuvotteluhuone Pitkäjärvi, Tekniikantie 15, 1.krs",
+    "location": "Neuvotteluhuone Pitkäjärvi, Tekniikantie 15, 1.krs",
     "minutes_pdf_url": "https://espoo.oncloudos.com/kokous/20261769.PDF",
     "source_ids": {
       "meeting_id": "20261769",

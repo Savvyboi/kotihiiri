@@ -2,7 +2,7 @@
   "items": [
     {
       "attachments": [],
-      "content_sha256": "5561eb1e9ffd0d94e57df47d01348a2f8e96c494f0254f82a43523071bbeb790",
+      "content_sha256": "c1316fd6338c779a9aa3441eda8dabfd72791c7ce4cd5826c205d5c99a0e7a93",
       "disqualified": [],
       "id": "helsinki/tarkastuslautakunta/2026-11-17/1",
       "meeting_id": "helsinki/tarkastuslautakunta/2026-11-17",
@@ -10,17 +10,23 @@
       "ordinal": 1,
       "preparers": [],
       "presenter": "Teija Makkonen",
+      "pykala": 87,
       "sections": [
         {
+          "heading": "Päätös",
+          "text": "Tarkastuslautakunta päätti todeta kokouksen laillisesti koolle kutsutuksi ja päätösvaltaiseksi. Samalla tarkastuslautakunta päätti valita pöytäkirjantarkastajiksi Mikael Jungnerin ja Kimmo Niemelän sekä varatarkastajaksi Iiris Suomelan.",
+          "type": "decision"
+        },
+        {
           "heading": "Päätösehdotus",
-          "text": "Tarkastuslautakunta päättää todeta kokouksen laillisesti koolle kutsutuksi ja päätösvaltaiseksi. Samalla tarkastuslautakunta päättää valita pöytäkirjantarkastajiksi Mikael Jungnerin ja Kimmo Niemelän sekä varatarkastajaksi Iiris Suomelan.",
+          "text": "Päätös on ehdotuksen mukainen.",
           "type": "proposal"
         }
       ],
       "source_ids": {
-        "case": "d5c98dd0-0d60-c93d-8974-a1e904d00002"
+        "case": "6028c73a-cc44-4457-8666-5b07771ba95a"
       },
-      "source_url": "https://paatokset.hel.fi/fi/asia/d5c98dd0-0d60-c93d-8974-a1e904d00002",
+      "source_url": "https://paatokset.hel.fi/fi/asia/6028c73a-cc44-4457-8666-5b07771ba95a",
       "statements": [],
       "status": "active",
       "title": "Kokouksen laillisuuden ja päätösvaltaisuuden toteaminen sekä pöytäkirjan tarkastajien valinta",
@@ -28,7 +34,7 @@
     },
     {
       "attachments": [],
-      "content_sha256": "40d4078fac2a006907704dced70d77f1fdcb75b9f0c6df74d96833597b68ee38",
+      "content_sha256": "7090b6e0b9bfea3f1bc55d11d255949d60956e4931ecd60d9c1f44e8a8adab57",
       "disqualified": [],
       "id": "helsinki/tarkastuslautakunta/2026-11-17/2",
       "meeting_id": "helsinki/tarkastuslautakunta/2026-11-17",
@@ -36,10 +42,21 @@
       "ordinal": 2,
       "preparers": [],
       "presenter": "Timo Terävä",
+      "pykala": 88,
       "sections": [
         {
+          "heading": "Päätös",
+          "text": "Tarkastuslautakunta päätti merkitä tiedoksi selostuksen suurten joukkoliikenne- ja infrahankkeiden kehitysaikataulusta.",
+          "type": "decision"
+        },
+        {
+          "heading": "Käsittely",
+          "text": "Kokoukseen oli kutsuttu kaupunkiympäristön toimialan projektinjohtaja Lotta Aittokallio, tiimipäällikkö Tia Salminen ja projektinjohtaja Mikko Suikki kertomaan suurten joukkoliikenne- ja infrahankkeiden kehitysaikataulusta. Asiantuntijat poistuivat kuulemisensa jälkeen kokouksesta.",
+          "type": "deliberation"
+        },
+        {
           "heading": "Päätösehdotus",
-          "text": "Tarkastuslautakunta päättää merkitä tiedoksi selostuksen suurten joukkoliikenne- ja infrahankkeiden kehitysaikataulusta.",
+          "text": "Päätös on ehdotuksen mukainen.",
           "type": "proposal"
         },
         {
@@ -49,9 +66,9 @@
         }
       ],
       "source_ids": {
-        "case": "hel-2026-013227/0485b828-58c4-c377-bc6f-a1e904e00001"
+        "case": "hel-2026-013227/2c778c42-f114-4b73-85a8-179bf7f2fbb1"
       },
-      "source_url": "https://paatokset.hel.fi/fi/asia/hel-2026-013227/0485b828-58c4-c377-bc6f-a1e904e00001",
+      "source_url": "https://paatokset.hel.fi/fi/asia/hel-2026-013227/2c778c42-f114-4b73-85a8-179bf7f2fbb1",
       "statements": [],
       "status": "active",
       "title": "Suurten joukkoliikenne- ja infrahankkeiden kehitysaikataulu",
@@ -59,17 +76,29 @@
     },
     {
       "attachments": [],
-      "content_sha256": "605bdf790794d14150da539f3fcefa7963965d15d051d69e3e2f7317315b028b",
+      "content_sha256": "e6936499b7f5b929485b6df0c2973704e50108fec8ff0e4e62f4b7d372741b16",
       "disqualified": [],
       "id": "helsinki/tarkastuslautakunta/2026-11-17/3",
       "meeting_id": "helsinki/tarkastuslautakunta/2026-11-17",
       "motions": [],
       "ordinal": 3,
       "preparers": [],
+      "presenter": "Timo Terävä",
+      "pykala": 89,
       "sections": [
         {
+          "heading": "Päätös",
+          "text": "Tarkastuslautakunta päätti merkitä tiedoksi tilintarkastajan väliraportin 1/2026 tilikauden 2026 tilintarkastuksesta.",
+          "type": "decision"
+        },
+        {
+          "heading": "Käsittely",
+          "text": "Tilintarkastusyhteisön edustaja, vastuunalainen tilintarkastaja JHT, KHT Juha Huuskonen raportoi kokouksessa tilikauden 2026 tähänastisesta tilintarkastuksesta ja vastasi lautakunnan esittämiin kysymyksiin. Tilintarkastaja poistui raportin käsittelyn jälkeen kokouksesta.",
+          "type": "deliberation"
+        },
+        {
           "heading": "Päätösehdotus",
-          "text": "Tarkastuslautakunta päättää merkitä tiedoksi tilintarkastajan väliraportin 1/2026 tilikauden 2026 tilintarkastuksesta.",
+          "text": "Päätös on ehdotuksen mukainen.",
           "type": "proposal"
         },
         {
@@ -79,9 +108,9 @@
         }
       ],
       "source_ids": {
-        "case": "hel-2026-008746/8866e5d0-931b-c360-92f6-a1e904f00007"
+        "case": "hel-2026-008746/a0817eb8-b19f-43bd-bf69-2d0685152da9"
       },
-      "source_url": "https://paatokset.hel.fi/fi/asia/hel-2026-008746/8866e5d0-931b-c360-92f6-a1e904f00007",
+      "source_url": "https://paatokset.hel.fi/fi/asia/hel-2026-008746/a0817eb8-b19f-43bd-bf69-2d0685152da9",
       "statements": [],
       "status": "active",
       "title": "Helsingin kaupungin tilintarkastus 2026",
@@ -89,17 +118,24 @@
     },
     {
       "attachments": [],
-      "content_sha256": "1f375f1f8f440954dab2ac0de25a16cfcd8e664c1eab36d30cf61d005335c134",
+      "content_sha256": "0a3a033e97bb105d081e407d42b7624c5b7290eb20306e3d2f9e26f9877d6e1c",
       "disqualified": [],
       "id": "helsinki/tarkastuslautakunta/2026-11-17/4",
       "meeting_id": "helsinki/tarkastuslautakunta/2026-11-17",
       "motions": [],
       "ordinal": 4,
       "preparers": [],
+      "presenter": "Timo Terävä",
+      "pykala": 90,
       "sections": [
         {
+          "heading": "Päätös",
+          "text": "Tarkastuslautakunta päätti merkitä tiedoksi luottamushenkilöiden ja viranhaltijoiden kuntalain 84 §:n tarkoittamat sidonnaisuusilmoitukset.\n\nLisäksi tarkastuslautakunta päätti esittää kaupunginvaltuustolle seuraavaa:\n\nKaupunginvaltuusto merkitsee tiedoksi luottamushenkilöiden ja viranhaltijoiden kuntalain 84 §:n tarkoittamat sidonnaisuusilmoitukset.",
+          "type": "decision"
+        },
+        {
           "heading": "Päätösehdotus",
-          "text": "Tarkastuslautakunta päättää merkitä tiedoksi luottamushenkilöiden ja viranhaltijoiden kuntalain 84 §:n tarkoittamat sidonnaisuusilmoitukset.\n\nLisäksi tarkastuslautakunta päättää esittää kaupunginvaltuustolle seuraavaa:\n\nKaupunginvaltuusto merkitsee tiedoksi luottamushenkilöiden ja viranhaltijoiden kuntalain 84 §:n tarkoittamat sidonnaisuusilmoitukset.",
+          "text": "Päätös on ehdotuksen mukainen.",
           "type": "proposal"
         },
         {
@@ -109,9 +145,9 @@
         }
       ],
       "source_ids": {
-        "case": "hel-2025-016072/d40a0519-ffa5-c75c-8c9f-a1e905000008"
+        "case": "hel-2025-016072/2ca1e146-3a48-4ab4-acd6-0aacb862872a"
       },
-      "source_url": "https://paatokset.hel.fi/fi/asia/hel-2025-016072/d40a0519-ffa5-c75c-8c9f-a1e905000008",
+      "source_url": "https://paatokset.hel.fi/fi/asia/hel-2025-016072/2ca1e146-3a48-4ab4-acd6-0aacb862872a",
       "statements": [],
       "status": "active",
       "title": "Luottamushenkilöiden ja viranhaltijoiden lakisääteiset sidonnaisuusilmoitukset",
@@ -119,17 +155,24 @@
     },
     {
       "attachments": [],
-      "content_sha256": "67d240a25e30d347ffc6eb19b39f649c543cb4956cf0005bb2f4188d4dedc956",
+      "content_sha256": "7747d163196e05616db5ebbdc59d37fb882c81c88ed2b788d64b9683ed5c1ade",
       "disqualified": [],
       "id": "helsinki/tarkastuslautakunta/2026-11-17/5",
       "meeting_id": "helsinki/tarkastuslautakunta/2026-11-17",
       "motions": [],
       "ordinal": 5,
       "preparers": [],
+      "presenter": "Timo Terävä",
+      "pykala": 91,
       "sections": [
         {
+          "heading": "Päätös",
+          "text": "Tarkastuslautakunta päätti merkitä tiedoksi tarkastuslautakunnan ja ‑viraston vuoden 2026 kolmannen talousarvion toteutumisennusteen.",
+          "type": "decision"
+        },
+        {
           "heading": "Päätösehdotus",
-          "text": "Tarkastuslautakunta päättää merkitä tiedoksi tarkastuslautakunnan ja ‑viraston vuoden 2026 kolmannen talousarvion toteutumisennusteen.",
+          "text": "Päätös on ehdotuksen mukainen.",
           "type": "proposal"
         },
         {
@@ -139,9 +182,9 @@
         }
       ],
       "source_ids": {
-        "case": "hel-2026-000151/51b84bf2-ca01-cfcd-8b7f-a1e905200004"
+        "case": "hel-2026-000151/93d1a676-a3b4-4e16-bb70-12996d4f27b7"
       },
-      "source_url": "https://paatokset.hel.fi/fi/asia/hel-2026-000151/51b84bf2-ca01-cfcd-8b7f-a1e905200004",
+      "source_url": "https://paatokset.hel.fi/fi/asia/hel-2026-000151/93d1a676-a3b4-4e16-bb70-12996d4f27b7",
       "statements": [],
       "status": "active",
       "title": "Tarkastuslautakunnan ja -viraston talousarvion toteutumisennuste 3-2026",
@@ -149,7 +192,8 @@
     },
     {
       "attachments": [],
-      "content_sha256": "b7dbfbef274d721dda60b075564910fc0a5ddba7a86fde89b305191fb5b0ba88",
+      "case_number": "HEL 2021-000123",
+      "content_sha256": "879937cac3dd0820863884892796c64580663a3b5fcb821e40c74c8443b04140",
       "disqualified": [],
       "id": "helsinki/tarkastuslautakunta/2026-11-17/6",
       "meeting_id": "helsinki/tarkastuslautakunta/2026-11-17",
@@ -157,10 +201,16 @@
       "ordinal": 6,
       "preparers": [],
       "presenter": "Timo Terävä",
+      "pykala": 92,
       "sections": [
         {
+          "heading": "Päätös",
+          "text": "Tarkastuslautakunta päätti nimetä Lilinkotisäätiö sr:n tilintarkastajaksi KHT, JHT Juha Huuskosen ja varatilintarkastajaksi KHT, JHT Outi Koskisen tilikaudelle 2027. Molemmat edustavat tilintarkastusyhteisö KPMG Oy Ab:tä.",
+          "type": "decision"
+        },
+        {
           "heading": "Päätösehdotus",
-          "text": "Tarkastuslautakunta päättää nimetä Lilinkotisäätiö sr:n tilintarkastajaksi KHT, JHT Juha Huuskosen ja varatilintarkastajaksi KHT, JHT Outi Koskisen tilikaudelle 2027. Molemmat edustavat tilintarkastusyhteisö KPMG Oy Ab:tä.",
+          "text": "Päätös on ehdotuksen mukainen.",
           "type": "proposal"
         },
         {
@@ -170,9 +220,9 @@
         }
       ],
       "source_ids": {
-        "case": "hel-2026-018562/2c86df10-d115-cef0-8a54-a1e905300002"
+        "case": "hel-2026-018562/8c744c8e-b784-4fec-8553-6265cca64dd5"
       },
-      "source_url": "https://paatokset.hel.fi/fi/asia/hel-2026-018562/2c86df10-d115-cef0-8a54-a1e905300002",
+      "source_url": "https://paatokset.hel.fi/fi/asia/hel-2026-018562/8c744c8e-b784-4fec-8553-6265cca64dd5",
       "statements": [],
       "status": "active",
       "title": "Lilinkotisäätiö sr:n tilintarkastajan nimeäminen tilikaudelle 2027",
@@ -180,7 +230,8 @@
     },
     {
       "attachments": [],
-      "content_sha256": "956a001ae2d557e0fbe6b3d033eee0c70a87f6d431c076da0c5b3e52001486c4",
+      "case_number": "HEL 2021-000123",
+      "content_sha256": "a8724c6839f6e1817d63d942213972ed89d4b4674c4c32f59e3b1450ae40cbe2",
       "disqualified": [],
       "id": "helsinki/tarkastuslautakunta/2026-11-17/7",
       "meeting_id": "helsinki/tarkastuslautakunta/2026-11-17",
@@ -188,10 +239,16 @@
       "ordinal": 7,
       "preparers": [],
       "presenter": "Timo Terävä",
+      "pykala": 93,
       "sections": [
         {
+          "heading": "Päätös",
+          "text": "Tarkastuslautakunta päätti nimetä ehdolle perustelutekstissä lueteltujen Helsingin kaupungin osakkuusyhtiöiden tilintarkastajiksi ja varatilintarkastajiksi liitteessä 1 mainitut tilintarkastusyhteisöt ja tilintarkastajat tilikaudelle 2027.",
+          "type": "decision"
+        },
+        {
           "heading": "Päätösehdotus",
-          "text": "Tarkastuslautakunta päättää nimetä ehdolle perustelutekstissä lueteltujen Helsingin kaupungin osakkuusyhtiöiden tilintarkastajiksi ja varatilintarkastajiksi liitteessä 1 mainitut tilintarkastusyhteisöt ja tilintarkastajat tilikaudelle 2027.",
+          "text": "Päätös on ehdotuksen mukainen.",
           "type": "proposal"
         },
         {
@@ -201,9 +258,9 @@
         }
       ],
       "source_ids": {
-        "case": "hel-2026-018561/bdcda4f5-5fa7-c309-8933-a1e905400002"
+        "case": "hel-2026-018561/3b32d94e-35ba-44e3-b6b9-c692f1b0062a"
       },
-      "source_url": "https://paatokset.hel.fi/fi/asia/hel-2026-018561/bdcda4f5-5fa7-c309-8933-a1e905400002",
+      "source_url": "https://paatokset.hel.fi/fi/asia/hel-2026-018561/3b32d94e-35ba-44e3-b6b9-c692f1b0062a",
       "statements": [],
       "status": "active",
       "title": "Ehdokkaiden nimeäminen eräiden Helsingin kaupungin osakkuusyhtiöiden tilintarkastajiksi tilikaudelle 2027",
@@ -211,17 +268,24 @@
     },
     {
       "attachments": [],
-      "content_sha256": "f9e634de8ebf619bca058e94b3562149ae68f8c2ecda97635fbee5ca6ea07c93",
+      "content_sha256": "02d435e4cde5a4abd73d659362734e7f25c1b8b542a383245b52bae6735ad05e",
       "disqualified": [],
       "id": "helsinki/tarkastuslautakunta/2026-11-17/8",
       "meeting_id": "helsinki/tarkastuslautakunta/2026-11-17",
       "motions": [],
       "ordinal": 8,
       "preparers": [],
+      "presenter": "Timo Terävä",
+      "pykala": 94,
       "sections": [
         {
+          "heading": "Päätös",
+          "text": "Tarkastuslautakunta päätti merkitä tiedoksi KPMG Oy Ab:n erityistoimeksiannot 35–41/2026.",
+          "type": "decision"
+        },
+        {
           "heading": "Päätösehdotus",
-          "text": "Tarkastuslautakunta päättää merkitä tiedoksi KPMG Oy Ab:n erityistoimeksiannot 35–41/2026.",
+          "text": "Päätös on ehdotuksen mukainen.",
           "type": "proposal"
         },
         {
@@ -231,9 +295,9 @@
         }
       ],
       "source_ids": {
-        "case": "hel-2026-000094/7a5917ff-efe2-c149-9d80-a1e905500002"
+        "case": "hel-2026-000094/142a6277-d94f-4657-8073-b5cfff74f360"
       },
-      "source_url": "https://paatokset.hel.fi/fi/asia/hel-2026-000094/7a5917ff-efe2-c149-9d80-a1e905500002",
+      "source_url": "https://paatokset.hel.fi/fi/asia/hel-2026-000094/142a6277-d94f-4657-8073-b5cfff74f360",
       "statements": [],
       "status": "active",
       "title": "KPMG Oy Ab:n lisä- ja erityistoimeksiantoilmoitukset 2026",
@@ -241,7 +305,7 @@
     },
     {
       "attachments": [],
-      "content_sha256": "b662a6bd5327261672728dada1fb2cda330f7dd266212ee94235aba5b545d9cf",
+      "content_sha256": "cef439594bac800191d54b17843dd607b6d4fe8b3903583aa483e3323be5d53e",
       "disqualified": [],
       "id": "helsinki/tarkastuslautakunta/2026-11-17/9",
       "meeting_id": "helsinki/tarkastuslautakunta/2026-11-17",
@@ -249,10 +313,16 @@
       "ordinal": 9,
       "preparers": [],
       "presenter": "Timo Terävä",
+      "pykala": 95,
       "sections": [
         {
+          "heading": "Päätös",
+          "text": "Tarkastuslautakunta päätti merkitä tiedoksi, ettei tarkastuslautakunnan puheenjohtajan päätöksiä ajalta 20.10.–16.11.2026 ollut.\n\nLisäksi tarkastuslautakunta päätti, ettei se ota käsiteltäväkseen tarkastusjohtajan päätöksiä ajalta 20.10.–16.11.2026:\n\n2.11.2026 § 3 Tarkastusviraston kriittisen toiminnan ylläpitämiseksi tarvittava henkilövarausesitys Puolustusvoimien aluetoimistolle",
+          "type": "decision"
+        },
+        {
           "heading": "Päätösehdotus",
-          "text": "Tarkastuslautakunta päättää, ettei se ota käsiteltäväkseen tarkastuslautakunnan puheenjohtajan päätöksiä ajalta 20.10.–16.11.2026.\n\nLisäksi tarkastuslautakunta päättää, ettei se ota käsiteltäväkseen tarkastusjohtajan päätöksiä ajalta 20.10.–16.11.2026:\n\n2.11.2026 § 3 Tarkastusviraston kriittisen toiminnan ylläpitämiseksi tarvittava henkilövarausesitys Puolustusvoimien aluetoimistolle",
+          "text": "Päätös on ehdotuksen mukainen.",
           "type": "proposal"
         },
         {
@@ -262,9 +332,9 @@
         }
       ],
       "source_ids": {
-        "case": "987e6138-1b6f-c8bb-9517-a1e905600000"
+        "case": "916d48f4-44ca-4a8e-a53d-2c04ccae3426"
       },
-      "source_url": "https://paatokset.hel.fi/fi/asia/987e6138-1b6f-c8bb-9517-a1e905600000",
+      "source_url": "https://paatokset.hel.fi/fi/asia/916d48f4-44ca-4a8e-a53d-2c04ccae3426",
       "statements": [],
       "status": "active",
       "title": "Kaupungin viranomaisten päätösten seuraaminen",
@@ -272,7 +342,7 @@
     },
     {
       "attachments": [],
-      "content_sha256": "c03aeecfd12482658b6475e4acb5f6b16bccb61d04578185833f1e632ae9e7eb",
+      "content_sha256": "cb6506270d73f463fe49ddd967221dbfad546f899ca6d222f96f0eb95e290421",
       "disqualified": [],
       "id": "helsinki/tarkastuslautakunta/2026-11-17/10",
       "meeting_id": "helsinki/tarkastuslautakunta/2026-11-17",
@@ -280,10 +350,16 @@
       "ordinal": 10,
       "preparers": [],
       "presenter": "Timo Terävä",
+      "pykala": 96,
       "sections": [
         {
+          "heading": "Päätös",
+          "text": "Tarkastuslautakunta päätti merkitä tiedoksi viraston ilmoitusasiat.",
+          "type": "decision"
+        },
+        {
           "heading": "Päätösehdotus",
-          "text": "Tarkastuslautakunta päättää merkitä tiedoksi viraston ilmoitusasiat.",
+          "text": "Päätös on ehdotuksen mukainen.",
           "type": "proposal"
         },
         {
@@ -293,9 +369,9 @@
         }
       ],
       "source_ids": {
-        "case": "57178f36-67b7-cbaa-968d-a1e905700002"
+        "case": "831fb53a-d825-4220-b5d9-013ef34d3a3a"
       },
-      "source_url": "https://paatokset.hel.fi/fi/asia/57178f36-67b7-cbaa-968d-a1e905700002",
+      "source_url": "https://paatokset.hel.fi/fi/asia/831fb53a-d825-4220-b5d9-013ef34d3a3a",
       "statements": [],
       "status": "active",
       "title": "Ilmoitusasiat",
@@ -320,13 +396,14 @@
       "helsinki/tarkastuslautakunta/2026-11-17/10"
     ],
     "location": "Tarkastusvirasto, Sörnäistenkatu 1, kokoushuone",
+    "minutes_pdf_url": "https://ahjojulkaisu.hel.fi/D36A29B4-DFA5-CA77-B3E5-A20884400009.pdf",
     "source_ids": {
       "meeting_code": "U003110202612",
       "number": "13/2026",
-      "print_pdf": "https://ahjojulkaisu.hel.fi/A13D14E9-6745-CE27-8A0F-A1CFDD100002.pdf"
+      "print_pdf": "https://ahjojulkaisu.hel.fi/D36A29B4-DFA5-CA77-B3E5-A20884400009.pdf"
     },
     "source_url": "https://paatokset.hel.fi/fi/paattajat/tarkastuslautakunta/asiakirjat/U003110202612",
-    "stage": "agenda",
+    "stage": "minutes",
     "start_time": "16:15"
   }
 }

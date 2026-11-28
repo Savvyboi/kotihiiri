@@ -2,7 +2,7 @@
   "items": [
     {
       "attachments": [],
-      "content_sha256": "acec06f488295e6795f5272e5d5655e6feece6249a9b22b01ab5a8f8d9e5abec",
+      "content_sha256": "bc1bd4833da9da9c5ef53d8d03e2aa1feaf8b4d5a3b7d0f067fa4431f9e6a64c",
       "disqualified": [],
       "id": "helsinki/kaupunginhallituksen-konsernijaosto/2026-11-16/1",
       "meeting_id": "helsinki/kaupunginhallituksen-konsernijaosto/2026-11-16",
@@ -10,17 +10,23 @@
       "ordinal": 1,
       "preparers": [],
       "presenter": "Daniel Sazonov",
+      "pykala": 90,
       "sections": [
         {
+          "heading": "Päätös",
+          "text": "Kaupunginhallituksen konsernijaosto totesi kokouksen laillisesti koolle kutsutuksi ja päätösvaltaiseksi.\n\nSamalla konsernijaosto valitsi pöytäkirjantarkastajiksi Ville Jalovaaran ja Tuuli Kousan sekä varatarkastajiksi Tuomas Rantasen ja Mia Haglundin.",
+          "type": "decision"
+        },
+        {
           "heading": "Päätösehdotus",
-          "text": "Kaupunginhallituksen konsernijaosto toteaa kokouksen laillisesti koolle kutsutuksi ja päätösvaltaiseksi.\n\nSamalla konsernijaosto valitsee pöytäkirjantarkastajiksi Ville Jalovaaran ja Tuuli Kousan sekä varatarkastajiksi Tuomas Rantasen ja Mia Haglundin.",
+          "text": "Päätös on ehdotuksen mukainen.",
           "type": "proposal"
         }
       ],
       "source_ids": {
-        "case": "35ebd89a-908f-cf38-bc4f-a1d4dca00007"
+        "case": "56c068b1-81c8-41d8-a9c7-7a91fa4f9c60"
       },
-      "source_url": "https://paatokset.hel.fi/fi/asia/35ebd89a-908f-cf38-bc4f-a1d4dca00007",
+      "source_url": "https://paatokset.hel.fi/fi/asia/56c068b1-81c8-41d8-a9c7-7a91fa4f9c60",
       "statements": [],
       "status": "active",
       "title": "Kokouksen laillisuuden ja päätösvaltaisuuden toteaminen sekä pöytäkirjan tarkastajien valinta",
@@ -28,7 +34,7 @@
     },
     {
       "attachments": [],
-      "content_sha256": "697debb2f8ad9fd28ff6b82ca42fa17dd60055961ca6eea62c806cb311492005",
+      "content_sha256": "72a4f13d6d98135d9fe26d3c0e83027496a0cea15b1bdb14cf5be0353e40ca43",
       "disqualified": [],
       "id": "helsinki/kaupunginhallituksen-konsernijaosto/2026-11-16/2",
       "meeting_id": "helsinki/kaupunginhallituksen-konsernijaosto/2026-11-16",
@@ -36,10 +42,21 @@
       "ordinal": 2,
       "preparers": [],
       "presenter": "Jukka-Pekka Ujula",
+      "pykala": 91,
       "sections": [
         {
+          "heading": "Päätös",
+          "text": "Kaupunginhallituksen konsernijaosto päätti merkitä tiedoksi Helsingin kaupungin asunnot Oy:n ajankohtaiskatsauksen.",
+          "type": "decision"
+        },
+        {
+          "heading": "Käsittely",
+          "text": "Asian aikana kuultavina olivat Helsingin kaupungin asunnot Oy:n toimitusjohtaja Maria Aspala sekä Helsingin kaupungin asunnot Oy:n hallituksen puheenjohtaja Maximilian Rewell.\n\nAsiantuntijat poistuivat kuulemisensa jälkeen kokouksesta.",
+          "type": "deliberation"
+        },
+        {
           "heading": "Päätösehdotus",
-          "text": "Kaupunginhallituksen konsernijaosto päättää merkitä tiedoksi Helsingin kaupungin asunnot Oy:n ajankohtaiskatsauksen.",
+          "text": "Päätös on ehdotuksen mukainen.",
           "type": "proposal"
         },
         {
@@ -49,9 +66,9 @@
         }
       ],
       "source_ids": {
-        "case": "hel-2026-017787/abf86230-23d4-c6e6-bb34-a1d4dcb00009"
+        "case": "hel-2026-017787/a68a0a26-36f0-4bcf-aebe-dcb89c4b46bf"
       },
-      "source_url": "https://paatokset.hel.fi/fi/asia/hel-2026-017787/abf86230-23d4-c6e6-bb34-a1d4dcb00009",
+      "source_url": "https://paatokset.hel.fi/fi/asia/hel-2026-017787/a68a0a26-36f0-4bcf-aebe-dcb89c4b46bf",
       "statements": [],
       "status": "active",
       "title": "Helsingin kaupungin asunnot Oy:n ajankohtaiskatsaus",
@@ -60,17 +77,24 @@
     {
       "attachments": [],
       "case_number": "HEL 2026-008574",
-      "content_sha256": "1b422b571b6e348899f19a90832e03801bc315e351f15f956ca625b3b8d36222",
+      "content_sha256": "b9b9792eaaa229aba851bf45474355b9bccbcc7ccae6d361f1327227494a3699",
       "disqualified": [],
       "id": "helsinki/kaupunginhallituksen-konsernijaosto/2026-11-16/3",
       "meeting_id": "helsinki/kaupunginhallituksen-konsernijaosto/2026-11-16",
       "motions": [],
       "ordinal": 3,
       "preparers": [],
+      "presenter": "Jukka-Pekka Ujula",
+      "pykala": 92,
       "sections": [
         {
+          "heading": "Päätös",
+          "text": "Kaupunginhallituksen konsernijaosto päätti merkitä tiedoksi tytäryhteisöjen toiminnan ja talouden Q3/2026-katsauksen.",
+          "type": "decision"
+        },
+        {
           "heading": "Päätösehdotus",
-          "text": "Kaupunginhallituksen konsernijaosto päättää merkitä tiedoksi tytäryhteisöjen toiminnan ja talouden Q3/2026-katsauksen.",
+          "text": "Päätös on ehdotuksen mukainen.",
           "type": "proposal"
         },
         {
@@ -80,14 +104,14 @@
         },
         {
           "heading": "Kaupunginhallituksen konsernijaosto 14.09.2026 § 72",
-          "text": "HEL 2026-008574 T 00 01 05\n\nPäätös\n\nKaupunginhallituksen konsernijaosto päätti merkitä tiedoksi tytäryhteisöjen toiminnan ja talouden Q2/2026-katsauksen.\n\nKäsittely\n\n14.09.2026 Ehdotuksen mukaan\n\nAsian aikana kuultavana oli konserniohjauksen johtaja Atte Malmström.\n\n15.06.2026 Ehdotuksen mukaan\n\nEsittelijä\n\nkansliapäällikkö\n\nJukka-Pekka Ujula\n\nEsittelijä\n\nNimi Jukka-Pekka Ujula\n\nTitteli\n\nKansliapäällikkö\n\nNimi Pia Halinen\n\nTitteli\n\nKonsernianalyytikko\n\nPuhelinnumero\n\n[poistettu](Linkki aloittaa puhelun)\n\nSähköposti\n\n[poistettu](Linkki avaa oletussähköpostiohjelman)\n\nNimi Tiina Leinonen\n\nTitteli\n\nKonsernianalyytikko\n\nPuhelinnumero\n\n[poistettu](Linkki aloittaa puhelun)\n\nSähköposti\n\n[poistettu](Linkki avaa oletussähköpostiohjelman)\n\nNimi Patrick Wahlman\n\nTitteli\n\nKonsernianalyytikko\n\nPuhelinnumero\n\n[poistettu](Linkki aloittaa puhelun)\n\nSähköposti\n\n[poistettu](Linkki avaa oletussähköpostiohjelman)\n\nNimi Johannes-Mikael Mäki\n\nTitteli\n\nKonsernijuristi\n\nPuhelinnumero\n\n[poistettu](Linkki aloittaa puhelun)\n\nSähköposti\n\n[poistettu](Linkki avaa oletussähköpostiohjelman)",
+          "text": "HEL 2026-008574 T 00 01 05\n\nPäätös\n\nKaupunginhallituksen konsernijaosto päätti merkitä tiedoksi tytäryhteisöjen toiminnan ja talouden Q2/2026-katsauksen.\n\nKäsittely\n\n14.09.2026 Ehdotuksen mukaan\n\nAsian aikana kuultavana oli konserniohjauksen johtaja Atte Malmström.\n\n15.06.2026 Ehdotuksen mukaan\n\nEsittelijä\n\nkansliapäällikkö\n\nJukka-Pekka Ujula",
           "type": "history"
         }
       ],
       "source_ids": {
-        "case": "hel-2026-008574/23982e33-1256-cc6f-9ca1-a1d4dcc00008"
+        "case": "hel-2026-008574/c34377e5-bea2-4dde-b160-7027e37de228"
       },
-      "source_url": "https://paatokset.hel.fi/fi/asia/hel-2026-008574/23982e33-1256-cc6f-9ca1-a1d4dcc00008",
+      "source_url": "https://paatokset.hel.fi/fi/asia/hel-2026-008574/c34377e5-bea2-4dde-b160-7027e37de228",
       "statements": [],
       "status": "active",
       "title": "Tytäryhteisöjen toiminnan ja talouden Q3/2026-katsaus",
@@ -95,7 +119,7 @@
     },
     {
       "attachments": [],
-      "content_sha256": "fbd0835abd5acd351f2429b224429914264f850d01428fb3a310aec042f3d631",
+      "content_sha256": "97ce56b2c5a1add7e654d70ff578dacaa31761e1c41edfe08dcbdd28d86ea68e",
       "disqualified": [],
       "id": "helsinki/kaupunginhallituksen-konsernijaosto/2026-11-16/4",
       "meeting_id": "helsinki/kaupunginhallituksen-konsernijaosto/2026-11-16",
@@ -103,10 +127,16 @@
       "ordinal": 4,
       "preparers": [],
       "presenter": "Jukka-Pekka Ujula",
+      "pykala": 93,
       "sections": [
         {
+          "heading": "Päätös",
+          "text": "Kaupunginhallituksen konsernijaosto esitti kaupunginhallitukselle seuraavaa:\n\nKaupunginhallitus päättää hyväksyä Helsinki Partners Oy:n omistajastrategian päivittämisen liitteenä olevan luonnoksen mukaisesti.\n\nSamalla konsernijaosto päätti tehdä yhtiökokousta pitämättä Helsinki Partners Oy:tä koskevan osakkeenomistajan päätöksen, jolla Sanna Forsström nimetään 3.12.2026 lukien hallituksen jäseneksi hallituksesta eronneiden Liisa Kivelän ja Marja-Leena Rinkinevan tilalle yhtiöjärjestyksen mukaiseksi jäljellä olevaksi toimikaudeksi.\n\nSamalla konsernijaosto päätti kehottaa kaupunginkanslian oikeuspalveluita kirjaamaan, päiväämään, numeroimaan ja allekirjoittamaan osakkeenomistajan päätöksen.",
+          "type": "decision"
+        },
+        {
           "heading": "Päätösehdotus",
-          "text": "Kaupunginhallituksen konsernijaosto esittää kaupunginhallitukselle seuraavaa:\n\nKaupunginhallitus päättää hyväksyä Helsinki Partners Oy:n omistajastrategian päivittämisen liitteenä olevan luonnoksen mukaisesti.\n\nSamalla konsernijaosto päättää tehdä yhtiökokousta pitämättä Helsinki Partners Oy:tä koskevan osakkeenomistajan päätöksen, jolla Sanna Forsström nimetään 3.12.2026 lukien hallituksen jäseneksi hallituksesta eronneiden Liisa Kivelän ja Marja-Leena Rinkinevan tilalle yhtiöjärjestyksen mukaiseksi jäljellä olevaksi toimikaudeksi.\n\nSamalla konsernijaosto päättää kehottaa kaupunginkanslian oikeuspalveluita kirjaamaan, päiväämään, numeroimaan ja allekirjoittamaan osakkeenomistajan päätöksen.",
+          "text": "Päätös on ehdotuksen mukainen.",
           "type": "proposal"
         },
         {
@@ -116,9 +146,9 @@
         }
       ],
       "source_ids": {
-        "case": "hel-2026-016850/40394560-a565-cccd-aa4e-a1d4dcd00006"
+        "case": "hel-2026-016850/fa3479b8-936e-4a55-b646-d2b8272f4f79"
       },
-      "source_url": "https://paatokset.hel.fi/fi/asia/hel-2026-016850/40394560-a565-cccd-aa4e-a1d4dcd00006",
+      "source_url": "https://paatokset.hel.fi/fi/asia/hel-2026-016850/fa3479b8-936e-4a55-b646-d2b8272f4f79",
       "statements": [],
       "status": "active",
       "title": "Helsinki Partners Oy:n omistajastrategian päivittäminen ja hallituksen täydentäminen",
@@ -127,17 +157,24 @@
     {
       "attachments": [],
       "case_number": "HEL 2025-020280",
-      "content_sha256": "94ece291506574abf3e417ff2c216e96872c5e9b965d93c16260911b11a9137d",
+      "content_sha256": "f1e285a7fc93e2b363da4a005ec14cd0192959a43c28cd3ac70cb4a9cb64b427",
       "disqualified": [],
       "id": "helsinki/kaupunginhallituksen-konsernijaosto/2026-11-16/5",
       "meeting_id": "helsinki/kaupunginhallituksen-konsernijaosto/2026-11-16",
       "motions": [],
       "ordinal": 5,
       "preparers": [],
+      "presenter": "Jukka-Pekka Ujula",
+      "pykala": 94,
       "sections": [
         {
+          "heading": "Päätös",
+          "text": "Kaupunginhallituksen konsernijaosto kehotti konserniohjauksen kehittämispäällikkö Miia Ahoa edustamaan Helsingin kaupunkia tai hänen olleessaan estyneenä konserniohjauksen johtaja Atte Malmströmiä Helsingin seudun ympäristöpalvelut -kuntayhtymän (HSY) syysyhtymäkokouksessa 20.11.2026 klo 10.30.\n\nSamalla konsernijaosto kehotti yhtymäkokousedustajaa hyväksymään hallituksen ja tarkastuslautakunnan ehdotukset yhtymäkokoukselle seuraavasti:\n\n1. kannattamaan vesihuollon investointiohjelman 2027–2046 hyväksymistä,\n\n2. kannattamaan jätehuollon investointiohjelman 2027–2046 hyväksymistä,\n\n3. esittämään, että HSY:n strategia 2035 käsitellään ennen HSY:n toiminta- ja taloussuunnitelmaa 2027–2029, ja että strategiassa omavaraisuusasteen tavoitetasoksi vuodelle 2028 asetetaan 33,2 % ja vuodelle 2029 35,6 % ja että toiminta- ja taloussuunnitelmassa 2027–2029 näiden tavoitearvojen tulee vastata strategian yhteydessä päätettyjä tavoitearvoja.\n\n- kannattamaan muilta osin hallituksen esitystä hyväksyä HSY:n strategian missio, visio ja arvot vuoteen 2035 sekä strategiset painopisteet, niiden kehitysteemat ja keinot vuoteen 2035 sekä strategiset KPI-mittarit ja niiden tavoitetasot vuosille 2027–2030 ja 2035.\n\n4. kannattamaan HSY:n toiminta- ja taloussuunnitelman vuosille 2027–2029 hyväksymistä,\n\n5. kannattamaan hallituksen esitystä valtuuttaa hallitus ottamaan uutta pitkäaikaista lainaa vuoden 2027 talousarvion puitteissa enintään 115 000 000 euroa,\n\n6. kannattamaan hallituksen esitystä talousarvion sitovien määrärahojen hyväksymisestä seuraavasti:\n\n- Vesihuollon toimintamenot 134 980 000 euroa,\n\n- Vesihuollon investointimenot (netto) 196 877 000 euroa,\n\n- Jätehuollon toimintamenot 95 944 000 euroa,\n\n- Jätehuollon investointimenot (netto) 17 535 000 euroa.\n\n7. kannattamaan esitystä merkitä tiedoksi hallituksen selvityksen tarkastuslautakunnan vuotta 2025 koskevan arviointikertomuksen johdosta.\n\n8. kannattamaan esitystä merkitä sidonnaisuusilmoitukset tiedoksi.",
+          "type": "decision"
+        },
+        {
           "heading": "Päätösehdotus",
-          "text": "Kaupunginhallituksen konsernijaosto kehottaa konserniohjauksen kehittämispäällikkö Miia Ahoa edustamaan Helsingin kaupunkia tai hänen olleessaan estyneenä konserniohjauksen johtaja Atte Malmströmiä Helsingin seudun ympäristöpalvelut -kuntayhtymän (HSY) syysyhtymäkokouksessa 20.11.2026 klo 10.30.\n\nSamalla konsernijaosto kehottaa yhtymäkokousedustajaa hyväksymään hallituksen ja tarkastuslautakunnan ehdotukset yhtymäkokoukselle seuraavasti:\n\n1. kannattamaan vesihuollon investointiohjelman 2027–2046 hyväksymistä,\n\n2. kannattamaan jätehuollon investointiohjelman 2027–2046 hyväksymistä,\n\n3. esittämään, että HSY:n strategia 2035 käsitellään ennen HSY:n toiminta- ja taloussuunnitelmaa 2027–2029, ja että strategiassa omavaraisuusasteen tavoitetasoksi vuodelle 2028 asetetaan 33,2 % ja vuodelle 2029 35,6 % ja että toiminta- ja taloussuunnitelmassa 2027–2029 näiden tavoitearvojen tulee vastata strategian yhteydessä päätettyjä tavoitearvoja.\n\n- kannattamaan muilta osin hallituksen esitystä hyväksyä HSY:n strategian missio, visio ja arvot vuoteen 2035 sekä strategiset painopisteet, niiden kehitysteemat ja keinot vuoteen 2035 sekä strategiset KPI-mittarit ja niiden tavoitetasot vuosille 2027–2030 ja 2035.\n\n4. kannattamaan HSY:n toiminta- ja taloussuunnitelman vuosille 2027–2029 hyväksymistä,\n\n5. kannattamaan hallituksen esitystä valtuuttaa hallitus ottamaan uutta pitkäaikaista lainaa vuoden 2027 talousarvion puitteissa enintään 115 000 000 euroa,\n\n6. kannattamaan hallituksen esitystä talousarvion sitovien määrärahojen hyväksymisestä seuraavasti:\n\n- Vesihuollon toimintamenot 134 980 000 euroa,\n\n- Vesihuollon investointimenot (netto) 196 877 000 euroa,\n\n- Jätehuollon toimintamenot 95 944 000 euroa,\n\n- Jätehuollon investointimenot (netto) 17 535 000 euroa.\n\n7. kannattamaan esitystä merkitä tiedoksi hallituksen selvityksen tarkastuslautakunnan vuotta 2025 koskevan arviointikertomuksen johdosta.\n\n8. kannattamaan esitystä merkitä sidonnaisuusilmoitukset tiedoksi.",
+          "text": "Päätös on ehdotuksen mukainen.",
           "type": "proposal"
         },
         {
@@ -147,14 +184,14 @@
         },
         {
           "heading": "Kaupunginhallituksen konsernijaosto 18.05.2026 § 52",
-          "text": "HEL 2025-020280 T 00 01 05\n\nPäätös\n\nKaupunginhallituksen konsernijaosto kehotti konserniohjauksen johtaja Atte Malmströmiä tai hänen estyneenä ollessaan konserniohjauksen kehittämispäällikkö Miia Ahoa edustamaan kaupunkia Helsingin seudun ympäristöpalvelut -kuntayhtymän (HSY) kevätyhtymäkokouksessa 29.5.2026.\n\nSamalla konsernijaosto kehotti yhtymäkokousedustajaa hyväksymään hallituksen ja tarkastuslautakunnan ehdotukset yhtymäkokoukselle seuraavasti:\n\nkorottamaan vesihuollon vuoden 2025 sitovan toimintakulumäärärahan 115,721 miljoonasta eurosta 116,4 miljoonaan euroon,\n\nkannattamaan, että yhtymäkokous merkitsee tiedoksi tarkastuslautakunnan arviointikertomuksen vuodelta 2025 sekä lähettää sen tiedoksi ja toimenpiteitä varten HSY:n hallitukselle, ja kehottaa hallitusta antamaan yhtymäkokoukselle selvityksen toimenpiteistä, joihin tarkastuslautakunnan suositusten perusteella on ryhdytty,\n\nmerkitä tiedoksi tilintarkastuskertomus tilivuodelta 2025,\n\nvahvistaa vuoden 2025 tilinpäätös ja myöntää tilivelvollisille vastuuvapaus tilikaudelta 1.1.–31.12.2025,\n\nkannattaa hallituksen esitystä tilikauden tuloksen käsittelystä,\n\nkannattamaan hallituksen esitystä a)hyväksyä Pitkäkosken vedenpuhdistuslaitoksen perusparannus- ja kapasiteetinnostohankkeen hankesuunnitelman päivityksen siten, että hankkeen arvoidut kustannukset vuoden 2026 hintatasossa ovat 76,4 milj. euroa, alv 0 %, sisältäen aiemmin sovitus toteutusvaiheen valmistelevat ja liittyvät työt b) oikeuttamaan hallituksen hyväksymään mahdolliset Pitkäkosken vedenpuheistuslaitoksen perusparannus ja kapasiteetinnosto -hankkeen laajuus- ja kustannusmuutokset loppuhankkeen aikana.\n\nkannattamaan muita esityslistan mukaisia esityksiä.\n\nKonsernijaosto tarkasti pöytäkirjan tämän asian osalta heti.\n\nKäsittely\n\n18.05.2026 Esittelijän muutetun ehdotuksen mukaan\n\nEsittelijä muutti ehdotustaan siten, että otsikko \"HSY:n omistajaohjaustavoitteet vuodelle 2026\" muutetaan muotoon \"vuoden 2026 HSY:n omistajaohjaustavoitteiksi on asetettu:\"\n\nKonsernijaosto hyväksyi esittelijän muutetun ehdotuksen.\n\n19.01.2026 Ehdotuksen mukaan\n\nEsittelijä\n\nvs. kansliapäällikkö\n\nPia Ojavuo\n\nEsittelijä\n\nNimi Jukka-Pekka Ujula\n\nTitteli\n\nKansliapäällikkö\n\nNimi Timo Lindén\n\nTitteli\n\nKaupunginsihteeri\n\nPuhelinnumero\n\n[poistettu](Linkki aloittaa puhelun)\n\nSähköposti\n\n[poistettu](Linkki avaa oletussähköpostiohjelman)",
+          "text": "HEL 2025-020280 T 00 01 05\n\nPäätös\n\nKaupunginhallituksen konsernijaosto kehotti konserniohjauksen johtaja Atte Malmströmiä tai hänen estyneenä ollessaan konserniohjauksen kehittämispäällikkö Miia Ahoa edustamaan kaupunkia Helsingin seudun ympäristöpalvelut -kuntayhtymän (HSY) kevätyhtymäkokouksessa 29.5.2026.\n\nSamalla konsernijaosto kehotti yhtymäkokousedustajaa hyväksymään hallituksen ja tarkastuslautakunnan ehdotukset yhtymäkokoukselle seuraavasti:\n\nkorottamaan vesihuollon vuoden 2025 sitovan toimintakulumäärärahan 115,721 miljoonasta eurosta 116,4 miljoonaan euroon,\n\nkannattamaan, että yhtymäkokous merkitsee tiedoksi tarkastuslautakunnan arviointikertomuksen vuodelta 2025 sekä lähettää sen tiedoksi ja toimenpiteitä varten HSY:n hallitukselle, ja kehottaa hallitusta antamaan yhtymäkokoukselle selvityksen toimenpiteistä, joihin tarkastuslautakunnan suositusten perusteella on ryhdytty,\n\nmerkitä tiedoksi tilintarkastuskertomus tilivuodelta 2025,\n\nvahvistaa vuoden 2025 tilinpäätös ja myöntää tilivelvollisille vastuuvapaus tilikaudelta 1.1.–31.12.2025,\n\nkannattaa hallituksen esitystä tilikauden tuloksen käsittelystä,\n\nkannattamaan hallituksen esitystä a)hyväksyä Pitkäkosken vedenpuhdistuslaitoksen perusparannus- ja kapasiteetinnostohankkeen hankesuunnitelman päivityksen siten, että hankkeen arvoidut kustannukset vuoden 2026 hintatasossa ovat 76,4 milj. euroa, alv 0 %, sisältäen aiemmin sovitus toteutusvaiheen valmistelevat ja liittyvät työt b) oikeuttamaan hallituksen hyväksymään mahdolliset Pitkäkosken vedenpuheistuslaitoksen perusparannus ja kapasiteetinnosto -hankkeen laajuus- ja kustannusmuutokset loppuhankkeen aikana.\n\nkannattamaan muita esityslistan mukaisia esityksiä.\n\nKonsernijaosto tarkasti pöytäkirjan tämän asian osalta heti.\n\nKäsittely\n\n18.05.2026 Esittelijän muutetun ehdotuksen mukaan\n\nEsittelijä muutti ehdotustaan siten, että otsikko \"HSY:n omistajaohjaustavoitteet vuodelle 2026\" muutetaan muotoon \"vuoden 2026 HSY:n omistajaohjaustavoitteiksi on asetettu:\"\n\nKonsernijaosto hyväksyi esittelijän muutetun ehdotuksen.\n\n19.01.2026 Ehdotuksen mukaan\n\nEsittelijä\n\nvs. kansliapäällikkö\n\nPia Ojavuo",
           "type": "history"
         }
       ],
       "source_ids": {
-        "case": "hel-2025-020280/ebb58b4d-6974-c516-b592-a1d4dce00003"
+        "case": "hel-2025-020280/4830de98-476d-4756-81c1-f9bb09545696"
       },
-      "source_url": "https://paatokset.hel.fi/fi/asia/hel-2025-020280/ebb58b4d-6974-c516-b592-a1d4dce00003",
+      "source_url": "https://paatokset.hel.fi/fi/asia/hel-2025-020280/4830de98-476d-4756-81c1-f9bb09545696",
       "statements": [],
       "status": "active",
       "title": "Helsingin seudun ympäristöpalvelut -kuntayhtymän syysyhtymäkokous",
@@ -163,14 +200,39 @@
     {
       "attachments": [],
       "case_number": "HEL 2026-007026",
-      "content_sha256": "4a57d3ca534eb75c2f90657906d71d780b1a7e6abb457417193b478ca9283fe5",
+      "content_sha256": "4d294f1bedb9c4973b251a9a7e6586389ad68e41df3e0bbebf91575c8ed8d0f8",
       "disqualified": [],
       "id": "helsinki/kaupunginhallituksen-konsernijaosto/2026-11-16/6",
       "meeting_id": "helsinki/kaupunginhallituksen-konsernijaosto/2026-11-16",
-      "motions": [],
+      "motions": [
+        {
+          "kind": "counter_proposal",
+          "proposer_ref": {
+            "raw": ""
+          },
+          "seconder_refs": [
+            {
+              "raw": "Daniel Sazonov"
+            }
+          ],
+          "text": "Paavo Arhinmäki: Päätösehdotukseen lisäys uusi kohta seitsemän (7.):\n\nTuomaan esille yhtymäkokouksessa, että Helsingin kaupunkistrategian mukaisesti helsinkiläisten lippujen reaalihintojen tulee laskea strategiakauden aikana vuoteen 2026 verrattuna."
+        }
+      ],
       "ordinal": 6,
       "preparers": [],
+      "presenter": "Jukka-Pekka Ujula",
+      "pykala": 95,
       "sections": [
+        {
+          "heading": "Päätös",
+          "text": "Kaupunginhallituksen konsernijaosto kehotti konserniohjauksen kehittämispäällikkö Miia Ahoa tai hänen ollessaan estynyt konserniohjauksen johtaja Atte Malmströmiä edustamaan kaupunkia Helsingin seudun liikenne -kuntayhtymän (HSL) syysyhtymäkokouksessa 24.11.2026.\n\nSamalla konsernijaosto kehotti yhtymäkokousedustajaa:\n\n1. kannattamaan hallituksen esitystä merkitä tiedoksi hallituksen lausunto tarkastuslautakunnan vuotta 2025 koskevan arviointikertomuksen johdosta.\n\n2. kannattamaan hallituksen esitystä merkitä tiedoksi osavuosikatsaus 3/2026.\n\n3. kannattamaan hallituksen ehdotusta päättää a) hyväksyä talousarvion vuodelle 2027 sekä toiminta- ja taloussuunnitelman vuosille 2027–2029 liitteen mukaisena; b) hyväksyä sitovat määrärahat ja tuloarviot vuodelle 2027 seuraavasti: toimintamenot 1 [poistettu] euroa, investointimenot 24 000 000 euroa ja kuntaosuudet 618 460 000 euroa, sekä c) HSL maksaa jäsenkunnille 1,5 % korkoa peruspääomasta PKS-omistajaohjauksen linjauksen mukaisesti talousarviovuonna.\n\n4. kannattamaan hallituksen ehdotusta päivittää HSL:n hallintosääntö esityslistan tämän asian liitteen 1 mukaiseksi. Hallintosääntö tulee voimaan 1.1.2027.\n\n5. kannattamaan esityksen perusteluissa kuvattuja PKS-kaupunkien muutosesityksiä edellyttäen, ettei HSL:n maksuvalmius vaarannu;\n\n6. kannattamaan kokouksessa muita hallituksen esityslistan mukaisia esityksiä.\n\n7. tuomaan esille yhtymäkokouksessa, että Helsingin kaupunkistrategian mukaisesti helsinkiläisten lippujen reaalihintojen tulee laskea strategiakauden aikana vuoteen 2026 verrattuna.",
+          "type": "decision"
+        },
+        {
+          "heading": "Käsittely",
+          "text": "Vastaehdotus:\n\nPaavo Arhinmäki: Päätösehdotukseen lisäys uusi kohta seitsemän (7.):\n\nTuomaan esille yhtymäkokouksessa, että Helsingin kaupunkistrategian mukaisesti helsinkiläisten lippujen reaalihintojen tulee laskea strategiakauden aikana vuoteen 2026 verrattuna.\n\nKannattaja: Daniel Sazonov\n\nKonsernijaosto hyväksyi yksimielisesti Paavo Arhinmäen vastaehdotuksen mukaan muutetun ehdotuksen.",
+          "type": "deliberation"
+        },
         {
           "heading": "Päätösehdotus",
           "text": "Kaupunginhallituksen konsernijaosto kehottaa konserniohjauksen kehittämispäällikkö Miia Ahoa tai hänen ollessaan estynyt konserniohjauksen johtaja Atte Malmströmiä edustamaan kaupunkia Helsingin seudun liikenne -kuntayhtymän (HSL) syysyhtymäkokouksessa 24.11.2026.\n\nSamalla konsernijaosto kehottaa yhtymäkokousedustajaa:\n\n1. kannattamaan hallituksen esitystä merkitä tiedoksi hallituksen lausunto tarkastuslautakunnan vuotta 2025 koskevan arviointikertomuksen johdosta.\n\n2. kannattamaan hallituksen esitystä merkitä tiedoksi osavuosikatsaus 3/2026.\n\n3. kannattamaan hallituksen ehdotusta päättää a) hyväksyä talousarvion vuodelle 2027 sekä toiminta- ja taloussuunnitelman vuosille 2027–2029 liitteen mukaisena; b) hyväksyä sitovat määrärahat ja tuloarviot vuodelle 2027 seuraavasti: toimintamenot 1 [poistettu] euroa, investointimenot 24 000 000 euroa ja kuntaosuudet 618 460 000 euroa, sekä c) HSL maksaa jäsenkunnille 1,5 % korkoa peruspääomasta PKS-omistajaohjauksen linjauksen mukaisesti talousarviovuonna.\n\n4. kannattamaan hallituksen ehdotusta päivittää HSL:n hallintosääntö esityslistan tämän asian liitteen 1 mukaiseksi. Hallintosääntö tulee voimaan 1.1.2027.\n\n5. kannattamaan esityksen perusteluissa kuvattuja PKS-kaupunkien muutosesityksiä edellyttäen, ettei HSL:n maksuvalmius vaarannu;\n\n6. kannattamaan kokouksessa muita hallituksen esityslistan mukaisia esityksiä.",
@@ -183,14 +245,14 @@
         },
         {
           "heading": "Kaupunginhallituksen konsernijaosto 18.05.2026 § 51",
-          "text": "HEL 2026-007026 T 00 01 06\n\nPäätös\n\nKaupunginhallituksen konsernijaosto kehotti konserniohjauksen johtaja Atte Malmströmiä tai hänen estyneenä ollessaan konserniohjauksen kehittämispäällikkö Miia Ahoa edustamaan Helsingin kaupunkia Helsingin seudun liikenne -kuntayhtymän (HSL) kevätyhtymäkokouksessa 26.5.2026 klo 11.30.\n\nSamalla konsernijaosto kehotti yhtymäkokousedustajaa:\n\nkannattamaan, että yhtymäkokous merkitsee tarkastuslautakunnan arviointikertomuksen vuodelta 2025 tiedoksi ja pyytää hallitusta antamaan siitä selvityksen yhtymäkokoukselle,\n\nkannattamaan, että yhtymäkokous päättää, että kuntakohtaiset laskutettavat kuntaosuudet vuodelta 2026 muutetaan hallituksen esityksen mukaisesti sekä valtuutetaan hallinto-tulosalueen johtaja sopimaan kunkin kunnan kanssa muutoksen toteuttamistavasta kuntaosuuden laskutuksessa sekä, että sitovaan tulosarvioon, kuntaosuudet yhteensä, ei tehdä muutoksia\n\nkannattamaan tarkastuslautakunnan ehdotusta liittyen tilintarkastuskertomukseen, tilinpäätökseen ja vastuuvapauteen,\n\nkannattamaan hallituksen esitystä tilikauden alijäämän 46 072 562,91 euroa kirjaamisesta edellisten vuosien yli-/alijäämätilille,\n\nkannattamaan hallituksen esitystä, että perussopimuksen mukaisesti peruspääomalle maksetaan yhtymäkokouksessa 25.11.2025 § 14 päätetysti PKS-omistajaohjauslinjan mukaisesti 1,5 % korkoa,\n\nkannattamaan muita esityslistan mukaisia esityksiä.\n\nKonsernijaosto tarkasti pöytäkirjan tämän asian osalta heti.\n\nKäsittely\n\n18.05.2026 Esittelijän muutetun ehdotuksen mukaan\n\nEsittelijä muutti ehdotustaan siten, että otsikko \"HSL:n omistajaohjaustavoitteet vuodelle 2026\" muutetaan muotoon \"vuoden 2026 HSL:n omistajaohjaustavoitteiksi on asetettu:\"\n\nKonsernijaosto hyväksyi esittelijän muutetun ehdotuksen.\n\nEsittelijä\n\nvs. kansliapäällikkö\n\nPia Ojavuo\n\nEsittelijä\n\nNimi Jukka-Pekka Ujula\n\nTitteli\n\nKansliapäällikkö\n\nNimi Timo Lindén\n\nTitteli\n\nKaupunginsihteeri\n\nPuhelinnumero\n\n[poistettu](Linkki aloittaa puhelun)\n\nSähköposti\n\n[poistettu](Linkki avaa oletussähköpostiohjelman)",
+          "text": "HEL 2026-007026 T 00 01 06\n\nPäätös\n\nKaupunginhallituksen konsernijaosto kehotti konserniohjauksen johtaja Atte Malmströmiä tai hänen estyneenä ollessaan konserniohjauksen kehittämispäällikkö Miia Ahoa edustamaan Helsingin kaupunkia Helsingin seudun liikenne -kuntayhtymän (HSL) kevätyhtymäkokouksessa 26.5.2026 klo 11.30.\n\nSamalla konsernijaosto kehotti yhtymäkokousedustajaa:\n\nkannattamaan, että yhtymäkokous merkitsee tarkastuslautakunnan arviointikertomuksen vuodelta 2025 tiedoksi ja pyytää hallitusta antamaan siitä selvityksen yhtymäkokoukselle,\n\nkannattamaan, että yhtymäkokous päättää, että kuntakohtaiset laskutettavat kuntaosuudet vuodelta 2026 muutetaan hallituksen esityksen mukaisesti sekä valtuutetaan hallinto-tulosalueen johtaja sopimaan kunkin kunnan kanssa muutoksen toteuttamistavasta kuntaosuuden laskutuksessa sekä, että sitovaan tulosarvioon, kuntaosuudet yhteensä, ei tehdä muutoksia\n\nkannattamaan tarkastuslautakunnan ehdotusta liittyen tilintarkastuskertomukseen, tilinpäätökseen ja vastuuvapauteen,\n\nkannattamaan hallituksen esitystä tilikauden alijäämän 46 072 562,91 euroa kirjaamisesta edellisten vuosien yli-/alijäämätilille,\n\nkannattamaan hallituksen esitystä, että perussopimuksen mukaisesti peruspääomalle maksetaan yhtymäkokouksessa 25.11.2025 § 14 päätetysti PKS-omistajaohjauslinjan mukaisesti 1,5 % korkoa,\n\nkannattamaan muita esityslistan mukaisia esityksiä.\n\nKonsernijaosto tarkasti pöytäkirjan tämän asian osalta heti.\n\nKäsittely\n\n18.05.2026 Esittelijän muutetun ehdotuksen mukaan\n\nEsittelijä muutti ehdotustaan siten, että otsikko \"HSL:n omistajaohjaustavoitteet vuodelle 2026\" muutetaan muotoon \"vuoden 2026 HSL:n omistajaohjaustavoitteiksi on asetettu:\"\n\nKonsernijaosto hyväksyi esittelijän muutetun ehdotuksen.\n\nEsittelijä\n\nvs. kansliapäällikkö\n\nPia Ojavuo",
           "type": "history"
         }
       ],
       "source_ids": {
-        "case": "hel-2026-007026/a1846383-042f-cefa-95fc-a1d4dcf00004"
+        "case": "hel-2026-007026/37d2bf40-2282-4545-8ca5-9a966b0be092"
       },
-      "source_url": "https://paatokset.hel.fi/fi/asia/hel-2026-007026/a1846383-042f-cefa-95fc-a1d4dcf00004",
+      "source_url": "https://paatokset.hel.fi/fi/asia/hel-2026-007026/37d2bf40-2282-4545-8ca5-9a966b0be092",
       "statements": [],
       "status": "active",
       "title": "Helsingin seudun liikenne -kuntayhtymän syysyhtymäkokous",
@@ -198,7 +260,8 @@
     },
     {
       "attachments": [],
-      "content_sha256": "e6793dde4c49cee77cf2bd29a0ccae37a33ac77fe434c78cc056a0bbb7ec3d0a",
+      "case_number": "HEL 2021-000123",
+      "content_sha256": "e93a5c5d57199069d5ba4918524c057746a01336f1a337e6cc19aa923e465b8b",
       "disqualified": [],
       "id": "helsinki/kaupunginhallituksen-konsernijaosto/2026-11-16/7",
       "meeting_id": "helsinki/kaupunginhallituksen-konsernijaosto/2026-11-16",
@@ -206,10 +269,16 @@
       "ordinal": 7,
       "preparers": [],
       "presenter": "Jukka-Pekka Ujula",
+      "pykala": 96,
       "sections": [
         {
+          "heading": "Päätös",
+          "text": "Kaupunginhallituksen konsernijaosto kehotti kaupungin yhtiökokousedustajaa Kiinteistö Oy Maatullinaukio -nimisen yhtiön ylimääräisessä yhtiökokouksessa toimimaan siten, että yhtiökokous\n\nmerkitsee tiedoksi tilintarkastuskertomuksessa esitetyt havainnot sekä yhtiön hallituksen selvityksen havaintojen syistä, vaikutuksista ja niiden johdosta toteutettavista korjaavista toimenpiteistä aikatauluineen,\n\nmyöntää vastuuvapauden tilikauden aikana toimineille hallituksen jäsenille ja toimitusjohtajalle sekä\n\nvaltuuttaa yhtiön hallituksen hoito- ja arvonlisäverovastikerahoituksen epätasapainon korjaamiseksi päättämään arvonlisäverovastikkeen perimättä jättämisestä sekä enintään neljän kuukauden hoitovastikkeen perimisestä tai perimättä jättämisestä. Valtuutus on voimassa seuraavaan yhtiökokoukseen saakka.",
+          "type": "decision"
+        },
+        {
           "heading": "Päätösehdotus",
-          "text": "Kaupunginhallituksen konsernijaosto kehottaa kaupungin yhtiökokousedustajaa Kiinteistö Oy Maatullinaukio -nimisen yhtiön ylimääräisessä yhtiökokouksessa toimimaan siten, että yhtiökokous\n\nmerkitsee tiedoksi tilintarkastuskertomuksessa esitetyt havainnot sekä yhtiön hallituksen selvityksen havaintojen syistä, vaikutuksista ja niiden johdosta toteutettavista korjaavista toimenpiteistä aikatauluineen,\n\nmyöntää vastuuvapauden tilikauden aikana toimineille hallituksen jäsenille ja toimitusjohtajalle sekä\n\nvaltuuttaa yhtiön hallituksen hoito- ja arvonlisäverovastikerahoituksen epätasapainon korjaamiseksi päättämään arvonlisäverovastikkeen perimättä jättämisestä sekä enintään neljän kuukauden hoitovastikkeen perimisestä tai perimättä jättämisestä. Valtuutus on voimassa seuraavaan yhtiökokoukseen saakka.",
+          "text": "Päätös on ehdotuksen mukainen.",
           "type": "proposal"
         },
         {
@@ -219,9 +288,9 @@
         }
       ],
       "source_ids": {
-        "case": "hel-2026-010891/a24c900c-eed9-c303-96a3-a1d4dd000000"
+        "case": "hel-2026-010891/675ae911-59cd-4580-9f1c-f19a4c6e9a48"
       },
-      "source_url": "https://paatokset.hel.fi/fi/asia/hel-2026-010891/a24c900c-eed9-c303-96a3-a1d4dd000000",
+      "source_url": "https://paatokset.hel.fi/fi/asia/hel-2026-010891/675ae911-59cd-4580-9f1c-f19a4c6e9a48",
       "statements": [],
       "status": "active",
       "title": "Kiinteistö Oy Maatullinaukion ylimääräinen yhtiökokous",
@@ -243,13 +312,14 @@
       "helsinki/kaupunginhallituksen-konsernijaosto/2026-11-16/7"
     ],
     "location": "Kaupunginhallituksen istuntosali",
+    "minutes_pdf_url": "https://ahjojulkaisu.hel.fi/3AA5DBF9-82C0-CC1D-B8AC-A2088AF00002.pdf",
     "source_ids": {
       "meeting_code": "U02978202612",
       "number": "14/2026",
-      "print_pdf": "https://ahjojulkaisu.hel.fi/98182AB9-4F77-CE11-BC7A-A1CF78700003.pdf"
+      "print_pdf": "https://ahjojulkaisu.hel.fi/3AA5DBF9-82C0-CC1D-B8AC-A2088AF00002.pdf"
     },
     "source_url": "https://paatokset.hel.fi/fi/paattajat/kaupunginhallituksen-konsernijaosto/asiakirjat/U02978202612",
-    "stage": "decisions",
+    "stage": "minutes",
     "start_time": "16:30"
   }
 }

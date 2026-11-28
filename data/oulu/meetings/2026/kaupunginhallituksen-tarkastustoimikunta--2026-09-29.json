@@ -80,16 +80,37 @@
     }
   ],
   "meeting": {
-    "attendance": [],
+    "attendance": [
+      {
+        "person_ref": {
+          "raw": "Alatossava Ari"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "person_ref": {
+          "raw": "Leskelä Jorma"
+        },
+        "present": true,
+        "role_text": "jäsen"
+      },
+      {
+        "note": "pöytäkirjan pitäjä",
+        "person_ref": {
+          "raw": "Muut Piltonen Susanna"
+        },
+        "present": true,
+        "role_text": "esittelijä"
+      }
+    ],
     "body_id": "oulu/kaupunginhallituksen-tarkastustoimikunta",
     "date": "2026-09-29",
-    "end_time": "11:24",
     "id": "oulu/kaupunginhallituksen-tarkastustoimikunta/2026-09-29",
     "items": [
       "oulu/kaupunginhallituksen-tarkastustoimikunta/2026-09-29/1",
       "oulu/kaupunginhallituksen-tarkastustoimikunta/2026-09-29/2"
     ],
-    "location": "Kaupungintalo, nvh 114 / Microsoft Teams -etäyhteys",
     "source_ids": {
       "bid": "49205",
       "time": "10:00"

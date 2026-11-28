@@ -40,6 +40,10 @@ bodies:
     excluded_by_rule: true
     kind: committee
     name_fi: Keskusvaalilautakunta
+  liikennejaosto:
+    excluded_by_rule: true
+    kind: section
+    name_fi: Liikennejaosto
   lupa-asiainlautakunta:
     excluded_by_rule: true
     kind: committee

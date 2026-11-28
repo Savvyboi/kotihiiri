@@ -307,7 +307,7 @@
           },
           "seconder_refs": [
             {
-              "raw": "Marja Uistolan"
+              "raw": "Marja Uistola"
             }
           ],
           "text": "asian jättämistä pöydälle. Esitys hyväksyttiin yksimielisesti."
@@ -645,11 +645,27 @@
     {
       "attachments": [],
       "case_number": "VD/6006/02.03.00.00/2026",
-      "content_sha256": "0a1407a59f010d4f253a9e3c8f55f8bffa43ee1eeea47728a7ad780610d2ebc8",
+      "content_sha256": "02771efdcb3b29f4f0d34ee6eec5b8016c802cd96bbd2284b21cdaa8901a4401",
       "disqualified": [],
       "id": "vantaa/kaupunkitilalautakunta/2026-11-11/16",
       "meeting_id": "vantaa/kaupunkitilalautakunta/2026-11-11",
-      "motions": [],
+      "motions": [
+        {
+          "kind": "send_back",
+          "proposer_ref": {
+            "raw": "Emmi Pajunen"
+          },
+          "seconder_refs": [
+            {
+              "raw": "Teija Toivonen"
+            },
+            {
+              "raw": "Sirkku Ingervo"
+            }
+          ],
+          "text": "asian palauttamista uudelleen valmisteltavaksi. Esitys hyväksyttiin yksimielisesti."
+        }
+      ],
       "ordinal": 16,
       "preparers": [],
       "pykala": 16,

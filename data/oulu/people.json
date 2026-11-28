@@ -1,4 +1,4543 @@
 {
-  "memberships": [],
-  "persons": []
+  "memberships": [
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/aalto-esa",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/rakennuslautakunta",
+      "end": "2026-11-18",
+      "person_id": "oulu/aarni-tuomas",
+      "role": "deputy",
+      "source": "attendance",
+      "start": "2026-09-30"
+    },
+    {
+      "body_id": "oulu/tarkastuslautakunta",
+      "end": "2026-09-22",
+      "person_id": "oulu/aavavirta-henri",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-22"
+    },
+    {
+      "body_id": "oulu/hyvinvointi-kulttuuri-ja-liikuntalautakunta",
+      "end": "2026-09-23",
+      "person_id": "oulu/aho-juha-kehitysjohtaja",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-23"
+    },
+    {
+      "body_id": "oulu/hyvinvointi-kulttuuri-ja-liikuntalautakunta",
+      "end": "2026-09-23",
+      "person_id": "oulu/aholainen-mari-kulttuuripalvelupaallikko",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-23"
+    },
+    {
+      "body_id": "oulu/yhdyskuntalautakunta",
+      "end": "2026-11-04",
+      "person_id": "oulu/ahonen-kim",
+      "role": "deputy",
+      "source": "attendance",
+      "start": "2026-11-04"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-10-05",
+      "person_id": "oulu/aittakumpu-pekka",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/hyvinvointi-kulttuuri-ja-liikuntalautakunta",
+      "end": "2026-11-18",
+      "person_id": "oulu/ala-aho-tuula",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-23"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/ala-aho-tuula",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/kaupunginhallituksen-tarkastustoimikunta",
+      "end": "2026-09-29",
+      "person_id": "oulu/alatossava-ari",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-29"
+    },
+    {
+      "body_id": "oulu/hyvinvointi-kulttuuri-ja-liikuntalautakunta",
+      "end": "2026-11-18",
+      "person_id": "oulu/alavuotunki-jaakko",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-23"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/arponen-jussi",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/yhdyskuntalautakunta",
+      "end": "2026-11-24",
+      "person_id": "oulu/arponen-jussi",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-22"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/einisto-outi",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/sivistyslautakunta",
+      "end": "2026-11-17",
+      "person_id": "oulu/einisto-outi",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-22"
+    },
+    {
+      "body_id": "oulu/hyvinvointi-kulttuuri-ja-liikuntalautakunta",
+      "end": "2026-11-18",
+      "person_id": "oulu/eskola-annemari",
+      "role": "vice_chair",
+      "source": "attendance",
+      "start": "2026-09-23"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/eskola-annemari",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/business-oulu-liikelaitoksen-johtokunta",
+      "end": "2026-11-24",
+      "person_id": "oulu/haaga-hilkka",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-22"
+    },
+    {
+      "body_id": "oulu/rakennuslautakunta",
+      "end": "2026-11-18",
+      "person_id": "oulu/haatanen-milja",
+      "role": "deputy",
+      "source": "attendance",
+      "start": "2026-11-18"
+    },
+    {
+      "body_id": "oulu/sivistyslautakunta",
+      "end": "2026-11-17",
+      "person_id": "oulu/haho-urho",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-22"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/haipus-hanna",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/rakennuslautakunta",
+      "end": "2026-11-18",
+      "person_id": "oulu/haipus-hanna",
+      "role": "chair",
+      "source": "attendance",
+      "start": "2026-09-30"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/hallapuro-elisa",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/yhdyskuntalautakunta",
+      "end": "2026-11-17",
+      "person_id": "oulu/hallikainen-taru",
+      "role": "deputy",
+      "source": "attendance",
+      "start": "2026-10-27"
+    },
+    {
+      "body_id": "oulu/kaupunginhallitus",
+      "end": "2026-11-03",
+      "person_id": "oulu/hallintojohtaja-heikkinen-ari",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-11-03"
+    },
+    {
+      "body_id": "oulu/seudullinen-joukkoliikennejaosto",
+      "end": "2026-10-28",
+      "person_id": "oulu/halonen-minna",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-28"
+    },
+    {
+      "body_id": "oulu/teknisten-liikelaitosten-johtokunta",
+      "end": "2026-10-29",
+      "person_id": "oulu/halonen-paula",
+      "role": "deputy",
+      "source": "attendance",
+      "start": "2026-09-24"
+    },
+    {
+      "body_id": "oulu/hyvinvointi-kulttuuri-ja-liikuntalautakunta",
+      "end": "2026-11-18",
+      "person_id": "oulu/harju-janika",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-23"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/harju-janika",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/hyvinvointi-kulttuuri-ja-liikuntalautakunta",
+      "end": "2026-11-18",
+      "person_id": "oulu/harju-yrjo",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-23"
+    },
+    {
+      "body_id": "oulu/kaupunginhallitus",
+      "end": "2026-11-10",
+      "person_id": "oulu/harju-yrjo",
+      "role": "deputy",
+      "source": "attendance",
+      "start": "2026-10-16"
+    },
+    {
+      "body_id": "oulu/sivistyslautakunta",
+      "end": "2026-11-17",
+      "person_id": "oulu/harju-yrjo",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-22"
+    },
+    {
+      "body_id": "oulu/business-oulu-liikelaitoksen-johtokunta",
+      "end": "2026-11-24",
+      "person_id": "oulu/heikkinen-henri",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-22"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/heikkinen-janne",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/heinonen-paavo",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-10-05",
+      "person_id": "oulu/heiskanen-miina-anniina",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/yhdyskuntalautakunta",
+      "end": "2026-11-24",
+      "person_id": "oulu/heiskanen-miina-anniina",
+      "role": "chair",
+      "source": "attendance",
+      "start": "2026-10-06"
+    },
+    {
+      "body_id": "oulu/seudullinen-jatehuoltojaosto",
+      "end": "2026-11-19",
+      "person_id": "oulu/heiskanen-sonja",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-11-19"
+    },
+    {
+      "body_id": "oulu/yhdyskuntalautakunta",
+      "end": "2026-11-24",
+      "person_id": "oulu/hekkala-rauno",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-22"
+    },
+    {
+      "body_id": "oulu/hyvinvointi-kulttuuri-ja-liikuntalautakunta",
+      "end": "2026-11-18",
+      "person_id": "oulu/helanen-suvi",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-23"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/helanen-suvi",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/kaupunginhallitus",
+      "end": "2026-11-03",
+      "person_id": "oulu/henkilostojohtaja-halonen-tuomas",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-16"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/hiltunen-pia",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-11-09"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/himanen-paula",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-11-09"
+    },
+    {
+      "body_id": "oulu/rakennuslautakunta",
+      "end": "2026-11-18",
+      "person_id": "oulu/holtinkoski-jukka",
+      "role": "deputy",
+      "source": "attendance",
+      "start": "2026-11-04"
+    },
+    {
+      "body_id": "oulu/yhdyskuntalautakunta",
+      "end": "2026-09-22",
+      "person_id": "oulu/honkanen-pia",
+      "role": "deputy",
+      "source": "attendance",
+      "start": "2026-09-22"
+    },
+    {
+      "body_id": "oulu/tarkastuslautakunta",
+      "end": "2026-09-22",
+      "person_id": "oulu/huittinen-vesa",
+      "role": "deputy",
+      "source": "attendance",
+      "start": "2026-09-22"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-10-05",
+      "person_id": "oulu/huotari-anne",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/teknisten-liikelaitosten-johtokunta",
+      "end": "2026-10-29",
+      "person_id": "oulu/huotari-anni",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-29"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/huotari-jukka",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/yhdyskuntalautakunta",
+      "end": "2026-11-24",
+      "person_id": "oulu/huotari-jukka",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-22"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/husso-jarmo",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/sivistyslautakunta",
+      "end": "2026-11-17",
+      "person_id": "oulu/husso-sofia",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-22"
+    },
+    {
+      "body_id": "oulu/rakennuslautakunta",
+      "end": "2026-11-04",
+      "person_id": "oulu/huttunen-jetta",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-30"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/hanninen-juha",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/immonen-miia",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/sivistyslautakunta",
+      "end": "2026-11-17",
+      "person_id": "oulu/immonen-miia",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-22"
+    },
+    {
+      "body_id": "oulu/kaupunginhallitus",
+      "end": "2026-11-10",
+      "person_id": "oulu/jakola-mimmi",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-28"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/jakola-mimmi",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/jokelainen-jessi",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-11-09"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/juntunen-hanne-mari",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/teknisten-liikelaitosten-johtokunta",
+      "end": "2026-09-24",
+      "person_id": "oulu/jamsa-jarmo",
+      "role": "deputy",
+      "source": "attendance",
+      "start": "2026-09-24"
+    },
+    {
+      "body_id": "oulu/business-oulu-liikelaitoksen-johtokunta",
+      "end": "2026-11-24",
+      "person_id": "oulu/kaartinen-mirja",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-22"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/kainua-pekka",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/kaismo-tomi",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-10-05",
+      "person_id": "oulu/kalliorinne-risto",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/kandelberg-mariam",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/yhdyskuntalautakunta",
+      "end": "2026-11-24",
+      "person_id": "oulu/kandelberg-mariam",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-22"
+    },
+    {
+      "body_id": "oulu/kaupunginhallituksen-konsernijaosto",
+      "end": "2026-11-17",
+      "person_id": "oulu/karjula-johanna",
+      "role": "vice_chair",
+      "source": "attendance",
+      "start": "2026-09-28"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/karjula-johanna",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/hyvinvointi-kulttuuri-ja-liikuntalautakunta",
+      "end": "2026-11-18",
+      "person_id": "oulu/karvonen-riku",
+      "role": "deputy",
+      "source": "attendance",
+      "start": "2026-11-18"
+    },
+    {
+      "body_id": "oulu/yhdyskuntalautakunta",
+      "end": "2026-11-04",
+      "person_id": "oulu/kauppila-lauri",
+      "role": "deputy",
+      "source": "attendance",
+      "start": "2026-10-27"
+    },
+    {
+      "body_id": "oulu/kaupunginhallituksen-konsernijaosto",
+      "end": "2026-11-17",
+      "person_id": "oulu/kaupunginjohtaja-alatossava-ari",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-28"
+    },
+    {
+      "body_id": "oulu/kaupunginhallitus",
+      "end": "2026-11-16",
+      "person_id": "oulu/kaupunginjohtaja-alatossava-ari",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-28"
+    },
+    {
+      "body_id": "oulu/kaupunginhallitus",
+      "end": "2026-11-16",
+      "person_id": "oulu/kaupunkiymparistojohtaja-kilpelainen-marko",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-28"
+    },
+    {
+      "body_id": "oulu/yhdyskuntalautakunta",
+      "end": "2026-11-24",
+      "person_id": "oulu/kekkonen-maria",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-06"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/kemppainen-marja-leena",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/tarkastuslautakunta",
+      "end": "2026-10-27",
+      "person_id": "oulu/kemppainen-marja-leena",
+      "role": "vice_chair",
+      "source": "attendance",
+      "start": "2026-09-22"
+    },
+    {
+      "body_id": "oulu/seudullinen-jatehuoltojaosto",
+      "end": "2026-11-19",
+      "person_id": "oulu/keskitalo-minna",
+      "role": "vice_chair",
+      "source": "attendance",
+      "start": "2026-10-15"
+    },
+    {
+      "body_id": "oulu/tarkastuslautakunta",
+      "end": "2026-10-27",
+      "person_id": "oulu/kestila-ville",
+      "role": "deputy",
+      "source": "attendance",
+      "start": "2026-10-27"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/kettunen-niina",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/sivistyslautakunta",
+      "end": "2026-11-17",
+      "person_id": "oulu/kettunen-niina",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-22"
+    },
+    {
+      "body_id": "oulu/kaupunginhallituksen-konsernijaosto",
+      "end": "2026-10-26",
+      "person_id": "oulu/kisner-susanna",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-26"
+    },
+    {
+      "body_id": "oulu/kaupunginhallitus",
+      "end": "2026-11-16",
+      "person_id": "oulu/kisner-susanna",
+      "role": "chair",
+      "source": "attendance",
+      "start": "2026-11-03"
+    },
+    {
+      "body_id": "oulu/kaupunginhallitus",
+      "end": "2026-10-16",
+      "person_id": "oulu/kisner-susanna",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-16"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/kisner-susanna",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/seudullinen-jatehuoltojaosto",
+      "end": "2026-11-19",
+      "person_id": "oulu/kiviniitty-raili",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-15"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/kohonen-olli",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/sivistyslautakunta",
+      "end": "2026-11-17",
+      "person_id": "oulu/kohonen-olli",
+      "role": "chair",
+      "source": "attendance",
+      "start": "2026-09-22"
+    },
+    {
+      "body_id": "oulu/kaupunginhallituksen-konsernijaosto",
+      "end": "2026-11-17",
+      "person_id": "oulu/koivuniemi-marika",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-28"
+    },
+    {
+      "body_id": "oulu/kaupunginhallitus",
+      "end": "2026-11-16",
+      "person_id": "oulu/koivuniemi-marika",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-28"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/koivuniemi-marika",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/kaupunginhallitus",
+      "end": "2026-11-16",
+      "person_id": "oulu/konsernijohtaja-kronqvist-kari-pekka",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-28"
+    },
+    {
+      "body_id": "oulu/business-oulu-liikelaitoksen-johtokunta",
+      "end": "2026-11-24",
+      "person_id": "oulu/kontio-matti",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-22"
+    },
+    {
+      "body_id": "oulu/teknisten-liikelaitosten-johtokunta",
+      "end": "2026-10-29",
+      "person_id": "oulu/kontio-mira",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-29"
+    },
+    {
+      "body_id": "oulu/teknisten-liikelaitosten-johtokunta",
+      "end": "2026-10-29",
+      "person_id": "oulu/koskela-janne",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-24"
+    },
+    {
+      "body_id": "oulu/hyvinvointi-kulttuuri-ja-liikuntalautakunta",
+      "end": "2026-11-18",
+      "person_id": "oulu/koskela-santeri",
+      "role": "deputy",
+      "source": "attendance",
+      "start": "2026-11-18"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/koutonen-anniina",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/seudullinen-jatehuoltojaosto",
+      "end": "2026-10-15",
+      "person_id": "oulu/kymalainen-riitta",
+      "role": "deputy",
+      "source": "attendance",
+      "start": "2026-10-15"
+    },
+    {
+      "body_id": "oulu/tarkastuslautakunta",
+      "end": "2026-10-27",
+      "person_id": "oulu/laitinen-paivi",
+      "role": "deputy",
+      "source": "attendance",
+      "start": "2026-09-22"
+    },
+    {
+      "body_id": "oulu/sivistyslautakunta",
+      "end": "2026-10-27",
+      "person_id": "oulu/laru-jari",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-22"
+    },
+    {
+      "body_id": "oulu/teknisten-liikelaitosten-johtokunta",
+      "end": "2026-10-29",
+      "person_id": "oulu/lawson-hellu-latekoe",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-24"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/lehtinen-taru",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/lehtisaari-miia",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-11-09"
+    },
+    {
+      "body_id": "oulu/seudullinen-joukkoliikennejaosto",
+      "end": "2026-10-28",
+      "person_id": "oulu/lehtisaari-miia",
+      "role": "chair",
+      "source": "attendance",
+      "start": "2026-10-28"
+    },
+    {
+      "body_id": "oulu/yhdyskuntalautakunta",
+      "end": "2026-11-24",
+      "person_id": "oulu/lehtisaari-miia",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-22"
+    },
+    {
+      "body_id": "oulu/seudullinen-joukkoliikennejaosto",
+      "end": "2026-10-28",
+      "person_id": "oulu/leinonen-eetu",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-28"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/leinonen-essi",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/yhdyskuntalautakunta",
+      "end": "2026-11-24",
+      "person_id": "oulu/leinonen-essi",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-22"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/lepisto-anna-kaisa",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/tarkastuslautakunta",
+      "end": "2026-10-27",
+      "person_id": "oulu/lepisto-anna-kaisa",
+      "role": "chair",
+      "source": "attendance",
+      "start": "2026-09-22"
+    },
+    {
+      "body_id": "oulu/yhdyskuntalautakunta",
+      "end": "2026-11-04",
+      "person_id": "oulu/leppanen-tero",
+      "role": "deputy",
+      "source": "attendance",
+      "start": "2026-10-27"
+    },
+    {
+      "body_id": "oulu/kaupunginhallituksen-konsernijaosto",
+      "end": "2026-11-17",
+      "person_id": "oulu/leskela-jorma",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-28"
+    },
+    {
+      "body_id": "oulu/kaupunginhallituksen-tarkastustoimikunta",
+      "end": "2026-09-29",
+      "person_id": "oulu/leskela-jorma",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-29"
+    },
+    {
+      "body_id": "oulu/kaupunginhallitus",
+      "end": "2026-11-16",
+      "person_id": "oulu/leskela-jorma",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-28"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/leskela-jorma",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/business-oulu-liikelaitoksen-johtokunta",
+      "end": "2026-10-27",
+      "person_id": "oulu/leskinen-sari",
+      "role": "deputy",
+      "source": "attendance",
+      "start": "2026-10-27"
+    },
+    {
+      "body_id": "oulu/tarkastuslautakunta",
+      "end": "2026-10-27",
+      "person_id": "oulu/lievetmursu-aira",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-22"
+    },
+    {
+      "body_id": "oulu/seudullinen-joukkoliikennejaosto",
+      "end": "2026-10-28",
+      "person_id": "oulu/lohi-luukas",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-28"
+    },
+    {
+      "body_id": "oulu/hyvinvointi-kulttuuri-ja-liikuntalautakunta",
+      "end": "2026-09-23",
+      "person_id": "oulu/lohiniva-kerkela-mirja-asiakkuuspaallikko",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-23"
+    },
+    {
+      "body_id": "oulu/yhdyskuntalautakunta",
+      "end": "2026-09-22",
+      "person_id": "oulu/loukkola-otto",
+      "role": "deputy",
+      "source": "attendance",
+      "start": "2026-09-22"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/lukka-matti",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/yhdyskuntalautakunta",
+      "end": "2026-11-24",
+      "person_id": "oulu/lukka-matti",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-22"
+    },
+    {
+      "body_id": "oulu/rakennuslautakunta",
+      "end": "2026-11-18",
+      "person_id": "oulu/luokkanen-ale",
+      "role": "deputy",
+      "source": "attendance",
+      "start": "2026-11-18"
+    },
+    {
+      "body_id": "oulu/seudullinen-jatehuoltojaosto",
+      "end": "2026-10-15",
+      "person_id": "oulu/luoto-petri",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-15"
+    },
+    {
+      "body_id": "oulu/hyvinvointi-kulttuuri-ja-liikuntalautakunta",
+      "end": "2026-11-18",
+      "person_id": "oulu/mainio-antti",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-11-18"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/mainio-antti",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/hyvinvointi-kulttuuri-ja-liikuntalautakunta",
+      "end": "2026-11-18",
+      "person_id": "oulu/malinen-juha",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-23"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/malinen-juha",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/tarkastuslautakunta",
+      "end": "2026-10-27",
+      "person_id": "oulu/manninen-aino-kaisa",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-22"
+    },
+    {
+      "body_id": "oulu/seudullinen-jatehuoltojaosto",
+      "end": "2026-11-19",
+      "person_id": "oulu/marjoniemi-veli-pekka",
+      "role": "deputy",
+      "source": "attendance",
+      "start": "2026-11-19"
+    },
+    {
+      "body_id": "oulu/kaupunginhallituksen-konsernijaosto",
+      "end": "2026-09-28",
+      "person_id": "oulu/merihaara-mikko",
+      "role": "deputy",
+      "source": "attendance",
+      "start": "2026-09-28"
+    },
+    {
+      "body_id": "oulu/kaupunginhallitus",
+      "end": "2026-11-16",
+      "person_id": "oulu/merihaara-mikko",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-28"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/merihaara-mikko",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/kaupunginhallituksen-konsernijaosto",
+      "end": "2026-11-17",
+      "person_id": "oulu/merilainen-joni",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-28"
+    },
+    {
+      "body_id": "oulu/kaupunginhallitus",
+      "end": "2026-11-16",
+      "person_id": "oulu/merilainen-joni",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-28"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/merilainen-joni",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/kaupunginhallitus",
+      "end": "2026-11-16",
+      "person_id": "oulu/minkkinen-harri",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-28"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/minkkinen-harri",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/yhdyskuntalautakunta",
+      "end": "2026-11-17",
+      "person_id": "oulu/mustakallio-pekka",
+      "role": "deputy",
+      "source": "attendance",
+      "start": "2026-11-17"
+    },
+    {
+      "body_id": "oulu/tarkastuslautakunta",
+      "end": "2026-10-27",
+      "person_id": "oulu/mustonen-juha-matti",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-27"
+    },
+    {
+      "body_id": "oulu/rakennuslautakunta",
+      "end": "2026-11-18",
+      "person_id": "oulu/makela-lassi",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-30"
+    },
+    {
+      "body_id": "oulu/business-oulu-liikelaitoksen-johtokunta",
+      "end": "2026-11-24",
+      "person_id": "oulu/maki-maire",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-11-24"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/maki-maire",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/rakennuslautakunta",
+      "end": "2026-11-04",
+      "person_id": "oulu/malaska-arvi",
+      "role": "deputy",
+      "source": "attendance",
+      "start": "2026-11-04"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/maatta-henna",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/teknisten-liikelaitosten-johtokunta",
+      "end": "2026-09-24",
+      "person_id": "oulu/niemi-anni",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-24"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/nikula-lauri",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/hyvinvointi-kulttuuri-ja-liikuntalautakunta",
+      "end": "2026-11-18",
+      "person_id": "oulu/niskanen-antti",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-23"
+    },
+    {
+      "body_id": "oulu/business-oulu-liikelaitoksen-johtokunta",
+      "end": "2026-11-24",
+      "person_id": "oulu/nappa-anneli",
+      "role": "chair",
+      "source": "attendance",
+      "start": "2026-11-24"
+    },
+    {
+      "body_id": "oulu/kaupunginhallitus",
+      "end": "2026-11-16",
+      "person_id": "oulu/nappa-anneli",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-28"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/nappa-anneli",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/rakennuslautakunta",
+      "end": "2026-10-14",
+      "person_id": "oulu/okkonen-tuula",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-30"
+    },
+    {
+      "body_id": "oulu/kaupunginhallituksen-konsernijaosto",
+      "end": "2026-09-28",
+      "person_id": "oulu/oulun-energia-oy",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-28"
+    },
+    {
+      "body_id": "oulu/seudullinen-joukkoliikennejaosto",
+      "end": "2026-10-28",
+      "person_id": "oulu/paavola-kaisa",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-28"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/parkkinen-eeva-maria",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/yhdyskuntalautakunta",
+      "end": "2026-11-24",
+      "person_id": "oulu/parkkinen-eeva-maria",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-22"
+    },
+    {
+      "body_id": "oulu/seudullinen-jatehuoltojaosto",
+      "end": "2026-11-19",
+      "person_id": "oulu/parkkinen-toni",
+      "role": "chair",
+      "source": "attendance",
+      "start": "2026-10-15"
+    },
+    {
+      "body_id": "oulu/rakennuslautakunta",
+      "end": "2026-11-18",
+      "person_id": "oulu/patana-tuija",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-30"
+    },
+    {
+      "body_id": "oulu/rakennuslautakunta",
+      "end": "2026-09-30",
+      "person_id": "oulu/pekkala-seppo",
+      "role": "deputy",
+      "source": "attendance",
+      "start": "2026-09-30"
+    },
+    {
+      "body_id": "oulu/hyvinvointi-kulttuuri-ja-liikuntalautakunta",
+      "end": "2026-09-23",
+      "person_id": "oulu/pikkuaho-ruonala-elina-henkilostopaallikko",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-23"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-10-05",
+      "person_id": "oulu/pitko-jenni",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/business-oulu-liikelaitoksen-johtokunta",
+      "end": "2026-11-24",
+      "person_id": "oulu/pohjola-veli-pekka",
+      "role": "chair",
+      "source": "attendance",
+      "start": "2026-09-22"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/pohjola-veli-pekka",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/rakennuslautakunta",
+      "end": "2026-11-18",
+      "person_id": "oulu/pollari-maijaliisa",
+      "role": "deputy",
+      "source": "attendance",
+      "start": "2026-10-14"
+    },
+    {
+      "body_id": "oulu/business-oulu-liikelaitoksen-johtokunta",
+      "end": "2026-09-22",
+      "person_id": "oulu/polso-paivi",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-22"
+    },
+    {
+      "body_id": "oulu/tarkastuslautakunta",
+      "end": "2026-10-27",
+      "person_id": "oulu/pouke-eeva",
+      "role": "deputy",
+      "source": "attendance",
+      "start": "2026-10-27"
+    },
+    {
+      "body_id": "oulu/business-oulu-liikelaitoksen-johtokunta",
+      "end": "2026-10-27",
+      "person_id": "oulu/pyorala-pirjo",
+      "role": "deputy",
+      "source": "attendance",
+      "start": "2026-10-27"
+    },
+    {
+      "body_id": "oulu/seudullinen-joukkoliikennejaosto",
+      "end": "2026-10-28",
+      "person_id": "oulu/pyorala-pirjo",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-28"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/pakkila-risto",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/yhdyskuntalautakunta",
+      "end": "2026-11-24",
+      "person_id": "oulu/pakkila-risto",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-22"
+    },
+    {
+      "body_id": "oulu/seudullinen-joukkoliikennejaosto",
+      "end": "2026-10-28",
+      "person_id": "oulu/raitio-juuso",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-28"
+    },
+    {
+      "body_id": "oulu/hyvinvointi-kulttuuri-ja-liikuntalautakunta",
+      "end": "2026-09-23",
+      "person_id": "oulu/rajala-lyly",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-23"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/rajala-lyly",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/rasi-saga",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/seudullinen-joukkoliikennejaosto",
+      "end": "2026-10-28",
+      "person_id": "oulu/rasi-saga",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-28"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/rasinkangas-merja",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/kaupunginhallituksen-konsernijaosto",
+      "end": "2026-11-17",
+      "person_id": "oulu/raudaskoski-mikko",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-28"
+    },
+    {
+      "body_id": "oulu/kaupunginhallitus",
+      "end": "2026-11-16",
+      "person_id": "oulu/raudaskoski-mikko",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-28"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/raudaskoski-mikko",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/hyvinvointi-kulttuuri-ja-liikuntalautakunta",
+      "end": "2026-09-23",
+      "person_id": "oulu/ruokamo-teija",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-23"
+    },
+    {
+      "body_id": "oulu/kaupunginhallitus",
+      "end": "2026-11-16",
+      "person_id": "oulu/ruotsalainen-ammi",
+      "role": "deputy",
+      "source": "attendance",
+      "start": "2026-10-16"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/ruotsalainen-ammi",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-11-09"
+    },
+    {
+      "body_id": "oulu/seudullinen-joukkoliikennejaosto",
+      "end": "2026-10-28",
+      "person_id": "oulu/ruotsalainen-ammi",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-28"
+    },
+    {
+      "body_id": "oulu/yhdyskuntalautakunta",
+      "end": "2026-10-27",
+      "person_id": "oulu/ruotsalainen-ammi",
+      "role": "deputy",
+      "source": "attendance",
+      "start": "2026-09-22"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/ramet-mika",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/seudullinen-joukkoliikennejaosto",
+      "end": "2026-10-28",
+      "person_id": "oulu/saarela-esa",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-28"
+    },
+    {
+      "body_id": "oulu/seudullinen-joukkoliikennejaosto",
+      "end": "2026-10-28",
+      "person_id": "oulu/sarkkinen-mari-anneli",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-28"
+    },
+    {
+      "body_id": "oulu/seudullinen-joukkoliikennejaosto",
+      "end": "2026-10-28",
+      "person_id": "oulu/sarvela-artturi",
+      "role": "vice_chair",
+      "source": "attendance",
+      "start": "2026-10-28"
+    },
+    {
+      "body_id": "oulu/seudullinen-jatehuoltojaosto",
+      "end": "2026-10-15",
+      "person_id": "oulu/sauvola-riku",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-15"
+    },
+    {
+      "body_id": "oulu/kaupunginhallitus",
+      "end": "2026-11-16",
+      "person_id": "oulu/sihteeri-parkkila-minna",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-28"
+    },
+    {
+      "body_id": "oulu/rakennuslautakunta",
+      "end": "2026-11-18",
+      "person_id": "oulu/simila-pertti",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-30"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/simula-jenna",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/rakennuslautakunta",
+      "end": "2026-11-04",
+      "person_id": "oulu/sipola-mauno",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-30"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/sirvio-pirjo",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/teknisten-liikelaitosten-johtokunta",
+      "end": "2026-10-29",
+      "person_id": "oulu/sirvio-pirjo",
+      "role": "vice_chair",
+      "source": "attendance",
+      "start": "2026-09-24"
+    },
+    {
+      "body_id": "oulu/rakennuslautakunta",
+      "end": "2026-11-18",
+      "person_id": "oulu/sjogren-marjo",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-14"
+    },
+    {
+      "body_id": "oulu/kaupunginhallitus",
+      "end": "2026-11-03",
+      "person_id": "oulu/stenfors-sebastian",
+      "role": "deputy",
+      "source": "attendance",
+      "start": "2026-09-28"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/stenfors-sebastian",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/yhdyskuntalautakunta",
+      "end": "2026-09-22",
+      "person_id": "oulu/stenfors-sebastian",
+      "role": "chair",
+      "source": "attendance",
+      "start": "2026-09-22"
+    },
+    {
+      "body_id": "oulu/yhdyskuntalautakunta",
+      "end": "2026-11-24",
+      "person_id": "oulu/stenfors-sebastian",
+      "role": "vice_chair",
+      "source": "attendance",
+      "start": "2026-10-06"
+    },
+    {
+      "body_id": "oulu/sivistyslautakunta",
+      "end": "2026-10-27",
+      "person_id": "oulu/suomalainen-tanja",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-22"
+    },
+    {
+      "body_id": "oulu/rakennuslautakunta",
+      "end": "2026-11-04",
+      "person_id": "oulu/syvaniemi-atte",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-14"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/talvitie-mari-leena",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/business-oulu-liikelaitoksen-johtokunta",
+      "end": "2026-11-24",
+      "person_id": "oulu/tapaninen-marjo",
+      "role": "vice_chair",
+      "source": "attendance",
+      "start": "2026-09-22"
+    },
+    {
+      "body_id": "oulu/sivistyslautakunta",
+      "end": "2026-11-17",
+      "person_id": "oulu/tapio-jere",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-22"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-10-05",
+      "person_id": "oulu/taube-sakkinen-erika",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/tervaniemi-sauli",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/sivistyslautakunta",
+      "end": "2026-11-17",
+      "person_id": "oulu/tervaniemi-sauli",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-22"
+    },
+    {
+      "body_id": "oulu/kaupunginhallitus",
+      "end": "2026-11-16",
+      "person_id": "oulu/tietohallintojohtaja-matinmikko-tapio",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-28"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/tikkala-sirpa",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/sivistyslautakunta",
+      "end": "2026-11-17",
+      "person_id": "oulu/tikkala-sirpa",
+      "role": "vice_chair",
+      "source": "attendance",
+      "start": "2026-09-22"
+    },
+    {
+      "body_id": "oulu/rakennuslautakunta",
+      "end": "2026-11-18",
+      "person_id": "oulu/tornberg-elias",
+      "role": "vice_chair",
+      "source": "attendance",
+      "start": "2026-09-30"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/torro-kaarina",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/yhdyskuntalautakunta",
+      "end": "2026-11-24",
+      "person_id": "oulu/torro-kaarina",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-06"
+    },
+    {
+      "body_id": "oulu/hyvinvointi-kulttuuri-ja-liikuntalautakunta",
+      "end": "2026-09-23",
+      "person_id": "oulu/tuomikoski-mari-strategiapaallikko",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-23"
+    },
+    {
+      "body_id": "oulu/seudullinen-joukkoliikennejaosto",
+      "end": "2026-10-28",
+      "person_id": "oulu/tuomo-perala",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-28"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/tuppurainen-tytti",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/kaupunginhallitus",
+      "end": "2026-11-16",
+      "person_id": "oulu/tormi-jani",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-28"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/tormi-jani",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/teknisten-liikelaitosten-johtokunta",
+      "end": "2026-10-29",
+      "person_id": "oulu/ukonmaanaho-pekka",
+      "role": "chair",
+      "source": "attendance",
+      "start": "2026-10-29"
+    },
+    {
+      "body_id": "oulu/sivistyslautakunta",
+      "end": "2026-11-17",
+      "person_id": "oulu/utriainen-mikko",
+      "role": "deputy",
+      "source": "attendance",
+      "start": "2026-11-17"
+    },
+    {
+      "body_id": "oulu/sivistyslautakunta",
+      "end": "2026-11-17",
+      "person_id": "oulu/van-earle-katariina",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-22"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/vehkapera-mirja",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/kaupunginhallitus",
+      "end": "2026-11-16",
+      "person_id": "oulu/viestintajohtaja-urponen-harriet",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-09-28"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/viitanen-mikko",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/hyvinvointi-kulttuuri-ja-liikuntalautakunta",
+      "end": "2026-11-18",
+      "person_id": "oulu/vikevakorva-susa",
+      "role": "chair",
+      "source": "attendance",
+      "start": "2026-09-23"
+    },
+    {
+      "body_id": "oulu/kaupunginvaltuusto",
+      "end": "2026-11-09",
+      "person_id": "oulu/vikevakorva-susa",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-05"
+    },
+    {
+      "body_id": "oulu/seudullinen-jatehuoltojaosto",
+      "end": "2026-11-19",
+      "person_id": "oulu/vuononvirta-tiina",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-15"
+    },
+    {
+      "body_id": "oulu/sivistyslautakunta",
+      "end": "2026-10-27",
+      "person_id": "oulu/vaisanen-liisa",
+      "role": "deputy",
+      "source": "attendance",
+      "start": "2026-10-27"
+    },
+    {
+      "body_id": "oulu/sivistyslautakunta",
+      "end": "2026-11-17",
+      "person_id": "oulu/vayrynen-tero",
+      "role": "deputy",
+      "source": "attendance",
+      "start": "2026-11-17"
+    },
+    {
+      "body_id": "oulu/seudullinen-joukkoliikennejaosto",
+      "end": "2026-10-28",
+      "person_id": "oulu/vaataja-minna",
+      "role": "member",
+      "source": "attendance",
+      "start": "2026-10-28"
+    }
+  ],
+  "persons": [
+    {
+      "aliases": [
+        "Aalto Esa"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "VIHR",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 445,
+        "year": 2025
+      },
+      "id": "oulu/aalto-esa",
+      "name": "Esa Aalto",
+      "party": "VIHR",
+      "sort_name": "Aalto Esa"
+    },
+    {
+      "aliases": [
+        "Aarni Tuomas"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KOK",
+        "result": "not_elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 78,
+        "year": 2025
+      },
+      "id": "oulu/aarni-tuomas",
+      "name": "Tuomas Aarni",
+      "party": "KOK",
+      "sort_name": "Aarni Tuomas"
+    },
+    {
+      "aliases": [
+        "Aavavirta Henri"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "PS",
+        "result": "deputy",
+        "source": "statfin-kvaa-2025",
+        "votes": 192,
+        "year": 2025
+      },
+      "id": "oulu/aavavirta-henri",
+      "name": "Henri Aavavirta",
+      "party": "PS",
+      "sort_name": "Aavavirta Henri"
+    },
+    {
+      "aliases": [
+        "Aho Juha Kehitysjohtaja"
+      ],
+      "city": "oulu",
+      "id": "oulu/aho-juha-kehitysjohtaja",
+      "name": "Juha Kehitysjohtaja Aho",
+      "sort_name": "Aho Juha Kehitysjohtaja"
+    },
+    {
+      "aliases": [
+        "Aholainen Mari Kulttuuripalvelupäällikkö"
+      ],
+      "city": "oulu",
+      "id": "oulu/aholainen-mari-kulttuuripalvelupaallikko",
+      "name": "Mari Kulttuuripalvelupäällikkö Aholainen",
+      "sort_name": "Aholainen Mari Kulttuuripalvelupäällikkö"
+    },
+    {
+      "aliases": [
+        "Ahonen Kim"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "VAS",
+        "result": "not_elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 92,
+        "year": 2025
+      },
+      "id": "oulu/ahonen-kim",
+      "name": "Kim Ahonen",
+      "party": "VAS",
+      "sort_name": "Ahonen Kim"
+    },
+    {
+      "aliases": [
+        "Aittakumpu Pekka"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "PS",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 1128,
+        "year": 2025
+      },
+      "id": "oulu/aittakumpu-pekka",
+      "name": "Pekka Aittakumpu",
+      "party": "PS",
+      "sort_name": "Aittakumpu Pekka"
+    },
+    {
+      "aliases": [
+        "Ala-Aho Tuula",
+        "Ala-aho Tuula"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "SDP",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 431,
+        "year": 2025
+      },
+      "id": "oulu/ala-aho-tuula",
+      "name": "Tuula Ala-aho",
+      "party": "SDP",
+      "sort_name": "Ala-aho Tuula"
+    },
+    {
+      "aliases": [
+        "Alatossava Ari"
+      ],
+      "city": "oulu",
+      "id": "oulu/alatossava-ari",
+      "name": "Ari Alatossava",
+      "sort_name": "Alatossava Ari"
+    },
+    {
+      "aliases": [
+        "Alavuotunki Jaakko"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "VAS",
+        "result": "deputy",
+        "source": "statfin-kvaa-2025",
+        "votes": 148,
+        "year": 2025
+      },
+      "id": "oulu/alavuotunki-jaakko",
+      "name": "Jaakko Alavuotunki",
+      "party": "VAS",
+      "sort_name": "Alavuotunki Jaakko"
+    },
+    {
+      "aliases": [
+        "Arponen Jussi"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KOK",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 509,
+        "year": 2025
+      },
+      "id": "oulu/arponen-jussi",
+      "name": "Jussi Arponen",
+      "party": "KOK",
+      "sort_name": "Arponen Jussi"
+    },
+    {
+      "aliases": [
+        "Einistö Outi"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "VAS",
+        "result": "deputy",
+        "source": "statfin-kvaa-2025",
+        "votes": 248,
+        "year": 2025
+      },
+      "id": "oulu/einisto-outi",
+      "name": "Outi Einistö",
+      "party": "VAS",
+      "sort_name": "Einistö Outi"
+    },
+    {
+      "aliases": [
+        "Eskola Annemari"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "SDP",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 415,
+        "year": 2025
+      },
+      "id": "oulu/eskola-annemari",
+      "name": "Annemari Eskola",
+      "party": "SDP",
+      "sort_name": "Eskola Annemari"
+    },
+    {
+      "aliases": [
+        "Haaga Hilkka"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "VAS",
+        "result": "deputy",
+        "source": "statfin-kvaa-2025",
+        "votes": 221,
+        "year": 2025
+      },
+      "id": "oulu/haaga-hilkka",
+      "name": "Hilkka Haaga",
+      "party": "VAS",
+      "sort_name": "Haaga Hilkka"
+    },
+    {
+      "aliases": [
+        "Haatanen Milja"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "VIHR",
+        "result": "not_elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 39,
+        "year": 2025
+      },
+      "id": "oulu/haatanen-milja",
+      "name": "Milja Haatanen",
+      "party": "VIHR",
+      "sort_name": "Haatanen Milja"
+    },
+    {
+      "aliases": [
+        "Haho Urho"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "PS",
+        "result": "deputy",
+        "source": "statfin-kvaa-2025",
+        "votes": 220,
+        "year": 2025
+      },
+      "id": "oulu/haho-urho",
+      "name": "Urho Haho",
+      "party": "PS",
+      "sort_name": "Haho Urho"
+    },
+    {
+      "aliases": [
+        "Haipus Hanna"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KOK",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 453,
+        "year": 2025
+      },
+      "id": "oulu/haipus-hanna",
+      "name": "Hanna Haipus",
+      "party": "KOK",
+      "sort_name": "Haipus Hanna"
+    },
+    {
+      "aliases": [
+        "Hallapuro Elisa"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "VIHR",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 630,
+        "year": 2025
+      },
+      "id": "oulu/hallapuro-elisa",
+      "name": "Elisa Hallapuro",
+      "party": "VIHR",
+      "sort_name": "Hallapuro Elisa"
+    },
+    {
+      "aliases": [
+        "Hallikainen Taru"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "VIHR",
+        "result": "deputy",
+        "source": "statfin-kvaa-2025",
+        "votes": 188,
+        "year": 2025
+      },
+      "id": "oulu/hallikainen-taru",
+      "name": "Taru Hallikainen",
+      "party": "VIHR",
+      "sort_name": "Hallikainen Taru"
+    },
+    {
+      "aliases": [
+        "Hallintojohtaja Heikkinen Ari"
+      ],
+      "city": "oulu",
+      "id": "oulu/hallintojohtaja-heikkinen-ari",
+      "name": "Heikkinen Ari Hallintojohtaja",
+      "sort_name": "Hallintojohtaja Heikkinen Ari"
+    },
+    {
+      "aliases": [
+        "Halonen Minna"
+      ],
+      "city": "oulu",
+      "id": "oulu/halonen-minna",
+      "name": "Minna Halonen",
+      "sort_name": "Halonen Minna"
+    },
+    {
+      "aliases": [
+        "Halonen Paula"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KESK",
+        "result": "not_elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 73,
+        "year": 2025
+      },
+      "id": "oulu/halonen-paula",
+      "name": "Paula Halonen",
+      "party": "KESK",
+      "sort_name": "Halonen Paula"
+    },
+    {
+      "aliases": [
+        "Harju Janika"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KESK",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 500,
+        "year": 2025
+      },
+      "id": "oulu/harju-janika",
+      "name": "Janika Harju",
+      "party": "KESK",
+      "sort_name": "Harju Janika"
+    },
+    {
+      "aliases": [
+        "Harju Yrjö"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "SDP",
+        "result": "deputy",
+        "source": "statfin-kvaa-2025",
+        "votes": 214,
+        "year": 2025
+      },
+      "id": "oulu/harju-yrjo",
+      "name": "Yrjö Harju",
+      "party": "SDP",
+      "sort_name": "Harju Yrjö"
+    },
+    {
+      "aliases": [
+        "Heikkinen Henri"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KOK",
+        "result": "deputy",
+        "source": "statfin-kvaa-2025",
+        "votes": 265,
+        "year": 2025
+      },
+      "id": "oulu/heikkinen-henri",
+      "name": "Henri Heikkinen",
+      "party": "KOK",
+      "sort_name": "Heikkinen Henri"
+    },
+    {
+      "aliases": [
+        "Heikkinen Janne"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KOK",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 670,
+        "year": 2025
+      },
+      "id": "oulu/heikkinen-janne",
+      "name": "Janne Heikkinen",
+      "party": "KOK",
+      "sort_name": "Heikkinen Janne"
+    },
+    {
+      "aliases": [
+        "Heinonen Paavo"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "VAS",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 286,
+        "year": 2025
+      },
+      "id": "oulu/heinonen-paavo",
+      "name": "Paavo Heinonen",
+      "party": "VAS",
+      "sort_name": "Heinonen Paavo"
+    },
+    {
+      "aliases": [
+        "Heiskanen Miina-Anniina"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "SDP",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 1017,
+        "year": 2025
+      },
+      "id": "oulu/heiskanen-miina-anniina",
+      "name": "Miina-Anniina Heiskanen",
+      "party": "SDP",
+      "sort_name": "Heiskanen Miina-Anniina"
+    },
+    {
+      "aliases": [
+        "Heiskanen Sonja"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "SDP",
+        "result": "not_elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 93,
+        "year": 2025
+      },
+      "id": "oulu/heiskanen-sonja",
+      "name": "Sonja Heiskanen",
+      "party": "SDP",
+      "sort_name": "Heiskanen Sonja"
+    },
+    {
+      "aliases": [
+        "Hekkala Rauno"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "VAS",
+        "result": "deputy",
+        "source": "statfin-kvaa-2025",
+        "votes": 233,
+        "year": 2025
+      },
+      "id": "oulu/hekkala-rauno",
+      "name": "Rauno Hekkala",
+      "party": "VAS",
+      "sort_name": "Hekkala Rauno"
+    },
+    {
+      "aliases": [
+        "Helanen Suvi"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KESK",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 500,
+        "year": 2025
+      },
+      "id": "oulu/helanen-suvi",
+      "name": "Suvi Helanen",
+      "party": "KESK",
+      "sort_name": "Helanen Suvi"
+    },
+    {
+      "aliases": [
+        "Henkilöstöjohtaja Halonen Tuomas"
+      ],
+      "city": "oulu",
+      "id": "oulu/henkilostojohtaja-halonen-tuomas",
+      "name": "Halonen Tuomas Henkilöstöjohtaja",
+      "sort_name": "Henkilöstöjohtaja Halonen Tuomas"
+    },
+    {
+      "aliases": [
+        "Hiltunen Pia"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "SDP",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 1258,
+        "year": 2025
+      },
+      "id": "oulu/hiltunen-pia",
+      "name": "Pia Hiltunen",
+      "party": "SDP",
+      "sort_name": "Hiltunen Pia"
+    },
+    {
+      "aliases": [
+        "Himanen Paula"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "VIHR",
+        "result": "deputy",
+        "source": "statfin-kvaa-2025",
+        "votes": 275,
+        "year": 2025
+      },
+      "id": "oulu/himanen-paula",
+      "name": "Paula Himanen",
+      "party": "VIHR",
+      "sort_name": "Himanen Paula"
+    },
+    {
+      "aliases": [
+        "Holtinkoski Jukka"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "SDP",
+        "result": "not_elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 91,
+        "year": 2025
+      },
+      "id": "oulu/holtinkoski-jukka",
+      "name": "Jukka Holtinkoski",
+      "party": "SDP",
+      "sort_name": "Holtinkoski Jukka"
+    },
+    {
+      "aliases": [
+        "Honkanen Pia"
+      ],
+      "city": "oulu",
+      "id": "oulu/honkanen-pia",
+      "name": "Pia Honkanen",
+      "sort_name": "Honkanen Pia"
+    },
+    {
+      "aliases": [],
+      "city": "oulu",
+      "election": {
+        "party": "VAS",
+        "result": "not_elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 34,
+        "year": 2025
+      },
+      "id": "oulu/huittinen-vesa",
+      "name": "Vesa Huittinen",
+      "party": "VAS",
+      "sort_name": "Huittinen Vesa"
+    },
+    {
+      "aliases": [
+        "Huotari Anne"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "VAS",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 772,
+        "year": 2025
+      },
+      "id": "oulu/huotari-anne",
+      "name": "Anne Huotari",
+      "party": "VAS",
+      "sort_name": "Huotari Anne"
+    },
+    {
+      "aliases": [
+        "Huotari Anni"
+      ],
+      "city": "oulu",
+      "id": "oulu/huotari-anni",
+      "name": "Anni Huotari",
+      "sort_name": "Huotari Anni"
+    },
+    {
+      "aliases": [
+        "Huotari Jukka"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "PS",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 263,
+        "year": 2025
+      },
+      "id": "oulu/huotari-jukka",
+      "name": "Jukka Huotari",
+      "party": "PS",
+      "sort_name": "Huotari Jukka"
+    },
+    {
+      "aliases": [
+        "Husso Jarmo"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KOK",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 818,
+        "year": 2025
+      },
+      "id": "oulu/husso-jarmo",
+      "name": "Jarmo Husso",
+      "party": "KOK",
+      "sort_name": "Husso Jarmo"
+    },
+    {
+      "aliases": [
+        "Husso Sofia"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KOK",
+        "result": "deputy",
+        "source": "statfin-kvaa-2025",
+        "votes": 231,
+        "year": 2025
+      },
+      "id": "oulu/husso-sofia",
+      "name": "Sofia Husso",
+      "party": "KOK",
+      "sort_name": "Husso Sofia"
+    },
+    {
+      "aliases": [
+        "Huttunen Jetta"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "VIHR",
+        "result": "not_elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 61,
+        "year": 2025
+      },
+      "id": "oulu/huttunen-jetta",
+      "name": "Jetta Huttunen",
+      "party": "VIHR",
+      "sort_name": "Huttunen Jetta"
+    },
+    {
+      "aliases": [
+        "Hänninen Juha"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KOK",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 1403,
+        "year": 2025
+      },
+      "id": "oulu/hanninen-juha",
+      "name": "Juha Hänninen",
+      "party": "KOK",
+      "sort_name": "Hänninen Juha"
+    },
+    {
+      "aliases": [
+        "Immonen Miia"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "VIHR",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 328,
+        "year": 2025
+      },
+      "id": "oulu/immonen-miia",
+      "name": "Miia Immonen",
+      "party": "VIHR",
+      "sort_name": "Immonen Miia"
+    },
+    {
+      "aliases": [
+        "Jakola Mimmi"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "VAS",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 300,
+        "year": 2025
+      },
+      "id": "oulu/jakola-mimmi",
+      "name": "Mimmi Jakola",
+      "party": "VAS",
+      "sort_name": "Jakola Mimmi"
+    },
+    {
+      "aliases": [
+        "Jokelainen Jessi"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "VAS",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 2541,
+        "year": 2025
+      },
+      "id": "oulu/jokelainen-jessi",
+      "name": "Jessi Jokelainen",
+      "party": "VAS",
+      "sort_name": "Jokelainen Jessi"
+    },
+    {
+      "aliases": [
+        "Juntunen Hanne-Mari"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KOK",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 491,
+        "year": 2025
+      },
+      "id": "oulu/juntunen-hanne-mari",
+      "name": "Hanne-Mari Juntunen",
+      "party": "KOK",
+      "sort_name": "Juntunen Hanne-Mari"
+    },
+    {
+      "aliases": [
+        "Jämsä Jarmo"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "PS",
+        "result": "not_elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 37,
+        "year": 2025
+      },
+      "id": "oulu/jamsa-jarmo",
+      "name": "Jarmo Jämsä",
+      "party": "PS",
+      "sort_name": "Jämsä Jarmo"
+    },
+    {
+      "aliases": [
+        "Kaartinen Mirja"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KESK",
+        "result": "deputy",
+        "source": "statfin-kvaa-2025",
+        "votes": 204,
+        "year": 2025
+      },
+      "id": "oulu/kaartinen-mirja",
+      "name": "Mirja Kaartinen",
+      "party": "KESK",
+      "sort_name": "Kaartinen Mirja"
+    },
+    {
+      "aliases": [
+        "Kainua Pekka"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KESK",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 664,
+        "year": 2025
+      },
+      "id": "oulu/kainua-pekka",
+      "name": "Pekka Kainua",
+      "party": "KESK",
+      "sort_name": "Kainua Pekka"
+    },
+    {
+      "aliases": [
+        "Kaismo Tomi"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KOK",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 1124,
+        "year": 2025
+      },
+      "id": "oulu/kaismo-tomi",
+      "name": "Tomi Kaismo",
+      "party": "KOK",
+      "sort_name": "Kaismo Tomi"
+    },
+    {
+      "aliases": [
+        "Kalliorinne Risto"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "VAS",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 676,
+        "year": 2025
+      },
+      "id": "oulu/kalliorinne-risto",
+      "name": "Risto Kalliorinne",
+      "party": "VAS",
+      "sort_name": "Kalliorinne Risto"
+    },
+    {
+      "aliases": [
+        "Kandelberg Mariam"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "VIHR",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 442,
+        "year": 2025
+      },
+      "id": "oulu/kandelberg-mariam",
+      "name": "Mariam Kandelberg",
+      "party": "VIHR",
+      "sort_name": "Kandelberg Mariam"
+    },
+    {
+      "aliases": [
+        "Karjula Johanna"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KESK",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 854,
+        "year": 2025
+      },
+      "id": "oulu/karjula-johanna",
+      "name": "Johanna Karjula",
+      "party": "KESK",
+      "sort_name": "Karjula Johanna"
+    },
+    {
+      "aliases": [
+        "Karvonen Riku"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KOK",
+        "result": "not_elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 61,
+        "year": 2025
+      },
+      "id": "oulu/karvonen-riku",
+      "name": "Riku Karvonen",
+      "party": "KOK",
+      "sort_name": "Karvonen Riku"
+    },
+    {
+      "aliases": [
+        "Kauppila Lauri"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KESK",
+        "result": "not_elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 89,
+        "year": 2025
+      },
+      "id": "oulu/kauppila-lauri",
+      "name": "Lauri Kauppila",
+      "party": "KESK",
+      "sort_name": "Kauppila Lauri"
+    },
+    {
+      "aliases": [
+        "Kaupunginjohtaja Alatossava Ari"
+      ],
+      "city": "oulu",
+      "id": "oulu/kaupunginjohtaja-alatossava-ari",
+      "name": "Alatossava Ari Kaupunginjohtaja",
+      "sort_name": "Kaupunginjohtaja Alatossava Ari"
+    },
+    {
+      "aliases": [
+        "Kaupunkiympäristöjohtaja Kilpeläinen Marko"
+      ],
+      "city": "oulu",
+      "id": "oulu/kaupunkiymparistojohtaja-kilpelainen-marko",
+      "name": "Kilpeläinen Marko Kaupunkiympäristöjohtaja",
+      "sort_name": "Kaupunkiympäristöjohtaja Kilpeläinen Marko"
+    },
+    {
+      "aliases": [
+        "Kekkonen Maria"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "VAS",
+        "result": "deputy",
+        "source": "statfin-kvaa-2025",
+        "votes": 175,
+        "year": 2025
+      },
+      "id": "oulu/kekkonen-maria",
+      "name": "Maria Kekkonen",
+      "party": "VAS",
+      "sort_name": "Kekkonen Maria"
+    },
+    {
+      "aliases": [
+        "Kemppainen Marja-Leena"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KD",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 695,
+        "year": 2025
+      },
+      "id": "oulu/kemppainen-marja-leena",
+      "name": "Marja-Leena Kemppainen",
+      "party": "KD",
+      "sort_name": "Kemppainen Marja-Leena"
+    },
+    {
+      "aliases": [
+        "Keskitalo Minna"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KESK",
+        "result": "deputy",
+        "source": "statfin-kvaa-2025",
+        "votes": 181,
+        "year": 2025
+      },
+      "id": "oulu/keskitalo-minna",
+      "name": "Minna Keskitalo",
+      "party": "KESK",
+      "sort_name": "Keskitalo Minna"
+    },
+    {
+      "aliases": [
+        "Kestilä Ville"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "PS",
+        "result": "not_elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 77,
+        "year": 2025
+      },
+      "id": "oulu/kestila-ville",
+      "name": "Ville Kestilä",
+      "party": "PS",
+      "sort_name": "Kestilä Ville"
+    },
+    {
+      "aliases": [
+        "Kettunen Niina"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "SDP",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 452,
+        "year": 2025
+      },
+      "id": "oulu/kettunen-niina",
+      "name": "Niina Kettunen",
+      "party": "SDP",
+      "sort_name": "Kettunen Niina"
+    },
+    {
+      "aliases": [
+        "Kisner Susanna"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KOK",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 1336,
+        "year": 2025
+      },
+      "id": "oulu/kisner-susanna",
+      "name": "Susanna Kisner",
+      "party": "KOK",
+      "sort_name": "Kisner Susanna"
+    },
+    {
+      "aliases": [
+        "Kiviniitty Raili"
+      ],
+      "city": "oulu",
+      "id": "oulu/kiviniitty-raili",
+      "name": "Raili Kiviniitty",
+      "sort_name": "Kiviniitty Raili"
+    },
+    {
+      "aliases": [
+        "Kohonen Olli"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "VAS",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 465,
+        "year": 2025
+      },
+      "id": "oulu/kohonen-olli",
+      "name": "Olli Kohonen",
+      "party": "VAS",
+      "sort_name": "Kohonen Olli"
+    },
+    {
+      "aliases": [
+        "Koivuniemi Marika"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "VIHR",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 352,
+        "year": 2025
+      },
+      "id": "oulu/koivuniemi-marika",
+      "name": "Marika Koivuniemi",
+      "party": "VIHR",
+      "sort_name": "Koivuniemi Marika"
+    },
+    {
+      "aliases": [
+        "Konsernijohtaja Kronqvist Kari-Pekka"
+      ],
+      "city": "oulu",
+      "id": "oulu/konsernijohtaja-kronqvist-kari-pekka",
+      "name": "Kronqvist Kari-Pekka Konsernijohtaja",
+      "sort_name": "Konsernijohtaja Kronqvist Kari-Pekka"
+    },
+    {
+      "aliases": [
+        "Kontio Matti"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KESK",
+        "result": "not_elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 153,
+        "year": 2025
+      },
+      "id": "oulu/kontio-matti",
+      "name": "Matti Kontio",
+      "party": "KESK",
+      "sort_name": "Kontio Matti"
+    },
+    {
+      "aliases": [
+        "Kontio Mira"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "PS",
+        "result": "not_elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 174,
+        "year": 2025
+      },
+      "id": "oulu/kontio-mira",
+      "name": "Mira Kontio",
+      "party": "PS",
+      "sort_name": "Kontio Mira"
+    },
+    {
+      "aliases": [
+        "Koskela Janne"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "PS",
+        "result": "not_elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 57,
+        "year": 2025
+      },
+      "id": "oulu/koskela-janne",
+      "name": "Janne Koskela",
+      "party": "PS",
+      "sort_name": "Koskela Janne"
+    },
+    {
+      "aliases": [
+        "Koskela Santeri"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "PS",
+        "result": "not_elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 19,
+        "year": 2025
+      },
+      "id": "oulu/koskela-santeri",
+      "name": "Santeri Koskela",
+      "party": "PS",
+      "sort_name": "Koskela Santeri"
+    },
+    {
+      "aliases": [
+        "Koutonen Anniina"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "VAS",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 509,
+        "year": 2025
+      },
+      "id": "oulu/koutonen-anniina",
+      "name": "Anniina Koutonen",
+      "party": "VAS",
+      "sort_name": "Koutonen Anniina"
+    },
+    {
+      "aliases": [
+        "Kymäläinen Riitta"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "SDP",
+        "result": "not_elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 107,
+        "year": 2025
+      },
+      "id": "oulu/kymalainen-riitta",
+      "name": "Riitta Kymäläinen",
+      "party": "SDP",
+      "sort_name": "Kymäläinen Riitta"
+    },
+    {
+      "aliases": [
+        "Laitinen Päivi"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KOK",
+        "result": "not_elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 73,
+        "year": 2025
+      },
+      "id": "oulu/laitinen-paivi",
+      "name": "Päivi Laitinen",
+      "party": "KOK",
+      "sort_name": "Laitinen Päivi"
+    },
+    {
+      "aliases": [
+        "Laru Jari"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KOK",
+        "result": "deputy",
+        "source": "statfin-kvaa-2025",
+        "votes": 289,
+        "year": 2025
+      },
+      "id": "oulu/laru-jari",
+      "name": "Jari Laru",
+      "party": "KOK",
+      "sort_name": "Laru Jari"
+    },
+    {
+      "aliases": [
+        "Lawson Hellu Latékoé"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "VIHR",
+        "result": "deputy",
+        "source": "statfin-kvaa-2025",
+        "votes": 208,
+        "year": 2025
+      },
+      "id": "oulu/lawson-hellu-latekoe",
+      "name": "Hellu Latékoé Lawson",
+      "party": "VIHR",
+      "sort_name": "Lawson Hellu Latékoé"
+    },
+    {
+      "aliases": [
+        "Lehtinen Taru"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "SDP",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 344,
+        "year": 2025
+      },
+      "id": "oulu/lehtinen-taru",
+      "name": "Taru Lehtinen",
+      "party": "SDP",
+      "sort_name": "Lehtinen Taru"
+    },
+    {
+      "aliases": [
+        "Lehtisaari Miia"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KOK",
+        "result": "deputy",
+        "source": "statfin-kvaa-2025",
+        "votes": 338,
+        "year": 2025
+      },
+      "id": "oulu/lehtisaari-miia",
+      "name": "Miia Lehtisaari",
+      "party": "KOK",
+      "sort_name": "Lehtisaari Miia"
+    },
+    {
+      "aliases": [
+        "Leinonen Eetu"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "SDP",
+        "result": "not_elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 39,
+        "year": 2025
+      },
+      "id": "oulu/leinonen-eetu",
+      "name": "Eetu Leinonen",
+      "party": "SDP",
+      "sort_name": "Leinonen Eetu"
+    },
+    {
+      "aliases": [
+        "Leinonen Essi"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "SDP",
+        "result": "deputy",
+        "source": "statfin-kvaa-2025",
+        "votes": 256,
+        "year": 2025
+      },
+      "id": "oulu/leinonen-essi",
+      "name": "Essi Leinonen",
+      "party": "SDP",
+      "sort_name": "Leinonen Essi"
+    },
+    {
+      "aliases": [
+        "Lepistö Anna-Kaisa"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KESK",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 514,
+        "year": 2025
+      },
+      "id": "oulu/lepisto-anna-kaisa",
+      "name": "Anna-Kaisa Lepistö",
+      "party": "KESK",
+      "sort_name": "Lepistö Anna-Kaisa"
+    },
+    {
+      "aliases": [
+        "Leppänen Tero"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KOK",
+        "result": "not_elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 106,
+        "year": 2025
+      },
+      "id": "oulu/leppanen-tero",
+      "name": "Tero Leppänen",
+      "party": "KOK",
+      "sort_name": "Leppänen Tero"
+    },
+    {
+      "aliases": [
+        "Leskelä Jorma"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KESK",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 644,
+        "year": 2025
+      },
+      "id": "oulu/leskela-jorma",
+      "name": "Jorma Leskelä",
+      "party": "KESK",
+      "sort_name": "Leskelä Jorma"
+    },
+    {
+      "aliases": [
+        "Leskinen Sari"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "SDP",
+        "result": "not_elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 74,
+        "year": 2025
+      },
+      "id": "oulu/leskinen-sari",
+      "name": "Sari Leskinen",
+      "party": "SDP",
+      "sort_name": "Leskinen Sari"
+    },
+    {
+      "aliases": [
+        "Lievetmursu Aira"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "SDP",
+        "result": "deputy",
+        "source": "statfin-kvaa-2025",
+        "votes": 179,
+        "year": 2025
+      },
+      "id": "oulu/lievetmursu-aira",
+      "name": "Aira Lievetmursu",
+      "party": "SDP",
+      "sort_name": "Lievetmursu Aira"
+    },
+    {
+      "aliases": [
+        "Lohi Luukas"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KESK",
+        "result": "not_elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 79,
+        "year": 2025
+      },
+      "id": "oulu/lohi-luukas",
+      "name": "Luukas Lohi",
+      "party": "KESK",
+      "sort_name": "Lohi Luukas"
+    },
+    {
+      "aliases": [
+        "Lohiniva-Kerkelä Mirja Asiakkuuspäällikkö"
+      ],
+      "city": "oulu",
+      "id": "oulu/lohiniva-kerkela-mirja-asiakkuuspaallikko",
+      "name": "Mirja Asiakkuuspäällikkö Lohiniva-Kerkelä",
+      "sort_name": "Lohiniva-Kerkelä Mirja Asiakkuuspäällikkö"
+    },
+    {
+      "aliases": [
+        "Loukkola Otto"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "SDP",
+        "result": "not_elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 73,
+        "year": 2025
+      },
+      "id": "oulu/loukkola-otto",
+      "name": "Otto Loukkola",
+      "party": "SDP",
+      "sort_name": "Loukkola Otto"
+    },
+    {
+      "aliases": [
+        "Lukka Matti"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KESK",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 555,
+        "year": 2025
+      },
+      "id": "oulu/lukka-matti",
+      "name": "Matti Lukka",
+      "party": "KESK",
+      "sort_name": "Lukka Matti"
+    },
+    {
+      "aliases": [
+        "Luokkanen Ale"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "VAS",
+        "result": "not_elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 73,
+        "year": 2025
+      },
+      "id": "oulu/luokkanen-ale",
+      "name": "Ale Luokkanen",
+      "party": "VAS",
+      "sort_name": "Luokkanen Ale"
+    },
+    {
+      "aliases": [
+        "Luoto Petri"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "VAS",
+        "result": "not_elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 44,
+        "year": 2025
+      },
+      "id": "oulu/luoto-petri",
+      "name": "Petri Luoto",
+      "party": "VAS",
+      "sort_name": "Luoto Petri"
+    },
+    {
+      "aliases": [
+        "Mainio Antti"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KESK",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 444,
+        "year": 2025
+      },
+      "id": "oulu/mainio-antti",
+      "name": "Antti Mainio",
+      "party": "KESK",
+      "sort_name": "Mainio Antti"
+    },
+    {
+      "aliases": [
+        "Malinen Juha"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KOK",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 353,
+        "year": 2025
+      },
+      "id": "oulu/malinen-juha",
+      "name": "Juha Malinen",
+      "party": "KOK",
+      "sort_name": "Malinen Juha"
+    },
+    {
+      "aliases": [
+        "Manninen Aino-Kaisa"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "VIHR",
+        "result": "deputy",
+        "source": "statfin-kvaa-2025",
+        "votes": 208,
+        "year": 2025
+      },
+      "id": "oulu/manninen-aino-kaisa",
+      "name": "Aino-Kaisa Manninen",
+      "party": "VIHR",
+      "sort_name": "Manninen Aino-Kaisa"
+    },
+    {
+      "aliases": [
+        "Marjoniemi Veli-Pekka"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "VAS",
+        "result": "not_elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 81,
+        "year": 2025
+      },
+      "id": "oulu/marjoniemi-veli-pekka",
+      "name": "Veli-Pekka Marjoniemi",
+      "party": "VAS",
+      "sort_name": "Marjoniemi Veli-Pekka"
+    },
+    {
+      "aliases": [
+        "Merihaara Mikko"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KOK",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 656,
+        "year": 2025
+      },
+      "id": "oulu/merihaara-mikko",
+      "name": "Mikko Merihaara",
+      "party": "KOK",
+      "sort_name": "Merihaara Mikko"
+    },
+    {
+      "aliases": [
+        "Meriläinen Joni"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "SDP",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 840,
+        "year": 2025
+      },
+      "id": "oulu/merilainen-joni",
+      "name": "Joni Meriläinen",
+      "party": "SDP",
+      "sort_name": "Meriläinen Joni"
+    },
+    {
+      "aliases": [
+        "Minkkinen Harri"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "SDP",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 1259,
+        "year": 2025
+      },
+      "id": "oulu/minkkinen-harri",
+      "name": "Harri Minkkinen",
+      "party": "SDP",
+      "sort_name": "Minkkinen Harri"
+    },
+    {
+      "aliases": [
+        "Mustakallio Pekka"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KESK",
+        "result": "not_elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 141,
+        "year": 2025
+      },
+      "id": "oulu/mustakallio-pekka",
+      "name": "Pekka Mustakallio",
+      "party": "KESK",
+      "sort_name": "Mustakallio Pekka"
+    },
+    {
+      "aliases": [
+        "Mustonen Juha-Matti"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "VAS",
+        "result": "not_elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 105,
+        "year": 2025
+      },
+      "id": "oulu/mustonen-juha-matti",
+      "name": "Juha-Matti Mustonen",
+      "party": "VAS",
+      "sort_name": "Mustonen Juha-Matti"
+    },
+    {
+      "aliases": [
+        "Mäkelä Lassi"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KOK",
+        "result": "not_elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 131,
+        "year": 2025
+      },
+      "id": "oulu/makela-lassi",
+      "name": "Lassi Mäkelä",
+      "party": "KOK",
+      "sort_name": "Mäkelä Lassi"
+    },
+    {
+      "aliases": [
+        "Mäki Maire"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "SDP",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 361,
+        "year": 2025
+      },
+      "id": "oulu/maki-maire",
+      "name": "Maire Mäki",
+      "party": "SDP",
+      "sort_name": "Mäki Maire"
+    },
+    {
+      "aliases": [
+        "Mäläskä Arvi"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KESK",
+        "result": "not_elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 142,
+        "year": 2025
+      },
+      "id": "oulu/malaska-arvi",
+      "name": "Arvi Mäläskä",
+      "party": "KESK",
+      "sort_name": "Mäläskä Arvi"
+    },
+    {
+      "aliases": [
+        "Määttä Henna"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "VIHR",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 290,
+        "year": 2025
+      },
+      "id": "oulu/maatta-henna",
+      "name": "Henna Määttä",
+      "party": "VIHR",
+      "sort_name": "Määttä Henna"
+    },
+    {
+      "aliases": [
+        "Niemi Anni"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "VAS",
+        "result": "not_elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 73,
+        "year": 2025
+      },
+      "id": "oulu/niemi-anni",
+      "name": "Anni Niemi",
+      "party": "VAS",
+      "sort_name": "Niemi Anni"
+    },
+    {
+      "aliases": [
+        "Nikula Lauri"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KESK",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 1582,
+        "year": 2025
+      },
+      "id": "oulu/nikula-lauri",
+      "name": "Lauri Nikula",
+      "party": "KESK",
+      "sort_name": "Nikula Lauri"
+    },
+    {
+      "aliases": [
+        "Niskanen Antti"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "PS",
+        "result": "deputy",
+        "source": "statfin-kvaa-2025",
+        "votes": 186,
+        "year": 2025
+      },
+      "id": "oulu/niskanen-antti",
+      "name": "Antti Niskanen",
+      "party": "PS",
+      "sort_name": "Niskanen Antti"
+    },
+    {
+      "aliases": [
+        "Näppä Anneli"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KESK",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 809,
+        "year": 2025
+      },
+      "id": "oulu/nappa-anneli",
+      "name": "Anneli Näppä",
+      "party": "KESK",
+      "sort_name": "Näppä Anneli"
+    },
+    {
+      "aliases": [
+        "Okkonen Tuula"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "SDP",
+        "result": "not_elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 147,
+        "year": 2025
+      },
+      "id": "oulu/okkonen-tuula",
+      "name": "Tuula Okkonen",
+      "party": "SDP",
+      "sort_name": "Okkonen Tuula"
+    },
+    {
+      "aliases": [
+        "Oulun Energia Oy"
+      ],
+      "city": "oulu",
+      "id": "oulu/oulun-energia-oy",
+      "name": "Energia Oy Oulun",
+      "sort_name": "Oulun Energia Oy"
+    },
+    {
+      "aliases": [
+        "Paavola Kaisa"
+      ],
+      "city": "oulu",
+      "id": "oulu/paavola-kaisa",
+      "name": "Kaisa Paavola",
+      "sort_name": "Paavola Kaisa"
+    },
+    {
+      "aliases": [
+        "Parkkinen Eeva-Maria"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KESK",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 631,
+        "year": 2025
+      },
+      "id": "oulu/parkkinen-eeva-maria",
+      "name": "Eeva-Maria Parkkinen",
+      "party": "KESK",
+      "sort_name": "Parkkinen Eeva-Maria"
+    },
+    {
+      "aliases": [
+        "Parkkinen Toni"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KOK",
+        "result": "not_elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 84,
+        "year": 2025
+      },
+      "id": "oulu/parkkinen-toni",
+      "name": "Toni Parkkinen",
+      "party": "KOK",
+      "sort_name": "Parkkinen Toni"
+    },
+    {
+      "aliases": [
+        "Patana Tuija"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KESK",
+        "result": "not_elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 136,
+        "year": 2025
+      },
+      "id": "oulu/patana-tuija",
+      "name": "Tuija Patana",
+      "party": "KESK",
+      "sort_name": "Patana Tuija"
+    },
+    {
+      "aliases": [
+        "Pekkala Seppo"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "PS",
+        "result": "not_elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 26,
+        "year": 2025
+      },
+      "id": "oulu/pekkala-seppo",
+      "name": "Seppo Pekkala",
+      "party": "PS",
+      "sort_name": "Pekkala Seppo"
+    },
+    {
+      "aliases": [
+        "Pikkuaho-Ruonala Elina Henkilöstöpäällikkö"
+      ],
+      "city": "oulu",
+      "id": "oulu/pikkuaho-ruonala-elina-henkilostopaallikko",
+      "name": "Elina Henkilöstöpäällikkö Pikkuaho-Ruonala",
+      "sort_name": "Pikkuaho-Ruonala Elina Henkilöstöpäällikkö"
+    },
+    {
+      "aliases": [
+        "Pitko Jenni"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "VIHR",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 841,
+        "year": 2025
+      },
+      "id": "oulu/pitko-jenni",
+      "name": "Jenni Pitko",
+      "party": "VIHR",
+      "sort_name": "Pitko Jenni"
+    },
+    {
+      "aliases": [
+        "Pohjola Veli-Pekka"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KOK",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 402,
+        "year": 2025
+      },
+      "id": "oulu/pohjola-veli-pekka",
+      "name": "Veli-Pekka Pohjola",
+      "party": "KOK",
+      "sort_name": "Pohjola Veli-Pekka"
+    },
+    {
+      "aliases": [
+        "Pollari Maijaliisa"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "SDP",
+        "result": "not_elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 62,
+        "year": 2025
+      },
+      "id": "oulu/pollari-maijaliisa",
+      "name": "Maijaliisa Pollari",
+      "party": "SDP",
+      "sort_name": "Pollari Maijaliisa"
+    },
+    {
+      "aliases": [
+        "Polso Päivi"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "SDP",
+        "result": "not_elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 126,
+        "year": 2025
+      },
+      "id": "oulu/polso-paivi",
+      "name": "Päivi Polso",
+      "party": "SDP",
+      "sort_name": "Polso Päivi"
+    },
+    {
+      "aliases": [
+        "Pouke Eeva"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KD",
+        "result": "deputy",
+        "source": "statfin-kvaa-2025",
+        "votes": 135,
+        "year": 2025
+      },
+      "id": "oulu/pouke-eeva",
+      "name": "Eeva Pouke",
+      "party": "KD",
+      "sort_name": "Pouke Eeva"
+    },
+    {
+      "aliases": [
+        "Pyörälä Pirjo"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KESK",
+        "result": "not_elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 101,
+        "year": 2025
+      },
+      "id": "oulu/pyorala-pirjo",
+      "name": "Pirjo Pyörälä",
+      "party": "KESK",
+      "sort_name": "Pyörälä Pirjo"
+    },
+    {
+      "aliases": [
+        "Päkkilä Risto"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KESK",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 383,
+        "year": 2025
+      },
+      "id": "oulu/pakkila-risto",
+      "name": "Risto Päkkilä",
+      "party": "KESK",
+      "sort_name": "Päkkilä Risto"
+    },
+    {
+      "aliases": [
+        "Raitio Juuso"
+      ],
+      "city": "oulu",
+      "id": "oulu/raitio-juuso",
+      "name": "Juuso Raitio",
+      "sort_name": "Raitio Juuso"
+    },
+    {
+      "aliases": [
+        "Rajala Lyly"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KOK",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 700,
+        "year": 2025
+      },
+      "id": "oulu/rajala-lyly",
+      "name": "Lyly Rajala",
+      "party": "KOK",
+      "sort_name": "Rajala Lyly"
+    },
+    {
+      "aliases": [
+        "Rasi Saga"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "SDP",
+        "result": "deputy",
+        "source": "statfin-kvaa-2025",
+        "votes": 228,
+        "year": 2025
+      },
+      "id": "oulu/rasi-saga",
+      "name": "Saga Rasi",
+      "party": "SDP",
+      "sort_name": "Rasi Saga"
+    },
+    {
+      "aliases": [
+        "Rasinkangas Merja"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "PS",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 750,
+        "year": 2025
+      },
+      "id": "oulu/rasinkangas-merja",
+      "name": "Merja Rasinkangas",
+      "party": "PS",
+      "sort_name": "Rasinkangas Merja"
+    },
+    {
+      "aliases": [
+        "Raudaskoski Mikko"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "VAS",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 416,
+        "year": 2025
+      },
+      "id": "oulu/raudaskoski-mikko",
+      "name": "Mikko Raudaskoski",
+      "party": "VAS",
+      "sort_name": "Raudaskoski Mikko"
+    },
+    {
+      "aliases": [
+        "Ruokamo Teija"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KOK",
+        "result": "deputy",
+        "source": "statfin-kvaa-2025",
+        "votes": 272,
+        "year": 2025
+      },
+      "id": "oulu/ruokamo-teija",
+      "name": "Teija Ruokamo",
+      "party": "KOK",
+      "sort_name": "Ruokamo Teija"
+    },
+    {
+      "aliases": [
+        "Ruotsalainen Ammi"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "VAS",
+        "result": "deputy",
+        "source": "statfin-kvaa-2025",
+        "votes": 239,
+        "year": 2025
+      },
+      "id": "oulu/ruotsalainen-ammi",
+      "name": "Ammi Ruotsalainen",
+      "party": "VAS",
+      "sort_name": "Ruotsalainen Ammi"
+    },
+    {
+      "aliases": [
+        "Rämet Mika"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "VIHR",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 292,
+        "year": 2025
+      },
+      "id": "oulu/ramet-mika",
+      "name": "Mika Rämet",
+      "party": "VIHR",
+      "sort_name": "Rämet Mika"
+    },
+    {
+      "aliases": [
+        "Saarela Esa"
+      ],
+      "city": "oulu",
+      "id": "oulu/saarela-esa",
+      "name": "Esa Saarela",
+      "sort_name": "Saarela Esa"
+    },
+    {
+      "aliases": [
+        "Sarkkinen Mari-Anneli"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KOK",
+        "result": "deputy",
+        "source": "statfin-kvaa-2025",
+        "votes": 155,
+        "year": 2025
+      },
+      "id": "oulu/sarkkinen-mari-anneli",
+      "name": "Mari-Anneli Sarkkinen",
+      "party": "KOK",
+      "sort_name": "Sarkkinen Mari-Anneli"
+    },
+    {
+      "aliases": [
+        "Sarvela Artturi"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "VIHR",
+        "result": "not_elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 71,
+        "year": 2025
+      },
+      "id": "oulu/sarvela-artturi",
+      "name": "Artturi Sarvela",
+      "party": "VIHR",
+      "sort_name": "Sarvela Artturi"
+    },
+    {
+      "aliases": [
+        "Sauvola Riku"
+      ],
+      "city": "oulu",
+      "id": "oulu/sauvola-riku",
+      "name": "Riku Sauvola",
+      "sort_name": "Sauvola Riku"
+    },
+    {
+      "aliases": [
+        "Sihteeri Parkkila Minna"
+      ],
+      "city": "oulu",
+      "id": "oulu/sihteeri-parkkila-minna",
+      "name": "Parkkila Minna Sihteeri",
+      "sort_name": "Sihteeri Parkkila Minna"
+    },
+    {
+      "aliases": [
+        "Similä Pertti"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KESK",
+        "result": "not_elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 53,
+        "year": 2025
+      },
+      "id": "oulu/simila-pertti",
+      "name": "Pertti Similä",
+      "party": "KESK",
+      "sort_name": "Similä Pertti"
+    },
+    {
+      "aliases": [
+        "Simula Jenna"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "PS",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 879,
+        "year": 2025
+      },
+      "id": "oulu/simula-jenna",
+      "name": "Jenna Simula",
+      "party": "PS",
+      "sort_name": "Simula Jenna"
+    },
+    {
+      "aliases": [
+        "Sipola Mauno"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "VAS",
+        "result": "deputy",
+        "source": "statfin-kvaa-2025",
+        "votes": 143,
+        "year": 2025
+      },
+      "id": "oulu/sipola-mauno",
+      "name": "Mauno Sipola",
+      "party": "VAS",
+      "sort_name": "Sipola Mauno"
+    },
+    {
+      "aliases": [
+        "Sirviö Pirjo"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "SDP",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 678,
+        "year": 2025
+      },
+      "id": "oulu/sirvio-pirjo",
+      "name": "Pirjo Sirviö",
+      "party": "SDP",
+      "sort_name": "Sirviö Pirjo"
+    },
+    {
+      "aliases": [
+        "Sjögren Marjo"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "PS",
+        "result": "deputy",
+        "source": "statfin-kvaa-2025",
+        "votes": 237,
+        "year": 2025
+      },
+      "id": "oulu/sjogren-marjo",
+      "name": "Marjo Sjögren",
+      "party": "PS",
+      "sort_name": "Sjögren Marjo"
+    },
+    {
+      "aliases": [
+        "Stenfors Sebastian"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KOK",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 374,
+        "year": 2025
+      },
+      "id": "oulu/stenfors-sebastian",
+      "name": "Sebastian Stenfors",
+      "party": "KOK",
+      "sort_name": "Stenfors Sebastian"
+    },
+    {
+      "aliases": [
+        "Suomalainen Tanja"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KOK",
+        "result": "deputy",
+        "source": "statfin-kvaa-2025",
+        "votes": 206,
+        "year": 2025
+      },
+      "id": "oulu/suomalainen-tanja",
+      "name": "Tanja Suomalainen",
+      "party": "KOK",
+      "sort_name": "Suomalainen Tanja"
+    },
+    {
+      "aliases": [
+        "Syväniemi Atte"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KOK",
+        "result": "deputy",
+        "source": "statfin-kvaa-2025",
+        "votes": 210,
+        "year": 2025
+      },
+      "id": "oulu/syvaniemi-atte",
+      "name": "Atte Syväniemi",
+      "party": "KOK",
+      "sort_name": "Syväniemi Atte"
+    },
+    {
+      "aliases": [
+        "Talvitie Mari-Leena"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KOK",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 1038,
+        "year": 2025
+      },
+      "id": "oulu/talvitie-mari-leena",
+      "name": "Mari-Leena Talvitie",
+      "party": "KOK",
+      "sort_name": "Talvitie Mari-Leena"
+    },
+    {
+      "aliases": [
+        "Tapaninen Marjo"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "VIHR",
+        "result": "deputy",
+        "source": "statfin-kvaa-2025",
+        "votes": 213,
+        "year": 2025
+      },
+      "id": "oulu/tapaninen-marjo",
+      "name": "Marjo Tapaninen",
+      "party": "VIHR",
+      "sort_name": "Tapaninen Marjo"
+    },
+    {
+      "aliases": [
+        "Tapio Jere"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KESK",
+        "result": "deputy",
+        "source": "statfin-kvaa-2025",
+        "votes": 222,
+        "year": 2025
+      },
+      "id": "oulu/tapio-jere",
+      "name": "Jere Tapio",
+      "party": "KESK",
+      "sort_name": "Tapio Jere"
+    },
+    {
+      "aliases": [
+        "Taube-Säkkinen Erika"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KOK",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 429,
+        "year": 2025
+      },
+      "id": "oulu/taube-sakkinen-erika",
+      "name": "Erika Taube-Säkkinen",
+      "party": "KOK",
+      "sort_name": "Taube-Säkkinen Erika"
+    },
+    {
+      "aliases": [
+        "Tervaniemi Sauli"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KESK",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 654,
+        "year": 2025
+      },
+      "id": "oulu/tervaniemi-sauli",
+      "name": "Sauli Tervaniemi",
+      "party": "KESK",
+      "sort_name": "Tervaniemi Sauli"
+    },
+    {
+      "aliases": [
+        "Tietohallintojohtaja Matinmikko Tapio"
+      ],
+      "city": "oulu",
+      "id": "oulu/tietohallintojohtaja-matinmikko-tapio",
+      "name": "Matinmikko Tapio Tietohallintojohtaja",
+      "sort_name": "Tietohallintojohtaja Matinmikko Tapio"
+    },
+    {
+      "aliases": [
+        "Tikkala Sirpa"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KESK",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 379,
+        "year": 2025
+      },
+      "id": "oulu/tikkala-sirpa",
+      "name": "Sirpa Tikkala",
+      "party": "KESK",
+      "sort_name": "Tikkala Sirpa"
+    },
+    {
+      "aliases": [
+        "Tornberg Elias"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KESK",
+        "result": "deputy",
+        "source": "statfin-kvaa-2025",
+        "votes": 315,
+        "year": 2025
+      },
+      "id": "oulu/tornberg-elias",
+      "name": "Elias Tornberg",
+      "party": "KESK",
+      "sort_name": "Tornberg Elias"
+    },
+    {
+      "aliases": [
+        "Torro Kaarina"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "SDP",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 468,
+        "year": 2025
+      },
+      "id": "oulu/torro-kaarina",
+      "name": "Kaarina Torro",
+      "party": "SDP",
+      "sort_name": "Torro Kaarina"
+    },
+    {
+      "aliases": [
+        "Tuomikoski Mari Strategiapäällikkö"
+      ],
+      "city": "oulu",
+      "id": "oulu/tuomikoski-mari-strategiapaallikko",
+      "name": "Mari Strategiapäällikkö Tuomikoski",
+      "sort_name": "Tuomikoski Mari Strategiapäällikkö"
+    },
+    {
+      "aliases": [
+        "Tuomo Perälä"
+      ],
+      "city": "oulu",
+      "id": "oulu/tuomo-perala",
+      "name": "Perälä Tuomo",
+      "sort_name": "Tuomo Perälä"
+    },
+    {
+      "aliases": [
+        "Tuppurainen Tytti"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "SDP",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 2856,
+        "year": 2025
+      },
+      "id": "oulu/tuppurainen-tytti",
+      "name": "Tytti Tuppurainen",
+      "party": "SDP",
+      "sort_name": "Tuppurainen Tytti"
+    },
+    {
+      "aliases": [
+        "Törmi Jani"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "PS",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 450,
+        "year": 2025
+      },
+      "id": "oulu/tormi-jani",
+      "name": "Jani Törmi",
+      "party": "PS",
+      "sort_name": "Törmi Jani"
+    },
+    {
+      "aliases": [
+        "Ukonmaanaho Pekka"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KESK",
+        "result": "deputy",
+        "source": "statfin-kvaa-2025",
+        "votes": 294,
+        "year": 2025
+      },
+      "id": "oulu/ukonmaanaho-pekka",
+      "name": "Pekka Ukonmaanaho",
+      "party": "KESK",
+      "sort_name": "Ukonmaanaho Pekka"
+    },
+    {
+      "aliases": [
+        "Utriainen Mikko"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KOK",
+        "result": "not_elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 94,
+        "year": 2025
+      },
+      "id": "oulu/utriainen-mikko",
+      "name": "Mikko Utriainen",
+      "party": "KOK",
+      "sort_name": "Utriainen Mikko"
+    },
+    {
+      "aliases": [
+        "Van Earle Katariina"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "SDP",
+        "result": "deputy",
+        "source": "statfin-kvaa-2025",
+        "votes": 183,
+        "year": 2025
+      },
+      "id": "oulu/van-earle-katariina",
+      "name": "Katariina van Earle",
+      "party": "SDP",
+      "sort_name": "van Earle Katariina"
+    },
+    {
+      "aliases": [
+        "Vehkaperä Mirja"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KESK",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 1509,
+        "year": 2025
+      },
+      "id": "oulu/vehkapera-mirja",
+      "name": "Mirja Vehkaperä",
+      "party": "KESK",
+      "sort_name": "Vehkaperä Mirja"
+    },
+    {
+      "aliases": [
+        "Viestintäjohtaja Urponen Harriet"
+      ],
+      "city": "oulu",
+      "id": "oulu/viestintajohtaja-urponen-harriet",
+      "name": "Urponen Harriet Viestintäjohtaja",
+      "sort_name": "Viestintäjohtaja Urponen Harriet"
+    },
+    {
+      "aliases": [
+        "Viitanen Mikko"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "VAS",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 489,
+        "year": 2025
+      },
+      "id": "oulu/viitanen-mikko",
+      "name": "Mikko Viitanen",
+      "party": "VAS",
+      "sort_name": "Viitanen Mikko"
+    },
+    {
+      "aliases": [
+        "Vikeväkorva Susa"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "VIHR",
+        "result": "elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 1027,
+        "year": 2025
+      },
+      "id": "oulu/vikevakorva-susa",
+      "name": "Susa Vikeväkorva",
+      "party": "VIHR",
+      "sort_name": "Vikeväkorva Susa"
+    },
+    {
+      "aliases": [
+        "Vuononvirta Tiina"
+      ],
+      "city": "oulu",
+      "id": "oulu/vuononvirta-tiina",
+      "name": "Tiina Vuononvirta",
+      "sort_name": "Vuononvirta Tiina"
+    },
+    {
+      "aliases": [
+        "Väisänen Liisa"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "VIHR",
+        "result": "deputy",
+        "source": "statfin-kvaa-2025",
+        "votes": 216,
+        "year": 2025
+      },
+      "id": "oulu/vaisanen-liisa",
+      "name": "Liisa Väisänen",
+      "party": "VIHR",
+      "sort_name": "Väisänen Liisa"
+    },
+    {
+      "aliases": [
+        "Väyrynen Tero"
+      ],
+      "city": "oulu",
+      "election": {
+        "party": "KOK",
+        "result": "not_elected",
+        "source": "statfin-kvaa-2025",
+        "votes": 105,
+        "year": 2025
+      },
+      "id": "oulu/vayrynen-tero",
+      "name": "Tero Väyrynen",
+      "party": "KOK",
+      "sort_name": "Väyrynen Tero"
+    },
+    {
+      "aliases": [
+        "Väätäjä Minna"
+      ],
+      "city": "oulu",
+      "id": "oulu/vaataja-minna",
+      "name": "Minna Väätäjä",
+      "sort_name": "Väätäjä Minna"
+    }
+  ]
 }
