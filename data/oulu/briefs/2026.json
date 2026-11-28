@@ -96,6 +96,63 @@
       "sv": "Business Oulu -liikelaitoksen johtokunta sammanträdde 27.10.2026. Styrelsen antecknade fyra ärenden till kännedom: information om åtgärder för att förhindra att ungas arbetslöshet drar ut på tiden mer än tre månader, chefens lägesöversikt, ekonomiuppföljningen för januari–september samt projektansökningar och finansieringsbeslut. Styrelsen godkände förslaget att 18-åriga studerandes sommarjobbares bruttolön höjs från 1 100 euro till 1 200 euro i månaden från och med 1.1.2027. Styrelsen beslöt enhälligt att bordlägga ärendet om att utvidga sommarstödområdet till hela Finland. Styrelsen avslog Gofore Lead Oy:s omprövningsbegäran gällande upphandlingsbeslutet § 45/2026. Styrelsen antecknade även tjänstemannabesluten till kännedom och beslöt att inte ta upp dem till egen behandling."
     }
   },
+  "oulu/business-oulu-liikelaitoksen-tyollisyysjaosto/2026-10-14": {
+    "highlights": {
+      "en": [
+        "A presentation of the Pate tool was noted for information.",
+        "A status report by the employment director was noted for information.",
+        "The wage subsidy team can make negative decisions based on appropriation.",
+        "Oulu's 2026 wage subsidy appropriation is EUR 7,306,264."
+      ],
+      "fi": [
+        "Pate-työkalun esittely merkittiin tiedoksi.",
+        "Työllisyysjohtajan tilannekatsaus merkittiin tiedoksi.",
+        "Palkkatukitiimi voi tehdä kielteisiä päätöksiä määrärahasyyllä.",
+        "Oulun vuoden 2026 palkkatukimääräraha on 7 306 264 euroa."
+      ],
+      "sv": [
+        "En presentation av Pate-työkalun antecknades till kännedom.",
+        "Työllisyysjohtajan tilannekatsaus antecknades till kännedom.",
+        "Palkkatukitiimi kan fatta negativa beslut på grund av anslag.",
+        "Oulun års 2026 palkkatukimääräraha är 7 306 264 euro."
+      ]
+    },
+    "input_sha256": "06bbc93261593104a67c6f5b4c401aa479e4db659bdc7439ef4108cefd93f28b",
+    "items": {
+      "1": {
+        "brief": {
+          "en": "A presentation of the Pate tool was noted for information.",
+          "fi": "Pate-työkalun esittely merkittiin tiedoksi.",
+          "sv": "En presentation av Pate-työkalun antecknades till kännedom."
+        },
+        "sha": "f22ce8cc40f476ed3faed56fc80f97320af900c066e10ad21d90a226e0ccb5b3"
+      },
+      "2": {
+        "brief": {
+          "en": "A status report by the employment director was noted for information.",
+          "fi": "Työllisyysjohtajan tilannekatsaus merkittiin tiedoksi.",
+          "sv": "Työllisyysjohtajan tilannekatsaus antecknades till kännedom."
+        },
+        "sha": "e89fe69714542c22c42209d8216e5be960f48c7bc3e54920f162ce422766fa66"
+      },
+      "3": {
+        "brief": {
+          "en": "The proposal was accepted. Business Oulu's employment services grants and the legal support wage subsidy team can make negative wage subsidy decisions based on appropriation in the Oulu region employment area.",
+          "fi": "Päätösesitys hyväksyttiin. Business Oulun työllisyyspalveluiden avustukset ja oikeudellinen tuen palkkatukitiimi voi tehdä kielteisiä palkkatukipäätöksiä määrärahasyyllä Oulun seudun työllisyysalueella.",
+          "sv": "Förslaget godkändes. Business Oulun työllisyyspalveluiden avustukset och teamet för juridiskt stöd inom palkkatuki kan fatta negativa beslut på grund av anslag i Oulun seudun työllisyysalueella."
+        },
+        "sha": "d2e521bab828cb9404ba9ae682fb8b43c6ec4de2c0d31dc7102052b94f39cc5e"
+      }
+    },
+    "lang": "fi",
+    "model": "nvidia/nemotron-3.5-super-vl:free",
+    "stage": "minutes",
+    "summary": {
+      "en": "At the meeting, a presentation of the Pate tool was noted for information. The tool supports job seekers and employees, and the development phase and continuation of the digital service needs tool were discussed within the employment area. A status report by the employment director was also noted for information. The proposal was accepted, meaning that Business Oulu's employment services grants and the legal support wage subsidy team can make negative wage subsidy decisions based on appropriation in the Oulu region employment area. The decision concerns the granting of wage subsidies in the Oulu region employment area. A negative decision requires that a member municipality asks the responsible municipality Oulu to suspend the making of positive decisions based on budget monitoring. The 2026 wage subsidy appropriations are budgeted by municipality; the largest amount is in Oulu EUR 7,306,264.",
+      "fi": "Kokouksessa merkittiin tiedoksi Pate-työkalun esittely. Työkalu tukee työnhakijaa ja työntekijää, ja sen digitaalisen palvelutarvetyökalun kehitysvaihetta ja jatkoa käsiteltiin työllisyysalueella. Tiedoksi merkittiin myös työllisyysjohtajan tilannekatsaus. Päätöksenä hyväksyttiin esitys, jonka mukaan Business Oulun työllisyyspalveluiden avustukset ja oikeudellinen tuen palkkatukitiimi voi tehdä kielteisiä palkkatukipäätöksiä määrärahasyyllä Oulun seudun työllisyysalueella. Päätös koskee palkkatuen myöntämistä Oulun seudun työllisyysalueella. Kielteinen päätös edellyttää, että jäsenkunta pyytää vastuukuntaa Oulua keskeyttämään myönteisten päätösten tekeminen budjettiseurannan perusteella. Vuoden 2026 palkkatukimäärärahat on budjetoitu kuntakohtaisesti; suurin summa on Oululla 7 306 264 euroa.",
+      "sv": "På mötet antecknades till kännedom en presentation av Pate-työkalun. Työkalun stöder arbetssökande och anställda, och dess digitala palvelutarvetyökalun utvecklingsfas och fortsättning behandlades inom työllisyysalueella. Till kännedom antecknades också työllisyysjohtajan tilannekatsaus. Förslaget godkändes, vilket innebär att Business Oulun työllisyyspalveluiden avustukset och teamet för juridiskt stöd inom palkkatuki kan fatta negativa beslut på grund av anslag i Oulun seudun työllisyysalueella. Beslutet gäller beviljandet av palkkatuki i Oulun seudun työllisyysalueella. Ett negativt beslut förutsätter att medlemskommunen ber ansvariga kommunen Oulu att avbryta fattandet av positiva beslut baserat på budgetuppföljning. År 2026 är palkkatukimäärärahatna budgeterade kommunvis; största summan är i Oulu 7 306 264 euro."
+    }
+  },
   "oulu/hyvinvointi-kulttuuri-ja-liikuntalautakunta/2026-11-18": {
     "highlights": {
       "en": [
@@ -297,6 +354,167 @@
       "en": "Oulu City Board Group Division met on 17 November 2026. The division accepted the proposal and decided to approve the repair construction programme 2027–2029 as appended. The programme covers basic renovation of city-owned properties and premises, space changes required by operations, energy-saving projects, replacement of kitchen equipment, warranty tasks and alterations. It may also include replacement new-building investments. EUR 15.5 million has been proposed for property repair appropriations in the 2027 budget, and the City Council will consider the budget on 7 December 2026. Occupational safety and health were taken into account in preparation. Oulun Tilapalvelut –liikelaitos is responsible for implementation. The decision cannot be appealed.",
       "fi": "Oulun kaupunginhallituksen konsernijaosto kokoontui 17.11.2026. Jaosto hyväksyi esityksen ja päätti hyväksyä liitteen mukaisen korjausrakentamisohjelman 2027–2029. Ohjelma kattaa kaupungin omistamien kiinteistöjen ja toimitilojen perusparantamisen, toiminnan edellyttämät tilamuutokset, energiasäästöhankkeet, keittiölaitteiden uusimisen, takuuaikaiset tehtävät ja muutostyöt. Se voi sisältää myös korvaavia uudisrakennusinvestointeja. Vuoden 2027 talousarvioon on esitetty 15,5 M€ kiinteistöjen korjausmäärärahaksi, ja kaupunginvaltuusto käsittelee talousarviota 7.12.2026. Ohjelman valmistelussa on otettu huomioon työsuojelu ja terveys. Rakennusomaisuuden taseyksikkö vastaa ohjelman rahoituksesta, ja Oulun Tilapalvelut –liikelaitos vastaa toteutuksesta. Päätöksellä ei ole muutoksenhakuoikeutta.",
       "sv": "Oulun kaupunginhallituksen konsernijaosto sammanträdde 17.11.2026. Utskottet godkände förslaget och beslutade godkänna reparationsbyggnadsprogrammet 2027–2029 enligt bilagan. Programmet omfattar renovering av stadens egna fastigheter och lokaler, lokalförändringar som verksamheten kräver, energisparprojekt, utbyte av köksutrustning, garantiåtaganden och ändringsarbeten. Det kan också innehålla ersättande nybyggnadsinvesteringar. För 2027 har 15,5 M€ föreslagits som reparationsanslag i budgeten, och stadsfullmäktige behandlar budgeten 7.12.2026. Beredningen har beaktat arbetsmiljö och hälsa. Rakennusomaisuuden taseyksikkö svarar för programmets finansiering, och Oulun Tilapalvelut –liikelaitos svarar för genomförandet. Beslutet får inte överklagas."
+    }
+  },
+  "oulu/kaupunginhallitus/2026-10-16": {
+    "highlights": {
+      "en": [
+        "Susanna Kisner was elected new chair of the tarkastustoimikunta from 1.11.2026.",
+        "Jarmo J. Husson was appointed new deputy member of the yhdyskuntalautakunta from 1.11.2026.",
+        "The City Board reserved EUR 116,371 for co-financing of five OIA projects for 2027–2029.",
+        "The municipal tax rate was set at 8,10 for 2027, and property tax rates were not changed. The budget discussion was interrupted and continues on 10.11.2026."
+      ],
+      "fi": [
+        "Tarkastustoimikunnan uudeksi puheenjohtajaksi valittiin Susanna Kisner 1.11.2026 alkaen.",
+        "Yhdyskuntalautakunnan uudeksi varaedustajaksi nimitettiin Jarmo J. Husson 1.11.2026 alkaen.",
+        "Kaupunginhallitus varasi 116 371 euroa viiden OIA-hankkeen osarahoitukseen vuosille 2027–2029.",
+        "Tuloveroprosentiksi vahvistettiin 8,10 vuodelle 2027; kiinteistöveroprosentteja ei muutettu. Talousarviokeskustelu keskeytyi ja jatkuu 10.11.2026."
+      ],
+      "sv": [
+        "Susanna Kisner valdes till ny ordförande för tarkastustoimikunta från och med 1.11.2026.",
+        "Jarmo J. Husson utsågs till ny vice ledamot i yhdyskuntalautakunta från och med 1.11.2026.",
+        "Stadsstyrelsen reserverade 116 371 euro till medfinansiering av fem OIA-projekt för åren 2027–2029.",
+        "Kommunalskattesatsen fastställdes till 8,10 för 2027, och fastighetsskattesatserna ändrades inte. Budgetdiskussionen avbröts och fortsätter 10.11.2026."
+      ]
+    },
+    "input_sha256": "6e5c5bc5cb86db387ccad0e804d0e65558c0d62b4739a3746a0d87bd6c21baf3",
+    "items": {
+      "1": {
+        "brief": {
+          "en": "Kaupunginhallitus accepted the proposal. The chair's term in Tarkastustoimikunta ends on 31.10.2026. Susanna Kisner was elected as the new chair from 1.11.2026 for the remainder of the term.",
+          "fi": "Kaupunginhallitus hyväksyi esityksen. Tarkastustoimikunnan puheenjohtajan kausi päättyy 31.10.2026. Uudeksi puheenjohtajaksi valittiin Susanna Kisner 1.11.2026 alkaen jäljellä olevaksi toimikaudeksi.",
+          "sv": "Kaupunginhallitus godkände förslaget. Tarkastustoimikunnan ordförandens mandat upphör 31.10.2026. Ny ordförande valdes till Susanna Kisner från 1.11.2026 för återstående mandatperiod."
+        },
+        "sha": "350a877d07635720dec178b2bbe892cc33b4a9dd66b5af72479ad3f383645fa6"
+      },
+      "10": {
+        "brief": {
+          "en": "The City Board reserved EUR 116,371 for 2027–2029 for co-financing of five OIA project entities from the City Board's development portfolio appropriations at cost centre 3431. A member declared themselves disqualified and left the meeting for the consideration and decision-making.",
+          "fi": "Kaupunginhallitus varasi 116 371 euroa vuosille 2027–2029 viiden OIA-hankekokonaisuuden osarahoitukseen kehittämissalkkujen määrärahoista kustannuspaikalta 3431. Jäsen ilmoitti olevansa esteellinen ja poistui kokouksesta asian käsittelyn ja päätöksenteon ajaksi.",
+          "sv": "Stadsstyrelsen reserverade 116 371 euro för åren 2027–2029 till medfinansiering av fem OIA-projekthelheter ur stadsstyrelsens utvecklingsportföljers anslag från kostnadsställe 3431. En medlem förklarade sig jävig och lämnade mötet under ärendets behandling och beslutande."
+        },
+        "sha": "5caaac9bf3ae0804e486b01a2a430ac39c6466ee87615d69774cd70d06a4c9d8"
+      },
+      "11": {
+        "brief": {
+          "en": "The City Board approved the principles for rewarding athletes from Oulu who have succeeded in international competitions. In the future, athletes who have won a medal in an Olympic or Paralympic sport will be rewarded with grants.",
+          "fi": "Kaupunginhallitus hyväksyi arvokisoissa menestyneiden oululaisurheilijoiden palkitsemisen periaatteet. Jatkossa stipendeillä palkitaan urheilijoita, jotka ovat voittaneet mitalin olympia- tai paralympialajissa.",
+          "sv": "Stadsstyrelsen godkände principerna för belöning av idrottare från Uleåborg som har framgångsats i internationella tävlingar. Fortsättningsvis belönas idrottare med stipendier om de har vunnit en medalj i en olympisk eller paralympisk gren."
+        },
+        "sha": "a7dfad20e485b68057514bf07d997b6ff0b2981b05510546773735e72f31535d"
+      },
+      "12": {
+        "brief": {
+          "en": "The City Board decided to move the due date of the second instalment of the contractual compensation under the land use agreement for plot 564–3–38–3 to 30.11.2026. Annual interest of 2 per cent applies from 2.2.25.",
+          "fi": "Kaupunginhallitus päätti siirtää Oulun Rakennusteho Oy:n tontin 564–3–38–3 maankäyttösopimuksen toisen maksuerän eräpäivää 30.11.2026 asti. Maksulle sovelletaan 2 prosentin vuotuista korkoa 2.2.25 alkaen.",
+          "sv": "Stadsstyrelsen beslöt att förfallodagen för den andra betalningsomgången av ersättningen enligt markanvändningsavtalet för tomten 564–3–38–3 skjuts upp till 30.11.2026. Räntan är 2 procent per år från och med 2.2.25."
+        },
+        "sha": "a77a07d58c81c115ba7dbadcc2bd9987ae06e0e5f5a3d169213462bedb338b1c"
+      },
+      "13": {
+        "brief": {
+          "en": "The City Board approved the action plan for the public sector energy efficiency agreement for the agreement period 2026–2035. The environmental programme monitoring group is responsible for monitoring and steering of the agreement's obligations and reporting.",
+          "fi": "Kaupunginhallitus hyväksyi julkisen alan energiatehokkuussopimuksen toimintasuunnitelman sopimuskaudelle 2026–2035. Ympäristöohjelman seurantaryhmä vastaa sopimuksen velvoitteiden ja raportoinnin seurannasta ja ohjauksesta.",
+          "sv": "Stadsstyrelsen godkände handlingsplanen för det offentliga sektorns energieffektivitetsavtal för avtalsperioden 2026–2035. Miljöprogrammets uppföljningsgrupp ansvarar för uppföljning och styrning av avtalets förpliktelser och rapportering."
+        },
+        "sha": "b92ecc0a499ad9e02c50e28ea4d964cc336406cb47ddc7951ee21c5313aec04e"
+      },
+      "14": {
+        "brief": {
+          "en": "The City Board accepted the proposal and will give the group administration's prepared response to the council initiative. The initiative proposes a property tax rate of 4.00 percent for unbuilt building plots.",
+          "fi": "Kaupunginhallitus hyväksyi päätösehdotuksen ja antaa valtuustoaloitteeseen konsernihallinnon valmisteleman vastauksen. Aloitteessa esitetään rakentamattomien rakennuspaikkojen kiinteistöveroprosentiksi 4,00 %.",
+          "sv": "Stadsstyrelsen godkände förslaget och ger konserniförvaltningens svar på fullmäktigeinitiativet. Initiativet föreslår att fastighetsskatteprocenten för obebyggda tomter ska vara 4,00 %."
+        },
+        "sha": "ae610b7725686548859c9b97abeaeb0e875b204bafa67eeca66b64859bd44611"
+      },
+      "15": {
+        "brief": {
+          "en": "One member proposed that the income tax rate be set at 8.00. The proposal was not seconded and lapsed. The City Board accepted the city manager's proposal, which means that the income tax rate is 8.10 percent and that property tax rates will not be changed for 2027.",
+          "fi": "Yksi jäsen esitti, että tuloveroprosentiksi vahvistetaan 8,00. Esitystä ei kannatettu, joten se raukesi. Kaupunginhallitus hyväksyi kaupunginjohtajan päätösehdotuksen, jonka mukaan tuloveroprosentti on 8,10 ja kiinteistöveroprosentteja ei muuteta vuodelle 2027.",
+          "sv": "En medlem föreslog att kommunalskattesatsen skulle fastställas till 8,00. Förslaget understöddes inte och föll. Stadsstyrelsen godkände stadsdirektörens förslag, vilket innebär att kommunalskattesatsen är 8,10 och att fastighetsskattesatserna inte ändras för 2027."
+        },
+        "sha": "12f07bec246b03dc76c3f5581e6ed572e773b342e599ff7122f8abac607f47e4"
+      },
+      "16": {
+        "brief": {
+          "en": "The City Board held a general discussion on the budget proposal and suspended consideration of the matter. Consideration will continue at the meeting on 10.11.2026.",
+          "fi": "Kaupunginhallitus kävi yleiskeskustelua talousarvioesityksestä ja keskeytti asian käsittelyn. Käsittelyä jatketaan 10.11.2026 kokouksessa.",
+          "sv": "Stadsstyrelsen höll en allmän diskussion om budgetförslaget och avbröt behandlingen av ärendet. Behandlingen fortsätter vid mötet den 10.11.2026."
+        },
+        "sha": "e9384022dd44b23c8a7ca048ecda126641f0835575b1771450f4745c8a99ff35"
+      },
+      "2": {
+        "brief": {
+          "en": "Kaupunginhallitus granted leave from the deputy member position in Yhdyskuntalautakunta and appointed Jarmo J. Husson as the new deputy member from 1.11.2026 for the remainder of the term.",
+          "fi": "Kaupunginhallitus myönsi eron yhdyskuntalautakunnan varaedustajan tehtävästä ja nimesi uudeksi varaedustajaksi Jarmo J. Husson 1.11.2026 alkaen jäljellä olevaksi toimikaudeksi.",
+          "sv": "Kaupunginhallitus beviljade avsked från uppdraget som suppleant i Yhdyskuntalautakunta och utsåg Jarmo J. Husson till ny suppleant från 1.11.2026 för återstående mandatperiod."
+        },
+        "sha": "01b67c6ac3a1bf7c21b66ef8721d060db8428fdeffb8dc0c58b1016bdb785850"
+      },
+      "3": {
+        "brief": {
+          "en": "Kaupunginhallitus granted leave from the deputy membership and appointed a new deputy member for the remainder of the term.",
+          "fi": "Kaupunginhallitus myönsi eron varajäsenyydestä ja valitsi uuden varajäsenen jäljellä olevaksi toimikaudeksi.",
+          "sv": "Kaupunginhallitus beviljade avsked från suppleantuppdraget och utsåg en ny suppleant för återstående mandatperiod."
+        },
+        "sha": "5e6105084a52ffb3df1c658e3375ad7d5ebbb2c5af927e4ace7cdfad847a1ce5"
+      },
+      "4": {
+        "brief": {
+          "en": "Kaupunginhallitus accepted the proposal and updated the committee's composition. Mikko Merihaara was elected as the new member and Veli-Pekka Pohjola as the new deputy member.",
+          "fi": "Kaupunginhallitus hyväksyi esityksen ja päivitti toimikunnan kokoonpanoa. Uudeksi jäseneksi valittiin Mikko Merihaara ja uudeksi varajäseneksi Veli-Pekka Pohjola.",
+          "sv": "Kaupunginhallitus godkände förslaget och uppdaterade utskottets sammansättning. Ny medlem valdes till Mikko Merihaara och ny suppleant till Veli-Pekka Pohjola."
+        },
+        "sha": "c752b9b3c7747eef27a8d16fa49f6a79512b266bbed530e9dede77b59cd4c64b"
+      },
+      "5": {
+        "brief": {
+          "en": "Kaupunginhallitus approved the implementation of kaupunginvaltuusto's decisions from the meeting on 5.10.2026.",
+          "fi": "Kaupunginhallitus hyväksyi kaupunginvaltuuston 5.10.2026 kokouksen päätösten täytäntöönpanon.",
+          "sv": "Kaupunginhallitus godkände verkställigheten av kaupunginvaltuuston beslut från mötet 5.10.2026."
+        },
+        "sha": "aebc1303481b51a3b57fcaff878998d168f722bd15f263eabdfeac702b0ff0cf"
+      },
+      "6": {
+        "brief": {
+          "en": "The City Board approved the proposal and authorizes members of the City Board, the Chairmanship of the City Council, and the chairs of the yhdyskuntalautakunta, hyvinvointi-, kulttuuri ja liikuntalautakunta and sivistyslautakunta to attend the Pohjois-Pohjanmaan maakuntapäivät 2.–3.11.2026 at Oulu Theatre. Remuneration is paid from the City Board cost centre 3417.",
+          "fi": "Kaupunginhallitus hyväksyi päätösehdotuksen ja oikeuttaa kaupunginhallituksen jäsenet, kaupunginvaltuuston puheenjohtajiston sekä yhdyskuntalautakunnan, hyvinvointi-, kulttuuri ja liikuntalautakunnan ja sivistyslautakunnan puheenjohtajat osallistumaan Pohjois-Pohjanmaan maakuntapäiville 2.–3.11.2026 Oulun teatterilla. Palkkiot maksetaan kaupunginhallituksen kustannuspaikalta 3417.",
+          "sv": "Stadsstyrelsen godkände förslaget och bemyndigar medlemmar i kaupunginhallitus, kaupunginvaltuuston puheenjohtajisto samt ordförandena för yhdyskuntalautakunta, hyvinvointi-, kulttuuri ja liikuntalautakunta och sivistyslautakunta att delta i Pohjois-Pohjanmaan maakuntapäivät 2.–3.11.2026 på Oulun teatteri. Arvoden betalas från kaupunginhallituksen kostnadsställe 3417."
+        },
+        "sha": "d8039b51d53f117b88146c9f2f7c356b6201b62289645fad9e3940e55d9ffdbf"
+      },
+      "7": {
+        "brief": {
+          "en": "The City Board approved the proposal and authorizes members of the City Council, City Board, yhdyskuntalautakunta and rakennuslautakunta to attend the electricity transition current review council seminar 9.11.2026 at the Council Chamber of Oulu City Hall. Remuneration is paid from the City Council cost centre 3410.",
+          "fi": "Kaupunginhallitus hyväksyi päätösehdotuksen ja oikeuttaa kaupunginvaltuuston, kaupunginhallituksen, yhdyskuntalautakunnan ja rakennuslautakunnan jäsenet osallistumaan sähkömurroksen ajankohtaiskatsaus -valtuustoseminaariin 9.11.2026 Oulun kaupungintalon valtuustosalissa. Palkkiot maksetaan kaupunginvaltuuston kustannuspaikalta 3410.",
+          "sv": "Stadsstyrelsen godkände förslaget och bemyndigar medlemmar i kaupunginvaltuusto, kaupunginhallitus, yhdyskuntalautakunta och rakennuslautakunta att delta i sähkömurroksen ajankohtaiskatsaus -valtuustoseminaari 9.11.2026 i Oulun kaupungintalon valtuustosalissa. Arvoden betalas från kaupunginvaltuuston kostnadsställe 3410."
+        },
+        "sha": "85a3551bb0c9f2230723c6c75d91cf2ffca909bd692fe22970e2bf35f3cd78b0"
+      },
+      "8": {
+        "brief": {
+          "en": "The City Board noted the decisions of the Administrative Court of Northern Finland and the Administrative Court of Vaasa on complaints concerning construction and water management.",
+          "fi": "Kaupunginhallitus merkitsi tiedoksi Pohjois-Suomen hallinto-oikeuden ja Vaasan hallinto-oikeuden päätökset valituksista, jotka koskivat rakentamista ja vesitaloutta.",
+          "sv": "Stadsstyrelsen antecknade Pohjois-Suomen hallinto-oikeuden och Vaasan hallinto-oikeuden beslut om besvär som gällde byggande och vattenärenden till kännedom."
+        },
+        "sha": "7023c48e8aaa4d5f95a2cf7144d7ef226c500ef528c73dbc431452993ea33024"
+      },
+      "9": {
+        "brief": {
+          "en": "The City Board did not take the decisions of the committees, boards and officials for its own consideration.",
+          "fi": "Kaupunginhallitus ei ottanut lautakuntien, johtokuntien ja viranhaltijoiden päätöksiä omaan käsiteltäväkseen.",
+          "sv": "Stadsstyrelsen tog inte nämndernas, styrelsernas och tjänstemännens beslut till egen behandling."
+        },
+        "sha": "e2fb5875497cbc1c2d7aee990af2dcbab613fd53b5be391c0e856ea9e6b836bb"
+      }
+    },
+    "lang": "fi",
+    "model": "nvidia/nemotron-3.5-super-vl:free",
+    "stage": "minutes",
+    "summary": {
+      "en": "The City Board of Oulu met on 16.10.2026. It approved the change of chair of the tarkastustoimikunta: Susanna Kisner was elected new chair from 1.11.2026. Jarmo J. Husson was appointed new deputy member of the yhdyskuntalautakunta from 1.11.2026. Mikko Merihaara was elected to the valtuustoryhmien puheenjohtajien toimikunta and Veli-Pekka Pohjola as deputy member. The City Board approved implementation of the City Council's decisions of 5.10.2026. It authorised members to attend the Pohjois-Pohjanmaan maakuntapäivät on 2.–3.11.2026 and the sähkömurroksen ajankohtaiskatsaus -valtuustoseminaari on 9.11.2026. Administrative court decisions were noted. Committee decisions were not taken up for consideration. The City Board reserved EUR 116,371 for co-financing of five OIA projects for 2027–2029. It approved reward principles for successful athletes and the action plan for the energy efficiency agreement 2026–2035. A property tax rate of 4,00 per cent was proposed for unbuilt building sites. The municipal tax rate was set at 8,10, and property tax rates were not changed. The budget discussion was interrupted and continues on 10.11.2026.",
+      "fi": "Oulun kaupunginhallitus kokoontui 16.10.2026. Se hyväksyi tarkastustoimikunnan puheenjohtajan vaihdoksen: Susanna Kisner valittiin uudeksi puheenjohtajaksi 1.11.2026 alkaen. Yhdyskuntalautakunnan varaedustajaksi nimitettiin Jarmo J. Husson. Valtuustoryhmien puheenjohtajien toimikuntaan valittiin Mikko Merihaara ja varajäseneksi Veli-Pekka Pohjola. Kaupunginhallitus hyväksyi valtuuston 5.10.2026 päätösten täytäntöönpanon. Se oikeutti jäsenet osallistumaan Pohjois-Pohjanmaan maakuntapäiville 2.–3.11.2026 ja sähkömurroksen ajankohtaiskatsaus -valtuustoseminaariin 9.11.2026. Hallinto-oikeuksien päätökset merkittiin tiedoksi. Lautakuntien päätöksiä ei otettu käsiteltäväksi. Kaupunginhallitus varasi 116 371 euroa viiden OIA-hankkeen osarahoitukseen vuosille 2027–2029. Se hyväksyi arvokisoissa menestyneiden urheilijoiden palkitsemisperiaatteet ja energiatehokkuussopimuksen toimintasuunnitelman 2026–2035. Kiinteistöveroprosentiksi esitettiin 4,00 prosenttia rakentamattomien rakennuspaikkojen osalta. Tuloveroprosentiksi vahvistettiin 8,10, ja kiinteistöveroprosentteja ei muutettu. Talousarviokeskustelu keskeytyi, ja se jatkuu 10.11.2026.",
+      "sv": "Uleåborgs stadsstyrelse sammanträdde 16.10.2026. Den godkände byte av ordförande för tarkastustoimikunta: Susanna Kisner valdes till ny ordförande från och med 1.11.2026. Till vice ledamot i yhdyskuntalautakunta utsågs Jarmo J. Husson. Till ledamot i valtuustoryhmien puheenjohtajien toimikunta valdes Mikko Merihaara och till suppleant Veli-Pekka Pohjola. Stadsstyrelsen godkände verkställigheten av stadsfullmäktiges beslut från 5.10.2026. Den bemyndigade medlemmar att delta i Pohjois-Pohjanmaan maakuntapäivillä 2.–3.11.2026 och i sähkömurroksen ajankohtaiskatsaus -valtuustoseminaari 9.11.2026. Förvaltningsdomstolarnas beslut antecknades till kännedom. Nämndernas beslut togs inte upp till behandling. Stadsstyrelsen reserverade 116 371 euro till medfinansiering av fem OIA-projekt för åren 2027–2029. Den godkände belöningsprinciperna för idrottare och handlingsplanen för energieffektivitetsavtalet 2026–2035. Fastighetsskatteprocenten föreslogs vara 4,00 procent för obebyggda tomter. Kommunalskattesatsen fastställdes till 8,10, och fastighetsskattesatserna ändrades inte. Budgetdiskussionen avbröts och fortsätter 10.11.2026."
     }
   },
   "oulu/kaupunginhallitus/2026-11-03": {
@@ -792,6 +1010,79 @@
       "sv": "Oulun seudun ympäristötoimi -liikelaitoksen johtokunta kokoontui 28.10.2026. Johtokunta antecknade Oulun seudun ympäristötoimen talouden seurannan för tiden 1.1.–30.9.2026 till kännedom. Den godkände valvontasuunnitelman enligt ympäristönsuojelu- ja jätelain för åren 2027–2029. Planen täcker Hailuodon, Kempeleen, Limingan, Lumijoen, Muhoksen ja Tyrnävän sekä Oulun kaupungin. Moottorikelkkailureitti Soidinharju–Kierikki återremitterades enhälligt till beredning, eftersom Museoviraston lausunto måste beaktas tydligare vid omberedningen. Johtokunta förelade Raimo Postareff en löpande vite för att verkställa elintarvikelain föreläggande. Muhoksen eläinlääkärin vastaanottotilan hyresavtal i Vainiotie 28 sägs upp så att det upphör den 31.12.2026. Ajankohtaiset asiat antecknades till kännedom. Behandlade ärenden var sju."
     }
   },
+  "oulu/rakennuslautakunta/2026-10-14": {
+    "highlights": {
+      "en": [
+        "Rakennuslautakunta rejected Pekant Kiinteistöt Oy's rectification request (EUR 69,969.82) concerning Pikkukiventie 5. Member Elias Tornberg's proposal to return the matter for new preparation lost in the vote.",
+        "Rakennuslautakunta approved the construction method guidelines for Haukipudas riverbank along Käkuja-Jokelantie for plan area 564-2588.",
+        "A building permit was granted for an ice hall to Kiinteistöosakeyhtiö Oulun Linnanmaa III at Kauppalinnankatu 8; work may start conditionally before the decision enters into force and must be completed within five years.",
+        "A building permit was granted for a warehouse to Potential Toimitilat Oy at Kuusamontie 3250 in Arkala; securities of EUR 5,000 for foundation work and EUR 30,000 for the entire project are required."
+      ],
+      "fi": [
+        "Rakennuslautakunta hylkäsi Pekant Kiinteistöt Oy:n oikaisuvaatimuksen (69 969,82 euroa) Pikkukiventie 5:stä. Jäsen Elias Tornbergin esitys asian palauttamisesta uudelleen valmisteltavaksi hävisi äänestyksessä.",
+        "Rakennuslautakunta hyväksyi Haukiputaan jokirannan rakentamistapaohjeen kaava-alueella 564-2588.",
+        "Rakennuslupa jäähallille Kiinteistöosakeyhtiö Oulun Linnanmaa III:lle Kauppalinnankatu 8:lle; työt aloitettavissa ehdollisesti ennen lainvoimaa, valmius viidessä vuodessa.",
+        "Rakennuslupa varastohallille Potential Toimitilat Oy:lle Kuusamontie 3250:een Arkalassa; vakuudet 5 000 ja 30 000 euroa."
+      ],
+      "sv": [
+        "Byggnadsnämnden avslog Pekant Kiinteistöt Oy:s omprövningsbegäran (69 969,82 euro) gällande Pikkukiventie 5. Medlemmen Elias Tornbergs förslag att återremittera ärendet för ny beredning förlorade i omröstningen.",
+        "Nämnden godkände byggnadsmetodanvisningen för Haukipudas strand längs Käkuja-Jokelantie för plandområde 564-2588.",
+        "Bygglov beviljades för en ishockeyhall till Kiinteistöosakeyhtiö Oulun Linnanmaa III på Kauppalinnankatu 8; arbetena kan inledas villkorligt innan beslutet vunnit laga kraft och ska vara klara inom fem år.",
+        "Bygglov beviljades för ett lager till Potential Toimitilat Oy på Kuusamontie 3250 i Arkala; säkerheter på 5 000 euro för grundarbeten och 30 000 euro för hela projektet krävs."
+      ]
+    },
+    "input_sha256": "0344e6a6e30fb2cc1a9a569fef52ad844c4dd3e6721c0660821d6b7ac3da86f7",
+    "items": {
+      "1": {
+        "brief": {
+          "en": "The Building Board rejected Pekant Kiinteistöt Oy's request for rectification, in which the company claimed EUR 69,969.82 in compensation for incorrect building information at the address Pikkukiventie 5. Member Elias Tornberg's proposal to send the matter back for new preparation lost the vote.",
+          "fi": "Rakennuslautakunta hylkäsi Pekant Kiinteistöt Oy:n oikaisuvaatimuksen, jossa yhtiö vaati 69 969,82 euron vahingonkorvausta virheellisistä rakennustiedoista osoitteessa Pikkukiventie 5. Jäsen Elias Tornbergin esitys asian palauttamisesta uudelleen valmisteltavaksi hävisi äänestyksessä.",
+          "sv": "Byggnadsnämnden avslog Pekant Kiinteistöt Oy:s omprövningsbegäran, där bolaget krävde 69 969,82 euroa i skadestånd för felaktiga byggnadsuppgifter på adressen Pikkukiventie 5. Ledamot Elias Tornbergs förslag att skicka tillbaka ärendet för ny beredning förlorade omröstningen."
+        },
+        "sha": "2c122a714d6183f2b22e0b2dee1f0cfa768d2de2a44833eb731dcb8a3c3b3966"
+      },
+      "2": {
+        "brief": {
+          "en": "The Building Board approved the construction method guidelines for Haukiputaan jokiranta, which will be followed in permit preparation, counseling and guidance on plan area 564-2588, case number 12757/2023.",
+          "fi": "Rakennuslautakunta hyväksyi Haukiputaan jokirannan rakentamistapaohjeen, jota noudatetaan lupavalmistelussa, neuvonnassa ja ohjauksessa kaava-alueella 564-2588, dnro 12757/2023.",
+          "sv": "Byggnadsnämnden godkände byggnadsmetodvägledningen för Haukiputaan jokiranta, som tillämpas i lovberedning, rådgivning och vägledning på planområde 564-2588, ärendenummer 12757/2023."
+        },
+        "sha": "a95f7847052e0a5b3b04613bc4722f6fa181bd4325c205f0e6dd490eed9f052c"
+      },
+      "3": {
+        "brief": {
+          "en": "The Building Board approved the building permit application for an ice hall to Kiinteistöosakeyhtiö Oulun Linnanmaa III at Kauppalinnankatu 8. Construction may start conditionally before the decision becomes legally valid, and the work must be completed within five years.",
+          "fi": "Rakennuslautakunta hyväksyi rakentamislupahakemuksen jäähallille Kiinteistöosakeyhtiö Oulun Linnanmaa III:lle Kauppalinnankatu 8:lle. Rakennustyöt voidaan aloittaa ehdollisesti ennen lainvoimaa, ja työ on saatettava loppuun viidessä vuodessa.",
+          "sv": "Byggnadsnämnden godkände bygglovsansökan för en ishall till Kiinteistöosakeyhtiö Oulun Linnanmaa III på Kauppalinnankatu 8. Byggnadsarbetena får inledas villkorat före laga kraft, och arbetet ska vara slutfört inom fem år."
+        },
+        "sha": "c0217151ec19314290ac9f1152c9f65cfb734bd2dcb46f3e369a4a03b3122355"
+      },
+      "4": {
+        "brief": {
+          "en": "The Building Board approved the building permit application for a storage hall to Potential Toimitilat Oy at Kuusamontie 3250 in Arkkala. Construction may start entirely before the decision becomes legally valid, and the project requires a security of EUR 5,000 for foundation work and EUR 30,000 for the entire project.",
+          "fi": "Rakennuslautakunta hyväksyi rakentamislupahakemuksen varastohallille Potential Toimitilat Oy:lle Kuusamontie 3250:een Arkalassa. Rakentaminen voidaan aloittaa kokonaan ennen lupapäätöksen lainvoimaa, ja hankkeelle vaaditaan 5000 euron vakuus perustustöille ja 30 000 euron vakuus koko hankkeelle.",
+          "sv": "Byggnadsnämnden godkände bygglovsansökan för ett förrådshall till Potential Toimitilat Oy på Kuusamontie 3250 i Arkkala. Byggnadsarbetena får inledas helt före att beslutet vunnit laga kraft, och projektet kräver en säkerhet på 5000 euro för grundarbeten och 30 000 euro för hela projektet."
+        },
+        "sha": "34afee14556a74bb6605f7521d1425b7a43a7d8bcdfe0623ed5c4a079f9c16ed"
+      },
+      "5": {
+        "brief": {
+          "en": "Current matters of building supervision were noted for information.",
+          "fi": "Rakennusvalvonnan ajankohtaiset asiat merkittiin tiedoksi.",
+          "sv": "Byggnadsövervakningens aktuella ärenden antecknades till kännedom."
+        },
+        "sha": "4ce3e32ec6b4eea361ac24dfe312c71d1bee67bda132068233f49cdc2d9507b7"
+      }
+    },
+    "lang": "fi",
+    "model": "nvidia/nemotron-3.5-super-vl:free",
+    "stage": "minutes",
+    "summary": {
+      "en": "Rakennuslautakunta met on 14 October 2026. It rejected Pekant Kiinteistöt Oy's request for rectification, in which the company claimed EUR 69,969.82 in compensation for incorrect building data at Pikkukiventie 5. Member Elias Tornberg's proposal to return the matter for new preparation lost in the vote. The Board approved the construction method guidelines for Haukipudas riverbank along Käkuja-Jokelantie for plan area 564-2588 (dnro 12757/2023). It also granted a building permit for an ice hall to Kiinteistöosakeyhtiö Oulun Linnanmaa III at Kauppalinnankatu 8. Work may start conditionally before the decision enters into force and must be completed within five years. In addition, a building permit was granted for a warehouse to Potential Toimitilat Oy at Kuusamontie 3250 in Arkala. Construction may start entirely before the decision enters into force, and the project requires a security of EUR 5,000 for foundation work and EUR 30,000 for the entire project. Current building supervision matters were noted for information.",
+      "fi": "Rakennuslautakunta kokoontui 14.10.2026. Se hylkäsi Pekant Kiinteistöt Oy:n oikaisuvaatimuksen, jossa yhtiö vaati 69 969,82 euron vahingonkorvausta virheellisistä rakennustiedoista osoitteessa Pikkukiventie 5. Jäsen Elias Tornbergin esitys asian palauttamisesta uudelleen valmisteltavaksi hävisi äänestyksessä. Lautakunta hyväksyi Haukiputaan jokirannan rakentamistapaohjeen kaava-alueella 564-2588 (dnro 12757/2023). Se hyväksyi myös rakentamisluvan jäähallille Kiinteistöosakeyhtiö Oulun Linnanmaa III:lle Kauppalinnankatu 8:lle. Työt voidaan aloittaa ehdollisesti ennen lainvoimaa, ja ne on saatettava loppuun viidessä vuodessa. Lisäksi myönnettiin rakentamislupa varastohallille Potential Toimitilat Oy:lle Kuusamontie 3250:een Arkalassa. Rakentaminen voi alkaa ennen lainvoimaa, ja hankkeelle vaaditaan 5 000 euron vakuus perustustöille ja 30 000 euron vakuus koko hankkeelle. Rakennusvalvonnan ajankohtaiset asiat merkittiin tiedoksi.",
+      "sv": "Byggnadsnämnden i Uleborg sammanträdde 14.10.2026. Den avslog Pekant Kiinteistöt Oy:s omprövningsbegäran, där bolaget krävde 69 969,82 euro i skadestånd för felaktiga byggnadsuppgifter på Pikkukiventie 5. Medlemmen Elias Tornbergs förslag att återremittera ärendet för ny beredning förlorade i omröstningen. Nämnden godkände byggnadsmetodanvisningen för Haukipudas strand längs Käkuja-Jokelantie för plandområde 564-2588 (dnro 12757/2023). Den beviljade också bygglov för en ishockeyhall till Kiinteistöosakeyhtiö Oulun Linnanmaa III på Kauppalinnankatu 8. Arbetena kan inledas villkorligt innan beslutet vunnit laga kraft och ska vara klara inom fem år. Dessutom beviljades bygglov för ett lager till Potential Toimitilat Oy på Kuusamontie 3250 i Arkala. Byggandet kan inledas helt innan beslutet vunnit laga kraft, och projektet kräver en säkerhet på 5 000 euro för grundarbeten och 30 000 euro för hela projektet. Byggnadstillsynens aktuella ärenden antecknades till kännedom."
+    }
+  },
   "oulu/rakennuslautakunta/2026-11-04": {
     "highlights": {
       "en": [
@@ -936,6 +1227,71 @@
       "en": "The Building Board of the City of Oulu met on 18.11.2026. It noted the current matters of building supervision and official decisions, in which two building inspectors were selected and a substitute climate and correction advisor was appointed. The Board accepted the proposal for a new building regulation for 2027 and submitted it to the City Board and the City Council for approval. The new building regulation is intended to enter into force on 1.1.2027, because the Building Act requires it. The Board also accepted the building supervision fee for 2027. The fee will have a general increase of 3 percent and is intended to enter into force on 1.1.2027. In addition, the Board decided to continue two interruptions of demolition and construction work on properties 564-409-1-152 and 564-22-83-5.",
       "fi": "Rakennuslautakunta kokoontui 18.11.2026. Se merkitsi tiedoksi rakennusvalvonnan ajankohtaiset asiat sekä viranhaltijapäätökset, joissa valittiin kaksi tarkastusarkkitehtiä ja määrättiin ilmastoja korjausneuvojan sijaisuus. Lautakunta hyväksyi esityksen Oulun uudesta rakennusjärjestyksestä vuodelle 2027 ja esitti sen kaupunginhallitukselle ja kaupunginvaltuustolle hyväksyttäväksi. Uusi rakennusjärjestys on tarkoitus saada voimaan 1.1.2027, koska rakentamislaki edellyttää sitä. Lautakunta hyväksyi myös rakennusvalvontataksan vuodelle 2027. Taksaan tulee yleiskorotus 3 prosenttia, ja se on tarkoitus saada voimaan 1.1.2027. Lisäksi lautakunta päätti jatkaa kahta purku- ja rakennustyön keskeyttämistä kiinteistöillä 564-409-1-152 ja 564-22-83-5.",
       "sv": "Byggnadsnämnden i Uleåborgs stad sammanträdde 18.11.2026. Den antecknade byggnadsövervakningens aktuella ärenden och tjänstemannabesluten till kännedom. I besluten valdes två byggnadsinspektörer och en tillförordnad klimat- och korrigeringsrådgivare. Nämnden godkände förslaget till en ny byggnadsordning för 2027 och föreslog att stadsstyrelsen och stadsfullmäktige godkänner den. Den nya byggnadsordningen avses träda i kraft 1.1.2027, eftersom bygglagen kräver det. Nämnden godkände också byggnadsövervakningstaxan för 2027. Taxan får en generell höjning med 3 procent och avses träda i kraft 1.1.2027. Dessutom beslöt nämnden att fortsätta två avbrott av rivnings- och byggnadsarbeten på fastigheterna 564-409-1-152 och 564-22-83-5."
+    }
+  },
+  "oulu/seudullinen-jatehuoltojaosto/2026-10-15": {
+    "highlights": {
+      "en": [
+        "Waste tax for 2027 approved; enters into force on 1.4.2027.",
+        "Mixed waste processing fee increases by 4.2 percent (EUR 0.01/kg).",
+        "Current matters and transport system noted for information.",
+        "Official decisions and deviations (sections 117–127) noted for information."
+      ],
+      "fi": [
+        "Jätetaksa 2027 hyväksytty; voimaan 1.4.2027.",
+        "Sekajätteen käsittelymaksu nousee 4,2 % (0,01 euroa/kg).",
+        "Ajankohtaiset asiat ja kuljetusjärjestelmä merkittiin tiedoksi.",
+        "Viranhaltijapäätökset ja poikkeukset (pykälät 117–127) merkittiin tiedoksi."
+      ],
+      "sv": [
+        "Avfallstaxan 2027 godkänd; i kraft 1.4.2027.",
+        "Behandlingsavgiften för blandat avfall stiger med 4,2 % (0,01 euro/kg).",
+        "Aktuella ärenden och transportsystemet antecknades till kännedom.",
+        "Tjänstemannabeslut och avvikelser (paragraferna 117–127) antecknades till kännedom."
+      ]
+    },
+    "input_sha256": "b6497967ba364def280151ef1179e28f1198e7158b062fb53593c6f4742e42fc",
+    "items": {
+      "1": {
+        "brief": {
+          "en": "The Board noted current waste management matters for information.",
+          "fi": "Jaosto merkitsi tiedoksi jätehuoltojaoston ajankohtaiset asiat.",
+          "sv": "Jaosto antecknade aktuella avfallsärenden till kännedom."
+        },
+        "sha": "3b0fe6ca20c296413d387f81961a1b503c9d704e3375c38dc1e52808fa4c84da"
+      },
+      "2": {
+        "brief": {
+          "en": "The Board noted information on the mixed waste transport system for information.",
+          "fi": "Jaosto merkitsi tiedoksi tiedon sekajätteen kuljetusjärjestelmästä.",
+          "sv": "Jaosto antecknade information om sekajättransportsystemet till kännedom."
+        },
+        "sha": "10f721e3249a7c0136bc01054d871aa476c8bf5f31af6c9ee25209331c448c9f"
+      },
+      "3": {
+        "brief": {
+          "en": "The Board approved the waste tax for 2027 for Hailuoto, Ii, Kempele, Lumijoki, Oulu and Pudasjärvi. The tax enters into force on 1.4.2027.",
+          "fi": "Jaosto hyväksyi Hailuodon, Iin, Kempeleen, Lumijoen, Oulun ja Pudasjärven jätetaksan 2027. Taksa tulee voimaan 1.4.2027.",
+          "sv": "Jaosto godkände avfallstaxan för 2027 för Hailuoto, Ii, Kempele, Lumijoki, Uleåborg och Pudasjärvi. Taxan träder i kraft 1.4.2027."
+        },
+        "sha": "b26c6b9ccd34809cd344855de6676bcd343a40270732735bc75ded6d5472d294"
+      },
+      "4": {
+        "brief": {
+          "en": "The Board noted official decisions and deviations from waste management regulations in Pudasjärvi and Oulu (sections 117–127) for information.",
+          "fi": "Jaosto merkitsi tiedoksi viranhaltijapäätökset ja poikkeukset jätehuoltomääräyksistä Pudasjärvellä ja Oulussa (pykälät 117–127).",
+          "sv": "Jaosto antecknade tjänstemannabeslut och avvikelser från avfallsföreskrifterna i Pudasjärvi och Uleåborg (paragraferna 117–127) till kännedom."
+        },
+        "sha": "f2205a8f7f5b3b6faf23a8f1ed066cd0fedddbe9295241a0b0c9f420f83a3cbc"
+      }
+    },
+    "lang": "fi",
+    "model": "nvidia/nemotron-3.5-super-vl:free",
+    "stage": "minutes",
+    "summary": {
+      "en": "The Oulu Regional Waste Management Board met on 15.10.2026. The Board noted current waste management matters and information on the mixed waste transport system. It approved the waste tax for 2027 for Hailuoto, Ii, Kempele, Lumijoki, Oulu and Pudasjärvi. The tax enters into force on 1.4.2027. Waste charges are raised because waste management costs have increased. Kiertokaari Oy's processing fee for mixed waste is proposed to be increased by 4.2 percent, which raises the price per kilo of mixed waste by EUR 0.01. The Board also noted official decisions and deviations from waste management regulations in Pudasjärvi and Oulu (sections 117–127). No right of appeal applies to decisions on matters noted for information.",
+      "fi": "Oulun seudullinen jätehuoltojaosto kokoontui 15.10.2026. Jaosto merkitsi tiedoksi ajankohtaiset jätehuoltoasiat ja tiedon sekajätteen kuljetusjärjestelmästä. Se hyväksyi Hailuodon, Iin, Kempeleen, Lumijoen, Oulun ja Pudasjärven jätetaksan vuodelle 2027. Taksa tulee voimaan 1.4.2027. Jätemaksuja korotetaan, koska jätehuollon kustannukset ovat nousseet. Kiertokaari Oy:n sekajätteen käsittelymaksua ehdotetaan korotettavaksi 4,2 prosenttia, mikä nostaa sekajätteen kilohintaa 0,01 eurolla. Jaosto merkitsi lisäksi tiedoksi viranhaltijapäätökset ja poikkeukset jätehuoltomääräyksistä Pudasjärvellä ja Oulussa (pykälät 117–127). Ei muutoksenhakuoikeutta tiedoksi merkittyjä asioita koskevissa päätöksissä.",
+      "sv": "Oulun seudullinen jätehuoltojaosto sammanträdde 15.10.2026. Jaosto antecknade aktuella avfallsärenden och information om sekajättransportsystemet till kännedom. Den godkände avfallstaxan för 2027 för Hailuoto, Ii, Kempele, Lumijoki, Uleåborg och Pudasjärvi. Taxan träder i kraft 1.4.2027. Avfallsavgifterna höjs eftersom avfallshanteringens kostnader har stigit. Kiertokaari Oy:s behandlingsavgift för blandat avfall föreslås höjas med 4,2 procent, vilket höjer priset per kilo blandat avfall med 0,01 euro. Jaosto antecknade dessutom till kännedom tjänstemannabeslut och avvikelser från avfallsföreskrifterna i Pudasjärvi och Uleåborg (paragraferna 117–127). Ingen rätt att överklaga beslut som gäller ärenden som antecknats till kännedom."
     }
   },
   "oulu/seudullinen-jatehuoltojaosto/2026-11-19": {
@@ -1414,6 +1770,105 @@
       "en": "The Board of Technical Enterprises met on 29.10.2026. The board accepted the proposal and rejected Luotea Kiinteistöhuolto Oy's rectification request. Oulun Tilapalvelut -liikelaitos's property maintenance procurement decision § 72/2026 was not changed. The board noted for information the managers' reviews and financial monitoring of Oulun Tilapalvelut -liikelaitos and Oulun Vesi -liikelaitos. It approved Oulun Vesi -liikelaitos's tariffs for 2027 unless the city council decides otherwise in connection with budget approval. Water and wastewater charges rise by 4.5 percent, basic charges by 5–22 percent and service charges by 5 percent from the beginning of 2027. The board also did not take official decisions for its own consideration.",
       "fi": "Teknisten liikelaitosten johtokunta kokoontui 29.10.2026. Johtokunta hyväksyi päätösehdotuksen ja hylkäsi Luotea Kiinteistöhuolto Oy:n hankintaoikaisuvaatimuksen. Oulun Tilapalvelut -liikelaitoksen kiinteistöhuollon hankintapäätöstä § 72/2026 ei muutettu. Johtokunta merkitsi tiedoksi Oulun Tilapalvelut - ja Oulun Vesi -liikelaitosten johtajien tilannekatsaukset ja talouden seurannan. Se hyväksyi Oulun Vesi -liikelaitoksen hinnastot vuodelle 2027 ellei kaupunginvaltuusto toisin päätä talousarvion hyväksymisen yhteydessä. Veden ja jäteveden käyttömaksut nousevat 4,5 prosenttia, perusmaksut 5–22 prosenttia ja palvelumaksut 5 prosenttia vuoden 2027 alusta. Johtokunta ei myöskään ottanut viranhaltijapäätöksiä oman käsiteltäväkseen.",
       "sv": "Teknisten liikelaitosten johtokunta sammanträddes 29.10.2026. Johtokunta godkände förslaget och avslog Luotea Kiinteistöhuolto Oy:n omprövningsbegäran. Oulun Tilapalvelut -liikelaitoksen kiinteistöhuollon hankintapäätöstä § 72/2026 inte ändrades. Johtokunta antecknade till kännedom Oulun Tilapalvelut - och Oulun Vesi -liikelaitosten johtajien tilannekatsaukset och talouden seurannan. Den godkände Oulun Vesi -liikelaitosten hinnastot för 2027 om inte stadsfullmäktige beslutar annars i samband med budgetgodkännandet. Vatten- och avloppsavgifterna höjs med 4,5 procent, grundavgifterna med 5–22 procent och serviceavgifterna med 5 procent från och med år 2027. Johtokunta tog inte heller tjänstemannabesluten till egen behandling."
+    }
+  },
+  "oulu/yhdyskuntalautakunta/2026-10-06": {
+    "input_sha256": "062d32e84497106f51a09b14996187ee8e33b933bfe363ce60e860478d0677e0",
+    "items": {
+      "1": {
+        "brief": {
+          "en": "Yhdyskuntalautakunta heard the information and noted it for information.",
+          "fi": "Yhdyskuntalautakunta kuuli kokouksen infot ja merkitsi ne tiedoksi.",
+          "sv": "Yhdyskuntalautakunta hörde informationerna och antecknade dem för kännedom."
+        },
+        "sha": "97a0f71fc963fb1fb3dbca5ab52ef4b30aa3ab296a186926b54e44e11f1ff9c9"
+      },
+      "10": {
+        "brief": {
+          "en": "Yhdyskuntalautakunta approved that a condition be written into the lease for plot 564-78-57-8 rented by Kiinteistöosakeyhtiö Oulun Linnanmaa III: 30 mandatory parking spaces can be counted against payment from the city's parking area on plot 564-78-57-6.",
+          "fi": "Yhdyskuntalautakunta hyväksyi, että Kiinteistöosakeyhtiö Oulun Linnanmaa III:n vuokraamalle tontille 564-78-57-8 kirjataan ehto, jonka mukaan 30 velvoiteautopaikkaa voidaan lukea hyväkseen kaupungin pysäköintialueelta tontilla 564-78-57-6 maksua vastaan.",
+          "sv": "Yhdyskuntalautakunta godkände att ett villkor skrivs in i hyresavtalet för tomten 564-78-57-8 som hyrs av Kiinteistöosakeyhtiö Oulun Linnanmaa III: 30 obligatoriska parkeringsplatser kan räknas till godo mot avgift från stadens parkeringsområde på tomten 564-78-57-6."
+        },
+        "sha": "72f51c08d068e71a1711327abbc17bed627fd11a2e2a6ada571850cd897b3d74"
+      },
+      "11": {
+        "brief": {
+          "en": "Yhdyskuntalautakunta accepted the proposal. The construction obligation period for plot 564-71-81-10 in Hiukkavaara, address Jääkärimarssi 15, leased by Sokkelisepät Oy, was extended until 31.12.2027.",
+          "fi": "Yhdyskuntalautakunta hyväksyi päätösehdotuksen. Sokkelisepät Oy:n vuokraaman tontin 564-71-81-10 rakentamisvelvollisuusaikaa Hiukkavaarassa, osoitteessa Jääkärimarssi 15, jatkettiin 31.12.2027 asti.",
+          "sv": "Yhdyskuntalautakunta godkände förslaget. Byggnadsskyldighetstiden för tomten 564-71-81-10 i Hiukkavaara, adress Jääkärimarssi 15, som hyrs av Sokkelisepät Oy, förlängdes till 31.12.2027."
+        },
+        "sha": "7bb5cb823a3596587e7733f751e470084ab45f34fb968a44aad7f53e2cfaab7a"
+      },
+      "2": {
+        "brief": {
+          "en": "Yhdyskuntalautakunta noted the greetings of Oulu Youth Council ONE for information.",
+          "fi": "Yhdyskuntalautakunta merkitsi Oulun nuorisovaltuusto ONE:n terveiset tiedoksi.",
+          "sv": "Yhdyskuntalautakunta antecknade Oulun nuorisovaltuusto ONE:n hälsningar för kännedom."
+        },
+        "sha": "c56167354ecf81ac81a3b98936c22efec5172baef5030d6bdcb12e657af4dcfb"
+      },
+      "3": {
+        "brief": {
+          "en": "Yhdyskuntalautakunta approved the proposal not to take the decisions of the regional public transport committee, the regional waste management committee and officials into consideration.",
+          "fi": "Yhdyskuntalautakunta hyväksyi päätösehdotuksen, ettei seudullisen joukkoliikennejaoston, seudullisen jätehuoltojaoston ja viranhaltijoiden päätöksiä oteta käsiteltäväksi.",
+          "sv": "Yhdyskuntalautakunta godkände förslaget att inte ta besluten från seudullisen joukkoliikennejaoston, seudullisen jätehuoltojaoston och tjänstemännen till behandling."
+        },
+        "sha": "6987a9a82c15393a05b847c7572f3ffb2ae03373cb01273c25b752944a948fbb"
+      },
+      "4": {
+        "brief": {
+          "en": "Yhdyskuntalautakunta approved the meeting schedule for 2027.",
+          "fi": "Yhdyskuntalautakunta hyväksyi kokousaikataulun vuodelle 2027.",
+          "sv": "Yhdyskuntalautakunta godkände möteskalendern för år 2027."
+        },
+        "sha": "80559c1e113cb1aa7f7f1c8505b836c880e57bffc36646deec6f3c740193edb2"
+      },
+      "5": {
+        "brief": {
+          "en": "Yhdyskuntalautakunta approved the proposal and will respond to the council initiative on automating and streamlining traffic lights for pedestrians and cyclists.",
+          "fi": "Yhdyskuntalautakunta hyväksyi päätösehdotuksen ja antaa vastauksen valtuustoaloitteeseen liikennevalojen automatisoimisesta ja sujuvoittamisesta kävely- ja pyöräteitä käyttäville.",
+          "sv": "Yhdyskuntalautakunta godkände förslaget och svarar på initiativet om att automatisera och underlätta trafikljusen för gående och cyklister."
+        },
+        "sha": "ef75241ad96fd6f488ca58de12cf6321fb4bf6cba25d00625de3d1a4cd79cc28"
+      },
+      "6": {
+        "brief": {
+          "en": "Yhdyskuntalautakunta accepted the proposal for decision. The draft amendment to the detailed plan will be put on display so that opinions can be submitted under section 62 of the Land Use and Building Act. The change concerns block 5 and plot No. 5 in block 8 in Raksila as well as street areas in Intiö and Peltola.",
+          "fi": "Yhdyskuntalautakunta hyväksyi päätösehdotuksen. Asemakaavan muutosluonnos asetetaan nähtäville mielipiteiden esittämistä varten alueidenkäyttölain 62 §:n perusteella. Muutos koskee Raksilan kaupunginosan korttelia 5 ja korttelin 8 tonttia nro 5 sekä katualueita Intiön ja Peltolan kaupunginosissa.",
+          "sv": "Yhdyskuntalautakunta godkände förslaget till beslut. Förslaget till ändring av detaljplanen läggs fram för granskning så att yttranden kan lämnas enligt 62 § i markanvändningslagen. Ändringen gäller kvarter 5 och tomt nr 5 i kvarter 8 i Raksila samt gatuområden i Intiö och Peltola."
+        },
+        "sha": "5c94b656d51cf70443fc921ff59c74b5492ab278cfb915203a9a88bd93add2ab"
+      },
+      "7": {
+        "brief": {
+          "en": "The committee accepted the proposal for shore detailed plan 564-2546 in Saarela district at Jokivarsi. The committee accepted the responses to opinions and statements and will put the plan on public display under section 65 of the Land Use and Building Act; if no objections requiring changes are submitted, it will submit to the City Board and City Council that the shore plan proposal dated 3.8.2026 be accepted.",
+          "fi": "Yhdyskuntalautakunta hyväksyi päätösehdotuksen ranta-asemakaavasta 564-2546 Saarelan kaupunginosan Jokivarsilla. Lautakunta hyväksyi vastineet mielipiteisiin ja lausuntoihin ja asettaa kaavan julkisesti nähtäville alueidenkäyttölain 65 §:n perusteella; jos muutosta vaativia muistutuksia ei jätetä, se esittää kaupunginhallitukselle ja kaupunginvaltuustolle, että 3.8.2026 päivätty kaavaehdotus hyväksytään.",
+          "sv": "Yhdyskuntalautakunta godkände förslaget om stranddetaljplan 564-2546 i Saarela stadsdel vid Jokivarsi. Lautakunta godkände svaren på yttranden och utlåtanden och lägger fram planen för allmän granskning enligt 65 § i markanvändningslagen; om inga ändringskravande anmärkningar lämnas in, föreslår den för stadsstyrelsen och stadsfullmäktige att strandplanförslaget från 3.8.2026 godkänns."
+        },
+        "sha": "feb792b597cc2fa06cfe67d69d7f0dd150bbe0bfe609134c28621b3a2885618f"
+      },
+      "8": {
+        "brief": {
+          "en": "Yhdyskuntalautakunta approved the proposal that the City of Oulu and Kiinteistö Oy Technopolis amend the agreement on termination of the land lease for plot 22 at Kiviharjuntie 3 in Kontinkangas so that the restoration obligation is removed.",
+          "fi": "Yhdyskuntalautakunta hyväksyi esityksen, jonka mukaan Oulun kaupunki ja Kiinteistö Oy Technopolis muuttavat Kontinkankaalla Kiviharjuntie 3:lla sijaitsevan tontin 22 maanvuokrasopimuksen purkusopimusta siten, että ennallistamisvastuu poistetaan.",
+          "sv": "Yhdyskuntalautakunta godkände förslaget att Oulun kaupunki och Kiinteistö Oy Technopolis ändrar avtalet om upphävande av tomtarrendeavtalet för tomt 22 på Kiviharjuntie 3 i Kontinkangas så att återställningsansvaret avlägsnas."
+        },
+        "sha": "fb5cbfb52acbfc14d4f054b37c1daddf05a31c05d7b650456427279d4f20d796"
+      },
+      "9": {
+        "brief": {
+          "en": "Yhdyskuntalautakunta proposed to the City Board that the due date for the second instalment under the land use agreement for plot 564-3-38-3 of Oulun Rakennusteho Oy be postponed to 30.11.2026.",
+          "fi": "Yhdyskuntalautakunta esitti kaupunginhallitukselle, että Oulun Rakennusteho Oy:n tontin 564-3-38-3 maankäyttösopimuksen toisen maksuerän eräpäivää siirretään 30.11.2026:een.",
+          "sv": "Yhdyskuntalautakunta föreslog för stadsstyrelsen att förfallodagen för den andra betalningsomgången enligt markanvändningsavtalet för tomt 564-3-38-3 hos Oulun Rakennusteho Oy skjuts upp till 30.11.2026."
+        },
+        "sha": "21a5b3bd4f78cf172cf17ec7486fb67c9335a50005deab1ca1815bd08e36b214"
+      }
+    },
+    "lang": "fi",
+    "model": "nvidia/nemotron-3.5-super-vl:free",
+    "stage": "minutes",
+    "summary": {
+      "fi": "Yhdyskuntalautakunta kokoontui 6.10.2026. Se merkitsi tiedoksi infot ja Oulun nuorisovaltuusto ONE:n terveiset. Lautakunta päätti, ettei seudullisen joukkoliikennejaoston, seudullisen jätehuoltojaoston ja viranhaltijoiden päätöksiä oteta käsiteltäväksi, ja hyväksyi kokousaikataulun vuodelle 2027. Se hyväksyi vastauksen valtuustoaloitteeseen kävely- ja pyöräteiden liikennevalojen automatisoimisesta ja sujuvoittamisesta.\n\nAsemakaavan muutosluonnos 564-2631 Raksilassa asetetaan nähtäville alueidenkäyttölain 62 §:n perusteella. Muutos koskee korttelia 5 ja korttelin 8 tonttia 5 sekä katualueita Intiössä ja Peltolassa.\n\nRanta-asemakaava 564-2546 Saarelan Jokivarsilla asetetaan julkisesti nähtäville alueidenkäyttölain 65 §:n perusteella. Jos muutosta vaativia muistutuksia ei jätetä, lautakunta esittää kaupunginhallitukselle ja kaupunginvaltuustolle, että 3.8.2026 päivätty kaavaehdotus hyväksytään.\n\nLautakunta hyväksyi Kiinteistö Oy Technopoliksen kanssa Kontinkankaalla Kiviharjuntie 3:lla olevan tontin 22 maanvuokrasopimuksen purkusopimuksen muuttamisen siten, että ennallistamisvastuu poistetaan. Se esitti kaupunginhallitukselle, että Oulun Rakennusteho Oy:n tontin 564-3-38-3 maankäyttösopimuksen toisen maksuerän eräpäivä siirretään 30.11.2026:een."
     }
   },
   "oulu/yhdyskuntalautakunta/2026-10-27": {
